@@ -18,7 +18,7 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-*/
+ */
 package org.codehaus.cargo.container.liberty.internal;
 
 import java.io.File;
@@ -32,20 +32,29 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 
 /**
- * This class encapsulate information about a Liberty install
+ * This class encapsulate information about a WebSphere Liberty install
  */
 public class LibertyInstall
 {
-    /** Where Liberty is installed */
+
+    /**
+     * Where WebSphere Liberty is installed
+     */
     private File installDir;
-    /** The liberty usr dir */
+
+    /**
+     * The WebSphere Liberty <code>usr</code> directory
+     */
+
     private File usrDir;
-    /** JDKUtils */
+    /**
+     * JDKUtils
+     */
     private JdkUtils utils = new JdkUtils();
 
     /**
      * Create the LibertyInstall for this local container
-     * 
+     *
      * @param container the container to create it for
      */
     public LibertyInstall(InstalledLocalContainer container)
@@ -56,9 +65,8 @@ public class LibertyInstall
 
     /**
      * Work out the appropriate script to use based on platform
-     * 
-     * @param name
-     *            the name of the script
+     *
+     * @param name the name of the script
      * @return the script to invoke as a file
      */
     private File getScript(String name)
@@ -73,7 +81,7 @@ public class LibertyInstall
     }
 
     /**
-     * @return The wlp.install.dir
+     * @return The <code>wlp.install.dir</code>
      */
     public File getInstallDir()
     {
@@ -81,11 +89,10 @@ public class LibertyInstall
     }
 
     /**
-     * Locates the server.config.dir for the specified Liberty server
-     * 
-     * @param server
-     *            the name of the server. If null 'defaultServer' is used
-     * @return The server.config.dir
+     * Locates the <code>server.config.dir</code> for the specified Liberty server
+     *
+     * @param server the name of the server. If null 'defaultServer' is used
+     * @return The <code>server.config.dir</code>
      */
     public File getServerDir(String server)
     {
@@ -96,7 +103,7 @@ public class LibertyInstall
 
     /**
      * Run the specified server command.
-     * 
+     *
      * @param command The command to run
      * @return The process object wrapping the invoked process
      * @throws Exception if something goes wrong.
@@ -105,10 +112,10 @@ public class LibertyInstall
     {
         return runCommand(command, new HashMap<String, String>());
     }
-    
+
     /**
      * Run the specified server command.
-     * 
+     *
      * @param command The command to run
      * @param inEnv the envrionment to use
      * @return The process object wrapping the invoked process
@@ -117,7 +124,7 @@ public class LibertyInstall
     public Process runCommand(String command, Map<String, String> inEnv) throws Exception
     {
         File scriptFile = getScript("server");
-        
+
         Map<String, String> env = new HashMap<String, String>(inEnv);
         env.put("WLP_USER_DIR", usrDir.getAbsolutePath());
 
@@ -129,12 +136,12 @@ public class LibertyInstall
             {
                 cmds.add("cmd");
                 cmds.add("/c");
-            } 
-            else 
+            }
+            else
             {
                 cmds.add("sh");
             }
-            
+
             cmds.add(scriptFile.getAbsolutePath());
             cmds.add(command);
             builder.directory(installDir);
@@ -143,12 +150,13 @@ public class LibertyInstall
         }
         else
         {
-            final StringBuilder builder = new StringBuilder("Liberty is not installed into ");
+            final StringBuilder builder
+                = new StringBuilder("WebSphere Liberty is not installed into ");
             builder.append(installDir);
             builder.append("\r\nFile in dir:\r\n");
             installDir.listFiles(new FileFilter()
             {
-                
+
                 public boolean accept(File pathname)
                 {
                     builder.append(pathname.getName());
@@ -156,7 +164,7 @@ public class LibertyInstall
                     return false;
                 }
             });
-            
+
             throw new FileNotFoundException(builder.toString());
         }
     }

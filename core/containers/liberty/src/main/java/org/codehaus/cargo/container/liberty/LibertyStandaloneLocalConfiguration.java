@@ -18,8 +18,8 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-*/
-package org.codehaus.cargo.container.liberty.local;
+ */
+package org.codehaus.cargo.container.liberty;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,19 +45,21 @@ import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
- * This class configures the Liberty install to run cargo.
+ * This class configures the WebSphere Liberty install to run cargo.
  */
 public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
-    /** The configuration capability for liberty */
-    private ConfigurationCapability capability = 
-            new LibertyStandaloneLocalConfigurationCapability();
+
+    /**
+     * The configuration capability for WebSphere Liberty
+     */
+    private ConfigurationCapability capability
+        = new LibertyStandaloneLocalConfigurationCapability();
 
     /**
      * Configures Liberty at the specified install
-     * 
-     * @param dir
-     *            the directory where Liberty is installed.
+     *
+     * @param dir the directory where Liberty is installed.
      */
     public LibertyStandaloneLocalConfiguration(String dir)
     {
@@ -73,19 +75,17 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     }
 
     /**
-     * Configure the Liberty server
-     * 
-     * @param container
-     *            configure the capability
-     * @throws Exception
-     *             if something goes wrong
+     * Configure the WebSphere Liberty server
+     *
+     * @param container configure the capability
+     * @throws Exception if something goes wrong
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
         LibertyInstall install = new LibertyInstall((InstalledLocalContainer) container);
         File serverDir = install.getServerDir(null);
-        if (!!!serverDir.exists())
+        if (!serverDir.exists())
         {
             Process p = install.runCommand("create");
             int retVal = p.waitFor();
@@ -95,19 +95,19 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
             }
 
             File configDefaults = new File(serverDir, "configDropins/defaults");
-            if (!!!configDefaults.mkdirs())
+            if (!configDefaults.mkdirs())
             {
                 throw new Exception("There is no config dropins defaults dir to "
-                        + "write to " + configDefaults);
+                    + "write to " + configDefaults);
             }
 
             writeKeystore(configDefaults);
 
             File configOverrides = new File(serverDir, "configDropins/overrides");
-            if (!!!configOverrides.mkdirs())
+            if (!configOverrides.mkdirs())
             {
                 throw new Exception("There is no config dropins overrides dir to "
-                        + "write to " + configOverrides);
+                    + "write to " + configOverrides);
             }
 
             writeHttpEndpoint(container, configOverrides);
@@ -126,11 +126,12 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
         // Deploy the CPC (Cargo Ping Component) to the dropins directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(serverDir, "dropins/cargocpc.war"));
+            new File(serverDir, "dropins/cargocpc.war"));
     }
 
     /**
      * Write a library for the extra classpath.
+     *
      * @param container the container
      * @param configOverrides the config dir
      * @throws IOException if an error occurs writing.
@@ -149,6 +150,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Write any datasources.
+     *
      * @param configOverrides the directory to write into.
      * @throws IOException if something goes wrong.
      */
@@ -159,18 +161,19 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         {
             File datasourcesXML = new File(configOverrides, "cargo-datasources.xml");
             PrintStream writer = ServerConfigUtils.open(datasourcesXML);
-            
+
             for (DataSource ds : dataSources)
             {
                 ServerConfigUtils.writeDataSource(writer, ds);
             }
-            
+
             ServerConfigUtils.close(writer);
         }
     }
 
     /**
      * Processes the users property and writes the server xml
+     *
      * @param container the container
      * @param configOverrides the directory to write to
      * @throws IOException if an error occurs
@@ -202,14 +205,15 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * This method writes a user registry xml
+     *
      * @param container the container
      * @param configDir the config dir to write into
      * @param users the list of users
      * @param groups the groups and the group membership
      * @throws IOException if anything goes wrong.
      */
-    private void writeUserRegistry(LocalContainer container, File configDir, 
-            Map<String, String> users, Map<String, List<String>> groups) throws IOException
+    private void writeUserRegistry(LocalContainer container, File configDir,
+        Map<String, String> users, Map<String, List<String>> groups) throws IOException
     {
         File usersXML = new File(configDir, "cargo-users.xml");
         PrintStream writer = ServerConfigUtils.open(usersXML);
@@ -241,7 +245,8 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     }
 
     /**
-     * This method writes the jvm.options file for the server
+     * This method writes the <code>jvm.options</code> file for the server
+     *
      * @param container the container
      * @param install the liberty install
      */
@@ -251,14 +256,14 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         {
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
             Map<String, String> sysProps = installedContainer.getSystemProperties();
-            if (sysProps != null && !!!sysProps.isEmpty())
+            if (sysProps != null && !sysProps.isEmpty())
             {
                 File serverDir = install.getServerDir(null);
                 File jvmOptions = new File(serverDir, "jvm.options");
                 try
                 {
                     PrintStream out = new PrintStream(jvmOptions);
-                    for (Map.Entry<String, String> entry 
+                    for (Map.Entry<String, String> entry
                         : installedContainer.getSystemProperties().entrySet())
                     {
                         out.print("-D");
@@ -277,13 +282,13 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     }
 
     /**
-     * Write the httpEndpoint to set the port
-     * 
+     * Write the <code>httpEndpoint</code> to set the port
+     *
      * @param container the container to get the port from
      * @param configOverrides the config overrides dir
      * @throws IOException if an error occurs
      */
-    private void writeHttpEndpoint(LocalContainer container, File configOverrides) 
+    private void writeHttpEndpoint(LocalContainer container, File configOverrides)
         throws IOException
     {
         File portXML = new File(configOverrides, "cargo-httpendpoint.xml");
@@ -292,7 +297,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         LocalConfiguration config = container.getConfiguration();
         String port = config.getPropertyValue(ServletPropertySet.PORT);
         String protocol = config.getPropertyValue(GeneralPropertySet.PROTOCOL);
-        
+
         writer.print("  <httpEndpoint id=\"defaultHttpEndpoint\" http");
         if ("https".equals(protocol))
         {
@@ -301,7 +306,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         writer.print("Port=\"");
         writer.print(port);
         String host = container.getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
-        if (host != null) 
+        if (host != null)
         {
             if ("0.0.0.0".equals(host))
             {
@@ -317,9 +322,10 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     }
 
     /**
-     * Write the keystore password so the server will correctly start
-     * if the server is configured to enable ssl. This writes to the defaults
-     * directory so other definitions of the password override.
+     * Write the keystore password so the server will correctly start if the server is configured to
+     * enable ssl. This writes to the defaults directory so other definitions of the password
+     * override.
+     *
      * @param configDefaults the defaults dir.
      * @throws IOException if an error occurs
      */
@@ -337,7 +343,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Generates a unique 8 char password
-     * 
+     *
      * @return the unique password
      */
     private static String genPassword()

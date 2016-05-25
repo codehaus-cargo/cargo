@@ -18,8 +18,8 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-*/
-package org.codehaus.cargo.container.liberty.local;
+ */
+package org.codehaus.cargo.container.liberty;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,15 +40,15 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
- * Deploys the application to the Liberty server.
+ * Deploys the application to the WebSphere Liberty server.
  */
 public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {
+
     /**
      * Creates the local deployer.
-     * 
-     * @param container
-     *            the container to deploy to
+     *
+     * @param container the container to deploy to
      */
     public LibertyInstalledLocalDeployer(LocalContainer container)
     {
@@ -57,16 +57,15 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Get the directory to deploy the application to
-     * 
-     * @param deployable
-     *            the thing to deploy
+     *
+     * @param deployable the thing to deploy
      * @return the path to the director to deploy to
      */
     @Override
     public String getDeployableDir(Deployable deployable)
     {
         LibertyInstall install = new LibertyInstall(
-                (AbstractInstalledLocalContainer) getContainer());
+            (AbstractInstalledLocalContainer) getContainer());
 
         File serverDir = install.getServerDir(null);
         String dir = "dropins";
@@ -77,6 +76,9 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         return new File(serverDir, dir).getAbsolutePath();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void doDeploy(String deployableDir, Deployable app)
     {
@@ -84,25 +86,25 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         if (app.getType() == DeployableType.WAR)
         {
             LibertyInstall install = new LibertyInstall(
-                    (AbstractInstalledLocalContainer) getContainer());
-            
+                (AbstractInstalledLocalContainer) getContainer());
+
             File serverDir = install.getServerDir(null);
             File configOverrides = new File(serverDir, "configDropins/overrides");
             configOverrides.mkdirs();
 
             String fileName = getDeployableName(app);
-            File appXML = new File(configOverrides, 
-                    "cargo-app-" + fileName.replaceAll("/",  "_") + ".xml");
-            try 
+            File appXML = new File(configOverrides,
+                "cargo-app-" + fileName.replaceAll("/", "_") + ".xml");
+            try
             {
                 PrintStream writer = ServerConfigUtils.open(appXML);
-    
+
                 String ctxRoot = getContextRoot(app);
 
                 writer.print("  <webApplication location=\"");
                 writer.print(fileName);
                 writer.print('\"');
-                if (ctxRoot != null) 
+                if (ctxRoot != null)
                 {
                     writer.print(" contextRoot=\"");
                     writer.print(ctxRoot);
@@ -125,6 +127,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Write the role to group mapping as group - role 1-1
+     *
      * @param writer the writer
      * @throws IOException if an something goes wrong.
      */
@@ -138,8 +141,8 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             {
                 groups.addAll(u.getRoles());
             }
-            
-            if (!!!groups.isEmpty())
+
+            if (!groups.isEmpty())
             {
                 writer.println("    <application-bnd>");
                 for (String group : groups)
@@ -161,6 +164,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Write a library for any extra classpath entries
+     *
      * @param writer the write to write the xml to.
      * @param app the application being deployed
      * @throws IOException if something goes wrong.
@@ -176,7 +180,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 cp.addAll(Arrays.asList(appCp));
             }
         }
-        
+
         boolean containerLibrary = false;
         LocalContainer container = getContainer();
         if (container instanceof InstalledLocalContainer)
@@ -187,18 +191,18 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 containerLibrary = true;
             }
         }
-        
+
         writer.print("    <classloader");
         if (containerLibrary)
         {
             writer.print(" commonLibraryRef=\"cargoLib\"");
         }
         writer.println('>');
-        
-        if (!!!cp.isEmpty())
+
+        if (!cp.isEmpty())
         {
             writer.println("      <privateLibrary>");
-            
+
             for (String file : cp)
             {
                 File f = new File(file);
@@ -207,8 +211,8 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                     writer.print("        <folder dir=\"");
                     writer.print(f.getAbsolutePath());
                     writer.println("\"/>");
-                } 
-                else 
+                }
+                else
                 {
                     writer.print("        <file name=\"");
                     writer.print(f.getAbsolutePath());
@@ -222,14 +226,15 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Get the context root for the deployer if possible.
+     *
      * @param deployable the deployable to get the context root for
      * @return the context root if there is one, or null if there isn't.
      */
     private String getContextRoot(Deployable deployable)
     {
         String result = null;
-        
-        if (deployable instanceof WAR) 
+
+        if (deployable instanceof WAR)
         {
             result = ((WAR) deployable).getContext();
             // if the context root is "" bind it to "/"
@@ -238,7 +243,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 result = "/";
             }
         }
-        
+
         return result;
     }
 

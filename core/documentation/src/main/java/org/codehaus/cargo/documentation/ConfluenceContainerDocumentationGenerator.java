@@ -135,7 +135,7 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss72x",
         "jboss73x",
         "jetty8x",
-        "liberty",
+        "liberty85x",
         "resin4x",
         "tomcat7x",
         "tomee1x",
@@ -276,7 +276,8 @@ public class ConfluenceContainerDocumentationGenerator
             String sortedContainerId = containerId.
                 replace("10", "9y").
                 replace("12", "9z").
-                replace("x", "0x");
+                replace("x", "0x").
+                replace("liberty", "websphere_liberty");
             sortedContainerIds.put(sortedContainerId, containerId);
         }
         for (String containerId : sortedContainerIds.values())

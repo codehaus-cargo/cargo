@@ -18,17 +18,18 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-*/
+ */
 package org.codehaus.cargo.container.liberty.internal;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
- * Capabilities of Liberty's standalone local configuration.
+ * Capabilities of WebSphere Liberty's standalone local configuration.
  */
 public class LibertyStandaloneLocalConfigurationCapability
-        extends AbstractStandaloneLocalConfigurationCapability
+    extends AbstractStandaloneLocalConfigurationCapability
 {
 
     /**
@@ -37,7 +38,7 @@ public class LibertyStandaloneLocalConfigurationCapability
     public LibertyStandaloneLocalConfigurationCapability()
     {
         super();
-//        propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.RUNTIME_ARGS, Boolean.FALSE);
     }
 

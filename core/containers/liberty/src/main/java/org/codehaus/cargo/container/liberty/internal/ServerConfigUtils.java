@@ -18,7 +18,7 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-*/
+ */
 package org.codehaus.cargo.container.liberty.internal;
 
 import java.io.File;
@@ -30,17 +30,20 @@ import java.util.Map.Entry;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 
 /**
- * A utility class holding useful methods for writing server config files.
+ * A utility class holding useful methods for writing WebSphere Liberty server config files.
  */
 public final class ServerConfigUtils
 {
-    /** A private constructor */
-    private ServerConfigUtils() 
-    { 
-    }
-    
     /**
-     * Opens a new server.xml for writing and writes the opening server element
+     * A private constructor
+     */
+    private ServerConfigUtils()
+    {
+    }
+
+    /**
+     * Opens a new <code>server.xml</code> for writing and writes the opening server element
+     *
      * @param xmlFile the file to write into
      * @return a print stream for writing into
      * @throws IOException if an exception occurred
@@ -51,9 +54,10 @@ public final class ServerConfigUtils
         writer.println("<server>");
         return writer;
     }
-    
+
     /**
-     * Closes a server.xml and writes the closing server element.
+     * Closes a <code>server.xml</code> and writes the closing <code>server</code> element.
+     *
      * @param writer the print stream to close
      */
     public static void close(PrintStream writer)
@@ -61,10 +65,10 @@ public final class ServerConfigUtils
         writer.println("</server>");
         writer.close();
     }
-    
+
     /**
      * Write a library.
-     * 
+     *
      * @param writer the writer to write the library to
      * @param id the id for the library, if null no id is written.
      * @param cp the classpath, must be non null
@@ -87,8 +91,8 @@ public final class ServerConfigUtils
                 writer.print("        <folder dir=\"");
                 writer.print(f.getAbsolutePath());
                 writer.println("\"/>");
-            } 
-            else 
+            }
+            else
             {
                 writer.print("        <file name=\"");
                 writer.print(f.getAbsolutePath());
@@ -100,6 +104,7 @@ public final class ServerConfigUtils
 
     /**
      * Writes a datasource to the write.
+     *
      * @param writer the writer.
      * @param ds the datasource.
      */
@@ -125,7 +130,7 @@ public final class ServerConfigUtils
         }
         writeProperties(writer, ds.getConnectionProperties());
         writer.println("/>");
-        
+
         String user = ds.getUsername();
         String pass = ds.getPassword();
         if (user != null && pass != null)
@@ -141,6 +146,7 @@ public final class ServerConfigUtils
 
     /**
      * Write a map as a set of xml attributes.
+     *
      * @param writer the writer to write to
      * @param props the properties to write.
      */

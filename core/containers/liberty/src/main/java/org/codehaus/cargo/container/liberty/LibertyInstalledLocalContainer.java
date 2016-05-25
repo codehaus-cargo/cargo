@@ -18,8 +18,8 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
-*/
-package org.codehaus.cargo.container.liberty.local;
+ */
+package org.codehaus.cargo.container.liberty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,21 +33,29 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
- * This starts a Liberty server
+ * This starts a WebSphere Liberty server
  */
 public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
-    /** Unique container id */
-    private static final String ID = "liberty";
 
-    /** Container name (human-readable name) */
-    private static final String NAME = "WebSphere Liberty";
+    /**
+     * Unique container id
+     */
+    private static final String ID = "liberty85x";
 
-    /** Capabilities */
+    /**
+     * Container name (human-readable name)
+     */
+    private static final String NAME = "WebSphere Liberty 8.5.x";
+
+    /**
+     * Capabilities
+     */
     private ContainerCapability capability = new J2EEContainerCapability();
 
     /**
-     * Creates an installed local connector for Liberty.
+     * Creates an installed local connector for WebSphere Liberty.
+     *
      * @param configuration the configuration
      */
     public LibertyInstalledLocalContainer(LocalConfiguration configuration)
@@ -56,7 +64,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
     }
 
     /**
-     * @return the configuration capability for Liberty
+     * @return the configuration capability for WebSphere Liberty
      */
     public ContainerCapability getCapability()
     {
@@ -81,7 +89,8 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Start the container.
-     * @param java the java configuration. This is ignored by Liberty
+     *
+     * @param java the java configuration. This is ignored by WebSphere Liberty.
      * @throws Exception if something goes wrong
      */
     @Override
@@ -93,47 +102,50 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
         {
             command = "start";
         }
-        
+
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
-        
+
         runCommand(new LibertyInstall(this), command, env(jvmArgs));
     }
 
     /**
      * Create a man of environment variables using the passed in jvmArgs.
-     * @param inJvmArgs the jvmargs to use, or null if the configured jvm args are to be used.
-     * @return the map of envrionment variables to use.
+     *
+     * @param inJvmArgs the <code>jvmargs</code> to use, or <code>null</code> if the configured
+     * JVM arguments are to be used.
+     * @return the map of environment variables to use.
      */
     private Map<String, String> env(String inJvmArgs)
     {
         String jvmArgs = inJvmArgs;
         LocalConfiguration config = getConfiguration();
         Map<String, String> env = new HashMap<String, String>();
-        
+
         if (jvmArgs == null)
         {
             jvmArgs = config.getPropertyValue(GeneralPropertySet.JVMARGS);
         }
-        
+
         if (jvmArgs != null)
         {
             env.put("JVM_ARGS", jvmArgs);
         }
-        
+
         String javaHome = config.getPropertyValue(GeneralPropertySet.JAVA_HOME);
         if (javaHome == null)
         {
             javaHome = System.getProperty("java.home");
         }
-        
+
         env.put("JAVA_HOME", javaHome);
-        
+
         return env;
     }
 
-    /** 
-     * Stop the container 
-     * @param java the java configuration. This is ignored by Liberty.
+    /**
+     * Stop the container
+     *
+     * @param java the java configuration. This is ignored by WebSphere Liberty.
      * @throws Exception if something goes wrong
      */
     @Override
@@ -143,23 +155,23 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
     }
 
     /**
-     * Run the specified server command on Liberty waiting for it to complete.
-     * 
+     * Run the specified server command on WebSphere Liberty waiting for it to complete.
+     *
      * @param install The liberty install.
      * @param command The server command to invoke.
-     * @param env environment variables 
+     * @param env environment variables
      * @throws Exception If anything goes wrong.
      */
-    private void runCommand(LibertyInstall install, String command, Map<String, String> env) 
+    private void runCommand(LibertyInstall install, String command, Map<String, String> env)
         throws Exception
     {
         Process p = install.runCommand(command, env);
-        if (!!!"run".equals(command))
+        if (!"run".equals(command))
         {
             int retVal = p.waitFor();
             if (retVal != 0)
             {
-                throw new Exception("Liberty failed to start with return code " + retVal);
+                throw new Exception("WebSphere Liberty failed to start with return code " + retVal);
             }
         }
         else

@@ -785,11 +785,8 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
-              <!--
-                 Cargo properties for Liberty. Download from maven central.
-              -->
               <property>
-                <name>cargo.liberty.url</name>
+                <name>cargo.liberty85x.url</name>
                 <value>https://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/8.5.5.9/wlp-javaee7-8.5.5.9.zip</value>
               </property>
 
@@ -1433,112 +1430,6 @@
     </profile>
 
     <profile>
-      <id>oc4j9x</id>
-      <properties>
-        <cargo.containers>oc4j9x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>oc4j10x</id>
-      <properties>
-        <cargo.containers>oc4j10x</cargo.containers>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>resin2x</id>
-      <properties>
-        <cargo.containers>resin2x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>resin3x</id>
-      <properties>
-        <cargo.containers>resin3x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>resin31x</id>
-      <properties>
-        <cargo.containers>resin31x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>resin4x</id>
-      <properties>
-        <cargo.containers>resin4x</cargo.containers>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>tomcat4x</id>
-      <properties>
-        <cargo.containers>tomcat4x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>tomcat5x</id>
-      <properties>
-        <cargo.containers>tomcat5x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>tomcat6x</id>
-      <properties>
-        <cargo.containers>tomcat6x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>tomcat7x</id>
-      <properties>
-        <cargo.containers>tomcat7x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>tomcat8x</id>
-      <properties>
-        <cargo.containers>tomcat8x</cargo.containers>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>jetty4x</id>
-      <properties>
-        <cargo.containers>jetty4x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>jetty5x</id>
-      <properties>
-        <cargo.containers>jetty5x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>jetty6x</id>
-      <properties>
-        <cargo.containers>jetty6x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>jetty7x</id>
-      <properties>
-        <cargo.containers>jetty7x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>jetty8x</id>
-      <properties>
-        <cargo.containers>jetty8x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>jetty9x</id>
-      <properties>
-        <cargo.containers>jetty9x</cargo.containers>
-      </properties>
-    </profile>
-
-    <profile>
       <id>jboss3x</id>
       <properties>
         <cargo.containers>jboss3x</cargo.containers>
@@ -1618,6 +1509,43 @@
     </profile>
 
     <profile>
+      <id>jetty4x</id>
+      <properties>
+        <cargo.containers>jetty4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty5x</id>
+      <properties>
+        <cargo.containers>jetty5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty6x</id>
+      <properties>
+        <cargo.containers>jetty6x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty7x</id>
+      <properties>
+        <cargo.containers>jetty7x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty8x</id>
+      <properties>
+        <cargo.containers>jetty8x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty9x</id>
+      <properties>
+        <cargo.containers>jetty9x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
       <id>jo1x</id>
       <properties>
         <cargo.containers>jo1x</cargo.containers>
@@ -1634,6 +1562,13 @@
       <id>jonas5x</id>
       <properties>
         <cargo.containers>jonas5x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>jrun4x</id>
+      <properties>
+        <cargo.containers>jrun4x</cargo.containers>
       </properties>
     </profile>
 
@@ -1676,9 +1611,78 @@
     </profile>
 
     <profile>
-      <id>jrun4x</id>
+      <id>liberty85x</id>
       <properties>
-        <cargo.containers>jrun4x</cargo.containers>
+        <cargo.containers>liberty85x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>oc4j9x</id>
+      <properties>
+        <cargo.containers>oc4j9x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>oc4j10x</id>
+      <properties>
+        <cargo.containers>oc4j10x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>resin2x</id>
+      <properties>
+        <cargo.containers>resin2x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>resin3x</id>
+      <properties>
+        <cargo.containers>resin3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>resin31x</id>
+      <properties>
+        <cargo.containers>resin31x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>resin4x</id>
+      <properties>
+        <cargo.containers>resin4x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>tomcat4x</id>
+      <properties>
+        <cargo.containers>tomcat4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat5x</id>
+      <properties>
+        <cargo.containers>tomcat5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat6x</id>
+      <properties>
+        <cargo.containers>tomcat6x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat7x</id>
+      <properties>
+        <cargo.containers>tomcat7x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat8x</id>
+      <properties>
+        <cargo.containers>tomcat8x</cargo.containers>
       </properties>
     </profile>
 
@@ -1755,12 +1759,6 @@
       <id>tomee1x</id>
       <properties>
         <cargo.containers>tomee1x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>liberty</id>
-      <properties>
-        <cargo.containers>liberty</cargo.containers>
       </properties>
     </profile>
   </profiles>
