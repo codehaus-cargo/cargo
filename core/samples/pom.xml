@@ -785,6 +785,14 @@
                 <value>${cargo.java.home.1_4}</value>
               </property>
 
+              <!--
+                 Cargo properties for Liberty. Download from maven central.
+              -->
+              <property>
+                <name>cargo.liberty.url</name>
+                <value>https://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/8.5.5.9/wlp-javaee7-8.5.5.9.zip</value>
+              </property>
+
               <property>
                 <name>cargo.jboss3x.url</name>
                 <value>http://downloads.sourceforge.net/jboss/jboss-3.2.8.SP1.zip?big_mirror=1</value>
@@ -1747,6 +1755,12 @@
       <id>tomee1x</id>
       <properties>
         <cargo.containers>tomee1x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>liberty</id>
+      <properties>
+        <cargo.containers>liberty</cargo.containers>
       </properties>
     </profile>
   </profiles>
