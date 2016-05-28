@@ -786,7 +786,7 @@
               </property>
 
               <property>
-                <name>cargo.liberty85x.url</name>
+                <name>cargo.liberty.url</name>
                 <value>https://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/8.5.5.9/wlp-javaee7-8.5.5.9.zip</value>
               </property>
 
@@ -1611,9 +1611,9 @@
     </profile>
 
     <profile>
-      <id>liberty85x</id>
+      <id>liberty</id>
       <properties>
-        <cargo.containers>liberty85x</cargo.containers>
+        <cargo.containers>liberty</cargo.containers>
       </properties>
     </profile>
 

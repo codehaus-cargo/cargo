@@ -36,7 +36,7 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
- * Registers Liberty support
+ * Registers WebSphere Liberty support
  */
 public class LibertyFactoryRegistry extends AbstractFactoryRegistry 
 {
@@ -59,8 +59,8 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory) 
     {
-        configurationCapabilityFactory.registerConfigurationCapability("liberty85x",
-                ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+        configurationCapabilityFactory.registerConfigurationCapability("liberty",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
                 LibertyStandaloneLocalConfigurationCapability.class);
     }
 
@@ -72,8 +72,8 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationFactory configurationFactory) 
     {
-        configurationFactory.registerConfiguration("liberty85x",
-                ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+        configurationFactory.registerConfiguration("liberty",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
                 LibertyStandaloneLocalConfiguration.class);
     }
 
@@ -85,8 +85,8 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(DeployerFactory deployerFactory) 
     {
-        deployerFactory.registerDeployer("liberty85x", DeployerType.INSTALLED,
-                LibertyInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("liberty", DeployerType.INSTALLED,
+            LibertyInstalledLocalDeployer.class);
     }
 
     /**
@@ -100,7 +100,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
     }
 
     /**
-     * Register the Liberty containers. These are things that
+     * Register the WebSphere Liberty containers. These are things that
      * control the server lifecycle in cargo.
      * 
      * @param containerFactory the factory to register with
@@ -108,8 +108,8 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerFactory containerFactory) 
     {
-        containerFactory.registerContainer("liberty85x", ContainerType.INSTALLED,
-                LibertyInstalledLocalContainer.class);
+        containerFactory.registerContainer("liberty", ContainerType.INSTALLED,
+            LibertyInstalledLocalContainer.class);
     }
 
     /**
@@ -120,8 +120,8 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerCapabilityFactory containerCapabilityFactory) 
     {
-        containerCapabilityFactory.registerContainerCapability("liberty85x",
-                J2EEContainerCapability.class);
+        containerCapabilityFactory.registerContainerCapability("liberty",
+            J2EEContainerCapability.class);
     }
 
 }

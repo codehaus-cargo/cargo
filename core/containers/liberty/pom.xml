@@ -30,7 +30,7 @@
     <version>1.4.20-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-core-container-liberty</artifactId>
-  <name>Cargo Core Liberty Container</name>
+  <name>Cargo Core WebSphere Liberty Container</name>
   <packaging>jar</packaging>
-  <description>Core API implementation for Liberty containers</description>
+  <description>Core API implementation for WebSphere Liberty containers</description>
 </project>

@@ -45,8 +45,8 @@ public class LibertyInstall
     /**
      * The WebSphere Liberty <code>usr</code> directory
      */
-
     private File usrDir;
+
     /**
      * JDKUtils
      */

@@ -41,12 +41,12 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * Unique container id
      */
-    private static final String ID = "liberty85x";
+    private static final String ID = "liberty";
 
     /**
      * Container name (human-readable name)
      */
-    private static final String NAME = "WebSphere Liberty 8.5.x";
+    private static final String NAME = "WebSphere Liberty";
 
     /**
      * Capabilities

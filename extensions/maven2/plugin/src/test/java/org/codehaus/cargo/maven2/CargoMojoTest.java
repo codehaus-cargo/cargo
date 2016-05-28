@@ -89,6 +89,9 @@ public class CargoMojoTest extends TestCase
         assertEquals(
             "cargo-core-container-oc4j",
                 AbstractCargoMojo.calculateContainerArtifactId("oc4j10x"));
+        assertEquals(
+            "cargo-core-container-liberty",
+                AbstractCargoMojo.calculateContainerArtifactId("liberty"));
     }
 
     /**
