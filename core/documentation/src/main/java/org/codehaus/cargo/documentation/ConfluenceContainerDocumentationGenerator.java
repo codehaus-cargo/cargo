@@ -381,6 +381,13 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
+        else if (containerId.equals("glassfish4x"))
+        {
+            output.append("{info}The GlassFish 4.x container also works with ");
+            output.append("[Payara|http://www.payara.fish/].{info}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
         else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7"))
         {
             output.append("{note}With the opening of the JBoss EAP to the public, JBoss decided ");
