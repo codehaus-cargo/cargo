@@ -27,7 +27,10 @@ public interface ResourcePropertySet
 {
     /**
      * A property to encapsulate all the other resource properties. This is to get around cargo only
-     * passing strings around, instead of objects. <br>
+     * passing strings around, instead of objects.<br>
+     * <b>Important</b>: Please <u>only</u> use this as a setter, as the resources can also be set
+     * using the <code>addResource</code> method.
+     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getResources()
      */
     String RESOURCE = "cargo.resource.resource";
 

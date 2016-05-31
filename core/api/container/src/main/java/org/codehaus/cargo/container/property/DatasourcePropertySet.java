@@ -27,7 +27,10 @@ public interface DatasourcePropertySet
 {
     /**
      * A property to encapsulate all the other datasource properties. This is to get around cargo
-     * only passing strings around, instead of objects. <br>
+     * only passing strings around, instead of objects.<br>
+     * <b>Important</b>: Please <u>only</u> use this as a setter, as the datasources can also be
+     * set using the <code>addDataSource</code> method.
+     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getDataSources()
      */
     String DATASOURCE = "cargo.datasource.datasource";
 

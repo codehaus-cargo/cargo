@@ -32,7 +32,10 @@ public interface ServletPropertySet
 
     /**
      * Allow defining users and map to roles. The format is
-     * <code>name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|...</code>.
+     * <code>name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|...</code>.<br>
+     * <b>Important</b>: Please <u>only</u> use this as a setter, as the users can also be set
+     * using the <code>addUser</code> method.
+     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#getUsers()
      */
     String USERS = "cargo.servlet.users";
 }
