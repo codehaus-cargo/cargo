@@ -655,14 +655,19 @@
       <!-- External dependencies -->
       <!-- Sorted alphabetically by groupId (and artifactId + type if needed). Keep the order! -->
       <dependency>
-        <groupId>c3p0</groupId>
-        <artifactId>c3p0</artifactId>
-        <version>0.9.1.1</version>
-      </dependency>
-      <dependency>
         <groupId>com.googlecode.json-simple</groupId>
         <artifactId>json-simple</artifactId>
         <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.mchange</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.5.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.mchange</groupId>
+        <artifactId>mchange-commons-java</artifactId>
+        <version>0.2.12</version>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.bind</groupId>

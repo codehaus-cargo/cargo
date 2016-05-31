@@ -38,12 +38,20 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>c3p0</groupId>
+                  <groupId>com.mchange</groupId>
                   <artifactId>c3p0</artifactId>
                   <outputDirectory>
                     ${project.build.directory}/classes/org/codehaus/cargo/container/jetty/datasource
                   </outputDirectory>
                   <destFileName>c3p0.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.mchange</groupId>
+                  <artifactId>mchange-commons-java</artifactId>
+                  <outputDirectory>
+                    ${project.build.directory}/classes/org/codehaus/cargo/container/jetty/datasource
+                  </outputDirectory>
+                  <destFileName>mchange-commons-java.jar</destFileName>
                 </artifactItem>
               </artifactItems>
             </configuration>
