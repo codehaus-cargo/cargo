@@ -112,7 +112,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss5x",
         "jboss51x",
         "jetty6x",
-        "jetty7x",
         "jrun4x",
         "oc4j10x",
         "resin3x",
@@ -1256,6 +1255,10 @@ public class ConfluenceContainerDocumentationGenerator
                 else if (JAVA8_CONTAINERS.contains(containerId))
                 {
                     javaVersion = "8";
+                }
+                else if ("jetty7x".equals(containerId))
+                {
+                    javaVersion = "5 if no datasources are to be deployed, 6 otherwise";
                 }
                 else if ("jetty9x".equals(containerId))
                 {
