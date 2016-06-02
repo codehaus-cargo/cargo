@@ -51,6 +51,11 @@ public interface TomcatPropertySet
     String CONTEXT_ALLOWMULTIPART = "cargo.tomcat.context.allowCasualMultipartParsing";
 
     /**
+     * Whether the contexts for deployed webapplications should allow webjars support
+     */
+    String CONTEXT_ALLOWWEBJARS = "cargo.tomcat.context.addWebinfClassesResources";
+
+    /**
      * Whether WAR deployables should be copied or referenced.
      */
     String COPY_WARS = "cargo.tomcat.copywars";

@@ -75,6 +75,8 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     {
         Assert.assertTrue(Boolean.valueOf(
             configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)));
+        Assert.assertTrue(Boolean.valueOf(
+            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWWEBJARS)));
     }
 
 }
