@@ -39,6 +39,15 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 {
 
     /**
+     * Context tag attribute for allowing multi part.
+     */
+    private static final String CONTEXT_ALLOWMULTIPART_ATTR_NAME = "allowCasualMultipartParsing";
+    /**
+     * Context tag attribute for allowing webjars.
+     */
+    private static final String CONTEXT_ALLOWWEBJARS_ATTR_NAME = "addWebinfClassesResources";
+
+    /**
      * {@inheritDoc}
      * 
      * @see TomcatStandaloneLocalConfigurationCapability
@@ -56,6 +65,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
         setProperty(ServletPropertySet.USERS, "admin::manager-script");
         setProperty(TomcatPropertySet.CONTEXT_ALLOWMULTIPART, "true");
+        setProperty(TomcatPropertySet.CONTEXT_ALLOWWEBJARS, "true");
 
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
         getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
@@ -136,8 +146,11 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     @Override
     protected String getExtraContextAttributes()
     {
-        return new StringBuilder(" allowCasualMultipartParsing=\"").append(
-            getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)).append("\"").toString();
+        return new StringBuilder(" ").append(CONTEXT_ALLOWMULTIPART_ATTR_NAME).append("=\"")
+            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)).append("\" ")
+            .append(CONTEXT_ALLOWWEBJARS_ATTR_NAME).append("=\"")
+            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWWEBJARS))
+            .append("\"").toString();
     }
 
     /**
