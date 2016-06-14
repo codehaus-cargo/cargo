@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -721,6 +722,18 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 getContainerElement().getContainerId(),
                     getCargoProject().getEmbeddedClassLoader());
             getCargoProject().setEmbeddedClassLoader(classLoader);
+
+            if ("tomcat8x".equals(getContainerElement().getContainerId()))
+            {
+                // The reference javax.security.auth.message API, as opposed to the one provided by
+                // Apache Tomcat (which, unfortunately, isn't part of Maven repositories) doesn't
+                // have a default authentication context configuration factory, so set it manually.
+                if (Security.getProperty("authconfigprovider.factory") == null)
+                {
+                    Security.setProperty("authconfigprovider.factory",
+                        "org.apache.catalina.authenticator.jaspic.AuthConfigFactoryImpl");
+                }
+            }
         }
 
         Logger logger = createLogger();

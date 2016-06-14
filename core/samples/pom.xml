@@ -314,7 +314,10 @@
 
               <property>
                 <name>cargo.tomcat8x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.35/tomcat-8.0.35.zip</value>
+                <!--
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.36/tomcat-8.0.36.zip</value>
+                 -->
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.3/tomcat-8.5.3.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
