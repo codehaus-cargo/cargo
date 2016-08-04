@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -209,10 +210,11 @@ public class InstalledLocalContainerTest extends TestCase
     }
 
     /**
-     * Tests that <code>tools.jar</code> is set on other platforms than MacOS X.
+     * Tests that <code>tools.jar</code> is set on other platforms than MacOS X and Java versions
+     * equal or higher than 9.
      * @throws Exception If anything goes wrong.
      */
-    public void testSetsToolsJarWhenNotOsX() throws Exception
+    public void testSetsToolsJarWhenNotOsXOrJava9() throws Exception
     {
         System.getProperties().remove("mrj.version");
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "myTestPath");
@@ -220,7 +222,10 @@ public class InstalledLocalContainerTest extends TestCase
             new AbstractInstalledLocalContainerStub(configuration);
         JvmLauncherStub java = new JvmLauncherStub();
         container.addToolsJarToClasspath(java);
-        assertTrue(java.getClasspath().contains("myTestPath"));
+        if (!JdkUtils.isJava9OrAbove())
+        {
+            assertTrue(java.getClasspath().contains("myTestPath"));
+        }
     }
 
     /**

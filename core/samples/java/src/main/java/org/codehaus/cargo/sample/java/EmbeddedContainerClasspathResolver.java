@@ -96,11 +96,6 @@ public class EmbeddedContainerClasspathResolver
     }
 
     /**
-     * JDK utilities.
-     */
-    private JdkUtils jdkUtils = new JdkUtils();
-
-    /**
      * Resolve dependencies for an embedded container and create classpath.
      * @param containerId Container identifier.
      * @param containerHome Container home.
@@ -229,11 +224,11 @@ public class EmbeddedContainerClasspathResolver
                 }
             }
 
-            // On OS X, the tools.jar classes are included in the classes.jar so there is no need
-            // to include any tools.jar file to the classpath.
-            if (!this.jdkUtils.isOSX())
+            // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
+            // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
+            if (!JdkUtils.isOSX() && !JdkUtils.isJava9OrAbove())
             {
-                urls.add(this.jdkUtils.getToolsJar().toURI().toURL());
+                urls.add(JdkUtils.getToolsJar().toURI().toURL());
             }
 
             // We pass null as the parent to ensure no other JARs are in the classpath.

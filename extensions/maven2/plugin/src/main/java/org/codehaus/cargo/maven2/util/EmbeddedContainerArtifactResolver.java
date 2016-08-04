@@ -66,11 +66,6 @@ public class EmbeddedContainerArtifactResolver
         new HashMap<String, List<Dependency>>();
 
     /**
-     * JDK utilities.
-     */
-    private JdkUtils jdkUtils = new JdkUtils();
-
-    /**
      * Class that represents a dependency.
      */
     private class Dependency
@@ -367,10 +362,10 @@ public class EmbeddedContainerArtifactResolver
             }
 
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
-            // include any tools.jar file to the cp.
-            if (!this.jdkUtils.isOSX())
+            // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
+            if (!JdkUtils.isOSX() && !JdkUtils.isJava9OrAbove())
             {
-                urls.add(this.jdkUtils.getToolsJar().toURI().toURL());
+                urls.add(JdkUtils.getToolsJar().toURI().toURL());
             }
 
             URL[] urlArray = (URL[]) urls.toArray(new URL[urls.size()]);

@@ -81,11 +81,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     private String home;
 
     /**
-     * JDK utility class.
-     */
-    private JdkUtils jdkUtils;
-
-    /**
      * Ant utility class.
      */
     private AntUtils antUtils;
@@ -125,7 +120,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         super(configuration);
 
-        this.jdkUtils = new JdkUtils();
         this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.httpUtils = new HttpUtils();
@@ -154,14 +148,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected final HttpUtils getHttpUtils()
     {
         return this.httpUtils;
-    }
-
-    /**
-     * @return the JDK utility class
-     */
-    protected final JdkUtils getJdkUtils()
-    {
-        return this.jdkUtils;
     }
 
     /**
@@ -551,7 +537,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     }
 
     /**
-     * Adds the tools.jar to the classpath, except for Mac OSX as it is not needed.
+     * Adds the tools.jar to the classpath, except for Mac OSX and Java 9 or above - As these JVMs
+     * do not need the tools.jar.
      * 
      * @param java the JVM launcher to which to add the tools.jar
      * @exception FileNotFoundException in case the tools.jar file cannot be found
@@ -559,10 +546,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected final void addToolsJarToClasspath(JvmLauncher java) throws FileNotFoundException
     {
         // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
-        // include any tools.jar file to the cp.
-        if (!getJdkUtils().isOSX())
+        // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
+        if (!JdkUtils.isOSX() && jvmMajorVersion < 9)
         {
-            java.addClasspathEntries(getJdkUtils().getToolsJar(getJavaHome()));
+            java.addClasspathEntries(JdkUtils.getToolsJar(getJavaHome()));
         }
     }
 

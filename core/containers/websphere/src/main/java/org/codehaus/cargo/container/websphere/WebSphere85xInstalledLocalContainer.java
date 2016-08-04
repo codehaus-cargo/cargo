@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.internal.util.HttpUtils;
+import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
@@ -352,7 +353,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         command.append(File.separator);
         command.append(wsCommand);
 
-        if (getJdkUtils().isWindows())
+        if (JdkUtils.isWindows())
         {
             command.append(WINDOWS_SUFFIX);
         }

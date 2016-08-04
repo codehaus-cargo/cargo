@@ -29,10 +29,16 @@ import org.codehaus.cargo.container.ContainerException;
 
 /**
  * Set of common JDK utility methods.
- * 
  */
-public class JdkUtils
+public final class JdkUtils
 {
+    /**
+     * Ensures that this utility class cannot be instantiated.
+     */
+    private JdkUtils()
+    {
+    }
+
     /**
      * Returns the file containing the JDK tools (such as the compiler). This method must not be
      * called on Mac OSX as there is no tools.jar file on that platform (everything is included in
@@ -41,7 +47,7 @@ public class JdkUtils
      * @return The tools.jar file
      * @throws FileNotFoundException If the tools.jar file could not be found
      */
-    public File getToolsJar() throws FileNotFoundException
+    public static File getToolsJar() throws FileNotFoundException
     {
         String javaHome = System.getProperty("java.home");
         File toolsJar = getToolsJar(javaHome);
@@ -62,7 +68,7 @@ public class JdkUtils
      * @return The absolute (and possibly non-existent) path to the {@code tools.jar} file, never
      *         {@code null}.
      */
-    public File getToolsJar(String javaHome)
+    public static File getToolsJar(String javaHome)
     {
         File jdkHome = new File(javaHome).getAbsoluteFile();
         if (jdkHome.getName().equals("jre"))
@@ -81,7 +87,7 @@ public class JdkUtils
      * 
      * @return true if the user's system is determined to be Mac OS X.
      */
-    public boolean isOSX()
+    public static boolean isOSX()
     {
         return System.getProperty("mrj.version") != null;
     }
@@ -91,9 +97,27 @@ public class JdkUtils
      *
      * @return true if the user's system is determined to be Windows.
      */
-    public boolean isWindows()
+    public static boolean isWindows()
     {
         return System.getProperty("os.name").startsWith("Windows");
+    }
+
+    /**
+     * Is this a Java version equal to or later than version 9?
+     * 
+     * @return true if the user's JVM is determined to be Java 9 or higher.
+     */
+    public static boolean isJava9OrAbove()
+    {
+        try
+        {
+            Class.forName("java.lang.Runtime.Version");
+            return true;
+        }
+        catch (ClassNotFoundException e)
+        {
+            return false;
+        }
     }
 
     /**
@@ -101,7 +125,7 @@ public class JdkUtils
      * 
      * @param ms The time to sleep in milliseconds
      */
-    public void sleep(long ms)
+    public static void sleep(long ms)
     {
         try
         {

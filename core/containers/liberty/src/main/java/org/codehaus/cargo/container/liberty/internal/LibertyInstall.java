@@ -48,11 +48,6 @@ public class LibertyInstall
     private File usrDir;
 
     /**
-     * JDKUtils
-     */
-    private JdkUtils utils = new JdkUtils();
-
-    /**
      * Create the LibertyInstall for this local container
      *
      * @param container the container to create it for
@@ -72,7 +67,7 @@ public class LibertyInstall
     private File getScript(String name)
     {
         String script = "bin/" + name;
-        if (utils.isWindows())
+        if (JdkUtils.isWindows())
         {
             script += ".bat";
         }
@@ -132,7 +127,7 @@ public class LibertyInstall
         {
             ProcessBuilder builder = new ProcessBuilder();
             List<String> cmds = builder.command();
-            if (utils.isWindows())
+            if (JdkUtils.isWindows())
             {
                 cmds.add("cmd");
                 cmds.add("/c");
