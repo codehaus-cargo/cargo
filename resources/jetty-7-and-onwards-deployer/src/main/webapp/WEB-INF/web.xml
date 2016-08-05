@@ -30,6 +30,11 @@
     <servlet-class>
       org.codehaus.cargo.deployer.jetty.DeployerServlet
     </servlet-class>
+    <init-param>
+      <param-name>timeout</param-name>
+      <param-value>30000</param-value>
+      <description>Deployment timeout (in milliseconds)</description>
+    </init-param>
   </servlet>
 
   <servlet-mapping>

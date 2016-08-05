@@ -31,6 +31,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.servlet.ServletConfig;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -54,11 +55,6 @@ public class DeployerServlet extends HttpServlet
 {
 
     /**
-     * Timeout when deploying.
-     */
-    private static final long TIMEOUT = 30000;
-
-    /**
      * The context.
      */
     private WebAppContext context;
@@ -72,6 +68,11 @@ public class DeployerServlet extends HttpServlet
      * The location of the server's webapp directory
      */
     private File webAppDirectory;
+
+    /**
+     * Timeout when deploying.
+     */
+    private long timeout;
 
     /**
      * Initialize the DeployerServlet and obtain a reference to the server in which it is deployed.
@@ -126,6 +127,27 @@ public class DeployerServlet extends HttpServlet
 
         Log.getLogger(this.getClass()).debug(
             "Started the CARGO Jetty deployer servlet with context " + this.context);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init(ServletConfig config) throws ServletException
+    {
+        super.init(config);
+        try
+        {
+            this.timeout = Long.parseLong(config.getInitParameter("timeout"));
+            if (this.timeout < 1)
+            {
+                throw new IllegalArgumentException("Timeout is smaller than 1: " + this.timeout);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ServletException("Cannot parse the [timeout] servlet parameter", e);
+        }
     }
 
     /**
@@ -252,7 +274,7 @@ public class DeployerServlet extends HttpServlet
             outputStream.close();
 
             // CARGO-1122: Just wait for Jetty to deploy the application by itself
-            long timeout = System.currentTimeMillis() + DeployerServlet.TIMEOUT;
+            long timeout = System.currentTimeMillis() + this.timeout;
             while (System.currentTimeMillis() < timeout)
             {
                 try
@@ -285,7 +307,6 @@ public class DeployerServlet extends HttpServlet
      */
     protected File getFile(String contextPath)
     {
-
         String fileName;
         // the contextPath should always begin with a forward slash but adding
         // this logic if case of future modifications and to prevent a NPE.
