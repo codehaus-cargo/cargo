@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.jboss;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * Special container support for wrapping a running instance of JBoss 7.5.x.
+ * Special container support for wrapping a running instance of JBoss 7.5.x (EAP 6.4.x).
  */
 public class JBoss75xRemoteContainer extends JBoss74xRemoteContainer
 {
@@ -46,7 +46,7 @@ public class JBoss75xRemoteContainer extends JBoss74xRemoteContainer
      */
     public String getName()
     {
-        return "JBoss 7.5.x Remote";
+        return "JBoss 7.5.x (EAP 6.4.x) Remote";
     }
 
     /**

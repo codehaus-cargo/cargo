@@ -19,28 +19,28 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import java.io.File;
 
+import java.io.File;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
- * JBoss 7.4.x (EAP 6.3.x) series container implementation.
- * 
+ * JBoss 8.x (EAP 7.x) series container implementation.
  */
-public class JBoss74xInstalledLocalContainer extends JBoss73xInstalledLocalContainer
+public class JBoss8xInstalledLocalContainer extends JBoss75xInstalledLocalContainer
 {
     /**
-     * JBoss 7.4.x (EAP 6.3.x) series unique id.
+     * JBoss 8.x (EAP 7.x) series unique id.
      */
-    public static final String ID = "jboss74x";
+    public static final String ID = "jboss8x";
 
     /**
      * {@inheritDoc}
-     * @see JBoss73xInstalledLocalContainer#JBoss73xInstalledLocalContainer(LocalConfiguration)
+     * @see JBoss75xInstalledLocalContainer#JBoss75xInstalledLocalContainer(LocalConfiguration)
      */
-    public JBoss74xInstalledLocalContainer(LocalConfiguration configuration)
+    public JBoss8xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -62,19 +62,28 @@ public class JBoss74xInstalledLocalContainer extends JBoss73xInstalledLocalConta
     @Override
     public String getName()
     {
-        return "JBoss " + getVersion("7.4.x") + " (EAP 6.3.x)";
+        return "JBoss " + getVersion("8.x") + " (EAP 7.x)";
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void doStart(JvmLauncher java) throws Exception
+    protected File getConfigAdminDirectory()
     {
-        copyExtraClasspathJars();
+        return new File(getHome(), "modules/system/layers/base/org/jboss/as/configadmin/main");
+    }
 
-        setProperties(java);
-        java.addJvmArgumentLine("-D[Standalone]");
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStop(JvmLauncher java) throws Exception
+    {
+        String host =
+            getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String port =
+            getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
 
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
@@ -87,32 +96,20 @@ public class JBoss74xInstalledLocalContainer extends JBoss73xInstalledLocalConta
 
         java.addAppArguments(
             "-mp", modules,
-            "org.jboss.as.standalone",
-            "--server-config="
-                + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml");
+            "org.jboss.as.cli",
+            "--connect", "--controller=" + host + ":" + port,
+            "command=:shutdown");
 
-        String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
-        if (runtimeArgs != null)
+        String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
+
+        if (username != null && username.trim().length() != 0)
         {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
-            // specify multiline runtime arguments in their XML files
-            runtimeArgs = runtimeArgs.replace('\n', ' ');
-            runtimeArgs = runtimeArgs.replace('\r', ' ');
-            runtimeArgs = runtimeArgs.replace('\t', ' ');
-            java.addAppArgumentLine(runtimeArgs);
+            String password =
+                getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
+
+            java.addAppArguments("--user=" + username, "--password=" + password);
         }
 
         java.start();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalContainer#getConfigAdminDirectory()
-     */
-    @Override
-    protected File getConfigAdminDirectory()
-    {
-        return new File(getHome(),
-            "bundles/system/layers/base/org/jboss/as/osgi/configadmin/main");
     }
 }

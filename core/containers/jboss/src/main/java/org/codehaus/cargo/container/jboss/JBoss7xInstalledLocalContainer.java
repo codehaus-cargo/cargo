@@ -112,19 +112,30 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
         {
             try
             {
-                File configAdminFile;
+                File configAdminFile = null;
 
                 File configAdminDirectory = getConfigAdminDirectory();
 
                 if (configAdminDirectory.isDirectory())
                 {
                     File[] contents = configAdminDirectory.listFiles();
-                    if (contents.length != 1)
+                    for (File content : contents)
+                    {
+                        if (content.getName().endsWith(".jar"))
+                        {
+                            if (configAdminFile != null)
+                            {
+                                throw new IllegalStateException("The directory "
+                                    + configAdminDirectory + " contains more than one JAR.");
+                            }
+                            configAdminFile = content;
+                        }
+                    }
+                    if (configAdminFile == null)
                     {
                         throw new IllegalStateException("The directory " + configAdminDirectory
-                            + " does not contain exactly one file.");
+                            + " does not contain any JAR files.");
                     }
-                    configAdminFile = contents[0];
                 }
                 else
                 {
@@ -134,6 +145,11 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
                 JarFile jarFile = new JarFile(configAdminFile);
                 version = jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+                if (version == null)
+                {
+                    version = jarFile.getManifest().getMainAttributes().getValue(
+                        "Implementation-Version");
+                }
 
                 if (version == null)
                 {

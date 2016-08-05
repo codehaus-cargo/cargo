@@ -67,8 +67,8 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
         // We exclude Geronimo 2.x, JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x,
-        // JBoss 7.5.x, WildFly 8.x and WildFly 9.x as these don't support transaction emulation
-        // the way CARGO tests it
+        // JBoss 7.5.x, JBoss 8.x, WildFly 8.x, WildFly 9.x and WildFly 10.x as these don't support
+        // transaction emulation the way CARGO tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("jboss7x");
@@ -77,6 +77,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("jboss73x");
         excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("jboss75x");
+        excludedContainerIds.add("jboss8x");
         excludedContainerIds.add("wildfly8x");
         excludedContainerIds.add("wildfly9x");
         excludedContainerIds.add("wildfly10x");

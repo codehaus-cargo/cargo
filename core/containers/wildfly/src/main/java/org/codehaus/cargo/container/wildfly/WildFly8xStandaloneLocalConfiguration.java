@@ -19,16 +19,14 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.JBoss73xStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jboss.JBoss8xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyStandaloneLocalConfigurationCapability;
 
 /**
  * WildFly 8.x standalone local configuration.
  */
-public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLocalConfiguration
+public class WildFly8xStandaloneLocalConfiguration extends JBoss8xStandaloneLocalConfiguration
 {
 
     /**
@@ -39,14 +37,11 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLoc
 
     /**
      * {@inheritDoc}
-     * @see JBoss73xStandaloneLocalConfiguration#JBoss73xStandaloneLocalConfiguration(String)
+     * @see JBoss8xStandaloneLocalConfiguration#JBoss8xStandaloneLocalConfiguration(String)
      */
     public WildFly8xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        getProperties().remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
     }
 
     /**
@@ -57,38 +52,6 @@ public class WildFly8xStandaloneLocalConfiguration extends JBoss73xStandaloneLoc
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see JBoss73xStandaloneLocalConfiguration#doConfigure(LocalContainer)
-     */
-    @Override
-    protected void doConfigure(LocalContainer c) throws Exception
-    {
-        super.doConfigure(c);
-
-        String configurationXmlFile = "configuration/"
-            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
-
-        removeXmlReplacement(
-            configurationXmlFile,
-            "//server/socket-binding-group/socket-binding[@name='remoting']",
-            "port");
-
-        removeXmlReplacement(
-            configurationXmlFile,
-            "//server/socket-binding-group/socket-binding[@name='management-native']",
-            "port");
-    }
-
-    /**
-     * {@inheritDoc}. This is not supported anymore in WildFly 8.0.0 Alpha1.
-     */
-    @Override
-    protected void disableWelcomeRoot()
-    {
-        // Not supported anymore in WildFly 8.0.0 Alpha1.
     }
 
 }

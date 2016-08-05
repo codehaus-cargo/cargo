@@ -17,16 +17,12 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly.internal;
-
-import org.codehaus.cargo.container.jboss.internal.JBoss8xStandaloneLocalConfigurationCapability;
+package org.codehaus.cargo.container.jboss;
 
 /**
- * Capabilities of the WildFly's
- * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
+ * Configuration to use when using a JBoss remote container.
  * 
  */
-public class WildFlyStandaloneLocalConfigurationCapability
-    extends JBoss8xStandaloneLocalConfigurationCapability
+public class JBoss8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
 {
 }

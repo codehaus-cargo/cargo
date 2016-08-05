@@ -21,12 +21,11 @@ package org.codehaus.cargo.container.jboss;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.jboss.internal.JBoss75xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.Dom4JXmlFileBuilder;
 import org.codehaus.cargo.util.XmlFileBuilder;
@@ -34,25 +33,27 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
 /**
- * JBoss 7.5.x (EAP 6.4.x) standalone local configuration.
- *
+ * JBoss 8.x (EAP 7.x) standalone local configuration.
  */
-public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLocalConfiguration
+public class JBoss8xStandaloneLocalConfiguration extends JBoss75xStandaloneLocalConfiguration
 {
 
     /**
-     * JBoss 7.5.x (EAP 6.4.x) container capability.
+     * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBoss75xStandaloneLocalConfigurationCapability();
+        new JBoss8xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see JBoss73xStandaloneLocalConfiguration#JBoss73xStandaloneLocalConfiguration(String)
+     * @see JBoss75xStandaloneLocalConfiguration#JBoss75xStandaloneLocalConfiguration(String)
      */
-    public JBoss75xStandaloneLocalConfiguration(String dir)
+    public JBoss8xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        getProperties().remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        getProperties().remove(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
     }
 
     /**
@@ -67,15 +68,25 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * @see JBoss7xStandaloneLocalConfiguration#doConfigure(LocalContainer)
+     * @see JBoss75xStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception
     {
         super.doConfigure(c);
 
-        // Configure resources
-        addResources((JBoss7xInstalledLocalContainer) c);
+        String configurationXmlFile = "configuration/"
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='remoting']",
+            "port");
+
+        removeXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='management-native']",
+            "port");
     }
 
     /**
@@ -84,27 +95,13 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
      */
     protected void addResources(JBoss7xInstalledLocalContainer container)
     {
-        String version = container.getVersion("7.5.7.Final");
-        getLogger().debug("Parsing micro version for version: " + version,
-            this.getClass().getName());
-        String microVersion =
-            version.substring(version.indexOf(".", 2) + 1, version.indexOf(".", 4));
-        int microVersionValue = Integer.parseInt(microVersion);
-
         String configurationXmlFile = "configuration/"
             + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
 
         // Create resources - so far just Email resource
         Map<String, String> ns = new HashMap<String, String>();
-        ns.put("mail", "urn:jboss:domain:mail:1.2");
-        if (microVersionValue >= 7)
-        {
-            ns.put("domain", "urn:jboss:domain:1.8");
-        }
-        else
-        {
-            ns.put("domain", "urn:jboss:domain:1.7");
-        }
+        ns.put("mail", "urn:jboss:domain:mail:2.0");
+        ns.put("domain", "urn:jboss:domain:4.1");
 
         String configurationXmlFilePath = getFileHandler().append(getHome(), configurationXmlFile);
 
@@ -126,7 +123,7 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
                 if (!jndiName.startsWith("java:/"))
                 {
                     jndiName = "java:/" + jndiName;
-                    getLogger().warn("JBoss 7 requires resource JNDI names to start with "
+                    getLogger().warn("JBoss 8 requires resource JNDI names to start with "
                         + "java:/, hence changing the given JNDI name to: " + jndiName,
                         this.getClass().getName());
                 }
@@ -159,5 +156,14 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
                     + " isn't supported.");
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}. This is not supported anymore in JBoss 8.x.
+     */
+    @Override
+    protected void disableWelcomeRoot()
+    {
+        // Not supported anymore in JBoss 8.x.
     }
 }

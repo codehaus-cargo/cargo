@@ -26,13 +26,13 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
- * JBoss 7.3.x series container implementation.
+ * JBoss 7.3.x (EAP 6.2.x) series container implementation.
  * 
  */
 public class JBoss73xInstalledLocalContainer extends JBoss72xInstalledLocalContainer
 {
     /**
-     * JBoss 7.3.x series unique id.
+     * JBoss 7.3.x (EAP 6.2.x) series unique id.
      */
     public static final String ID = "jboss73x";
 
@@ -62,7 +62,7 @@ public class JBoss73xInstalledLocalContainer extends JBoss72xInstalledLocalConta
     @Override
     public String getName()
     {
-        return "JBoss " + getVersion("7.3.x");
+        return "JBoss " + getVersion("7.3.x") + " (EAP 6.2.x)";
     }
 
     /**

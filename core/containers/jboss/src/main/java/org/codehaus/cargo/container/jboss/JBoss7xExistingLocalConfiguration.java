@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractDeployer;
 
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- * 
  */
 public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

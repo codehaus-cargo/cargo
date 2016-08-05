@@ -66,14 +66,18 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // JBoss, GlassFish 3.x and 4.x as well as the WebLogic WSLT deployer
+        // JBoss, GlassFish 3.x, GlassFish 4.x, WebLogic WSLT deployer and WildFly
         // cannot deploy XA datasources as a resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
+        excludedContainerIds.add("jboss8x");
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
         excludedContainerIds.add("weblogic121x");
         excludedContainerIds.add("weblogic122x");
+        excludedContainerIds.add("wildfly8x");
+        excludedContainerIds.add("wildfly9x");
+        excludedContainerIds.add("wildfly10x");
 
         suite.addTestSuite(XADatasourceResourceOnStandaloneConfigurationTest.class,
             new Validator[] {

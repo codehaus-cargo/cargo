@@ -19,43 +19,17 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-
 /**
- * Special container support for wrapping a running instance of JBoss 7.3.x (EAP 6.2.x).
- * 
+ * JBoss 8.x (EAP 7.x) existing local configuration.
  */
-public class JBoss73xRemoteContainer extends JBoss72xRemoteContainer
+public class JBoss8xExistingLocalConfiguration extends JBoss71xExistingLocalConfiguration
 {
     /**
-     * Unique container id.
-     */
-    public static final String ID = "jboss73x";
-
-    /**
      * {@inheritDoc}
-     * @see JBoss72xRemoteContainer#JBoss72xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     * @see JBoss71xExistingLocalConfiguration#JBoss71xExistingLocalConfiguration(String)
      */
-    public JBoss73xRemoteContainer(RuntimeConfiguration configuration)
+    public JBoss8xExistingLocalConfiguration(String dir)
     {
-        super(configuration);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
-     */
-    public String getName()
-    {
-        return "JBoss 7.3.x (EAP 6.2.x) Remote";
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
-     */
-    public String getId()
-    {
-        return ID;
+        super(dir);
     }
 }

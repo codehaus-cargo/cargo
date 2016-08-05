@@ -24,14 +24,14 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss73xStandaloneLocalConfigurationCapability;
 
 /**
- * JBoss 7.3.x standalone local configuration.
+ * JBoss 7.3.x (EAP 6.2.x) standalone local configuration.
  * 
  */
 public class JBoss73xStandaloneLocalConfiguration extends JBoss72xStandaloneLocalConfiguration
 {
 
     /**
-     * JBoss container capability.
+     * JBoss 7.3.x (EAP 6.2.x) container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new JBoss73xStandaloneLocalConfigurationCapability();
