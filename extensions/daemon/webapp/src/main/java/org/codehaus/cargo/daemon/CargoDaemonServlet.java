@@ -343,11 +343,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 
                 long filesize = fileManager.getFileSize(logFilePath);                
 
-                response.setContentType("text/html");
+                response.setContentType("text/plain");
                 response.setCharacterEncoding("UTF-8");
                 response.setHeader("X-Text-Size", String.valueOf(filesize));
-                
-                                
+
                 ServletOutputStream outputStream = response.getOutputStream();
 
                 // For some browsers, there needs to be atleast 1024 bytes sent before something is
@@ -430,6 +429,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 getServletContext().log("Cannot read index page", e);
                 throw new ServletException(e);
             }
+            response.setContentType("text/html");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().print(this.indexPage);
         }
         else
