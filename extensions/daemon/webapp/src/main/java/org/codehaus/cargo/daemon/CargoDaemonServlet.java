@@ -168,7 +168,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         BufferedReader reader =
             new BufferedReader(new InputStreamReader(this.getServletContext()
-                .getResourceAsStream("/index.html")));
+                .getResourceAsStream("/index.html"), "UTF-8"));
         try
         {
             for (String line = reader.readLine(); line != null; line = reader.readLine())
