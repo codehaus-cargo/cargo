@@ -385,21 +385,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                     System.gc();
                 }
             }
-            if (jvmVersion.startsWith("1."))
-            {
-                jvmVersion = jvmVersion.substring(2);
-            }
-            int separator = jvmVersion.indexOf('.');
-            if (separator > 0)
-            {
-                jvmVersion = jvmVersion.substring(0, separator);
-            }
-            separator = jvmVersion.indexOf('-');
-            if (separator > 0)
-            {
-                jvmVersion = jvmVersion.substring(0, separator);
-            }
-            jvmMajorVersion = Integer.parseInt(jvmVersion);
+            jvmMajorVersion = JdkUtils.parseMajorJavaVersion(jvmVersion);
         }
 
         JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh);

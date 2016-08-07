@@ -103,21 +103,39 @@ public final class JdkUtils
     }
 
     /**
-     * Is this a Java version equal to or later than version 9?
+     * Get the major Java version.
      * 
-     * @return true if the user's JVM is determined to be Java 9 or higher.
+     * @return Major Java version.
      */
-    public static boolean isJava9OrAbove()
+    public static int getMajorJavaVersion()
     {
-        try
+        return parseMajorJavaVersion(System.getProperty("java.version"));
+    }
+
+    /**
+     * Parse major Java version from a Java version string.
+     * 
+     * @param version Java version string.
+     * @return Major Java version.
+     */
+    public static int parseMajorJavaVersion(String version)
+    {
+        String jvmVersion = version;
+        if (jvmVersion.startsWith("1."))
         {
-            Class.forName("java.lang.Runtime.Version");
-            return true;
+            jvmVersion = jvmVersion.substring(2);
         }
-        catch (ClassNotFoundException e)
+        int separator = jvmVersion.indexOf('.');
+        if (separator > 0)
         {
-            return false;
+            jvmVersion = jvmVersion.substring(0, separator);
         }
+        separator = jvmVersion.indexOf('-');
+        if (separator > 0)
+        {
+            jvmVersion = jvmVersion.substring(0, separator);
+        }
+        return Integer.parseInt(jvmVersion);
     }
 
     /**

@@ -118,25 +118,8 @@ public class EmbeddedContainerClasspathResolver
         {
             List<URL> urls = new ArrayList<URL>();
 
-            String jvmVersion = System.getProperty("java.version");
-            if (jvmVersion.startsWith("1."))
-            {
-                jvmVersion = jvmVersion.substring(2);
-            }
-            int separator = jvmVersion.indexOf('.');
-            if (separator > 0)
-            {
-                jvmVersion = jvmVersion.substring(0, separator);
-            }
-            separator = jvmVersion.indexOf('-');
-            if (separator > 0)
-            {
-                jvmVersion = jvmVersion.substring(0, separator);
-            }
-            int jvmMajorVersion = Integer.parseInt(jvmVersion);
-
             // Until JDK version 7, we need to have Xerces in the classpath
-            if (jvmMajorVersion < 7)
+            if (JdkUtils.getMajorJavaVersion() < 7)
             {
                 String xerces = System.getProperty("cargo.testdata.xerces-jars");
                 if (xerces == null)
@@ -231,7 +214,7 @@ public class EmbeddedContainerClasspathResolver
 
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
             // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
-            if (!JdkUtils.isOSX() && !JdkUtils.isJava9OrAbove())
+            if (!JdkUtils.isOSX() && JdkUtils.getMajorJavaVersion() < 9)
             {
                 urls.add(JdkUtils.getToolsJar().toURI().toURL());
             }

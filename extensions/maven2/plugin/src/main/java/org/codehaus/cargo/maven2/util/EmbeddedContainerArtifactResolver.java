@@ -363,7 +363,7 @@ public class EmbeddedContainerArtifactResolver
 
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
             // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
-            if (!JdkUtils.isOSX() && !JdkUtils.isJava9OrAbove())
+            if (!JdkUtils.isOSX() && JdkUtils.getMajorJavaVersion() < 9)
             {
                 urls.add(JdkUtils.getToolsJar().toURI().toURL());
             }

@@ -222,7 +222,7 @@ public class InstalledLocalContainerTest extends TestCase
             new AbstractInstalledLocalContainerStub(configuration);
         JvmLauncherStub java = new JvmLauncherStub();
         container.addToolsJarToClasspath(java);
-        if (!JdkUtils.isJava9OrAbove())
+        if (JdkUtils.getMajorJavaVersion() < 9)
         {
             assertTrue(java.getClasspath().contains("myTestPath"));
         }
