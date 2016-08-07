@@ -389,10 +389,15 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             {
                 jvmVersion = jvmVersion.substring(2);
             }
-            int dot = jvmVersion.indexOf('.');
-            if (dot > 0)
+            int separator = jvmVersion.indexOf('.');
+            if (separator > 0)
             {
-                jvmVersion = jvmVersion.substring(0, dot);
+                jvmVersion = jvmVersion.substring(0, separator);
+            }
+            separator = jvmVersion.indexOf('-');
+            if (separator > 0)
+            {
+                jvmVersion = jvmVersion.substring(0, separator);
             }
             jvmMajorVersion = Integer.parseInt(jvmVersion);
         }
