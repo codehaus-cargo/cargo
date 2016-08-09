@@ -160,7 +160,6 @@ public class ConfluenceContainerDocumentationGenerator
      * Containers that work on Java 8.
      */
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
-        "jboss8x",
         "weblogic122x",
         "wildfly10x"
     });
@@ -395,10 +394,11 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
         else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
-            || containerId.startsWith("jboss8"))
+            || containerId.startsWith("wildfly10"))
         {
-            output.append("{note}With the opening of the JBoss EAP to the public, JBoss decided ");
-            output.append("to have a funny naming convention:");
+            output.append("{note}With the opening of the JBoss EAP to the public and the split ");
+            output.append("between JBoss and WildFly, the below naming correspondance should be ");
+            output.append("used with JBoss EAP containers:");
             output.append(LINE_SEPARATOR);
             output.append("* What Cargo calls [JBoss 6.1.x] is what JBoss refers to as JBoss ");
             output.append("Application Server version 6.1; i.e. the version released in August ");
@@ -423,9 +423,9 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("from JBoss Application Server (AS) version 7.5 released in October ");
             output.append("2015");
             output.append(LINE_SEPARATOR);
-            output.append("* What Cargo calls [JBoss 8.x] is what Red Hat refers to as JBoss ");
-            output.append("Enterprise Application Platform (EAP) version 7; i.e. the version ");
-            output.append("released in May 2016");
+            output.append("* The [WildFly 10.x] container can be used with the JBoss Enterprise ");
+            output.append("Application Platform (EAP) version 7; i.e. the version released in ");
+            output.append("May 2016");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
@@ -503,8 +503,7 @@ public class ConfluenceContainerDocumentationGenerator
                     + "| Changing the the container classpath is not supported on "
                     + "Apache Geronimo 1.x |");
             }
-            else if (containerId.startsWith("jboss7") || containerId.startsWith("jboss8")
-                || containerId.startsWith("wildfly"))
+            else if (containerId.startsWith("jboss7") || containerId.startsWith("wildfly"))
             {
                 output.append("| &nbsp; [Container Classpath]            | (/) | (/) | (/) "
                     + "| Read more on [JBoss 7.x onwards and WildFly container classpath] |");

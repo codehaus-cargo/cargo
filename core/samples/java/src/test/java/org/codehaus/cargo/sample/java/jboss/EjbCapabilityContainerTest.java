@@ -63,7 +63,7 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
     public static Test suite() throws Exception
     {
         // We exclude JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x, JBoss 7.5.x
-        // and JBoss 8.x as these doesn't support remote EJB lookup
+        // as well as all WildFly containers as these doesn't support remote EJB lookup
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss7x");
         excludedContainerIds.add("jboss71x");
@@ -71,7 +71,6 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         excludedContainerIds.add("jboss73x");
         excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("jboss8x");
 
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that can run on containers supporting EJB deployments");

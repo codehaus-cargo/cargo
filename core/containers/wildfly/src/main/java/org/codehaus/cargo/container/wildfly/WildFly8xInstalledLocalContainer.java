@@ -19,13 +19,19 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBoss8xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBoss75xInstalledLocalContainer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * WildFly 8.x series container implementation.
  */
-public class WildFly8xInstalledLocalContainer extends JBoss8xInstalledLocalContainer
+public class WildFly8xInstalledLocalContainer extends JBoss75xInstalledLocalContainer
 {
     /**
      * WildFly 8.x series unique id.
@@ -34,7 +40,7 @@ public class WildFly8xInstalledLocalContainer extends JBoss8xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see JBoss8xInstalledLocalContainer#JBoss8xInstalledLocalContainer(LocalConfiguration)
+     * @see JBoss75xInstalledLocalContainer#JBoss75xInstalledLocalContainer(LocalConfiguration)
      */
     public WildFly8xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -59,5 +65,53 @@ public class WildFly8xInstalledLocalContainer extends JBoss8xInstalledLocalConta
     public String getName()
     {
         return "WildFly " + getVersion("8.x");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected File getConfigAdminDirectory()
+    {
+        return new File(getHome(), "modules/system/layers/base/org/jboss/as/system-jmx/main");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStop(JvmLauncher java) throws Exception
+    {
+        String host =
+            getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String port =
+            getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+
+        java.setJarFile(new File(getHome(), "jboss-modules.jar"));
+
+        String modules = getConfiguration().getPropertyValue(
+            JBossPropertySet.ALTERNATIVE_MODULES_DIR);
+        if (!new File(modules).isAbsolute())
+        {
+            modules = getFileHandler().append(getHome(), modules);
+        }
+
+        java.addAppArguments(
+            "-mp", modules,
+            "org.jboss.as.cli",
+            "--connect", "--controller=" + host + ":" + port,
+            "command=:shutdown");
+
+        String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
+
+        if (username != null && username.trim().length() != 0)
+        {
+            String password =
+                getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
+
+            java.addAppArguments("--user=" + username, "--password=" + password);
+        }
+
+        java.start();
     }
 }

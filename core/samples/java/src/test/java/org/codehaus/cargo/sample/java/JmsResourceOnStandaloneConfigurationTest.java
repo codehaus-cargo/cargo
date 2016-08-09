@@ -82,7 +82,6 @@ public class JmsResourceOnStandaloneConfigurationTest extends
         // JBoss, JRun, Resin, Tomcat, TomEE and WildFly containers cannot deploy JMS resources
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("jboss8x");
         excludedContainerIds.add("jrun4x");
         excludedContainerIds.add("resin2x");
         excludedContainerIds.add("resin3x");

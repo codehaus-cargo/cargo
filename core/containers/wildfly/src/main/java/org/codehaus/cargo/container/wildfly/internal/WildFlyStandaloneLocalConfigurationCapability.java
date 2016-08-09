@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
-import org.codehaus.cargo.container.jboss.internal.JBoss8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss75xStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of the WildFly's
@@ -27,6 +27,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss8xStandaloneLocalConfigu
  * 
  */
 public class WildFlyStandaloneLocalConfigurationCapability
-    extends JBoss8xStandaloneLocalConfigurationCapability
+    extends JBoss75xStandaloneLocalConfigurationCapability
 {
 }
