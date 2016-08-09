@@ -307,14 +307,14 @@ public class ConfluenceContainerDocumentationGenerator
 
                     Class configurationClass = configuration.getClass();
 
-                    String name = container.getName();
-                    int bracket = name.indexOf('(');
+                    output.append("| [");
+                    output.append(container.getName());
+                    int bracket = container.getName().indexOf('(');
                     if (bracket != -1)
                     {
-                        name = name.substring(0, bracket).trim();
+                        output.append('|');
+                        output.append(container.getName().substring(0, bracket).trim());
                     }
-                    output.append("| [");
-                    output.append(name);
                     output.append("] | {{");
                     output.append(computedFQCN(configurationClass.getName()));
                     output.append("}} | (");
