@@ -138,7 +138,16 @@ public class DeployerServlet extends HttpServlet
         super.init(config);
         try
         {
-            this.timeout = Long.parseLong(config.getInitParameter("timeout"));
+            // CARGO-1400: Make the timeout for JettyRemoteDeployer configurable
+            String timeoutProperty = System.getProperty("cargo.jetty.deployer.timeout");
+            if (timeoutProperty != null)
+            {
+                this.timeout = Long.parseLong(timeoutProperty);
+            }
+            else
+            {
+                this.timeout = Long.parseLong(config.getInitParameter("timeout"));
+            }
             if (this.timeout < 1)
             {
                 throw new IllegalArgumentException("Timeout is smaller than 1: " + this.timeout);
