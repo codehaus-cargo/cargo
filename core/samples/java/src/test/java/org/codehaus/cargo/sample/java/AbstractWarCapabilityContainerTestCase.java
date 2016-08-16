@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.util.AntUtils;
-import org.junit.Assume;
 
 /**
  * Abstract test case for container with WAR capabilities.
@@ -71,7 +70,10 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
     public void testStartWithOneExpandedWarDeployed() throws Exception
     {
         // The Apache Geronimo server doesn't support expanded WARs
-        Assume.assumeFalse(getContainer().getId().startsWith("geronimo"));
+        if (getContainer().getId().startsWith("geronimo"))
+        {
+            return;
+        }
 
         // Copy the war from the Maven local repository in order to expand it
         File artifactDir = new File(getTestData().targetDir).getParentFile();

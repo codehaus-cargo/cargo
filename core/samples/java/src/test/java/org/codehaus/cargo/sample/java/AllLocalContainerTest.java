@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.junit.Assume;
 
 /**
  * Test for local containers.
@@ -96,16 +95,25 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
     {
         // GlassFish 4.1.1 has a bug where redeployment sometimes causes exception:
         // Keys cannot be duplicate. Old value of this key property, null will be retained.
-        Assume.assumeFalse("glassfish4x".equals(getTestData().containerId));
+        if ("glassfish4x".equals(getTestData().containerId))
+        {
+            return;
+        }
 
         // JOnAS 4.x has trouble restarting too quickly, skip
-        Assume.assumeFalse("jonas4x".equals(getTestData().containerId));
+        if ("jonas4x".equals(getTestData().containerId))
+        {
+            return;
+        }
 
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
         // Embedded Jetty containers have trouble restarting too quickly, skip
-        Assume.assumeFalse(ContainerType.EMBEDDED.equals(getContainer().getType())
-                && getTestData().containerId.startsWith("jetty"));
+        if (ContainerType.EMBEDDED.equals(getContainer().getType())
+            && getTestData().containerId.startsWith("jetty"))
+        {
+            return;
+        }
 
         getLocalContainer().start();
         assertEquals(State.STARTED, getContainer().getState());

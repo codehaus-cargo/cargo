@@ -54,7 +54,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-import org.junit.Assume;
 
 /**
  * Test for remote deployment.
@@ -325,7 +324,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         // JOnAS 4.x has trouble redeploying modified WARs,
         // applications indeed need to be EARs in order to be successfully redeployed
-        Assume.assumeFalse("jonas4x".equals(getTestData().containerId));
+        if ("jonas4x".equals(getTestData().containerId))
+        {
+            return;
+        }
 
         // Redeploy the WAR after modifying its content
         Deployable modifiedDeployable = modifyWar(this.war);
@@ -348,7 +350,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     {
         // WebLogic retrieve WAR context from file name,
         // cannot be tested on context change.
-        Assume.assumeFalse(getTestData().containerId.startsWith("weblogic"));
+        if (getTestData().containerId.startsWith("weblogic"))
+        {
+            return;
+        }
 
         this.war.setContext("simple");
 
