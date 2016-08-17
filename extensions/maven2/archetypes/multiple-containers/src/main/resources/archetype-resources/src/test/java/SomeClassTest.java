@@ -1,12 +1,14 @@
 package ${package};
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class SomeClassTest extends TestCase
+public class SomeClassTest
 {
+    @Test
     public void testDoSomething()
     {
         SomeClass sc = new SomeClass();
-        assertEquals("Hello World!", sc.saySomething());
+        Assert.assertEquals("Hello World!", sc.saySomething());
     }
 }
