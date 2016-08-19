@@ -47,7 +47,7 @@
         <version>${project.version}</version>
         <configuration>
           <container>
-            <containerId>jetty7x</containerId>
+            <containerId>jetty6x</containerId>
             <type>embedded</type>
           </container>
           <configuration>
