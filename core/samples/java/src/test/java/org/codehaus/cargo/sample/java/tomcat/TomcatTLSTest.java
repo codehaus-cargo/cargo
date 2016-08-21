@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -69,12 +70,11 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
         // TomcatTLSTest doesn't work in Java 6 and earlier due to expired certificates
-        String javaVersion = System.getProperty("java.version");
-        if (javaVersion.charAt(0) > '1' || javaVersion.charAt(2) > '6')
+        if (JdkUtils.getMajorJavaVersion() > 6)
         {
             suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
                 new StartsWithContainerValidator(
-                    "tomcat5", "tomcat6", "tomcat7", "tomcat8", "tomee"),
+                    "tomcat5", "tomcat6", "tomcat7", "tomcat8", "tomcat9", "tomee"),
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
                 new HasDirectoryPackagerValidator()});

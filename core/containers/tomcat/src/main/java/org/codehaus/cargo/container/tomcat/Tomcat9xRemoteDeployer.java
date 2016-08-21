@@ -17,23 +17,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat.internal;
+package org.codehaus.cargo.container.tomcat;
+
+import org.codehaus.cargo.container.RemoteContainer;
 
 /**
- * Contains XML logic used to validate the XML output of a Tomcat 8.x DataSource
- * configuration.
+ * A special Tomcat 9.x manager-based deployer to perform deployment to a remote container.
  * 
  */
-public class Tomcat8xConfigurationChecker extends Tomcat5x6x7xConfigurationChecker
+public class Tomcat9xRemoteDeployer extends Tomcat8xRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @return Datasource factory class:
-     * <code>org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory</code>
+     * @see Tomcat8xRemoteDeployer#Tomcat8xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
-    @Override
-    protected String getDataSourceFactory()
+    public Tomcat9xRemoteDeployer(RemoteContainer container)
     {
-        return "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory";
+        super(container);
     }
 }

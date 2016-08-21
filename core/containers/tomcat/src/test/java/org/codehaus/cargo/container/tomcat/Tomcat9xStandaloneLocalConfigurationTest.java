@@ -22,15 +22,13 @@ package org.codehaus.cargo.container.tomcat;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationChecker;
 
 /**
- * Tests for the Tomcat 8 implementation of StandaloneLocalConfigurationTest
+ * Tests for the Tomcat 9 implementation of StandaloneLocalConfigurationTest
  * 
  */
-public class Tomcat8xStandaloneLocalConfigurationTest extends
-    Tomcat7xStandaloneLocalConfigurationTest
+public class Tomcat9xStandaloneLocalConfigurationTest extends
+    Tomcat8xStandaloneLocalConfigurationTest
 {
 
     /**
@@ -41,7 +39,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
     @Override
     protected LocalConfiguration createLocalConfiguration(String home)
     {
-        return new Tomcat8xStandaloneLocalConfiguration(home)
+        return new Tomcat9xStandaloneLocalConfiguration(home)
         {
             @Override
             protected void setupConfFiles(String confDir)
@@ -65,16 +63,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
     @Override
     protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
-        return new Tomcat8xInstalledLocalContainer(configuration);
-    }
-
-    /**
-     * @return {@link Tomcat8x9xConfigurationChecker}.
-     */
-    @Override
-    protected ConfigurationChecker createConfigurationChecker()
-    {
-        return new Tomcat8x9xConfigurationChecker();
+        return new Tomcat9xInstalledLocalContainer(configuration);
     }
 
 }

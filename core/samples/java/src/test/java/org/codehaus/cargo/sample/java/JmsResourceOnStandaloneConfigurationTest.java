@@ -92,6 +92,7 @@ public class JmsResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat6x");
         excludedContainerIds.add("tomcat7x");
         excludedContainerIds.add("tomcat8x");
+        excludedContainerIds.add("tomcat9x");
         excludedContainerIds.add("tomee1x");
         excludedContainerIds.add("wildfly8x");
         excludedContainerIds.add("wildfly9x");

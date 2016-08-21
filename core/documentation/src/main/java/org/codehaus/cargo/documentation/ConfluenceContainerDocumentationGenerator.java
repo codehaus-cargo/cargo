@@ -161,7 +161,8 @@ public class ConfluenceContainerDocumentationGenerator
      */
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
         "weblogic122x",
-        "wildfly10x"
+        "wildfly10x",
+        "tomcat9x"
     });
 
     /**

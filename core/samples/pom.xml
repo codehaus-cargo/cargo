@@ -325,6 +325,15 @@
               </property>
 
               <property>
+                <name>cargo.tomcat9x.url</name>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M9/tomcat-9.0.0.M9.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat9x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.jetty4x.url</name>
                 <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-4.2.20-all.tar.gz</value>
               </property>
@@ -1701,6 +1710,12 @@
       <id>tomcat8x</id>
       <properties>
         <cargo.containers>tomcat8x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat9x</id>
+      <properties>
+        <cargo.containers>tomcat9x</cargo.containers>
       </properties>
     </profile>
 

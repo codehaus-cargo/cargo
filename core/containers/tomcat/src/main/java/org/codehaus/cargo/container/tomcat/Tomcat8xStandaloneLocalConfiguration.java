@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat8xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.dom4j.Element;
 
@@ -55,7 +55,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     {
         super(dir);
 
-        configurationBuilder = new Tomcat8xConfigurationBuilder();
+        configurationBuilder = new Tomcat8x9xConfigurationBuilder();
     }
 
     /**

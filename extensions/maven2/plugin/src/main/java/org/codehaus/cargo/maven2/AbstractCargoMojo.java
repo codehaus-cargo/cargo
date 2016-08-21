@@ -723,7 +723,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     getCargoProject().getEmbeddedClassLoader());
             getCargoProject().setEmbeddedClassLoader(classLoader);
 
-            if ("tomcat8x".equals(getContainerElement().getContainerId()))
+            if ("tomcat8x".equals(getContainerElement().getContainerId())
+                || "tomcat9x".equals(getContainerElement().getContainerId()))
             {
                 // The reference javax.security.auth.message API, as opposed to the one provided by
                 // Apache Tomcat (which, unfortunately, isn't part of Maven repositories) doesn't

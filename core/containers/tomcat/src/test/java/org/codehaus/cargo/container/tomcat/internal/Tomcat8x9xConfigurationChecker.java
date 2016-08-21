@@ -19,30 +19,21 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
-
 /**
- * {@inheritDoc}
+ * Contains XML logic used to validate the XML output of a Tomcat 8.x DataSource
+ * configuration.
  * 
  */
-public class Tomcat8xConfigurationBuilderTest extends Tomcat5x6x7xConfigurationBuilderTest
+public class Tomcat8x9xConfigurationChecker extends Tomcat5x6x7xConfigurationChecker
 {
     /**
-     * @return {@link Tomcat8xConfigurationBuilder}.
+     * {@inheritDoc}
+     * @return Datasource factory class:
+     * <code>org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory</code>
      */
     @Override
-    protected ConfigurationBuilder createConfigurationBuilder()
+    protected String getDataSourceFactory()
     {
-        return new Tomcat8xConfigurationBuilder();
-    }
-
-    /**
-     * @return {@link Tomcat8xConfigurationChecker}.
-     */
-    @Override
-    protected ConfigurationChecker createConfigurationChecker()
-    {
-        return new Tomcat8xConfigurationChecker();
+        return "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory";
     }
 }

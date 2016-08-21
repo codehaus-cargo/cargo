@@ -28,13 +28,13 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
  * configuration.
  * 
  */
-public class Tomcat8xConfigurationBuilder extends Tomcat5x6x7xConfigurationBuilder
+public class Tomcat8x9xConfigurationBuilder extends Tomcat5x6x7xConfigurationBuilder
 {
 
     /**
      * generates {@link #typeToFactory}
      */
-    public Tomcat8xConfigurationBuilder()
+    public Tomcat8x9xConfigurationBuilder()
     {
         super();
         typeToFactory.put(ConfigurationEntryType.DATASOURCE,
