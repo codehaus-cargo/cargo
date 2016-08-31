@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.internal.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -107,5 +108,29 @@ public final class ComplexPropertyUtils
         }
 
         return parsedProperty;
+    }
+
+    /**
+     * Convert list of properties to a string representation, based on the specified delimiter.
+     *
+     * @param toJoin object to serialize as a string
+     * @param delimiter how to separate entries from each other
+     * @return the properties as a string, delimited by the above
+     */
+    public static String joinOnDelimiter(List<String> toJoin, char delimiter)
+    {
+        StringBuilder buf = new StringBuilder();
+
+        for (Iterator<String> it = toJoin.iterator(); it.hasNext();)
+        {
+            String value = it.next();
+            buf.append(value);
+            if (it.hasNext())
+            {
+                buf.append(delimiter);
+            }
+        }
+
+        return buf.toString();
     }
 }

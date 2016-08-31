@@ -1,0 +1,8 @@
+# Create mail session
+/subsystem=mail/mail-session=@cargo.resource.id@:add(jndi-name=@cargo.resource.name@,@cargo.mail.session.parameters@)
+
+# Create mail server
+/subsystem=mail/mail-session=@cargo.resource.id@/server=smtp:add(outbound-socket-binding-ref=@cargo.resource.id@)
+
+# Bind mail server hostname and port 
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=@cargo.resource.id@:add(host=@cargo.mail.smtp.host@,port=@cargo.mail.smtp.port@)

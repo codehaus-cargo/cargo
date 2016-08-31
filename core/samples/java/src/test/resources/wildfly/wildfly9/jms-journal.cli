@@ -1,0 +1,2 @@
+# Set JMS journal type to NIO due to issues with running JMS test on Semaphore 
+/subsystem=messaging/hornetq-server=default:write-attribute(name=journal-type,value=NIO)

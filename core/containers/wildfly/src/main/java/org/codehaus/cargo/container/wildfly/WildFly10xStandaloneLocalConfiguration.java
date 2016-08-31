@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+
 /**
  * WildFly 10.x standalone local configuration.
  */
@@ -31,5 +35,38 @@ public class WildFly10xStandaloneLocalConfiguration extends WildFly9xStandaloneL
     public WildFly10xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see WildFly9xStandaloneLocalConfiguration#doConfigure(LocalContainer)
+     */
+    @Override
+    protected void doConfigure(LocalContainer c) throws Exception
+    {
+        super.doConfigure(c);
+
+        // WildFly10.0 has an issue with embedded server, it doesn't register custom domain
+        // directory, causing it to write configuration changes directly into default directory.
+        // This is fixed by swapping configuration files between default and custom directory.
+        // For more info see WFCORE-1373 in WildFly JIRA
+        InstalledLocalContainer container = (InstalledLocalContainer) c;
+        String containerName = container.getName();
+        if (containerName.startsWith("WildFly 10.0") || containerName.startsWith("JBoss EAP 7.0"))
+        {
+            String configurationXmlFile = "configuration/"
+                    + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+            String defaultConfigurationXmlFile = "standalone/" + configurationXmlFile;
+            String customConfigurationXML = getFileHandler().append(getHome(),
+                    configurationXmlFile);
+            String defaultConfigurationXML = getFileHandler().append(container.getHome(),
+                    defaultConfigurationXmlFile);
+            String tempFile = getFileHandler().append(getHome(), configurationXmlFile + ".temp");
+
+            getFileHandler().copyFile(customConfigurationXML, tempFile);
+            getFileHandler().copyFile(defaultConfigurationXML, customConfigurationXML);
+            getFileHandler().copyFile(tempFile, defaultConfigurationXML);
+            getFileHandler().delete(tempFile);
+        }
     }
 }

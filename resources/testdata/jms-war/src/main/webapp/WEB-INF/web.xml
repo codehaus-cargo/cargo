@@ -6,7 +6,7 @@
 
 <web-app>
 
-	<description>Java JMS Webapp for testing</description>
+	<description>Java JMS Queue Webapp for testing</description>
 
 	<servlet>
 		<servlet-name>test</servlet-name>

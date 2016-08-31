@@ -179,4 +179,14 @@ public final class ConfigurationFixtureFactory
             null);
     }
 
+    /**
+     * @return {@link ResourceFixture} representing a JMS topic.
+     */
+    public static ResourceFixture createJmsTopicAsResource()
+    {
+        return new ResourceFixture("jms/MyTopic",
+            ConfigurationEntryType.JMS_TOPIC,
+            null,
+            null);
+    }
 }

@@ -1,0 +1,5 @@
+                    <driver name="@driverClass@" module="@moduleName@">
+                        <xa-datasource-class>
+                            @driverClass@
+                        </xa-datasource-class>
+                    </driver>

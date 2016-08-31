@@ -21,11 +21,12 @@ package org.codehaus.cargo.container.wildfly;
 
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyInstalledLocalContainer;
 
 /**
  * WildFly 9.x series container implementation.
  */
-public class WildFly9xInstalledLocalContainer extends WildFly8xInstalledLocalContainer
+public class WildFly9xInstalledLocalContainer extends AbstractWildFlyInstalledLocalContainer
 {
     /**
      * WildFly 9.x series unique id.
@@ -45,7 +46,6 @@ public class WildFly9xInstalledLocalContainer extends WildFly8xInstalledLocalCon
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getId()
      */
-    @Override
     public String getId()
     {
         return ID;
@@ -55,7 +55,6 @@ public class WildFly9xInstalledLocalContainer extends WildFly8xInstalledLocalCon
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.Container#getName()
      */
-    @Override
     public String getName()
     {
         return "WildFly " + getVersion("9.x");

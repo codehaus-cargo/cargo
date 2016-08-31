@@ -1,0 +1,1 @@
+embed-server --server-config=@cargo.jboss.configuration@.xml

@@ -1,0 +1,16 @@
+                <datasource jndi-name="@jndiName@" pool-name="@jndiName@">
+                    <connection-url>
+                        @url@
+                    </connection-url>
+                    <driver>
+                        @driverClass@
+                    </driver>
+                    <security>
+                        <user-name>
+                            @username@
+                        </user-name>
+                        <password>
+                            @password@
+                        </password>
+                    </security>
+                </datasource>

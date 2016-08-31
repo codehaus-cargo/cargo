@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
+import java.util.zip.ZipFile;
 
 /**
  * Some utility classes for manipulating JAR files.
@@ -121,4 +122,27 @@ public final class JarUtils
         return outputJar;
     }
 
+    /**
+     * Search through JAR file to check if it contains specified class.
+     *
+     * @param jarFile JAR file to be searched.
+     * @param classToBeFound Class which we look for (including package).
+     * @return True if JAR file contains specified class.
+     * @throws IOException when there is an I/O exception
+     */
+    public boolean containsClass(String jarFile, String classToBeFound) throws IOException
+    {
+        boolean result = false;
+
+        String dataSourceClass = classToBeFound.replace('.', '/') + ".class";
+
+        ZipFile zip = new ZipFile(jarFile);
+        if (zip.getEntry(dataSourceClass) != null)
+        {
+            result = true;
+        }
+        zip.close();
+
+        return result;
+    }
 }

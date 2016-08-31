@@ -1,0 +1,6 @@
+if (outcome == failed) of /subsystem=datasources/jdbc-driver=@cargo.datasource.driver.class@:read-resource
+    # Add driver if not yet defined
+    /subsystem=datasources/jdbc-driver=@cargo.datasource.driver.class@:add(driver-name=@cargo.datasource.driver.class@,driver-module-name=@cargo.datasource.driver.module@,driver-xa-datasource-class-name=@cargo.datasource.driver.class@)
+#else
+  # none
+end-if
