@@ -423,7 +423,7 @@
               <property>
                 <name>cargo.geronimo1x.url</name>
                 <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-                <value>http://archive.eu.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
+                <value>http://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo1x.java.home</name>
@@ -436,7 +436,7 @@
                   DO NOT try to use version 2.2.1 because of Geronimo issue
                   https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
                   -->
-                <value>http://archive.eu.apache.org/dist/geronimo/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>
@@ -445,7 +445,7 @@
 
               <property>
                 <name>cargo.geronimo3x.url</name>
-                <value>http://archive.eu.apache.org/dist/geronimo/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo3x.java.home</name>
