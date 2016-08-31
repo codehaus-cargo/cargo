@@ -46,7 +46,7 @@ public class WildFly10xStandaloneLocalConfiguration extends WildFly9xStandaloneL
     {
         super.doConfigure(c);
 
-        // WildFly10.0 has an issue with embedded server, it doesn't register custom domain
+        // WildFly 10.0 has an issue with embedded server, it doesn't register custom domain
         // directory, causing it to write configuration changes directly into default directory.
         // This is fixed by swapping configuration files between default and custom directory.
         // For more info see WFCORE-1373 in WildFly JIRA

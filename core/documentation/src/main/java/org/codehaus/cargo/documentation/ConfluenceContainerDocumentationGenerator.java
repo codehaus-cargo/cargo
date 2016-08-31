@@ -60,6 +60,7 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.tomee.TomeePropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.container.websphere.WebSpherePropertySet;
+import org.codehaus.cargo.container.wildfly.WildFlyPropertySet;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
@@ -185,7 +186,8 @@ public class ConfluenceContainerDocumentationGenerator
         TomcatPropertySet.class,
         TomeePropertySet.class,
         WebLogicPropertySet.class,
-        WebSpherePropertySet.class
+        WebSpherePropertySet.class,
+        WildFlyPropertySet.class
     };
 
     /**
