@@ -19,14 +19,17 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
-import org.codehaus.cargo.container.jboss.internal.JBoss75xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 
 /**
- * Capabilities of the WildFly's
- * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
- * 
+ * All WildFly configuration implementations must implement this interface.
  */
-public class WildFlyStandaloneLocalConfigurationCapability
-    extends JBoss75xStandaloneLocalConfigurationCapability
+public interface WildFlyConfiguration
 {
+
+    /**
+     * @return Configuration factory for WildFly returning CLI scripts.
+     */
+    WildFlyCliConfigurationFactory getConfigurationFactory();
+
 }

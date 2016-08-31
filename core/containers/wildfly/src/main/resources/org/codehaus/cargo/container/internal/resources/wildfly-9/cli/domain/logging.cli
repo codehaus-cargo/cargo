@@ -1,0 +1,2 @@
+# Set root logging
+/subsystem=logging/root-logger=ROOT:write-attribute(name="level", value="@cargo.wildfly.logging@")

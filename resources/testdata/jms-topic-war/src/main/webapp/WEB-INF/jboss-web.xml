@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <resource-ref>
+        <res-ref-name>jms/MyTopic</res-ref-name>
+        <jndi-name>java:/jms/MyTopic</jndi-name>
+    </resource-ref>
+</jboss-web>

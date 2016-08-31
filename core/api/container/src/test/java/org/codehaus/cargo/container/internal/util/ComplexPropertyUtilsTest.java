@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.internal.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -80,5 +81,20 @@ public final class ComplexPropertyUtilsTest extends TestCase
 
         assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0));
         assertEquals("com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1));
+    }
+
+    /**
+     * Test parsing of provided simple property.
+     */
+    public void testJoinOnDelimiter()
+    {
+        List<String> toBeJoined = new ArrayList<String>();
+        toBeJoined.add("First Item");
+        toBeJoined.add("Second Item");
+        char delimiter = ':';
+
+        String joinedProperty = ComplexPropertyUtils.joinOnDelimiter(toBeJoined, delimiter);
+
+        assertEquals("First Item:Second Item", joinedProperty);
     }
 }

@@ -24,7 +24,7 @@
     <version>1.5.1-SNAPSHOT</version>
   </parent>
   <artifactId>jms-war</artifactId>
-  <name>Cargo JMS WAR test data for samples</name>
+  <name>Cargo JMS Queue WAR test data for samples</name>
   <packaging>war</packaging>
   <dependencies>
     <dependency>

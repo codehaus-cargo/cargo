@@ -1,0 +1,1 @@
+jms-topic add --topic-address=@cargo.resource.id@ --entries=@cargo.resource.name@

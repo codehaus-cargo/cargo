@@ -27,7 +27,8 @@ import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyContainerCapability;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyRuntimeConfigurationCapability;
-import org.codehaus.cargo.container.wildfly.internal.WildFlyStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFly9xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -69,7 +70,7 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
     {
         configurationCapabilityFactory.registerConfigurationCapability("wildfly8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WildFlyStandaloneLocalConfigurationCapability.class);
+            WildFly8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("wildfly8x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WildFlyExistingLocalConfigurationCapability.class);
@@ -79,7 +80,7 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("wildfly9x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WildFlyStandaloneLocalConfigurationCapability.class);
+            WildFly9xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("wildfly9x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WildFlyExistingLocalConfigurationCapability.class);
@@ -89,7 +90,7 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("wildfly10x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WildFlyStandaloneLocalConfigurationCapability.class);
+            WildFly9xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("wildfly10x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WildFlyExistingLocalConfigurationCapability.class);

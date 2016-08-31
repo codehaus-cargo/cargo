@@ -1297,6 +1297,13 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>jms-topic-war</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>jms-topic-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
                   <artifactId>classpath-war</artifactId>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>

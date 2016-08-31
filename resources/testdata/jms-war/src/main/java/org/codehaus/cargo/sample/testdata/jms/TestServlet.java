@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Sample test Servlet used to verify that resource JMS queue is deployed.
- * 
  */
 public class TestServlet extends HttpServlet
 {

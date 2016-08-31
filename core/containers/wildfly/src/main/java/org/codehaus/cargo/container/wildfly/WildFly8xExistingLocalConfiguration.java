@@ -24,7 +24,10 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractDeployer;
+import org.codehaus.cargo.container.wildfly.internal.WildFlyConfiguration;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFly8xCliConfigurationFactory;
+import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 
 /**
  * WildFly 8.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -32,12 +35,19 @@ import org.codehaus.cargo.container.wildfly.internal.WildFlyExistingLocalConfigu
  * 
  */
 public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalConfiguration
+    implements WildFlyConfiguration
 {
     /**
      * WildFly container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new WildFlyExistingLocalConfigurationCapability();
+
+    /**
+     * CLI configuration factory.
+     */
+    private WildFly8xCliConfigurationFactory factory =
+            new WildFly8xCliConfigurationFactory(this);
 
     /**
      * {@inheritDoc}
@@ -79,5 +89,14 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
     public String toString()
     {
         return "WildFly 8.x Existing Configuration";
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see WildFlyConfiguration#getConfigurationFactory()
+     */
+    public WildFlyCliConfigurationFactory getConfigurationFactory()
+    {
+        return factory;
     }
 }

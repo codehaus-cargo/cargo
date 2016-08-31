@@ -1,0 +1,1 @@
+jms-queue add --queue-address=@cargo.resource.id@ --entries=@cargo.resource.name@

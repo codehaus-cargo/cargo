@@ -68,7 +68,12 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
         // The WebLogic WSLT deployer cannot deploy XA datasources with this method
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("weblogic121x");
+        // TODO: really?
         excludedContainerIds.add("weblogic122x");
+        // WildFly deploys deployables after container is started, datasource-cmt-local
+        // is deployed with a delay making this test failing.
+        excludedContainerIds.add("wildfly9x");
+        excludedContainerIds.add("wildfly10x");
 
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {

@@ -1,0 +1,2 @@
+# Set system property
+/system-property=@cargo.wildfly.property.name@:add(value=@cargo.wildfly.property.value@)

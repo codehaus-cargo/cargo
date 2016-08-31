@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import junit.framework.Test;
-
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -39,10 +38,10 @@ import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidat
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for JMS resource capabilities.
+ * Test for JMS queue resource capabilities.
  * 
  */
-public class JmsResourceOnStandaloneConfigurationTest extends
+public class JmsQueueResourceOnStandaloneConfigurationTest extends
     AbstractResourceOnStandaloneConfigurationTest
 {
     /**
@@ -51,7 +50,8 @@ public class JmsResourceOnStandaloneConfigurationTest extends
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public JmsResourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
+    public JmsQueueResourceOnStandaloneConfigurationTest(String testName,
+            EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
@@ -82,6 +82,7 @@ public class JmsResourceOnStandaloneConfigurationTest extends
         // JBoss, JRun, Resin, Tomcat, TomEE and WildFly containers cannot deploy JMS resources
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
+        excludedContainerIds.add("wildfly8x");
         excludedContainerIds.add("jrun4x");
         excludedContainerIds.add("resin2x");
         excludedContainerIds.add("resin3x");
@@ -94,11 +95,8 @@ public class JmsResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat8x");
         excludedContainerIds.add("tomcat9x");
         excludedContainerIds.add("tomee1x");
-        excludedContainerIds.add("wildfly8x");
-        excludedContainerIds.add("wildfly9x");
-        excludedContainerIds.add("wildfly10x");
 
-        suite.addTestSuite(JmsResourceOnStandaloneConfigurationTest.class,
+        suite.addTestSuite(JmsQueueResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
@@ -106,6 +104,33 @@ public class JmsResourceOnStandaloneConfigurationTest extends
                 new HasResourceSupportValidator(ConfigurationType.STANDALONE)},
             excludedContainerIds);
         return suite;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+
+        // WildFly needs to be run with full profile and configured JMS journal
+        if (getTestData().containerId.equals("wildfly9x"))
+        {
+            getLocalContainer().getConfiguration().setProperty("cargo.jboss.configuration",
+                    "standalone-full");
+            getLocalContainer().getConfiguration().setProperty(
+                    "cargo.wildfly.script.cli.embedded.journal",
+                    "target/test-classes/wildfly/wildfly9/jms-journal.cli");
+        }
+        else if (getTestData().containerId.equals("wildfly10x"))
+        {
+            getLocalContainer().getConfiguration().setProperty("cargo.jboss.configuration",
+                    "standalone-full");
+            getLocalContainer().getConfiguration().setProperty(
+                    "cargo.wildfly.script.cli.embedded.journal",
+                    "target/test-classes/wildfly/wildfly10/jms-journal.cli");
+        }
     }
 
     /**

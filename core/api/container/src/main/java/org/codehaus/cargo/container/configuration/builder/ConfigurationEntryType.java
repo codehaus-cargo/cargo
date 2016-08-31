@@ -61,6 +61,11 @@ public interface ConfigurationEntryType
     String JMS_QUEUE = "javax.jms.Queue";
 
     /**
+     * JMS topic.
+     */
+    String JMS_TOPIC = "javax.jms.Topic";
+
+    /**
      * JMS connection factory.
      */
     String JMS_CONNECTION_FACTORY = "javax.jms.ConnectionFactory";
