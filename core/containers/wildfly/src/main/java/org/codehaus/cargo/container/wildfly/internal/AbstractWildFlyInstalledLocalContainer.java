@@ -38,7 +38,10 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 import org.codehaus.cargo.util.CargoException;
@@ -60,12 +63,18 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     protected String version;
 
     /**
+     * JVM launcher factory.
+     */
+    private JvmLauncherFactory jvmLauncherFactory;
+
+    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(LocalConfiguration)
      */
     public AbstractWildFlyInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+        this.jvmLauncherFactory = new DefaultJvmLauncherFactory();
     }
 
     /**
@@ -97,7 +106,6 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
         java.addAppArguments(
             "-mp", modules,
-            "-jaxpmodule", "javax.xml.jaxp-provider",
             "org.jboss.as.standalone",
             "--server-config="
                 + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml");
@@ -233,7 +241,8 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
             }
             else
             {
-                JvmLauncher java = createJvmLauncher(false);
+                JvmLauncherRequest request = new JvmLauncherRequest(false, this);
+                JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
 
                 addCliArguments(java);
                 setProperties(java);
@@ -374,5 +383,16 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     {
         HttpUtils httpUtils = new HttpUtils();
         return httpUtils.ping(ContainerUtils.getCPCURL(getConfiguration()));
+    }
+
+    /**
+     * {@inheritDoc}. As WildFly needs to have the runtime AFTER the arguments passed to the main
+     * class, we need to set the associated argument line when starting container (and not when
+     * initializing the JVM launcher).
+     */
+    @Override
+    protected void addRuntimeArgs(JvmLauncher java)
+    {
+        // Nothing
     }
 }
