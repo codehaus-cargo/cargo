@@ -46,6 +46,7 @@ import java.util.jar.JarFile;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -534,12 +535,19 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             // Do not load remote DTDS as remote servers sometimes become unreachable
             domFactory.setValidating(false);
             domFactory.setNamespaceAware(true);
-            domFactory.setFeature("http://xml.org/sax/features/namespaces", false);
-            domFactory.setFeature("http://xml.org/sax/features/validation", false);
-            domFactory.setFeature(
-                "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-            domFactory.setFeature(
-                "http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            try
+            {
+                domFactory.setFeature("http://xml.org/sax/features/namespaces", false);
+                domFactory.setFeature("http://xml.org/sax/features/validation", false);
+                domFactory.setFeature(
+                    "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+                domFactory.setFeature(
+                    "http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            }
+            catch (ParserConfigurationException ignored)
+            {
+                // Ignored
+            }
 
             DocumentBuilder builder = domFactory.newDocumentBuilder();
 
