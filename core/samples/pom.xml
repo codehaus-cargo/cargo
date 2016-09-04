@@ -688,7 +688,7 @@
 
                   <property>
                     <name>cargo.weblogic122x.home</name>
-                    <value>C:/Oracle/Middleware/wlserver_12.2</value>
+                    <value>C:/Oracle/wls12210/wlserver</value>
                   </property>
                 -->
               <property>

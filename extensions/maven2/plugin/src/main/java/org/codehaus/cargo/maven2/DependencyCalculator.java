@@ -112,7 +112,6 @@ public class DependencyCalculator
         this.mavenProjectBuilder = mavenProjectBuilder;
         this.installer = installer;
         this.container = container;
-
     }
 
     /**
@@ -173,7 +172,6 @@ public class DependencyCalculator
         }
 
         // If we mess with this model, it's the 'REAL' model. So lets copy it
-
         Model pomFile = mp2.getModel();
 
         File outFile = File.createTempFile("pom", ".xml");
@@ -196,7 +194,6 @@ public class DependencyCalculator
      */
     protected void fixupRepositoryArtifact(Artifact artifact) throws Exception
     {
-
         // Resolve it
         resolver.resolve(artifact, remoteRepositories, localRepository);
         File artifactFile = artifact.getFile();

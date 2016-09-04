@@ -219,7 +219,51 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
         Element target = appDeployment.addElement("target");
         target.setText(getServerName());
         Element sourcePath = appDeployment.addElement("source-path");
-        sourcePath.setText(getAbsolutePath(deployable));
+        if (deployable.getType() == DeployableType.WAR
+            && getFileHandler().exists(getAbsolutePath(deployable)))
+        {
+            // CARGO-1402: Add support for context path configuration for WebLogic
+            WAR war = (WAR) deployable;
+            boolean needsCopy;
+            if (deployable.isExpanded())
+            {
+                needsCopy =
+                    !getFileHandler().getName(deployable.getFile()).equals(
+                        war.getContext());
+            }
+            else
+            {
+                needsCopy =
+                    getFileHandler().getName(deployable.getFile()).equals(
+                        war.getContext() + ".war");
+            }
+            if (needsCopy)
+            {
+                String temporary = getFileHandler().createUniqueTmpDirectory();
+                if (deployable.isExpanded())
+                {
+                    String targetDirectory =
+                        getFileHandler().createDirectory(temporary, war.getContext());
+                    getFileHandler().copyDirectory(deployable.getFile(), targetDirectory);
+                    sourcePath.setText(targetDirectory);
+                }
+                else
+                {
+                    String targetFile =
+                        getFileHandler().createDirectory(temporary, war.getContext() + ".war");
+                    getFileHandler().copyFile(deployable.getFile(), targetFile);
+                    sourcePath.setText(targetFile);
+                }
+            }
+            else
+            {
+                sourcePath.setText(getAbsolutePath(deployable));
+            }
+        }
+        else
+        {
+            sourcePath.setText(getAbsolutePath(deployable));
+        }
         return appDeployment;
     }
 
