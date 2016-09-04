@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -85,8 +86,19 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
     protected List<String> getBeaHomeDirs()
     {
         List<String> beaHomeDirs = super.getBeaHomeDirs();
-        beaHomeDirs.add(getFileHandler().append(getBeaHome(), "modules"));
+        beaHomeDirs.add(getFileHandler().append(getWeblogicHome(), "modules"));
         return beaHomeDirs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<String> getBeaHomeFiles()
+    {
+        List<String> requiredFiles = new ArrayList<String>();
+        requiredFiles.add(getFileHandler().append(getBeaHome(), "inventory/registry.xml"));
+        return requiredFiles;
     }
 
     /**
