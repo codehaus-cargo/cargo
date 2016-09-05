@@ -533,12 +533,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 
             // Do not load remote DTDS as remote servers sometimes become unreachable
-            domFactory.setValidating(false);
-            domFactory.setNamespaceAware(true);
             try
             {
-                domFactory.setFeature("http://xml.org/sax/features/namespaces", false);
-                domFactory.setFeature("http://xml.org/sax/features/validation", false);
                 domFactory.setFeature(
                     "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
                 domFactory.setFeature(
