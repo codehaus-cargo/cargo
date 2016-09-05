@@ -799,7 +799,7 @@
 
               <property>
                 <name>cargo.liberty.url</name>
-                <value>https://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/8.5.5.9/wlp-javaee7-8.5.5.9.zip</value>
+                <value>https://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/16.0.0.2/wlp-javaee7-16.0.0.2.zip</value>
               </property>
 
               <property>
