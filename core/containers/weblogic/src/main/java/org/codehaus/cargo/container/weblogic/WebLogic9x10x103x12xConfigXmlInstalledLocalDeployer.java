@@ -239,19 +239,22 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
             }
             if (needsCopy)
             {
-                String temporary = getFileHandler().createUniqueTmpDirectory();
+                String cargodeploy = getFileHandler().createDirectory(
+                    ((WebLogicConfiguration) getContainer().getConfiguration()).getDomainHome(),
+                        "cargodeploy");
                 if (deployable.isExpanded())
                 {
                     String targetDirectory =
-                        getFileHandler().createDirectory(temporary, war.getContext());
+                        getFileHandler().createDirectory(cargodeploy, war.getContext());
+                    getFileHandler().delete(targetDirectory);
                     getFileHandler().copyDirectory(deployable.getFile(), targetDirectory);
                     sourcePath.setText(targetDirectory);
                 }
                 else
                 {
                     String targetFile =
-                        getFileHandler().createDirectory(temporary, war.getContext() + ".war");
-                    getFileHandler().copyFile(deployable.getFile(), targetFile);
+                        getFileHandler().append(cargodeploy, war.getContext() + ".war");
+                    getFileHandler().copyFile(deployable.getFile(), targetFile, true);
                     sourcePath.setText(targetFile);
                 }
             }
