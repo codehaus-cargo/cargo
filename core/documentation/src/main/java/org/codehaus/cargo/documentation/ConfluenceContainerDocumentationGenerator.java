@@ -435,6 +435,16 @@ public class ConfluenceContainerDocumentationGenerator
         }
         else if (containerId.startsWith("weblogic12"))
         {
+            if (containerId.equals("weblogic12x"))
+            {
+                output.append("{info}The WebLogic 12.x container lacks from the many features ");
+                output.append("provided by the [WebLogic 12.1.x] and [WebLogic 12.2.x] ");
+                output.append("containers - We would hence recommend using one of these ");
+                output.append("instead of the WebLogic 12.x container.{info}");
+                output.append(LINE_SEPARATOR);
+                output.append(LINE_SEPARATOR);
+            }
+
             output.append("{note}");
             output.append("If you are using the WebLogic 12 Developer's Edition, after you have ");
             output.append("downloaded the distribution, please remember to also configure ");
