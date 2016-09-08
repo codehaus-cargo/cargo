@@ -84,7 +84,7 @@ public class WildFly8xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see WildFlyConfiguration#getConfigurationFactory()
+     * @see org.codehaus.cargo.container.wildfly.internal.WildFlyConfiguration#getConfigurationFactory()
      */
     public WildFlyCliConfigurationFactory getConfigurationFactory()
     {

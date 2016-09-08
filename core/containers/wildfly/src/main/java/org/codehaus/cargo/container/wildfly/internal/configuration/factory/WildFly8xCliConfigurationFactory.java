@@ -67,7 +67,7 @@ public class WildFly8xCliConfigurationFactory implements WildFlyCliConfiguration
 
     /**
      * {@inheritDoc}
-     * @see WildFlyCliConfigurationFactory#addModuleScript(String, List<String>. List<String>)
+     * @see WildFlyCliConfigurationFactory#addModuleScript(java.lang.String, java.util.List, java.util.List)
      */
     public ScriptCommand addModuleScript(String moduleName, List<String> jarFilePaths,
         List<String> moduleDependencies)
