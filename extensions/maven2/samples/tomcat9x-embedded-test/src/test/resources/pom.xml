@@ -83,31 +83,29 @@
 		  </execution>
 		</executions>
 	  </plugin>
-	  <plugin>
-		<artifactId>maven-surefire-plugin</artifactId>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-		<executions>
-		  <execution>
-			<id>surefire-it</id>
-			<phase>integration-test</phase>
-			<goals>
-			  <goal>test</goal>
-			</goals>
-			<configuration>
-			  <skip>${maven.test.skip}</skip>
-			  <failIfNoTests>true</failIfNoTests>
-			  <systemProperties>
-				<property>
-				  <name>http.port</name>
-				  <value>${cargo.samples.servlet.port}</value>
-				</property>
-			  </systemProperties>
-			</configuration>
-		  </execution>
-		</executions>
-	  </plugin>
+        <executions>
+          <execution>
+            <id>surefire-it</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <systemProperties>
+                <property>
+                  <name>http.port</name>
+                  <value>${cargo.samples.servlet.port}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 	</plugins>
   </build>
 </project>

@@ -63,7 +63,7 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
         String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
         String jmxRemoteURL = configuration.getPropertyValue(RemotePropertySet.URI);
 
-        if (jmxRemoteURL == null || jmxRemoteURL.trim().length() == 0)
+        if (jmxRemoteURL == null || jmxRemoteURL.trim().isEmpty())
         {
             jmxRemoteURL = DEFAULT_URI;
 
@@ -89,8 +89,8 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
 
         Map<String, Object> environment = new HashMap<String, Object>();
 
-        if (username != null && username.trim().length() > 0 && password != null
-            && password.trim().length() > 0)
+        if (username != null && !username.trim().isEmpty()
+            && password != null && !password.trim().isEmpty())
         {
             Object credentials = new String[]
             {

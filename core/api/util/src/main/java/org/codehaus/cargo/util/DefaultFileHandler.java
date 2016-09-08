@@ -178,7 +178,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 String line;
                 while ((line = in.readLine()) != null)
                 {
-                    if (line.length() == 0)
+                    if (line.isEmpty())
                     {
                         out.newLine();
                     }
@@ -1016,7 +1016,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      */
     private Reader newReader(InputStream is, String encoding) throws IOException
     {
-        if (encoding == null || encoding.length() <= 0)
+        if (encoding == null || encoding.isEmpty())
         {
             return new InputStreamReader(is);
         }
@@ -1040,7 +1040,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             mkdirs(parent);
         }
 
-        if (encoding == null || encoding.length() <= 0)
+        if (encoding == null || encoding.isEmpty())
         {
             return new OutputStreamWriter(getOutputStream(file));
         }

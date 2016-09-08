@@ -93,7 +93,7 @@ public abstract class AbstractWildFlyScriptCommand extends AbstractScriptCommand
         StringBuffer sb = new StringBuffer();
         for (Entry<String, String> element : resourceProperties.entrySet())
         {
-            if (element.getValue() != null && element.getValue().length() > 0)
+            if (element.getValue() != null && !element.getValue().isEmpty())
             {
                 sb.append(" --");
                 sb.append(element.getKey());

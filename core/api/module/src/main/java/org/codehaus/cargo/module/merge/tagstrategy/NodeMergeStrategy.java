@@ -180,12 +180,12 @@ public class NodeMergeStrategy implements MergeStrategy
         {
             // CARGO-1175: Avoid XPath and namespace problems
             String nsPrefix = null;
-            if (element.getNamespaceURI().length() > 0)
+            if (!element.getNamespaceURI().isEmpty())
             {
                 nsPrefix = element.getNamespacePrefix();
-                if (nsPrefix.length() == 0 || !xPath.startsWith(nsPrefix))
+                if (nsPrefix.isEmpty() || !xPath.startsWith(nsPrefix))
                 {
-                    if (nsPrefix.length() == 0)
+                    if (nsPrefix.isEmpty())
                     {
                         nsPrefix = "cargo-xs";
                     }

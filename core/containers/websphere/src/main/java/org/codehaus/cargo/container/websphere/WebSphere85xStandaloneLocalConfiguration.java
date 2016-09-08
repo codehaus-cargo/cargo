@@ -302,7 +302,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         Collection<ScriptCommand> globalSecPropertiesCommands = new ArrayList<ScriptCommand>();
         String globSecProps = getPropertyValue(WebSpherePropertySet.GLOBAL_SECURITY_PROPERTIES);
 
-        if (globSecProps != null && globSecProps.length() > 0)
+        if (globSecProps != null && !globSecProps.isEmpty())
         {
             Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(globSecProps);
 
@@ -327,7 +327,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         Collection<ScriptCommand> sessionManPropertiesCommands = new ArrayList<ScriptCommand>();
         String sessManProps = getPropertyValue(WebSpherePropertySet.SESSION_MANAGEMENT_PROPERTIES);
 
-        if (sessManProps != null && sessManProps.length() > 0)
+        if (sessManProps != null && !sessManProps.isEmpty())
         {
             Properties parsedProperty = PropertyUtils.splitPropertiesOnPipe(sessManProps);
 

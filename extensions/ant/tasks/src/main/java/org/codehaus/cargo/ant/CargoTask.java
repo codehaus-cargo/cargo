@@ -605,7 +605,7 @@ public class CargoTask extends Task
                 boolean daemonAutostartContainer =
                     Boolean.valueOf(daemonElement.getProperty(DaemonPropertySet.AUTOSTART));
 
-                if (daemonURLString == null || daemonURLString.length() == 0)
+                if (daemonURLString == null || daemonURLString.isEmpty())
                 {
                     throw new BuildException("Missing daemon URL property.");
                 }
@@ -619,18 +619,18 @@ public class CargoTask extends Task
                     throw new BuildException("Invalid daemon URL: " + e, e);
                 }
 
-                if (daemonHandleId == null || daemonHandleId.length() == 0)
+                if (daemonHandleId == null || daemonHandleId.isEmpty())
                 {
                     throw new BuildException("Missing daemon handle id property.");
                 }
 
                 DaemonClient daemon;
-                if (daemonUsername != null && daemonUsername.length() > 0
-                    && daemonPassword != null && daemonPassword.length() > 0)
+                if (daemonUsername != null && !daemonUsername.isEmpty()
+                    && daemonPassword != null && !daemonPassword.isEmpty())
                 {
                     daemon = new DaemonClient(daemonURL, daemonUsername, daemonPassword);
                 }
-                else if (daemonUsername != null && daemonUsername.length() > 0)
+                else if (daemonUsername != null && !daemonUsername.isEmpty())
                 {
                     daemon = new DaemonClient(daemonURL, daemonUsername);
                 }

@@ -76,7 +76,7 @@ public class TomcatContextXml extends AbstractDescriptor
         String path = attr.getValue();
 
         // An empty path string means a path not defined.
-        if (path.length() == 0)
+        if (path.isEmpty())
         {
             path = null;
         }

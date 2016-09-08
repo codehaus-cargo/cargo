@@ -381,7 +381,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
         if (deployable.getType() == DeployableType.WAR)
         {
             WAR war = (WAR) deployable;
-            if (war.getContext().length() == 0)
+            if (war.getContext().isEmpty())
             {
                 localFileName = "rootContext.war";
             }

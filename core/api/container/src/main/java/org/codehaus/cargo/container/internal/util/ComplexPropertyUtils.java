@@ -60,13 +60,13 @@ public final class ComplexPropertyUtils
     {
         List<List<String>> parsedProperty = new ArrayList<List<String>>();
 
-        if (property != null && property.length() > 0)
+        if (property != null && !property.isEmpty())
         {
             StringTokenizer propertyEntries = new StringTokenizer(property, propertyDelimiter);
             while (propertyEntries.hasMoreTokens())
             {
                 String propertyEntry = propertyEntries.nextToken().trim();
-                if (propertyEntry != null && propertyEntry.length() > 0)
+                if (propertyEntry != null && !propertyEntry.isEmpty())
                 {
                     List<String> propertyValueList = new ArrayList<String>();
                     StringTokenizer propertyValues = new StringTokenizer(propertyEntry,
@@ -94,13 +94,13 @@ public final class ComplexPropertyUtils
     {
         List<String> parsedProperty = new ArrayList<String>();
 
-        if (property != null && property.length() > 0)
+        if (property != null && !property.isEmpty())
         {
             StringTokenizer propertyEntries = new StringTokenizer(property, propertyDelimiter);
             while (propertyEntries.hasMoreTokens())
             {
                 String propertyEntry = propertyEntries.nextToken().trim();
-                if (propertyEntry != null && propertyEntry.length() > 0)
+                if (propertyEntry != null && !propertyEntry.isEmpty())
                 {
                     parsedProperty.add(propertyEntry);
                 }

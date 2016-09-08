@@ -83,7 +83,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         // If portBase is specified we override settings for various ports accordingly.
         // It is neccessary that depolyer has valid admin and http ports.
         String portBase = this.getPropertyValue(GlassFishPropertySet.PORT_BASE);
-        if (portBase != null && portBase.trim().length() > 0)
+        if (portBase != null && !portBase.trim().isEmpty())
         {
             try
             {

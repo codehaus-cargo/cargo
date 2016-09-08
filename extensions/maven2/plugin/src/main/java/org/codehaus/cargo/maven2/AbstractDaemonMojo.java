@@ -89,12 +89,12 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         String daemonPassword = getDaemon().getProperty(DaemonPropertySet.PASSWORD);
         String daemonHandleId = getDaemon().getProperty(DaemonPropertySet.HANDLE);
 
-        if (daemonURL == null || daemonURL.length() == 0)
+        if (daemonURL == null || daemonURL.isEmpty())
         {
             throw new MojoExecutionException("Missing daemon URL property.");
         }
 
-        if (daemonHandleId == null || daemonHandleId.length() == 0)
+        if (daemonHandleId == null || daemonHandleId.isEmpty())
         {
             throw new MojoExecutionException("Missing daemon handle id property.");
         }
@@ -105,13 +105,13 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
 
         try
         {
-            if (daemonUsername != null && daemonUsername.length() > 0 && daemonPassword != null
-                && daemonPassword.length() > 0)
+            if (daemonUsername != null && !daemonUsername.isEmpty()
+                && daemonPassword != null && !daemonPassword.isEmpty())
             {
                 this.daemonClient =
                     new DaemonClient(new URL(daemonURL), daemonUsername, daemonPassword);
             }
-            else if (daemonUsername != null && daemonUsername.length() > 0)
+            else if (daemonUsername != null && !daemonUsername.isEmpty())
             {
                 this.daemonClient = new DaemonClient(new URL(daemonURL), daemonUsername);
             }

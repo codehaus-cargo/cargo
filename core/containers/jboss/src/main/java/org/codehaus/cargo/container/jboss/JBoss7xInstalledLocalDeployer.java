@@ -184,7 +184,7 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
                         {
                             if (!dependencies.contains(classpathEntry))
                             {
-                                if (dependencies.length() > 0)
+                                if (!dependencies.isEmpty())
                                 {
                                     dependencies += ", ";
                                 }

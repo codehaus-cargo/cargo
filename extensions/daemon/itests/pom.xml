@@ -28,143 +28,166 @@
   <packaging>pom</packaging>
   <description>Cargo Daemon Integration Tests</description>
   <modules>
+    <module>browser</module>
+    <module>client</module>
     <module>deployable-on-jetty</module>
     <module>deployable-on-tomcat</module>
   </modules>
 
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!--
+            Make sure tests always use randomly assigned and available ports
+          -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>generate-port-numbers</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <configuration>
+                  <portNames>
+                    <portName>cargo.daemon.itests.daemon.port</portName>
+                    <portName>cargo.daemon.itests.daemon.ajp.port</portName>
+                    <portName>cargo.daemon.itests.daemon.rmi.port</portName>
+                    <portName>cargo.daemon.itests.servlet.port</portName>
+                    <portName>cargo.daemon.itests.rmi.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-jetty-distributable</id>
+                <phase>generate-test-resources</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty</groupId>
+                      <artifactId>jetty-distribution</artifactId>
+                      <type>zip</type>
+                      <destFileName>jetty7x.zip</destFileName>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.codehaus.cargo</groupId>
+                      <artifactId>cargo-daemon-webapp</artifactId>
+                      <type>war</type>
+                      <destFileName>cargo-daemon-webapp.jar</destFileName>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.codehaus.cargo</groupId>
+                      <artifactId>simple-war</artifactId>
+                      <type>war</type>
+                      <destFileName>simple-war.war</destFileName>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.codehaus.cargo</groupId>
+                      <artifactId>systemproperty-war</artifactId>
+                      <type>war</type>
+                      <destFileName>systemproperty-war.war</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                  <outputDirectory>${project.build.directory}/test-artifacts</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <delete dir="${project.build.directory}/daemon-cargo-home" />
+                    <delete dir="${project.build.directory}/daemon-home" />
+                    <delete dir="${project.build.directory}/daemon-test-configurations-home" />
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <systemProperties>
+                    <property>
+                      <name>cargo.home</name>
+                      <value>${project.build.directory}/daemon-cargo-home</value>
+                    </property>
+                    <property>
+                      <name>daemon.home</name>
+                      <value>${project.build.directory}/daemon-home</value>
+                    </property>
+                    <property>
+                      <name>daemon.port</name>
+                      <value>${cargo.daemon.itests.daemon.port}</value>
+                    </property>
+                    <property>
+                      <name>daemon.test-configurations.home</name>
+                      <value>${project.build.directory}/daemon-test-configurations-home</value>
+                    </property>
+                    <property>
+                      <name>servlet.port</name>
+                      <value>${cargo.daemon.itests.servlet.port}</value>
+                    </property>
+                    <property>
+                      <name>rmi.port</name>
+                      <value>${cargo.daemon.itests.rmi.port}</value>
+                    </property>
+                    <property>
+                      <name>artifacts.dir</name>
+                      <value>${project.build.directory}/test-artifacts</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <!--
-        Make sure tests always use randomly assigned and available ports
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-port-numbers</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>reserve-network-port</goal>
-            </goals>
-            <configuration>
-              <portNames>
-                <portName>cargo.daemon.itests.daemon.port</portName>
-                <portName>cargo.daemon.itests.daemon.ajp.port</portName>
-                <portName>cargo.daemon.itests.daemon.rmi.port</portName>
-                <portName>cargo.daemon.itests.servlet.port</portName>
-                <portName>cargo.daemon.itests.rmi.port</portName>
-              </portNames>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-jetty-distributable</id>
-            <phase>generate-test-resources</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.eclipse.jetty</groupId>
-                  <artifactId>jetty-distribution</artifactId>
-                  <type>zip</type>
-                  <destFileName>jetty7x.zip</destFileName>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-daemon-webapp</artifactId>
-                  <type>war</type>
-                  <destFileName>cargo-daemon-webapp.jar</destFileName>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>simple-war</artifactId>
-                  <type>war</type>
-                  <destFileName>simple-war.war</destFileName>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>systemproperty-war</artifactId>
-                  <type>war</type>
-                  <destFileName>systemproperty-war.war</destFileName>
-                </artifactItem>
-              </artifactItems>
-              <outputDirectory>${project.build.directory}/test-artifacts</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <delete dir="${project.build.directory}/daemon-cargo-home" />
-                <delete dir="${project.build.directory}/daemon-home" />
-                <delete dir="${project.build.directory}/daemon-test-configurations-home" />
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <skip>${maven.test.skip}</skip>
-              <systemProperties>
-                <property>
-                  <name>cargo.home</name>
-                  <value>${project.build.directory}/daemon-cargo-home</value>
-                </property>
-                <property>
-                  <name>daemon.home</name>
-                  <value>${project.build.directory}/daemon-home</value>
-                </property>
-                <property>
-                  <name>daemon.port</name>
-                  <value>${cargo.daemon.itests.daemon.port}</value>
-                </property>
-                <property>
-                  <name>daemon.test-configurations.home</name>
-                  <value>${project.build.directory}/daemon-test-configurations-home</value>
-                </property>
-                <property>
-                  <name>servlet.port</name>
-                  <value>${cargo.daemon.itests.servlet.port}</value>
-                </property>
-                <property>
-                  <name>rmi.port</name>
-                  <value>${cargo.daemon.itests.rmi.port}</value>
-                </property>
-                <property>
-                  <name>artifacts.dir</name>
-                  <value>${project.build.directory}/test-artifacts</value>
-                </property>
-              </systemProperties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
@@ -176,18 +199,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <profiles>
-    <!-- Cargo Daemon standalone requires Java 6 -->
-    <profile>
-      <id>java6+</id>
-      <activation>
-        <jdk>[1.6,)</jdk>
-      </activation>
-      <modules>
-        <module>browser</module>
-        <module>client</module>
-      </modules>
-    </profile>
-  </profiles>
 </project>

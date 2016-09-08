@@ -42,11 +42,13 @@
   </dependencies>
 
   <profiles>
-    <!-- JDK 6 -->
     <profile>
-      <id>java6+</id>
+      <id>run-its</id>
       <activation>
-        <jdk>[1.6,)</jdk>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
       </activation>
       <build>
         <plugins>
@@ -112,7 +114,6 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <skip>${maven.test.skip}</skip>
                   <systemProperties>
                     <property>
                       <name>http.port</name>

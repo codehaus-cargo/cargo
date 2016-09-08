@@ -180,7 +180,7 @@ class DaemonJvmLauncher implements JvmLauncher
      */
     public void setJvm(String command)
     {
-        if ((command == null) || (command.length() == 0))
+        if (command == null || command.isEmpty())
         {
             return;
         }
@@ -289,7 +289,7 @@ class DaemonJvmLauncher implements JvmLauncher
      */
     public void setSystemProperty(String name, String value)
     {
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
         {
             systemProperties.add("-D" + name + "=" + value);
         }
@@ -300,7 +300,7 @@ class DaemonJvmLauncher implements JvmLauncher
      */
     public void setEnvironmentVariable(String name, String value)
     {
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
         {
             environmentVariables.put(name, value);
         }

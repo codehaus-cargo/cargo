@@ -106,7 +106,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                         xmlUtil.loadXmlFromFile(getFileHandler().append(war.getFile(),
                             "META-INF/context.xml"));
                     Element context = doc.getRootElement();
-                    if (context.attributeValue("docBase", "").length() <= 0)
+                    if (context.attributeValue("docBase", "").isEmpty())
                     {
                         context.addAttribute("docBase", war.getFile());
                     }

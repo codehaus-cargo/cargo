@@ -238,7 +238,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         {
             result = ((WAR) deployable).getContext();
             // if the context root is "" bind it to "/"
-            if (result != null && result.length() == 0)
+            if (result != null && result.isEmpty())
             {
                 result = "/";
             }

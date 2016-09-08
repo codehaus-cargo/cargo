@@ -162,7 +162,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             loader.addAttribute("className", "org.apache.catalina.loader.VirtualWebappLoader");
 
             String virtualClasspath = loader.attributeValue("virtualClasspath", "");
-            if (virtualClasspath.length() <= 0)
+            if (virtualClasspath.isEmpty())
             {
                 virtualClasspath = extraClasspath;
             }

@@ -43,7 +43,7 @@ public class TestServlet extends HttpServlet
         PrintWriter out = response.getWriter();
         String systemPropertyName = request.getParameter(TestServlet.PROPERTY_NAME);
 
-        if (systemPropertyName == null || systemPropertyName.length() == 0)
+        if (systemPropertyName == null || systemPropertyName.isEmpty())
         {
             out.print("Please pass the property to retrieve via the parameter <b><code>");
             out.print(TestServlet.PROPERTY_NAME);
@@ -53,7 +53,7 @@ public class TestServlet extends HttpServlet
         {
             String systemPropertyValue = System.getProperty(systemPropertyName);
 
-            if (systemPropertyValue == null || systemPropertyValue.length() == 0)
+            if (systemPropertyValue == null || systemPropertyValue.isEmpty())
             {
                 out.print("The system property <b><code>");
                 out.print(systemPropertyName);

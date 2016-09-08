@@ -63,7 +63,6 @@
     <profile>
       <id>run-its</id>
       <activation>
-        <jdk>[1.6,)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>

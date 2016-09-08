@@ -70,7 +70,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     public void doServerAndDomainNameParam(JvmLauncher java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
-        if (serverName != null && serverName.trim().length() != 0)
+        if (serverName != null && !serverName.trim().isEmpty())
         {
             java.addAppArguments("-n");
             java.addAppArguments(serverName);
@@ -86,7 +86,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     public void doServerAndDomainNameArgs(JvmLauncher java)
     {
         String serverName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_SERVER_NAME);
-        if (serverName == null || serverName.trim().length() == 0)
+        if (serverName == null || serverName.trim().isEmpty())
         {
             serverName = "jonas";
         }
@@ -102,7 +102,7 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
     private void doDomainNameArgs(JvmLauncher java)
     {
         String domainName = getConfiguration().getPropertyValue(JonasPropertySet.JONAS_DOMAIN_NAME);
-        if (domainName == null || domainName.trim().length() == 0)
+        if (domainName == null || domainName.trim().isEmpty())
         {
             domainName = "jonas";
         }

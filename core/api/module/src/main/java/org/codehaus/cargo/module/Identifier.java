@@ -96,7 +96,7 @@ public class Identifier
         try
         {
             String identifier = xpath.valueOf(element);
-            if (identifier == null || identifier.length() == 0)
+            if (identifier == null || identifier.isEmpty())
             {
                 identifier = this.xpathWithoutNamespace.valueOf(element);
             }

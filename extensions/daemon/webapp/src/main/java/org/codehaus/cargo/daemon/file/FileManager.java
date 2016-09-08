@@ -434,7 +434,7 @@ public class FileManager
      */
     public long getFileSize(String filePath) 
     {
-        if (filePath == null || filePath.length() == 0)
+        if (filePath == null || filePath.isEmpty())
         {
             return 0;
         }

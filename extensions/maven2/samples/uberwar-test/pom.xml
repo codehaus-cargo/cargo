@@ -98,7 +98,6 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <skip>${maven.test.skip}</skip>
               <systemProperties>
                 <property>
                   <name>project.version</name>

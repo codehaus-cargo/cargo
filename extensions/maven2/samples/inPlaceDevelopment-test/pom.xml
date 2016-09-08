@@ -41,82 +41,104 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <version>${project.version}</version>
+            <configuration>
+              <configuration>
+                <properties>
+                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+
+                  <!--
+                    Set JettyPropertySet.USE_FILE_MAPPED_BUFFER to false, else tests fail in
+                    Windows with an exception stating: The requested operation cannot be performed
+                    on a file with a user-mapped section open. See:
+                    http://old.nabble.com/Test-failure-%2d-inPlaceDevelopment-test-to32141276.html
+                    -->
+                  <cargo.jetty.servlet.default.useFileMappedBuffer>
+                    false
+                  </cargo.jetty.servlet.default.useFileMappedBuffer>
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <!--
+                    Override location to point to the exploded webapp;
+                    otherwise Cargo will deploy the generated WAR.
+                    -->
+                  <location>${expandedWebapp.directory}</location>
+                </deployable>
+              </deployables>
+            </configuration>
+            <executions>
+              <execution>
+                <id>start</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <systemProperties>
+                    <property>
+                      <name>http.port</name>
+                      <value>${cargo.samples.servlet.port}</value>
+                    </property>
+                    <property>
+                      <name>expandedWebapp.directory</name>
+                      <value>${expandedWebapp.directory}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <configuration>
-            <properties>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-
-              <!--
-                Set JettyPropertySet.USE_FILE_MAPPED_BUFFER to false, else tests fail in Windows
-                with an exception stating: The requested operation cannot be performed on a file
-                with a user-mapped section open.
-                See: http://old.nabble.com/Test-failure-%2d-inPlaceDevelopment-test-to32141276.html
-                -->
-              <cargo.jetty.servlet.default.useFileMappedBuffer>
-                false
-              </cargo.jetty.servlet.default.useFileMappedBuffer>
-            </properties>
-          </configuration>
-          <deployables>
-            <deployable>
-              <!--
-                Override location to point to the exploded webapp;
-                otherwise Cargo will deploy the generated WAR.
-                -->
-              <location>${expandedWebapp.directory}</location>
-            </deployable>
-          </deployables>
-        </configuration>
-        <executions>
-          <execution>
-            <id>start</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>stop</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <skip>${maven.test.skip}</skip>
-              <systemProperties>
-                <property>
-                  <name>http.port</name>
-                  <value>${cargo.samples.servlet.port}</value>
-                </property>
-                <property>
-                  <name>expandedWebapp.directory</name>
-                  <value>${expandedWebapp.directory}</value>
-                </property>
-              </systemProperties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

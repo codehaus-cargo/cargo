@@ -208,7 +208,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
                 {
                     mapping = "";
                 }
-                else if (!mapping.startsWith("/") && mapping.length() > 1)
+                else if (!mapping.startsWith("/") && !mapping.isEmpty())
                 {
                     mapping = "/" + mapping;
                 }

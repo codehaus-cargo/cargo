@@ -190,7 +190,7 @@ public class EmbeddedContainerClasspathResolver
                                 urls.add(jar.toURI().toURL());
                             }
                         }
-                        if (folders.length() > 0)
+                        if (!folders.isEmpty())
                         {
                             folders += ", ";
                         }

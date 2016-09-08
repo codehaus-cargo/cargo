@@ -473,7 +473,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         initialContextFactory = configuration
             .getPropertyValue(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT);
 
-        if (jndiUrl == null || jndiUrl.trim().length() == 0)
+        if (jndiUrl == null || jndiUrl.trim().isEmpty())
         {
             jndiUrl = DEFAULT_PROVIDER_URI;
 
@@ -504,8 +504,8 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
         props.put(Context.INITIAL_CONTEXT_FACTORY, initialContextFactory);
         props.put(Context.PROVIDER_URL, jndiUrl);
 
-        if (username != null && username.trim().length() > 0 && password != null
-            && password.trim().length() > 0)
+        if (username != null && !username.trim().isEmpty()
+            && password != null && !password.trim().isEmpty())
         {
             this.username = username;
             this.password = password;

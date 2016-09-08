@@ -226,7 +226,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         super.verify();
 
         String configurationName = getPropertyValue(JBossPropertySet.CONFIGURATION);
-        if (configurationName == null || configurationName.length() == 0)
+        if (configurationName == null || configurationName.isEmpty())
         {
             throw new ContainerException("Invalid JBoss configuration: ["
                 + JBossPropertySet.CONFIGURATION + "] doesn't exist.");

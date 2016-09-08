@@ -38,77 +38,97 @@
       <type>war</type>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <version>${project.version}</version>
+            <configuration>
+              <container>
+                <containerId>tomcat6x</containerId>
+                <zipUrlInstaller>
+                  <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</url>
+                  <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
+                </zipUrlInstaller>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/catalina-base</home>
+                <properties>
+                  <cargo.servlet.port>${cargo.daemon.itests.daemon.port}</cargo.servlet.port>
+                  <cargo.rmi.port>${cargo.daemon.itests.daemon.rmi.port}</cargo.rmi.port>
+                  <cargo.tomcat.ajp.port>${cargo.daemon.itests.daemon.ajp.port}</cargo.tomcat.ajp.port>
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-daemon-webapp</artifactId>
+                  <type>war</type>
+                  <properties>
+                    <context>cargo-daemon-webapp</context>
+                  </properties>
+                </deployable>
+              </deployables>
+              <systemProperties>
+                <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+                <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
+              </systemProperties>
+            </configuration>
+            <executions>
+              <execution>
+                <id>start</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <version>${project.version}</version>
-        <configuration>
-          <container>
-            <containerId>tomcat6x</containerId>
-            <zipUrlInstaller>
-              <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</url>
-              <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
-            </zipUrlInstaller>
-          </container>
-          <configuration>
-            <home>${project.build.directory}/catalina-base</home>
-            <properties>
-              <cargo.servlet.port>${cargo.daemon.itests.daemon.port}</cargo.servlet.port>
-              <cargo.rmi.port>${cargo.daemon.itests.daemon.rmi.port}</cargo.rmi.port>
-              <cargo.tomcat.ajp.port>${cargo.daemon.itests.daemon.ajp.port}</cargo.tomcat.ajp.port>
-            </properties>
-          </configuration>
-          <deployables>
-            <deployable>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-daemon-webapp</artifactId>
-              <type>war</type>
-              <properties>
-                <context>cargo-daemon-webapp</context>
-              </properties>
-            </deployable>
-          </deployables>
-          <systemProperties>
-            <daemon.home>${project.build.directory}/daemon-home</daemon.home>
-            <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
-          </systemProperties>
-        </configuration>
-        <executions>
-          <execution>
-            <id>start</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>stop</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <skip>${maven.test.skip}</skip>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

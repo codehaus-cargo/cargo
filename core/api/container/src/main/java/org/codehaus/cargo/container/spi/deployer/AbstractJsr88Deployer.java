@@ -96,7 +96,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         {
             String localFileName;
             WAR war = (WAR) deployable;
-            if (war.getContext().length() == 0)
+            if (war.getContext().isEmpty())
             {
                 localFileName = "rootContext.war";
             }
@@ -386,7 +386,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         if (deployable.getType() == DeployableType.WAR)
         {
             WAR war = (WAR) deployable;
-            if (war.getContext().length() == 0)
+            if (war.getContext().isEmpty())
             {
                 moduleName = "rootContext";
             }

@@ -140,7 +140,7 @@ public class MultipartFormWriter
         {
             throw new IllegalArgumentException("Input stream cannot be null.");
         }
-        if (fileName == null || fileName.length() == 0)
+        if (fileName == null || fileName.isEmpty())
         {
             throw new IllegalArgumentException("File name cannot be null or empty.");
         }
@@ -187,7 +187,7 @@ public class MultipartFormWriter
         {
             throw new IllegalArgumentException("Data cannot be null.");
         }
-        if (fileName == null || fileName.length() == 0)
+        if (fileName == null || fileName.isEmpty())
         {
             throw new IllegalArgumentException("File name cannot be null or empty.");
         }

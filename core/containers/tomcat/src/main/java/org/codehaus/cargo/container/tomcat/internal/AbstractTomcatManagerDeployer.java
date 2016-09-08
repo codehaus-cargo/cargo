@@ -322,7 +322,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
         StringBuilder userAgent = new StringBuilder(NAME);
         String version = this.getClass().getPackage().getImplementationVersion();
-        if (version != null && version.length() > 0)
+        if (version != null && !version.isEmpty())
         {
             userAgent.append('/');
             userAgent.append(version);

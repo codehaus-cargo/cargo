@@ -108,7 +108,7 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
     {
         String deployableId = deployableIdentifier;
 
-        if (deployableId != null && deployableId.trim().length() > 0)
+        if (deployableId != null && !deployableId.trim().isEmpty())
         {
             int identifierExtIndex = deployableId.lastIndexOf(".");
             if (identifierExtIndex != -1)
@@ -145,7 +145,7 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
         if (deployable.getType() == DeployableType.WAR)
         {
             WAR war = (WAR) deployable;
-            if (war.getContext().length() == 0)
+            if (war.getContext().isEmpty())
             {
                 remoteFilePath = "rootContext.war";
             }

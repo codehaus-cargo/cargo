@@ -193,8 +193,8 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
         String password = getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);
 
-        if (username != null && username.trim().length() != 0
-            && password != null && password.trim().length() != 0)
+        if (username != null && !username.trim().isEmpty()
+            && password != null && !password.trim().isEmpty())
         {
             java.addAppArguments("-username");
             java.addAppArguments(username);

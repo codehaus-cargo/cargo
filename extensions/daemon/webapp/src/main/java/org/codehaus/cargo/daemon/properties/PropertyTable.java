@@ -65,7 +65,7 @@ public class PropertyTable extends HashMap<String, String>
     {
         String value = get(name);
 
-        if (value == null || value.length() == 0)
+        if (value == null || value.isEmpty())
         {
             if (required)
             {

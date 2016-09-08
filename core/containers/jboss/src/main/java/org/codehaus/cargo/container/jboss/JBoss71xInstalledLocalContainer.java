@@ -133,7 +133,7 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
 
         String username = getConfiguration().getPropertyValue(RemotePropertySet.USERNAME);
 
-        if (username != null && username.trim().length() != 0)
+        if (username != null && !username.trim().isEmpty())
         {
             String password =
                 getConfiguration().getPropertyValue(RemotePropertySet.PASSWORD);

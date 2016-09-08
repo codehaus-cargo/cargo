@@ -497,7 +497,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         synchronized (handle)
         {
-            if (configurationHome == null || configurationHome.length() == 0)
+            if (configurationHome == null || configurationHome.isEmpty())
             {
                 configurationHome = fileManager.getConfigurationDirectory(handleId);
             }
@@ -525,7 +525,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     String file = xmlReplacement.get("file", true);
                     String xpathExpression = xmlReplacement.get("xpathExpression", true);
                     String attributeName = xmlReplacement.get("attributeName", false);
-                    if (attributeName != null && attributeName.length() == 0)
+                    if (attributeName != null && attributeName.isEmpty())
                     {
                         attributeName = null;
                     }
@@ -556,7 +556,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             container.setJvmLauncherFactory(new DaemonJvmLauncherFactory(additionalClasspath));
 
-            if (timeout != null && timeout.length() > 0)
+            if (timeout != null && !timeout.isEmpty())
             {
                 container.setTimeout(Long.parseLong(timeout));
             }
@@ -564,20 +564,20 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             container.setHome(containerHome);
             container.setSystemProperties(containerProperties);
 
-            if (containerLogFile == null || containerLogFile.length() == 0)
+            if (containerLogFile == null || containerLogFile.isEmpty())
             {
                 containerLogFile = "cargo.log";
             }
             containerLogFile = fileManager.getLogFile(handleId, containerLogFile);
             Logger logger = new FileLogger(containerLogFile, containerAppend);
 
-            if (containerLogLevel != null && containerLogLevel.length() > 0)
+            if (containerLogLevel != null && !containerLogLevel.isEmpty())
             {
                 logger.setLevel(LogLevel.toLevel(containerLogLevel));
             }
             container.setLogger(logger);
 
-            if (containerOutputFile == null || containerOutputFile.length() == 0)
+            if (containerOutputFile == null || containerOutputFile.isEmpty())
             {
                 containerOutputFile = "container.log";
             }
@@ -848,17 +848,17 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             fileConfig.setConfigfile(filter);
             fileConfig.setOverwrite(overwrite);
 
-            if (encoding != null && encoding.length() != 0)
+            if (encoding != null && !encoding.isEmpty())
             {
                 fileConfig.setEncoding(encoding);
             }
 
-            if (toFile != null && toFile.length() != 0)
+            if (toFile != null && !toFile.isEmpty())
             {
                 fileConfig.setToFile(toFile);
             }
 
-            if (toDirectory != null && toDirectory.length() != 0)
+            if (toDirectory != null && !toDirectory.isEmpty())
             {
                 fileConfig.setToDir(toDirectory);
             }
@@ -902,7 +902,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
                 String context = properties.get("context", false);
 
-                if (context != null && context.length() > 0)
+                if (context != null && !context.isEmpty())
                 {
                     war.setContext(context);
                 }

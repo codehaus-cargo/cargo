@@ -169,7 +169,7 @@ public final class User
      */
     protected static User parseUser(String userAsString)
     {
-        if (userAsString.length() == 0)
+        if (userAsString.isEmpty())
         {
             throw new ContainerException("User property has empty value.");
         }

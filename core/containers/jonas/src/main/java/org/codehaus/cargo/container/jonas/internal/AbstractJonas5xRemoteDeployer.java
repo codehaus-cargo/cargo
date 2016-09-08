@@ -290,7 +290,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
     protected ObjectName getDepmonitorServiceMBeanName(String domainName)
         throws MalformedObjectNameException
     {
-        if (domainName == null || domainName.trim().length() == 0)
+        if (domainName == null || domainName.trim().isEmpty())
         {
             throw new MalformedObjectNameException("Empty domain name provided");
         }
@@ -362,7 +362,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
         String deployableId = deployableIdentifier;
 
-        if (deployableId != null && deployableId.trim().length() > 0)
+        if (deployableId != null && !deployableId.trim().isEmpty())
         {
             int identifierExtIndex = deployableId.lastIndexOf(".");
             if (identifierExtIndex != -1)
@@ -399,7 +399,7 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
         if (deployable.getType() == DeployableType.WAR)
         {
             WAR war = (WAR) deployable;
-            if (war.getContext().length() == 0)
+            if (war.getContext().isEmpty())
             {
                 localFileName = "rootContext.war";
             }

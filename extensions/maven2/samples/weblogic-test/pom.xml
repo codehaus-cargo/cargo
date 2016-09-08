@@ -207,7 +207,6 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <skip>${maven.test.skip}</skip>
                   <systemProperties>
                     <property>
                       <name>http.port</name>

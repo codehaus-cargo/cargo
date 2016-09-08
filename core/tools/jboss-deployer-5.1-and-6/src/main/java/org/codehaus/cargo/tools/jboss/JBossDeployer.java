@@ -110,7 +110,7 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
     private ProfileKey getProfile()
     {
         String server = this.configuration.getPropertyValue(JBossPropertySet.CONFIGURATION);
-        if (server == null || server.trim().length() == 0)
+        if (server == null || server.trim().isEmpty())
         {
             server = ProfileKey.DEFAULT;
         }
@@ -119,7 +119,7 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         boolean isClustered = Boolean.valueOf(this.configuration.getPropertyValue(
             JBossPropertySet.CLUSTERED)).booleanValue();
         String name = isClustered ? "farm" : profile;
-        if (name == null || name.trim().length() == 0)
+        if (name == null || name.trim().isEmpty())
         {
             name = ProfileKey.DEFAULT;
         }

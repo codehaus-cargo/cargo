@@ -147,7 +147,7 @@ public class Proxy
      */
     public void configure()
     {
-        if (getHost() != null && getHost().trim().length() > 0)
+        if (getHost() != null && !getHost().trim().isEmpty())
         {
             Properties sysprops = System.getProperties();
             String portString = Integer.toString(getPort());

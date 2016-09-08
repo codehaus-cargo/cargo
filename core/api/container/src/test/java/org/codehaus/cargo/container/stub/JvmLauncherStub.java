@@ -173,7 +173,7 @@ public class JvmLauncherStub implements JvmLauncher
      */
     public void setEnvironmentVariable(String name, String value)
     {
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
         {
             environmentVariables.put(name, value);
         }

@@ -456,7 +456,7 @@ public class Deployable extends AbstractDependency
             while (commaSeparatedValue.hasMoreTokens())
             {
                 String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
-                if (commaSeparatedLine.length() > 0)
+                if (!commaSeparatedLine.isEmpty())
                 {
                     valueList.add(commaSeparatedLine);
                 }

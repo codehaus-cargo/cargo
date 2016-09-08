@@ -147,7 +147,7 @@ public class Proxy extends LoggedObject
      */
     public void configure()
     {
-        if (getHost() != null && getHost().trim().length() > 0)
+        if (getHost() != null && !getHost().trim().isEmpty())
         {
             getLogger().debug("host : " + getHost(), this.getClass().getName());
             getLogger().debug("port : " + getPort(), this.getClass().getName());

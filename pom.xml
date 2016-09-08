@@ -297,10 +297,11 @@
 
   <prerequisites>
     <!--
-      There are some issues with Maven 2.0.4 that have been fixed in Maven 2.0.5
-      See: MNG-1952 and other related (probably minor) issues
+      The multiple-containers archetype relies on multiple profile activation conditions,
+      which only works starting from Maven 3.2.2
+      (see https://issues.apache.org/jira/browse/MNG-4565 for details).
       -->
-    <maven>2.0.5</maven>
+    <maven>3.2.2</maven>
   </prerequisites>
 
   <scm>
@@ -941,8 +942,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.1</version>
           <configuration>
-            <source>1.5</source>
-            <target>1.5</target>
+            <source>1.6</source>
+            <target>1.6</target>
           </configuration>
         </plugin>
         <plugin>
@@ -1163,30 +1164,6 @@
       <id>codehaus-cargo-release</id>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>enforce-maven</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules>
-                    <requireMavenVersion>
-                      <version>(3.2.2,)</version>
-                      <message>
-                        The multiple-containers archetype relies on multiple profile activation
-                        conditions, which only works starting from Maven 3.2.2 (see
-                        https://issues.apache.org/jira/browse/MNG-4565 for details).
-                      </message>
-                    </requireMavenVersion>
-                  </rules>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>

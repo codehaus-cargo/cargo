@@ -76,7 +76,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                     closest = npnFilename;
                 }
             }
-            if (closest.length() > 0 && !closest.equals(expected))
+            if (!closest.isEmpty() && !closest.equals(expected))
             {
                 closest = getFileHandler().append(npnFolder, closest);
                 expected = getFileHandler().append(npnFolder, expected);

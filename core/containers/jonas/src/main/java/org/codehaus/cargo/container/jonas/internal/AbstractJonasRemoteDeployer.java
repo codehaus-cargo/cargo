@@ -423,12 +423,12 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
     protected ObjectName getServerMBeanName(String domainName, String serverName)
         throws MalformedObjectNameException
     {
-        if (domainName == null || domainName.trim().length() == 0)
+        if (domainName == null || domainName.trim().isEmpty())
         {
             throw new MalformedObjectNameException("Empty domain name provided");
         }
 
-        if (serverName == null || serverName.trim().length() == 0)
+        if (serverName == null || serverName.trim().isEmpty())
         {
             throw new MalformedObjectNameException("Empty server name provided");
         }
@@ -445,7 +445,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
      */
     protected ObjectName getDomainMBeanName(String domainName) throws MalformedObjectNameException
     {
-        if (domainName == null || domainName.trim().length() == 0)
+        if (domainName == null || domainName.trim().isEmpty())
         {
             throw new MalformedObjectNameException("Empty domain name provided");
         }
@@ -515,7 +515,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         });
 
         // Check if file has been sent correctly
-        if (filePathOnServer == null || filePathOnServer.trim().length() == 0)
+        if (filePathOnServer == null || filePathOnServer.trim().isEmpty())
         {
             throw new ContainerException("Server returned a null uploaded file path");
         }

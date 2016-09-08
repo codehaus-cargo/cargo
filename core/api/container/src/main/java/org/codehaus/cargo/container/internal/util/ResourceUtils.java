@@ -186,7 +186,7 @@ public final class ResourceUtils extends LoggedObject
             String line;
             while ((line = in.readLine()) != null)
             {
-                if (line.length() == 0)
+                if (line.isEmpty())
                 {
                     out.newLine();
                 }
@@ -315,7 +315,7 @@ public final class ResourceUtils extends LoggedObject
             String line;
             while ((line = in.readLine()) != null)
             {
-                if (line.length() == 0)
+                if (line.isEmpty())
                 {
                     out.append(newLine);
                 }

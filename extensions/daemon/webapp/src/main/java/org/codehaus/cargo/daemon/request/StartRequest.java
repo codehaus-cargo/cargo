@@ -86,7 +86,7 @@ public class StartRequest
                     String fieldName = item.getFieldName();
                     if (item.isFormField())
                     {
-                        if (item.getString() != null && item.getString().length() > 0)
+                        if (item.getString() != null && !item.getString().isEmpty())
                         {
                             parameters.put(fieldName, item.getString());
                         }
@@ -117,7 +117,7 @@ public class StartRequest
     {
         String value = parameters.get(name);
 
-        if (value == null || value.length() == 0)
+        if (value == null || value.isEmpty())
         {
             if (required)
             {
@@ -159,7 +159,7 @@ public class StartRequest
 
         String value = getParameter(name, required);
 
-        if (value != null && value.length() > 0)
+        if (value != null && !value.isEmpty())
         {
             try
             {
@@ -188,7 +188,7 @@ public class StartRequest
 
         String value = getParameter(name, required);
 
-        if (value != null && value.length() > 0)
+        if (value != null && !value.isEmpty())
         {
             try
             {
@@ -227,7 +227,7 @@ public class StartRequest
 
         String value = getParameter(name, required);
 
-        if (value != null && value.length() > 0)
+        if (value != null && !value.isEmpty())
         {
             try
             {

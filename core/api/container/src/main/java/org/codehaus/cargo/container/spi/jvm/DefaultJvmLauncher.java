@@ -158,7 +158,7 @@ class DefaultJvmLauncher implements JvmLauncher
      */
     public void setSystemProperty(String name, String value)
     {
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
         {
             Environment.Variable var = new Environment.Variable();
             var.setKey(name);
@@ -172,7 +172,7 @@ class DefaultJvmLauncher implements JvmLauncher
      */
     public void setEnvironmentVariable(String name, String value)
     {
-        if (name != null && name.length() > 0)
+        if (name != null && !name.isEmpty())
         {
             Environment.Variable var = new Environment.Variable();
             var.setKey(name);

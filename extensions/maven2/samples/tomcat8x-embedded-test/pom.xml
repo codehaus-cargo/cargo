@@ -47,6 +47,10 @@
       <id>java7+</id>
       <activation>
         <jdk>[1.7,)</jdk>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
       </activation>
       <build>
         <!--
@@ -99,7 +103,6 @@
                 <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
                 <cargo.samples.rmi.port>${cargo.samples.rmi.port}</cargo.samples.rmi.port>
                 <cargo.version>${project.version}</cargo.version>
-                <maven.test.skip>${maven.test.skip}</maven.test.skip>
               </properties>
             </configuration>
             <executions>

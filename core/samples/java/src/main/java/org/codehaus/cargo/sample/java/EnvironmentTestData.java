@@ -196,7 +196,7 @@ public class EnvironmentTestData
     private String getSystemProperty(String name)
     {
         String result = System.getProperty(name);
-        if (result == null || result.length() == 0)
+        if (result == null || result.isEmpty())
         {
             result = null;
         }
@@ -212,7 +212,7 @@ public class EnvironmentTestData
     private String getSystemProperty(String name, String defaultValue)
     {
         String result = System.getProperty(name);
-        return result == null || result.length() == 0 ? defaultValue : result;
+        return result == null || result.isEmpty() ? defaultValue : result;
     }
 
     /**

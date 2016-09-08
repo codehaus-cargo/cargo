@@ -104,7 +104,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
         setupConfigurationDir();
 
         String services = getPropertyValue(JonasPropertySet.JONAS_SERVICES_LIST);
-        if (services == null || services.trim().length() == 0)
+        if (services == null || services.trim().isEmpty())
         {
             Properties jonasProperties = new Properties();
             File jonasPropertiesFile = new File(

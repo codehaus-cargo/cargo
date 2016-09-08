@@ -103,7 +103,7 @@ public class UrlEncodedFormWriter
      */
     public int getLength()
     {
-        return formData.toString().length();
+        return formData.length();
     }
 
 }

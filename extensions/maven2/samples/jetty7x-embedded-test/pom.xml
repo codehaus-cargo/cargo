@@ -51,6 +51,10 @@
       <id>java8-</id>
       <activation>
         <jdk>(,1.8.0.91),[9,)</jdk>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
       </activation>
       <build>
         <plugins>
@@ -105,7 +109,6 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <skip>${maven.test.skip}</skip>
                   <systemProperties>
                     <property>
                       <name>http.port</name>

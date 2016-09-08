@@ -29,10 +29,12 @@
   <description>Sample Maven archetypes for using Cargo</description>
 
   <modules>
+    <module>daemon</module>
+    <module>multiple-containers</module>
     <module>webapp-single-module</module>
     <module>webapp-functional-tests-module</module>
+    <module>webapp-with-datasource</module>
     <module>remote-deployment</module>
-    <module>daemon</module>
   </modules>
 
   <build>
@@ -113,23 +115,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <!--
-    Multiple profile activation conditions only works starting from Maven 3.2.2
-    (see https://issues.apache.org/jira/browse/MNG-4565 for details) and that version of Maven
-    requires Java 6. As a result, when using Java 5, we need to remove the integration test of
-    the multiple-containers and webapp-with-datasource modules from the build this way.
-    -->
-  <profiles>
-    <profile>
-      <id>jdk6+</id>
-      <activation>
-        <jdk>[1.6,)</jdk>
-      </activation>
-      <modules>
-        <module>multiple-containers</module>
-        <module>webapp-with-datasource</module>
-      </modules>
-    </profile>
-  </profiles>
 </project>

@@ -181,7 +181,7 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
         String localWebLogicHome = getConfiguration().
                 getPropertyValue(WebLogicPropertySet.LOCAL_WEBLOGIC_HOME);
 
-        if (localWebLogicHome != null && localWebLogicHome.length() > 0)
+        if (localWebLogicHome != null && !localWebLogicHome.isEmpty())
         {
             return localWebLogicHome;
         }
