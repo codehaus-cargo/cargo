@@ -75,11 +75,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
     </dependency>
@@ -95,6 +90,12 @@
     <dependency>
       <groupId>org.ow2.jonas.tools.configurator</groupId>
       <artifactId>configurator</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
