@@ -3,5 +3,5 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Sample webapp for testing Cargo Maven2 plugin's AutoDeployable capabilities</display-name>
+  <display-name>Sample webapp for testing Cargo Maven 2 / Maven 3 plugin's AutoDeployable capabilities</display-name>
 </web-app>

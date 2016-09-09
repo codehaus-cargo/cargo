@@ -26,7 +26,7 @@
   <artifactId>cargo-sample-maven2-jetty7x-root-context-test</artifactId>
   <name>Cargo Samples - Maven 2 - Jetty 7 root context test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo Maven2 plugin with a Jetty 7.x container and the root context</description>
+  <description>Sample application that exercises the Cargo Maven 2 / Maven 3 plugin with a Jetty 7.x container and the root context</description>
 
   <dependencies>
     <dependency>

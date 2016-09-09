@@ -23,7 +23,7 @@
   <version>${version}</version>
   <name>Cargo Samples - Maven 2 - Tomcat 8.x embedded container test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo Maven2 plugin with an embedded Tomcat 8.x container</description>
+  <description>Sample application that exercises the Cargo Maven 2 / Maven 3 plugin with an embedded Tomcat 8.x container</description>
 
   <dependencies>
     <dependency>

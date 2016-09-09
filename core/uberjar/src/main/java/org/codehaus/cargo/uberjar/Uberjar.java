@@ -58,7 +58,7 @@ public class Uberjar
             "Cargo is a thin wrapper that allows you to manipulate Java EE containers in a");
         ps.println(
             "standard way. Cargo can be used from a \"classic\" Java program, as a set of ANT");
-        ps.println("tasks and even Maven2 goals.");
+        ps.println("tasks and even Maven 2 / Maven 3 goals.");
         ps.println();
 
         ps.println(

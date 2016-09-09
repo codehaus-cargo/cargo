@@ -26,7 +26,7 @@
   <artifactId>cargo-sample-maven2-implementationClasses-test</artifactId>
   <name>Cargo Samples - Maven 2 - Implementation classes' personalisation test</name>
   <packaging>war</packaging>
-  <description>Sample application that exercises the Cargo Maven2 plugin with personalized implementation classes</description>
+  <description>Sample application that exercises the Cargo Maven 2 / Maven 3 plugin with personalized implementation classes</description>
 
   <profiles>
     <profile>

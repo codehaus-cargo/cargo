@@ -3,7 +3,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Sample webapp for testing Cargo Maven2 plugin's deployable pinging capabilities</display-name>
+  <display-name>Sample webapp for testing Cargo Maven 2 / Maven 3 plugin's deployable pinging capabilities</display-name>
   <servlet>
     <servlet-name>PingTestServlet</servlet-name>
     <servlet-class>org.codehaus.cargo.sample.maven2.ping_test.PingTestServlet</servlet-class>
