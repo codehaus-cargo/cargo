@@ -27,10 +27,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.resin.internal.AbstractResinStandaloneLocalConfigurationTest;
 import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationChecker;
-import org.codehaus.cargo.util.Dom4JUtil;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 
 /**
  * Unit tests for {@link Resin3xStandaloneLocalConfiguration}.
@@ -105,15 +101,9 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     @Override
     protected void setUpDataSourceFile() throws Exception
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
         String file = configuration.getHome() + "/conf/resin.conf";
-        Document document = DocumentHelper.createDocument();
-        Element root = document.addElement("resin");
-        document.setRootElement(root);
-        root.addNamespace("", "http://caucho.com/ns/resin");
-        xmlUtil.saveXml(document, file);
-
-        System.gc();
+        getFileHandler().writeTextFile(file, "<resin xmlns=\"http://caucho.com/ns/resin\" "
+            + "xmlns:resin=\"http://caucho.com/ns/resin/core\" />", "UTF-8");
     }
 
     /**

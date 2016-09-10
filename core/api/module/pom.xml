@@ -29,7 +29,11 @@
   <description>Core API to parse/create J2EE Modules</description>
   <dependencies>
     <dependency>
-      <groupId>jdom</groupId>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
       <artifactId>jdom</artifactId>
     </dependency>
 

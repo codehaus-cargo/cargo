@@ -44,13 +44,6 @@ import java.util.Vector;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -525,55 +518,13 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     private void replaceInXmlFile(String file, Map<XmlReplacementDetails, String> replacements)
         throws CargoException
     {
-        InputStream is = null;
-        OutputStream os = null;
+        Dom4JUtil domUtils = new Dom4JUtil(this);
+        Document doc = domUtils.loadXmlFromFile(file);
 
         try
         {
-            DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-
-            // Do not load remote DTDS as remote servers sometimes become unreachable
-            try
-            {
-                domFactory.setFeature(
-                    "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-                domFactory.setFeature(
-                    "http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-            }
-            catch (ParserConfigurationException ignored)
-            {
-                // Ignored
-            }
-
-            DocumentBuilder builder = domFactory.newDocumentBuilder();
-
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
-
-            TransformerFactory tFactory = TransformerFactory.newInstance();
-            Transformer transformer = tFactory.newTransformer();
-
-            if (!exists(file))
-            {
-                throw new CargoException("Cannot find file " + file);
-            }
-            if (isDirectory(file))
-            {
-                throw new CargoException("The destination is a directory: " + file);
-            }
-
-            is = getInputStream(file);
-            Document doc;
-            try
-            {
-                doc = builder.parse(is);
-            }
-            finally
-            {
-                is.close();
-                is = null;
-                System.gc();
-            }
 
             for (Map.Entry<XmlReplacementDetails, String> replacement : replacements.entrySet())
             {
@@ -617,51 +568,13 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                     node.setTextContent(replacement.getValue());
                 }
             }
-
-            delete(file);
-            os = getOutputStream(file);
-            transformer.transform(new DOMSource(doc), new StreamResult(os));
         }
         catch (Exception e)
         {
-            throw new CargoException("Cannot modify XML file " + file, e);
+            throw new CargoException("Cannot modify XML document " + file, e);
         }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (Exception ignored)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    is = null;
-                }
-            }
 
-            if (os != null)
-            {
-                try
-                {
-                    os.close();
-                }
-                catch (Exception ignored)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    os = null;
-                }
-            }
-
-            System.gc();
-        }
+        domUtils.saveXml(doc, file);
     }
 
     /**

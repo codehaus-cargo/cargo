@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.util;
 
-import org.dom4j.Element;
+import org.w3c.dom.Element;
 
 /**
  * Exception raised when an XPath search returns no results.
@@ -46,7 +46,7 @@ public class ElementNotFoundException extends RuntimeException
      */
     public ElementNotFoundException(String xpath, Element searched)
     {
-        super("XPath: " + xpath + " not found in element: " + searched.getName());
+        super("XPath: " + xpath + " not found in element: " + searched.getNodeName());
         this.xpath = xpath;
         this.searched = searched;
     }

@@ -19,14 +19,12 @@
  */
 package org.codehaus.cargo.util;
 
-import java.util.List;
 import java.util.Map;
 
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.VisitorSupport;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * {@inheritDoc} This implementation uses @{link Dom4JUtil Dom4JUtil} to manipulate xml files.
@@ -74,20 +72,19 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
      */
     public void insertElementsUnderXPath(String elementsToParse, String xpath)
     {
-        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getRootElement());
+        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getDocumentElement());
 
         StringBuilder nested = new StringBuilder();
         nested.append("<parent>");
         nested.append(elementsToParse);
         nested.append("</parent>");
         Element nestedElements = xmlUtil.parseIntoElement(nested.toString());
-        List<Element> elements = nestedElements.elements();
-
-        for (Element element : elements)
+        NodeList children = nestedElements.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++)
         {
-            setNamespaceOfElementToTheSameAsParent(element, parent);
-            nestedElements.remove(element);
-            parent.add(element);
+            Node child = children.item(i);
+            Node clone = parent.getOwnerDocument().importNode(child, true);
+            parent.appendChild(clone);
         }
     }
 
@@ -96,37 +93,19 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
      */
     public void insertElementUnderXPath(Element elementToInsert, String xpath)
     {
-        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getRootElement());
+        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getDocumentElement());
 
-        setNamespaceOfElementToTheSameAsParent(elementToInsert, parent);
-        parent.add(elementToInsert);
-    }
-
-    /**
-     * @param element to traverse and change namespace of
-     * @param parent - who to match namespaces with.
-     */
-    private void setNamespaceOfElementToTheSameAsParent(Element element, Element parent)
-    {
-        final Namespace namespaceOfParent = parent.getNamespace();
-        element.accept(new VisitorSupport()
-        {
-            @Override
-            public void visit(Element node)
-            {
-                QName nameOfElementWithCorrectNamespace =
-                    new QName(node.getName(), namespaceOfParent);
-                node.setQName(nameOfElementWithCorrectNamespace);
-            }
-        });
+        Node clone = parent.getOwnerDocument().importNode(elementToInsert, true);
+        parent.appendChild(clone);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void loadFile()
+    public Document loadFile()
     {
         this.document = xmlUtil.loadXmlFromFile(path);
+        return this.document;
     }
 
     /**

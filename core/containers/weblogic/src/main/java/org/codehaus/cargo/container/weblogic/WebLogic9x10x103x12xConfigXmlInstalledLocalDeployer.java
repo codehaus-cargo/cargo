@@ -31,10 +31,10 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.codehaus.cargo.util.FileHandler;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
@@ -134,7 +134,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
     public void deploy(Deployable deployable)
     {
         Document configXml = readConfigXml();
-        Element domain = configXml.getRootElement();
+        Element domain = configXml.getDocumentElement();
         addDeployableToDomain(deployable, domain);
         writeConfigXml(configXml);
     }
@@ -149,7 +149,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
     public void undeploy(Deployable deployable)
     {
         Document configXml = readConfigXml();
-        Element domain = configXml.getRootElement();
+        Element domain = configXml.getDocumentElement();
         removeDeployableFromDomain(deployable, domain);
         writeConfigXml(configXml);
     }
@@ -166,7 +166,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
         List<Element> results = selectAppDeployments(deployable, domain);
         for (Element element : results)
         {
-            domain.remove(element);
+            domain.removeChild(element);
         }
     }
 
@@ -209,16 +209,20 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
      */
     protected Element createElementForDeployableInDomain(Deployable deployable, Element domain)
     {
-        QName appDeploymentQName = new QName("app-deployment", new Namespace("", namespace));
-        Element appDeployment = domain.addElement(appDeploymentQName);
-        String id = createIdForDeployable(deployable);
+        Element appDeployment = domain.getOwnerDocument().createElement("app-deployment");
+        domain.appendChild(appDeployment);
         // the name element is a unique identifier in the config.xml file. that's why this is being
         // named id as opposed to name
-        Element appId = appDeployment.addElement("name");
-        appId.setText(id);
-        Element target = appDeployment.addElement("target");
-        target.setText(getServerName());
-        Element sourcePath = appDeployment.addElement("source-path");
+        String id = createIdForDeployable(deployable);
+        Element appId = appDeployment.getOwnerDocument().createElement("name");
+        appDeployment.appendChild(appId);
+        appId.setTextContent(id);
+        Element target = appDeployment.getOwnerDocument().createElement("target");
+        appDeployment.appendChild(target);
+        target.setTextContent(id);
+        Element sourcePath = appDeployment.getOwnerDocument().createElement("source-path");
+        appDeployment.appendChild(sourcePath);
+        sourcePath.setTextContent(id);
         if (deployable.getType() == DeployableType.WAR
             && getFileHandler().exists(getAbsolutePath(deployable)))
         {
@@ -251,22 +255,22 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
                 if (deployable.isExpanded())
                 {
                     getFileHandler().copyDirectory(deployable.getFile(), targetDirectoryname);
-                    sourcePath.setText(targetDirectoryname);
+                    sourcePath.setTextContent(targetDirectoryname);
                 }
                 else
                 {
                     getFileHandler().copyFile(deployable.getFile(), targetFilename, true);
-                    sourcePath.setText(targetFilename);
+                    sourcePath.setTextContent(targetFilename);
                 }
             }
             else
             {
-                sourcePath.setText(getAbsolutePath(deployable));
+                sourcePath.setTextContent(getAbsolutePath(deployable));
             }
         }
         else
         {
-            sourcePath.setText(getAbsolutePath(deployable));
+            sourcePath.setTextContent(getAbsolutePath(deployable));
         }
         return appDeployment;
     }
@@ -279,18 +283,38 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
      */
     protected void reorderAppDeploymentsAfterConfigurationVersion(Element domain)
     {
-        Element configurationVersion =
-            xmlTool.selectElementMatchingXPath("weblogic:configuration-version", domain);
-
         List<Element> appDeployments =
             xmlTool.selectElementsMatchingXPath("weblogic:app-deployment", domain);
+        for (Element appDeployment : appDeployments)
+        {
+            domain.removeChild(appDeployment);
+        }
 
-        List<Element> domainElements = domain.content();
-        int indexOfConfigurationVersion = domainElements.indexOf(configurationVersion);
-
-        domainElements.removeAll(appDeployments);
-        domainElements.addAll(indexOfConfigurationVersion + 1, appDeployments);
-
+        Element configurationVersion =
+            xmlTool.selectElementMatchingXPath("weblogic:configuration-version", domain);
+        Node before = null;
+        NodeList children = domain.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++)
+        {
+            if (configurationVersion.equals(children.item(i)) && i < children.getLength() - 1)
+            {
+                before = children.item(i + 1);
+            }
+        }
+        if (before != null)
+        {
+            for (Element appDeployment : appDeployments)
+            {
+                domain.insertBefore(appDeployment, before);
+            }
+        }
+        else
+        {
+            for (Element appDeployment : appDeployments)
+            {
+                domain.appendChild(appDeployment);
+            }
+        }
     }
 
     /**

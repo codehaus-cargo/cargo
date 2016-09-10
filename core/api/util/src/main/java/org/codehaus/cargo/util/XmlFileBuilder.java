@@ -21,7 +21,8 @@ package org.codehaus.cargo.util;
 
 import java.util.Map;
 
-import org.dom4j.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * This interface intends to remove hard-bindings to a specific xml api.
@@ -50,8 +51,10 @@ public interface XmlFileBuilder
 
     /**
      * load the current xml file into a Document.
+     * 
+     * @return loaded file, represented as a Document.
      */
-    void loadFile();
+    Document loadFile();
 
     /**
      * this will parse one or more elements from elementToParse and insert them under the xpath.

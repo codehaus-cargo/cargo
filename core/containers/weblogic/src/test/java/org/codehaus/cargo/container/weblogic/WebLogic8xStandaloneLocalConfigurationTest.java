@@ -29,8 +29,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationChecker;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
+import org.w3c.dom.Document;
 
 /**
  * Unit tests for {@link WebLogic8xStandaloneLocalConfiguration}.
@@ -175,8 +174,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     {
         Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
         String file = configuration.getHome() + "/config.xml";
-        Document document = DocumentHelper.createDocument();
-        document.addElement("Domain");
+        Document document = xmlUtil.createDocument();
+        document.appendChild(document.createElement("Domain"));
         xmlUtil.saveXml(document, file);
     }
 

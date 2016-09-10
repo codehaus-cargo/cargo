@@ -30,8 +30,8 @@ import org.codehaus.cargo.container.jboss.internal.JBoss75xStandaloneLocalConfig
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.Dom4JXmlFileBuilder;
 import org.codehaus.cargo.util.XmlFileBuilder;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * JBoss 7.5.x (EAP 6.4.x) standalone local configuration.
@@ -119,7 +119,7 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
 
                 XmlFileBuilder manager = new Dom4JXmlFileBuilder(getFileHandler());
                 manager.setFile(configurationXmlFilePath);
-                manager.loadFile();
+                Document document = manager.loadFile();
                 manager.setNamespaces(ns);
 
                 String jndiName = resource.getName();
@@ -131,23 +131,26 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
                         this.getClass().getName());
                 }
 
-                Element mailSession = DocumentHelper.createElement("mail-session");
-                mailSession.addAttribute("jndi-name", jndiName);
-                mailSession.addAttribute("name", resource.getId());
+                Element mailSession = document.createElement("mail-session");
+                mailSession.setAttribute("jndi-name", jndiName);
+                mailSession.setAttribute("name", resource.getId());
                 if (resource.getParameter("mail.smtp.from") != null)
                 {
-                    mailSession.addAttribute("from", resource.getParameter("mail.smtp.from"));
+                    mailSession.setAttribute("from", resource.getParameter("mail.smtp.from"));
                 }
-                Element smtpServer = mailSession.addElement("smtp-server");
-                smtpServer.addAttribute("outbound-socket-binding-ref", resource.getId());
+                Element smtpServer = mailSession.getOwnerDocument().createElement("smtp-server");
+                mailSession.appendChild(smtpServer);
+                smtpServer.setAttribute("outbound-socket-binding-ref", resource.getId());
 
                 manager.insertElementUnderXPath(mailSession, "//domain:profile/mail:subsystem");
 
-                Element socketBinding = DocumentHelper.createElement("outbound-socket-binding");
-                socketBinding.addAttribute("name", resource.getId());
-                Element remoteDestination = socketBinding.addElement("remote-destination");
-                remoteDestination.addAttribute("host", host);
-                remoteDestination.addAttribute("port", port);
+                Element socketBinding = document.createElement("outbound-socket-binding");
+                socketBinding.setAttribute("name", resource.getId());
+                Element remoteDestination =
+                    socketBinding.getOwnerDocument().createElement("remote-destination");
+                socketBinding.appendChild(remoteDestination);
+                remoteDestination.setAttribute("host", host);
+                remoteDestination.setAttribute("port", port);
 
                 manager.insertElementUnderXPath(socketBinding, "//domain:socket-binding-group");
 

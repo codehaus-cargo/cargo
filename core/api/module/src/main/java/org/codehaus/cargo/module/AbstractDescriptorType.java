@@ -154,22 +154,22 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * @see org.jdom.JDOMFactory#element(java.lang.String)
      */
     @Override
-    public Element element(String arg0)
+    public Element element(String name)
     {
-        DescriptorTag tag = getTagByName(arg0);
+        DescriptorTag tag = getTagByName(name);
         if (tag != null)
         {
             try
             {
                 return tag.create();
             }
-            catch (Exception ex)
+            catch (Exception ignored)
             {
-                //
+                // Ignored
             }
         }
 
-        return super.element(arg0);
+        return super.element(name);
     }
 
     /**
@@ -184,16 +184,15 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
             try
             {
                 DescriptorElement element = tag.create();
-                // if( element.getNamespace() == null && getTagNamespace() != null )
-                // {
-                // element.setNamespace(getTagNamespace());
-                // }
+                if (element.getNamespace() == null && namespace != null)
+                {
+                    element.setNamespace(namespace);
+                }
                 return element;
-
             }
-            catch (Exception ex)
+            catch (Exception ignored)
             {
-                //
+                // Ignored
             }
         }
         return super.element(name, namespace);

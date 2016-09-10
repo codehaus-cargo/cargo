@@ -28,9 +28,6 @@ import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.orion.Oc4j9xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
-import org.codehaus.cargo.util.Dom4JUtil;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 
 /**
  * Abstract Orion standalone configuration implementation test.
@@ -139,11 +136,8 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      */
     protected void setUpDataSourceFile() throws Exception
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
         String file = configuration.getHome() + "/conf/data-sources.xml";
-        Document document = DocumentHelper.createDocument();
-        document.addElement("data-sources");
-        xmlUtil.saveXml(document, file);
+        getFileHandler().writeTextFile(file, "<data-sources/>", "UTF-8");
     }
 
     /**

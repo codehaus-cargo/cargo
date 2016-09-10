@@ -31,8 +31,9 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.codehaus.cargo.util.Dom4JUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * JRun {@link FilterChain} for {@link JRun4xStandaloneLocalConfiguration} implementation.
@@ -52,6 +53,11 @@ public class JRun4xFilterChain extends FilterChain
     private LocalConfiguration configuration;
 
     /**
+     * XML utilities.
+     */
+    private Dom4JUtil xmlUtil;
+
+    /**
      * Sole constructor.
      * @param jrunContainer {@link LocalContainer}
      */
@@ -59,6 +65,7 @@ public class JRun4xFilterChain extends FilterChain
     {
         this.jrunContainer = (InstalledLocalContainer) jrunContainer;
         this.configuration = jrunContainer.getConfiguration();
+        this.xmlUtil = new Dom4JUtil(jrunContainer.getFileHandler());
         this.init();
     }
 
@@ -250,20 +257,33 @@ public class JRun4xFilterChain extends FilterChain
             for (User user : configuration.getUsers())
             {
                 // create user elements
-                Element userElement = DocumentHelper.createDocument().addElement("user");
-                userElement.addElement("user-name").setText(user.getName());
-                userElement.addElement("password").setText(user.getPassword());
+                Document document = xmlUtil.createDocument();
+                Element userElement = document.createElement("user");
+                Element usernameElement =
+                    userElement.getOwnerDocument().createElement("user-name");
+                usernameElement.setTextContent(user.getName());
+                userElement.appendChild(usernameElement);
+                Element passwordElement =
+                    userElement.getOwnerDocument().createElement("password");
+                passwordElement.setTextContent(user.getPassword());
+                userElement.appendChild(passwordElement);
 
-                token.append(userElement.asXML());
+                token.append(xmlUtil.toString(userElement));
 
                 // add role elements
                 for (String role : user.getRoles())
                 {
-                    Element roleElement = DocumentHelper.createDocument().addElement("role");
-                    roleElement.addElement("role-name").setText(role);
-                    roleElement.addElement("user-name").setText(user.getName());
+                    document = xmlUtil.createDocument();
+                    Element roleElement = document.createElement("role");
+                    Element rolenameElement =
+                        roleElement.getOwnerDocument().createElement("role-name");
+                    rolenameElement.setTextContent(role);
+                    roleElement.appendChild(rolenameElement);
+                    usernameElement = roleElement.getOwnerDocument().createElement("user-name");
+                    usernameElement.setTextContent(user.getName());
+                    roleElement.appendChild(usernameElement);
 
-                    token.append(roleElement.asXML());
+                    token.append(xmlUtil.toString(roleElement));
                 }
             }
         }

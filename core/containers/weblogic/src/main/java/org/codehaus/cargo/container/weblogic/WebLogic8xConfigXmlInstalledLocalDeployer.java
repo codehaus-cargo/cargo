@@ -20,8 +20,6 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -31,14 +29,9 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.XPath;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
+import org.codehaus.cargo.util.Dom4JUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
@@ -58,70 +51,14 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     }
 
     /**
-     * read the domain's config.xml file into a Document.
-     * 
-     * @return Document corresponding with config.xml
-     */
-    public Document readConfigXml()
-    {
-        Document configXml;
-        try
-        {
-            configXml =
-                new SAXReader().read(getFileHandler().getInputStream(
-                    getFileHandler().append(getDomainHome(), "config.xml")));
-        }
-        catch (DocumentException e)
-        {
-            throw new ContainerException("Error parsing config.xml for " + this.getServerName(),
-                e);
-        }
-        return configXml;
-    }
-
-    /**
      * write the domain's config.xml to disk.
      * 
      * @param configXml document to write to disk
      */
     public void writeConfigXml(Document configXml)
     {
-        OutputFormat outformat = OutputFormat.createPrettyPrint();
-        XMLWriter writer = null;
-        try
-        {
-            writer =
-                new XMLWriter(getFileHandler().getOutputStream(
-                    getFileHandler().append(getDomainHome(), "config.xml")), outformat);
-            writer.write(configXml);
-            writer.flush();
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new ContainerException("Error encoding config.xml for " + this.getServerName(),
-                e);
-        }
-        catch (IOException e)
-        {
-            throw new ContainerException("Error writing config.xml for " + this.getServerName(),
-                e);
-        }
-        finally
-        {
-            if (writer != null)
-            {
-                try
-                {
-                    writer.close();
-                }
-                catch (IOException ignored)
-                {
-                    // Ignored
-                }
-                writer = null;
-                System.gc();
-            }
-        }
+        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        xmlUtil.saveXml(configXml, getFileHandler().append(getDomainHome(), "config.xml"));
     }
 
     /**
@@ -143,10 +80,11 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     @Override
     public void deploy(Deployable deployable)
     {
-        Document configXml = readConfigXml();
-        XPath xpathSelector = DocumentHelper.createXPath("//Domain");
-        List<Element> results = xpathSelector.selectNodes(configXml);
-        Element domain = results.get(0);
+        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        Document configXml =
+            xmlUtil.loadXmlFromFile(getFileHandler().append(getDomainHome(), "config.xml"));
+        Element domain = xmlUtil.selectElementMatchingXPath("//Domain",
+            configXml.getDocumentElement());
 
         if (deployable.getType() == DeployableType.WAR)
         {
@@ -173,14 +111,16 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     @Override
     public void undeploy(Deployable deployable)
     {
-        Document configXml = readConfigXml();
-        XPath xpathSelector =
-            DocumentHelper.createXPath("//Application[@Path='"
-                + getFileHandler().getParent(getAbsolutePath(deployable)) + "']");
-        List<Element> results = xpathSelector.selectNodes(configXml);
+        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        Document configXml =
+            xmlUtil.loadXmlFromFile(getFileHandler().append(getDomainHome(), "config.xml"));
+        List<Element> results = xmlUtil.selectElementsMatchingXPath("//Application[@Path='"
+            + getFileHandler().getParent(getAbsolutePath(deployable)) + "']",
+                configXml.getDocumentElement());
+
         for (Element element : results)
         {
-            configXml.remove(element);
+            configXml.removeChild(element);
         }
         this.writeConfigXml(configXml);
 
@@ -194,15 +134,17 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      */
     protected void addWarToDomain(WAR war, Element domain)
     {
-        Element application = domain.addElement("Application");
-        application.addAttribute("Name", "_" + war.getContext() + "_app");
-        application.addAttribute("Path", getFileHandler().getParent(getAbsolutePath(war)));
-        application.addAttribute("StagingMode", "nostage");
-        application.addAttribute("TwoPhase", "false");
-        Element webAppComponent = application.addElement("WebAppComponent");
-        webAppComponent.addAttribute("Name", war.getContext());
-        webAppComponent.addAttribute("Targets", getServerName());
-        webAppComponent.addAttribute("URI", getURI(war));
+        Element application = domain.getOwnerDocument().createElement("Application");
+        domain.appendChild(application);
+        application.setAttribute("Name", "_" + war.getContext() + "_app");
+        application.setAttribute("Path", getFileHandler().getParent(getAbsolutePath(war)));
+        application.setAttribute("StagingMode", "nostage");
+        application.setAttribute("TwoPhase", "false");
+        Element webAppComponent = application.getOwnerDocument().createElement("WebAppComponent");
+        application.appendChild(webAppComponent);
+        webAppComponent.setAttribute("Name", war.getContext());
+        webAppComponent.setAttribute("Targets", getServerName());
+        webAppComponent.setAttribute("URI", getURI(war));
     }
 
     /**
@@ -213,17 +155,20 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      */
     protected void addEarToDomain(EAR ear, Element domain)
     {
-        Element application = domain.addElement("Application");
-        application.addAttribute("Name", "_" + ear.getName() + "_app");
-        application.addAttribute("Path", getAbsolutePath(ear));
-        application.addAttribute("StagingMode", "nostage");
-        application.addAttribute("TwoPhase", "false");
+        Element application = domain.getOwnerDocument().createElement("Application");
+        domain.appendChild(application);
+        application.setAttribute("Name", "_" + ear.getName() + "_app");
+        application.setAttribute("Path", getAbsolutePath(ear));
+        application.setAttribute("StagingMode", "nostage");
+        application.setAttribute("TwoPhase", "false");
         for (String context : ear.getWebContexts())
         {
-            Element webAppComponent = application.addElement("WebAppComponent");
-            webAppComponent.addAttribute("Name", context);
-            webAppComponent.addAttribute("Targets", getServerName());
-            webAppComponent.addAttribute("URI", ear.getWebUri(context));
+            Element webAppComponent =
+                application.getOwnerDocument().createElement("WebAppComponent");
+            application.appendChild(webAppComponent);
+            webAppComponent.setAttribute("Name", context);
+            webAppComponent.setAttribute("Targets", getServerName());
+            webAppComponent.setAttribute("URI", ear.getWebUri(context));
         }
     }
 

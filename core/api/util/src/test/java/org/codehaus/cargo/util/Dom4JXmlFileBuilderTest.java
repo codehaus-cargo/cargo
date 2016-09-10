@@ -21,6 +21,8 @@ package org.codehaus.cargo.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import junit.framework.TestCase;
 
@@ -30,9 +32,8 @@ import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link XmlFileBuilder}.
@@ -66,6 +67,11 @@ public class Dom4JXmlFileBuilderTest extends TestCase
     private Dom4JUtil util;
 
     /**
+     * XML document builder.
+     */
+    private DocumentBuilder builder;
+
+    /**
      * XML namespaces map.
      */
     private Map<String, String> namespaces;
@@ -86,6 +92,8 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         NamespaceContext ctx = new SimpleNamespaceContext(namespaces);
         XMLUnit.setXpathNamespaceContext(ctx);
+        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+        builder = domFactory.newDocumentBuilder();
     }
 
     /**
@@ -108,8 +116,9 @@ public class Dom4JXmlFileBuilderTest extends TestCase
      */
     public void testManagerCanInsertAnElementIntoFile() throws Exception
     {
-        Document document = DocumentHelper.createDocument();
-        document.addElement("Application");
+        Document document = builder.newDocument();
+        Element application = document.createElement("Application");
+        document.appendChild(application);
         util.saveXml(document, TEST_FILE);
         fileHandler.createFile(TEST_FILE);
         manager.setFile(TEST_FILE);
@@ -129,8 +138,13 @@ public class Dom4JXmlFileBuilderTest extends TestCase
      */
     public void testManagerCanInsertAnElementIntoFileThreeLevelsDeep() throws Exception
     {
-        Document document = DocumentHelper.createDocument();
-        document.addElement("Application").addElement("foo").addElement("bar");
+        Document document = builder.newDocument();
+        Element application = document.createElement("Application");
+        document.appendChild(application);
+        Element foo = document.createElement("foo");
+        application.appendChild(foo);
+        Element bar = document.createElement("bar");
+        foo.appendChild(bar);
         util.saveXml(document, TEST_FILE);
         fileHandler.createFile(TEST_FILE);
         manager.setFile(TEST_FILE);
@@ -149,10 +163,13 @@ public class Dom4JXmlFileBuilderTest extends TestCase
      */
     public void testManagerCanInsertAnElementIntoFileWithNamespace() throws Exception
     {
-        Document document = DocumentHelper.createDocument();
-        Element domain = document.addElement("domain");
-        document.setRootElement(domain);
-        domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
+        Document document = builder.newDocument();
+        Element domain = document.createElement("domain");
+        domain.setAttribute("xmlns", "http://www.bea.com/ns/weblogic/920/domain");
+        domain.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        domain.setAttribute("xsi:schemaLocation", "http://www.bea.com/ns/weblogic/920/domain "
+            + "http://www.bea.com/ns/weblogic/920/domain.xsd");
+        document.appendChild(domain);
         util.saveXml(document, TEST_FILE);
         fileHandler.createFile(TEST_FILE);
         manager.setNamespaces(namespaces);

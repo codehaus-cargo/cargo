@@ -19,13 +19,18 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.property.DataSourceConverter;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilder;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.codehaus.cargo.util.CargoException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 
 /**
  * Contains the xml elements used to build a normal or XA compliant DataSource for WebLogic.
@@ -41,6 +46,11 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
         "WebLogic does not support configuration of arbitrary resources into the JNDI tree.";
 
     /**
+     * XML DOM document builder.
+     */
+    protected DocumentBuilder builder;
+
+    /**
      * used for targeting the DataSource resources.
      */
     private String serverName;
@@ -53,6 +63,15 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     public WebLogic8xConfigurationBuilder(String serverName)
     {
         this.setServerName(serverName);
+        try
+        {
+            DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+            builder = domFactory.newDocumentBuilder();
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Cannot initialize XML DOM document builder", e);
+        }
     }
 
     /**
@@ -62,43 +81,47 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
      */
     protected String configureDataSourceWithImplementationClass(DataSource ds, String className)
     {
-        Element connectionPool = DocumentHelper.createDocument().addElement("JDBCConnectionPool");
-        connectionPool.addAttribute("Name", ds.getJndiLocation());
-        connectionPool.addAttribute("Targets", getServerName());
+        Document document = builder.newDocument();
+
+        Element connectionPool = document.createElement("JDBCConnectionPool");
+        connectionPool.setAttribute("Name", ds.getJndiLocation());
+        connectionPool.setAttribute("Targets", getServerName());
         if (ds.getUrl() != null)
         {
-            connectionPool.addAttribute("URL", ds.getUrl());
+            connectionPool.setAttribute("URL", ds.getUrl());
         }
-        connectionPool.addAttribute("DriverName", className);
-        connectionPool.addAttribute("Password", ds.getPassword());
+        connectionPool.setAttribute("DriverName", className);
+        connectionPool.setAttribute("Password", ds.getPassword());
         // there is no native property for user in WebLogic JDBCConnectionPool
         ds.getConnectionProperties().setProperty("user", ds.getUsername());
-        connectionPool.addAttribute("Properties", new DataSourceConverter()
+        connectionPool.setAttribute("Properties", new DataSourceConverter()
             .getConnectionPropertiesAsASemicolonDelimitedString(ds));
         Element dataSource = null;
         if (ds.getTransactionSupport().equals(TransactionSupport.NO_TRANSACTION))
         {
-            dataSource = DocumentHelper.createDocument().addElement("JDBCDataSource");
-
+            dataSource = document.createElement("JDBCDataSource");
         }
         else
         {
-            dataSource = DocumentHelper.createDocument().addElement("JDBCTxDataSource");
+            dataSource = document.createElement("JDBCTxDataSource");
         }
         if (ds.getTransactionSupport().equals(TransactionSupport.XA_TRANSACTION)
             && ds.getDriverClass() != null)
         {
-            dataSource.addAttribute("EnableTwoPhaseCommit", "true");
-
+            dataSource.setAttribute("EnableTwoPhaseCommit", "true");
         }
-        dataSource.addAttribute("Name", ds.getJndiLocation());
-        dataSource.addAttribute("PoolName", ds.getJndiLocation());
-        dataSource.addAttribute("JNDIName", ds.getJndiLocation());
-        dataSource.addAttribute("Targets", getServerName());
+        dataSource.setAttribute("Name", ds.getJndiLocation());
+        dataSource.setAttribute("PoolName", ds.getJndiLocation());
+        dataSource.setAttribute("JNDIName", ds.getJndiLocation());
+        dataSource.setAttribute("Targets", getServerName());
+
         StringBuilder out = new StringBuilder();
-        out.append(connectionPool.asXML());
+        DOMImplementationLS implementation = (DOMImplementationLS) document.getImplementation();
+        LSSerializer serializer = implementation.createLSSerializer();
+        serializer.getDomConfig().setParameter("xml-declaration", false);
+        out.append(serializer.writeToString(connectionPool));
         out.append("\n");
-        out.append(dataSource.asXML());
+        out.append(serializer.writeToString(dataSource));
         return out.toString();
     }
 
@@ -118,7 +141,6 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
-
     }
 
     /**
@@ -128,7 +150,6 @@ public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         return configureDataSourceWithImplementationClass(ds, ds.getDriverClass());
-
     }
 
     /**

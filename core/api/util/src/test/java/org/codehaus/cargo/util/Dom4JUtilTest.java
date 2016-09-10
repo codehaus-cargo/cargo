@@ -19,11 +19,12 @@
  */
 package org.codehaus.cargo.util;
 
-import junit.framework.TestCase;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import junit.framework.TestCase;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link Dom4JUtil}.
@@ -50,9 +51,11 @@ public class Dom4JUtilTest extends TestCase
     {
         super.setUp();
         util = new Dom4JUtil();
-        Document document = DocumentHelper.createDocument();
-        this.testElement = document.addElement("test");
-        document.setRootElement(testElement);
+        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = domFactory.newDocumentBuilder();
+        Document document = builder.newDocument();
+        this.testElement = document.createElement("test");
+        document.appendChild(this.testElement);
     }
 
     /**
@@ -79,7 +82,9 @@ public class Dom4JUtilTest extends TestCase
     public void testParsableElement() throws Exception
     {
         String string = "<element>dog</element>";
-        assertEquals(string, util.parseIntoElement(string).asXML());
+        Element element = util.parseIntoElement(string);
+        assertEquals("element", element.getNodeName());
+        assertEquals("dog", element.getTextContent());
     }
 
     /**

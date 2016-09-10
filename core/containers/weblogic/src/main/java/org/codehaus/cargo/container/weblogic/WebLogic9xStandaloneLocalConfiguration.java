@@ -40,9 +40,8 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.util.Dom4JUtil;
 import org.codehaus.cargo.util.FileHandler;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -294,7 +293,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     protected void linkDataSourceToConfigXml(DataSource ds)
     {
         Document configXml = readConfigXml();
-        Element domain = configXml.getRootElement();
+        Element domain = configXml.getDocumentElement();
         addDataSourceToDomain(ds, domain);
         writeConfigXml(configXml);
     }
@@ -307,13 +306,18 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      */
     protected void addDataSourceToDomain(DataSource ds, Element domain)
     {
-        Element connectionPool = domain.addElement("jdbc-system-resource");
-        Element name = connectionPool.addElement("name");
-        name.setText(ds.getId());
-        Element target = connectionPool.addElement("target");
-        target.setText(getServerName());
-        Element descriptorFileName = connectionPool.addElement("descriptor-file-name");
-        descriptorFileName.setText("jdbc/" + ds.getId() + "-jdbc.xml");
+        Element connectionPool = domain.getOwnerDocument().createElement("jdbc-system-resource");
+        domain.appendChild(connectionPool);
+        Element name = connectionPool.getOwnerDocument().createElement("name");
+        connectionPool.appendChild(name);
+        name.setTextContent(ds.getId());
+        Element target = connectionPool.getOwnerDocument().createElement("target");
+        connectionPool.appendChild(target);
+        target.setTextContent(getServerName());
+        Element descriptorFileName =
+            connectionPool.getOwnerDocument().createElement("descriptor-file-name");
+        connectionPool.appendChild(descriptorFileName);
+        descriptorFileName.setTextContent("jdbc/" + ds.getId() + "-jdbc.xml");
     }
 
     /**
@@ -355,11 +359,8 @@ public class WebLogic9xStandaloneLocalConfiguration extends
      */
     protected void createBlankDataSourceFile(String path)
     {
-        Document document = DocumentHelper.createDocument();
-        Element dataSource = document.addElement("jdbc-data-source");
-        document.setRootElement(dataSource);
-        dataSource.addNamespace("", "http://www.bea.com/ns/weblogic/90");
-        xmlTool.saveXml(document, path);
+        getFileHandler().writeTextFile(path,
+            "<jdbc-data-source xmlns=\"http://www.bea.com/ns/weblogic/90\"/>", "UTF-8");
     }
 
     /**

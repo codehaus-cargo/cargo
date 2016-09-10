@@ -26,10 +26,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfigurationTest;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationChecker;
-import org.codehaus.cargo.util.Dom4JUtil;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 
 /**
  * Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest
@@ -93,11 +90,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     @Override
     protected void setUpResourceFile() throws Exception
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
         String file = getResourceConfigurationFile(null);
-        Document document = DocumentHelper.createDocument();
-        document.addElement("Engine").addElement("DefaultContext");
-        xmlUtil.saveXml(document, file);
+        getFileHandler().writeTextFile(file, "<Engine><DefaultContext/></Engine>", "UTF-8");
     }
 
     /**

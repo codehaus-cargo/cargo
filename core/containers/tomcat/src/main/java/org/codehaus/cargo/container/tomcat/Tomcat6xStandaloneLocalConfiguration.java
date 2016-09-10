@@ -28,7 +28,8 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.util.CargoException;
-import org.dom4j.Element;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -145,24 +146,30 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
         String extraClasspath = TomcatUtils.getExtraClasspath(deployable, true);
         if (extraClasspath != null)
         {
-            Element loader = context.element("Loader");
-            if (loader == null)
+            NodeList loaderList = context.getElementsByTagName("Loader");
+            Element loader;
+            if (loaderList.getLength() > 0)
             {
-                loader = context.addElement("Loader");
+                loader = (Element) loaderList.item(0);
+            }
+            else
+            {
+                loader = context.getOwnerDocument().createElement("Loader");
+                context.appendChild(loader);
             }
 
-            String className =
-                loader.attributeValue("className", "org.apache.catalina.loader.WebappLoader");
-            if (!"org.apache.catalina.loader.WebappLoader".equals(className)
+            String className = loader.getAttribute("className");
+            if (className != null && !className.isEmpty()
+                && !"org.apache.catalina.loader.WebappLoader".equals(className)
                 && !"org.apache.catalina.loader.VirtualWebappLoader".equals(className))
             {
                 throw new CargoException("Extra classpath is not supported"
                     + " for WARs using custom loader: " + className);
             }
-            loader.addAttribute("className", "org.apache.catalina.loader.VirtualWebappLoader");
+            loader.setAttribute("className", "org.apache.catalina.loader.VirtualWebappLoader");
 
-            String virtualClasspath = loader.attributeValue("virtualClasspath", "");
-            if (virtualClasspath.isEmpty())
+            String virtualClasspath = loader.getAttribute("virtualClasspath");
+            if (virtualClasspath == null || virtualClasspath.isEmpty())
             {
                 virtualClasspath = extraClasspath;
             }
@@ -170,7 +177,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             {
                 virtualClasspath = extraClasspath + ";" + virtualClasspath;
             }
-            loader.addAttribute("virtualClasspath", virtualClasspath);
+            loader.setAttribute("virtualClasspath", virtualClasspath);
         }
     }
 }

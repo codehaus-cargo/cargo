@@ -22,7 +22,8 @@ package org.codehaus.cargo.container.tomcat;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
-import org.dom4j.Element;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -89,17 +90,24 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         String[] extraClasspath = TomcatUtils.getExtraClasspath(deployable);
         if (extraClasspath != null)
         {
-            Element resources = context.element("Resources");
-            if (resources == null)
+            NodeList resourcesList = context.getElementsByTagName("Resources");
+            Element resources;
+            if (resourcesList.getLength() > 0)
             {
-                resources = context.addElement("Resources");
+                resources = (Element) resourcesList.item(0);
+            }
+            else
+            {
+                resources = context.getOwnerDocument().createElement("Loader");
+                context.appendChild(resources);
             }
 
             for (String path : extraClasspath)
             {
-                Element postResource = resources.addElement("PostResources");
+                Element postResource = resources.getOwnerDocument().createElement("PostResources");
+                resources.appendChild(postResource);
                 writePostResource(path, postResource);
-                postResource.addAttribute("webAppMount", "/WEB-INF/classes");
+                postResource.setAttribute("webAppMount", "/WEB-INF/classes");
             }
         }
     }
@@ -168,8 +176,8 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeDirectoryPostResource(Element postResourceEl, String path)
     {
-        postResourceEl.addAttribute("className", DIR_RESOURCE_SET);
-        postResourceEl.addAttribute("base", path.replace("&", "&amp;"));
+        postResourceEl.setAttribute("className", DIR_RESOURCE_SET);
+        postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
     }
 
     /**
@@ -192,8 +200,8 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(Element postResourceEl, String path)
     {
-        postResourceEl.addAttribute("className", JAR_RESOURCE_SET);
-        postResourceEl.addAttribute("base", path.replace("&", "&amp;"));
+        postResourceEl.setAttribute("className", JAR_RESOURCE_SET);
+        postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
     }
 
     /**
@@ -218,10 +226,10 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeFilePostResource(Element postResourceEl, String path)
     {
-        postResourceEl.addAttribute("className", JAR_RESOURCE_SET);
-        postResourceEl.addAttribute("base",
+        postResourceEl.setAttribute("className", JAR_RESOURCE_SET);
+        postResourceEl.setAttribute("base",
             getFileHandler().getParent(path).replace("&", "&amp;"));
-        postResourceEl.addAttribute("internalPath",
+        postResourceEl.setAttribute("internalPath",
             getFileHandler().getName(path).replace("&", "&amp;"));
     }
 

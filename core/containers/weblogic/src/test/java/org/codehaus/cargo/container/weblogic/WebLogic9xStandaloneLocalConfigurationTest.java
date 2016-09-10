@@ -35,11 +35,8 @@ import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic9xStandaloneLocalConfiguration}.
@@ -122,18 +119,17 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         XMLUnit.setXpathNamespaceContext(ctx);
 
         this.xmlUtil = new Dom4JUtil(getFileHandler());
-        this.document = DocumentHelper.createDocument();
-        this.domain = document.addElement("domain");
-        this.document.setRootElement(domain);
-        this.domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
-        QName configurationVersionQ =
-            new QName("configuration-version", new Namespace("",
-                "http://www.bea.com/ns/weblogic/920/domain"));
-        this.domain.addElement(configurationVersionQ);
-        QName adminServerNameQ =
-            new QName("admin-server-name", new Namespace("",
-                "http://www.bea.com/ns/weblogic/920/domain"));
-        this.domain.addElement(adminServerNameQ);
+        this.document = xmlUtil.createDocument();
+        this.domain = document.createElement("domain");
+        domain.setAttribute("xmlns", "http://www.bea.com/ns/weblogic/920/domain");
+        domain.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        domain.setAttribute("xsi:schemaLocation", "http://www.bea.com/ns/weblogic/920/domain "
+            + "http://www.bea.com/ns/weblogic/920/domain.xsd");
+        this.document.appendChild(this.domain);
+        Element configurationVersion = document.createElement("configuration-version");
+        this.domain.appendChild(configurationVersion);
+        Element adminServerName = document.createElement("admin-server-name");
+        this.domain.appendChild(adminServerName);
     }
 
     /**

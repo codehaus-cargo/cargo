@@ -28,8 +28,8 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.util.Dom4JUtil;
-import org.dom4j.Document;
-import org.dom4j.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Static deployer that deploys WARs to the Tomcat <code>webapps</code> directory.
@@ -105,11 +105,8 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                     Document doc =
                         xmlUtil.loadXmlFromFile(getFileHandler().append(war.getFile(),
                             "META-INF/context.xml"));
-                    Element context = doc.getRootElement();
-                    if (context.attributeValue("docBase", "").isEmpty())
-                    {
-                        context.addAttribute("docBase", war.getFile());
-                    }
+                    Element context = (Element) doc.getDocumentElement();
+                    context.setAttribute("docBase", war.getFile());
                     configureExtraClasspath(war, context);
                     xmlUtil.saveXml(doc,
                         getFileHandler().append(contextDir, war.getContext() + ".xml"));

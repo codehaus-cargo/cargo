@@ -35,6 +35,7 @@ import org.codehaus.cargo.util.CargoException;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.jdom.output.DOMOutputter;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -119,7 +120,7 @@ public class DocumentMergerByXslt implements MergeProcessor
         {
             Document doc = createUnifiedDocument(left, right);
 
-            org.jdom.output.DOMOutputter outputter = new org.jdom.output.DOMOutputter();
+            DOMOutputter outputter = new DOMOutputter();
             org.w3c.dom.Document domDocument = outputter.output(doc);
 
             javax.xml.transform.Source xmlSource =

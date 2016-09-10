@@ -19,21 +19,32 @@
  */
 package org.codehaus.cargo.util;
 
-import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.XPath;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.XPath;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
-import org.xml.sax.SAXException;
+import org.apache.tools.ant.util.ReaderInputStream;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 
 /**
  * This class offers utility methods not exposed in the current dom4j api.
@@ -42,14 +53,24 @@ import org.xml.sax.SAXException;
 public class Dom4JUtil
 {
     /**
-     * namespace prefixes used for selecting nodes in config.xml.
-     */
-    private Map<String, String> namespaces;
-
-    /**
      * File utility class.
      */
     private FileHandler fileHandler;
+
+    /**
+     * XML document builder.
+     */
+    private DocumentBuilder builder;
+
+    /**
+     * XPath.
+     */
+    private XPath xPath;
+
+    /**
+     * XML namespaces map.
+     */
+    private Map<String, String> namespaces;
 
     /**
      * default constructor will assign no namespaces and use a default file handler.
@@ -67,11 +88,33 @@ public class Dom4JUtil
     public Dom4JUtil(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
-        this.setNamespaces(new HashMap<String, String>());
+        XPathFactory xPathFactory = XPathFactory.newInstance();
+        this.xPath = xPathFactory.newXPath();
+        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+        // Do not load remote DTDS as remote servers sometimes become unreachable
+        try
+        {
+            domFactory.setFeature(
+                "http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+            domFactory.setFeature(
+                "http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        }
+        catch (ParserConfigurationException ignored)
+        {
+            // Ignored
+        }
+        try
+        {
+            this.builder = domFactory.newDocumentBuilder();
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Cannot create XML DOM builder", e);
+        }
     }
 
     /**
-     * The following will search the given element for the specified xpath and return a list of
+     * The following will search the given element for the specified XPath and return a list of
      * nodes that match.
      * 
      * @param xpath - selection criteria
@@ -80,14 +123,38 @@ public class Dom4JUtil
      */
     public List<Element> selectElementsMatchingXPath(String xpath, Element toSearch)
     {
-        XPath xpathSelector = DocumentHelper.createXPath(xpath);
-        xpathSelector.setNamespaceURIs(getNamespaces());
-        List<Element> results = xpathSelector.selectNodes(toSearch);
-        return results;
+        NodeList nodelist;
+        try
+        {
+            String xpathWithoutNamespace = xpath;
+            if (namespaces != null && !namespaces.isEmpty())
+            {
+                for (Map.Entry<String, String> namespace : namespaces.entrySet())
+                {
+                    String key = namespace.getKey() + ":";
+                    while (xpathWithoutNamespace.contains(key))
+                    {
+                        xpathWithoutNamespace = xpathWithoutNamespace.replace(key, "");
+                    }
+                }
+            }
+            XPathExpression xPathExpr = xPath.compile(xpathWithoutNamespace);
+            nodelist = (NodeList) xPathExpr.evaluate(toSearch, XPathConstants.NODESET);
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Cannot evaluate XPath: " + xpath, e);
+        }
+        List<Element> result = new ArrayList<Element>(nodelist.getLength());
+        for (int i = 0; i < nodelist.getLength(); i++)
+        {
+            result.add((Element) nodelist.item(i));
+        }
+        return result;
     }
 
     /**
-     * The following will search the given element for the specified xpath and return any node that
+     * The following will search the given element for the specified XPath and return any node that
      * matches.
      * 
      * @param xpath - selection criteria
@@ -106,30 +173,6 @@ public class Dom4JUtil
     }
 
     /**
-     * write the xml document to disk, closing the destination on completion.
-     * 
-     * @param document document to write to disk
-     * @param destination where to write the document
-     * @throws IOException when the document cannot be written to the destination
-     */
-    private void writeXmlToOutputStream(Document document, OutputStream destination)
-        throws IOException
-    {
-        try
-        {
-            OutputFormat outformat = OutputFormat.createPrettyPrint();
-            XMLWriter writer = new XMLWriter(destination, outformat);
-            writer.write(document);
-            writer.flush();
-            writer.close();
-        }
-        finally
-        {
-            destination.close();
-        }
-    }
-
-    /**
      * read the specified file into a Document.
      * 
      * @param sourceFile file to read
@@ -137,37 +180,45 @@ public class Dom4JUtil
      */
     public Document loadXmlFromFile(String sourceFile)
     {
-        Document xml;
+        InputStream is = null;
         try
         {
-            SAXReader reader = new SAXReader(false);
-            setDontAccessExternalResources(reader);
-            xml = reader.read(getFileHandler().getInputStream(sourceFile));
-        }
-        catch (DocumentException e)
-        {
-            throw new CargoException("Error parsing " + sourceFile, e);
-        }
-        return xml;
-    }
+            if (!getFileHandler().exists(sourceFile))
+            {
+                throw new CargoException("Cannot find file: " + sourceFile);
+            }
+            if (getFileHandler().isDirectory(sourceFile))
+            {
+                throw new CargoException("The destination is a directory: " + sourceFile);
+            }
 
-    /**
-     * Turn off anything that would make this class touch the outside world.
-     * 
-     * @param reader what to disable external fetches from.
-     */
-    private void setDontAccessExternalResources(SAXReader reader)
-    {
-        try
-        {
-            reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-            reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd",
-                false);
+            is = getFileHandler().getInputStream(sourceFile);
+            Document document = this.builder.parse(is);
+            return document;
         }
-        catch (SAXException e)
+        catch (Exception e)
         {
-            throw new CargoException("Error disabling external xml resources", e);
+            throw new CargoException("Cannot parse XML file " + sourceFile, e);
+        }
+        finally
+        {
+            if (is != null)
+            {
+                try
+                {
+                    is.close();
+                }
+                catch (Exception ignored)
+                {
+                    // Ignored
+                }
+                finally
+                {
+                    is = null;
+                }
+            }
+
+            System.gc();
         }
     }
 
@@ -179,19 +230,38 @@ public class Dom4JUtil
      */
     public void saveXml(Document document, String filename)
     {
-        OutputStream destination = null;
+        OutputStream os = null;
         try
         {
-            if (!getFileHandler().exists(filename))
-            {
-                getFileHandler().createFile(filename);
-            }
-            destination = getFileHandler().getOutputStream(filename);
-            writeXmlToOutputStream(document, destination);
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer();
+
+            os = getFileHandler().getOutputStream(filename);
+            transformer.transform(new DOMSource(document), new StreamResult(os));
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            throw new CargoException("Error writing " + filename, e);
+            throw new CargoException("Cannot modify XML file " + filename, e);
+        }
+        finally
+        {
+            if (os != null)
+            {
+                try
+                {
+                    os.close();
+                }
+                catch (Exception ignored)
+                {
+                    // Ignored
+                }
+                finally
+                {
+                    os = null;
+                }
+            }
+
+            System.gc();
         }
     }
 
@@ -226,6 +296,10 @@ public class Dom4JUtil
      */
     public Map<String, String> getNamespaces()
     {
+        if (namespaces == null)
+        {
+            namespaces = new HashMap<String, String>();
+        }
         return namespaces;
     }
 
@@ -239,13 +313,38 @@ public class Dom4JUtil
     {
         try
         {
-            Document parsed = DocumentHelper.parseText(elementToParse);
-            return parsed.getRootElement();
+            Document parsed = this.builder.parse(
+                new BufferedInputStream(new ReaderInputStream(new StringReader(elementToParse))));
+            return parsed.getDocumentElement();
         }
-        catch (DocumentException e)
+        catch (Exception e)
         {
             throw new CargoException("Could not parse element: " + elementToParse);
         }
     }
 
+    /**
+     * Creates a new, blank XML document.
+     * 
+     * @return New, blank XML document.
+     */
+    public Document createDocument()
+    {
+        return builder.newDocument();
+    }
+
+    /**
+     * Output an XML node as string, without the XML header.
+     * 
+     * @param node Node to output.
+     * @return String representation of node.
+     */
+    public String toString(Element node)
+    {
+        DOMImplementationLS implementation =
+            (DOMImplementationLS) node.getOwnerDocument().getImplementation();
+        LSSerializer serializer = implementation.createLSSerializer();
+        serializer.getDomConfig().setParameter("xml-declaration", false);
+        return serializer.writeToString(node);
+    }
 }

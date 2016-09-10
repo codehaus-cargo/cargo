@@ -33,6 +33,7 @@ import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
 import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
 import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
 
 /**
  */
@@ -606,8 +607,7 @@ public final class WebXmlUtils
         loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.REALM_NAME).create().setText(theRealmName));
 
-        webXml.getRootElement().removeContent(
-            new org.jdom.filter.ElementFilter(WebXmlType.LOGIN_CONFIG));
+        webXml.getRootElement().removeContent(new ElementFilter(WebXmlType.LOGIN_CONFIG));
         webXml.addTag(loginConfigElement);
 
     }

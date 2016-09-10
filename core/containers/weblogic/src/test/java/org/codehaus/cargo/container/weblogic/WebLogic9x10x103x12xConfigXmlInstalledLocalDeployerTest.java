@@ -37,17 +37,15 @@ import org.codehaus.cargo.container.deployable.SAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
+import org.codehaus.cargo.util.Dom4JUtil;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer}.
@@ -107,6 +105,11 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
     private Element domain;
 
     /**
+     * XML utilities.
+     */
+    private Dom4JUtil xmlUtil;
+
+    /**
      * XML document.
      */
     private Document document;
@@ -131,6 +134,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
         this.fileHandler.createDirectory(DOMAIN_HOME, "");
+        this.xmlUtil = new Dom4JUtil(this.fileHandler);
 
         LocalConfiguration configuration =
             new WebLogic9xStandaloneLocalConfiguration(DOMAIN_HOME);
@@ -139,18 +143,17 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         this.container.setFileHandler(this.fileHandler);
         this.deployer = new WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer(container);
         this.resourceUtils = new ResourceUtils();
-        this.document = DocumentHelper.createDocument();
-        this.domain = document.addElement("domain");
-        this.document.setRootElement(domain);
-        this.domain.addNamespace("", "http://www.bea.com/ns/weblogic/920/domain");
-        QName configurationVersionQ =
-            new QName("configuration-version", new Namespace("",
-                "http://www.bea.com/ns/weblogic/920/domain"));
-        this.domain.addElement(configurationVersionQ);
-        QName adminServerNameQ =
-            new QName("admin-server-name", new Namespace("",
-                "http://www.bea.com/ns/weblogic/920/domain"));
-        this.domain.addElement(adminServerNameQ);
+        this.document = xmlUtil.createDocument();
+        this.domain = document.createElement("domain");
+        domain.setAttribute("xmlns", "http://www.bea.com/ns/weblogic/920/domain");
+        domain.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        domain.setAttribute("xsi:schemaLocation", "http://www.bea.com/ns/weblogic/920/domain "
+            + "http://www.bea.com/ns/weblogic/920/domain.xsd");
+        this.document.appendChild(this.domain);
+        Element configurationVersion = document.createElement("configuration-version");
+        this.domain.appendChild(configurationVersion);
+        Element adminServerName = document.createElement("admin-server-name");
+        this.domain.appendChild(adminServerName);
     }
 
     /**
@@ -175,9 +178,8 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
     public void testConfigWar() throws Exception
     {
         WAR war = createWar();
-        String xml = domain.asXML();
         deployer.addDeployableToDomain(war, this.domain);
-        xml = domain.asXML();
+        String xml = this.xmlUtil.toString(domain);
         XMLAssert.assertXpathEvaluatesTo("cargo", "//weblogic:app-deployment/weblogic:name", xml);
         XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
             "//weblogic:app-deployment/weblogic:source-path", xml);
@@ -379,7 +381,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         WAR war = createWar();
         deployer.createElementForDeployableInDomain(war, domain);
         deployer.reorderAppDeploymentsAfterConfigurationVersion(domain);
-        String xml = domain.asXML();
+        String xml = this.xmlUtil.toString(domain);
         int indexOfConfigurationVersion = xml.indexOf("configuration-version");
         int indexOfAppDeployment = xml.indexOf("app-deployment");
         int indexOfAdminServerName = xml.indexOf("admin-server-name");
@@ -396,7 +398,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         WAR war = createWar();
         testConfigWar();
         deployer.removeDeployableFromDomain(war, domain);
-        String xml = domain.asXML();
+        String xml = this.xmlUtil.toString(domain);
         // contains is whitespace friendly
         XMLAssert.assertXpathNotExists(
             "//weblogic:app-deployment[contains(weblogic:name,'cargo')]", xml);

@@ -26,12 +26,11 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
+import org.codehaus.cargo.util.Dom4JUtil;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic8xConfigXmlInstalledLocalDeployer}.
@@ -91,6 +90,11 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     private Element domain;
 
     /**
+     * XML utilities.
+     */
+    private Dom4JUtil xmlUtil;
+
+    /**
      * Creates the test file system manager and the container. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
@@ -103,6 +107,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
         this.fileHandler.createDirectory(DOMAIN_HOME, "");
+        this.xmlUtil = new Dom4JUtil(this.fileHandler);
 
         LocalConfiguration configuration =
             new WebLogic8xStandaloneLocalConfiguration(DOMAIN_HOME);
@@ -111,8 +116,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.container.setFileHandler(this.fileHandler);
         this.deployer = new WebLogic8xConfigXmlInstalledLocalDeployer(container);
         this.resourceUtils = new ResourceUtils();
-        Document document = DocumentHelper.createDocument();
-        this.domain = document.addElement("Domain");
+        this.domain = xmlUtil.createDocument().createElement("Domain");
     }
 
     /**
@@ -139,8 +143,8 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.resourceUtils.copyResource(AbstractLocalConfiguration.RESOURCE_PATH + "cargocpc.war",
             this.fileHandler.append(DOMAIN_HOME, "cargocpc.war"), this.fileHandler);
         WAR war = new WAR("cargo.war");
-        deployer.addWarToDomain(war, this.domain);
-        String xml = domain.asXML();
+        this.deployer.addWarToDomain(war, this.domain);
+        String xml = this.xmlUtil.toString(this.domain);
         XMLAssert.assertXpathEvaluatesTo("cargo.war", "//WebAppComponent/@URI", xml);
     }
 

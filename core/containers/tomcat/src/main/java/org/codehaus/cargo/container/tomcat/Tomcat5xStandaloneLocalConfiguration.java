@@ -38,7 +38,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalConfigurationCapability;
-import org.dom4j.Element;
+import org.w3c.dom.Element;
 
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.

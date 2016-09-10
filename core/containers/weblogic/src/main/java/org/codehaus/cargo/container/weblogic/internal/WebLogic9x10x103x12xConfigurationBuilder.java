@@ -24,8 +24,10 @@ import java.util.Iterator;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.property.TransactionSupport;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 
 /**
  * Constructs xml elements needed to configure a normal or XA compliant DataSource for WebLogic
@@ -55,56 +57,73 @@ public class WebLogic9x10x103x12xConfigurationBuilder extends
     @Override
     protected String configureDataSourceWithImplementationClass(DataSource ds, String className)
     {
+        Document document = builder.newDocument();
 
-        Element nameElement = DocumentHelper.createDocument().addElement("name");
-        nameElement.setText(ds.getId());
+        Element nameElement = document.createElement("name");
+        nameElement.setTextContent(ds.getId());
 
-        Element driverElement = DocumentHelper.createDocument().addElement("jdbc-driver-params");
+        Element driverElement = document.createElement("jdbc-driver-params");
         if (ds.getUrl() != null)
         {
-            driverElement.addElement("url").setText(ds.getUrl());
+            Element urlElement = document.createElement("url");
+            driverElement.appendChild(urlElement);
+            urlElement.setTextContent(ds.getUrl());
         }
-        driverElement.addElement("driver-name").setText(className);
-        Element properties = driverElement.addElement("properties");
-
+        Element driverNameElement = document.createElement("driver-name");
+        driverElement.appendChild(driverNameElement);
+        driverNameElement.setTextContent(className);
+        Element properties = document.createElement("properties");
+        driverElement.appendChild(properties);
         ds.getConnectionProperties().setProperty("user", ds.getUsername());
         Iterator<Object> driverProperties = ds.getConnectionProperties().keySet().iterator();
         while (driverProperties.hasNext())
         {
             String name = driverProperties.next().toString();
             String value = ds.getConnectionProperties().getProperty(name);
-            Element property = properties.addElement("property");
-            property.addElement("name").setText(name);
-            property.addElement("value").setText(value);
-
-        }
-        Element dataSourceElement =
-            DocumentHelper.createDocument().addElement("jdbc-data-source-params");
-        dataSourceElement.addElement("jndi-name").setText(ds.getJndiLocation());
-        if (ds.getConnectionType().equals(ConfigurationEntryType.XA_DATASOURCE))
-        {
-            dataSourceElement.addElement("global-transactions-protocol")
-                .setText("TwoPhaseCommit");
-        }
-        else if (ds.getTransactionSupport().equals(TransactionSupport.XA_TRANSACTION))
-        {
-            dataSourceElement.addElement("global-transactions-protocol").setText(
-                "EmulateTwoPhaseCommit");
-        }
-        else
-        {
-            dataSourceElement.addElement("global-transactions-protocol").setText("None");
+            Element property = document.createElement("property");
+            properties.appendChild(property);
+            Element propertyNameElement = document.createElement("name");
+            property.appendChild(propertyNameElement);
+            propertyNameElement.setTextContent(name);
+            Element propertyValueElement = document.createElement("value");
+            property.appendChild(propertyValueElement);
+            propertyValueElement.setTextContent(value);
         }
         if (ds.getPassword() != null)
         {
-            driverElement.addElement("password-encrypted").setText(ds.getPassword());
+            Element passwordElement = document.createElement("password-encrypted");
+            driverElement.appendChild(passwordElement);
+            passwordElement.setTextContent(ds.getPassword());
         }
+
+        Element dataSourceElement = document.createElement("jdbc-data-source-params");
+        Element jndiNameElement = document.createElement("jndi-name");
+        dataSourceElement.appendChild(jndiNameElement);
+        jndiNameElement.setTextContent(ds.getJndiLocation());
+        Element transactionsElement = document.createElement("global-transactions-protocol");
+        dataSourceElement.appendChild(transactionsElement);
+        if (ds.getConnectionType().equals(ConfigurationEntryType.XA_DATASOURCE))
+        {
+            transactionsElement.setTextContent("TwoPhaseCommit");
+        }
+        else if (ds.getTransactionSupport().equals(TransactionSupport.XA_TRANSACTION))
+        {
+            transactionsElement.setTextContent("EmulateTwoPhaseCommit");
+        }
+        else
+        {
+            transactionsElement.setTextContent("None");
+        }
+
         StringBuilder out = new StringBuilder();
-        out.append(nameElement.asXML());
+        DOMImplementationLS implementation = (DOMImplementationLS) document.getImplementation();
+        LSSerializer serializer = implementation.createLSSerializer();
+        serializer.getDomConfig().setParameter("xml-declaration", false);
+        out.append(serializer.writeToString(nameElement));
         out.append("\n");
-        out.append(driverElement.asXML());
+        out.append(serializer.writeToString(driverElement));
         out.append("\n");
-        out.append(dataSourceElement.asXML());
+        out.append(serializer.writeToString(dataSourceElement));
         return out.toString();
     }
 

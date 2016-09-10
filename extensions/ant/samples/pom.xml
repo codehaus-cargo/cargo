@@ -95,10 +95,6 @@
                   <groupId>commons-logging</groupId>
                   <artifactId>commons-logging</artifactId>
                 </artifactItem>
-                <artifactItem>
-                  <groupId>dom4j</groupId>
-                  <artifactId>dom4j</artifactId>
-                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
