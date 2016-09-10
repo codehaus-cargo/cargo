@@ -41,7 +41,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * Default deployable factory that returns deployables for a given container. The reason deployable
  * can be different for different containers is because for some container Cargo understand
  * container-specific files. For example for Tomcat Cargo understand the context.xml file.
- * 
  */
 public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFactory<Deployable>
     implements DeployableFactory

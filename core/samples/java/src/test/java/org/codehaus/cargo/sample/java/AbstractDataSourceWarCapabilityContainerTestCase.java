@@ -31,7 +31,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Abstract test case for container with datasource capabilities.
- * 
  */
 public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends AbstractWarTestCase
 {

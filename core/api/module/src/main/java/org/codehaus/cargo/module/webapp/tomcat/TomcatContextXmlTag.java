@@ -25,7 +25,6 @@ import org.codehaus.cargo.module.DescriptorType;
 /**
  * Represents the various top-level tags in a Tomcat context web deployment descriptor as a typesafe
  * enumeration.
- * 
  */
 public final class TomcatContextXmlTag extends DescriptorTag
 {

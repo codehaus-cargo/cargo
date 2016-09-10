@@ -29,7 +29,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Test the Maven2/Maven3 auto-deloyable.
- * 
  */
 public class AutoDeployableTest extends TestCase
 {

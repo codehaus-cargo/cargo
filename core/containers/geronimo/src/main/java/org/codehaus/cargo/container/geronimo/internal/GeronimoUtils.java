@@ -45,7 +45,6 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Various utility methods such as checking is Geronimo is started.
- * 
  */
 public class GeronimoUtils
 {

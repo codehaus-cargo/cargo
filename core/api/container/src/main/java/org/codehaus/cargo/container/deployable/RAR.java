@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
  * Wraps a RAR file that will be deployed in the container.
- * 
  */
 public class RAR extends AbstractDeployable
 {

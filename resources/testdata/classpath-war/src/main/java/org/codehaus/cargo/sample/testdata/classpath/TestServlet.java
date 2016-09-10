@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Sample test Servlet used to verify that extra / shared classpath is present.
- * 
  */
 public class TestServlet extends HttpServlet
 {

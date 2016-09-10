@@ -29,7 +29,6 @@ import org.codehaus.cargo.util.log.NullLogger;
 
 /**
  * Code common to all configuration stubs.
- * 
  */
 public abstract class AbstractConfigurationStub implements Configuration
 {

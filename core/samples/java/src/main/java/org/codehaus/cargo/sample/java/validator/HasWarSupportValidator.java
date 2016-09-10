@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Validate that a container supports WAR archives.
- * 
  */
 public class HasWarSupportValidator extends HasDeployableSupportValidator
 {

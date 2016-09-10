@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 
 /**
  * Test the implementation classes functionality.
- * 
  */
 public class ImplementationClassesTest extends TestCase
 {

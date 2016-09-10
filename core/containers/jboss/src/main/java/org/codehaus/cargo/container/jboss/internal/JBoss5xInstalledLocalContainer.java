@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.jboss.internal;
 /**
  * The JBoss5x container implementation must implement this interface which provides JBoss5x
  * specifics elements.
- * 
  */
 public interface JBoss5xInstalledLocalContainer extends JBossInstalledLocalContainer
 {

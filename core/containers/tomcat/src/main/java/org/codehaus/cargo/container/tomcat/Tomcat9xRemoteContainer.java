@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContaine
 
 /**
  * Special container support for wrapping a running instance of Apache Tomcat.
- * 
  */
 public class Tomcat9xRemoteContainer extends AbstractTomcatRemoteContainer
 {

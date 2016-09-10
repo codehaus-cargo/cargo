@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 
 /**
  * Test for the XML Replacements option.
- * 
  */
 public class XmlReplacementsTest extends TestCase
 {

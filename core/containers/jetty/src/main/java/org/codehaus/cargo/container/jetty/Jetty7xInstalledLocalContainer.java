@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Jetty 7.x servlet container.
- * 
  */
 public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContainer
 {

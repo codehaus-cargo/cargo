@@ -31,7 +31,6 @@ import org.jdom.Element;
 /**
  * Encapsulates the DOM representation of a websphere ejb deployment descriptor
  * <code>ibm-ejb-jar-bnd.xmi</code> to provide convenience methods for easy access and manipulation.
- * 
  */
 public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDescriptor
 {

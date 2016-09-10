@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Sample test Servlet used to verify that resource Mail Session is deployed.
- * 
  */
 public class TestServlet extends HttpServlet
 {

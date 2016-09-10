@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 
 /**
  * Configuration to use when using a JBoss remote container.
- * 
  */
 public class JBoss4xRuntimeConfiguration extends AbstractRuntimeConfiguration
 {

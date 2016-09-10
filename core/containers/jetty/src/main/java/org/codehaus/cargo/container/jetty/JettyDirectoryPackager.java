@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
 
 /**
  * Packager for a Jetty distribution.
- * 
  */
 public class JettyDirectoryPackager extends AbstractDirectoryPackager
 {

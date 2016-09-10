@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Capabilities of the JBoss 5.x and onwards containers.
- * 
  */
 public class JBoss5xContainerCapability extends JBoss4xContainerCapability
 {

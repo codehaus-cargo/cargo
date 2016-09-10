@@ -21,7 +21,6 @@ package org.codehaus.cargo.tools.daemon;
 
 /**
  * Gathers all properties related to the Cargo daemon.
- * 
  */
 public interface DaemonPropertySet
 {

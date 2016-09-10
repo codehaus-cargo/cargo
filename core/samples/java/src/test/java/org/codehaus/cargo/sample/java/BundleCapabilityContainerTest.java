@@ -42,7 +42,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for OSGi bundle support.
- * 
  */
 public class BundleCapabilityContainerTest extends AbstractCargoTestCase
 {

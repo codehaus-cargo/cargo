@@ -38,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for XA datasource deployed as resource resource capabilities.
- * 
  */
 public class XADatasourceResourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase

@@ -39,7 +39,6 @@ import org.xml.sax.ext.DeclHandler;
 
 /**
  * Contains methods for getting information from a dtd.
- * 
  */
 public class Dtd implements Grammar
 {

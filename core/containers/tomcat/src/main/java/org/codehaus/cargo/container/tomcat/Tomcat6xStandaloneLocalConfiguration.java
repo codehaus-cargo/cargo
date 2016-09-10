@@ -34,7 +34,6 @@ import org.w3c.dom.NodeList;
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- * 
  */
 public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLocalConfiguration
 {

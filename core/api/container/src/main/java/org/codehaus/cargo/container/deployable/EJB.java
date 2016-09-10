@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
  * Wraps an EJB JAR file that will be deployed in the container.
- * 
  */
 public class EJB extends AbstractDeployable
 {

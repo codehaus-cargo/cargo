@@ -26,7 +26,6 @@ import java.util.Properties;
 /**
  * Holds configuration data for the <code>&lt;proxy&gt;</code> tag used to configure the plugin in
  * the <code>pom.xml</code> file.
- * 
  */
 public class Proxy
 {

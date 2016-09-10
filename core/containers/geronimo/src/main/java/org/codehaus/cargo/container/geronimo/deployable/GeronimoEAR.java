@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.EAR;
 
 /**
  * Geronimo EAR deployable.
- * 
  */
 public class GeronimoEAR extends EAR implements GeronimoDeployable
 {

@@ -26,7 +26,6 @@ import javax.ejb.EJBHome;
 
 /**
  * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it.
- * 
  */
 public interface SampleHome extends EJBHome
 {

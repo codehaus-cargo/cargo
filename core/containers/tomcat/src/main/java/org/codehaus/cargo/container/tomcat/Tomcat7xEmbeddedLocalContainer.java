@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Embedded Tomcat 7.x container.
- * 
  */
 public class Tomcat7xEmbeddedLocalContainer extends Tomcat6xEmbeddedLocalContainer
 {

@@ -22,7 +22,6 @@ package org.codehaus.cargo.module.webapp.websphere;
 import org.codehaus.cargo.module.AbstractDescriptorType;
 
 /**
- * 
  */
 public class IbmWebBndXmiType extends AbstractDescriptorType
 {

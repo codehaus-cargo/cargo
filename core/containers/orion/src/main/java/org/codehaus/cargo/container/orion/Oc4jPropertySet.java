@@ -24,7 +24,6 @@ package org.codehaus.cargo.container.orion;
 
 /**
  * Gathers all OC4J properties.
- * 
  */
 public interface Oc4jPropertySet
 {

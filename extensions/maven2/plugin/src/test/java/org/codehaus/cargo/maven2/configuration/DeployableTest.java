@@ -36,7 +36,6 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for the {@link Deployable} class.
- * 
  */
 public class DeployableTest extends MockObjectTestCase
 {

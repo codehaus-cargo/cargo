@@ -26,7 +26,6 @@ import org.osgi.framework.BundleContext;
 
 /**
  * Sample test OSGi bundle.
- * 
  */
 public class TestBundle implements BundleActivator
 {

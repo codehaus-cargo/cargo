@@ -40,7 +40,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Validates WAR archives with authentication.
- * 
  */
 public class WarAuthenticationTest extends AbstractCargoTestCase
 {

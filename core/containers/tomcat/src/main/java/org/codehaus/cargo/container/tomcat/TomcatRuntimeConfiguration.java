@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCa
 /**
  * Configuration to use when using a
  * {@link org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer}.
- * 
  */
 public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
 {

@@ -42,7 +42,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for packager.
- * 
  */
 public class PackagerTest extends AbstractCargoTestCase
 {

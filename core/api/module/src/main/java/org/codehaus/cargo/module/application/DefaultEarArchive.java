@@ -34,7 +34,6 @@ import org.jdom.JDOMException;
 
 /**
  * Encapsulates access to an EAR.
- * 
  */
 public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
 {

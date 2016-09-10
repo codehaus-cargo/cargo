@@ -37,7 +37,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Special container support for the Jetty 6.x servlet container.
- * 
  */
 public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

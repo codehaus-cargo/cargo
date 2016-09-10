@@ -28,7 +28,6 @@ import org.codehaus.cargo.module.Identifier;
 
 /**
  * A merging strategy that is determined by name.
- * 
  */
 public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
 {

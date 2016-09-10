@@ -21,7 +21,6 @@ package org.codehaus.cargo.container;
 
 /**
  * Represent the container states (started, starting, stopped, etc).
- * 
  */
 public final class State
 {

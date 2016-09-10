@@ -42,7 +42,6 @@ import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
  * Basic support for the WebLogic application server.
- * 
  */
 public abstract class AbstractWebLogicInstalledLocalContainer extends
         AbstractInstalledLocalContainer implements WebLogicLocalContainer

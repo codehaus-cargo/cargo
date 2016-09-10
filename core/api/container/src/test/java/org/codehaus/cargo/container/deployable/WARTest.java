@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link WAR}.
- * 
  */
 public class WARTest extends TestCase
 {

@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.Dtd;
 
 /**
  * Descriptor type for application xml.
- * 
  */
 public class ApplicationXmlType extends AbstractDescriptorType
 {

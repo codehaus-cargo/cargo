@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 /**
  * A remote container is a container that is already installed and started (locally or on a remote
  * machine). It is accessed remotely without any file system access.
- * 
  */
 public interface RemoteContainer extends Container
 {

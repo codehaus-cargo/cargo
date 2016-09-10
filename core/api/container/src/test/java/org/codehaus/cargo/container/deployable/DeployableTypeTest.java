@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link DeployableType}.
- * 
  */
 public class DeployableTypeTest extends TestCase
 {

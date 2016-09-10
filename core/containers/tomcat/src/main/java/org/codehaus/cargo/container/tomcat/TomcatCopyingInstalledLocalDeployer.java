@@ -33,7 +33,6 @@ import org.w3c.dom.Element;
 
 /**
  * Static deployer that deploys WARs to the Tomcat <code>webapps</code> directory.
- * 
  */
 public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

@@ -38,7 +38,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Common support for all JRun container versions.
- * 
  */
 public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

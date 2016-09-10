@@ -35,7 +35,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Test the Maven2/Maven3 <code>cargo:run</code> mojo.
- * 
  */
 public class RunMojoTest extends TestCase
 {

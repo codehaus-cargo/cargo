@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.internal.util.HttpUtils;
 /**
  * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
  * by pinging a URL provided by the user.
- * 
  */
 public class URLDeployableMonitor extends AbstractDeployableMonitor
 {

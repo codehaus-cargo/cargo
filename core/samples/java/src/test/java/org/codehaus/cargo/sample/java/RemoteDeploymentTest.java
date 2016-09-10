@@ -57,7 +57,6 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Test for remote deployment.
- * 
  */
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {

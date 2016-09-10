@@ -39,7 +39,6 @@ import org.w3c.dom.NodeList;
 /**
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
  * file.
- * 
  */
 public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
     AbstractInstalledLocalDeployer

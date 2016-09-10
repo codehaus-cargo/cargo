@@ -36,7 +36,6 @@ import org.w3c.dom.Element;
 /**
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
  * file.
- * 
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {

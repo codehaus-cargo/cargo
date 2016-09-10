@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.jboss;
 
 /**
  * JBoss-specific properties.
- * 
  */
 public interface JBossPropertySet
 {

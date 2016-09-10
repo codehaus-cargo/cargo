@@ -43,7 +43,6 @@ import org.jboss.profileservice.spi.ProfileService;
 
 /**
  * JBoss deployer implementation.
- * 
  */
 public class JBossDeployer implements IJBossProfileManagerDeployer
 {

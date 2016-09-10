@@ -30,7 +30,6 @@ import org.jdom.JDOMException;
 
 /**
  * Class for merging two War Archives into each other.
- * 
  */
 public class WarArchiveMerger implements MergeProcessor
 {

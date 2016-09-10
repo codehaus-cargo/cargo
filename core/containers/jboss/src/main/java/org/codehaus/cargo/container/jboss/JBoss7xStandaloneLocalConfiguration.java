@@ -49,7 +49,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * JBoss 7.x standalone local configuration.
- * 
  */
 public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {

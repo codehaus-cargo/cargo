@@ -42,7 +42,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Set of common HTTP(S) utility methods.
- * 
  */
 public class HttpUtils extends LoggedObject
 {

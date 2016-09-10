@@ -24,7 +24,6 @@ import javax.security.auth.login.Configuration;
 
 /**
  * JAAS configuration implementation with only one configuration entry.
- * 
  */
 public class JaasConfiguration extends Configuration
 {

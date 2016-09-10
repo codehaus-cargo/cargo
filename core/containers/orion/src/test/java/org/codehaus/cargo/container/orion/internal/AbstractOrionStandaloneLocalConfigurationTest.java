@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 
 /**
  * Abstract Orion standalone configuration implementation test.
- * 
  */
 public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest

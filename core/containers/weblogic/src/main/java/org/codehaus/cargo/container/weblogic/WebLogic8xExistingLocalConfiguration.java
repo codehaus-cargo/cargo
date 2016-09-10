@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 /**
  * WebLogic 8.x existing configuration implementation. The configuration home must point to a valid
  * WebLogic domain directory.
- * 
  */
 public class WebLogic8xExistingLocalConfiguration extends
         AbstractExistingLocalConfiguration implements WebLogicConfiguration

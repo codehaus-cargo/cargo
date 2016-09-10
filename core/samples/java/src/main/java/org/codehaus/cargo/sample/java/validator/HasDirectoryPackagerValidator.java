@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.packager.PackagerType;
 
 /**
  * Validate that the specified container has a directory packager registered.
- * 
  */
 public class HasDirectoryPackagerValidator extends AbstractPackagerValidator
 {

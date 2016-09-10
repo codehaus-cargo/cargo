@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Tests whether User configuration works.
- * 
  */
 public class UsersTest extends TestCase
 {

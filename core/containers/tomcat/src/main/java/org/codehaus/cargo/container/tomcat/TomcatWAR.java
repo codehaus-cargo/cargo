@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
  * Extension that supports custom Tomcat <code>context.xml</code> files located in the
  * <code>META-INF/</code> directory of your WAR. For example, this allows returning the right web
  * context even if it has been defined in the <code>context.xml</code> file.
- * 
  */
 public class TomcatWAR extends WAR
 {

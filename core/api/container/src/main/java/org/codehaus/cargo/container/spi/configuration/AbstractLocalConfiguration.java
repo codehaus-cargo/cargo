@@ -54,7 +54,6 @@ import org.codehaus.cargo.util.log.Logger;
  * Base implementation of
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} that can be
  * specialized for standalone configuration, existing configuration or other local configurations.
- * 
  */
 public abstract class AbstractLocalConfiguration extends AbstractConfiguration implements
     LocalConfiguration

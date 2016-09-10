@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 
 /**
  * Static deployer that deploys WARs to the Resin <code>webapps</code> directory.
- * 
  */
 public class ResinInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

@@ -34,7 +34,6 @@ import javax.sql.DataSource;
 
 /**
  * Sample test Servlet used to verify that jdbc datasource is deployed.
- * 
  */
 public class TestServlet extends HttpServlet
 {

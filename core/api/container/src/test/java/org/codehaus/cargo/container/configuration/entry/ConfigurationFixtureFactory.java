@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.property.TransactionSupport;
 
 /**
  * Creates fixtures used to provide inputs for DataSource or Resourcetesting.
- * 
  */
 public final class ConfigurationFixtureFactory
 {

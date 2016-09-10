@@ -27,7 +27,6 @@ import org.jdom.DocType;
 /**
  * Enumerated type that represents the version of the deployment descriptor of a enterprise
  * application (application.xml).
- * 
  */
 public final class ApplicationXmlVersion implements Comparable
 {

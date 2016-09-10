@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Capability for J2EE containers.
- * 
  */
 public class J2EEContainerCapability implements ContainerCapability
 {

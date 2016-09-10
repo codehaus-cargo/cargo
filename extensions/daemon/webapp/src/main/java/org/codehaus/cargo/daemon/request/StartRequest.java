@@ -41,7 +41,6 @@ import org.json.simple.JSONValue;
 
 /**
  * Start request for a container.
- * 
  */
 public class StartRequest
 {

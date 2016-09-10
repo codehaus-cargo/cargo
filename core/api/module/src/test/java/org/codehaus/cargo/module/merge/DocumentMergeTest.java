@@ -30,7 +30,6 @@ import java.io.StringReader;
 
 /**
  * Test class which verifies that the DocumentMerge class is merging two Document objects correctly.
- * 
  */
 public class DocumentMergeTest extends TestCase
 {

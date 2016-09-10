@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * Contains methods for retrieving grammar information for an XML file.
- * 
  */
 public interface Grammar
 {

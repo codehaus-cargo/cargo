@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Sample test Servlet used to verify that security parameters are correctly set.
- * 
  */
 public class TestServlet extends HttpServlet
 {

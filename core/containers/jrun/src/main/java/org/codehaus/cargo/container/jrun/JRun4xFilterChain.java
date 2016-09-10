@@ -37,7 +37,6 @@ import org.w3c.dom.Element;
 
 /**
  * JRun {@link FilterChain} for {@link JRun4xStandaloneLocalConfiguration} implementation.
- * 
  */
 public class JRun4xFilterChain extends FilterChain
 {

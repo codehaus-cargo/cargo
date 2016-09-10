@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Base exception class for all Cargo Container API classes.
- * 
  */
 public class ContainerException extends CargoException
 {

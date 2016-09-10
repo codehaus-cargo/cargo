@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.Grammar;
 
 /**
  * A document type for web.xml web deployment descriptors.
- * 
  */
 public abstract class WebXmlType extends AbstractDescriptorType
 {

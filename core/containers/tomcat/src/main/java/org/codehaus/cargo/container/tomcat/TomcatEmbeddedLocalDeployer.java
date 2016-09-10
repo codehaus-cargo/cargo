@@ -37,7 +37,6 @@ import org.jdom.Attribute;
 /**
  * {@link org.codehaus.cargo.container.deployer.Deployer} for deploying to
  * {@link AbstractCatalinaEmbeddedLocalContainer embedded Tomcat container}.
- * 
  */
 public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 {

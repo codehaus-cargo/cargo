@@ -28,7 +28,6 @@ import org.codehaus.cargo.module.Grammar;
  * Websphere specific grammar implementation. Since websphere uses xml schemas to describe their
  * descriptors and no general xml schema Grammar implementation exists we have to use a specific
  * one.
- * 
  */
 public class IbmEjbJarBndXmiGrammar implements Grammar
 {

@@ -23,7 +23,6 @@ import org.codehaus.cargo.module.AbstractDescriptorType;
 import org.codehaus.cargo.module.Dtd;
 
 /**
- * 
  */
 public class TomcatContextXmlType extends AbstractDescriptorType
 {

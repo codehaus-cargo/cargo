@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.packager.PackagerType;
 
 /**
  * Create a {@link org.codehaus.cargo.container.packager.Packager} instance for a given container.
- * 
  */
 public interface PackagerFactory
 {

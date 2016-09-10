@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
  * Wraps a AOP (JBoss AOP Archive) file that will be deployed in the container.
- * 
  */
 public class AOP extends AbstractDeployable
 {

@@ -43,7 +43,6 @@ import org.jdom.Element;
 
 /**
  * Unit tests for {@link WebXml}.
- * 
  */
 public final class WebXmlTest extends AbstractDocumentBuilderTest
 {

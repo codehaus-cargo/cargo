@@ -41,7 +41,6 @@ import org.xml.sax.SAXException;
 /**
  * Provides convenience methods for reading and writing enterprise application deployment
  * descriptors (application.xml).
- * 
  */
 public final class ApplicationXmlIo extends AbstractDescriptorIo
 {

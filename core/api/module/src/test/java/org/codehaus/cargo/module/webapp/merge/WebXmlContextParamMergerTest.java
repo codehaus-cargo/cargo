@@ -31,7 +31,6 @@ import org.codehaus.cargo.module.webapp.WebXmlUtils;
 
 /**
  * Unit tests for {@link WebXmlMerger}.
- * 
  */
 public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderTest
 {

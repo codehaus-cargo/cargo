@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 
 /**
  * Common code to perform both local or remote deployments using a Tomcat manager-based deployer.
- * 
  */
 public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeployer
 {

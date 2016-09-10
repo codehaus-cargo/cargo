@@ -68,7 +68,6 @@ import org.codehaus.cargo.util.log.Logger;
  * Ant task wrapper around the Cargo API to start/stop containers. This task is generic and can be
  * used with any container implementation that implements the {@link Container} interface (either
  * the implementations provided by Cargo or your own ones).
- * 
  */
 public class CargoTask extends Task
 {

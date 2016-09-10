@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
  * Base implementation of a remote container.
- * 
  */
 public abstract class AbstractRemoteContainer extends AbstractContainer implements RemoteContainer
 {

@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Sample test Servlet used to verify that parameters passed in Tomcat's <code>context.xml</code>
  * file are correctly passed to Tomcat when the WAR module is deployed.
- * 
  */
 public class TestServlet extends HttpServlet
 {

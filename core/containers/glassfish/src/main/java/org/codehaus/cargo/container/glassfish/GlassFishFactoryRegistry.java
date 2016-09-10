@@ -42,7 +42,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers GlassFish support into default factories.
- * 
  */
 public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
 {

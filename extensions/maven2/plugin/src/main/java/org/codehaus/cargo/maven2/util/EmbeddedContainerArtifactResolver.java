@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.internal.util.JdkUtils;
 
 /**
  * Dynamically load embedded container dependencies.
- * 
  */
 public class EmbeddedContainerArtifactResolver
 {

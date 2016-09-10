@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.CargoException;
  * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
  * by pinging a URL constructed from  URL path (provided by the user) and other parameters
  * provided by container configuration.
- * 
  */
 public class UrlPathDeployableMonitor extends AbstractDeployableMonitor
 {

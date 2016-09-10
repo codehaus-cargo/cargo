@@ -36,7 +36,6 @@ import org.codehaus.cargo.util.FileHandler;
  * Default {@link ConfigurationFactory} implementation that has all the known container
  * configurations registered against their containers. It also supports registering new
  * configurations against any container.
- * 
  */
 public class DefaultConfigurationFactory extends
     AbstractIntrospectionGenericHintFactory<Configuration> implements ConfigurationFactory

@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 
 /**
  * Unit tests for {@link PropertyUtils}.
- * 
  */
 public class PropertyUtilsTest extends TestCase
 {

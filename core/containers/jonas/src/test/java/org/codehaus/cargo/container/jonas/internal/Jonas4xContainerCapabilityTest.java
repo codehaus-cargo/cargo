@@ -28,7 +28,6 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas4xContainerCapabilityTest}.
- * 
  */
 public class Jonas4xContainerCapabilityTest extends MockObjectTestCase
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalC
 
 /**
  * Test for {@link Oc4j9xInstalledLocalContainer}.
- * 
  */
 public class Oc4j9xStandaloneLocalConfigurationTest extends
     AbstractOrionStandaloneLocalConfigurationTest

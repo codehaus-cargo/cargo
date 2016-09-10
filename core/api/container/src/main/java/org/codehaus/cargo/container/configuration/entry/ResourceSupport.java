@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.LocalContainer;
  * Designates a {@link LocalContainer container} supports {@link Resource resource} configuration.
  * The operations in this interface should not depend on prior state and should be able to be called
  * multiple times.
- * 
  */
 public interface ResourceSupport
 {

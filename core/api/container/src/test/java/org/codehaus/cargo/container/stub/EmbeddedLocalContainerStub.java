@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
  * Mock for {@link EmbeddedLocalContainer}. We need a static class rather than using a dynamic mock
  * (which we could get using JMock for example) for when we're testing factory classes which create
  * an object out of a class name.
- * 
  */
 public class EmbeddedLocalContainerStub
     extends AbstractLocalContainerStub implements EmbeddedLocalContainer

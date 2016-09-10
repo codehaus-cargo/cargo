@@ -47,7 +47,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * IBM WebSphere 8.5 container implementation.
- * 
  */
 public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalContainer
     implements ScriptingCapableContainer

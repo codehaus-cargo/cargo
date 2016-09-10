@@ -29,7 +29,6 @@ import org.w3c.dom.Element;
  * 
  * Implementations of this interface will: 1. optionally load a file 2. insert some elements into
  * the current document 3. write the file to disk
- * 
  */
 public interface XmlFileBuilder
 {

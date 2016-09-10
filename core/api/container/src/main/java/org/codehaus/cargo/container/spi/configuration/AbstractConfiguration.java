@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  * Base implementation of
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} that can be
  * specialized for any type of configuration.
- * 
  */
 public abstract class AbstractConfiguration extends LoggedObject
     implements ContainerConfiguration, Configuration

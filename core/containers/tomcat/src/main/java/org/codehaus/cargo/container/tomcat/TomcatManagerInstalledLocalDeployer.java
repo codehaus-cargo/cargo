@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerInstall
 
 /**
  * A Tomcat manager-based deployer to perform deployment to a local container.
- * 
  */
 public class TomcatManagerInstalledLocalDeployer extends
     AbstractTomcatManagerInstalledLocalDeployer

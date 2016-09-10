@@ -27,7 +27,6 @@ import org.jdom.DocType;
 
 /**
  * Unit tests for {@link ApplicationXmlVersion}.
- * 
  */
 public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
 {

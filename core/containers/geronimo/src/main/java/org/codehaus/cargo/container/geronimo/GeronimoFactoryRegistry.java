@@ -42,7 +42,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers Geronimo support into default factories.
- * 
  */
 public class GeronimoFactoryRegistry extends AbstractFactoryRegistry
 {

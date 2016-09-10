@@ -23,7 +23,6 @@ import org.w3c.dom.Element;
 
 /**
  * Exception raised when an XPath search returns no results.
- * 
  */
 public class ElementNotFoundException extends RuntimeException
 {

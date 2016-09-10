@@ -65,7 +65,6 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Server connection factory based on the MEJB API.
- * 
  */
 public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFactory,
     CallbackHandler

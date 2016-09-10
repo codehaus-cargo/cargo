@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLoca
 
 /**
  * A mostly canned configuration for an embedded Jetty 7.x instance.
- * 
  */
 public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
     AbstractJettyEmbeddedStandaloneLocalConfiguration

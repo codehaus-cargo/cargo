@@ -31,7 +31,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for local containers.
- * 
  */
 public class AllLocalContainerTest extends AbstractCargoTestCase
 {

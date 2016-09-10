@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
  * Special container support for wrapping a running instance of JBoss 7.3.x (EAP 6.2.x).
- * 
  */
 public class JBoss73xRemoteContainer extends JBoss72xRemoteContainer
 {

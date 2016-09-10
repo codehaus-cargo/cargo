@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.spi.configuration;
 /**
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by each existing configuration's implementation.
- * 
  */
 public abstract class AbstractExistingLocalConfigurationCapability
     extends AbstractLocalConfigurationCapability

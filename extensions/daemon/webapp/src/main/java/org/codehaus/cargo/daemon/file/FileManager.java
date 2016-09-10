@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * File manager to deal with files and directories in the daemon workspace.
- * 
  */
 public class FileManager
 {

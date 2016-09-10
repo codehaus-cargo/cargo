@@ -37,7 +37,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * Sample test Servlet used to verify that jdbc datasource is deployed.
- * 
  */
 public class TestServlet extends HttpServlet
 {

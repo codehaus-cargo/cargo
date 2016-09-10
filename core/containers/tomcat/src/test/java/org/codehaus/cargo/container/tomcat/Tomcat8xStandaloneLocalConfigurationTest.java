@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationCheck
 
 /**
  * Tests for the Tomcat 8 implementation of StandaloneLocalConfigurationTest
- * 
  */
 public class Tomcat8xStandaloneLocalConfigurationTest extends
     Tomcat7xStandaloneLocalConfigurationTest

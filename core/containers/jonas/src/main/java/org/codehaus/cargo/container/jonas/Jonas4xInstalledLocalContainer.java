@@ -37,7 +37,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Support for the JOnAS JEE container.
- * 
  */
 public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalContainer
 {

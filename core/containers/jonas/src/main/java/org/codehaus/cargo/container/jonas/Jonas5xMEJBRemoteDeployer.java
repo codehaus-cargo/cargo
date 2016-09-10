@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jonas.internal.MEJBMBeanServerConnectionFact
 
 /**
  * Remote deployer that uses Managment EJB (MEJB) to deploy to JOnAS.
- * 
  */
 public class Jonas5xMEJBRemoteDeployer extends AbstractJonas5xRemoteDeployer
 {

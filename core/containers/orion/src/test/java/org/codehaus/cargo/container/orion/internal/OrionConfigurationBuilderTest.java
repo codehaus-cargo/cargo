@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 
 /**
  * {@link OrionConfigurationBuilder} test.
- * 
  */
 public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {

@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
  * Capabilities of the JBoss 7.x container.
- * 
  */
 public class JBoss7xContainerCapability extends J2EEContainerCapability
 {

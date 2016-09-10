@@ -52,7 +52,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers JBoss support into default factories.
- * 
  */
 public class JBossFactoryRegistry extends AbstractFactoryRegistry
 {

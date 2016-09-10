@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Static deployer that deploys WARs to IBM WebSphere 8.5.
- * 
  */
 public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
 {

@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 /**
  * Geronimo existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- * 
  */
 public class GeronimoExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

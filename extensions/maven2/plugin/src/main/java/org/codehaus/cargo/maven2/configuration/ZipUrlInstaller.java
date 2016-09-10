@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.installer.ZipURLInstaller;
 /**
  * Holds configuration data for the <code>&lt;zipUrlInstaller&gt;</code> tag used to configure the
  * plugin in the <code>pom.xml</code> file.
- * 
  */
 public class ZipUrlInstaller
 {

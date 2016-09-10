@@ -26,7 +26,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Wait for a deployable to be deployed.
- * 
  */
 public class DeployerWatchdog extends LoggedObject implements DeployableMonitorListener
 {

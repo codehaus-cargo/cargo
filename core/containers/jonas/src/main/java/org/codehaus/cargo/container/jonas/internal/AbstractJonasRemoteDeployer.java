@@ -47,7 +47,6 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Abstract base class for JOnAS remote deployment.
- * 
  */
 public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
 {

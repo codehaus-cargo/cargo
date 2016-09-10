@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 
 /**
  * Configuration to use when using a GlassFish 3.x remote container.
- * 
  */
 public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguration
 {

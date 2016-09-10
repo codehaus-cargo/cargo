@@ -29,7 +29,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Generic CARGO testcase.
- * 
  */
 public class CargoTest extends TestCase
 {

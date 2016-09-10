@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Common field and method to {@link Dependency} and {@link Deployable}.
- * 
  */
 public abstract class AbstractDependency
 {

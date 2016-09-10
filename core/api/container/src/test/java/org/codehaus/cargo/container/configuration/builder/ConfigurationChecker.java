@@ -52,7 +52,6 @@ import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
  * For example, most implementations write XML. If dataSourceFixture.url was null for a check, you
  * should verify that the configuration doesn't include the word 'null', as such a thing would
  * certainly break a container. <br>
- * 
  */
 public interface ConfigurationChecker
 {

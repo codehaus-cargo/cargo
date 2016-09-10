@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.log.NullLogger;
 
 /**
  * Code common to all container stubs.
- * 
  */
 public abstract class AbstractContainerStub implements Container
 {

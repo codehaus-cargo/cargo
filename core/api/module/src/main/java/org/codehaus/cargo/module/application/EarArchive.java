@@ -31,7 +31,6 @@ import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to an EAR.
- * 
  */
 public interface EarArchive extends JarArchive
 {

@@ -28,7 +28,6 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading Oracle web deployment descriptor.
- * 
  */
 public class OrionWebXmlIo extends AbstractDescriptorIo
 {

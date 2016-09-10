@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.internal;
 
 /**
  * All methods that a container that can be started/stopped must implement.
- * 
  */
 public interface RunnableContainer
 {

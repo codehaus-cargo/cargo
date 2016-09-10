@@ -40,7 +40,6 @@ import org.w3c.dom.Element;
  * files are only created in memory. This makes is easy to test file-based operations without having
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
- * 
  */
 public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
 {

@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Test for system property support.
- * 
  */
 public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
 {

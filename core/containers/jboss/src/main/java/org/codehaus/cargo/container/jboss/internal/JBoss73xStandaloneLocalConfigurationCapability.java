@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.jboss.internal;
 /**
  * Capabilities of the JBoss's
  * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
- * 
  */
 public class JBoss73xStandaloneLocalConfigurationCapability
     extends JBoss72xStandaloneLocalConfigurationCapability

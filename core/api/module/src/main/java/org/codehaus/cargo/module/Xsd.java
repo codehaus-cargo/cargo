@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * Contains methods for getting information from a XSD.
- * 
  */
 public class Xsd implements Grammar
 {

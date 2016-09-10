@@ -24,7 +24,6 @@ import java.util.Map;
 /**
  * Represents the capability of a configuration. More specifically it describes the properties that
  * the configuration supports.
- * 
  */
 public interface ConfigurationCapability
 {

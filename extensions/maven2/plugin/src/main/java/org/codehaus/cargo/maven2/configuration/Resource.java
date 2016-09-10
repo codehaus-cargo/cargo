@@ -26,7 +26,6 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 /**
  * Holds configuration data for the <code>&lt;resource&gt;</code> tag used to configure the plugin
  * in the <code>pom.xml</code> file.
- * 
  */
 public class Resource
 {

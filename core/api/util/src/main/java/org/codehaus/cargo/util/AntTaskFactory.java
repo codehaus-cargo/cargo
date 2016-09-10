@@ -27,7 +27,6 @@ import org.apache.tools.ant.Task;
 /**
  * Interface that allows random classes to use Ant tasks without needing an explicit reference to a
  * project, target or task.
- * 
  */
 public interface AntTaskFactory
 {

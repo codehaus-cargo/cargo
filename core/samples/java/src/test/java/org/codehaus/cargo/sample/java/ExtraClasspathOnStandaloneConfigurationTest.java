@@ -41,7 +41,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Test for extra classpath support.
- * 
  */
 public class ExtraClasspathOnStandaloneConfigurationTest extends
     AbstractCargoTestCase

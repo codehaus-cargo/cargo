@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Test WebSphere container.
- * 
  */
 public class WebsphereTest extends TestCase
 {

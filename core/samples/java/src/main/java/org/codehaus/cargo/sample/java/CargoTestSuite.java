@@ -36,7 +36,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Cargo test suite.
- * 
  */
 public class CargoTestSuite extends TestSuite
 {

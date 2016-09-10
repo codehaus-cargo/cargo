@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Basic support for the Orion application server.
- * 
  */
 public abstract class AbstractOrionInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

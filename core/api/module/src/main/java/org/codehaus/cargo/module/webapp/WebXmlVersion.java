@@ -28,7 +28,6 @@ import org.jdom.Namespace;
 
 /**
  * Enumerated type that represents the version of the web deployment descriptor.
- * 
  */
 public final class WebXmlVersion implements Comparable
 {

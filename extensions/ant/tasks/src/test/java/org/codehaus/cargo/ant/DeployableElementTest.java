@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Unit tests for {@link DeployableElement}.
- * 
  */
 public class DeployableElementTest extends TestCase
 {

@@ -36,7 +36,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for WAR support: deployment to a multiple context (with many slashes).
- * 
  */
 public class WarMultiContextTest extends AbstractCargoTestCase
 {

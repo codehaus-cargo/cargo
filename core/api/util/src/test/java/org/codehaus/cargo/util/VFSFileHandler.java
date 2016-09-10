@@ -41,7 +41,6 @@ import org.apache.commons.vfs.VFS;
  * 
  * TODO: This class shouldn't extend DefaultFileHandler. I have cheated because I was just
  * prototyping this. We really need to implement all methods using the VFS API.
- * 
  */
 public class VFSFileHandler extends DefaultFileHandler
 {

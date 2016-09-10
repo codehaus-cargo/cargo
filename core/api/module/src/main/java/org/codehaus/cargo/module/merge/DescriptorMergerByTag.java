@@ -35,7 +35,6 @@ import org.jdom.Element;
 
 /**
  * Merge a descriptor by tag.
- * 
  */
 public class DescriptorMergerByTag implements DescriptorMerger
 {

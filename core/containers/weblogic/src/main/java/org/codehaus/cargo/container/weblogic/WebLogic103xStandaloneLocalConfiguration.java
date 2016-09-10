@@ -23,7 +23,6 @@ package org.codehaus.cargo.container.weblogic;
  * WebLogic 10.3.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * WebLogic 10.3.x is only slightly different to configure then WebLogic 10.x.
- * 
  */
 public class WebLogic103xStandaloneLocalConfiguration extends
     WebLogic10xStandaloneLocalConfiguration

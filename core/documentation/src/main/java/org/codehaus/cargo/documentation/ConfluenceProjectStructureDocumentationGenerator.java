@@ -31,7 +31,6 @@ import org.apache.maven.project.MavenProject;
  * Generate project structure documentation using Confluence markup language. The generated text is
  * meant to be copied on the Cargo Confluence web site. Warning: Uses a relative path to determine
  * the base cargo directory and the sandbox is hard-coded.
- * 
  */
 public class ConfluenceProjectStructureDocumentationGenerator
 {

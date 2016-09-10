@@ -26,7 +26,6 @@ import org.apache.tools.ant.types.FilterChain;
 
 /**
  * Unit tests for {@link DefaultFileHandler}.
- * 
  */
 public class DefaultFileHandlerTest extends TestCase
 {

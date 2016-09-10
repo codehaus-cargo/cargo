@@ -32,7 +32,6 @@ import org.codehaus.cargo.module.application.EarArchive;
 
 /**
  * Wraps an EAR file that will be deployed in the container.
- * 
  */
 public class EAR extends AbstractDeployable
 {

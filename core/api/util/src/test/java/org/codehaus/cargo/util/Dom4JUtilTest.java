@@ -28,7 +28,6 @@ import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link Dom4JUtil}.
- * 
  */
 public class Dom4JUtilTest extends TestCase
 {

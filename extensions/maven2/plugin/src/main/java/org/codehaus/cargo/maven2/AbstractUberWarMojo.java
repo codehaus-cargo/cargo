@@ -25,7 +25,6 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * Common mojo for Uberjar.
- * 
  */
 public abstract class AbstractUberWarMojo extends AbstractMojo
 {

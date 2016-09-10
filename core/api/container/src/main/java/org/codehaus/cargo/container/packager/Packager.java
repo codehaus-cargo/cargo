@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * Gathers an installed container distribution and a local configuration in a single location. There
  * can be several packagers like a directory packager which packeg them in a given directory on the
  * file system, a ZIP packager which does the same but packaged as a ZIP file, etc.
- * 
  */
 public interface Packager
 {

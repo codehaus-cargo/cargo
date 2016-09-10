@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
  * configuration type. A container is identified by both its id and its type. Indeed, it's possible
  * to register different configuration classes for the same container id but for a different
  * container type.
- * 
  */
 public interface ConfigurationFactory
 {

@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.ContainerException;
 
 /**
  * Represent an authenticating user for the Servlet container.
- * 
  */
 public final class User
 {

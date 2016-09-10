@@ -23,7 +23,6 @@ import java.io.File;
 
 /**
  * A JVM launcher is responsible to fork a JVM.
- * 
  */
 public interface JvmLauncher
 {

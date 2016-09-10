@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 
 /**
  * Generates project structure documentation using ConfluenceProjectStructureDocumentationGenerator.
- * 
  */
 public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCase
 {

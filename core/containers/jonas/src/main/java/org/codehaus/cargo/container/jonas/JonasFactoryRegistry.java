@@ -42,7 +42,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers JOnAS support into default factories.
- * 
  */
 public class JonasFactoryRegistry extends AbstractFactoryRegistry
 {

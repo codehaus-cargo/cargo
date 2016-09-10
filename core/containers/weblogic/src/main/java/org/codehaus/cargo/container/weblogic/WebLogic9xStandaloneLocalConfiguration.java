@@ -46,7 +46,6 @@ import org.w3c.dom.Element;
 /**
  * WebLogic standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
- * 
  */
 public class WebLogic9xStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements

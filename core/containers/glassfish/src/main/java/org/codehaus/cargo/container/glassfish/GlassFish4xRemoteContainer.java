@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.glassfish.internal.GlassFish4xContainerCapab
 
 /**
  * GlassFish 4.x remote container.
- * 
  */
 public class GlassFish4xRemoteContainer extends GlassFish3xRemoteContainer
 {

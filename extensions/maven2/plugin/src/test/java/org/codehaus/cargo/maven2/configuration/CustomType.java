@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Dummy {@link Deployable} implementation.
- * 
  */
 public class CustomType implements Deployable
 {

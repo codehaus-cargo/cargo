@@ -26,7 +26,6 @@ import org.codehaus.cargo.module.ejb.EjbDef;
 
 /**
  * Unit tests for {@link JBossXml}.
- * 
  */
 public class JBossXmlTest extends AbstractDocumentBuilderTest
 {

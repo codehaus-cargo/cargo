@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.log.Loggable;
 
 /**
  * Installs a container.
- * 
  */
 public interface Installer extends Loggable
 {

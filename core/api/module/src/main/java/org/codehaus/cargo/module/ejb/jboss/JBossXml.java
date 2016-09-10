@@ -28,7 +28,6 @@ import org.jdom.Element;
 /**
  * Encapsulates the DOM representation of a jboss ejb deployment descriptor <code>jboss.xml</code>
  * to provide convenience methods for easy access and manipulation.
- * 
  */
 public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
 {

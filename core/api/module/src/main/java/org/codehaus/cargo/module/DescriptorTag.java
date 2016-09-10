@@ -29,7 +29,6 @@ import org.jdom.Namespace;
 
 /**
  * Represents the various top-level tags in a deployment descriptor as a typesafe enumeration.
- * 
  */
 public class DescriptorTag
 {

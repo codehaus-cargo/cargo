@@ -34,7 +34,6 @@ import org.codehaus.cargo.maven2.deployer.DeployableMonitorFactory;
 /**
  * Common mojo for all deployer actions (start deployable, stop deployable, deploy deployable,
  * undeploy deployable, etc).
- * 
  */
 public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 {

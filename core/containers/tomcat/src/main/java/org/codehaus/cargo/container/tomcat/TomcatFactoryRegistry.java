@@ -41,7 +41,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers Tomcat support into default factories.
- * 
  */
 public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 {

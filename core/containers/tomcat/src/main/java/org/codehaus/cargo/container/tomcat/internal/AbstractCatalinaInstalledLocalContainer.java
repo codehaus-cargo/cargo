@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Base support for Catalina based installed local containers.
- * 
  */
 public abstract class AbstractCatalinaInstalledLocalContainer extends
     AbstractInstalledLocalContainer

@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.resin.internal.Resin3xConfigurationChecker;
 
 /**
  * Unit tests for {@link Resin3xStandaloneLocalConfiguration}.
- * 
  */
 public class Resin3xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest

@@ -27,7 +27,6 @@ import java.util.List;
 /**
  * Common interface for all standard J2EE deployment descriptors (<code>web.xml</code>,
  * <code>ejb-jar.xml</code>, etc).
- * 
  */
 public interface J2eeDescriptor extends Descriptor
 {

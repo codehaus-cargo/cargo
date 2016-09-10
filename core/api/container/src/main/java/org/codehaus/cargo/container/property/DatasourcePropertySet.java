@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.property;
 
 /**
  * Gathers all data source properties valid for all types of containers.
- * 
  */
 public interface DatasourcePropertySet
 {

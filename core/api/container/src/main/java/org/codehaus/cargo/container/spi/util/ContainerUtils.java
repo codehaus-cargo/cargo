@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Set of common Container utility methods for people extending Cargo.
- * 
  */
 public final class ContainerUtils
 {

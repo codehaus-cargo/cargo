@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Nested Ant element to specify proxy properties.
- * 
  */
 public class Proxy extends LoggedObject
 {

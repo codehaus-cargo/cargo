@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Validate that a container.
- * 
  */
 public interface Validator
 {

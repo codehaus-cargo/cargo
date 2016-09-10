@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
 /**
  * {@inheritDoc}
- * 
  */
 public class Tomcat5x6x7xConfigurationBuilderTest extends Tomcat4xConfigurationBuilderTest
 {

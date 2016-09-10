@@ -29,7 +29,6 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
  * Unit tests for {@link ApplicationXml}.
- * 
  */
 public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
 {

@@ -28,7 +28,6 @@ import org.codehaus.cargo.util.FileHandler;
  * container can be started and stopped and is thus controlled by Cargo. This is by opposition to a
  * remote container which is outside the control of Cargo and which is started and stopped
  * externally from Cargo.
- * 
  */
 public interface LocalContainer extends Container, RunnableContainer
 {

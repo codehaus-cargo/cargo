@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.deployer;
 /**
  * Listener that is triggered when the deployment status of a
  * {@link org.codehaus.cargo.container.deployable.Deployable} changes.
- * 
  */
 public interface DeployableMonitorListener
 {

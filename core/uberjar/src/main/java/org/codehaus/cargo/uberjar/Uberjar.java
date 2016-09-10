@@ -23,7 +23,6 @@ import java.io.PrintStream;
 
 /**
  * Cargo uberjar's main class. Shows information about Cargo.
- * 
  */
 public class Uberjar
 {

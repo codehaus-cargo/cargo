@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 
 /**
  * Integration tests for {@link WebLogic8xConfigurationBuilder}.
- * 
  */
 public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {

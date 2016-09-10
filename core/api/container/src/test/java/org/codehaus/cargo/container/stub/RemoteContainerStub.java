@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
  * Mock for {@link RemoteContainer}. We need a static class rather than using a dynamic mock (which
  * we could get using JMock for example) for when we're testing factory classes which create an
  * object out of a class name.
- * 
  */
 public class RemoteContainerStub extends AbstractContainerStub implements RemoteContainer
 {

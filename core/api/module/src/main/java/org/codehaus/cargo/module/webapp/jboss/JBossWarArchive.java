@@ -30,7 +30,6 @@ import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to a WAR.
- * 
  */
 public class JBossWarArchive
 {

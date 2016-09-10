@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 
 /**
  * Create a {@link Deployer} knowing the container to which it is attached and the deployer type.
- * 
  */
 public interface DeployerFactory
 {

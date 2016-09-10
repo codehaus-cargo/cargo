@@ -34,7 +34,6 @@ import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
 /**
  * File implementation which sends logged messages to a file.
- * 
  */
 public class FileLogger extends AbstractLogger
 {

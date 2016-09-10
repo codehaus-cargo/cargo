@@ -38,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for datasource with transaction emulation capabilities.
- * 
  */
 public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase

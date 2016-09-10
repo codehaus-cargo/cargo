@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
  * this implementation converts DataSources into Resources and then uses an appropriate
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
- * 
  */
 public class Tomcat5x6x7xConfigurationBuilder extends AbstractTomcatConfigurationBuilder
 {

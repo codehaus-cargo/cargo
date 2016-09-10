@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * A mostly canned configuration for an embedded Jetty 8.x instance.
- * 
  */
 public class Jetty8xEmbeddedStandaloneLocalConfiguration extends
     Jetty7xEmbeddedStandaloneLocalConfiguration

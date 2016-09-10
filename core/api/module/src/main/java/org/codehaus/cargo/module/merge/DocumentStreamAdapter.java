@@ -41,7 +41,6 @@ import org.xml.sax.SAXException;
  * This is needed because the DocumentMerger understands DOM Documents, but items in War files are
  * accessed as streams - therefore use this wrapper to pass streams into the DocumentMerger (or
  * subclass).
- * 
  */
 public class DocumentStreamAdapter implements MergeProcessor
 {

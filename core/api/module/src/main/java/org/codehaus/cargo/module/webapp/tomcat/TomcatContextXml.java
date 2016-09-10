@@ -32,7 +32,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a web deployment descriptor
  * <code>META-INF/context.xml</code> to provide convenience methods for easy access and
  * manipulation.
- * 
  */
 public class TomcatContextXml extends AbstractDescriptor
 {

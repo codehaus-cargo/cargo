@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 /**
  * Allow finding a Configuration's capability for a given container identified by its id and its
  * type. Indeed, configurations for a given container id may have different capabilities.
- * 
  */
 public interface ConfigurationCapabilityFactory
 {

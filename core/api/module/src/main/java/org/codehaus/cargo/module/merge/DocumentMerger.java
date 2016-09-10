@@ -35,7 +35,6 @@ import org.jdom.Element;
  * 
  * This class may be overridden by subclasses that wish to apply strategies to particular types of
  * XML document.
- * 
  */
 public class DocumentMerger implements MergeProcessor
 {

@@ -35,7 +35,6 @@ import org.apache.tools.ant.types.Path;
 
 /**
  * Set of common Ant utility methods.
- * 
  */
 public class AntUtils
 {

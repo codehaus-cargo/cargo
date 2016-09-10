@@ -27,7 +27,6 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading WebLogic web deployment descriptor.
- * 
  */
 public class WeblogicXmlIo extends AbstractDescriptorIo
 {

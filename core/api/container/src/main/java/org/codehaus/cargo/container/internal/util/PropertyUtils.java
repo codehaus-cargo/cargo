@@ -31,7 +31,6 @@ import org.apache.tools.ant.util.StringUtils;
 
 /**
  * A class to convert properties to strings and back.
- * 
  */
 public final class PropertyUtils
 {

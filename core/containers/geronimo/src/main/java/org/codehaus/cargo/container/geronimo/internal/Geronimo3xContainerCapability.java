@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
  * Capabilities of the Geronimo 3.x container.
- * 
  */
 public class Geronimo3xContainerCapability extends J2EEContainerCapability
 {

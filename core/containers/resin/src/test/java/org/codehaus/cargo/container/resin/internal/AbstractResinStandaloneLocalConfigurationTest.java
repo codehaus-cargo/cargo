@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 
 /**
  * Unit tests for standalone Resin configurations.
- * 
  */
 public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest

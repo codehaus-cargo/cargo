@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 /**
  * Configuration to use when using a
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer}.
- * 
  */
 public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
 {

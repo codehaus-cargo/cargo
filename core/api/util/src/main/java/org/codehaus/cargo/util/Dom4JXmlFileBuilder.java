@@ -28,7 +28,6 @@ import org.w3c.dom.NodeList;
 
 /**
  * {@inheritDoc} This implementation uses @{link Dom4JUtil Dom4JUtil} to manipulate xml files.
- * 
  */
 public class Dom4JXmlFileBuilder implements XmlFileBuilder
 {

@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractSwitchableLocalDeployer
 
 /**
  * Changes config.xml if the server is down. Otherwise, adds applications to the config directory.
- * 
  */
 public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDeployer
 {

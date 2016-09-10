@@ -21,7 +21,6 @@ package org.codehaus.cargo.module.webapp;
 
 /**
  * Represents a ejb-ref element of a web application descriptor.
- * 
  */
 public class EjbRef
 {

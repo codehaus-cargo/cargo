@@ -37,7 +37,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandalone
 
 /**
  * Common class for all Resin standalone local configurations.
- * 
  */
 public abstract class AbstractResinStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder

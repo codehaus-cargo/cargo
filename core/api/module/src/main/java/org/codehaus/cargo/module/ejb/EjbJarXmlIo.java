@@ -31,7 +31,6 @@ import org.xml.sax.SAXException;
 
 /**
  * Provides convenience methods for reading and writing ejb deployment descriptors (ejb-jar.xml).
- * 
  */
 public class EjbJarXmlIo extends AbstractDescriptorIo
 {

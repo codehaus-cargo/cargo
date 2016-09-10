@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
  * Unit tests for {@link TomcatManager}.
- * 
  */
 public class TomcatManagerTest extends AbstractResourceTest
 {

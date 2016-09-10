@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.ContainerCapability;
 
 /**
  * Allow finding a Container's capability by container id.
- * 
  */
 public interface ContainerCapabilityFactory
 {

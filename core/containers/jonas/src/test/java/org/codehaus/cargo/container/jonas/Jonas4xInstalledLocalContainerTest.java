@@ -33,7 +33,6 @@ import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas4xInstalledLocalContainer}.
- * 
  */
 public class Jonas4xInstalledLocalContainerTest extends MockObjectTestCase
 {

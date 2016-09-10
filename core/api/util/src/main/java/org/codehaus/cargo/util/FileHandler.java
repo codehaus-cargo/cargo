@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.log.Loggable;
  * File operations that are performed in Cargo. All file operations must use this interface. This
  * interface is also useful for unit testing as it's possible to create a mock implementation of it
  * to prevent actual file operations from happening.
- * 
  */
 public interface FileHandler extends Loggable
 {

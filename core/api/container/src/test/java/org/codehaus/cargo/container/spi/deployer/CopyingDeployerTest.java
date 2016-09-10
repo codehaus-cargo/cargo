@@ -36,7 +36,6 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractCopyingInstalledLocalDeployer}.
- * 
  */
 public class CopyingDeployerTest extends MockObjectTestCase
 {

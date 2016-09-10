@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
  * TomEE 1.x container capability.
- * 
  */
 public class Tomee1xContainerCapability extends J2EEContainerCapability
 {

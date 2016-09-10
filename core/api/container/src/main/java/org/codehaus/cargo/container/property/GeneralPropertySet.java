@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.property;
 
 /**
  * Gathers all general container properties valid for all types of containers.
- * 
  */
 public interface GeneralPropertySet
 {

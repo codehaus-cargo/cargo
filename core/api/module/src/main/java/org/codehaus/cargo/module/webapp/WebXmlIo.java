@@ -40,7 +40,6 @@ import org.xml.sax.SAXException;
 
 /**
  * Provides convenience methods for reading and writing web deployment descriptors.
- * 
  */
 public final class WebXmlIo extends AbstractDescriptorIo
 {

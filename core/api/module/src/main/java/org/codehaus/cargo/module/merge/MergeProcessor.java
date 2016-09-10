@@ -21,7 +21,6 @@ package org.codehaus.cargo.module.merge;
 
 /**
  * Interface implemented by merger classes.
- * 
  */
 public interface MergeProcessor
 {

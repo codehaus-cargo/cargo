@@ -33,7 +33,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * Default {@link PackagerFactory} implementation that has all the known container packagers
  * registered against their containers. It also supports registering new packagers against any
  * container.
- * 
  */
 public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory<Packager>
     implements PackagerFactory

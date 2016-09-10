@@ -27,7 +27,6 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 /**
  * Allow users to add classpath entries to the classpath used to start the container. This is the
  * configuration class for passing <code>LocalContainer.addExtraClasspath()</code> information.
- * 
  */
 public class Dependency extends AbstractDependency
 {

@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.resin.internal.Resin2xConfigurationChecker;
 
 /**
  * Unit tests for {@link Resin2xStandaloneLocalConfiguration}.
- * 
  */
 public class Resin2xStandaloneLocalConfigurationTest extends
     AbstractResinStandaloneLocalConfigurationTest

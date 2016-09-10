@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 
 /**
  * Static deployer that deploys WARs to the JRun <code>servers/server_name</code> directory.
- * 
  */
 public class JRun4xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

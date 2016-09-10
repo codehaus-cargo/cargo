@@ -39,7 +39,6 @@ import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
 
 /**
  * Test for JBoss EJB support.
- * 
  */
 public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {

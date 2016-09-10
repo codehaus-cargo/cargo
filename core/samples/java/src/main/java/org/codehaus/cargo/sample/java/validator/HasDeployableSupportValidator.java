@@ -26,7 +26,6 @@ import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 
 /**
  * Validator, that instanciates the {@link ContainerCapabilityFactory} for {@link DeployableType}.
- * 
  */
 public class HasDeployableSupportValidator implements Validator
 {

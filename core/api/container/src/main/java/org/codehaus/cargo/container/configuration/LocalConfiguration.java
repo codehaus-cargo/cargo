@@ -32,7 +32,6 @@ import org.codehaus.cargo.util.FileHandler;
  * A local configuration represents a container configuration located somewhere on the local file
  * system. A local configuration is activated before the container is started. In addition, a local
  * configuration allows you to deploy {@link Deployable}s before the container is started.
- * 
  */
 public interface LocalConfiguration extends Configuration
 {

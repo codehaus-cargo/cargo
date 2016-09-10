@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.configuration;
 /**
  * Configuration type of {@link org.codehaus.cargo.container.configuration.Configuration}s. There
  * are currently 3 types: Standalone local, Existing local and runtime configurations.
- * 
  */
 public class ConfigurationType
 {

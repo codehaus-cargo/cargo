@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
  * Special container support for wrapping a running instance of Jetty.
- * 
  */
 public abstract class AbstractJettyRemoteContainer extends AbstractRemoteContainer
 {

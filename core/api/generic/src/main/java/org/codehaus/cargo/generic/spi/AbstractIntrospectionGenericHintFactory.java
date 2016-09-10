@@ -31,7 +31,6 @@ import org.codehaus.cargo.generic.internal.util.RegistrationKey;
  * load the registration fails silently. This is to cover the user case where a specific container's
  * implementation jar may not be present in the classpath if it's not used by the user. This allows
  * users to only put the container implementation jars the require in the classpath.
- * 
  */
 public abstract class AbstractIntrospectionGenericHintFactory<T> extends
     AbstractGenericHintFactory<T>

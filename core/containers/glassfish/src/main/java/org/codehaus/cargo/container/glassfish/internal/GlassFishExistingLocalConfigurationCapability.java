@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 
 /**
  * GlassFish existing local configuration capability.
- * 
  */
 public class GlassFishExistingLocalConfigurationCapability extends
     AbstractExistingLocalConfigurationCapability

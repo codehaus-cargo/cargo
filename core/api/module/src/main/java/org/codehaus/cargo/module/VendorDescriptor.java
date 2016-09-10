@@ -21,7 +21,6 @@ package org.codehaus.cargo.module;
 
 /**
  * Base interface for vendor specific descriptors.
- * 
  */
 public interface VendorDescriptor extends Descriptor
 {

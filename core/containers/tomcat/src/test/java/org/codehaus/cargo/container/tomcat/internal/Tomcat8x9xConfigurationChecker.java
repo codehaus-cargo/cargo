@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.tomcat.internal;
 /**
  * Contains XML logic used to validate the XML output of a Tomcat 8.x DataSource
  * configuration.
- * 
  */
 public class Tomcat8x9xConfigurationChecker extends Tomcat5x6x7xConfigurationChecker
 {

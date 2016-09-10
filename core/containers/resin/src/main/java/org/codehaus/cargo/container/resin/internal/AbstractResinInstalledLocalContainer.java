@@ -38,7 +38,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Common support for all Resin container versions.
- * 
  */
 public abstract class AbstractResinInstalledLocalContainer extends AbstractInstalledLocalContainer
 {

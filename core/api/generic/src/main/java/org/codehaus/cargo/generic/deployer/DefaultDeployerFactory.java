@@ -36,7 +36,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * Default {@link DeployerFactory} implementation that has all the known container deployers
  * registered against their containers. It also supports registering new deployers against any
  * container.
- * 
  */
 public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFactory<Deployer>
     implements DeployerFactory

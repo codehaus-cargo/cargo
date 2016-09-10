@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 /**
  * Capabilities of GlassFish
  * {@link org.codehaus.cargo.container.glassfish.GlassFish3xRuntimeConfiguration} configuration.
- * 
  */
 public class GlassFish3xRuntimeConfigurationCapability
     extends AbstractRuntimeConfigurationCapability

@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Class for various exceptions happening within merges.
- * 
  */
 public class MergeException extends CargoException
 {

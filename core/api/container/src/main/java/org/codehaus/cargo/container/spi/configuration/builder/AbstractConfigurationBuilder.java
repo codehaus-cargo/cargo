@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.TransactionSupport;
 
 /**
  * {@inheritDoc}
- * 
  */
 public abstract class AbstractConfigurationBuilder implements ConfigurationBuilder
 {

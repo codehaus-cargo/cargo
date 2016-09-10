@@ -54,7 +54,6 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Default container implementation that all local installed container implementations must extend.
- * 
  */
 public abstract class AbstractInstalledLocalContainer extends AbstractLocalContainer implements
     InstalledLocalContainer

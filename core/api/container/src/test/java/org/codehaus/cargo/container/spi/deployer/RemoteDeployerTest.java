@@ -31,7 +31,6 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractRemoteDeployer}.
- * 
  */
 public class RemoteDeployerTest extends MockObjectTestCase
 {

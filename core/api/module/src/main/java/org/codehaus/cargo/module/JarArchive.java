@@ -29,7 +29,6 @@ import java.util.List;
 
 /**
  * Provide convenient methods to read information from a Jar archive.
- * 
  */
 public interface JarArchive
 {

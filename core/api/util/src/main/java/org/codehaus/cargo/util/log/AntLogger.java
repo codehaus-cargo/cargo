@@ -29,7 +29,6 @@ import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
 /**
  * Logger implementation that logs to Ant.
- * 
  */
 public class AntLogger extends AbstractLogger
 {

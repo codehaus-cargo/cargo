@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.resin.internal.ResinRun;
 
 /**
  * Resin existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- * 
  */
 public class Resin3xExistingLocalConfiguration extends Resin2xExistingLocalConfiguration
 {

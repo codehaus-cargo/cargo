@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.glassfish;
 
 /**
  * Interface for Glassfish-specific properties.
- * 
  */
 public interface GlassFishPropertySet
 {

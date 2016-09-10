@@ -48,7 +48,6 @@ import org.w3c.dom.ls.LSSerializer;
 
 /**
  * This class offers utility methods not exposed in the current dom4j api.
- * 
  */
 public class Dom4JUtil
 {

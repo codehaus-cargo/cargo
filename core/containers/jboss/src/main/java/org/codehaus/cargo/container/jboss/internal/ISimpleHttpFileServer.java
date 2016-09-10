@@ -28,7 +28,6 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Implementation of a Web server that serves one file.
- * 
  */
 public interface ISimpleHttpFileServer
 {

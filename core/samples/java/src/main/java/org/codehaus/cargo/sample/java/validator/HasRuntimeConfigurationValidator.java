@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
  * Validate that a container has a runtime configuration.
- * 
  */
 public class HasRuntimeConfigurationValidator extends AbstractConfigurationFactoryValidator
 {

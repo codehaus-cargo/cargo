@@ -34,7 +34,6 @@ import javax.sql.DataSource;
 
 /**
  * Sample test Servlet used to verify that support of multiple datasources.
- * 
  */
 public class TestServlet extends HttpServlet
 {

@@ -52,7 +52,6 @@ import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for the {@link org.codehaus.cargo.maven2.configuration.Container} class.
- * 
  */
 public class ContainerTest extends MockObjectTestCase
 {

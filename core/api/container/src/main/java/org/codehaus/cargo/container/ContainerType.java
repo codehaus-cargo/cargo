@@ -22,7 +22,6 @@ package org.codehaus.cargo.container;
 /**
  * Types of {@link org.codehaus.cargo.container.Container}s. There are currently 3 types: Local
  * Installed, Local Embedded and Remote.
- * 
  */
 public class ContainerType
 {

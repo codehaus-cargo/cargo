@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Embedded Tomcat 9.x container.
- * 
  */
 public class Tomcat9xEmbeddedLocalContainer extends Tomcat8xEmbeddedLocalContainer
 {

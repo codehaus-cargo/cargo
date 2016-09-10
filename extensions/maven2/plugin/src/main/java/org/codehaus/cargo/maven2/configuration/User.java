@@ -24,7 +24,6 @@ import java.util.Arrays;
 /**
  * Holds configuration data for the <code>&lt;user&gt;</code> tag used to configure the plugin
  * in the <code>pom.xml</code> file.
- * 
  */
 public class User
 {

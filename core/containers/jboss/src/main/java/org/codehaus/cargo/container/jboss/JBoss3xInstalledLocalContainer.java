@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalCo
 
 /**
  * JBoss 3.x series container implementation.
- * 
  */
 public class JBoss3xInstalledLocalContainer extends AbstractJBossInstalledLocalContainer
 {

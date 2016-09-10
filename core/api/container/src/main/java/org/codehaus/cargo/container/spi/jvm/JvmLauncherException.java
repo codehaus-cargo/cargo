@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Exception thrown to signal a failure to launch a JVM.
- * 
  */
 public class JvmLauncherException extends CargoException
 {

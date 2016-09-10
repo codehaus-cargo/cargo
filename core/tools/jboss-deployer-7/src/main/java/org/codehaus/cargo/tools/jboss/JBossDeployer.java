@@ -41,7 +41,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * JBoss deployer implementation.
- * 
  */
 public class JBossDeployer implements IJBossProfileManagerDeployer
 {

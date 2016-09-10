@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.log.Loggable;
  * Common container API to wrap a physical container. There can be specialized types of containers
  * such as {@link org.codehaus.cargo.container.LocalContainer} or
  * {@link org.codehaus.cargo.container.RemoteContainer}.
- * 
  */
 public interface Container extends Loggable
 {

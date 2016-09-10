@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Ping test servlet.
- * 
  */
 public class PingTestServlet extends HttpServlet
 {

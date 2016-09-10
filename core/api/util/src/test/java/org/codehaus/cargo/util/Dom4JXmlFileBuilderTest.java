@@ -37,7 +37,6 @@ import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link XmlFileBuilder}.
- * 
  */
 public class Dom4JXmlFileBuilderTest extends TestCase
 {

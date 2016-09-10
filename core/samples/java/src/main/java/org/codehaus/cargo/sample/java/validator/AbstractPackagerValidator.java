@@ -24,7 +24,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Abstract validator, that instanciates the {@link PackagerFactory}.
- * 
  */
 public abstract class AbstractPackagerValidator implements Validator
 {

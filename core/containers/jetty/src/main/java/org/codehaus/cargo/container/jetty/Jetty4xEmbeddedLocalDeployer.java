@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDep
 
 /**
  * Deployer to deploy to a Jetty 4.x (embedded) container.
- * 
  */
 public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
 {

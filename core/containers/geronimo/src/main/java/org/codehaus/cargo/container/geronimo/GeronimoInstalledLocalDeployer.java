@@ -44,7 +44,6 @@ import org.codehaus.cargo.util.AntUtils;
 
 /**
  * A Geronimo deploytool-based deployer to perform deployment to a local container.
- * 
  */
 public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {

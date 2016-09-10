@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.jonas.internal.Jonas5xRuntimeConfigurationCa
 
 /**
  * Configuration to use when using a JOnAS remote container.
- * 
  */
 public class Jonas5xRuntimeConfiguration extends Jonas4xRuntimeConfiguration
 {

@@ -27,7 +27,6 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading Oracle ejb jar deployment descriptor.
- * 
  */
 public class OrionEjbJarXmlIo extends AbstractDescriptorIo
 {

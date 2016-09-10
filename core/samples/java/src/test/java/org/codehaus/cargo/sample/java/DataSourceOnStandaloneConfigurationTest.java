@@ -38,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for datasource capabilities.
- * 
  */
 public class DataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase

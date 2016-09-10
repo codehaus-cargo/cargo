@@ -32,7 +32,6 @@ import org.codehaus.cargo.generic.DefaultContainerFactory;
 
 /**
  * Unit tests for {@link ConfluenceContainerDocumentationGenerator}
- * 
  */
 public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
 {

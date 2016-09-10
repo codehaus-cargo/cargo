@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.ContainerException;
  * Helper class to start/stop a container. When this application is first called to start the
  * server, a listener socket is set up. Then, we it is later called to stop the server, we connect
  * to the listener socket and tell the server to stop.
- * 
  */
 public class DefaultServerRun extends Thread
 {

@@ -31,7 +31,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Test the in-place development functionality.
- * 
  */
 public class InPlaceDevelopmentTest extends TestCase
 {

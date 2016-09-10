@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Special container support for the Jetty 8.x servlet container.
- * 
  */
 public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContainer
 {

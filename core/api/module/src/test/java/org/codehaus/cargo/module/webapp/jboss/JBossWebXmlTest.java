@@ -27,7 +27,6 @@ import org.jdom.Element;
 
 /**
  * Unit tests for {@link JBossWebXml}.
- * 
  */
 public class JBossWebXmlTest extends AbstractDocumentBuilderTest
 {

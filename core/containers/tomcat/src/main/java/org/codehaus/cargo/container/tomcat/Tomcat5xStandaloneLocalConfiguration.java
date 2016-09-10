@@ -45,7 +45,6 @@ import org.w3c.dom.Element;
  * <p>
  * This code needs to work with both {@link Tomcat5xInstalledLocalContainer} and
  * {@link Tomcat5xEmbeddedLocalContainer}.
- * 
  */
 public class Tomcat5xStandaloneLocalConfiguration extends
     AbstractCatalinaStandaloneLocalConfiguration

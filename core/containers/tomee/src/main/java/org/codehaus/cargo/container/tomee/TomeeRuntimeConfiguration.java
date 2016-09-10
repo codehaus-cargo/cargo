@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration;
 
 /**
  * Configuration to use when deploying to TomEE remotely.
- * 
  */
 public class TomeeRuntimeConfiguration extends TomcatRuntimeConfiguration
 {

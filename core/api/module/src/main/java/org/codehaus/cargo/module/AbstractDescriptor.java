@@ -33,7 +33,6 @@ import org.jdom.Element;
 /**
  * Encapsulates the DOM representation of a deployment descriptor to provide convenience methods for
  * easy access and manipulation.
- * 
  */
 public abstract class AbstractDescriptor extends Document implements Descriptor
 {

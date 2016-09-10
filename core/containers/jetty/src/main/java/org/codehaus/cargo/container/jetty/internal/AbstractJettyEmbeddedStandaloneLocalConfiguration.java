@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 
 /**
  * Base class for Jetty standalone configurations.
- * 
  */
 public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfiguration

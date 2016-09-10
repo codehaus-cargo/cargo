@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Adobe JRun4.x servlet container.
- * 
  */
 public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalContainer
 {

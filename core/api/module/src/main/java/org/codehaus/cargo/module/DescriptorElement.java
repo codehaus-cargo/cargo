@@ -23,7 +23,6 @@ import org.jdom.Element;
 
 /**
  * Extension of JDOM element that represents a descriptor element.
- * 
  */
 public class DescriptorElement extends Element
 {

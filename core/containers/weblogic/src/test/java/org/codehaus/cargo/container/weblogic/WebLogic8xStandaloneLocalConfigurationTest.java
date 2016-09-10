@@ -33,7 +33,6 @@ import org.w3c.dom.Document;
 
 /**
  * Unit tests for {@link WebLogic8xStandaloneLocalConfiguration}.
- * 
  */
 public class WebLogic8xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest

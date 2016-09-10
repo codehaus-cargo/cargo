@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * A Jetty 9.x instance running embedded.
- * 
  */
 public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
 {

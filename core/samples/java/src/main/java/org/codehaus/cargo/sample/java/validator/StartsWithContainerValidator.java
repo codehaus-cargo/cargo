@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Validate that a container id starts with a specific value.
- * 
  */
 public class StartsWithContainerValidator implements Validator
 {

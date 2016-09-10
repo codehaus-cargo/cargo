@@ -53,7 +53,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * IBM WebSphere 8.5 standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * 
  */
 public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
     implements WebSphereConfiguration

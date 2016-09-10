@@ -40,7 +40,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for JBoss HAR support.
- * 
  */
 public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {

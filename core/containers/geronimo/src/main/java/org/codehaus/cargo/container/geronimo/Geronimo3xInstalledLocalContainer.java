@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Geronimo 3.x series container implementation.
- * 
  */
 public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalContainer
 {

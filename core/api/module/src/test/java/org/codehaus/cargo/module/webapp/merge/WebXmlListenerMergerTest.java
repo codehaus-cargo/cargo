@@ -33,7 +33,6 @@ import org.jdom.Element;
 
 /**
  * Unit tests for {@link WebXmlMerger}.
- * 
  */
 public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
 {

@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
  * implementation converts DataSources into Resources and then uses an appropriate
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
- * 
  */
 public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigurationBuilder
 {

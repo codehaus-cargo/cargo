@@ -28,7 +28,6 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading JBoss web context descriptor.
- * 
  */
 public class JBossWebXmlIo extends AbstractDescriptorIo
 {

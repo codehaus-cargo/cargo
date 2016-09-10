@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 
 /**
  * Unit tests for {@link ConfigurationElement}.
- * 
  */
 public class ConfigurationElementTest extends TestCase
 {

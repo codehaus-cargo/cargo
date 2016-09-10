@@ -21,7 +21,6 @@ package org.codehaus.cargo.module.ejb;
 
 /**
  * Class representing a session ejb definition in an ejb-jar.xml descriptor.
- * 
  */
 public class Session extends EjbDef
 {

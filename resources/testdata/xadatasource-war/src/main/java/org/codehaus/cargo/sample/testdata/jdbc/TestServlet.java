@@ -34,7 +34,6 @@ import javax.sql.XADataSource;
 
 /**
  * Sample test Servlet used to verify that resource XADataSource is deployed.
- * 
  */
 public class TestServlet extends HttpServlet
 {

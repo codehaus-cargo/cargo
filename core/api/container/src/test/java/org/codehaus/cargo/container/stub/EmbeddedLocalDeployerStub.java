@@ -30,7 +30,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  * Mock for an embedded {@link Deployer}. We need a static mock rather than a dynamic mock (which
  * we could get using JMock for example) because we're testing factory classes which create an
  * object out of a class name.
- * 
  */
 public class EmbeddedLocalDeployerStub extends LoggedObject implements Deployer
 {

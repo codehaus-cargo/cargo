@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * A utility class to assist the Jetty containers.
- * 
  */
 public final class JettyUtils
 {

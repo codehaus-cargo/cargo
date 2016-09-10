@@ -40,7 +40,6 @@ import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic9xStandaloneLocalConfiguration}.
- * 
  */
 public class WebLogic9xStandaloneLocalConfigurationTest extends
     AbstractWeblogicStandaloneConfigurationTest

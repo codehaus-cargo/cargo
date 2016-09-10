@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.property.User;
 
 /**
  * JBoss 7.1.x standalone local configuration.
- * 
  */
 public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocalConfiguration
 {

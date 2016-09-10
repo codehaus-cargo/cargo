@@ -45,7 +45,6 @@ import org.codehaus.cargo.util.XmlFileBuilder;
  * <li> {@link getOrCreateDataSourceConfigurationFile}: where do we load and store the datasource
  * configuration?</li>
  * </ol>
- * 
  */
 public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder extends
     AbstractStandaloneLocalConfiguration implements DataSourceSupport, ResourceSupport

@@ -26,7 +26,6 @@ import org.apache.commons.vfs.impl.StandardFileSystemManager;
 
 /**
  * Unit tests for {@link VFSFileHandler}.
- * 
  */
 public class VFSFileHandlerTest extends TestCase
 {

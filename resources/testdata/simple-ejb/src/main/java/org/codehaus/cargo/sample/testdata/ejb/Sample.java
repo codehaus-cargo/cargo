@@ -26,7 +26,6 @@ import javax.ejb.EJBObject;
 
 /**
  * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it.
- * 
  */
 public interface Sample extends EJBObject, Remote
 {

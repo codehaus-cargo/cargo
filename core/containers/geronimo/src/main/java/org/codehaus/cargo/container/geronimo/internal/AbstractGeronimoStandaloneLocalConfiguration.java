@@ -46,7 +46,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Abstract Geronimo standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- * 
  */
 public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
     AbstractStandaloneLocalConfiguration

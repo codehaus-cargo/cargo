@@ -33,7 +33,6 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 
 /**
  * Unit tests for {@link DefaultConfigurationFactory}.
- * 
  */
 public class DefaultConfigurationFactoryTest extends TestCase
 {

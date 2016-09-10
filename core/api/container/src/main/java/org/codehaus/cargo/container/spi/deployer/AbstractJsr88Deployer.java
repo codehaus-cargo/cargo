@@ -46,7 +46,6 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * JSR-88 remote deployer.
- * 
  */
 public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 {

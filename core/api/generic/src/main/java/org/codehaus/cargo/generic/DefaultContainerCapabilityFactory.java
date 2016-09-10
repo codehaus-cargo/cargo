@@ -29,7 +29,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 /**
  * Default implementation of {@link org.codehaus.cargo.generic.ContainerCapabilityFactory}.
  * Registers all known container capabilities.
- * 
  */
 public class DefaultContainerCapabilityFactory extends
     AbstractIntrospectionGenericHintFactory<ContainerCapability> implements

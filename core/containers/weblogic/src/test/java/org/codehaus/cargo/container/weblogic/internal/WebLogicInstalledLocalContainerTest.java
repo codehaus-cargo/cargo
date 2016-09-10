@@ -37,7 +37,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * files are only created in memory. This makes is easy to test file-based operations without having
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
- * 
  */
 public class WebLogicInstalledLocalContainerTest extends TestCase
 {

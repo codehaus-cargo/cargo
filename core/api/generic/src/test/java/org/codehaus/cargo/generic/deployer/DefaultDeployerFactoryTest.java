@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.stub.RemoteDeployerStub;
 
 /**
  * Unit tests for {@link DefaultDeployerFactory}.
- * 
  */
 public class DefaultDeployerFactoryTest extends TestCase
 {

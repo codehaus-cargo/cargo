@@ -27,7 +27,6 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Code common to all Installed local container stubs.
- * 
  */
 public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalContainerStub
     implements InstalledLocalContainer

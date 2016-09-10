@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 
 /**
  * Special container support for wrapping a running instance of JBoss 4.2.x.
- * 
  */
 public class JBoss42xRemoteContainer extends JBoss4xRemoteContainer
 {

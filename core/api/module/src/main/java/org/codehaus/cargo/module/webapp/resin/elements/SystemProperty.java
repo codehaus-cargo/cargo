@@ -26,7 +26,6 @@ import org.jdom.Attribute;
 
 /**
  * Wrapper Class representing a resin-web.xml system property.
- * 
  */
 public class SystemProperty extends DescriptorElement
 {

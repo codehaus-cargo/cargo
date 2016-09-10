@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 
 /**
  * A special Tomcat 9.x manager-based deployer to perform deployment to a remote container.
- * 
  */
 public class Tomcat9xRemoteDeployer extends Tomcat8xRemoteDeployer
 {

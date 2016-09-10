@@ -29,7 +29,6 @@ import org.jdom.Element;
 
 /**
  * Unit tests for {@link WeblogicXml}.
- * 
  */
 public class WeblogicXmlTest extends AbstractDocumentBuilderTest
 {

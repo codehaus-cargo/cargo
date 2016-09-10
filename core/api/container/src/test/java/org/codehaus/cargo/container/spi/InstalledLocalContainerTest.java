@@ -40,7 +40,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Provides base level of testing for subclasses of AbstractInstalledLocalContainer.
- * 
  */
 public class InstalledLocalContainerTest extends TestCase
 {

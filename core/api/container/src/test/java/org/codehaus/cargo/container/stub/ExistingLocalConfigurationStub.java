@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.ExistingLocalConfiguration;
  * Mock for {@link ExistingLocalConfiguration}. We need a static mock rather than a dynamic mock
  * (which we could get using JMock for example) because we're testing factory classes which create
  * an object out of a class name.
- * 
  */
 public class ExistingLocalConfigurationStub
     extends AbstractLocalConfigurationStub implements ExistingLocalConfiguration

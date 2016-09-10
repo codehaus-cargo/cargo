@@ -24,7 +24,6 @@ package org.codehaus.cargo.util.log;
  * logging library is because Cargo is a framework. As such we don't want to force the user to
  * include an additional library and more importantly we want to remain open so that applications
  * using Cargo will be able to adapt it to their favorite logging system, whatever that is.
- * 
  */
 public interface Logger
 {

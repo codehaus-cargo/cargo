@@ -25,7 +25,6 @@ import org.apache.maven.project.MavenProject;
 /**
  * Common MOJO providing an accessor to the Maven Project object (this is the object containing all
  * information contained in the POM on which the MOJO is called).
- * 
  */
 public abstract class AbstractCommonMojo extends AbstractMojo
 {

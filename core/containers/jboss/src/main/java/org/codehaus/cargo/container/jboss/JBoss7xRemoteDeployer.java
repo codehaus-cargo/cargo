@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 
 /**
  * Remote deployer that uses the Model Controller Client to deploy to JBoss.
- * 
  */
 public class JBoss7xRemoteDeployer extends JBoss5xRemoteDeployer
 {

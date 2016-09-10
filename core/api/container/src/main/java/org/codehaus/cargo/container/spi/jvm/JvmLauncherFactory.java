@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.spi.jvm;
 
 /**
  * A factory to create JVM launchers.
- * 
  */
 public interface JvmLauncherFactory
 {

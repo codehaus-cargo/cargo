@@ -27,7 +27,6 @@ import junit.framework.Assert;
 
 /**
  * Tests for the Tomcat 7 implementation of StandaloneLocalConfigurationTest
- * 
  */
 public class Tomcat7xStandaloneLocalConfigurationTest extends
     Tomcat6xStandaloneLocalConfigurationTest

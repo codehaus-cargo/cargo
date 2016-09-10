@@ -36,7 +36,6 @@ import org.jdom.xpath.XPath;
 
 /**
  * A merging strategy that can be used to combine two XML documents together.
- * 
  */
 public class NodeMergeStrategy implements MergeStrategy
 {

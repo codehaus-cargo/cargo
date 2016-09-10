@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildF
 /**
  * WildFly 8.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- * 
  */
 public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalConfiguration
     implements WildFlyConfiguration

@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.websphere;
 
 /**
  * Gathers all WebSphere properties.
- * 
  */
 public interface WebSpherePropertySet
 {

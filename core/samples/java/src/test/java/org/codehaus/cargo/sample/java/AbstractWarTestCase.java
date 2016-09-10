@@ -27,7 +27,6 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 
 /**
  * Abstract test case for testing WARs on a container.
- * 
  */
 public abstract class AbstractWarTestCase extends AbstractCargoTestCase
 {

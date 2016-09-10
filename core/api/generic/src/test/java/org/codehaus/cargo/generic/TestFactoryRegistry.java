@@ -30,7 +30,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * To be discovered by {@link AbstractFactoryRegistry}.
- * 
  */
 public class TestFactoryRegistry extends AbstractFactoryRegistry
 {

@@ -29,7 +29,6 @@ import junit.framework.TestCase;
 
 /**
  * Ping test.
- * 
  */
 public class PingTest extends TestCase
 {

@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 
 /**
  * Static deployer that deploys EARs, EJBs and WARs to the TomEE directories.
- * 
  */
 public class Tomee1xCopyingInstalledLocalDeployer extends TomcatCopyingInstalledLocalDeployer
 {

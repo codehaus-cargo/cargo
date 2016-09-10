@@ -27,7 +27,6 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading Tomcat web deployment descriptor.
- * 
  */
 public class TomcatContextXmlIo extends AbstractDescriptorIo
 {

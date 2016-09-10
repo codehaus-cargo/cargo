@@ -29,7 +29,6 @@ import java.util.zip.ZipFile;
 
 /**
  * Some utility classes for manipulating JAR files.
- * 
  */
 public final class JarUtils
 {

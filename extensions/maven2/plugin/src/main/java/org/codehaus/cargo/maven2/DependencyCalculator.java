@@ -59,7 +59,6 @@ import org.codehaus.plexus.PlexusContainer;
  * have been done in an all-jar universe).<br><br>
  * A better way would probably be to be able to customise the dependency calculation system, but
  * this seems very bound up in all the project/artifact gubbins.
- * 
  */
 public class DependencyCalculator
 {

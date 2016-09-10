@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Special container support for the Apache Tomcat 8.x servlet container.
- * 
  */
 public class Tomcat8xInstalledLocalContainer extends Tomcat7xInstalledLocalContainer
 {

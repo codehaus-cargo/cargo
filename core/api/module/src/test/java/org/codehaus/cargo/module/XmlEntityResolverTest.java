@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link XmlEntityResolver}.
- * 
  */
 public class XmlEntityResolverTest extends TestCase
 {

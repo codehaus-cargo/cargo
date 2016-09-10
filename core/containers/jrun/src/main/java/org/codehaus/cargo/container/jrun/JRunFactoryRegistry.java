@@ -35,7 +35,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers JRun support into default factories.
- * 
  */
 public class JRunFactoryRegistry extends AbstractFactoryRegistry
 {

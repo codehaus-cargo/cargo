@@ -46,7 +46,6 @@ import org.mortbay.log.Log;
 /**
  * This servlet is used to control deploy, undeploy, redeploy, start, and stop a web application
  * within the jetty server.
- * 
  */
 public class DeployerServlet extends HttpServlet
 {

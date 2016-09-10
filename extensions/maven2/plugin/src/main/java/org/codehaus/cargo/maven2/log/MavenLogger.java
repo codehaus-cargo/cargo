@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Logger that sends messages to the Maven 2 logging subsystem.
- * 
  */
 public class MavenLogger extends AbstractLogger
 {

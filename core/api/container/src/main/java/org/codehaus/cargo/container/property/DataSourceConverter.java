@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.internal.util.PropertyUtils;
 /**
  * A DataSource is a representation of an database pool bound to JNDI. This converter will take a
  * property and convert it to a DataSource and visa versa.
- * 
  */
 public class DataSourceConverter
 {

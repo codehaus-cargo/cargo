@@ -26,7 +26,6 @@ import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
  * Unit tests for {@link EjbJarXml}.
- * 
  */
 public class EjbJarXmlTest extends AbstractDocumentBuilderTest
 {

@@ -35,7 +35,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for EAR support.
- * 
  */
 public class EarCapabilityContainerTest extends AbstractCargoTestCase
 {

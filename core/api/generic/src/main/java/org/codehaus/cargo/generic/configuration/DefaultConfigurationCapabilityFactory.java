@@ -32,7 +32,6 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 /**
  * Default implementation of {@link ConfigurationCapabilityFactory}. Registers all known
  * configuration capabilities.
- * 
  */
 public class DefaultConfigurationCapabilityFactory extends
     AbstractIntrospectionGenericHintFactory<ConfigurationCapability> implements

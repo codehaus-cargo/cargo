@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * A Tomcat manager-based deployer to perform deployment to a local Tomcat 7.x and 8.x container.
- * 
  */
 public class TomcatManager7x8xInstalledLocalDeployer extends TomcatManagerInstalledLocalDeployer
 {

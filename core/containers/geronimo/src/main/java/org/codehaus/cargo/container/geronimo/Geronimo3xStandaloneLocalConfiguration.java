@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.geronimo.internal.Geronimo2xStandaloneLocalC
 /**
  * Geronimo 3.x series standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- * 
  */
 public class Geronimo3xStandaloneLocalConfiguration extends
     AbstractGeronimoStandaloneLocalConfiguration

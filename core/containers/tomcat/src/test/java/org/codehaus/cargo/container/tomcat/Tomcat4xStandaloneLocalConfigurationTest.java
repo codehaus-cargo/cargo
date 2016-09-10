@@ -30,7 +30,6 @@ import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest
- * 
  */
 public class Tomcat4xStandaloneLocalConfigurationTest extends
     AbstractCatalinaStandaloneLocalConfigurationTest

@@ -28,7 +28,6 @@ import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
  * Unit tests for {@link WarArchive}.
- * 
  */
 public final class WarArchiveTest extends AbstractResourceTest
 {

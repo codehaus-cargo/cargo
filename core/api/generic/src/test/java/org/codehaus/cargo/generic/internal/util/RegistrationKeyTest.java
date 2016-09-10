@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Unit tests for {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}.
- * 
  */
 public class RegistrationKeyTest extends TestCase
 {

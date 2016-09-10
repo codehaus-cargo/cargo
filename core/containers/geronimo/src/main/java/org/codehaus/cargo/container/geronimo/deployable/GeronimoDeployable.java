@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
  * Geronimo-specific deployable which adds supports for passing Geronimo deployment plans.
- * 
  */
 public interface GeronimoDeployable extends Deployable
 {

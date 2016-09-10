@@ -34,7 +34,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Base deployer for local and remote deployments.
- * 
  */
 public abstract class AbstractDeployer extends LoggedObject implements Deployer
 {

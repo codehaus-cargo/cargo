@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfi
 
 /**
  * Resin existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- * 
  */
 public class Resin2xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {

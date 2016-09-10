@@ -40,7 +40,6 @@ import org.codehaus.cargo.util.CargoException;
  * installed container. Note that this deployer supports some expanded deployables by copying the
  * expanded deployable to the <code>deployable</code> directory. In other words it does not
  * support in-place expanded deployables (e.g. expanded WARs located in a different directory).
- * 
  */
 public abstract class AbstractCopyingInstalledLocalDeployer extends
     AbstractInstalledLocalDeployer

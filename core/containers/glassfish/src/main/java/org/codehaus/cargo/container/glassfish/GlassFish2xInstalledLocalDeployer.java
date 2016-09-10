@@ -35,7 +35,6 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * GlassFish 2.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
  * applications.
- * 
  */
 public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalledLocalDeployer
 {

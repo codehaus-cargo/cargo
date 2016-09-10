@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.glassfish.internal;
 
 /**
  * GlassFish 4.x container capability.
- * 
  */
 public class GlassFish4xContainerCapability extends GlassFish3xContainerCapability
 {

@@ -50,7 +50,6 @@ import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Remote deployer that uses the JMX console to deploy to JBoss.
- * 
  */
 public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 {

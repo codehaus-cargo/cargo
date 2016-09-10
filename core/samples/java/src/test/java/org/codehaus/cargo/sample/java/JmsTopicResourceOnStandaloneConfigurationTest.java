@@ -39,7 +39,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for JMS topic resource capabilities.
- * 
  */
 public class JmsTopicResourceOnStandaloneConfigurationTest extends
     AbstractResourceOnStandaloneConfigurationTest

@@ -27,7 +27,6 @@ import org.jdom.JDOMException;
 
 /**
  * Provides convenience methods for reading Websphere web deployment descriptor.
- * 
  */
 public class IbmWebBndXmiIo extends AbstractDescriptorIo
 {

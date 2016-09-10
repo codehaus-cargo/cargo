@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory;
 
 /**
  * Remote deployer that uses JMX Remoting (JSR 160) to deploy to JOnAS.
- * 
  */
 public class Jonas4xJsr160RemoteDeployer extends AbstractJonas4xRemoteDeployer
 {

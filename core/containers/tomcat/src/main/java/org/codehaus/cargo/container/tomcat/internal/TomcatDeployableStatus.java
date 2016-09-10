@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 /**
  * Status of a Deployable deployed in Tomcat. Can be a "running", "stopped", "not found".
- * 
  */
 public final class TomcatDeployableStatus
 {

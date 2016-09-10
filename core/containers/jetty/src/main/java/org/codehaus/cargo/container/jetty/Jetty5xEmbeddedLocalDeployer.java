@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDep
 
 /**
  * Deploys webapps to a Jetty 5.x instance running embedded.
- * 
  */
 public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
 {

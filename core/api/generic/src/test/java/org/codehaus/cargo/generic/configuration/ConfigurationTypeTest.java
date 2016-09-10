@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
  * Unit tests for {@link ConfigurationType}.
- * 
  */
 public class ConfigurationTypeTest extends TestCase
 {

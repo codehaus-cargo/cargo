@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * GlassFish 2.x standalone local configuration.
- * 
  */
 public class GlassFish2xStandaloneLocalConfiguration
     extends AbstractGlassFishStandaloneLocalConfiguration

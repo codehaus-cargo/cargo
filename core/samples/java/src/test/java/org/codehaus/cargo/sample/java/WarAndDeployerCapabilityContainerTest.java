@@ -38,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Validates local hot deployment of WAR archives.
- * 
  */
 public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
 {

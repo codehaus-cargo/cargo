@@ -39,7 +39,6 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for JMS queue resource capabilities.
- * 
  */
 public class JmsQueueResourceOnStandaloneConfigurationTest extends
     AbstractResourceOnStandaloneConfigurationTest

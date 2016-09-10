@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Unit tests for the {@link WebSphere85xInstalledLocalDeployer} class.
- * 
  */
 public class WebSphere85xInstalledLocalDeployerTest extends TestCase
 {

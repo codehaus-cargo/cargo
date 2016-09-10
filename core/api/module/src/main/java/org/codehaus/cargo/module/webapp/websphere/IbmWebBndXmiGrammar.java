@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.Grammar;
 
 /**
  * Grammar for a websphere web application descriptor.
- * 
  */
 public class IbmWebBndXmiGrammar implements Grammar
 {

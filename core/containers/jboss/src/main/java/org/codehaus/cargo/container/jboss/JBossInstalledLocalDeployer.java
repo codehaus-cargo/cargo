@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 
 /**
  * Static deployer that deploys WARs and EARs to the JBoss <code>deploy</code> directory.
- * 
  */
 public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {

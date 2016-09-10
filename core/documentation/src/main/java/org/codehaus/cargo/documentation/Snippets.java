@@ -47,7 +47,6 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
  * WARNING2: nested snippet ids must not contain parent's id. For example a nested
  * "configuration-typed-resin3x" is invalid if the parent has an id of "resin3x" or "configuration"
  * or "typed-resin3x".
- * 
  */
 public class Snippets
 {

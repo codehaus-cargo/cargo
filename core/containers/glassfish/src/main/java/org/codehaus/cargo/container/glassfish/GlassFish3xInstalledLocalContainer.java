@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.glassfish.internal.GlassFish3xContainerCapab
 
 /**
  * GlassFish 3.x installed local container.
- * 
  */
 public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstalledLocalContainer
 {

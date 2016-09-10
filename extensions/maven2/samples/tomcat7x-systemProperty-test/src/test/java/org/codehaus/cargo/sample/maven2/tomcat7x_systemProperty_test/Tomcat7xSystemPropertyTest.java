@@ -29,7 +29,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Test setting system properties on Tomcat 7.x.
- * 
  */
 public class Tomcat7xSystemPropertyTest extends TestCase
 {

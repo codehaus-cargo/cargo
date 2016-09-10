@@ -24,7 +24,6 @@ import org.codehaus.cargo.module.webapp.WebXmlTag;
 
 /**
  * Context Parameter class for accessing context parameters in a <code>web.xml</code> file.
- * 
  */
 public class InitParam extends WebXmlElement
 {

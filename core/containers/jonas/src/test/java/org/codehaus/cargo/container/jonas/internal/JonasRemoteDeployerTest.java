@@ -40,7 +40,6 @@ import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
- * 
  */
 public class JonasRemoteDeployerTest extends MockObjectTestCase
 {

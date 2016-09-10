@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
  * GlassFish 3.x remote container.
- * 
  */
 public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 {

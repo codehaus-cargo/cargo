@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 
 /**
  * Tests {@link Resource} implementation.
- * 
  */
 public class ResourceTest extends TestCase
 {

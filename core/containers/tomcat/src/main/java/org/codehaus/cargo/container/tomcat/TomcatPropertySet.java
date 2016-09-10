@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomcat;
 
 /**
  * Gathers all Tomcat properties.
- * 
  */
 public interface TomcatPropertySet
 {

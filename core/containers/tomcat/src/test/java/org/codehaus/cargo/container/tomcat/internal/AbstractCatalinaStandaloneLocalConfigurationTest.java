@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 
 /**
  * Unit tests for Tomcat standalone local configurations.
- * 
  */
 public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest

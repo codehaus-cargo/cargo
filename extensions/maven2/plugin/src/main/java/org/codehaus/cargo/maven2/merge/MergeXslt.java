@@ -32,7 +32,6 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Merge processor that uses XSLT
- * 
  */
 public class MergeXslt implements MergeProcessorFactory
 {

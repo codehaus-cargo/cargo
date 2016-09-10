@@ -34,7 +34,6 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers Orion support into default factories.
- * 
  */
 public class OrionFactoryRegistry extends AbstractFactoryRegistry
 {

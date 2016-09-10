@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 
 /**
  * Remote deployer that uses the Model Controller Client to deploy to WildFly 9.x.
- * 
  */
 public class WildFly9xRemoteDeployer extends WildFly8xRemoteDeployer
 {

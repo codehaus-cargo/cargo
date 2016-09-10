@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 
 /**
  * Capabilities of the Geronimo's standalone local configuration.
- * 
  */
 public class Geronimo1xStandaloneLocalConfigurationCapability
     extends AbstractStandaloneLocalConfigurationCapability

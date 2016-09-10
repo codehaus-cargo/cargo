@@ -37,7 +37,6 @@ import org.codehaus.cargo.maven2.util.CargoProject;
 
 /**
  * Unit tests for {@link Configuration}.
- * 
  */
 public class ConfigurationTest extends TestCase
 {

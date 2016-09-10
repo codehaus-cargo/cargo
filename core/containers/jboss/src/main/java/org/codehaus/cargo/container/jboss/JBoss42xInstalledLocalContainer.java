@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * JBoss 4.2.x series container implementation.
- * 
  */
 public class JBoss42xInstalledLocalContainer extends JBoss4xInstalledLocalContainer
 {

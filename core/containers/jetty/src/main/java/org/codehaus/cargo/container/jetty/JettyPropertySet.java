@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.jetty;
 
 /**
  * Gathers all Jetty properties.
- * 
  */
 public interface JettyPropertySet
 {

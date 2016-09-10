@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 
 /**
  * Wraps a SAR file that will be deployed in the container.
- * 
  */
 public class SAR extends AbstractDeployable
 {

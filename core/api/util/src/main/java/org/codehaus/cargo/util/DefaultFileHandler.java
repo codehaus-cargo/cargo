@@ -64,7 +64,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * File operations that are performed in Cargo. All file operations must use this class.
- * 
  */
 public class DefaultFileHandler extends LoggedObject implements FileHandler
 {

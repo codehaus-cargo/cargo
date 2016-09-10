@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 
 /**
  * Test for the Configuration Files option.
- * 
  */
 public class ConfigurationFilesTest extends TestCase
 {

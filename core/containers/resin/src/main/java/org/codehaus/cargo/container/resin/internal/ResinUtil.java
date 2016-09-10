@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.ContainerException;
 
 /**
  * Set of common Resin utility methods.
- * 
  */
 public class ResinUtil
 {

@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.EJB;
 
 /**
  * Geronimo EJB deployable.
- * 
  */
 public class GeronimoEJB extends EJB implements GeronimoDeployable
 {

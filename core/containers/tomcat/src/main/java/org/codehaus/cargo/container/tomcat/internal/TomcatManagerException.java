@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 /**
  * Indicates an error received from Tomcat manager.
- * 
  */
 public class TomcatManagerException extends Exception
 {

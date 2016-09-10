@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 
 /**
  * Test for resource capabilities.
- * 
  */
 public abstract class AbstractResourceOnStandaloneConfigurationTest extends AbstractWarTestCase
 {

@@ -26,7 +26,6 @@ import org.jdom.Element;
 
 /**
  * Wrapper Class representing a resin-web.xml JNDI link.
- * 
  */
 public class JndiLink extends DescriptorElement
 {

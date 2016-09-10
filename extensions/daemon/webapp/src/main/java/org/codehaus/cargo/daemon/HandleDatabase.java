@@ -33,7 +33,6 @@ import org.json.simple.JSONValue;
 
 /**
  * Keeps track of handles in memory, with support to load from and save to disk.
- * 
  */
 public class HandleDatabase
 {

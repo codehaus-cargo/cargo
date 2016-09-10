@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link Dtd}.
- * 
  */
 public class DtdTest extends TestCase
 {

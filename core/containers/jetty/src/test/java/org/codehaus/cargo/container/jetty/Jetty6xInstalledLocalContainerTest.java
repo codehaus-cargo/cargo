@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.Container;
 
 /**
  * Unit tests for {@link Jetty6xInstalledLocalContainer}.
- * 
  */
 public class Jetty6xInstalledLocalContainerTest extends TestCase
 {

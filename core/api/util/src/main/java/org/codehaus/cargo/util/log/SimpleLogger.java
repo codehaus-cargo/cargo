@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
 /**
  * Simple implementation which sends log messages to the console (stdout).
- * 
  */
 public class SimpleLogger extends AbstractLogger
 {

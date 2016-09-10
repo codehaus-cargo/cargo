@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
 /**
  * Null implementation which does nothing with log messages.
- * 
  */
 public class NullLogger extends AbstractLogger
 {

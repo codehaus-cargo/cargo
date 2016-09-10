@@ -25,7 +25,6 @@ import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Unit tests for {@link AbstractLogger}.
- * 
  */
 public class LoggerTest extends TestCase
 {

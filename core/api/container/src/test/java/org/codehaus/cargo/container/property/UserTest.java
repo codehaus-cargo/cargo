@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.ContainerException;
 
 /**
  * Unit tests for {@link User}.
- * 
  */
 public class UserTest extends TestCase
 {

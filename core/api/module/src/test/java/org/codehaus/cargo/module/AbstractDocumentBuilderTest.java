@@ -33,7 +33,6 @@ import org.xml.sax.SAXException;
 /**
  * Helper {@link TestCase} that provides a {@link TestCase#setUp} method that creates a
  * {@link javax.xml.parsers.DocumentBuilder}.
- * 
  */
 public abstract class AbstractDocumentBuilderTest extends TestCase
 {

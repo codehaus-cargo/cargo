@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 
 /**
  * A mostly canned config for a Jetty 4.x container.
- * 
  */
 public class Jetty4xEmbeddedStandaloneLocalConfiguration
     extends AbstractJettyEmbeddedStandaloneLocalConfiguration

@@ -34,7 +34,6 @@ import org.w3c.dom.ls.LSSerializer;
 
 /**
  * Contains the xml elements used to build a normal or XA compliant DataSource for WebLogic.
- * 
  */
 public class WebLogic8xConfigurationBuilder extends AbstractConfigurationBuilder
 {

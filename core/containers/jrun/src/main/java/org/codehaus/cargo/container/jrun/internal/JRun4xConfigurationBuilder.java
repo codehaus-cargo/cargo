@@ -33,7 +33,6 @@ import org.w3c.dom.ls.LSSerializer;
 
 /**
  * Contains the xml elements used to build a normal or XA compliant DataSource for JRun.
- * 
  */
 public class JRun4xConfigurationBuilder extends AbstractConfigurationBuilder
 {

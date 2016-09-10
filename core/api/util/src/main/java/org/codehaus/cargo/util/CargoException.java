@@ -24,7 +24,6 @@ import java.io.PrintWriter;
 
 /**
  * Base exception class for all Cargo classes.
- * 
  */
 public class CargoException extends RuntimeException
 {

@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.geronimo;
 
 /**
  * Interface for Geronimo-specific properties.
- * 
  */
 public interface GeronimoPropertySet
 {

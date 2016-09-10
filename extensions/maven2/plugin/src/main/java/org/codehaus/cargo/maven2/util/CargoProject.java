@@ -30,7 +30,6 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * Holder class to transport all required information to the configuration classes.
- * 
  */
 public class CargoProject
 {

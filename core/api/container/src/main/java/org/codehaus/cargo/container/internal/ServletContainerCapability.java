@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Capability for Servlet containers.
- * 
  */
 public class ServletContainerCapability implements ContainerCapability
 {

@@ -27,7 +27,6 @@ import org.codehaus.cargo.module.DescriptorTag;
 /**
  * Represents the various top-level tags in a enterprise application deployment descriptor as a
  * typesafe enumeration.
- * 
  */
 public final class ApplicationXmlTag extends DescriptorTag
 {

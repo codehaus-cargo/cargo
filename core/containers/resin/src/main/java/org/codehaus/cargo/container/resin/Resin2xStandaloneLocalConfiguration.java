@@ -37,7 +37,6 @@ import org.codehaus.cargo.container.resin.internal.Resin2xStandaloneLocalConfigu
 /**
  * Resin 2.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * 
  */
 public class Resin2xStandaloneLocalConfiguration extends
     AbstractResinStandaloneLocalConfiguration

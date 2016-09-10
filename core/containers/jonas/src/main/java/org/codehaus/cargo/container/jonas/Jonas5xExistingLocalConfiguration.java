@@ -28,7 +28,6 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasExistingLocalCon
 
 /**
  * JOnAS existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
- * 
  */
 public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLocalConfiguration
 {

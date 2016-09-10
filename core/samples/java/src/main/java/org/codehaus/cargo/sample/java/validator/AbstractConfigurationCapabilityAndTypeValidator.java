@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 /**
  * Abstract validator, that overrides {@link AbstractConfigurationCapabilityValidator} and also
  * takes into account {@link ConfigurationType}.
- * 
  */
 public abstract class AbstractConfigurationCapabilityAndTypeValidator
     extends AbstractConfigurationCapabilityValidator

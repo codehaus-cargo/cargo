@@ -52,7 +52,6 @@ import org.codehaus.cargo.util.Base64;
  * <code>/contexts</code></li>
  * <li>Should not be used with multiple webapps sharing a common war</li>
  * </ul>
- * 
  */
 public class JettyRemoteDeployer extends AbstractRemoteDeployer
 {

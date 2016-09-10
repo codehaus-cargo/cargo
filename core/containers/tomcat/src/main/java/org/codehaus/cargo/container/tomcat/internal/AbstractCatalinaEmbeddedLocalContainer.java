@@ -39,7 +39,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Base support for Catalina based embedded local containers.
- * 
  */
 public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmbeddedLocalContainer
 {

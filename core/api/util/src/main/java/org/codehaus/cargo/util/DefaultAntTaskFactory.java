@@ -30,7 +30,6 @@ import org.apache.tools.ant.Task;
 
 /**
  * Default {@link AntTaskFactory} for creating Ant tasks.
- * 
  */
 public class DefaultAntTaskFactory implements AntTaskFactory
 {

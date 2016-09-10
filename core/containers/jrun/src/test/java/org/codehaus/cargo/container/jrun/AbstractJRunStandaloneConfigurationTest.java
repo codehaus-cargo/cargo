@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 
 /**
  * {@link AbstractLocalConfigurationWithConfigurationBuilderTest} for JRun.
- * 
  */
 public abstract class AbstractJRunStandaloneConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest

@@ -31,7 +31,6 @@ import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link Jonas5xExistingLocalConfiguration}.
- * 
  */
 public class Jonas5xExistingLocalConfigurationTest extends TestCase
 {

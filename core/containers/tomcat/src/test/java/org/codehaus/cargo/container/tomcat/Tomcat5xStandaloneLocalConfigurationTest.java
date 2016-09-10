@@ -29,7 +29,6 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationChe
 
 /**
  * Tests for the Tomcat 5 implementation of StandaloneLocalConfigurationTest
- * 
  */
 public class Tomcat5xStandaloneLocalConfigurationTest extends
     AbstractCatalinaStandaloneLocalConfigurationTest

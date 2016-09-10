@@ -25,7 +25,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss73xStandaloneLocalConfig
 
 /**
  * JBoss 7.3.x (EAP 6.2.x) standalone local configuration.
- * 
  */
 public class JBoss73xStandaloneLocalConfiguration extends JBoss72xStandaloneLocalConfiguration
 {

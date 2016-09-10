@@ -29,7 +29,6 @@ import org.jdom.Element;
  * Encapsulates the DOM representation of a weblogic ejb deployment descriptor
  * <code>weblogic-ejb-jar.xml</code> to provide convenience methods for easy access and
  * manipulation.
- * 
  */
 public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDescriptor
 {

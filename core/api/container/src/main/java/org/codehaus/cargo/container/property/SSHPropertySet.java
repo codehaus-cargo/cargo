@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.property;
 
 /**
  * Gathers all ssh properties valid for all types of containers.
- * 
  */
 public interface SSHPropertySet
 {

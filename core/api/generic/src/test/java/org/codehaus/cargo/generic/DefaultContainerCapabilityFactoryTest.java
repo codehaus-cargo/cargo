@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
  * Unit tests for {@link org.codehaus.cargo.generic.DefaultContainerCapabilityFactory}.
- * 
  */
 public class DefaultContainerCapabilityFactoryTest extends TestCase
 {

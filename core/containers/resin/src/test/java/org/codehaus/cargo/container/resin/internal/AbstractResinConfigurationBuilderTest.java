@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurat
 
 /**
  * Unit tests for Resin servers' configuration builder.
- * 
  */
 public abstract class AbstractResinConfigurationBuilderTest extends
     AbstractConfigurationBuilderTest

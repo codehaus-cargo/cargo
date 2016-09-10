@@ -37,7 +37,6 @@ import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Test for WAR support.
- * 
  */
 public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTestCase
 {

@@ -39,7 +39,6 @@ import org.codehaus.cargo.util.CargoException;
 
 /**
  * Abstract GlassFish installed local container.
- * 
  */
 public abstract class AbstractGlassFishInstalledLocalContainer
     extends AbstractInstalledLocalContainer

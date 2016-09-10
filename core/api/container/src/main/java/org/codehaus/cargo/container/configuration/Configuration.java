@@ -36,7 +36,6 @@ import org.codehaus.cargo.util.log.Loggable;
  * started. The settings that can be set/unset depend on the container's capability for dynamically
  * changing settings.</li>
  * </ul>
- * 
  */
 public interface Configuration extends Loggable
 {

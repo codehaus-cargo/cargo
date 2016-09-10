@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaInstalledLoc
 
 /**
  * Special container support for the Apache Tomcat 6.x servlet container.
- * 
  */
 public class Tomcat6xInstalledLocalContainer extends AbstractCatalinaInstalledLocalContainer
 {

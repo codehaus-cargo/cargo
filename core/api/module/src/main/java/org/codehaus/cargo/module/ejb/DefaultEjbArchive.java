@@ -35,7 +35,6 @@ import org.jdom.JDOMException;
 
 /**
  * Class that encapsulates access to an EJB JAR.
- * 
  */
 public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 {

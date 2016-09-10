@@ -55,7 +55,6 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Tests of CARGO Daemon using the Java client.
- * 
  */
 public class CargoDaemonClientTest extends TestCase
 {

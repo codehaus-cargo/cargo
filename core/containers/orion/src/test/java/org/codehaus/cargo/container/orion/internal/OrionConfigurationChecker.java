@@ -30,7 +30,6 @@ import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Contains XML logic used to validate the XML output of an Orion DataSource configuration.
- * 
  */
 public class OrionConfigurationChecker implements ConfigurationChecker
 {

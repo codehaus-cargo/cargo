@@ -30,7 +30,6 @@ import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
 
 /**
  * Geronimo WAR deployable.
- * 
  */
 public class GeronimoWAR extends WAR implements GeronimoDeployable
 {

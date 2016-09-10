@@ -24,7 +24,6 @@ import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Base clas for all Loggers.
- * 
  */
 public abstract class AbstractLogger implements Logger
 {

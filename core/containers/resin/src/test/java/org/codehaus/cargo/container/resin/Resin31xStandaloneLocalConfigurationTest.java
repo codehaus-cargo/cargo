@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Unit tests for {@link Resin31xStandaloneLocalConfiguration}.
- * 
  */
 public class Resin31xStandaloneLocalConfigurationTest
     extends Resin3xStandaloneLocalConfigurationTest

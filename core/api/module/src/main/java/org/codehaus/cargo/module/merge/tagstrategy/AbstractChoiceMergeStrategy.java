@@ -29,7 +29,6 @@ import org.codehaus.cargo.module.DescriptorElement;
  * 
  * Child classes implement the getApplicableStrategy based on whatever information is neccessary to
  * make that decision
- * 
  */
 public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
 {
