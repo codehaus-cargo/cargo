@@ -1430,11 +1430,6 @@
   </modules>
 
   <properties>
-    <!--
-      By default, only test on Tomcat 6;
-      indeed the ANT and Maven2 samples also run on Tomcat 6
-      -->
-    <cargo.containers>tomcat6x</cargo.containers>
     <!-- default from surefire -->
     <surefire.childDelegation>false</surefire.childDelegation>
     <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
@@ -1710,6 +1705,9 @@
     </profile>
     <profile>
       <id>tomcat7x</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <cargo.containers>tomcat7x</cargo.containers>
       </properties>

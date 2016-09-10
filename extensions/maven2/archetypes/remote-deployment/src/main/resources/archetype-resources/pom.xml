@@ -116,7 +116,7 @@
       https://codehaus-cargo.github.io/cargo/Jetty+Remote+Deployer.html
       -->
     <profile>
-      <id>jetty7x</id>
+      <id>jetty8x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -125,29 +125,7 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty7x</containerId>
-                </container>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-    <!--
-      Before using the Jetty remote deployer, please read:
-      https://codehaus-cargo.github.io/cargo/Jetty+Remote+Deployer.html
-      -->
-    <profile>
-      <id>jetty6x</id>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-maven2-plugin</artifactId>
-              <configuration>
-                <container>
-                  <containerId>jetty6x</containerId>
+                  <containerId>jetty8x</containerId>
                 </container>
               </configuration>
             </plugin>
@@ -156,7 +134,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat6x</id>
+      <id>tomcat7x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -168,7 +146,7 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>tomcat6x</containerId>
+                  <containerId>tomcat7x</containerId>
                 </container>
               </configuration>
             </plugin>

@@ -98,7 +98,7 @@
 
   <profiles>
     <profile>
-      <id>jetty7x</id>
+      <id>jetty8x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -110,11 +110,11 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty7x</containerId>
+                  <containerId>jetty8x</containerId>
                   <artifactInstaller>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-distribution</artifactId>
-                    <version>7.6.17.v20150415</version>
+                    <version>8.1.17.v20150415</version>
                   </artifactInstaller>
                 </container>
               </configuration>
@@ -124,7 +124,7 @@
       </build>
     </profile>
     <profile>
-      <id>jetty6x</id>
+      <id>jetty7x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -133,7 +133,7 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty6x</containerId>
+                  <containerId>jetty7x</containerId>
                   <type>embedded</type>
                 </container>
               </configuration>
@@ -143,7 +143,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat6x</id>
+      <id>tomcat7x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -152,30 +152,9 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>tomcat6x</containerId>
+                  <containerId>tomcat7x</containerId>
                   <zipUrlInstaller>
-                    <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</url>
-                  </zipUrlInstaller>
-                </container>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-    <profile>
-      <id>jboss51x</id>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.codehaus.cargo</groupId>
-              <artifactId>cargo-maven2-plugin</artifactId>
-              <configuration>
-                <container>
-                  <containerId>jboss51x</containerId>
-                  <zipUrlInstaller>
-                    <url>http://downloads.sourceforge.net/jboss/jboss-5.1.0.GA.zip?big_mirror=1</url>
+                    <url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>
@@ -270,6 +249,29 @@
                     <artifactId>geronimo-tomcat7-javaee6</artifactId>
                     <version>3.0.1</version>
                     <classifier>bin</classifier>
+                  </artifactInstaller>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>wildfly10x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven2-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>wildfly10x</containerId>
+                  <artifactInstaller>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-dist</artifactId>
+                    <version>10.1.0.Final</version>
                   </artifactInstaller>
                 </container>
               </configuration>
