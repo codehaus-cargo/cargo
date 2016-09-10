@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.jboss.internal.JBoss75xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.Dom4JXmlFileBuilder;
+import org.codehaus.cargo.util.DefaultXmlFileBuilder;
 import org.codehaus.cargo.util.XmlFileBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -117,7 +117,7 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
                 String port = resource.getParameter("mail.smtp.port") != null
                         ? resource.getParameter("mail.smtp.port") : "25";
 
-                XmlFileBuilder manager = new Dom4JXmlFileBuilder(getFileHandler());
+                XmlFileBuilder manager = new DefaultXmlFileBuilder(getFileHandler());
                 manager.setFile(configurationXmlFilePath);
                 Document document = manager.loadFile();
                 manager.setNamespaces(ns);

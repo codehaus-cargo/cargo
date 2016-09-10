@@ -517,7 +517,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     private void replaceInXmlFile(String file, Map<XmlReplacementDetails, String> replacements)
         throws CargoException
     {
-        Dom4JUtil domUtils = new Dom4JUtil(this);
+        XmlUtils domUtils = new XmlUtils(this);
         Document doc = domUtils.loadXmlFromFile(file);
 
         try

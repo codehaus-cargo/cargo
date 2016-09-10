@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.XMLAssert;
@@ -91,7 +91,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     /**
      * XML utilities.
      */
-    private Dom4JUtil xmlUtil;
+    private XmlUtils xmlUtil;
 
     /**
      * Creates the test file system manager and the container. {@inheritDoc}
@@ -106,7 +106,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
         this.fileHandler = new VFSFileHandler(this.fsManager);
         this.fileHandler.delete(BEA_HOME);
         this.fileHandler.createDirectory(DOMAIN_HOME, "");
-        this.xmlUtil = new Dom4JUtil(this.fileHandler);
+        this.xmlUtil = new XmlUtils(this.fileHandler);
 
         LocalConfiguration configuration =
             new WebLogic8xStandaloneLocalConfiguration(DOMAIN_HOME);

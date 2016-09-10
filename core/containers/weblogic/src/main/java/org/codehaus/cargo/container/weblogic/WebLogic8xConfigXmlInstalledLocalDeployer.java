@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -56,7 +56,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
      */
     public void writeConfigXml(Document configXml)
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        XmlUtils xmlUtil = new XmlUtils(getFileHandler());
         xmlUtil.saveXml(configXml, getFileHandler().append(getDomainHome(), "config.xml"));
     }
 
@@ -79,7 +79,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     @Override
     public void deploy(Deployable deployable)
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        XmlUtils xmlUtil = new XmlUtils(getFileHandler());
         Document configXml =
             xmlUtil.loadXmlFromFile(getFileHandler().append(getDomainHome(), "config.xml"));
         Element domain = xmlUtil.selectElementMatchingXPath("//Domain",
@@ -110,7 +110,7 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     @Override
     public void undeploy(Deployable deployable)
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        XmlUtils xmlUtil = new XmlUtils(getFileHandler());
         Document configXml =
             xmlUtil.loadXmlFromFile(getFileHandler().append(getDomainHome(), "config.xml"));
         List<Element> results = xmlUtil.selectElementsMatchingXPath("//Application[@Path='"

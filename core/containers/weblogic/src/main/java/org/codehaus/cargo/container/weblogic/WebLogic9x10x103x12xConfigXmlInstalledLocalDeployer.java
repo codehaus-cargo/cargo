@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,7 +46,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
     /**
      * used to manipulate the config.xml document.
      */
-    private Dom4JUtil xmlTool;
+    private XmlUtils xmlTool;
 
     /**
      * XML namespace to use.
@@ -62,7 +62,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
     {
         super(container);
 
-        xmlTool = new Dom4JUtil();
+        xmlTool = new XmlUtils();
         if (container instanceof WebLogic12xInstalledLocalContainer
             || container instanceof WebLogic121xInstalledLocalContainer)
         {

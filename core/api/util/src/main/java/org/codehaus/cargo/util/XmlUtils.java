@@ -47,9 +47,9 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 
 /**
- * This class offers utility methods not exposed in the current dom4j api.
+ * This class offers utility methods for handling XML files.
  */
-public class Dom4JUtil
+public class XmlUtils
 {
     /**
      * File utility class.
@@ -74,7 +74,7 @@ public class Dom4JUtil
     /**
      * default constructor will assign no namespaces and use a default file handler.
      */
-    public Dom4JUtil()
+    public XmlUtils()
     {
         this(new DefaultFileHandler());
     }
@@ -84,7 +84,7 @@ public class Dom4JUtil
      * 
      * @param fileHandler used to read and write xml files.
      */
-    public Dom4JUtil(FileHandler fileHandler)
+    public XmlUtils(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
         XPathFactory xPathFactory = XPathFactory.newInstance();

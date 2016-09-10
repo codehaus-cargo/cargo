@@ -27,14 +27,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Unit tests for {@link Dom4JUtil}.
+ * Unit tests for {@link XmlUtils}.
  */
-public class Dom4JUtilTest extends TestCase
+public class XmlUtilsTest extends TestCase
 {
     /**
      * Dom4j utilities.
      */
-    private Dom4JUtil util;
+    private XmlUtils util;
 
     /**
      * XML test element.
@@ -49,7 +49,7 @@ public class Dom4JUtilTest extends TestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        util = new Dom4JUtil();
+        util = new XmlUtils();
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = domFactory.newDocumentBuilder();
         Document document = builder.newDocument();

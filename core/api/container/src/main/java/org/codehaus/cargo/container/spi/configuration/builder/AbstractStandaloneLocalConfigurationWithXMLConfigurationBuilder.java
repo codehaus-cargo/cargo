@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.configuration.entry.DataSourceSupport;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.util.Dom4JXmlFileBuilder;
+import org.codehaus.cargo.util.DefaultXmlFileBuilder;
 import org.codehaus.cargo.util.XmlFileBuilder;
 
 /**
@@ -176,7 +176,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
      */
     protected void writeConfigurationToXpath(String file, String xml, String path)
     {
-        XmlFileBuilder manager = new Dom4JXmlFileBuilder(getFileHandler());
+        XmlFileBuilder manager = new DefaultXmlFileBuilder(getFileHandler());
         manager.setNamespaces(getNamespaces());
         manager.setFile(file);
         manager.loadFile();

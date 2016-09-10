@@ -38,7 +38,7 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationBui
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationBuilder;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,7 +60,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * used to manipulate the config.xml document.
      */
-    private Dom4JUtil xmlTool;
+    private XmlUtils xmlTool;
 
     /**
      * used to generate the weblogic configuration files
@@ -88,7 +88,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         namespaces.put("jdbc", "http://www.bea.com/ns/weblogic/90");
 
-        xmlTool = new Dom4JUtil();
+        xmlTool = new XmlUtils();
         xmlTool.setNamespaces(namespaces);
         xmlTool.setFileHandler(getFileHandler());
 

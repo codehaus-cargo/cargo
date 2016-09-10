@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -54,7 +54,7 @@ public class JRun4xFilterChain extends FilterChain
     /**
      * XML utilities.
      */
-    private Dom4JUtil xmlUtil;
+    private XmlUtils xmlUtil;
 
     /**
      * Sole constructor.
@@ -64,7 +64,7 @@ public class JRun4xFilterChain extends FilterChain
     {
         this.jrunContainer = (InstalledLocalContainer) jrunContainer;
         this.configuration = jrunContainer.getConfiguration();
-        this.xmlUtil = new Dom4JUtil(jrunContainer.getFileHandler());
+        this.xmlUtil = new XmlUtils(jrunContainer.getFileHandler());
         this.init();
     }
 

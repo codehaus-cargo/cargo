@@ -27,15 +27,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * {@inheritDoc} This implementation uses @{link Dom4JUtil Dom4JUtil} to manipulate xml files.
+ * {@inheritDoc} This implementation uses the {@link XmlUtils} class to manipulate XML files.
  */
-public class Dom4JXmlFileBuilder implements XmlFileBuilder
+public class DefaultXmlFileBuilder implements XmlFileBuilder
 {
 
     /**
-     * used to access more sophisticated @{link org.dom4j dom4j} functions.
+     * used to access more sophisticated XML utility functions.
      */
-    private Dom4JUtil xmlUtil;
+    private XmlUtils xmlUtil;
 
     /**
      * the name of the file we are to load or save.
@@ -53,9 +53,9 @@ public class Dom4JXmlFileBuilder implements XmlFileBuilder
      * 
      * @param fileHandler used for file i/o.
      */
-    public Dom4JXmlFileBuilder(FileHandler fileHandler)
+    public DefaultXmlFileBuilder(FileHandler fileHandler)
     {
-        xmlUtil = new Dom4JUtil(fileHandler);
+        xmlUtil = new XmlUtils(fileHandler);
     }
 
     /**

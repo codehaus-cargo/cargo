@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -100,7 +100,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
 
                     // Copy only the context.xml to <config>/Catalina/<hostname>/<context-path>.xml
                     // and set docBase to point at the expanded WAR
-                    Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+                    XmlUtils xmlUtil = new XmlUtils(getFileHandler());
                     Document doc =
                         xmlUtil.loadXmlFromFile(getFileHandler().append(war.getFile(),
                             "META-INF/context.xml"));

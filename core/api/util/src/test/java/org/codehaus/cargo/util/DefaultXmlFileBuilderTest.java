@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 /**
  * Unit tests for {@link XmlFileBuilder}.
  */
-public class Dom4JXmlFileBuilderTest extends TestCase
+public class DefaultXmlFileBuilderTest extends TestCase
 {
     /**
      * Test file name.
@@ -63,7 +63,7 @@ public class Dom4JXmlFileBuilderTest extends TestCase
     /**
      * Dom4j utilities.
      */
-    private Dom4JUtil util;
+    private XmlUtils util;
 
     /**
      * XML document builder.
@@ -85,8 +85,8 @@ public class Dom4JXmlFileBuilderTest extends TestCase
         this.fsManager = new StandardFileSystemManager();
         ((StandardFileSystemManager) this.fsManager).init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
-        util = new Dom4JUtil(fileHandler);
-        manager = new Dom4JXmlFileBuilder(fileHandler);
+        util = new XmlUtils(fileHandler);
+        manager = new DefaultXmlFileBuilder(fileHandler);
         namespaces = new HashMap<String, String>();
         namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
         NamespaceContext ctx = new SimpleNamespaceContext(namespaces);

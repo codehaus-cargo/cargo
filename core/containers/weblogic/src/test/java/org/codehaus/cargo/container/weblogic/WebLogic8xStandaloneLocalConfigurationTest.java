@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationChecker;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.w3c.dom.Document;
 
@@ -171,7 +171,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     @Override
     protected void setUpDataSourceFile() throws Exception
     {
-        Dom4JUtil xmlUtil = new Dom4JUtil(getFileHandler());
+        XmlUtils xmlUtil = new XmlUtils(getFileHandler());
         String file = configuration.getHome() + "/config.xml";
         Document document = xmlUtil.createDocument();
         document.appendChild(document.createElement("Domain"));

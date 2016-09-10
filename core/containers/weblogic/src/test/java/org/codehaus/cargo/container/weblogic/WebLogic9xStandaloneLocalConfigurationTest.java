@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationChecker;
-import org.codehaus.cargo.util.Dom4JUtil;
+import org.codehaus.cargo.util.XmlUtils;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
@@ -58,7 +58,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     /**
      * XML utilities.
      */
-    private Dom4JUtil xmlUtil;
+    private XmlUtils xmlUtil;
 
     /**
      * Creates a {@link WebLogic9xStandaloneLocalConfiguration}. {@inheritDoc}
@@ -117,7 +117,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         NamespaceContext ctx = new SimpleNamespaceContext(m);
         XMLUnit.setXpathNamespaceContext(ctx);
 
-        this.xmlUtil = new Dom4JUtil(getFileHandler());
+        this.xmlUtil = new XmlUtils(getFileHandler());
         this.document = xmlUtil.createDocument();
         this.domain = document.createElement("domain");
         domain.setAttribute("xmlns", "http://www.bea.com/ns/weblogic/920/domain");
