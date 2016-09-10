@@ -73,6 +73,10 @@
                 <systemProperties>
                   <derby.system.home>${project.build.directory}/derby</derby.system.home>
                 </systemProperties>
+                <zipUrlInstaller>
+                  <url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</url>
+                  <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
+                </zipUrlInstaller>
               </container>
               <configuration>
                 <home>${project.build.directory}/catalina-base</home>

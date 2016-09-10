@@ -62,6 +62,10 @@
           <configuration>
             <container>
               <containerId>tomcat7x</containerId>
+              <zipUrlInstaller>
+                <url>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</url>
+                <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
+              </zipUrlInstaller>
             </container>
             <configuration>
               <properties>
