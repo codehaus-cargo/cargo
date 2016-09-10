@@ -26,14 +26,11 @@
   <artifactId>simple-har</artifactId>
   <name>Cargo Simple HAR test data for samples</name>
   <packaging>jboss-har</packaging>
-
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jboss-packaging-maven-plugin</artifactId>
-        <version>2.2</version>
-        <extensions>true</extensions>
       </plugin>
     </plugins>
   </build>

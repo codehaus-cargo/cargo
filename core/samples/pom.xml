@@ -1432,7 +1432,7 @@
   <properties>
     <!--
       By default, only test on Tomcat 6;
-      indeed the ANT ant Maven2 samples also run on Tomcat 6
+      indeed the ANT and Maven2 samples also run on Tomcat 6
       -->
     <cargo.containers>tomcat6x</cargo.containers>
     <!-- default from surefire -->
@@ -1447,7 +1447,7 @@
             ${settings.localRepository}/org/codehaus/cargo/installs
       -->
     <cargo.download.dir>${project.basedir}/installs</cargo.download.dir>
-    <!-- Tomcat 5x and Jetty 7x require this setting for the embedded tests -->
+    <!-- Tomcat 5.x and Jetty 7.x require this setting for the embedded tests -->
     <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>

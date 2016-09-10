@@ -67,65 +67,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--
-      <plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>start-cargo-first-container</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-            <configuration>
-              <container>
-                <containerId>jetty7x</containerId>
-                <artifactInstaller>
-                  <groupId>org.eclipse.jetty</groupId>
-                  <artifactId>jetty-distribution</artifactId>
-                  <version>7.6.17.v20150415</version>
-                </artifactInstaller>
-              </container>
-              <configuration>
-                <properties>
-                  <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
-                </properties>
-              </configuration>
-            </configuration>
-          </execution>
-          <execution>
-            <id>start-cargo-second-container</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-            <configuration>
-              <container>
-                <containerId>jetty8x</containerId>
-                <artifactInstaller>
-                  <groupId>org.eclipse.jetty</groupId>
-                  <artifactId>jetty-distribution</artifactId>
-                  <version>8.1.17.v20150415</version>
-                </artifactInstaller>
-              </container>
-              <configuration>
-                <properties>
-                  <cargo.servlet.port>\${servlet2.port}</cargo.servlet.port>
-                </properties>
-              </configuration>
-            </configuration>
-          </execution>
-          <execution>
-            <id>stop-cargo</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      -->
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>

@@ -37,6 +37,11 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-deploy</artifactId>
+      <!--
+        Version declaration needs to stay here as different jetty-deployer modules
+        depend on different versions of same artifact. codehaus-cargo can not simply
+        use single version in dependencyManagement.
+        -->
       <version>7.6.17.v20150415</version>
       <scope>provided</scope>
     </dependency>
