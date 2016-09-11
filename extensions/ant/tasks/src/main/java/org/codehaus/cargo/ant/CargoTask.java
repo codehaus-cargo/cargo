@@ -411,7 +411,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * @see LocalContainer#setAppend(boolean)
+     * @see org.codehaus.cargo.container.internal.RunnableContainer#setAppend(boolean)
      * @param isAppend Whether to append logs.
      */
     public void setAppend(boolean isAppend)
@@ -420,7 +420,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * @see LocalContainer#setTimeout(long)
+     * @see org.codehaus.cargo.container.internal.RunnableContainer#setTimeout(long)
      * @param timeout Container timeout to set.
      */
     public void setTimeout(long timeout)
@@ -1003,7 +1003,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * @see LocalContainer#getTimeout(long)
+     * @see org.codehaus.cargo.container.internal.RunnableContainer#getTimeout()
      * @return Container timeout.
      */
     protected final long getTimeout()
@@ -1047,7 +1047,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * @see LocalContainer#getAppend()
+     * @see org.codehaus.cargo.container.internal.RunnableContainer#isAppend()
      * @return Whether to append logs.
      */
     protected final boolean isAppend()

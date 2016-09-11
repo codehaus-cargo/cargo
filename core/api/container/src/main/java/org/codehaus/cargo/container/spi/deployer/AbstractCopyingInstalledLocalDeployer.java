@@ -57,7 +57,7 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public AbstractCopyingInstalledLocalDeployer(LocalContainer container)
     {
