@@ -34,8 +34,8 @@ public class ImplementationClassesTest extends TestCase
      */
     private static final String[] IGNORED_FILENAME_PREFIXES = new String[]
     {
-        "apidocs", "checkstyle", "javadoc", "maven-archiver", "maven-status", "site", "surefire",
-        "test-classes"
+        "apidocs", "checkstyle", "generated-test-sources", "javadoc", "maven-archiver",
+        "maven-status", "site", "surefire", "test-classes"
     };
 
     /**
