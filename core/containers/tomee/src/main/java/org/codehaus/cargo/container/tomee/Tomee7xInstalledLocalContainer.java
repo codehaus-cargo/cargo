@@ -19,12 +19,15 @@
  */
 package org.codehaus.cargo.container.tomee;
 
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.tomcat.Tomcat8xInstalledLocalContainer;
+import org.codehaus.cargo.container.tomee.internal.TomeeContainerCapability;
 
 /**
  * Special container support for the Apache TomEE 7.x servlet container.
  */
-public class Tomee7xInstalledLocalContainer extends Tomee1xInstalledLocalContainer
+public class Tomee7xInstalledLocalContainer extends Tomcat8xInstalledLocalContainer
 {
     /**
      * Unique container id.
@@ -32,9 +35,14 @@ public class Tomee7xInstalledLocalContainer extends Tomee1xInstalledLocalContain
     public static final String ID = "tomee7x";
 
     /**
+     * Capability of the TomEE container.
+     */
+    private ContainerCapability capability = new TomeeContainerCapability();
+
+    /**
      * {@inheritDoc}
      * 
-     * @see Tomee1xInstalledLocalContainer#Tomee1xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see Tomcat8xInstalledLocalContainer#Tomcat8xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Tomee7xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -61,5 +69,16 @@ public class Tomee7xInstalledLocalContainer extends Tomee1xInstalledLocalContain
     public String getName()
     {
         return "TomEE " + getVersion("7.x");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.Container#getCapability()
+     */
+    @Override
+    public ContainerCapability getCapability()
+    {
+        return this.capability;
     }
 }

@@ -138,7 +138,6 @@ public class ConfluenceContainerDocumentationGenerator
         "resin4x",
         "tomcat7x",
         "tomee1x",
-        "tomee7x",
         "weblogic103x",
         "websphere85x"
     });
@@ -151,6 +150,7 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss74x",
         "jboss75x",
         "tomcat8x",
+        "tomee7x",
         "weblogic12x",
         "weblogic121x",
         "wildfly8x",

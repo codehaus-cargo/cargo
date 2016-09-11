@@ -99,7 +99,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             Tomee1xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("tomee1x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            Tomee1xExistingLocalConfiguration.class);
+            TomeeExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("tomee1x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             TomeeRuntimeConfiguration.class);
@@ -109,7 +109,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             Tomee7xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("tomee7x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            Tomee7xExistingLocalConfiguration.class);
+            TomeeExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("tomee7x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             TomeeRuntimeConfiguration.class);

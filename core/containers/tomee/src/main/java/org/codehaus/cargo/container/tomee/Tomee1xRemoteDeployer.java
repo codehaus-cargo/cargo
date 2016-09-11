@@ -19,103 +19,20 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import java.io.IOException;
-import org.codehaus.cargo.container.ContainerException;
-
 import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteDeployer;
-import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
+import org.codehaus.cargo.container.tomee.internal.AbstractTomeeRemoteDeployer;
 
 /**
  * A special TomEE 1.x manager-based deployer to perform deployment to a remote container.
  */
-public class Tomee1xRemoteDeployer extends AbstractTomcatRemoteDeployer
+public class Tomee1xRemoteDeployer extends AbstractTomeeRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see AbstractTomcatRemoteDeployer#AbstractTomcatRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
+     * @see AbstractTomeeRemoteDeployer#AbstractTomeeRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
     public Tomee1xRemoteDeployer(RemoteContainer container)
     {
         super(container);
-        this.managerContext += "/text";
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * This is a special implementation of undeploy command for TomEE 1.x
-     * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    @Override
-    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
-            IOException
-    {
-        getTomcatManager().undeploy(getPath(deployable), getVersion(deployable));
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * This is a special implementation of undeploy command for TomEE 1.x with version support.
-     * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#getPath(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    @Override
-    protected String getPath(Deployable deployable)
-    {
-        if (deployable.getType() != DeployableType.WAR)
-        {
-            throw new ContainerException("Only WAR archives are supported for remote deployment "
-                + "in TomEE. Got [" + deployable.getFile() + "]");
-        }
-
-        String path = "/" + ((WAR) deployable).getContext();
-        int doubleHash = path.indexOf("##");
-        if (doubleHash > 0)
-        {
-            path = path.substring(0, doubleHash);
-        }
-
-        return path;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * This is a special implementation of undeploy command for TomEE 1.x with version support.
-     * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#getVersion(org.codehaus.cargo.container.deployable.Deployable)
-     */
-    @Override
-    protected String getVersion(Deployable deployable)
-    {
-        if (deployable.getType() != DeployableType.WAR)
-        {
-            throw new ContainerException("Only WAR archives are supported for remote deployment "
-                + "in TomEE. Got [" + deployable.getFile() + "]");
-        }
-
-        String path = "/" + ((WAR) deployable).getContext();
-        int doubleHash = path.indexOf("##");
-        if (doubleHash > 0)
-        {
-            String version = path.substring(doubleHash + 2);
-            return version;
-        }
-        else
-        {
-            return null;
-        }
     }
 }

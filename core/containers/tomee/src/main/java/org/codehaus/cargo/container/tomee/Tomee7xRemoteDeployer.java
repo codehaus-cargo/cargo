@@ -20,15 +20,16 @@
 package org.codehaus.cargo.container.tomee;
 
 import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.tomee.internal.AbstractTomeeRemoteDeployer;
 
 /**
  * A special TomEE 7.x manager-based deployer to perform deployment to a remote container.
  */
-public class Tomee7xRemoteDeployer extends Tomee1xRemoteDeployer
+public class Tomee7xRemoteDeployer extends AbstractTomeeRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see Tomee1xRemoteDeployer#Tomee1xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
+     * @see AbstractTomeeRemoteDeployer#AbstractTomeeRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
     public Tomee7xRemoteDeployer(RemoteContainer container)
     {

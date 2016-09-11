@@ -1081,7 +1081,7 @@
               </property>
               <property>
                 <name>cargo.tomee7x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
+                <value>${cargo.java.home.1_7}</value>
               </property>
 
               <!--

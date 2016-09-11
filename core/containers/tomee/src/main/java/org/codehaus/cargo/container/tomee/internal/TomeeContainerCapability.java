@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
- * TomEE 1.x container capability.
+ * TomEE container capability.
  */
 public class TomeeContainerCapability extends J2EEContainerCapability
 {
