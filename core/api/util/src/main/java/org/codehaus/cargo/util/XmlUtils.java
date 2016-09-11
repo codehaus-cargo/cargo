@@ -343,6 +343,7 @@ public class XmlUtils
         DOMImplementationLS implementation =
             (DOMImplementationLS) node.getOwnerDocument().getImplementation();
         LSSerializer serializer = implementation.createLSSerializer();
+        serializer.getDomConfig().setParameter("format-pretty-print", true);
         serializer.getDomConfig().setParameter("xml-declaration", false);
         return serializer.writeToString(node);
     }
