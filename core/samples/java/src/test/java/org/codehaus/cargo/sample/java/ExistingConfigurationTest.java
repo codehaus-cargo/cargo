@@ -111,4 +111,17 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
         getLocalContainer().stop();
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void testStartWithOneExpandedWarDeployed() throws Exception
+    {
+        // The WebLogic 12.x container get confused when expanded WARs are redeployed
+        if (!"weblogic12x".equals(getContainer().getId()))
+        {
+            super.testStartWithOneExpandedWarDeployed();
+        }
+    }
 }
