@@ -88,6 +88,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");
+        excludedContainerIds.add("tomee7x");
         suite.addTestSuite(WarExtraClasspathWithContextTest.class, new Validator[] {
             new StartsWithContainerValidator("tomcat", "tomee"), 
             new HasWarSupportValidator(), new IsInstalledLocalContainerValidator(),
