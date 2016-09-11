@@ -101,6 +101,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -108,8 +109,6 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see OrionConfigurationBuilder
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)

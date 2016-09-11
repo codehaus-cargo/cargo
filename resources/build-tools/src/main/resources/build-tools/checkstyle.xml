@@ -20,7 +20,7 @@
     "-//Puppy Crawl//DTD Check Configuration 1.1//EN"
     "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
 
-<!-- Checkstyle properties for Cargo projects -->
+<!-- Checkstyle properties for Codehaus Cargo -->
 <module name="Checker">
 
   <!--
@@ -82,20 +82,6 @@
     <property name="file" value="${checkstyle.suppressions.file}"/>
   </module>
 
-  <!-- Subversion has a config file in which you specify how to treat end of lines/end of files.
-       The recommendation is to use "svn:eol-style=native".
-       (See http://svnbook.red-bean.com/en/1.1/ch07s02.html#svn-ch-7-sect-2.3.5).
-       As a consequence, checking for end of file markers doesn't make much sense.
-
-       <module name="NewlineAtEndOfFile">
-         <property name="lineSeparator" value="lf"/>
-       </module>
-  -->
-
-  <!-- We'd like to use this one but there's no option to exclude our internal packages
-  <module name="PackageHtml"/>
-  -->
-
   <module name="Translation"/>
 
   <!--
@@ -115,7 +101,7 @@
     </module>
 
     <module name="AnonInnerLength">
-      <property name="max" value="30"/>
+      <property name="max" value="40"/>
     </module>
 
     <!--module name="ArrayTrailingComma"/-->
@@ -268,7 +254,7 @@
     <!--module name="MissingCtor"/-->
 
     <module name="MissingOverride">
-      <property name="javaFiveCompatibility" value="true"/>
+      <property name="javaFiveCompatibility" value="false"/>
     </module>
 
     <module name="MissingSwitchDefault"/>

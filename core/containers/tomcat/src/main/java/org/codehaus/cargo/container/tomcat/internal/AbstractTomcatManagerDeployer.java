@@ -87,7 +87,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -112,7 +111,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)
@@ -160,7 +158,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void redeploy(Deployable deployable)
@@ -194,7 +191,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(org.codehaus.cargo.container.deployable.Deployable, org.codehaus.cargo.container.deployer.DeployableMonitor)
      */
     @Override
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
@@ -209,7 +205,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void start(Deployable deployable)
@@ -242,7 +237,6 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void stop(Deployable deployable)

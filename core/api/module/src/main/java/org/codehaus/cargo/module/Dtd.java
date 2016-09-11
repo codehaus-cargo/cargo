@@ -67,6 +67,7 @@ public class Dtd implements Grammar
          * @see org.xml.sax.ext.DeclHandler#attributeDecl(java.lang.String, java.lang.String,
          * java.lang.String, java.lang.String, java.lang.String)
          */
+        @Override
         public void attributeDecl(String eName, String aName, String type, String mode,
             String value)
         {
@@ -76,6 +77,7 @@ public class Dtd implements Grammar
          * {@inheritDoc}
          * @see org.xml.sax.ext.DeclHandler#elementDecl(java.lang.String, java.lang.String)
          */
+        @Override
         public void elementDecl(String name, String model)
         {
             List<DescriptorTag> elements = new ArrayList<DescriptorTag>();
@@ -109,6 +111,7 @@ public class Dtd implements Grammar
          * @see org.xml.sax.ext.DeclHandler#externalEntityDecl(java.lang.String, java.lang.String,
          * java.lang.String)
          */
+        @Override
         public void externalEntityDecl(String name, String publicId, String systemId)
         {
         }
@@ -117,6 +120,7 @@ public class Dtd implements Grammar
          * {@inheritDoc}
          * @see org.xml.sax.ext.DeclHandler#internalEntityDecl(java.lang.String, java.lang.String)
          */
+        @Override
         public void internalEntityDecl(String name, String value)
         {
         }
@@ -173,8 +177,8 @@ public class Dtd implements Grammar
 
     /**
      * {@inheritDoc}
-     * @see Grammar#getElementOrder(String)
      */
+    @Override
     public List<DescriptorTag> getElementOrder(String tagName)
     {
         return this.elementOrders.get(tagName);

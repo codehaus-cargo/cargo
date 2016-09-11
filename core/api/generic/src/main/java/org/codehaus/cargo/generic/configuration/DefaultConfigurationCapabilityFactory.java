@@ -62,9 +62,8 @@ public class DefaultConfigurationCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationCapabilityFactory#registerConfigurationCapability
      */
+    @Override
     public void registerConfigurationCapability(String containerId, ContainerType containerType,
         ConfigurationType configurationType,
         Class<? extends ConfigurationCapability> configurationCapabilityClass)
@@ -76,10 +75,10 @@ public class DefaultConfigurationCapabilityFactory extends
     /**
      * Registers a configuration capability using a class specified as a String.
      * 
-     * @param containerId {@inheritDoc}
-     * @param containerType {@inheritDoc}
-     * @param configurationType {@inheritDoc}
-     * @param configurationCapabilityClass the configuration capability implementation class to
+     * @param containerId Container id
+     * @param containerType Container type
+     * @param configurationType Configuration type
+     * @param configurationCapabilityClass Configuration capability implementation class to
      *            register as a String
      * @see #registerConfigurationCapability(String, org.codehaus.cargo.container.ContainerType,
      *      org.codehaus.cargo.container.configuration.ConfigurationType, String)
@@ -93,9 +92,8 @@ public class DefaultConfigurationCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationCapabilityFactory#createConfigurationCapability
      */
+    @Override
     public ConfigurationCapability createConfigurationCapability(String containerId,
         ContainerType containerType, ConfigurationType configurationType)
     {
@@ -105,8 +103,6 @@ public class DefaultConfigurationCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
     protected Constructor<? extends ConfigurationCapability> getConstructor(
@@ -118,8 +114,6 @@ public class DefaultConfigurationCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
     protected ConfigurationCapability createInstance(

@@ -29,7 +29,7 @@ public abstract class AbstractEmbeddedLocalDeployer extends AbstractLocalDeploye
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer#AbstractLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see AbstractLocalDeployer#AbstractLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public AbstractEmbeddedLocalDeployer(EmbeddedLocalContainer container)
     {
@@ -38,8 +38,8 @@ public abstract class AbstractEmbeddedLocalDeployer extends AbstractLocalDeploye
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#getType()
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.EMBEDDED;

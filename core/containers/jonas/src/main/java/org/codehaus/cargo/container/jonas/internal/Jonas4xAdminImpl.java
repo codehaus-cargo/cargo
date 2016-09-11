@@ -48,6 +48,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isServerRunning(String command, int expectedReturnCode)
     {
         JvmLauncherRequest request = new JvmLauncherRequest(false, targetContainer);
@@ -74,6 +75,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean unDeploy(String beanFileName)
     {
         boolean undeployed = genericDeployment(beanFileName, "-r");
@@ -89,6 +91,7 @@ public class Jonas4xAdminImpl implements Jonas4xAdmin
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean deploy(String beanFileName)
     {
         return genericDeployment(beanFileName, "-a");

@@ -53,7 +53,6 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception
@@ -71,7 +70,6 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public void doStop(JvmLauncher java) throws Exception
@@ -83,7 +81,6 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#startUpAdditions(JvmLauncher)
      */
     @Override
     protected void startUpAdditions(JvmLauncher java) throws FileNotFoundException
@@ -154,8 +151,8 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -163,8 +160,8 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Resin " + getVersion("4.x");

@@ -66,6 +66,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * @return the configuration capability for WebSphere Liberty
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return capability;
@@ -74,6 +75,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * @return the id of the container
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -82,6 +84,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
     /**
      * @return the name of the container
      */
+    @Override
     public String getName()
     {
         return NAME;

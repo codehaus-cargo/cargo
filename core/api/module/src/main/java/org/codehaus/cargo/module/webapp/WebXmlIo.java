@@ -63,6 +63,7 @@ public final class WebXmlIo extends AbstractDescriptorIo
          * {@inheritDoc}
          * @see org.xml.sax.EntityResolver#resolveEntity
          */
+        @Override
         public InputSource resolveEntity(String thePublicId, String theSystemId)
             throws SAXException, IOException
         {

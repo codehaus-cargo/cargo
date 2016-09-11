@@ -42,7 +42,6 @@ public class WildFly9xRemoteContainer extends WildFly8xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -52,7 +51,6 @@ public class WildFly9xRemoteContainer extends WildFly8xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()

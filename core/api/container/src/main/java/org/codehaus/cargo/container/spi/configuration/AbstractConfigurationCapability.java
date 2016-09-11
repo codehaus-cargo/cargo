@@ -46,8 +46,8 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.ConfigurationCapability#supportsProperty(String)
      */
+    @Override
     public boolean supportsProperty(String propertyName)
     {
         boolean supports = false;
@@ -62,8 +62,8 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.ConfigurationCapability#getProperties()
      */
+    @Override
     public Map<String, Boolean> getProperties()
     {
         return new HashMap<String, Boolean>(this.propertySupportMap);

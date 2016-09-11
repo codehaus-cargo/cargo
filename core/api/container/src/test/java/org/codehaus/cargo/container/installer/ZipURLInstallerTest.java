@@ -143,6 +143,7 @@ public class ZipURLInstallerTest extends TestCase
         this.installer.setAntTaskFactory(
             new AntTaskFactory()
             {
+                @Override
                 public Task createTask(String taskName)
                 {
                     return new HarmlessGet();
@@ -169,6 +170,7 @@ public class ZipURLInstallerTest extends TestCase
         this.installer.setAntTaskFactory(
             new AntTaskFactory()
             {
+                @Override
                 public Task createTask(String taskName)
                 {
                     return new HarmlessGet();
@@ -191,6 +193,7 @@ public class ZipURLInstallerTest extends TestCase
             {
                 private int count = 0;
 
+                @Override
                 public Task createTask(String taskName)
                 {
                     Task result;

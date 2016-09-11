@@ -67,9 +67,8 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -94,8 +93,6 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

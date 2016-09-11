@@ -57,8 +57,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasRemoteDeployer#getOperationName(ActionType, DeployableType, TargetType)
      */
     @Override
     protected String getOperationName(ActionType actionType, DeployableType deployableType,
@@ -140,8 +138,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer#deploy(Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -198,8 +194,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer#undeploy(Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)
@@ -523,8 +517,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasRemoteDeployer#getRemoteFileName(Deployable, String, boolean)
      */
     @Override
     protected String getRemoteFileName(Deployable deployable, String deployableIdentifier,
@@ -541,7 +533,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable, DeployableMonitor)
      */
     @Override
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
@@ -571,7 +562,6 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
     @Override
     public void redeploy(Deployable deployable)

@@ -40,7 +40,7 @@ public class JBoss6xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see AbstractJBoss5xStandaloneLocalConfiguration#AbstractJBoss5xStandaloneLocalConfiguration(String)
      */
     public JBoss6xStandaloneLocalConfiguration(String dir)
     {
@@ -142,7 +142,6 @@ public class JBoss6xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()

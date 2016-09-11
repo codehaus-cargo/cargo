@@ -28,9 +28,7 @@ public class SAR extends AbstractDeployable
 {
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractDeployable#AbstractDeployable(String)
+     * @param sar the location of the SAR being wrapped.
      */
     public SAR(String sar)
     {
@@ -39,9 +37,8 @@ public class SAR extends AbstractDeployable
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Deployable#getType()
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.SAR;

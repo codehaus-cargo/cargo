@@ -56,8 +56,8 @@ public abstract class AbstractConfiguration extends LoggedObject
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#setProperty(String, String)
      */
+    @Override
     public void setProperty(String name, String value)
     {
         getLogger().debug("Setting property [" + name + "] = [" + value + "]",
@@ -67,8 +67,8 @@ public abstract class AbstractConfiguration extends LoggedObject
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getProperties()
      */
+    @Override
     public Map<String, String> getProperties()
     {
         return this.properties;
@@ -76,8 +76,8 @@ public abstract class AbstractConfiguration extends LoggedObject
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getPropertyValue(String)
      */
+    @Override
     public String getPropertyValue(String name)
     {
         String systemProperty = System.getProperties().getProperty(name);
@@ -90,8 +90,8 @@ public abstract class AbstractConfiguration extends LoggedObject
 
     /**
      * {@inheritDoc}
-     * @see ContainerConfiguration#verify()
      */
+    @Override
     public void verify()
     {
         // Verify that the port is a valid number.

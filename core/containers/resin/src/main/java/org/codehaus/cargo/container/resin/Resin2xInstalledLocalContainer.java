@@ -49,7 +49,6 @@ public class Resin2xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#startUpAdditions(JvmLauncher)
      */
     @Override
     protected void startUpAdditions(JvmLauncher theJavaContainer)
@@ -60,8 +59,8 @@ public class Resin2xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -69,8 +68,8 @@ public class Resin2xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Resin " + getVersion("2.x");

@@ -65,8 +65,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -74,8 +74,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Geronimo " + getVersion("1.x");
@@ -83,7 +83,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     protected void doStart(JvmLauncher java) throws Exception
@@ -110,7 +109,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     protected void doStop(JvmLauncher java) throws Exception
@@ -137,7 +135,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
      * Replace default CPC progress monitor by a log progress monitor.
      * 
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#waitForCompletion(boolean)
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -179,8 +176,8 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;

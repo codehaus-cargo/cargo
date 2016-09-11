@@ -109,8 +109,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#copyFile(String, String)
      */
+    @Override
     public void copyFile(String source, String target)
     {
         copyFile(source, target, false);
@@ -118,8 +118,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#copyFile(String, String, boolean)
      */
+    @Override
     public void copyFile(String source, String target, boolean overwrite)
     {
         try
@@ -137,14 +137,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     /**
      * {@inheritDoc}
      */
-    public void copyFile(String source, String target, FilterChain filterChain)
-    {
-        copyFile(source, target, filterChain, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void copyFile(String source, String target, FilterChain filterChain, String encoding)
     {
         InputStream fileIS = null;
@@ -218,9 +211,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * 
-     * @see FileHandler#copyDirectory(String, String)
      */
+    @Override
     public void copyDirectory(String source, String target)
     {
         copyDirectory(source, target, new ArrayList<String>());
@@ -228,8 +220,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#copyDirectory(String, String)
      */
+    @Override
     public void copyDirectory(String source, String target, List<String> excludes)
     {
         try
@@ -263,6 +255,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     /**
      * {@inheritDoc}
      */
+    @Override
     public void copyDirectory(String source, String target, FilterChain filterChain,
         String encoding)
     {
@@ -301,6 +294,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     /**
      * {@inheritDoc}
      */
+    @Override
     public void explode(String war, String exploded)
     {
         if (exists(exploded))
@@ -386,8 +380,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#createDirectory(String, String)
      */
+    @Override
     public String createDirectory(String parentDir, String name)
     {
         File dir = new File(parentDir, name);
@@ -401,8 +395,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#copy(java.io.InputStream, java.io.OutputStream, int)
      */
+    @Override
     public void copy(InputStream in, OutputStream out, int bufSize)
     {
         try
@@ -425,6 +419,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}. The default buffer size if 1024.
      * @see FileHandler#copy(java.io.InputStream, java.io.OutputStream, int)
      */
+    @Override
     public void copy(InputStream in, OutputStream out)
     {
         copy(in, out, 1024);
@@ -434,6 +429,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}.
      * @see FileHandler#replaceInFile(String, Map, String)
      */
+    @Override
     public void replaceInFile(String file, Map<String, String> replacements, String encoding)
         throws CargoException
     {
@@ -444,6 +440,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}.
      * @see FileHandler#replaceInFile(String, Map, String, boolean)
      */
+    @Override
     public void replaceInFile(String file, Map<String, String> replacements, String encoding,
         boolean ignoreNonExistingProperties) throws CargoException
     {
@@ -477,6 +474,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}.
      * @see FileHandler#replaceInXmlFile(org.codehaus.cargo.util.XmlReplacement[])
      */
+    @Override
     public void replaceInXmlFile(XmlReplacement... xmlReplacements)
         throws CargoException
     {
@@ -578,8 +576,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#getTmpPath(String)
      */
+    @Override
     public String getTmpPath(String name)
     {
         return new File(new File(System.getProperty("java.io.tmpdir"), "cargo"), name).getPath();
@@ -587,8 +585,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.FileHandler#createUniqueTmpDirectory()
      */
+    @Override
     public synchronized String createUniqueTmpDirectory()
     {
         if (uniqueNameCounter == -1)
@@ -611,8 +609,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.FileHandler#delete(String)
      */
+    @Override
     public void delete(String path)
     {
         File pathAsFile = new File(path);
@@ -629,8 +627,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.FileHandler#getSize(String)
      */
+    @Override
     public long getSize(String file)
     {
         File fileObject = new File(file).getAbsoluteFile();
@@ -643,8 +641,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.FileHandler#getInputStream(String)
      */
+    @Override
     public InputStream getInputStream(String file)
     {
         InputStream is;
@@ -661,8 +659,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.FileHandler#getOutputStream(String)
      */
+    @Override
     public OutputStream getOutputStream(String file)
     {
         String parent = getParent(file);
@@ -685,8 +683,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#append(String, String)
      */
+    @Override
     public String append(String path, String suffixToAppend)
     {
         String result;
@@ -710,8 +708,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#mkdirs(String)
      */
+    @Override
     public void mkdirs(String path)
     {
         File pathFile = new File(path);
@@ -738,8 +736,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#getParent(String)
      */
+    @Override
     public String getParent(String path)
     {
         return new File(path).getParent();
@@ -747,8 +745,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#exists(String)
      */
+    @Override
     public boolean exists(String path)
     {
         return new File(path).exists();
@@ -756,8 +754,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#createFile(String)
      */
+    @Override
     public void createFile(String file)
     {
         try
@@ -774,8 +772,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#isDirectoryEmpty(String)
      */
+    @Override
     public boolean isDirectoryEmpty(String dir)
     {
         return new File(dir).list().length == 0;
@@ -783,8 +781,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#getName(String)
      */
+    @Override
     public String getName(String file)
     {
         return new File(file).getName();
@@ -792,8 +790,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#getURL(String)
      */
+    @Override
     public String getURL(String path)
     {
         URL result;
@@ -810,8 +808,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#isDirectory(String)
      */
+    @Override
     public boolean isDirectory(String path)
     {
         return new File(path).isDirectory();
@@ -819,8 +817,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#getChildren(String)
      */
+    @Override
     public String[] getChildren(String directory)
     {
         String[] results;
@@ -839,8 +837,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#getAbsolutePath(String)
      */
+    @Override
     public String getAbsolutePath(String path)
     {
         File file = new File(path);
@@ -853,8 +851,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#readTextFile(String, String)
      */
+    @Override
     public String readTextFile(String file, String encoding)
     {
         BufferedReader in = null;
@@ -891,8 +889,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}
-     * @see FileHandler#writeTextFile(String, String, String)
      */
+    @Override
     public void writeTextFile(String file, String content, String encoding)
     {
         Writer writer;

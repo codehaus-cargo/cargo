@@ -32,7 +32,7 @@ public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfi
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#AbstractLocalConfiguration(String)
+     * @see Jetty8xExistingLocalConfiguration#Jetty8xExistingLocalConfiguration(String)
      */
     public Jetty9xExistingLocalConfiguration(String dir)
     {

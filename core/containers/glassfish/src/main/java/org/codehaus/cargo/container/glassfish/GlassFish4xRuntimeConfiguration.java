@@ -35,9 +35,8 @@ public class GlassFish4xRuntimeConfiguration extends GlassFish3xRuntimeConfigura
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;

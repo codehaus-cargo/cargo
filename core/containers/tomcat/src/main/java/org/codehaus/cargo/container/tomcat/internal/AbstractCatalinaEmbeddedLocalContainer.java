@@ -99,7 +99,6 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
 
     /**
      * {@inheritDoc}
-     * @see AbstractEmbeddedLocalContainer#doStart()
      */
     @Override
     protected void doStart() throws Exception
@@ -181,7 +180,6 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
 
     /**
      * {@inheritDoc}
-     * @see AbstractEmbeddedLocalContainer#doStop()
      */
     @Override
     protected void doStop() throws Exception
@@ -202,8 +200,8 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return capability;

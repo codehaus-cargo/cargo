@@ -71,8 +71,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -80,8 +80,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JBoss " + getVersion("7.x");
@@ -89,8 +89,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;

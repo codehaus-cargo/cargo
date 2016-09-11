@@ -36,7 +36,6 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
      * @see Resin31xStandaloneLocalConfiguration#Resin31xStandaloneLocalConfiguration(String)
      */
     public Resin4xStandaloneLocalConfiguration(String dir)
@@ -46,9 +45,8 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Resin31xStandaloneLocalConfiguration#prepareConfigurationDirectory(org.codehaus.cargo.container.Container, java.lang.String)
      */
+    @Override
     protected void prepareConfigurationDirectory(Container container, String confDir)
         throws IOException
     {

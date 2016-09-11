@@ -45,8 +45,8 @@ public class Tomcat9xInstalledLocalContainer extends Tomcat8xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -54,8 +54,8 @@ public class Tomcat9xInstalledLocalContainer extends Tomcat8xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Tomcat " + getVersion("9.x");

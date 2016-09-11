@@ -38,7 +38,6 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public Jonas5xInstalledLocalDeployer(LocalContainer container)

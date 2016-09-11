@@ -73,6 +73,7 @@ public class WebLogic121xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return new WebLogicWlstStandaloneLocalConfigurationCapability();

@@ -46,8 +46,8 @@ public abstract class AbstractRemoteContainer extends AbstractContainer implemen
 
     /**
      * {@inheritDoc}
-     * @see RemoteContainer#setConfiguration(RuntimeConfiguration)
      */
+    @Override
     public void setConfiguration(RuntimeConfiguration configuration)
     {
         this.configuration = configuration;
@@ -55,8 +55,8 @@ public abstract class AbstractRemoteContainer extends AbstractContainer implemen
 
     /**
      * {@inheritDoc}
-     * @see RemoteContainer#getConfiguration()
      */
+    @Override
     public RuntimeConfiguration getConfiguration()
     {
         return this.configuration;
@@ -64,8 +64,8 @@ public abstract class AbstractRemoteContainer extends AbstractContainer implemen
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getState()
      */
+    @Override
     public State getState()
     {
         return State.STARTED;
@@ -73,8 +73,8 @@ public abstract class AbstractRemoteContainer extends AbstractContainer implemen
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getType()
      */
+    @Override
     public ContainerType getType()
     {
         return ContainerType.REMOTE;

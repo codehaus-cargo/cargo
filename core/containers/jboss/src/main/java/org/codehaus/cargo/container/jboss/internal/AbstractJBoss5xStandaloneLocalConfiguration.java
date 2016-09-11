@@ -37,7 +37,7 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see JBoss42xStandaloneLocalConfiguration#JBoss42xStandaloneLocalConfiguration(String)
      */
     public AbstractJBoss5xStandaloneLocalConfiguration(String dir)
     {
@@ -46,7 +46,6 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

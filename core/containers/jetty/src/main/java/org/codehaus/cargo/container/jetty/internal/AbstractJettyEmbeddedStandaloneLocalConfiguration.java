@@ -48,8 +48,8 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public abstract ConfigurationCapability getCapability();
 
     /**
@@ -66,7 +66,6 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.LocalConfiguration#configure(LocalContainer)
      */
     @Override
     public void doConfigure(LocalContainer container) throws Exception

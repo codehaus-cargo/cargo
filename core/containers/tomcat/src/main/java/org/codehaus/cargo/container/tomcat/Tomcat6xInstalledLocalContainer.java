@@ -46,8 +46,8 @@ public class Tomcat6xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -55,8 +55,8 @@ public class Tomcat6xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Tomcat " + getVersion("6.x");

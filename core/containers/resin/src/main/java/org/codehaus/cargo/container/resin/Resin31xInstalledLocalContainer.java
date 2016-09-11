@@ -45,7 +45,6 @@ public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -55,7 +54,6 @@ public class Resin31xInstalledLocalContainer extends Resin3xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()

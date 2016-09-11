@@ -47,8 +47,6 @@ public class Jonas5xRuntimeConfiguration extends Jonas4xRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()

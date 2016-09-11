@@ -34,6 +34,7 @@ public class SuperConfigurationCapability implements ConfigurationCapability
      * @param propertyName Ignored.
      * @return <code>true</code>
      */
+    @Override
     public boolean supportsProperty(String propertyName)
     {
         return true;
@@ -43,6 +44,7 @@ public class SuperConfigurationCapability implements ConfigurationCapability
      * {@inheritDoc}
      * @return {@link Collections#emptyMap()}
      */
+    @Override
     public Map<String, Boolean> getProperties()
     {
         return Collections.emptyMap();

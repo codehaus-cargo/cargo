@@ -28,7 +28,7 @@ public class JBoss42xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see JBossStandaloneLocalConfiguration#JBossStandaloneLocalConfiguration(String)
      */
     public JBoss42xStandaloneLocalConfiguration(String dir)
     {

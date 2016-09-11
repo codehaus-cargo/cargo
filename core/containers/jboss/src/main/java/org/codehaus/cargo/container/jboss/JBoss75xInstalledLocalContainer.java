@@ -46,7 +46,6 @@ public class JBoss75xInstalledLocalContainer extends JBoss74xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -56,7 +55,6 @@ public class JBoss75xInstalledLocalContainer extends JBoss74xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()

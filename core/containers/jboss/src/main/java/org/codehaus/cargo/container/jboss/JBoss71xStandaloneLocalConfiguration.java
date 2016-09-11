@@ -56,7 +56,6 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -66,7 +65,6 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see JBoss7xStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     public void configure(LocalContainer container)
@@ -106,7 +104,6 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see JBoss7xStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

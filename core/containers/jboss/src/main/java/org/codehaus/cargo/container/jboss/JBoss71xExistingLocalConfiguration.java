@@ -48,7 +48,6 @@ public class JBoss71xExistingLocalConfiguration extends JBoss7xExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()

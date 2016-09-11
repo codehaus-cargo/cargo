@@ -28,7 +28,6 @@ public class TomeeRuntimeConfiguration extends TomcatRuntimeConfiguration
 {
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

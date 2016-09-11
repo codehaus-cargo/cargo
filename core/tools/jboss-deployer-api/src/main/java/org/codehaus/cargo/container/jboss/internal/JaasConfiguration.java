@@ -44,7 +44,6 @@ public class JaasConfiguration extends Configuration
 
     /**
      * {@inheritDoc}
-     * @see Configuration#getAppConfigurationEntry(java.lang.String)
      */
     @Override
     public AppConfigurationEntry[] getAppConfigurationEntry(String string)

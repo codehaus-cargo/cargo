@@ -43,8 +43,8 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WebLogic 8.x";
@@ -52,8 +52,8 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -62,6 +62,7 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getAutoDeployDirectory()
     {
         return "applications";

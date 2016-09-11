@@ -58,7 +58,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder(String)
      */
     public AbstractCatalinaStandaloneLocalConfiguration(String dir)
@@ -76,8 +75,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -339,8 +336,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

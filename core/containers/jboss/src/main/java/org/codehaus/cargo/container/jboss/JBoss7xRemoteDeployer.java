@@ -41,7 +41,6 @@ public class JBoss7xRemoteDeployer extends JBoss5xRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see JBoss5xRemoteDeployer#getJBossRemoteDeployerJarName()
      */
     @Override
     protected String getJBossRemoteDeployerJarName()
@@ -51,7 +50,6 @@ public class JBoss7xRemoteDeployer extends JBoss5xRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see JBoss5xRemoteDeployer#getJBossConnectorClassName()
      */
     @Override
     protected String getJBossConnectorClassName()

@@ -51,9 +51,8 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return capability;
@@ -61,9 +60,8 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -71,9 +69,8 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "GlassFish 3.x Remote";

@@ -27,9 +27,7 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 public class HAR extends AbstractDeployable
 {
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractDeployable#AbstractDeployable(String)
+     * @param har the location of the HAR being wrapped.
      */
     public HAR(String har)
     {
@@ -38,9 +36,8 @@ public class HAR extends AbstractDeployable
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Deployable#getType()
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.HAR;

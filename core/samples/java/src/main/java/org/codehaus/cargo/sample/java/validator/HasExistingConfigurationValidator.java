@@ -30,6 +30,7 @@ public class HasExistingConfigurationValidator extends AbstractConfigurationFact
     /**
      * Check if the container has a existing configuration implementation available. {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isConfigurationRegistered(containerId, type,

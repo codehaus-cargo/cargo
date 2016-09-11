@@ -49,7 +49,7 @@ public class JndiLink extends DescriptorElement
     }
 
     /**
-     * {@inheritDoc}
+     * @return JNDI name.
      */
     public String getElementId()
     {

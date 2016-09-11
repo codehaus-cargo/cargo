@@ -82,8 +82,8 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
 
     /**
      * {@inheritDoc}
-     * @see Packager#packageContainer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
+    @Override
     public void packageContainer(InstalledLocalContainer container)
     {
         getFileHandler().copyDirectory(container.getHome(), getTargetDirectory(),

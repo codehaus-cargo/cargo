@@ -34,7 +34,6 @@ public class WildFly10xRuntimeConfiguration extends WildFly9xRuntimeConfiguratio
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

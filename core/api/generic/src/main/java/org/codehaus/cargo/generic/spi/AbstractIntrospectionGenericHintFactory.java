@@ -78,8 +78,6 @@ public abstract class AbstractIntrospectionGenericHintFactory<T> extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractGenericHintFactory#createImplementation
      */
     @Override
     protected T createImplementation(RegistrationKey key, GenericParameters parameters,

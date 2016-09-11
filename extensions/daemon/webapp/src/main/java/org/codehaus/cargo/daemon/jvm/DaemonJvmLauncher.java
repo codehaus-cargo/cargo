@@ -170,6 +170,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setWorkingDirectory(File workingDirectory)
     {
         this.workingDirectory = workingDirectory;
@@ -178,6 +179,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setJvm(String command)
     {
         if (command == null || command.isEmpty())
@@ -191,6 +193,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addJvmArgument(File file)
     {
         if (file != null)
@@ -202,6 +205,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addJvmArguments(String... values)
     {
         if (values != null)
@@ -216,6 +220,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addJvmArgumentLine(String line)
     {
         if (line != null)
@@ -235,6 +240,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addClasspathEntries(String... paths)
     {
         if (paths != null)
@@ -265,6 +271,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addClasspathEntries(File... paths)
     {
         if (paths != null)
@@ -279,6 +286,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getClasspath()
     {
         return classpath;
@@ -287,6 +295,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSystemProperty(String name, String value)
     {
         if (name != null && !name.isEmpty())
@@ -298,6 +307,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setEnvironmentVariable(String name, String value)
     {
         if (name != null && !name.isEmpty())
@@ -309,6 +319,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getEnvironmentVariable(String name)
     {
         String value = environmentVariables.get(name);
@@ -322,6 +333,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setJarFile(File jarFile)
     {
         if (jarFile != null)
@@ -333,6 +345,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setMainClass(String mainClass)
     {
         if (mainClass != null)
@@ -344,6 +357,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addAppArgument(File file)
     {
         if (file != null)
@@ -355,6 +369,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addAppArguments(String... values)
     {
         if (values != null)
@@ -369,6 +384,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addAppArgumentLine(String line)
     {
         if (line != null)
@@ -388,6 +404,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setOutputFile(File outputFile)
     {
         this.outputFile = outputFile;
@@ -396,6 +413,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setAppendOutput(boolean appendOutput)
     {
         this.appendOutput = appendOutput;
@@ -404,6 +422,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getCommandLine()
     {
         StringBuilder result = new StringBuilder();
@@ -427,6 +446,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void kill()
     {
         if (process != null)
@@ -444,6 +464,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setTimeout(long millis)
     {
     }
@@ -451,6 +472,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSpawn(boolean spawn)
     {
     }
@@ -458,6 +480,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void start() throws JvmLauncherException
     {
         try
@@ -511,6 +534,7 @@ class DaemonJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public int execute() throws JvmLauncherException
     {
         start();

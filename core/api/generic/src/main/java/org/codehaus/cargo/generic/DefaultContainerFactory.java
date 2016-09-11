@@ -76,9 +76,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ContainerFactory#isContainerRegistered(String, ContainerType)
      */
+    @Override
     public boolean isContainerRegistered(String containerId, ContainerType containerType)
     {
         return hasMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
@@ -87,10 +86,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ContainerFactory#registerContainer(String, org.codehaus.cargo.container.ContainerType,
-     *      Class)
      */
+    @Override
     public void registerContainer(String containerId, ContainerType containerType,
         Class<? extends Container> containerClass)
     {
@@ -101,9 +98,9 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
     /**
      * Registers a container using a class specified as a String.
      * 
-     * @param containerId {@inheritDoc}
-     * @param containerType {@inheritDoc}
-     * @param containerClassName the container implementation class to register as a String
+     * @param containerId Container id.
+     * @param containerType Container type.
+     * @param containerClassName Container implementation class to register as a String
      * @see #registerContainer(String, ContainerType, Class)
      */
     public void registerContainer(String containerId, ContainerType containerType,
@@ -115,9 +112,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ContainerFactory#getContainerClass
      */
+    @Override
     public Class<? extends Container> getContainerClass(String containerId,
         ContainerType containerType)
     {
@@ -127,9 +123,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ContainerFactory#createContainer(String, ContainerType, Configuration)
      */
+    @Override
     public Container createContainer(String containerId, ContainerType containerType,
         Configuration configuration)
     {
@@ -143,8 +138,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
     protected Constructor<? extends Container> getConstructor(
@@ -173,8 +166,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
     protected Container createInstance(Constructor<? extends Container> constructor,
@@ -195,9 +186,8 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.ContainerFactory#getContainerIds()
      */
+    @Override
     public Map<String, Set<ContainerType>> getContainerIds()
     {
         Map<String, Set<ContainerType>> containerIds = new HashMap<String, Set<ContainerType>>();

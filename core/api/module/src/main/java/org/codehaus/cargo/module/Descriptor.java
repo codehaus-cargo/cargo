@@ -39,10 +39,11 @@ public interface Descriptor extends org.jdom.Parent
     /**
      * @return this descriptor as a document
      */
+    @Override
     Document getDocument();
 
     /**
-     * {@inheritDoc}
+     * @return Root element.
      */
     Element getRootElement();
 

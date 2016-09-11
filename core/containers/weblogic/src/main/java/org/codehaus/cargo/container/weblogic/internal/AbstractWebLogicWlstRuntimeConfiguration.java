@@ -57,6 +57,7 @@ public abstract class AbstractWebLogicWlstRuntimeConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return new WebLogicWlstRuntimeConfigurationCapability();
@@ -65,6 +66,7 @@ public abstract class AbstractWebLogicWlstRuntimeConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public WebLogicWlstConfigurationFactory getConfigurationFactory()
     {
         return factory;
@@ -73,6 +75,7 @@ public abstract class AbstractWebLogicWlstRuntimeConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomainHome()
     {
         throw new UnsupportedOperationException("Domain home doesn't exist for "

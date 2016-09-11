@@ -75,8 +75,8 @@ public class WildFly8xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
@@ -84,8 +84,8 @@ public class WildFly8xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.wildfly.internal.WildFlyConfiguration#getConfigurationFactory()
      */
+    @Override
     public WildFlyCliConfigurationFactory getConfigurationFactory()
     {
         return factory;
@@ -93,7 +93,6 @@ public class WildFly8xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see AbstractWildFlyStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

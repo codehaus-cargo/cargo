@@ -65,7 +65,6 @@ public class PackageMojo extends AbstractCargoMojo
 
     /**
      * {@inheritDoc}
-     * @see AbstractCargoMojo#doExecute()
      */
     @Override
     public void doExecute() throws MojoExecutionException

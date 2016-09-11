@@ -39,7 +39,7 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
     }
 
     /**
-     * {@inheritDoc}
+     * @see AbstractLocalConfigurationWithConfigurationBuilderTest#AbstractLocalConfigurationWithConfigurationBuilderTest(java.lang.String)
      * @param name Container name.
      */
     public AbstractWeblogicStandaloneConfigurationTest(String name)
@@ -90,15 +90,6 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
     protected String getResourceConfigurationFile(ResourceFixture fixture)
     {
         return null;
-    }
-
-    /**
-     * WebLogic does not currently support Resources. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
-     */
-    public void testConfigureCreatesResourceForXADataSource() throws Exception
-    {
-        // Nothing
     }
 
     /**

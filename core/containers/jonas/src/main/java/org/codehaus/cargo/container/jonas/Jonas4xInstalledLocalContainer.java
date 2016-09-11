@@ -53,7 +53,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractJonasInstalledLocalContainer#AbstractJonasInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jonas4xInstalledLocalContainer(LocalConfiguration configuration)
@@ -64,8 +63,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java)
@@ -79,8 +76,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public void doStop(JvmLauncher java)
@@ -102,8 +97,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -138,8 +131,6 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasInstalledLocalContainer#setupExtraSysProps(JvmLauncher, Map)
      */
     @Override
     protected void setupExtraSysProps(JvmLauncher java, Map<String, String> configuredSysProps)
@@ -191,6 +182,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     /**
      * {@inheritDoc}
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;
@@ -198,9 +190,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return "jonas4x";
@@ -208,9 +199,8 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JOnAS 4.x";

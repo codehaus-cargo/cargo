@@ -50,8 +50,8 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -59,8 +59,8 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Tomcat " + getVersion("4.x");
@@ -68,8 +68,6 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception
@@ -86,8 +84,6 @@ public class Tomcat4xInstalledLocalContainer extends AbstractCatalinaInstalledLo
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractCatalinaInstalledLocalContainer#invokeContainer(java.lang.String, org.codehaus.cargo.container.spi.jvm.JvmLauncher) 
      */
     @Override
     protected void invokeContainer(String action, JvmLauncher java) throws Exception

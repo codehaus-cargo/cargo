@@ -60,6 +60,7 @@ class DaemonJvmLauncherStreamRedirector implements Runnable
     /**
      * {@inheritDoc}
      */
+    @Override
     public void run()
     {
         final byte[] buf = new byte[BUFFERSIZE];

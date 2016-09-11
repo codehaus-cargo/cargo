@@ -36,7 +36,6 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
      * @see Jetty7xEmbeddedLocalContainer#Jetty7xEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jetty8xEmbeddedLocalContainer(LocalConfiguration configuration)
@@ -93,9 +92,8 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

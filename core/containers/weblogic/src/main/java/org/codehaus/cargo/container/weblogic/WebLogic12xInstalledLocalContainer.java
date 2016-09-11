@@ -39,7 +39,6 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractWebLogicInstalledLocalContainer#AbstractWebLogicInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic12xInstalledLocalContainer(LocalConfiguration configuration)
@@ -49,9 +48,8 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WebLogic 12.x";
@@ -59,9 +57,8 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -70,6 +67,7 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getAutoDeployDirectory()
     {
         return "autodeploy";

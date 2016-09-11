@@ -101,7 +101,6 @@ public class DescriptorTag
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public boolean equals(Object other)
@@ -120,7 +119,6 @@ public class DescriptorTag
 
     /**
      * {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()
@@ -182,7 +180,6 @@ public class DescriptorTag
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Object#toString
      */
     @Override
     public String toString()

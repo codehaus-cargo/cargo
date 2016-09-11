@@ -103,8 +103,8 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * {@inheritDoc}
-     * @see JarArchive#containsClass(String)
      */
+    @Override
     public boolean containsClass(String className) throws IOException
     {
         String resourceName = className.replace('.', '/') + ".class";
@@ -113,8 +113,8 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * {@inheritDoc}
-     * @see JarArchive#findResource(String)
      */
+    @Override
     public String findResource(String name) throws IOException
     {
         String result = null;
@@ -139,8 +139,8 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * {@inheritDoc}
-     * @see JarArchive#getResource(String)
      */
+    @Override
     public InputStream getResource(String path) throws IOException
     {
         JarInputStream in = null;
@@ -175,8 +175,8 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#getResources(String)
      */
+    @Override
     public List<String> getResources(String path) throws IOException
     {
         String normalizedPath = path;
@@ -228,8 +228,8 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#expandToPath(String)
      */
+    @Override
     public void expandToPath(String path) throws IOException
     {
         expandToPath(path, null);
@@ -237,8 +237,8 @@ public class DefaultJarArchive implements JarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#expandToPath(String, FileFilter)
      */
+    @Override
     public void expandToPath(String path, FileFilter filter) throws IOException
     {
         JarInputStream inputStream = getContentAsStream();

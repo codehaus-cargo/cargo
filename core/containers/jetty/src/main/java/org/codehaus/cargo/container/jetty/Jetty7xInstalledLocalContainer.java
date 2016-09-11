@@ -58,8 +58,8 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -70,6 +70,7 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
      * @param isGettingStarted if true then start the container, stop it otherwise
      * @throws Exception in case of startup or shutdown error
      */
+    @Override
     protected void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
     {
         if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null
@@ -89,7 +90,6 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments(java.lang.String)
      */
     @Override
     protected String[] getStartArguments(String classpath)

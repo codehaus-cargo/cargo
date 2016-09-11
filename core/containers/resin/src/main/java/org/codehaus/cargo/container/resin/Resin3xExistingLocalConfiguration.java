@@ -48,7 +48,6 @@ public class Resin3xExistingLocalConfiguration extends Resin2xExistingLocalConfi
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()

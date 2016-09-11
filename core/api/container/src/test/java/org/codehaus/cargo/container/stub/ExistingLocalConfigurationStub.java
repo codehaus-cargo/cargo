@@ -44,6 +44,7 @@ public class ExistingLocalConfigurationStub
      * {@inheritDoc}
      * @return {@link ConfigurationType#EXISTING}
      */
+    @Override
     public ConfigurationType getType()
     {
         return ConfigurationType.EXISTING;

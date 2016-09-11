@@ -35,6 +35,7 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
     /**
      * {@inheritDoc}
      */
+    @Override
     public int inLeft(Descriptor set, DescriptorElement element)
     {
         return getApplicableStrategy(set, element).inLeft(set, element);
@@ -43,6 +44,7 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
     /**
      * {@inheritDoc}
      */
+    @Override
     public int inRight(Descriptor set, DescriptorElement element)
     {
         return getApplicableStrategy(set, element).inRight(set, element);
@@ -51,6 +53,7 @@ public abstract class AbstractChoiceMergeStrategy implements MergeStrategy
     /**
      * {@inheritDoc}
      */
+    @Override
     public int inBoth(Descriptor set, DescriptorElement left, DescriptorElement right)
     {
         return getApplicableStrategy(set, left).inBoth(set, left, right);

@@ -60,7 +60,6 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -108,8 +107,8 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
@@ -117,7 +116,6 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

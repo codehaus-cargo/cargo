@@ -65,7 +65,6 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -83,7 +82,6 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * already have come out on stderr.
      * 
      * {@inheritDoc}
-     * @see AbstractJettyEmbeddedStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void activateLogging(LocalContainer container) throws Exception
@@ -126,7 +124,6 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

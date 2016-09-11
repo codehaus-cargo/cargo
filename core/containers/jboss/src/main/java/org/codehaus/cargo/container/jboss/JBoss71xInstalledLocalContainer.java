@@ -53,7 +53,6 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -63,7 +62,6 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -145,6 +143,7 @@ public class JBoss71xInstalledLocalContainer extends JBoss7xInstalledLocalContai
     /**
      * {@inheritDoc}. Since JBoss 7.1.x is not always very stable when stopping, try twice.
      */
+    @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
         if (!waitForStarting)

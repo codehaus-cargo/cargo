@@ -80,8 +80,8 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.DeployableMonitor#getDeployableName()
      */
+    @Override
     public String getDeployableName()
     {
         return this.pingURL.toString();
@@ -90,6 +90,7 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
     /**
      * @see DeployableMonitor#monitor()
      */
+    @Override
     public void monitor()
     {
         getLogger().debug("Checking URL [" + this.pingURL + "] for status using a timeout of ["

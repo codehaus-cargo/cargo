@@ -42,6 +42,7 @@ public class JdkHttpURLConnection implements HttpURLConnection
      * @param timeout Timeout value (in milliseconds).
      * @see java.net.HttpURLConnection#setReadTimeout(int)
      */
+    @Override
     public void setTimeout(int timeout)
     {
         this.timeout = timeout;
@@ -49,8 +50,8 @@ public class JdkHttpURLConnection implements HttpURLConnection
 
     /**
      * {@inheritDoc}
-     * @see HttpURLConnection#connect(String, String, String)
      */
+    @Override
     public void connect(String url, String username, String password)
     {
         try

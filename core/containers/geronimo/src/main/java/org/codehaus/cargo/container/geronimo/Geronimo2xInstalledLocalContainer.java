@@ -50,7 +50,6 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -60,7 +59,6 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -70,7 +68,6 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     protected void doStart(JvmLauncher java) throws Exception
@@ -124,7 +121,6 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     protected void doStop(JvmLauncher java) throws Exception
@@ -149,7 +145,6 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see Geronimo1xInstalledLocalContainer#getVersion(String)
      */
     @Override
     protected String getVersion(String defaultVersion)

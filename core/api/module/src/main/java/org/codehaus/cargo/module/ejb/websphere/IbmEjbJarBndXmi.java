@@ -47,8 +47,8 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
 
     /**
      * {@inheritDoc}
-     * @see VendorEjbDescriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return "ibm-ejb-jar-bnd.xmi";
@@ -56,8 +56,8 @@ public class IbmEjbJarBndXmi extends AbstractDescriptor implements VendorEjbDesc
 
     /**
      * {@inheritDoc}
-     * @see VendorEjbDescriptor#getJndiName(EjbDef)
      */
+    @Override
     public String getJndiName(EjbDef ejb)
     {
         String jndiName = null;

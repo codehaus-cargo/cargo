@@ -29,8 +29,6 @@ public class Geronimo3xContainerCapability extends J2EEContainerCapability
 {
     /**
      * {@inheritDoc}
-     * 
-     * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)

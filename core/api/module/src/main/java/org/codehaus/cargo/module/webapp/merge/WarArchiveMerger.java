@@ -64,9 +64,8 @@ public class WarArchiveMerger implements MergeProcessor
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.module.merge.MergeProcessor#addMergeItem(java.lang.Object)
      */
+    @Override
     public void addMergeItem(Object mergeItem) throws MergeException
     {
         if (mergeItem instanceof WarArchive)
@@ -86,9 +85,8 @@ public class WarArchiveMerger implements MergeProcessor
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.module.merge.MergeProcessor#performMerge()
      */
+    @Override
     public Object performMerge()
     {
         WarArchive merge = this.result;

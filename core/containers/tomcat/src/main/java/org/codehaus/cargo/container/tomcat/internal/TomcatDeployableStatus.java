@@ -84,7 +84,6 @@ public final class TomcatDeployableStatus
 
     /**
      * {@inheritDoc}
-     * @see Object#equals(Object)
      */
     @Override
     public boolean equals(Object object)
@@ -103,7 +102,6 @@ public final class TomcatDeployableStatus
 
     /**
      * {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()
@@ -121,7 +119,6 @@ public final class TomcatDeployableStatus
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

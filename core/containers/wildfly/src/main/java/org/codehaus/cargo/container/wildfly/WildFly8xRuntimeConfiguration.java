@@ -48,7 +48,6 @@ public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -58,7 +57,6 @@ public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

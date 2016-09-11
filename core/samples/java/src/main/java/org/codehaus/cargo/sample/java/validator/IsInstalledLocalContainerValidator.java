@@ -29,6 +29,7 @@ public class IsInstalledLocalContainerValidator extends AbstractConfigurationCap
     /**
      * Check if the container is an installed local container. {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return type == ContainerType.INSTALLED;

@@ -176,6 +176,7 @@ public class EmbeddedContainerClasspathResolver
                             .substring(0, dependencyRelativeSubPath.length() - 5));
                         File[] jars = folder.listFiles(new FilenameFilter()
                         {
+                            @Override
                             public boolean accept(File dir, String name)
                             {
                                 return name.endsWith(".jar");

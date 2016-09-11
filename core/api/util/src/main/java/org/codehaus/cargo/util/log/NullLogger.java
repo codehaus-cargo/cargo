@@ -28,7 +28,6 @@ public class NullLogger extends AbstractLogger
 {
     /**
      * {@inheritDoc}
-     * @see AbstractLogger#doLog(LogLevel, String, String)
      */
     @Override
     protected void doLog(LogLevel level, String message, String category)

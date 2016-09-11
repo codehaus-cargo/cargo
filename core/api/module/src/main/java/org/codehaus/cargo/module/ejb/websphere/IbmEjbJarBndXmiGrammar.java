@@ -33,8 +33,8 @@ public class IbmEjbJarBndXmiGrammar implements Grammar
 {
     /**
      * {@inheritDoc}
-     * @see Grammar#getElementOrder(String)
      */
+    @Override
     public List<DescriptorTag> getElementOrder(String tagName)
     {
         // TODO Auto-generated method stub

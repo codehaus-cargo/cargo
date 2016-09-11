@@ -50,8 +50,8 @@ public class JBoss5xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JBoss 5.x Remote";
@@ -59,8 +59,8 @@ public class JBoss5xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -68,8 +68,8 @@ public class JBoss5xRemoteContainer extends AbstractRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;

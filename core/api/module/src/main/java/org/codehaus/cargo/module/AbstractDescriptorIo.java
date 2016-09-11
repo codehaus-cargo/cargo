@@ -61,6 +61,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * Create a document builder.
      * @return new document builder
      */
+    @Override
     public SAXBuilder createDocumentBuilder()
     {
         return createDocumentBuilder(null);
@@ -71,6 +72,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * @return a new non-validating, non-namespace-aware {@link javax.xml.parsers.DocumentBuilder}
      * instance
      */
+    @Override
     public SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver)
     {
         SAXBuilder factory = new SAXBuilder();
@@ -106,6 +108,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * @throws IOException if problem reading the stream
      * @throws JDOMException if problem parsing the stream
      */
+    @Override
     public Document parseXml(InputStream input) throws
         JDOMException, IOException
     {
@@ -121,6 +124,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * @throws IOException if problem reading the stream
      * @throws JDOMException if problem parsing the stream
      */
+    @Override
     public Document parseXml(InputStream input, EntityResolver resolver)
         throws JDOMException, IOException
     {

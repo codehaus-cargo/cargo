@@ -112,8 +112,8 @@ public class JettyExecutorThread extends Thread implements Loggable
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.log.Loggable#setLogger(org.codehaus.cargo.util.log.Logger)
      */
+    @Override
     public void setLogger(Logger logger)
     {
         this.log = logger;
@@ -121,8 +121,8 @@ public class JettyExecutorThread extends Thread implements Loggable
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.log.Loggable#getLogger()
      */
+    @Override
     public Logger getLogger()
     {
         return this.log;

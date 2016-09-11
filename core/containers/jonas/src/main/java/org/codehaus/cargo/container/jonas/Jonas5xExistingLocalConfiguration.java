@@ -33,9 +33,7 @@ public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLoca
 {
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasExistingLocalConfiguration#AbstractJonasExistingLocalConfiguration(String,
-     * String)
+     * @see AbstractJonasExistingLocalConfiguration#AbstractJonasExistingLocalConfiguration(String, String)
      */
     public Jonas5xExistingLocalConfiguration(String dir)
     {
@@ -44,8 +42,6 @@ public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLoca
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

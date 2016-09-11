@@ -39,8 +39,8 @@ public class Xsd implements Grammar
 
     /**
      * {@inheritDoc}
-     * @see Grammar#getElementOrder(String)
      */
+    @Override
     public List<DescriptorTag> getElementOrder(String tagName)
     {
         // The XSDs that we handle (webapp 2.5, webapp 3.0, etc.) do not have any order

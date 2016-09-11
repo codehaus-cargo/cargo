@@ -47,6 +47,7 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
      * @param ejb The ejb
      * @return The jndi name
      */
+    @Override
     public String getJndiName(EjbDef ejb)
     {
         String jndiName = null;
@@ -70,6 +71,7 @@ public class JBossXml extends AbstractDescriptor implements VendorEjbDescriptor
      * Returns the file name 'jboss.xml'.
      * @return The file name.
      */
+    @Override
     public String getFileName()
     {
         return "jboss.xml";

@@ -44,6 +44,7 @@ public class Tomcat5x6x7xConfigurationBuilder extends AbstractTomcatConfiguratio
     /**
      * {@inheritDoc} in Tomcat 5-6.x, Resources are elements where all configuration are attributes.
      */
+    @Override
     public String toConfigurationEntry(Resource resource)
     {
         StringBuilder buff = new StringBuilder();

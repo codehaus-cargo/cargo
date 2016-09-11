@@ -168,6 +168,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setHome(String home)
     {
         this.home = home;
@@ -176,6 +177,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSystemProperties(Map<String, String> properties)
     {
         Map<String, String> props = new HashMap<String, String>();
@@ -187,6 +189,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
@@ -195,6 +198,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setExtraClasspath(String[] classpath)
     {
         this.extraClasspath.clear();
@@ -204,6 +208,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public String[] getExtraClasspath()
     {
         return this.extraClasspath.toArray(new String[0]);
@@ -212,6 +217,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSharedClasspath(String[] classpath)
     {
         this.sharedClasspath.clear();
@@ -221,6 +227,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public String[] getSharedClasspath()
     {
         return this.sharedClasspath.toArray(new String[0]);
@@ -229,6 +236,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getHome()
     {
         return this.home;
@@ -237,6 +245,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public JvmLauncherFactory getJvmLauncherFactory()
     {
         return jvmLauncherFactory;
@@ -245,6 +254,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory)
     {
         this.jvmLauncherFactory = jvmLauncherFactory;
@@ -701,6 +711,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public ContainerType getType()
     {
         return ContainerType.INSTALLED;
@@ -709,6 +720,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addExtraClasspath(String location)
     {
         ifPresentAddPathToList(location, extraClasspath);
@@ -717,6 +729,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addSharedClasspath(String location)
     {
         ifPresentAddPathToList(location, sharedClasspath);

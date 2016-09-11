@@ -30,6 +30,7 @@ public class HasRuntimeConfigurationValidator extends AbstractConfigurationFacto
     /**
      * Check if the container has a runtime configuration implementation available. {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isConfigurationRegistered(containerId, type, ConfigurationType.RUNTIME);

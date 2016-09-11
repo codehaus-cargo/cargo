@@ -66,8 +66,8 @@ public class DocumentStreamAdapter implements MergeProcessor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.MergeProcessor#addMergeItem(java.lang.Object)
      */
+    @Override
     public void addMergeItem(Object mergeItem) throws MergeException
     {
         if (mergeItem instanceof InputStream)
@@ -90,8 +90,8 @@ public class DocumentStreamAdapter implements MergeProcessor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.MergeProcessor#performMerge()
      */
+    @Override
     public Object performMerge() throws MergeException
     {
         try
@@ -140,6 +140,7 @@ public class DocumentStreamAdapter implements MergeProcessor
 
             builder.setEntityResolver(new EntityResolver()
             {
+                @Override
                 public InputSource resolveEntity(String thePublicId,
                     String theSystemId) throws SAXException
                 {

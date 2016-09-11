@@ -33,7 +33,6 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractJonasStandalone
 {
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractJonasStandaloneLocalConfiguration#AbstractJonasStandaloneLocalConfiguration(String)
      */
     public Jonas4xStandaloneLocalConfiguration(String dir)
@@ -43,8 +42,6 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractJonasStandalone
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJonasStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -63,8 +60,6 @@ public class Jonas4xStandaloneLocalConfiguration extends AbstractJonasStandalone
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

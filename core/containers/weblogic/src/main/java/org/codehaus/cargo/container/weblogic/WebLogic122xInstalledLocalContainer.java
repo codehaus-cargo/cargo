@@ -47,6 +47,7 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
      *
      * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WebLogic 12.2.x";
@@ -57,6 +58,7 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
      *
      * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

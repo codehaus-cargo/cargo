@@ -33,6 +33,7 @@ public abstract class AbstractConfigurationBuilder implements ConfigurationBuild
      * {@inheritDoc} Detects the type of <code>DataSource</code> to configure based on transactional
      * properties and implementation class.
      */
+    @Override
     public String toConfigurationEntry(DataSource ds)
     {
         String returnVal = " ";

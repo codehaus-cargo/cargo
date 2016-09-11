@@ -36,7 +36,6 @@ public class WildFly9xExistingLocalConfiguration extends WildFly8xExistingLocalC
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

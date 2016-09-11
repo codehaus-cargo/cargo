@@ -70,6 +70,7 @@ public class EmbeddedLocalContainerStub
      * {@inheritDoc}
      * @return {@link ContainerType#EMBEDDED}
      */
+    @Override
     public ContainerType getType()
     {
         return ContainerType.EMBEDDED;
@@ -79,6 +80,7 @@ public class EmbeddedLocalContainerStub
      * {@inheritDoc}
      * @param classLoader Embedded local container's classloader.
      */
+    @Override
     public void setClassLoader(ClassLoader classLoader)
     {
         this.classLoader = classLoader;
@@ -88,6 +90,7 @@ public class EmbeddedLocalContainerStub
      * {@inheritDoc}
      * @return Embedded local container's classloader.
      */
+    @Override
     public ClassLoader getClassLoader()
     {
         ClassLoader result;

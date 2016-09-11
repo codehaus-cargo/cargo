@@ -79,8 +79,8 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;
@@ -193,6 +193,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
      *
      * @param configurationScript Script containing CLI configuration to be executed.
      */
+    @Override
     public void executeScript(List<ScriptCommand> configurationScript)
     {
         String newLine = System.getProperty("line.separator");
@@ -228,6 +229,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
      *
      * @param scriptFilePaths List of file paths containing CLI scripts.
      */
+    @Override
     public void executeScriptFiles(List<String> scriptFilePaths)
     {
         for (String scriptFilePath : scriptFilePaths)

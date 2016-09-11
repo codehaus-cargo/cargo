@@ -47,6 +47,7 @@ public abstract class AbstractEmbeddedLocalContainer
      * @param classLoader the custom classloader to use for loading the Embedded container's
      * classes.
      */
+    @Override
     public void setClassLoader(ClassLoader classLoader)
     {
         this.classLoader = classLoader;
@@ -55,6 +56,7 @@ public abstract class AbstractEmbeddedLocalContainer
     /**
      * @return the custom classloader to use for loading the Embedded container's classes.
      */
+    @Override
     public ClassLoader getClassLoader()
     {
         ClassLoader cl = this.classLoader;
@@ -69,7 +71,6 @@ public abstract class AbstractEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
     @Override
     protected void startInternal() throws Exception
@@ -79,7 +80,6 @@ public abstract class AbstractEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
     @Override
     protected void stopInternal() throws Exception
@@ -106,6 +106,7 @@ public abstract class AbstractEmbeddedLocalContainer
     /**
      * Calls <code>System.gc()</code> after container has stopped. {@inheritDoc}
      */
+    @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
         super.waitForCompletion(waitForStarting);
@@ -120,8 +121,8 @@ public abstract class AbstractEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getType()
      */
+    @Override
     public ContainerType getType()
     {
         return ContainerType.EMBEDDED;

@@ -32,8 +32,6 @@ public class Jonas4xContainerCapability extends J2EEContainerCapability
 {
     /**
      * Add support for EJB and RAR deployable types. {@inheritDoc}
-     * 
-     * @see J2EEContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)

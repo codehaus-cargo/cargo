@@ -82,7 +82,6 @@ public class ResinRun extends DefaultServerRun
      * classpath to compile this class.
      * 
      * {@inheritDoc}
-     * @see DefaultServerRun#doStartServer
      */
     @Override
     protected void doStartServer(String[] args)
@@ -238,7 +237,6 @@ public class ResinRun extends DefaultServerRun
      * classpath to compile this class.
      * 
      * {@inheritDoc}
-     * @see DefaultServerRun#doStopServer
      */
     @Override
     protected void doStopServer(String[] args)

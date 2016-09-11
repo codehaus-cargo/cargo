@@ -41,7 +41,6 @@ public class JBoss51xRemoteDeployer extends JBoss5xRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see JBoss5xRemoteDeployer#getJBossRemoteDeployerJarName()
      */
     @Override
     protected String getJBossRemoteDeployerJarName()

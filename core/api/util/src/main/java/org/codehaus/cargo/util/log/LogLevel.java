@@ -48,14 +48,12 @@ public final class LogLevel implements Comparable
     public static final LogLevel DEBUG = new LogLevel("debug", 2);
 
     /**
-     * {@inheritDoc}
-     * @see #LogLevel(String, int)
+     * Log level.
      */
     private String level;
 
     /**
-     * {@inheritDoc}
-     * @see #LogLevel(String, int)
+     * Volume of the logs that will be output.
      */
     private int logVolume;
 
@@ -104,7 +102,6 @@ public final class LogLevel implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see Object#equals(Object)
      */
     @Override
     public boolean equals(Object object)
@@ -124,7 +121,6 @@ public final class LogLevel implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()
@@ -134,8 +130,8 @@ public final class LogLevel implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see Comparable#compareTo(Object)
      */
+    @Override
     public int compareTo(Object object)
     {
         int result;
@@ -174,7 +170,6 @@ public final class LogLevel implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

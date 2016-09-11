@@ -27,9 +27,7 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 public class AOP extends AbstractDeployable
 {
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractDeployable#AbstractDeployable(String)
+     * @param aop the location of the JBoss AOP Archive being wrapped.
      */
     public AOP(String aop)
     {
@@ -38,9 +36,8 @@ public class AOP extends AbstractDeployable
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Deployable#getType()
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.AOP;

@@ -122,8 +122,8 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -131,8 +131,8 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return NAME;
@@ -143,6 +143,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
      * of ability to deploy such and such type of
      * {@link org.codehaus.cargo.container.deployable.Deployable}s (eg WAR, EAR, etc).
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;

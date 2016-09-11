@@ -78,6 +78,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @return Container home.
      */
+    @Override
     public String getHome()
     {
         return this.home;
@@ -87,6 +88,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @param home Container home.
      */
+    @Override
     public void setHome(String home)
     {
         this.home = home;
@@ -96,6 +98,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @return {@link ContainerType#INSTALLED}
      */
+    @Override
     public ContainerType getType()
     {
         return ContainerType.INSTALLED;
@@ -105,6 +108,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public String[] getExtraClasspath()
     {
         throw new RuntimeException("Not implemented");
@@ -114,6 +118,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public String[] getSharedClasspath()
     {
         throw new RuntimeException("Not implemented");
@@ -123,6 +128,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param classpath Ignored.
      */
+    @Override
     public void setExtraClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");
@@ -132,6 +138,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param classpath Ignored.
      */
+    @Override
     public void addExtraClasspath(String classpath)
     {
         throw new RuntimeException("Not implemented");
@@ -141,6 +148,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param classpath Ignored.
      */
+    @Override
     public void setSharedClasspath(String[] classpath)
     {
         throw new RuntimeException("Not implemented");
@@ -150,6 +158,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param location Ignored.
      */
+    @Override
     public void addSharedClasspath(String location)
     {
         throw new RuntimeException("Not implemented");
@@ -159,6 +168,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @return System properties.
      */
+    @Override
     public Map<String, String> getSystemProperties()
     {
         return this.systemProperties;
@@ -168,6 +178,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @param properties System properties to set.
      */
+    @Override
     public void setSystemProperties(Map<String, String> properties)
     {
         this.systemProperties = properties;
@@ -177,6 +188,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @param jvmLauncherFactory JVM launcher factory.
      */
+    @Override
     public void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory)
     {
         throw new RuntimeException("Not implemented");
@@ -186,6 +198,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
      * {@inheritDoc}
      * @return JVM launcher factory.
      */
+    @Override
     public JvmLauncherFactory getJvmLauncherFactory()
     {
         throw new RuntimeException("Not implemented");

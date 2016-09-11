@@ -45,8 +45,8 @@ public class XmlMerger extends LoggedObject implements DescriptorMerger
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.DescriptorMerger#init(org.codehaus.cargo.module.Descriptor)
      */
+    @Override
     public void init(Descriptor base)
     {
         for (DescriptorMerger merger : descriptorMergers)
@@ -57,8 +57,8 @@ public class XmlMerger extends LoggedObject implements DescriptorMerger
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.DescriptorMerger#merge(org.codehaus.cargo.module.Descriptor)
      */
+    @Override
     public void merge(Descriptor other)
     {
         for (DescriptorMerger merger : descriptorMergers)

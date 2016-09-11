@@ -37,7 +37,6 @@ public class WebLogic9x10x103x12xCopyingInstalledLocalDeployer extends
 {
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public WebLogic9x10x103x12xCopyingInstalledLocalDeployer(LocalContainer container)

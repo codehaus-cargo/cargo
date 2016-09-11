@@ -30,8 +30,8 @@ public abstract class AbstractRuntimeConfiguration extends AbstractConfiguration
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getType()
      */
+    @Override
     public ConfigurationType getType()
     {
         return ConfigurationType.RUNTIME;

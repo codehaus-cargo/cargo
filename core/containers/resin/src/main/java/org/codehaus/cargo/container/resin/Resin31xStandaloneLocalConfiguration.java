@@ -33,7 +33,6 @@ public class Resin31xStandaloneLocalConfiguration extends Resin3xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
      * @see Resin3xStandaloneLocalConfiguration#Resin3xStandaloneLocalConfiguration(String)
      */
     public Resin31xStandaloneLocalConfiguration(String dir)
@@ -43,8 +42,6 @@ public class Resin31xStandaloneLocalConfiguration extends Resin3xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Resin3xStandaloneLocalConfiguration#prepareConfigurationDirectory(org.codehaus.cargo.container.Container, java.lang.String)
      */
     @Override
     protected void prepareConfigurationDirectory(Container container, String confDir)

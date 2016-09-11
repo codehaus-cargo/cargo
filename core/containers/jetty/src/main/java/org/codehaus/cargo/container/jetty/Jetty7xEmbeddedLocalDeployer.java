@@ -37,7 +37,6 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractJettyEmbeddedLocalDeployer#AbstractJettyEmbeddedLocalDeployer(EmbeddedLocalContainer)
      */
     public Jetty7xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
@@ -57,8 +56,6 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDeployer#deployWebApp(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public Object deployWebApp(Deployable deployable)
@@ -120,8 +117,6 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDeployer#undeployWebApp(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void undeployWebApp(Deployable deployable)
@@ -142,8 +137,6 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void start(Deployable deployable)
@@ -161,8 +154,6 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void stop(Deployable deployable)

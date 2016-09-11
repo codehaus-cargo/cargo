@@ -135,8 +135,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.webapp.WarArchive#getWebXml()
      */
+    @Override
     public WebXml getWebXml() throws IOException,
         JDOMException
     {
@@ -181,8 +181,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * Here we do actual merge and store resulting war file into the new location. {@inheritDoc}
-     * @see org.codehaus.cargo.module.webapp.WarArchive#store(java.io.File)
      */
+    @Override
     public void store(File warFile) throws MergeException, IOException, JDOMException
     {
         DefaultFileHandler fileHandler = new DefaultFileHandler();
@@ -259,8 +259,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#containsClass(java.lang.String)
      */
+    @Override
     public boolean containsClass(String theClassName) throws IOException
     {
         for (MergeWarFileDetails details : this.warFiles)
@@ -277,8 +277,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#findResource(java.lang.String)
      */
+    @Override
     public String findResource(String theName) throws IOException
     {
         for (MergeWarFileDetails details : this.warFiles)
@@ -296,8 +296,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#getResource(java.lang.String)
      */
+    @Override
     public InputStream getResource(String thePath) throws IOException
     {
         for (MergeWarFileDetails details : this.warFiles)
@@ -314,8 +314,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#getResources(java.lang.String)
      */
+    @Override
     public List<String> getResources(String thePath) throws IOException
     {
         List<String> results = new ArrayList<String>();
@@ -329,8 +329,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#expandToPath(String)
      */
+    @Override
     public void expandToPath(String path) throws IOException
     {
         expandToPath(path, null);
@@ -338,8 +338,8 @@ public class MergedWarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.JarArchive#expandToPath(java.lang.String, java.io.FileFilter)
      */
+    @Override
     public void expandToPath(String path, FileFilter filter) throws IOException
     {
         for (MergeWarFileDetails details : this.warFiles)

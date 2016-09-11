@@ -103,6 +103,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -367,8 +368,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
 
     /**
      * {@inheritDoc}
-     * @see WebSphereConfiguration#getFactory()
      */
+    @Override
     public WebSphereJythonConfigurationFactory getFactory()
     {
         return factory;

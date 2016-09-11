@@ -38,8 +38,8 @@ public class Tomcat6xEmbeddedLocalContainer extends Tomcat5xEmbeddedLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return "tomcat6x";
@@ -47,8 +47,8 @@ public class Tomcat6xEmbeddedLocalContainer extends Tomcat5xEmbeddedLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Tomcat 6.x Embedded";

@@ -59,6 +59,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         /**
          * {@inheritDoc}.
          */
+        @Override
         public void deployed()
         {
             getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] deployed.");
@@ -67,6 +68,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         /**
          * {@inheritDoc}.
          */
+        @Override
         public void undeployed()
         {
             getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] not deployed yet.");
@@ -75,7 +77,6 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
      */
     @Override
     public void doExecute() throws MojoExecutionException

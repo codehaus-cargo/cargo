@@ -54,6 +54,7 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
     /**
      * {@inheritDoc}
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.INSTALLED;

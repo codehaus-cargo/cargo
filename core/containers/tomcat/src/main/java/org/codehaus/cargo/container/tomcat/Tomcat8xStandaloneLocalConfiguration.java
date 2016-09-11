@@ -49,7 +49,6 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
      * @see Tomcat7xStandaloneLocalConfiguration#Tomcat7xStandaloneLocalConfiguration(String)
      */
     public Tomcat8xStandaloneLocalConfiguration(String dir)
@@ -235,8 +234,6 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

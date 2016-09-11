@@ -66,7 +66,6 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public AbstractJonasStandaloneLocalConfiguration(String dir)
@@ -83,9 +82,8 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CONTAINER_CAPABILITY;
@@ -93,8 +91,6 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

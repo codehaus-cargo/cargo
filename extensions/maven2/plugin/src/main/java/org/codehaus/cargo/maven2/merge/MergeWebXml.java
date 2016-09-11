@@ -82,6 +82,7 @@ public class MergeWebXml implements MergeProcessorFactory
      * @param xml XML merge.
      * @return Merge processor.
      */
+    @Override
     public MergeProcessor create(WarArchiveMerger wam, Merge xml)
     {
         webXmlMerger = wam.getWebXmlMerger();

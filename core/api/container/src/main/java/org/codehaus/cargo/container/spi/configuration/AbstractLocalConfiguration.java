@@ -163,6 +163,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * @return the file utility class to use for performing all file I/O.
      */
+    @Override
     public FileHandler getFileHandler()
     {
         return this.fileHandler;
@@ -171,6 +172,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * @param fileHandler the file utility class to use for performing all file I/O.
      */
+    @Override
     public void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
@@ -195,6 +197,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setFileProperty(FileConfig fileConfig)
     {
         this.files.add(fileConfig);
@@ -203,6 +206,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setConfigFileProperty(FileConfig fileConfig)
     {
         // a configuration file should always overwrite the previous file if it exists
@@ -215,6 +219,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<FileConfig> getFileProperties()
     {
         return this.files;
@@ -223,6 +228,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void addDeployable(Deployable newDeployable)
     {
         this.deployables.add(newDeployable);
@@ -231,6 +237,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<Deployable> getDeployables()
     {
         return this.deployables;
@@ -239,6 +246,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getHome()
     {
         return this.home;
@@ -247,6 +255,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void configure(LocalContainer container)
     {
         if (getPropertyValue(GeneralPropertySet.JAVA_HOME) == null)
@@ -287,7 +296,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * {@inheritDoc}
+     * Returns (while, if necessary, creating) the default filter chain that should be applied
+     * while copying container configuration files to the working directory from which the
+     * container is started.
+     * 
+     * @return The default filter chain
      */
     protected FilterChain getFilterChain()
     {
@@ -618,6 +631,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addResource(Resource resource)
     {
         this.resources.add(resource);
@@ -626,6 +640,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * @return the configured resources for this container.
      */
+    @Override
     public List<Resource> getResources()
     {
         return this.resources;
@@ -634,6 +649,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addUser(User user)
     {
         this.users.add(user);
@@ -642,6 +658,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<User> getUsers()
     {
         return users;
@@ -650,6 +667,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addDataSource(DataSource dataSource)
     {
         this.dataSources.add(dataSource);
@@ -658,6 +676,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<DataSource> getDataSources()
     {
         return this.dataSources;
@@ -666,6 +685,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     /**
      * This method should only be called once all the properties has been set. {@inheritDoc}
      */
+    @Override
     public void applyPortOffset() 
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null 
@@ -689,6 +709,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * 
      * This method should only be called once all the properties has been set.
      */
+    @Override
     public void revertPortOffset() 
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null 

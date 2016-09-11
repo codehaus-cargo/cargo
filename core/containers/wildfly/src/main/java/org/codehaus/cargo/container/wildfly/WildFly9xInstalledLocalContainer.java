@@ -44,8 +44,8 @@ public class WildFly9xInstalledLocalContainer extends AbstractWildFlyInstalledLo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -53,8 +53,8 @@ public class WildFly9xInstalledLocalContainer extends AbstractWildFlyInstalledLo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WildFly " + getVersion("9.x");

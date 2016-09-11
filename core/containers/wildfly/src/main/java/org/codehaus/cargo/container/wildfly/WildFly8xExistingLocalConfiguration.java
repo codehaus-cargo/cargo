@@ -62,7 +62,6 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration#createDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     @Override
     protected AbstractDeployer createDeployer(InstalledLocalContainer jbossContainer)
@@ -72,7 +71,6 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -82,7 +80,6 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()
@@ -92,8 +89,8 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
 
     /**
      * {@inheritDoc}
-     * @see WildFlyConfiguration#getConfigurationFactory()
      */
+    @Override
     public WildFlyCliConfigurationFactory getConfigurationFactory()
     {
         return factory;

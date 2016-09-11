@@ -34,7 +34,7 @@ public class Jetty6xExistingLocalConfiguration extends AbstractJettyExistingLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#AbstractLocalConfiguration(String)
+     * @see AbstractJettyExistingLocalConfiguration#AbstractJettyExistingLocalConfiguration(String)
      */
     public Jetty6xExistingLocalConfiguration(String dir)
     {
@@ -43,7 +43,6 @@ public class Jetty6xExistingLocalConfiguration extends AbstractJettyExistingLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyExistingLocalConfiguration#createDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)

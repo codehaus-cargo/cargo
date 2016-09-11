@@ -37,8 +37,8 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -46,7 +46,6 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

@@ -29,7 +29,7 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration#AbstractOrionStandaloneLocalConfiguration(String)
+     * @see AbstractOrionStandaloneLocalConfiguration#AbstractOrionStandaloneLocalConfiguration(String)
      */
     public Oc4j9xStandaloneLocalConfiguration(String dir)
     {
@@ -49,7 +49,6 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

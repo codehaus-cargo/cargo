@@ -46,6 +46,7 @@ public class WebLogicResourceComparator implements Comparator<Resource>
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compare(Resource firstResource, Resource secondResource)
     {
         Integer firstResourceIndex = orderList.indexOf(firstResource.getType());

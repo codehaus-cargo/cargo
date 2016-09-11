@@ -47,6 +47,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * {@inheritDoc}
      * @return {@link ConfigurationType#STANDALONE}
      */
+    @Override
     public ConfigurationType getType()
     {
         return ConfigurationType.STANDALONE;
@@ -57,6 +58,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * 
      * @param xmlReplacement Ignored.
      */
+    @Override
     public void addXmlReplacement(XmlReplacement xmlReplacement)
     {
         // Nothing
@@ -69,6 +71,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * @param xpathExpression Ignored.
      * @param configurationPropertyName Ignored.
      */
+    @Override
     public void addXmlReplacement(String filename, String xpathExpression,
         String configurationPropertyName)
     {
@@ -83,6 +86,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * @param attributeName Ignored.
      * @param configurationPropertyName Ignored.
      */
+    @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
         String configurationPropertyName)
     {
@@ -100,6 +104,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * replacement will be ignored if the property is set to <code>null</code>.
      * @param ignoreIfNonExisting
      */
+    @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
          String configurationPropertyName, boolean ignoreIfNonExisting)
     {
@@ -112,6 +117,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * @param filename Ignored.
      * @param xpathExpression Ignored.
      */
+    @Override
     public void removeXmlReplacement(String filename, String xpathExpression)
     {
         // Nothing
@@ -124,6 +130,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * @param xpathExpression Ignored.
      * @param attributeName Ignored.
      */
+    @Override
     public void removeXmlReplacement(String filename, String xpathExpression,
         String attributeName)
     {
@@ -133,6 +140,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
     /**
      * Returns an empty array. {@inheritDoc}
      */
+    @Override
     public List<XmlReplacement> getXmlReplacements()
     {
         return new ArrayList<XmlReplacement>(0);

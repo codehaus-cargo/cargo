@@ -43,7 +43,6 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
      * @see Jetty6xEmbeddedLocalContainer#Jetty6xEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jetty7xEmbeddedLocalContainer(LocalConfiguration configuration)
@@ -53,9 +52,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -67,6 +65,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
      * @param webapp the webapp to set the realm on
      * @throws Exception on invokation error
      */
+    @Override
     public void setDefaultRealm(Object webapp) throws Exception
     {
         // Class userRealmClass = getClassLoader()
@@ -244,7 +243,6 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer#createServerObject()
      */
     @Override
     protected synchronized void createServerObject() throws Exception

@@ -48,8 +48,6 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
-     * @see TomcatStandaloneLocalConfigurationCapability
      */
     private static ConfigurationCapability capability =
         new Tomcat7x8xStandaloneLocalConfigurationCapability();
@@ -73,8 +71,6 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -87,8 +83,6 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.tomcat.Tomcat5xStandaloneLocalConfiguration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -168,7 +162,6 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

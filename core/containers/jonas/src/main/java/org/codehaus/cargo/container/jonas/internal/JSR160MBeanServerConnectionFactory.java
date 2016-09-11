@@ -55,6 +55,7 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
     /**
      * {@inheritDoc}
      */
+    @Override
     public MBeanServerConnection getServerConnection(RuntimeConfiguration configuration)
         throws IOException
     {
@@ -114,9 +115,8 @@ public class JSR160MBeanServerConnectionFactory implements MBeanServerConnection
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory#destroy()
      */
+    @Override
     public void destroy()
     {
         if (connector != null)

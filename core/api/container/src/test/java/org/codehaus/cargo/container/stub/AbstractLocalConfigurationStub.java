@@ -84,13 +84,14 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @return Configuration home.
      */
+    @Override
     public String getHome()
     {
         return this.home;
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the configuration home.
      * @param home Configuration home to set.
      */
     public void setHome(String home)
@@ -102,6 +103,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @param deployable Deployable to add.
      */
+    @Override
     public void addDeployable(Deployable deployable)
     {
         this.deployables.add(deployable);
@@ -111,6 +113,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @return List of deployables.
      */
+    @Override
     public List<Deployable> getDeployables()
     {
         return this.deployables;
@@ -120,6 +123,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @param resource Resource to add.
      */
+    @Override
     public void addResource(Resource resource)
     {
         this.resources.add(resource);
@@ -129,6 +133,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @return List of resources.
      */
+    @Override
     public List<Resource> getResources()
     {
         return this.resources;
@@ -138,6 +143,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @param dataSource Datasource to add.
      */
+    @Override
     public void addDataSource(DataSource dataSource)
     {
         this.dataSources.add(dataSource);
@@ -147,6 +153,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @return List of datasources.
      */
+    @Override
     public List<DataSource> getDataSources()
     {
         return this.dataSources;
@@ -155,6 +162,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addUser(User user)
     {
         this.users.add(user);
@@ -163,6 +171,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<User> getUsers()
     {
         return users;
@@ -172,6 +181,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * {@inheritDoc}
      * @return <code>null</code>
      */
+    @Override
     public List<FileConfig> getFileProperties()
     {
         // TODO Auto-generated method stub
@@ -182,6 +192,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Doesn't do anything. {@inheritDoc}
      * @param fileConfig Ignored.
      */
+    @Override
     public void setConfigFileProperty(FileConfig fileConfig)
     {
         // TODO Auto-generated method stub
@@ -191,6 +202,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Doesn't do anything. {@inheritDoc}
      * @param fileConfig Ignored.
      */
+    @Override
     public void setFileProperty(FileConfig fileConfig)
     {
         // TODO Auto-generate method stub
@@ -200,6 +212,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public FileHandler getFileHandler()
     {
         throw new RuntimeException("Not implemented");
@@ -209,6 +222,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param handler Ignored.
      */
+    @Override
     public void setFileHandler(FileHandler handler)
     {
         throw new RuntimeException("Not implemented");
@@ -217,6 +231,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     /**
      * Doesn't do anything. {@inheritDoc}
      */
+    @Override
     public void applyPortOffset() 
     {
         // TODO Auto-generated method stub
@@ -225,6 +240,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     /**
      * Doesn't do anything. {@inheritDoc}
      */
+    @Override
     public void revertPortOffset() 
     {
         // TODO Auto-generated method stub
@@ -234,6 +250,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param container Ignored.
      */
+    @Override
     public void configure(LocalContainer container)
     {
         // Nothing

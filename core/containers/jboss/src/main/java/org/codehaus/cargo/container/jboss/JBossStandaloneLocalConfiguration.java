@@ -88,8 +88,8 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
@@ -105,7 +105,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -217,7 +216,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#verify()
      */
     @Override
     public void verify()
@@ -494,7 +492,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

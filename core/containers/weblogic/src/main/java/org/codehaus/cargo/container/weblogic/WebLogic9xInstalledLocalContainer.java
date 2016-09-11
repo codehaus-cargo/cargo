@@ -45,8 +45,8 @@ public class WebLogic9xInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WebLogic 9.x";
@@ -54,8 +54,8 @@ public class WebLogic9xInstalledLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -65,6 +65,7 @@ public class WebLogic9xInstalledLocalContainer
      * {@inheritDoc}
      * 
      */
+    @Override
     public String getAutoDeployDirectory()
     {
         return "autodeploy";

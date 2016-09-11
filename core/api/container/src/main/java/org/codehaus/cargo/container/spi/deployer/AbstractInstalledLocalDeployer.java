@@ -38,8 +38,8 @@ public abstract class AbstractInstalledLocalDeployer extends AbstractLocalDeploy
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#getType()
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.INSTALLED;

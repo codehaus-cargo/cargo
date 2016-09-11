@@ -60,7 +60,6 @@ public class WebLogic8xExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractExistingLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -70,8 +69,8 @@ public class WebLogic8xExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractExistingLocalConfiguration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -79,7 +78,6 @@ public class WebLogic8xExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()
@@ -121,6 +119,7 @@ public class WebLogic8xExistingLocalConfiguration extends
      * {@inheritDoc}
      * 
      */
+    @Override
     public String getDomainHome()
     {
         return getHome();

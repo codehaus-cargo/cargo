@@ -41,7 +41,6 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
      * @see Jetty8xEmbeddedLocalContainer#Jetty8xEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jetty9xEmbeddedLocalContainer(LocalConfiguration configuration)
@@ -51,8 +50,6 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -62,8 +59,6 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Jetty7xEmbeddedLocalContainer#configureJettyConnectors() 
      */
     @Override
     protected void configureJettyConnectors() throws ClassNotFoundException,
@@ -92,7 +87,6 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer#createServerObject()
      */
     @Override
     protected synchronized void createServerObject() throws Exception

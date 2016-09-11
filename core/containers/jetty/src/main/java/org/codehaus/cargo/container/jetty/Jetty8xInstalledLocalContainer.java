@@ -44,8 +44,8 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -53,7 +53,6 @@ public class Jetty8xInstalledLocalContainer extends Jetty7xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#getStartArguments(java.lang.String)
      */
     @Override
     protected String[] getStartArguments(String classpath)

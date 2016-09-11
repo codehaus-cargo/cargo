@@ -79,7 +79,6 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractJettyEmbeddedLocalContainer#AbstractJettyEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jetty6xEmbeddedLocalContainer(LocalConfiguration configuration)
@@ -89,9 +88,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -99,9 +97,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Jetty " + getVersion();
@@ -129,8 +126,6 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractJettyEmbeddedLocalContainer#doStart()
      */
     @Override
     protected void doStart() throws Exception
@@ -395,7 +390,6 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalContainer#createServerObject()
      */
     @Override
     protected synchronized void createServerObject() throws Exception

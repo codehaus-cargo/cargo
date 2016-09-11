@@ -174,8 +174,8 @@ public class EAR extends AbstractDeployable
 
     /**
      * {@inheritDoc}
-     * @see Deployable#getType()
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.EAR;

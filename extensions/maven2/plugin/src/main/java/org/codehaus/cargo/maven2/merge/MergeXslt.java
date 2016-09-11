@@ -55,6 +55,7 @@ public class MergeXslt implements MergeProcessorFactory
      * @param xml XML merge.
      * @return Merge processor.
      */
+    @Override
     public MergeProcessor create(WarArchiveMerger wam, Merge xml)
     {
         try

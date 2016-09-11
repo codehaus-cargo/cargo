@@ -54,6 +54,7 @@ public abstract class AbstractConfigurationCapabilityAndTypeValidator
     /**
      * Checks if the container supports the given property with the given type. {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType containerType)
     {
         return factory.createConfigurationCapability(containerId, containerType, this.type)

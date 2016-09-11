@@ -43,7 +43,6 @@ public class WildFly8xRemoteContainer extends JBoss74xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -53,7 +52,6 @@ public class WildFly8xRemoteContainer extends JBoss74xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()

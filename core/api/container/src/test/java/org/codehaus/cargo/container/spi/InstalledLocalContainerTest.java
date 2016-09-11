@@ -91,6 +91,7 @@ public class InstalledLocalContainerTest extends TestCase
              * {@inheritDoc}
              * @return <code>null</code>.
              */
+            @Override
             public ConfigurationCapability getCapability()
             {
                 return null;
@@ -159,6 +160,7 @@ public class InstalledLocalContainerTest extends TestCase
          * {@inheritDoc}
          * @return <code>null</code>.
          */
+        @Override
         public ContainerCapability getCapability()
         {
             return null;
@@ -168,6 +170,7 @@ public class InstalledLocalContainerTest extends TestCase
          * {@inheritDoc}
          * @return <code>null</code>.
          */
+        @Override
         public String getId()
         {
             return null;
@@ -177,6 +180,7 @@ public class InstalledLocalContainerTest extends TestCase
          * {@inheritDoc}
          * @return <code>null</code>.
          */
+        @Override
         public String getName()
         {
             return null;

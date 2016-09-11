@@ -48,7 +48,6 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -80,7 +79,6 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void activateLogging(LocalContainer container)
@@ -90,7 +88,6 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

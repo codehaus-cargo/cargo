@@ -35,6 +35,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * {@inheritDoc}
      * @return <code>null</code>.
      */
+    @Override
     public String getHome()
     {
         // TODO Auto-generated method stub
@@ -45,6 +46,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * Doesn't do anything. {@inheritDoc}
      * @param home Ignored.
      */
+    @Override
     public void setHome(String home)
     {
         // TODO Auto-generated method stub
@@ -75,6 +77,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * {@inheritDoc}
      * @return <code>null</code>.
      */
+    @Override
     public ContainerType getType()
     {
         // TODO Auto-generated method stub
@@ -85,6 +88,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * Doesn't do anything. {@inheritDoc}
      * @param location Ignored.
      */
+    @Override
     public void addExtraClasspath(String location)
     {
         // TODO Auto-generated method stub
@@ -94,6 +98,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * Doesn't do anything. {@inheritDoc}
      * @param location Ignored.
      */
+    @Override
     public void addSharedClasspath(String location)
     {
         // TODO Auto-generated method stub
@@ -103,6 +108,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * {@inheritDoc}
      * @return <code>null</code>.
      */
+    @Override
     public String[] getExtraClasspath()
     {
         // TODO Auto-generated method stub
@@ -113,6 +119,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * {@inheritDoc}
      * @return <code>null</code>.
      */
+    @Override
     public String[] getSharedClasspath()
     {
         // TODO Auto-generated method stub
@@ -123,6 +130,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * {@inheritDoc}
      * @return <code>null</code>.
      */
+    @Override
     public Map<String, String> getSystemProperties()
     {
         // TODO Auto-generated method stub
@@ -133,6 +141,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * Doesn't do anything. {@inheritDoc}
      * @param classpath Ignored.
      */
+    @Override
     public void setExtraClasspath(String[] classpath)
     {
         // TODO Auto-generated method stub
@@ -142,6 +151,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * Doesn't do anything. {@inheritDoc}
      * @param classpath Ignored.
      */
+    @Override
     public void setSharedClasspath(String[] classpath)
     {
         // TODO Auto-generated method stub
@@ -151,6 +161,7 @@ public abstract class AbstractInstalledLocalContainerStub extends AbstractLocalC
      * Doesn't do anything. {@inheritDoc}
      * @param properties Ignored.
      */
+    @Override
     public void setSystemProperties(Map<String, String> properties)
     {
         // TODO Auto-generated method stub

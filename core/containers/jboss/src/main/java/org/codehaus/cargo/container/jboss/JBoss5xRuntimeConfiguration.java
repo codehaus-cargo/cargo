@@ -50,8 +50,8 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
@@ -59,7 +59,6 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

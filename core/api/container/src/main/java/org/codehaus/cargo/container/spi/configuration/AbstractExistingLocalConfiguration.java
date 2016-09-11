@@ -39,8 +39,8 @@ public abstract class AbstractExistingLocalConfiguration extends AbstractLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getType()
      */
+    @Override
     public ConfigurationType getType()
     {
         return ConfigurationType.EXISTING;

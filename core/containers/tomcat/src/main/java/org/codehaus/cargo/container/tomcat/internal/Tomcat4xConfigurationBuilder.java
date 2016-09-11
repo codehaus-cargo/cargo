@@ -47,6 +47,7 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
      * @param resource what do generate XML based upon
      * @return String representing the Resource element of server.xml
      */
+    @Override
     public String toConfigurationEntry(Resource resource)
     {
         StringBuilder buff = new StringBuilder();
@@ -87,7 +88,7 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
     }
 
     /**
-     * {@inheritDoc}
+     * @return Datasource factory class.
      */
     protected String getDataSourceFactoryClass()
     {

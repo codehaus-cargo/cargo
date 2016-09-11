@@ -46,6 +46,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         // Nothing
@@ -56,6 +57,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
+    @Override
     public void deploy(Deployable deployable, DeployableMonitor monitor)
     {
         // Nothing
@@ -65,6 +67,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         // Nothing
@@ -75,6 +78,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
+    @Override
     public void undeploy(Deployable deployable, DeployableMonitor monitor)
     {
         // Nothing
@@ -84,6 +88,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         // Nothing
@@ -94,6 +99,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
+    @Override
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
     {
         // Nothing
@@ -103,6 +109,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
+    @Override
     public void start(Deployable deployable)
     {
         // Nothing
@@ -113,6 +120,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
+    @Override
     public void start(Deployable deployable, DeployableMonitor monitor)
     {
         // Nothing
@@ -122,6 +130,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param deployable Ignored.
      */
+    @Override
     public void stop(Deployable deployable)
     {
         // Nothing
@@ -132,6 +141,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * @param deployable Ignored.
      * @param monitor Ignored.
      */
+    @Override
     public void stop(Deployable deployable, DeployableMonitor monitor)
     {
         // Nothing
@@ -141,6 +151,7 @@ public class RemoteDeployerStub extends LoggedObject implements Deployer
      * {@inheritDoc}
      * @return {@link DeployerType#REMOTE}
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.REMOTE;

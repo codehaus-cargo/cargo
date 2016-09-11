@@ -34,7 +34,7 @@ public class Jetty8xRemoteContainer extends AbstractJettyRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyRemoteContainer#AbstractJettyRemoteContainer(RuntimeConfiguration)
+     * @see AbstractJettyRemoteContainer#AbstractJettyRemoteContainer(RuntimeConfiguration)
      */
     public Jetty8xRemoteContainer(RuntimeConfiguration configuration)
     {
@@ -43,8 +43,8 @@ public class Jetty8xRemoteContainer extends AbstractJettyRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Jetty 8.x Remote";
@@ -52,8 +52,8 @@ public class Jetty8xRemoteContainer extends AbstractJettyRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

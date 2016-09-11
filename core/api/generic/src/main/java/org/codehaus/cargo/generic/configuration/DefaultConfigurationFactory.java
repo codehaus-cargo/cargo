@@ -80,9 +80,8 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationFactory#isConfigurationRegistered
      */
+    @Override
     public boolean isConfigurationRegistered(String containerId, ContainerType containerType,
         ConfigurationType configurationType)
     {
@@ -92,9 +91,8 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationFactory#registerConfiguration
      */
+    @Override
     public void registerConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, Class<? extends Configuration> configurationClass)
     {
@@ -105,10 +103,10 @@ public class DefaultConfigurationFactory extends
     /**
      * Registers a configuration using a class specified as a String.
      * 
-     * @param containerId {@inheritDoc}
-     * @param containerType {@inheritDoc}
-     * @param configurationType {@inheritDoc}
-     * @param configurationClassName the configuration implementation class to register as a String
+     * @param containerId Container id.
+     * @param containerType Container type.
+     * @param configurationType Configuration type.
+     * @param configurationClassName Configuration implementation class to register as a String
      * @see #registerConfiguration(String, org.codehaus.cargo.container.ContainerType,
      *      org.codehaus.cargo.container.configuration.ConfigurationType, Class)
      */
@@ -121,9 +119,8 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationFactory#getConfigurationClass
      */
+    @Override
     public Class<? extends Configuration> getConfigurationClass(String containerId,
         ContainerType containerType, ConfigurationType configurationType)
     {
@@ -133,11 +130,8 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationFactory#createConfiguration(String,
-     *      org.codehaus.cargo.container.ContainerType,
-     *      org.codehaus.cargo.container.configuration.ConfigurationType)
      */
+    @Override
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType)
     {
@@ -146,11 +140,8 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see ConfigurationFactory#createConfiguration(String,
-     *      org.codehaus.cargo.container.ContainerType,
-     *      org.codehaus.cargo.container.configuration.ConfigurationType, String)
      */
+    @Override
     public Configuration createConfiguration(String containerId, ContainerType containerType,
         ConfigurationType configurationType, String home)
     {
@@ -163,9 +154,6 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
-     *      GenericParameters)
      */
     @Override
     protected Constructor<? extends Configuration> getConstructor(
@@ -194,8 +182,6 @@ public class DefaultConfigurationFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
     protected Configuration createInstance(Constructor<? extends Configuration> constructor,

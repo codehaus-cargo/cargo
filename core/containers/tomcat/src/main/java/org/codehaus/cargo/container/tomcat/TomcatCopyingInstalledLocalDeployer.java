@@ -162,7 +162,6 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
      * Undeploy WAR deployables by deleting the local file from the Tomcat webapps directory.
      * 
      * {@inheritDoc}
-     * @see AbstractCopyingInstalledLocalDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)

@@ -200,7 +200,6 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -218,7 +217,6 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)

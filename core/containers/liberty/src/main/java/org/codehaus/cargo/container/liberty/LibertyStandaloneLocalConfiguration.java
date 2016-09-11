@@ -69,6 +69,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     /**
      * @return the server configuration capability
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;

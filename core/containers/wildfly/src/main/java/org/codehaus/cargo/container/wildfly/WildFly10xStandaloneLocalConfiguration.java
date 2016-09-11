@@ -39,7 +39,6 @@ public class WildFly10xStandaloneLocalConfiguration extends WildFly9xStandaloneL
 
     /**
      * {@inheritDoc}
-     * @see WildFly9xStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

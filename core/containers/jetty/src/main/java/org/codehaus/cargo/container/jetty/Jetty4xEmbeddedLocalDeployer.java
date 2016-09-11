@@ -44,7 +44,6 @@ public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
     public Object deployWebApp(Deployable deployable)
@@ -85,7 +84,6 @@ public class Jetty4xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override
     public void undeployWebApp(Deployable deployable)

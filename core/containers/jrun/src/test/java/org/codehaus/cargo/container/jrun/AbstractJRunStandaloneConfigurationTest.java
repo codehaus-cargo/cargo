@@ -96,15 +96,6 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
      * JRun does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
-    public void testConfigureCreatesResourceForXADataSource() throws Exception
-    {
-        // Nothing
-    }
-
-    /**
-     * JRun does not currently support Resources. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
-     */
     @Override
     public void testConfigureCreatesResource() throws Exception
     {

@@ -66,7 +66,6 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     protected void doStart(JvmLauncher java) throws Exception
@@ -112,7 +111,6 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     protected void doStop(JvmLauncher java) throws Exception
@@ -151,8 +149,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;
@@ -212,8 +210,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see JBossInstalledLocalContainer#getConfDir(String)
      */
+    @Override
     public String getConfDir(String configurationName)
     {
         return getSpecificConfigurationDir("conf", configurationName);
@@ -221,8 +219,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see JBossInstalledLocalContainer#getLibDir(String)
      */
+    @Override
     public String getLibDir(String configurationName)
     {
         return getSpecificConfigurationDir("lib", configurationName);
@@ -230,8 +228,8 @@ public abstract class AbstractJBossInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see JBossInstalledLocalContainer#getDeployDir(String)
      */
+    @Override
     public String getDeployDir(String configurationName)
     {
         String clustered = getConfiguration().getPropertyValue(JBossPropertySet.CLUSTERED);

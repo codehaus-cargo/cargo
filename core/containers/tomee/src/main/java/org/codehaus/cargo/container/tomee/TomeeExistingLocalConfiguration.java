@@ -41,7 +41,6 @@ public class TomeeExistingLocalConfiguration extends TomcatExistingLocalConfigur
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

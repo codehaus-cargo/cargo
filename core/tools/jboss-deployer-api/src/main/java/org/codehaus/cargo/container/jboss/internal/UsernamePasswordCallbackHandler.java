@@ -67,8 +67,8 @@ public class UsernamePasswordCallbackHandler implements CallbackHandler
 
     /**
      * {@inheritDoc}
-     * @see CallbackHandler#handle(javax.security.auth.callback.Callback[]) 
      */
+    @Override
     public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
     {
         for (Callback callback : callbacks)

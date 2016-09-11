@@ -52,8 +52,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see LocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)
+     * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public AbstractCatalinaInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -63,8 +62,8 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     /**
      * Returns the version of the Tomcat installation.
      * 
-     * @return The Tomcat version, or <code>null</code> if the version number could not be retrieved
      * @param defaultVersion default version to use if we cannot find out the exact Tomcat version
+     * @return The Tomcat version, or <code>null</code> if the version number could not be retrieved
      */
     protected synchronized String getVersion(String defaultVersion)
     {
@@ -119,9 +118,8 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;
@@ -129,8 +127,6 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception
@@ -141,8 +137,6 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public void doStop(JvmLauncher java) throws Exception
@@ -154,8 +148,6 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     /**
      * Does not add anything to the extra classpath since this is already handled by the
      * {@link AbstractCatalinaStandaloneLocalConfiguration}. {@inheritDoc}
-     * 
-     * @see AbstractInstalledLocalContainer#addExtraClasspath(JvmLauncher)
      */
     @Override
     protected void addExtraClasspath(JvmLauncher java)
@@ -166,8 +158,6 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     /**
      * Checks all ports except for {@link GeneralPropertySet#RMI_PORT}, to avoid bug <a
      * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1337">CARGO-1337</a>. {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForPortShutdown(int, int, long)
      */
     @Override
     protected void waitForPortShutdown(int port, int connectTimeout, long deadline)

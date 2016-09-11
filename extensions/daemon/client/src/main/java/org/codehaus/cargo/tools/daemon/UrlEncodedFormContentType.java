@@ -28,6 +28,7 @@ public class UrlEncodedFormContentType implements FormContentType
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getContentType()
     {
         return "application/x-www-form-urlencoded";

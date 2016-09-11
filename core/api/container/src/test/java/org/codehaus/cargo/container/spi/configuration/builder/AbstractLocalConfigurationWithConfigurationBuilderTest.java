@@ -178,6 +178,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test datasource configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void testConfigureCreatesDataSource() throws Exception
     {
         DataSourceFixture dataSourceFixture = ConfigurationFixtureFactory.createDataSource();
@@ -190,6 +191,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test datasource configuration with two datasources.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void testConfigureCreatesTwoDataSources() throws Exception
     {
         DataSourceFixture dataSourceFixture1 = ConfigurationFixtureFactory.createDataSource();
@@ -210,6 +212,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test datasource configuration with a driver configured with local transaction support.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
     {
@@ -226,6 +229,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test datasource configuration with a driver configured with XA transaction support.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
     {
@@ -242,6 +246,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test XA datasource configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource()
         throws Exception
     {
@@ -271,6 +276,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test resource configuration with two resources.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
         ResourceFixture resourceFixture1 =

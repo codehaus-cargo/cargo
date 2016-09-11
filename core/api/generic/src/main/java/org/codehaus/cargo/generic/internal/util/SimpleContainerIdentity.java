@@ -47,7 +47,6 @@ public class SimpleContainerIdentity implements ContainerIdentity
 
     /**
      * Differentiate two identities. {@inheritDoc}
-     * @see Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object identity)
@@ -68,7 +67,6 @@ public class SimpleContainerIdentity implements ContainerIdentity
 
     /**
      * Allows quick verification to check is two identities are different. {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()
@@ -78,7 +76,6 @@ public class SimpleContainerIdentity implements ContainerIdentity
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

@@ -69,7 +69,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public WebLogic9xStandaloneLocalConfiguration(String dir)
@@ -96,9 +95,8 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -106,8 +104,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -223,8 +219,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()
@@ -235,6 +229,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomainHome()
     {
         return getHome();
@@ -260,8 +255,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see WebLogic8xConfigurationBuilder
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
@@ -390,8 +383,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#setFileHandler(org.codehaus.cargo.util.FileHandler)
      */
     @Override
     public void setFileHandler(FileHandler fileHandler)

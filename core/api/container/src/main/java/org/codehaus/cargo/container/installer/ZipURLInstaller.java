@@ -206,6 +206,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     /**
      * @see Installer#install()
      */
+    @Override
     public void install()
     {
         if (!isAlreadyExtracted())
@@ -315,8 +316,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
     /**
      * {@inheritDoc}
-     * @see Installer#getHome()
      */
+    @Override
     public String getHome()
     {
         String home;

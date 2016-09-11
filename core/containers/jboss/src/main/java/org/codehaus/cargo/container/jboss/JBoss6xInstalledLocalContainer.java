@@ -48,8 +48,8 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -57,8 +57,8 @@ public class JBoss6xInstalledLocalContainer extends AbstractJBoss5xInstalledLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JBoss " + getVersion("6.x");

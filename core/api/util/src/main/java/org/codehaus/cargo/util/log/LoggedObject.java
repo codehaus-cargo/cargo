@@ -31,8 +31,8 @@ public class LoggedObject implements Loggable
 
     /**
      * {@inheritDoc}
-     * @see Loggable#setLogger(Logger)
      */
+    @Override
     public void setLogger(Logger logger)
     {
         this.log = logger;
@@ -40,8 +40,8 @@ public class LoggedObject implements Loggable
 
     /**
      * {@inheritDoc}
-     * @see Loggable#getLogger()
      */
+    @Override
     public Logger getLogger()
     {
         return this.log;

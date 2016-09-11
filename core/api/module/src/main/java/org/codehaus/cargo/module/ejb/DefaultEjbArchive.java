@@ -65,8 +65,8 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
 
     /**
      * {@inheritDoc}
-     * @see EjbArchive#getEjbJarXml()
      */
+    @Override
     public EjbJarXml getEjbJarXml() throws IOException, JDOMException
     {
         if (this.ejbJarXml == null)

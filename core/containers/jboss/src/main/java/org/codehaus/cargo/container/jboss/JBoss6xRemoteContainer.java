@@ -42,8 +42,8 @@ public class JBoss6xRemoteContainer extends JBoss5xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JBoss 6.x Remote";
@@ -51,8 +51,8 @@ public class JBoss6xRemoteContainer extends JBoss5xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

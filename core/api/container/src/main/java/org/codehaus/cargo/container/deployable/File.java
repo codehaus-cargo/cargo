@@ -41,6 +41,7 @@ public class File extends AbstractDeployable
     /**
      * {@inheritDoc}
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.FILE;

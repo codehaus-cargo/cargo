@@ -37,8 +37,8 @@ public class Bundle extends AbstractDeployable
 
     /**
      * {@inheritDoc}
-     * @see Deployable#getType()
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.BUNDLE;

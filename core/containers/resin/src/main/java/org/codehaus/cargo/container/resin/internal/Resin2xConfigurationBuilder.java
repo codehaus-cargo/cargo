@@ -46,6 +46,7 @@ public class Resin2xConfigurationBuilder extends AbstractConfigurationBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toConfigurationEntry(Resource resource)
     {
         StringBuilder resourceString = new StringBuilder();

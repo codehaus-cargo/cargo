@@ -288,8 +288,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setClass(Class)
+     * @return Container class.
      */
     protected final Class getContainerClass()
     {
@@ -387,8 +386,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see LocalContainer#setOutput(String)
+     * @param output Output file name to set.
      */
     public void setOutput(String output)
     {
@@ -396,8 +394,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.codehaus.cargo.util.log.LoggedObject#setLogger(Logger)
+     * @param log Logger to set.
      */
     public void setLog(File log)
     {
@@ -405,8 +402,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see org.codehaus.cargo.util.internal.log.AbstractLogger#setLevel(org.codehaus.cargo.util.log.LogLevel)
+     * @param logLevel Log level to set.
      */
     public void setLogLevel(String logLevel)
     {
@@ -414,8 +411,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see LocalContainer#setAppend(boolean)
+     * @param isAppend Whether to append logs.
      */
     public void setAppend(boolean isAppend)
     {
@@ -423,8 +420,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see LocalContainer#setTimeout(long)
+     * @param timeout Container timeout to set.
      */
     public void setTimeout(long timeout)
     {
@@ -944,8 +941,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #addSysproperty(Environment.Variable)
+     * @return System properties.
      */
     protected final Map<String, String> getSystemProperties()
     {
@@ -961,8 +958,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #createZipURLInstaller()
+     * @return ZIP URL installer.
      */
     protected final ZipURLInstallerElement getZipURLInstaller()
     {
@@ -970,8 +967,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #createConfiguration()
+     * @return Configuration.
      */
     protected final ConfigurationElement getConfiguration()
     {
@@ -979,8 +976,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #createDaemon()
+     * @return Cargo daemon.
      */
     protected final DaemonElement getDaemon()
     {
@@ -988,8 +985,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #createExtraClasspath()
+     * @return Extra classpath.
      */
     protected final Path getExtraClasspath()
     {
@@ -997,8 +994,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #createSharedClasspath()
+     * @return Shared classpath.
      */
     protected final Path getSharedClasspath()
     {
@@ -1006,8 +1003,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #getTimeout()
+     * @see LocalContainer#getTimeout(long)
+     * @return Container timeout.
      */
     protected final long getTimeout()
     {
@@ -1015,8 +1012,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #setOutput(String)
+     * @return Output file name.
      */
     protected final String getOutput()
     {
@@ -1024,8 +1021,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
      * @see #setLog(File)
+     * @return Log file name.
      */
     protected final File getLog()
     {
@@ -1033,8 +1030,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setLogLevel(String)
+     * @see org.codehaus.cargo.util.internal.log.AbstractLogger#setLevel(org.codehaus.cargo.util.log.LogLevel)
+     * @return Log level set.
      */
     protected LogLevel getLogLevel()
     {
@@ -1042,8 +1039,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setHome(String)
+     * @return Container home directory.
      */
     protected final String getHome()
     {
@@ -1051,8 +1047,8 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setAppend(boolean)
+     * @see LocalContainer#getAppend()
+     * @return Whether to append logs.
      */
     protected final boolean isAppend()
     {
@@ -1153,8 +1149,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setContainerId(String)
+     * @return Container id.
      */
     protected String getContainerId()
     {
@@ -1162,8 +1157,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setId(String)
+     * @return Ant property name that contains the container instance reference
      */
     protected String getId()
     {
@@ -1171,8 +1165,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * {@inheritDoc}
-     * @see #setRefId(Reference)
+     * @return Ant property name that contains an existing container instance reference
      */
     protected Reference getRefid()
     {

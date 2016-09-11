@@ -45,7 +45,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.geronimo.internal.AbstractGeronimoStandaloneLocalConfiguration#AbstractGeronimoStandaloneLocalConfiguration(String)
+     * @see AbstractGeronimoStandaloneLocalConfiguration#AbstractGeronimoStandaloneLocalConfiguration(String)
      */
     public Geronimo1xStandaloneLocalConfiguration(String dir)
     {
@@ -54,8 +54,8 @@ public class Geronimo1xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -63,7 +63,6 @@ public class Geronimo1xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

@@ -59,8 +59,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see TomcatStandaloneLocalConfigurationCapability
      */
     private static ConfigurationCapability capability =
         new Tomcat5x6xStandaloneLocalConfigurationCapability();
@@ -72,7 +70,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractCatalinaStandaloneLocalConfiguration#AbstractCatalinaStandaloneLocalConfiguration(String)
      */
     public Tomcat5xStandaloneLocalConfiguration(String dir)
@@ -88,9 +85,8 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -98,8 +94,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Tomcat5x6x7xConfigurationBuilder
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
@@ -156,8 +150,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

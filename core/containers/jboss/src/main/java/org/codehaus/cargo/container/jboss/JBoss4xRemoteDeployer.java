@@ -165,7 +165,6 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -175,7 +174,6 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)
@@ -185,7 +183,6 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
     @Override
     public void redeploy(Deployable deployable)
@@ -195,7 +192,6 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable, DeployableMonitor)
      */
     @Override
     public void redeploy(Deployable deployable, DeployableMonitor monitor)

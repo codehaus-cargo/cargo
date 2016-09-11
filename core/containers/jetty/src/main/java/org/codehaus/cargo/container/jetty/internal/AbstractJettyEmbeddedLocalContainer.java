@@ -53,7 +53,7 @@ public abstract class AbstractJettyEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractEmbeddedLocalContainer#AbstractEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public AbstractJettyEmbeddedLocalContainer(LocalConfiguration configuration)
     {
@@ -70,8 +70,6 @@ public abstract class AbstractJettyEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#waitForCompletion(boolean)
      */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
@@ -141,8 +139,8 @@ public abstract class AbstractJettyEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;
@@ -150,7 +148,6 @@ public abstract class AbstractJettyEmbeddedLocalContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer#doStop()
      */
     @Override
     protected void doStop() throws Exception

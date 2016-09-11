@@ -46,7 +46,6 @@ public class JBoss74xInstalledLocalContainer extends JBoss73xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -56,7 +55,6 @@ public class JBoss74xInstalledLocalContainer extends JBoss73xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -106,7 +104,6 @@ public class JBoss74xInstalledLocalContainer extends JBoss73xInstalledLocalConta
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalContainer#getConfigAdminDirectory()
      */
     @Override
     protected File getConfigAdminDirectory()

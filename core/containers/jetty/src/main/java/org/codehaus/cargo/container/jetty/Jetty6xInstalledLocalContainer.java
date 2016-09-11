@@ -66,8 +66,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -75,8 +75,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         if (getHome() != null
@@ -130,7 +130,6 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception
@@ -140,7 +139,6 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public void doStop(JvmLauncher java) throws Exception
@@ -256,8 +254,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;

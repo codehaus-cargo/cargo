@@ -31,6 +31,7 @@ public class HasStandaloneConfigurationValidator extends AbstractConfigurationFa
      * Check if the container has a standalone configuration implementation available.
      * {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isConfigurationRegistered(containerId, type,

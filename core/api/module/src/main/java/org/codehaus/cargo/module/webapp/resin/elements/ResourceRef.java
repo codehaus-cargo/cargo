@@ -42,7 +42,6 @@ public class ResourceRef extends DescriptorElement
 
     /**
      * Constructor.
-     * 
      */
     public ResourceRef()
     {
@@ -51,7 +50,7 @@ public class ResourceRef extends DescriptorElement
     }
 
     /**
-     * {@inheritDoc}
+     * @return Resource reference name.
      */
     public String getElementId()
     {

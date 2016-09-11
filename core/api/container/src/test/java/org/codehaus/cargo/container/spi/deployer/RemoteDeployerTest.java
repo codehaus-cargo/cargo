@@ -87,6 +87,7 @@ public class RemoteDeployerTest extends MockObjectTestCase
          * Saves the listener.
          * @param listener Listener to save.
          */
+        @Override
         public void registerListener(DeployableMonitorListener listener)
         {
             this.listener = listener;
@@ -95,6 +96,7 @@ public class RemoteDeployerTest extends MockObjectTestCase
         /**
          * Calls {@link DeployableMonitorListener#deployed()}
          */
+        @Override
         public void monitor()
         {
             this.listener.deployed();
@@ -104,6 +106,7 @@ public class RemoteDeployerTest extends MockObjectTestCase
          * {@inheritDoc}
          * @return <code>20000</code>.
          */
+        @Override
         public long getTimeout()
         {
             return 20000L;
@@ -113,6 +116,7 @@ public class RemoteDeployerTest extends MockObjectTestCase
          * {@inheritDoc}
          * @return The deployable name.
          */
+        @Override
         public String getDeployableName()
         {
             return this.deployableName;

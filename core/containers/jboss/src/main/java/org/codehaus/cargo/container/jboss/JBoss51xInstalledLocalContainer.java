@@ -34,7 +34,7 @@ public class JBoss51xInstalledLocalContainer extends AbstractJBoss5xInstalledLoc
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jboss.internal.AbstractJBossInstalledLocalContainer#AbstractJBossInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractJBoss5xInstalledLocalContainer#AbstractJBoss5xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public JBoss51xInstalledLocalContainer(LocalConfiguration configuration)
     {
@@ -43,8 +43,8 @@ public class JBoss51xInstalledLocalContainer extends AbstractJBoss5xInstalledLoc
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -52,8 +52,8 @@ public class JBoss51xInstalledLocalContainer extends AbstractJBoss5xInstalledLoc
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JBoss " + getVersion("5.1.x");

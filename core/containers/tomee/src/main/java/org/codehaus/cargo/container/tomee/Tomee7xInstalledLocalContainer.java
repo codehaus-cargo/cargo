@@ -41,7 +41,6 @@ public class Tomee7xInstalledLocalContainer extends Tomcat8xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * 
      * @see Tomcat8xInstalledLocalContainer#Tomcat8xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Tomee7xInstalledLocalContainer(LocalConfiguration configuration)
@@ -51,8 +50,6 @@ public class Tomee7xInstalledLocalContainer extends Tomcat8xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -62,8 +59,6 @@ public class Tomee7xInstalledLocalContainer extends Tomcat8xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -73,8 +68,6 @@ public class Tomee7xInstalledLocalContainer extends Tomcat8xInstalledLocalContai
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
     @Override
     public ContainerCapability getCapability()

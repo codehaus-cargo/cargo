@@ -51,6 +51,7 @@ public abstract class AbstractWebLogicWlstExistingLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomainHome()
     {
         return getHome();
@@ -59,6 +60,7 @@ public abstract class AbstractWebLogicWlstExistingLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public WebLogicWlstConfigurationFactory getConfigurationFactory()
     {
         return factory;

@@ -46,8 +46,8 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -55,8 +55,8 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "OC4J 9.x";
@@ -64,7 +64,6 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractOrionInstalledLocalContainer#getStartClassname()
      */
     @Override
     protected String getStartClassname()
@@ -74,7 +73,6 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractOrionInstalledLocalContainer#getStopClassname()
      */
     @Override
     protected String getStopClassname()
@@ -84,7 +82,6 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
 
     /**
      * {@inheritDoc}
-     * @see AbstractOrionInstalledLocalContainer#getContainerClasspathIncludes()
      */
     @Override
     protected String getContainerClasspathIncludes()

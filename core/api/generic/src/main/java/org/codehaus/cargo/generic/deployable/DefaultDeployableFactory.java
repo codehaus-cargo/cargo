@@ -52,8 +52,6 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
     private static final String DEFAULT_CONTAINER_ID = "default";
 
     /**
-     * {@inheritDoc}
-     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters
      */
     private static class DeployableFactoryParameters implements GenericParameters
@@ -99,9 +97,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see DeployableFactory#registerDeployable(String, DeployableType, Class)
      */
+    @Override
     public void registerDeployable(String containerId, DeployableType deployableType,
         Class<? extends Deployable> deployableClass)
     {
@@ -112,9 +109,9 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
     /**
      * Registers a deployable using a class specified as a String.
      * 
-     * @param containerId {@inheritDoc}
-     * @param deployableType {@inheritDoc}
-     * @param deployableClassName the deployable implementation class to register as a String
+     * @param containerId Container id.
+     * @param deployableType Deployable type.
+     * @param deployableClassName Deployable implementation class to register as a String
      * @see #registerDeployable(String, DeployableType, Class)
      */
     public void registerDeployable(String containerId, DeployableType deployableType,
@@ -126,9 +123,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see DeployableFactory#isDeployableRegistered
      */
+    @Override
     public boolean isDeployableRegistered(String containerId, DeployableType deployableType)
     {
         return hasMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
@@ -137,9 +133,8 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see DeployableFactory#createDeployable
      */
+    @Override
     public Deployable createDeployable(String containerId, String deployableLocation,
         DeployableType deployableType)
     {
@@ -170,8 +165,6 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
     protected Constructor<? extends Deployable> getConstructor(
@@ -183,8 +176,6 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
     protected Deployable createInstance(Constructor<? extends Deployable> constructor,

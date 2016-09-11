@@ -319,6 +319,7 @@ public class HttpUtils extends LoggedObject
          * {@inheritDoc}
          * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
          */
+        @Override
         public java.security.cert.X509Certificate[] getAcceptedIssuers()
         {
             return null;
@@ -329,6 +330,7 @@ public class HttpUtils extends LoggedObject
          * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[],
          * String)
          */
+        @Override
         public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
         {
         }
@@ -338,6 +340,7 @@ public class HttpUtils extends LoggedObject
          * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[],
          * String)
          */
+        @Override
         public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
         {
         }
@@ -353,6 +356,7 @@ public class HttpUtils extends LoggedObject
          * {@inheritDoc}
          * @see HostnameVerifier#verify
          */
+        @Override
         public boolean verify(String hostname, SSLSession session)
         {
             return true;

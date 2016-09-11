@@ -49,6 +49,7 @@ public class MockLogger implements Logger
      * Doesn't do anything. {@inheritDoc}
      * @param level Ignored.
      */
+    @Override
     public void setLevel(LogLevel level)
     {
         // Do nothing
@@ -58,6 +59,7 @@ public class MockLogger implements Logger
      * Throws a RuntimeException. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public LogLevel getLevel()
     {
         throw new RuntimeException("Not implemented for testing");
@@ -68,6 +70,7 @@ public class MockLogger implements Logger
      * @param message Message.
      * @param category Category.
      */
+    @Override
     public void debug(String message, String category)
     {
         this.severities.add("debug");
@@ -80,6 +83,7 @@ public class MockLogger implements Logger
      * @param message Message.
      * @param category Category.
      */
+    @Override
     public void info(String message, String category)
     {
         this.severities.add("info");
@@ -92,6 +96,7 @@ public class MockLogger implements Logger
      * @param message Message.
      * @param category Category.
      */
+    @Override
     public void warn(String message, String category)
     {
         this.severities.add("warn");

@@ -53,9 +53,8 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -63,8 +62,6 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

@@ -38,7 +38,6 @@ public class Jetty8xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration#activateLogging(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void activateLogging(LocalContainer container)
@@ -48,7 +47,6 @@ public class Jetty8xEmbeddedStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

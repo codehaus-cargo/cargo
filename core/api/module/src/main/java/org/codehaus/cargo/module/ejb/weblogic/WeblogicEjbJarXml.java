@@ -45,8 +45,8 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
 
     /**
      * {@inheritDoc}
-     * @see VendorEjbDescriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return "weblogic-ejb-jar.xml";
@@ -54,8 +54,8 @@ public class WeblogicEjbJarXml extends AbstractDescriptor implements VendorEjbDe
 
     /**
      * {@inheritDoc}
-     * @see VendorEjbDescriptor#getJndiName(EjbDef)
      */
+    @Override
     public String getJndiName(EjbDef ejb)
     {
         String jndiName = null;

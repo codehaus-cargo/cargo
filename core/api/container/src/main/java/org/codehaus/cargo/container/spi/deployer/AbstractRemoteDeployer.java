@@ -38,8 +38,8 @@ public abstract class AbstractRemoteDeployer extends AbstractDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.Deployer#getType()
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.REMOTE;

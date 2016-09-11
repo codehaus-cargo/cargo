@@ -87,8 +87,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#setOutput(String)
      */
+    @Override
     public void setOutput(String output)
     {
         this.output = output;
@@ -96,8 +96,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#setAppend(boolean)
      */
+    @Override
     public void setAppend(boolean isAppend)
     {
         this.append = isAppend;
@@ -105,8 +105,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#getOutput()
      */
+    @Override
     public String getOutput()
     {
         return this.output;
@@ -114,8 +114,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#isAppend()
      */
+    @Override
     public boolean isAppend()
     {
         return this.append;
@@ -167,8 +167,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#start()
      */
+    @Override
     public final void start()
     {
         synchronized (this)
@@ -260,8 +260,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#stop()
      */
+    @Override
     public final void stop()
     {
         setState(State.STOPPING);
@@ -311,8 +311,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#restart()
      */
+    @Override
     public void restart()
     {
         try
@@ -422,8 +422,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#setConfiguration(LocalConfiguration)
      */
+    @Override
     public void setConfiguration(LocalConfiguration configuration)
     {
         this.configuration = configuration;
@@ -431,8 +431,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#getConfiguration()
      */
+    @Override
     public LocalConfiguration getConfiguration()
     {
         return this.configuration;
@@ -440,8 +440,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#setTimeout(long)
      */
+    @Override
     public void setTimeout(long timeout)
     {
         this.timeout = timeout;
@@ -449,8 +449,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see LocalContainer#getTimeout()
      */
+    @Override
     public long getTimeout()
     {
         return this.timeout;
@@ -458,8 +458,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getState()
      */
+    @Override
     public State getState()
     {
         return this.state;
@@ -476,6 +476,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     /**
      * @return the Cargo file utility class
      */
+    @Override
     public FileHandler getFileHandler()
     {
         return this.fileHandler;
@@ -486,6 +487,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      * testing with Mock objects as it can be passed a test file handler that doesn't perform any
      * real file action.
      */
+    @Override
     public void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;

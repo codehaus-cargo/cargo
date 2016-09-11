@@ -182,15 +182,6 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      * Orion does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
-    public void testConfigureCreatesResourceForXADataSource() throws Exception
-    {
-        // Nothing
-    }
-
-    /**
-     * Orion does not currently support Resources. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
-     */
     @Override
     public void testConfigureCreatesResource() throws Exception
     {

@@ -50,7 +50,6 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see AbstractJRunInstalledLocalContainer#startUpAdditions(JvmLauncher)
      */
     @Override
     protected void startUpAdditions(JvmLauncher java) throws FileNotFoundException
@@ -76,8 +75,8 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -85,8 +84,8 @@ public class JRun4xInstalledLocalContainer extends AbstractJRunInstalledLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JRun " + getVersion("4.x");

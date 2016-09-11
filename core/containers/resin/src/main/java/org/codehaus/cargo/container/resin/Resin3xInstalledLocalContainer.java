@@ -50,7 +50,6 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see AbstractResinInstalledLocalContainer#startUpAdditions(JvmLauncher)
      */
     @Override
     protected void startUpAdditions(JvmLauncher java) throws FileNotFoundException
@@ -72,8 +71,8 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -81,8 +80,8 @@ public class Resin3xInstalledLocalContainer extends AbstractResinInstalledLocalC
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Resin " + getVersion("3.x");

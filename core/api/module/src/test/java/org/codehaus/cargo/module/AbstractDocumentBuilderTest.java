@@ -53,6 +53,7 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
     {
         return new EntityResolver()
         {
+            @Override
             public InputSource resolveEntity(String thePublicId,
                 String theSystemId) throws SAXException
             {
@@ -76,6 +77,7 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
 
         this.builder.setEntityResolver(new EntityResolver()
         {
+            @Override
             public InputSource resolveEntity(String thePublicId,
                 String theSystemId) throws SAXException
             {

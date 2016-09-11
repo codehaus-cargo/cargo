@@ -40,6 +40,7 @@ public class CustomType implements Deployable
     /**
      * @return <code>null</code>
      */
+    @Override
     public String getFile()
     {
         return null;
@@ -48,6 +49,7 @@ public class CustomType implements Deployable
     /**
      * @return {@link DeployableType#toType(String)}<code>("customType")</code>
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.toType("customType");
@@ -56,6 +58,7 @@ public class CustomType implements Deployable
     /**
      * @return <code>null</code>
      */
+    @Override
     public Logger getLogger()
     {
         return null;
@@ -64,6 +67,7 @@ public class CustomType implements Deployable
     /**
      * @param logger Ignored.
      */
+    @Override
     public void setLogger(Logger logger)
     {
         // Voluntarily empty for testing
@@ -72,6 +76,7 @@ public class CustomType implements Deployable
     /**
      * @return <code>false</code>
      */
+    @Override
     public boolean isExpanded()
     {
         return false;
@@ -80,6 +85,7 @@ public class CustomType implements Deployable
     /**
      * @return <code>null</code>
      */
+    @Override
     public String getName()
     {
         return null;

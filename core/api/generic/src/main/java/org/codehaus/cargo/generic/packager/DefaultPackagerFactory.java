@@ -38,8 +38,6 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
     implements PackagerFactory
 {
     /**
-     * {@inheritDoc}
-     * 
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters
      */
     private static class PackagerFactoryParameters implements GenericParameters
@@ -74,10 +72,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.packager.PackagerFactory#registerPackager(String,
-     *      org.codehaus.cargo.container.packager.PackagerType, Class)
      */
+    @Override
     public void registerPackager(String containerId, PackagerType packagerType,
         Class<? extends Packager> packagerClass)
     {
@@ -88,10 +84,9 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
     /**
      * Registers a packager using a class specified as a String.
      * 
-     * @param containerId {@inheritDoc}
-     * @param packagerType {@inheritDoc}
-     * @param packagerClassName the packager implementation class to register as a String
-     * @see #registerPackager(String, org.codehaus.cargo.container.packager.PackagerType, Class)
+     * @param containerId Container id.
+     * @param packagerType Packager type.
+     * @param packagerClassName Packager implementation class to register as a String
      */
     public void registerPackager(String containerId, PackagerType packagerType,
         String packagerClassName)
@@ -102,10 +97,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * 
-     * @see PackagerFactory#isPackagerRegistered(String,
-     *      org.codehaus.cargo.container.packager.PackagerType)
      */
+    @Override
     public boolean isPackagerRegistered(String containerId, PackagerType packagerType)
     {
         return hasMapping(new RegistrationKey(new SimpleContainerIdentity(containerId),
@@ -114,9 +107,8 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.packager.PackagerFactory#createPackager
      */
+    @Override
     public Packager createPackager(String containerId, PackagerType packagerType,
         String outputLocation)
     {
@@ -129,9 +121,6 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor(Class, String,
-     *      org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters)
      */
     @Override
     protected Constructor<? extends Packager> getConstructor(
@@ -156,8 +145,6 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
     protected Packager createInstance(Constructor<? extends Packager> constructor, String hint,

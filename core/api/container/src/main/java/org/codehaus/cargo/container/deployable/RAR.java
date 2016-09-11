@@ -34,9 +34,7 @@ public class RAR extends AbstractDeployable
     private String name;
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractDeployable#AbstractDeployable(String)
+     * @param rar the location of the RAR being wrapped.
      */
     public RAR(String rar)
     {
@@ -68,9 +66,8 @@ public class RAR extends AbstractDeployable
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Deployable#getType()
      */
+    @Override
     public DeployableType getType()
     {
         return DeployableType.RAR;

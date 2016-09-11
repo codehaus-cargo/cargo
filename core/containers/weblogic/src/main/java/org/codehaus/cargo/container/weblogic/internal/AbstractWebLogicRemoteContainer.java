@@ -57,7 +57,6 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
 
     /**
      * {@inheritDoc}
-     *
      * @see AbstractRemoteContainer#AbstractRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
     public AbstractWebLogicRemoteContainer(RuntimeConfiguration configuration)
@@ -68,8 +67,8 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;
@@ -80,6 +79,7 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
      *
      * @param configurationScript Script containing WLST configuration to be executed.
      */
+    @Override
     public void executeScript(List<ScriptCommand> configurationScript)
     {
         String newLine = System.getProperty("line.separator");
@@ -116,6 +116,7 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
      *
      * @param scriptFilePaths List of file paths containing jython scripts.
      */
+    @Override
     public void executeScriptFiles(List<String> scriptFilePaths)
     {
         for (String scriptFilePath : scriptFilePaths)
@@ -173,8 +174,7 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
     }
 
     /**
-     * {@inheritDoc}
-     * @see WebLogicRemoteScriptingContainer#getCapability()
+     * @return WebLogic home directory.
      */
     public String getWeblogicHome()
     {

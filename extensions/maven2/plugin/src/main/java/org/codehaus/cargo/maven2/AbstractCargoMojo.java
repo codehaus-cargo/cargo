@@ -374,6 +374,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * 
      * @see org.apache.maven.plugin.Mojo#execute()
      */
+    @Override
     public final void execute() throws MojoExecutionException
     {
         if (this.skip)

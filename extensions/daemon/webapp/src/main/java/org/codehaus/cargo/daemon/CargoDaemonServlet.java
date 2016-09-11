@@ -986,6 +986,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     /**
      * Background task to autostart containers if they are stopped.
      */
+    @Override
     public void run()
     {
         for (Map.Entry<String, Handle> entry : this.handles.entrySet())

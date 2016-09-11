@@ -92,8 +92,8 @@ public class XmlEntityResolver implements EntityResolver
 
     /**
      * {@inheritDoc}
-     * @see org.xml.sax.EntityResolver#resolveEntity
      */
+    @Override
     public InputSource resolveEntity(String thePublicId, String theSystemId)
         throws SAXException, IOException
     {

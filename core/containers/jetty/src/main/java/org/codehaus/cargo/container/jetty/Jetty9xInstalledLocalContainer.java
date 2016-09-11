@@ -44,7 +44,6 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -54,7 +53,6 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.jetty.Jetty6xInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception

@@ -89,8 +89,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see WarArchive#getWebXml()
      */
+    @Override
     public WebXml getWebXml() throws IOException, JDOMException
     {
         if (this.webXml == null)
@@ -132,8 +132,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
     /**
      * {@inheritDoc}
-     * @see WarArchive#store(java.io.File)
      */
+    @Override
     public void store(File warFile) throws IOException, JDOMException
     {
         FileHandler fileHandler = new DefaultFileHandler();

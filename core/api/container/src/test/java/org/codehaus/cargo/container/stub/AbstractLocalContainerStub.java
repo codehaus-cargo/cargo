@@ -56,6 +56,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public boolean isAppend()
     {
         throw new RuntimeException("Not implemented");
@@ -65,6 +66,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param shouldAppend Ignored.
      */
+    @Override
     public void setAppend(boolean shouldAppend)
     {
         throw new RuntimeException("Not implemented");
@@ -74,6 +76,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public String getOutput()
     {
         throw new RuntimeException("Not implemented");
@@ -83,6 +86,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param output Ignored.
      */
+    @Override
     public void setOutput(String output)
     {
         throw new RuntimeException("Not implemented");
@@ -92,6 +96,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public long getTimeout()
     {
         throw new RuntimeException("Not implemented");
@@ -101,6 +106,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param timeout Ignored.
      */
+    @Override
     public void setTimeout(long timeout)
     {
         throw new RuntimeException("Not implemented");
@@ -110,6 +116,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * {@inheritDoc}
      * @return The saved container configuration.
      */
+    @Override
     public LocalConfiguration getConfiguration()
     {
         return this.configuration;
@@ -119,6 +126,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * {@inheritDoc}
      * @param configuration Container configuration to save.
      */
+    @Override
     public void setConfiguration(LocalConfiguration configuration)
     {
         this.configuration = configuration;
@@ -128,6 +136,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public FileHandler getFileHandler()
     {
         throw new RuntimeException("Not implemented");
@@ -137,6 +146,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @param handler Ignored.
      */
+    @Override
     public void setFileHandler(FileHandler handler)
     {
         throw new RuntimeException("Not implemented");
@@ -145,6 +155,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     /**
      * Voluntarily empty for testing. {@inheritDoc}
      */
+    @Override
     public void start()
     {
         // Nothing
@@ -153,6 +164,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     /**
      * Voluntarily empty for testing. {@inheritDoc}
      */
+    @Override
     public void stop()
     {
         // Nothing
@@ -161,6 +173,7 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     /**
      * Voluntarily empty for testing. {@inheritDoc}
      */
+    @Override
     public void restart()
     {
         // Nothing

@@ -108,7 +108,6 @@ public final class User
 
     /**
      * {@inheritDoc}
-     * @see Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object userObject)
@@ -129,7 +128,6 @@ public final class User
 
     /**
      * {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()

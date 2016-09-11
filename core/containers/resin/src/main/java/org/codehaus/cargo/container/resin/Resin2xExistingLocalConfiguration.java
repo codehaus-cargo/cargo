@@ -50,8 +50,8 @@ public class Resin2xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -59,7 +59,6 @@ public class Resin2xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -84,7 +83,6 @@ public class Resin2xExistingLocalConfiguration extends AbstractExistingLocalConf
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

@@ -98,7 +98,6 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

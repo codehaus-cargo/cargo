@@ -30,7 +30,6 @@ public class WebLogic103xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see WebLogic10xStandaloneLocalConfiguration#WebLogic10xStandaloneLocalConfiguration(String)
      */
     public WebLogic103xStandaloneLocalConfiguration(String dir)
@@ -42,8 +41,6 @@ public class WebLogic103xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()

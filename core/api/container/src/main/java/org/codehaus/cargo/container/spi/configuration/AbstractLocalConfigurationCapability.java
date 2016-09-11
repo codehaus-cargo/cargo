@@ -30,7 +30,7 @@ public abstract class AbstractLocalConfigurationCapability extends AbstractConfi
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractConfigurationCapability#AbstractConfigurationCapability()
+     * @see AbstractConfigurationCapability#AbstractConfigurationCapability()
      */
     public AbstractLocalConfigurationCapability()
     {

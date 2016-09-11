@@ -42,8 +42,8 @@ public class JBoss75xRemoteContainer extends JBoss74xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "JBoss 7.5.x (EAP 6.4.x) Remote";
@@ -51,8 +51,8 @@ public class JBoss75xRemoteContainer extends JBoss74xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

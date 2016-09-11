@@ -54,13 +54,14 @@ public abstract class AbstractContainerStub implements Container
      * {@inheritDoc}
      * @return Container id.
      */
+    @Override
     public String getId()
     {
         return this.id;
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the container id.
      * @param id Container id to set.
      */
     public void setId(String id)
@@ -72,13 +73,14 @@ public abstract class AbstractContainerStub implements Container
      * {@inheritDoc}
      * @return Container name.
      */
+    @Override
     public String getName()
     {
         return this.name;
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the container name.
      * @param name Container name to set.
      */
     public void setName(String name)
@@ -90,13 +92,14 @@ public abstract class AbstractContainerStub implements Container
      * {@inheritDoc}
      * @return Container capability.
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the container capability.
      * @param capability Container capability to set.
      */
     public void setCapability(ContainerCapability capability)
@@ -108,13 +111,14 @@ public abstract class AbstractContainerStub implements Container
      * {@inheritDoc}
      * @return The last saved container state.
      */
+    @Override
     public State getState()
     {
         return this.state;
     }
 
     /**
-     * {@inheritDoc}
+     * Sets the container state.
      * @param state Container state to save.
      */
     public void setState(State state)
@@ -126,6 +130,7 @@ public abstract class AbstractContainerStub implements Container
      * Doesn't do anything. {@inheritDoc}
      * @param logger Ignored.
      */
+    @Override
     public void setLogger(Logger logger)
     {
         // Voluntarily not doing anything for testing
@@ -135,6 +140,7 @@ public abstract class AbstractContainerStub implements Container
      * {@inheritDoc}
      * @return {@link NullLogger}
      */
+    @Override
     public Logger getLogger()
     {
         return new NullLogger();

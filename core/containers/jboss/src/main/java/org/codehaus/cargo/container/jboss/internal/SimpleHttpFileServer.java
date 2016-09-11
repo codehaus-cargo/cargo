@@ -101,6 +101,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * @param logger logger to use.
      */
+    @Override
     public void setLogger(Logger logger)
     {
         this.logger = logger;
@@ -110,6 +111,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
      * @param handler file handler to use.
      * @param deployable deployable to handle.
      */
+    @Override
     public void setFile(FileHandler handler, Deployable deployable)
     {
         String filePath = deployable.getFile();
@@ -124,6 +126,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
      * @param remoteDeployAddress remote hostname to use in the url, if null it will be obtained
      * from the listenSocket.
      */
+    @Override
     public void setListeningParameters(InetSocketAddress listenSocket, String remoteDeployAddress)
     {
         if (this.remotePath == null)
@@ -161,6 +164,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * @return url this server serves.
      */
+    @Override
     public URL getURL()
     {
         if (this.url == null)
@@ -174,6 +178,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * @return the number of successful calls received.
      */
+    @Override
     public int getCallCount()
     {
         return this.callCount;
@@ -182,6 +187,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * @return exception, if any occured.
      */
+    @Override
     public Throwable getException()
     {
         return this.lastException;
@@ -190,6 +196,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * starts the server.
      */
+    @Override
     public void start()
     {
         if (this.logger == null)
@@ -211,6 +218,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * stops the server.
      */
+    @Override
     public void stop()
     {
         this.stopped = true;
@@ -228,6 +236,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * runs the thread.
      */
+    @Override
     public void run()
     {
         try

@@ -76,6 +76,7 @@ public class NodeMergeStrategy implements MergeStrategy
     /**
      * {@inheritDoc}
      */
+    @Override
     public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
     {
         // Merge common items by overwriting them
@@ -92,15 +93,16 @@ public class NodeMergeStrategy implements MergeStrategy
     /**
      * {@inheritDoc}
      */
+    @Override
     public int inLeft(Descriptor target, DescriptorElement left)
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public int inRight(Descriptor target, DescriptorElement right)
     {
         target.addElement(right.getTag(), right, target.getRootElement());

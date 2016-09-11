@@ -339,10 +339,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Test if a path is a directory. {@inheritDoc}
-     * @see FileHandler#isDirectory(String)
-     * @param path Path to check.
-     * @return <code>true</code> if <code>path</code> is a directory, <code>false</code> otherwise.
+     * {@inheritDoc}
      */
     @Override
     public boolean isDirectory(String path)
@@ -361,10 +358,7 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Get the name of a file. {@inheritDoc}
-     * @see FileHandler#getName(String)
-     * @param file File to check.
-     * @return The name of <code>file</code>.
+     * {@inheritDoc}
      */
     @Override
     public String getName(String file)

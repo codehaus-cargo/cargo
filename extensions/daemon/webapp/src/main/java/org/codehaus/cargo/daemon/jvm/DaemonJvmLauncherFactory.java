@@ -55,6 +55,7 @@ public class DaemonJvmLauncherFactory implements JvmLauncherFactory
     /**
      * {@inheritDoc}
      */
+    @Override
     public JvmLauncher createJvmLauncher(JvmLauncherRequest request)
     {
         DaemonJvmLauncher launcher = new DaemonJvmLauncher();

@@ -111,6 +111,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;

@@ -43,8 +43,8 @@ public class Jetty4xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -52,8 +52,8 @@ public class Jetty4xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Jetty 4.x Embedded";
@@ -61,7 +61,6 @@ public class Jetty4xEmbeddedLocalContainer extends AbstractJetty4x5xEmbeddedLoca
 
     /**
      * {@inheritDoc}
-     * @see AbstractJetty4x5xEmbeddedLocalContainer#performExtraSetupOnDeployable(Object)
      */
     @Override
     protected void performExtraSetupOnDeployable(Object webapp)

@@ -37,15 +37,12 @@ public class Tomee7xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
-     * @see TomcatStandaloneLocalConfigurationCapability
      */
     private static ConfigurationCapability capability =
         new TomeeStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * 
      * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
      */
     public Tomee7xStandaloneLocalConfiguration(String dir)
@@ -57,8 +54,6 @@ public class Tomee7xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.tomcat.Tomcat8xStandaloneLocalConfiguration#getCapability()
      */
     @Override
     public ConfigurationCapability getCapability()
@@ -68,8 +63,6 @@ public class Tomee7xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()
@@ -79,7 +72,6 @@ public class Tomee7xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception

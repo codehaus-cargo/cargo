@@ -58,10 +58,8 @@ public class DefaultContainerCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#registerContainerCapability(String,
-     *      Class)
      */
+    @Override
     public void registerContainerCapability(String containerId,
         Class<? extends ContainerCapability> containerCapabilityClass)
     {
@@ -72,8 +70,8 @@ public class DefaultContainerCapabilityFactory extends
     /**
      * Registers a container capability using a class specified as a String.
      * 
-     * @param containerId {@inheritDoc}
-     * @param containerCapabilityClassName the container capability implementation class to register
+     * @param containerId Container id.
+     * @param containerCapabilityClassName Container capability implementation class to register
      *            as a String
      * @see #registerContainerCapability(String, Class)
      */
@@ -86,9 +84,8 @@ public class DefaultContainerCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.ContainerCapabilityFactory#createContainerCapability(String)
      */
+    @Override
     public ContainerCapability createContainerCapability(String containerId)
     {
         return createImplementation(new RegistrationKey(new SimpleContainerIdentity(containerId),
@@ -97,8 +94,6 @@ public class DefaultContainerCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#getConstructor
      */
     @Override
     protected Constructor<? extends ContainerCapability> getConstructor(
@@ -110,8 +105,6 @@ public class DefaultContainerCapabilityFactory extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory#createInstance
      */
     @Override
     protected ContainerCapability createInstance(

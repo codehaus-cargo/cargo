@@ -80,6 +80,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
      * {@inheritDoc}
      * @return {@link ContainerType#REMOTE}
      */
+    @Override
     public ContainerType getType()
     {
         return ContainerType.REMOTE;
@@ -89,6 +90,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
      * {@inheritDoc}
      * @param configuration Configuration to set.
      */
+    @Override
     public void setConfiguration(RuntimeConfiguration configuration)
     {
         this.configuration = configuration;
@@ -98,6 +100,7 @@ public class RemoteContainerStub extends AbstractContainerStub implements Remote
      * {@inheritDoc}
      * @return Previously set configuration.
      */
+    @Override
     public RuntimeConfiguration getConfiguration()
     {
         return this.configuration;

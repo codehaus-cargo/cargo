@@ -60,7 +60,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -123,7 +122,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)
@@ -135,7 +133,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#redeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void redeploy(Deployable deployable)
@@ -160,7 +157,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#redeploy(org.codehaus.cargo.container.deployable.Deployable, org.codehaus.cargo.container.deployer.DeployableMonitor)
      */
     @Override
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
@@ -175,7 +171,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void start(Deployable deployable)
@@ -186,7 +181,6 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractLocalDeployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void stop(Deployable deployable)
@@ -197,8 +191,8 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer#getType()
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.EMBEDDED;

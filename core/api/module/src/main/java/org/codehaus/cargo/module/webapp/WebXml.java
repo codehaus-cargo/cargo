@@ -67,8 +67,8 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * {@inheritDoc}
-     * @see J2eeDescriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return "web.xml";
@@ -86,8 +86,8 @@ public class WebXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.J2eeDescriptor#getVendorDescriptors()
      */
+    @Override
     public List<Descriptor> getVendorDescriptors()
     {
         return this.vendorDescriptors;

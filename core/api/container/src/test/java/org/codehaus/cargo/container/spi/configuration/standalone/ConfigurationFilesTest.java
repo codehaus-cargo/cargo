@@ -76,6 +76,7 @@ public class ConfigurationFilesTest extends TestCase
          * {@inheritDoc}
          * @return Mock {@link ConfigurationCapability}.
          */
+        @Override
         public ConfigurationCapability getCapability()
         {
             return new ConfigurationCapability()
@@ -84,6 +85,7 @@ public class ConfigurationFilesTest extends TestCase
                  * {@inheritDoc}
                  * @return <code>false</code>.
                  */
+                @Override
                 public boolean supportsProperty(String propertyName)
                 {
                     return false;
@@ -93,6 +95,7 @@ public class ConfigurationFilesTest extends TestCase
                  * {@inheritDoc}
                  * @return {@link Collections#emptyMap()}
                  */
+                @Override
                 public Map<String, Boolean> getProperties()
                 {
                     return Collections.emptyMap();

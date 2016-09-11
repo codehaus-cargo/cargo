@@ -41,6 +41,7 @@ public abstract class AbstractConfigurationStub implements Configuration
      * Doesn't do anything. {@inheritDoc}
      * @param logger Ignored.
      */
+    @Override
     public void setLogger(Logger logger)
     {
         // Voluntarily not doing anything for testing
@@ -50,6 +51,7 @@ public abstract class AbstractConfigurationStub implements Configuration
      * {@inheritDoc}
      * @return {@link NullLogger}
      */
+    @Override
     public Logger getLogger()
     {
         return new NullLogger();
@@ -59,6 +61,7 @@ public abstract class AbstractConfigurationStub implements Configuration
      * Throws a {@link RuntimeException}. {@inheritDoc}
      * @return Nothing.
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         throw new RuntimeException("Not implemented");
@@ -69,6 +72,7 @@ public abstract class AbstractConfigurationStub implements Configuration
      * @param name Property name.
      * @param value Property value.
      */
+    @Override
     public void setProperty(String name, String value)
     {
         this.properties.put(name, value);
@@ -78,6 +82,7 @@ public abstract class AbstractConfigurationStub implements Configuration
      * {@inheritDoc}
      * @return All properties.
      */
+    @Override
     public Map<String, String> getProperties()
     {
         return this.properties;
@@ -88,6 +93,7 @@ public abstract class AbstractConfigurationStub implements Configuration
      * @param name Name of the property to get.
      * @return The value for <code>name</code>, <code>null</code> if not set.
      */
+    @Override
     public String getPropertyValue(String name)
     {
         return this.properties.get(name);

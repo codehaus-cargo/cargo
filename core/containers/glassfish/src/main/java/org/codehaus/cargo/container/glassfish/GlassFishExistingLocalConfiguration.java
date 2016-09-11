@@ -62,6 +62,7 @@ public class GlassFishExistingLocalConfiguration extends AbstractExistingLocalCo
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;

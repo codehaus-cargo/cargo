@@ -279,6 +279,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      * {@inheritDoc} This implementation throws an UnsupportedOperationException as Resource
      * configuration is not supported in Orion.
      */
+    @Override
     public String toConfigurationEntry(Resource resource)
     {
         throw new UnsupportedOperationException(RESOURCE_CONFIGURATION_UNSUPPORTED);

@@ -88,7 +88,6 @@ public class WebXmlMerger extends XmlMerger
 
     /**
      * {@inheritDoc}
-     * @see #init(Descriptor)
      */
     @Override
     public void init(Descriptor base)
@@ -111,7 +110,6 @@ public class WebXmlMerger extends XmlMerger
 
     /**
      * {@inheritDoc}
-     * @see #merge(Descriptor)
      */
     @Override
     public void merge(Descriptor theMerge)

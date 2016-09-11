@@ -59,6 +59,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDeployersDir(String configurationName)
     {
         return getSpecificConfigurationDir("deployers", configurationName);
@@ -67,6 +68,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getCommonLibDir()
     {
         return getFileHandler().append(getHome(), "common/lib");
@@ -74,8 +76,8 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;

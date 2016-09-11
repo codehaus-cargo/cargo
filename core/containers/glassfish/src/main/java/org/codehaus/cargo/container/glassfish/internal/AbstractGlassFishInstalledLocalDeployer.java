@@ -75,6 +75,7 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     /**
      * {@inheritDoc}
      */
+    @Override
     public DeployerType getType()
     {
         return DeployerType.INSTALLED;

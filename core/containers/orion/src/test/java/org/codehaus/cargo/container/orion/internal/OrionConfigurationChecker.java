@@ -137,6 +137,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -158,6 +159,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -179,6 +181,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -200,6 +203,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -212,6 +216,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param dataSourceEntry Datasource entry.
      * @return Context with inserted configuration entry.
      */
+    @Override
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         StringBuilder correctContext = new StringBuilder("<data-sources>");
@@ -226,6 +231,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param resourceFixture Ignored.
      * @throws Exception {@link RuntimeException}.
      */
+    @Override
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -238,6 +244,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param resourceFixture Ignored.
      * @throws Exception {@link RuntimeException}.
      */
+    @Override
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {

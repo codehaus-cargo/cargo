@@ -39,8 +39,7 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#AbstractDirectoryPackager(String)
+     * @see AbstractDirectoryPackager#AbstractDirectoryPackager(String)
      */
     public JettyDirectoryPackager(String targetDirectory)
     {
@@ -49,8 +48,6 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#getConfigurationExclusions()
      */
     @Override
     protected List<String> getConfigurationExclusions()
@@ -60,8 +57,6 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#getDistributionExclusions()
      */
     @Override
     protected List<String> getDistributionExclusions()

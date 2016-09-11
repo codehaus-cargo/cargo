@@ -48,6 +48,7 @@ public class GlassFish4xStandaloneLocalConfiguration
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;

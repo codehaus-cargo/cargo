@@ -37,7 +37,6 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 {
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public AbstractJonasInstalledLocalContainer(LocalConfiguration configuration)
@@ -47,16 +46,12 @@ public abstract class AbstractJonasInstalledLocalContainer extends AbstractInsta
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public abstract void doStart(JvmLauncher java);
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public abstract void doStop(JvmLauncher java);

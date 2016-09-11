@@ -47,6 +47,7 @@ public class CustomWildFlyScriptCommand implements ScriptCommand
     /**
      * {@inheritDoc}
      */
+    @Override
     public String readScript()
     {
         FileHandler fileHandler = new DefaultFileHandler();
@@ -57,6 +58,7 @@ public class CustomWildFlyScriptCommand implements ScriptCommand
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isApplicable()
     {
         return true;

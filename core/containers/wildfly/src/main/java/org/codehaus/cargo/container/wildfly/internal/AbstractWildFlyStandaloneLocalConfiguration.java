@@ -55,7 +55,6 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

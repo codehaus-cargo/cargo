@@ -66,8 +66,8 @@ public final class EjbJarXmlVersion implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Comparable#compareTo
      */
+    @Override
     public int compareTo(Object other)
     {
         int result = 1;
@@ -82,7 +82,6 @@ public final class EjbJarXmlVersion implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Object#toString
      */
     @Override
     public boolean equals(Object other)
@@ -92,7 +91,6 @@ public final class EjbJarXmlVersion implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Object#hashCode
      */
     @Override
     public int hashCode()
@@ -132,7 +130,6 @@ public final class EjbJarXmlVersion implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Object#toString
      */
     @Override
     public String toString()

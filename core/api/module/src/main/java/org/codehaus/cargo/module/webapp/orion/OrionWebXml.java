@@ -50,8 +50,8 @@ public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.Descriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return FILE_NAME;
@@ -61,6 +61,7 @@ public class OrionWebXml extends AbstractDescriptor implements VendorWebAppDescr
      * Adds a ejb reference description to orion-web.xml.
      * @param ref reference to add
      */
+    @Override
     public void addEjbReference(EjbRef ref)
     {
         Element ejbRefElement = new Element("ejb-ref-mapping");

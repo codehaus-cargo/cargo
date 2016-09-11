@@ -29,8 +29,8 @@ public class J2EEContainerCapability implements ContainerCapability
 {
     /**
      * {@inheritDoc}
-     * @see ContainerCapability#supportsDeployableType(org.codehaus.cargo.container.deployable.DeployableType)
      */
+    @Override
     public boolean supportsDeployableType(DeployableType type)
     {
         boolean supported = false;

@@ -56,6 +56,7 @@ public class WebLogic121xExistingLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return new WebLogicExistingLocalConfigurationCapability();

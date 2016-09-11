@@ -30,6 +30,7 @@ public class HasDirectoryPackagerValidator extends AbstractPackagerValidator
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isPackagerRegistered(containerId, PackagerType.DIRECTORY);

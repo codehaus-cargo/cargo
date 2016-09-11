@@ -56,7 +56,6 @@ public class Resin2xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractResinStandaloneLocalConfiguration#AbstractResinStandaloneLocalConfiguration(String)
      */
     public Resin2xStandaloneLocalConfiguration(String dir)
@@ -66,9 +65,8 @@ public class Resin2xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -95,8 +93,6 @@ public class Resin2xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Resin2xConfigurationBuilder
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder(
@@ -107,9 +103,8 @@ public class Resin2xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see AbstractResinStandaloneLocalConfiguration#prepareConfigurationDirectory(org.codehaus.cargo.container.Container, java.lang.String)
      */
+    @Override
     protected void prepareConfigurationDirectory(Container container, String confDir)
         throws IOException
     {

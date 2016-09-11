@@ -37,8 +37,8 @@ public class GeronimoEAR extends EAR implements GeronimoDeployable
 
     /**
      * {@inheritDoc}
-     * @see GeronimoDeployable#getPlan(org.codehaus.cargo.container.InstalledLocalContainer) 
      */
+    @Override
     public String getPlan(InstalledLocalContainer localContainer)
     {
         return null;

@@ -87,6 +87,7 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -94,7 +95,6 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -168,7 +168,6 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.ContainerConfiguration#verify()
      */
     @Override
     public void verify()
@@ -187,8 +186,8 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
 
     /**
      * {@inheritDoc}
-     * @see WebSphereConfiguration#getFactory()
      */
+    @Override
     public WebSphereJythonConfigurationFactory getFactory()
     {
         return factory;

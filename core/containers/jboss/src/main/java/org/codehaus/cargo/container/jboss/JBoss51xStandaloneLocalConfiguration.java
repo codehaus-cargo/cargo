@@ -32,7 +32,7 @@ public class JBoss51xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see AbstractJBoss5xStandaloneLocalConfiguration#AbstractJBoss5xStandaloneLocalConfiguration(String)
      */
     public JBoss51xStandaloneLocalConfiguration(String dir)
     {

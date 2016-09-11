@@ -157,6 +157,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addXmlReplacement(XmlReplacement xmlReplacement)
     {
         Map<XmlReplacementDetails, String> fileReplacements =
@@ -175,6 +176,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addXmlReplacement(String filename, String xpathExpression,
         String configurationPropertyName)
     {
@@ -184,6 +186,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
         String configurationPropertyName)
     {
@@ -201,6 +204,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
                                   String configurationPropertyName, boolean ignoreIfNonExisting)
     {
@@ -218,6 +222,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeXmlReplacement(String filename, String xpathExpression)
     {
         removeXmlReplacement(filename, xpathExpression, null);
@@ -226,6 +231,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public void removeXmlReplacement(String filename, String xpathExpression,
         String attributeName)
     {
@@ -245,6 +251,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<XmlReplacement> getXmlReplacements()
     {
         List<XmlReplacement> xmlReplacements = new ArrayList<XmlReplacement>();
@@ -270,7 +277,6 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
     /**
      * {@inheritDoc}
-     * @see ContainerConfiguration#verify()
      */
     @Override
     public void verify()
@@ -300,8 +306,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getType()
      */
+    @Override
     public ConfigurationType getType()
     {
         return ConfigurationType.STANDALONE;

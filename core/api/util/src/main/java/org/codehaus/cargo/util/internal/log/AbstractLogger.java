@@ -50,8 +50,8 @@ public abstract class AbstractLogger implements Logger
 
     /**
      * {@inheritDoc}
-     * @see Logger#setLevel(org.codehaus.cargo.util.log.LogLevel)
      */
+    @Override
     public void setLevel(LogLevel level)
     {
         this.level = level;
@@ -59,8 +59,8 @@ public abstract class AbstractLogger implements Logger
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.util.log.Logger#getLevel()
      */
+    @Override
     public LogLevel getLevel()
     {
         return this.level;
@@ -68,8 +68,8 @@ public abstract class AbstractLogger implements Logger
 
     /**
      * {@inheritDoc}
-     * @see Logger#warn(String, String)
      */
+    @Override
     public void warn(String message, String category)
     {
         log(LogLevel.WARN, message, category);
@@ -77,8 +77,8 @@ public abstract class AbstractLogger implements Logger
 
     /**
      * {@inheritDoc}
-     * @see Logger#info(String, String)
      */
+    @Override
     public void info(String message, String category)
     {
         log(LogLevel.INFO, message, category);
@@ -86,8 +86,8 @@ public abstract class AbstractLogger implements Logger
 
     /**
      * {@inheritDoc}
-     * @see Logger#debug(String, String)
      */
+    @Override
     public void debug(String message, String category)
     {
         log(LogLevel.DEBUG, message, category);

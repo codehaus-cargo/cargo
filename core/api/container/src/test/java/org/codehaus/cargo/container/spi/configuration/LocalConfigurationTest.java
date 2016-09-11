@@ -74,6 +74,7 @@ public class LocalConfigurationTest extends TestCase
          * @return {@link ConfigurationCapability} which reuses the
          * <code>supportedProperties</code> given in the constructor.
          */
+        @Override
         public ConfigurationCapability getCapability()
         {
             return new ConfigurationCapability()
@@ -82,6 +83,7 @@ public class LocalConfigurationTest extends TestCase
                  * {@inheritDoc}
                  * @return <code>null</code>.
                  */
+                @Override
                 public Map<String, Boolean> getProperties()
                 {
                     return null;
@@ -93,6 +95,7 @@ public class LocalConfigurationTest extends TestCase
                  * @return <code>true</code> if the <code>supportedProperties</code> given in the
                  * constructor contains <code>propertyName</code>, <code>false</code> otherwise.
                  */
+                @Override
                 public boolean supportsProperty(String propertyName)
                 {
                     if (supportedProperties.contains(propertyName))
@@ -108,6 +111,7 @@ public class LocalConfigurationTest extends TestCase
          * {@inheritDoc}
          * @return <code>null</code>.
          */
+        @Override
         public ConfigurationType getType()
         {
             return null;

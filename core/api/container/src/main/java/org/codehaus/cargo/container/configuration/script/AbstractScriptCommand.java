@@ -77,6 +77,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     /**
      * @return Filtered script.
      */
+    @Override
     public String readScript()
     {
         FilterChain filterChain = new FilterChain();
@@ -93,6 +94,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isApplicable()
     {
         return true;

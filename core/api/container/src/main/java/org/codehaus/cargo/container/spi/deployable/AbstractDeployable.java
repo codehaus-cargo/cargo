@@ -50,8 +50,8 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
 
     /**
      * {@inheritDoc}
-     * @see Deployable#getFile()
      */
+    @Override
     public String getFile()
     {
         return this.file;
@@ -78,6 +78,7 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isExpanded()
     {
         return getFileHandler().isDirectory(getFile());
@@ -104,6 +105,7 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
      * Deployable file name (removing the filename extension).
      * @return the name of this deployable
      */
+    @Override
     public String getName()
     {
         String name = getFileHandler().getName(getFile());
@@ -117,7 +119,6 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
 
     /**
      * {@inheritDoc}
-     * @see Object#equals(Object)
      */
     @Override
     public boolean equals(Object object)
@@ -133,7 +134,6 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
 
     /**
      * {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()

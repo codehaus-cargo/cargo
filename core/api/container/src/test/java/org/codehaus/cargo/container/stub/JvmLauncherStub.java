@@ -60,6 +60,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setWorkingDirectory(File workingDirectory)
     {
     }
@@ -67,6 +68,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setJvm(String command)
     {
         this.jvm = command;
@@ -83,6 +85,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addJvmArgument(File file)
     {
     }
@@ -90,6 +93,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addJvmArguments(String... values)
     {
     }
@@ -97,6 +101,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addJvmArgumentLine(String line)
     {
     }
@@ -104,6 +109,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addClasspathEntries(String... paths)
     {
         if (paths != null)
@@ -115,6 +121,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addClasspathEntries(File... paths)
     {
         if (paths != null)
@@ -129,6 +136,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getClasspath()
     {
         StringBuilder buffer = new StringBuilder(1024);
@@ -154,6 +162,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSystemProperty(String name, String value)
     {
         this.systemProperties.setProperty(name, value);
@@ -170,6 +179,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setEnvironmentVariable(String name, String value)
     {
         if (name != null && !name.isEmpty())
@@ -181,6 +191,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getEnvironmentVariable(String name)
     {
         String value = environmentVariables.get(name);
@@ -194,6 +205,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setJarFile(File jarFile)
     {
     }
@@ -201,6 +213,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setMainClass(String mainClass)
     {
     }
@@ -208,6 +221,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addAppArgument(File file)
     {
     }
@@ -215,6 +229,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addAppArguments(String... values)
     {
     }
@@ -222,6 +237,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addAppArgumentLine(String line)
     {
     }
@@ -229,6 +245,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setOutputFile(File outputFile)
     {
     }
@@ -236,6 +253,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setAppendOutput(boolean appendOutput)
     {
     }
@@ -243,6 +261,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getCommandLine()
     {
         StringBuilder buffer = new StringBuilder(1024);
@@ -254,6 +273,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setTimeout(long millis)
     {
     }
@@ -261,6 +281,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setSpawn(boolean spawn)
     {
 
@@ -269,6 +290,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void start() throws JvmLauncherException
     {
     }
@@ -276,6 +298,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public int execute() throws JvmLauncherException
     {
         return 0;
@@ -284,6 +307,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * {@inheritDoc}
      */
+    @Override
     public void kill()
     {
     }

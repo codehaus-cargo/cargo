@@ -50,6 +50,7 @@ public abstract class AbstractContainerFactoryValidator implements Validator
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return this.factory.isContainerRegistered(containerId, this.type);

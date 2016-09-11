@@ -45,8 +45,8 @@ public abstract class AbstractJettyRemoteContainer extends AbstractRemoteContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;

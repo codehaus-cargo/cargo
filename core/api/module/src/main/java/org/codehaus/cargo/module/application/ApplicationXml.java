@@ -210,8 +210,8 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.J2eeDescriptor#getVendorDescriptors()
      */
+    @Override
     public List<Descriptor> getVendorDescriptors()
     {
         return this.vendorDescriptors;
@@ -219,8 +219,8 @@ public class ApplicationXml extends AbstractDescriptor implements J2eeDescriptor
 
     /**
      * {@inheritDoc}
-     * @see J2eeDescriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return "application.xml";

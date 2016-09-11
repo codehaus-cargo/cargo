@@ -49,7 +49,6 @@ public class WebLogic8xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public WebLogic8xStandaloneLocalConfiguration(String dir)
@@ -63,9 +62,8 @@ public class WebLogic8xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -73,8 +71,6 @@ public class WebLogic8xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -119,8 +115,6 @@ public class WebLogic8xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see Object#toString()
      */
     @Override
     public String toString()
@@ -131,6 +125,7 @@ public class WebLogic8xStandaloneLocalConfiguration extends
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDomainHome()
     {
         return getHome();
@@ -157,8 +152,6 @@ public class WebLogic8xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see WebLogic8xConfigurationBuilder
      */
     @Override
     protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)

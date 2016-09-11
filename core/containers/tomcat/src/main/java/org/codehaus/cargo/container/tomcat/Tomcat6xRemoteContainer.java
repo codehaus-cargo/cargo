@@ -34,7 +34,7 @@ public class Tomcat6xRemoteContainer extends AbstractTomcatRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
+     * @see AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
      */
     public Tomcat6xRemoteContainer(RuntimeConfiguration configuration)
     {
@@ -43,8 +43,8 @@ public class Tomcat6xRemoteContainer extends AbstractTomcatRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Tomcat 6.x Remote";
@@ -52,8 +52,8 @@ public class Tomcat6xRemoteContainer extends AbstractTomcatRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

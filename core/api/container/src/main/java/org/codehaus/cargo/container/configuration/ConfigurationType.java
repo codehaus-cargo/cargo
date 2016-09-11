@@ -41,8 +41,7 @@ public class ConfigurationType
     public static final ConfigurationType RUNTIME = new ConfigurationType("runtime");
 
     /**
-     * {@inheritDoc}
-     * @see #ConfigurationType(String)
+     * Configuration type.
      */
     private String type;
 
@@ -86,7 +85,6 @@ public class ConfigurationType
 
     /**
      * {@inheritDoc}
-     * @see Object#equals(Object)
      */
     @Override
     public boolean equals(Object object)
@@ -106,7 +104,6 @@ public class ConfigurationType
 
     /**
      * {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()
@@ -124,7 +121,6 @@ public class ConfigurationType
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

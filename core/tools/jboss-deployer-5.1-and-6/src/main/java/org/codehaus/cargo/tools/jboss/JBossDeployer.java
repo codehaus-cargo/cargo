@@ -62,8 +62,8 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
 
     /**
      * {@inheritDoc}
-     * @see IJBossProfileManagerDeployer#deploy(File, String)
      */
+    @Override
     public void deploy(File deploymentFile, String deploymentName) throws Exception
     {
         DeploymentManager deploymentManager = getDeploymentManager();
@@ -83,8 +83,8 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
 
     /**
      * {@inheritDoc}
-     * @see IJBossProfileManagerDeployer#undeploy(String)
      */
+    @Override
     public void undeploy(String deploymentName) throws Exception
     {
         DeploymentManager deploymentManager = getDeploymentManager();

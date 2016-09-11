@@ -96,8 +96,8 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;
@@ -105,7 +105,6 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -357,7 +356,6 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

@@ -78,8 +78,8 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.Descriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return FILE_NAME;
@@ -88,6 +88,7 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
     /**
      * {@inheritDoc}
      */
+    @Override
     public void addEjbReference(EjbRef ref)
     {
         JBossWebXmlTag ejbRefTag = (JBossWebXmlTag) getDescriptorType().getTagByName(

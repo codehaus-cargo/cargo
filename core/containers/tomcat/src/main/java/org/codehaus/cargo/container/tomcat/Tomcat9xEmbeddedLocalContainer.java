@@ -39,7 +39,6 @@ public class Tomcat9xEmbeddedLocalContainer extends Tomcat8xEmbeddedLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -49,7 +48,6 @@ public class Tomcat9xEmbeddedLocalContainer extends Tomcat8xEmbeddedLocalContain
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()

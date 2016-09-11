@@ -48,6 +48,7 @@ public class WebLogic122xRemoteContainer extends AbstractWebLogicRemoteContainer
      *
      * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WebLogic 12.2.x";
@@ -58,6 +59,7 @@ public class WebLogic122xRemoteContainer extends AbstractWebLogicRemoteContainer
      *
      * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

@@ -74,6 +74,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param tag type of elements to find
      * @return list of tags
      */
+    @Override
     public List<Element> getTags(DescriptorTag tag)
     {
         return getRootElement().getChildren(tag.getTagName(), tag.getTagNamespace());
@@ -85,6 +86,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param tagName type of elements to find
      * @return list of tags
      */
+    @Override
     public List<Element> getTags(String tagName)
     {
         List<Element> elements = new ArrayList<Element>();
@@ -288,6 +290,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param parent The parent element to add the child to
      * @return the inserted element
      */
+    @Override
     public Element addElement(DescriptorTag tag, Element child, Element parent)
     {
         Element importedNode = (Element) child.detach();
@@ -465,6 +468,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
     /**
      * @return the descriptorType
      */
+    @Override
     public DescriptorType getDescriptorType()
     {
         return this.descriptorType;
@@ -477,6 +481,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param value value for the identifier to match
      * @return the element that matches
      */
+    @Override
     public Element getTagByIdentifier(DescriptorTag tag, String value)
     {
         if (value == null || tag == null)
@@ -506,6 +511,7 @@ public abstract class AbstractDescriptor extends Document implements Descriptor
      * @param value value for the identifier to match
      * @return the element that matches
      */
+    @Override
     public Element getTagByIdentifier(String tagName, String value)
     {
         if (value == null || tagName == null)

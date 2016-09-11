@@ -61,6 +61,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setFile(String path)
     {
         this.path = path;
@@ -69,6 +70,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public void insertElementsUnderXPath(String elementsToParse, String xpath)
     {
         Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getDocumentElement());
@@ -90,6 +92,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public void insertElementUnderXPath(Element elementToInsert, String xpath)
     {
         Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getDocumentElement());
@@ -101,6 +104,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public Document loadFile()
     {
         this.document = xmlUtil.loadXmlFromFile(path);
@@ -110,6 +114,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public void writeFile()
     {
         xmlUtil.saveXml(document, path);
@@ -118,6 +123,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setNamespaces(Map<String, String> namespaces)
     {
         xmlUtil.setNamespaces(namespaces);

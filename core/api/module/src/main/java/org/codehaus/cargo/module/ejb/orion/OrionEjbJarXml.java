@@ -45,8 +45,8 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
 
     /**
      * {@inheritDoc}
-     * @see VendorEjbDescriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return "orion-ejb-jar.xml";
@@ -54,8 +54,8 @@ public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescr
 
     /**
      * {@inheritDoc}
-     * @see VendorEjbDescriptor#getJndiName(EjbDef)
      */
+    @Override
     public String getJndiName(EjbDef ejb)
     {
         String jndiName = null;

@@ -43,7 +43,7 @@ public abstract class AbstractJettyExistingLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#AbstractLocalConfiguration(String)
+     * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
     public AbstractJettyExistingLocalConfiguration(String dir)
     {
@@ -62,7 +62,6 @@ public abstract class AbstractJettyExistingLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -87,8 +86,8 @@ public abstract class AbstractJettyExistingLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return capability;

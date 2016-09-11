@@ -29,6 +29,7 @@ public class IsLocalContainerValidator implements Validator
     /**
      * Check if the container is a local container. {@inheritDoc}
      */
+    @Override
     public boolean validate(String containerId, ContainerType type)
     {
         return type.isLocal();

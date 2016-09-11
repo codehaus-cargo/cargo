@@ -54,6 +54,7 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
      * 
      * @param ref reference to add
      */
+    @Override
     public void addEjbReference(EjbRef ref)
     {
         // This file doesn't have EJB references in it
@@ -61,8 +62,8 @@ public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescr
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.Descriptor#getFileName()
      */
+    @Override
     public String getFileName()
     {
         return FILE_NAME;

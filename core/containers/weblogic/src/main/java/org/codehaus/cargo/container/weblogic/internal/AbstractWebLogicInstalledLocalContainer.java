@@ -78,8 +78,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;
@@ -234,7 +234,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception
@@ -375,7 +374,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public void doStop(JvmLauncher java) throws Exception
@@ -422,6 +420,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * @return the <code>BEA_HOME</code>
      * @see WebLogicLocalContainer#getBeaHome()
      */
+    @Override
     public String getBeaHome()
     {
         return beaHome;
@@ -440,6 +439,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * @return the <code>WL_HOME</code>
      * @see WebLogicLocalContainer#getWeblogicHome()
      */
+    @Override
     public String getWeblogicHome()
     {
         return getHome();

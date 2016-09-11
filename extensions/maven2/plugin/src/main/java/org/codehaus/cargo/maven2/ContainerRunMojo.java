@@ -53,7 +53,6 @@ public class ContainerRunMojo extends ContainerStartMojo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.maven2.AbstractCargoMojo#doExecute()
      */
     @Override
     public void doExecute() throws MojoExecutionException
@@ -108,7 +107,6 @@ public class ContainerRunMojo extends ContainerStartMojo
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.maven2.AbstractCargoMojo#createNewContainer()
      */
     @Override
     protected org.codehaus.cargo.container.Container createNewContainer()

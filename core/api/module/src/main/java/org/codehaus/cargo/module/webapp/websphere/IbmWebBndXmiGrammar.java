@@ -43,8 +43,8 @@ public class IbmWebBndXmiGrammar implements Grammar
 
     /**
      * {@inheritDoc}
-     * @see Grammar#getElementOrder(String)
      */
+    @Override
     public List<DescriptorTag> getElementOrder(String tagName)
     {
         List<DescriptorTag> elementOrder = null;

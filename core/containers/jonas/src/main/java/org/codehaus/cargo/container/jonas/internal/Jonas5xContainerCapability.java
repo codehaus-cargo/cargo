@@ -31,8 +31,6 @@ public class Jonas5xContainerCapability extends Jonas4xContainerCapability
 {
     /**
      * Add support for the OSGi bundle deployable type. {@inheritDoc}
-     * 
-     * @see Jonas4xContainerCapability#supportsDeployableType(DeployableType)
      */
     @Override
     public boolean supportsDeployableType(DeployableType type)

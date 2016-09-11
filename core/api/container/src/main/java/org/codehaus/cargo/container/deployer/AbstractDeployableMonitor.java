@@ -59,8 +59,8 @@ public abstract class AbstractDeployableMonitor extends LoggedObject implements 
 
     /**
      * {@inheritDoc}
-     * @see DeployableMonitor#registerListener(DeployableMonitorListener)
      */
+    @Override
     public void registerListener(DeployableMonitorListener listener)
     {
         this.listeners.add(listener);
@@ -90,8 +90,8 @@ public abstract class AbstractDeployableMonitor extends LoggedObject implements 
 
     /**
      * {@inheritDoc}
-     * @see DeployableMonitor#getTimeout()
      */
+    @Override
     public long getTimeout()
     {
         return this.timeout;

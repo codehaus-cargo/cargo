@@ -43,8 +43,8 @@ public class Tomee7xRemoteContainer extends AbstractTomcatRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "TomEE 7.x Remote";
@@ -52,8 +52,8 @@ public class Tomee7xRemoteContainer extends AbstractTomcatRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;

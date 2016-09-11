@@ -111,8 +111,8 @@ public final class WebXmlVersion implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Comparable#compareTo
      */
+    @Override
     public int compareTo(Object other)
     {
 
@@ -159,7 +159,6 @@ public final class WebXmlVersion implements Comparable
 
     /**
      * {@inheritDoc}
-     * @see java.lang.Object#toString
      */
     @Override
     public String toString()

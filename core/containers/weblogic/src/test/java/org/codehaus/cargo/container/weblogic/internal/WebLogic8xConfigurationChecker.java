@@ -154,6 +154,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -168,6 +169,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForDataSourceMatchesDataSourceFixture(String configuration,
         DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -182,6 +184,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForDriverConfiguredDSWithXaTransactionSupportMatchesDSFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -198,6 +201,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param dataSourceFixture Datasource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
@@ -211,6 +215,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param dataSourceEntry Datasource entry.
      * @return Domain XML with <code>dataSourceEntry</code>.
      */
+    @Override
     public String insertConfigurationEntryIntoContext(String dataSourceEntry)
     {
         return "<Domain>" + dataSourceEntry + "</Domain>";
@@ -222,6 +227,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForXADataSourceConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {
@@ -234,6 +240,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param resourceFixture Resource fixture.
      * @throws Exception If anything goes wrong.
      */
+    @Override
     public void checkConfigurationForMailSessionConfiguredResourceMatchesResourceFixture(
         String configuration, ResourceFixture resourceFixture) throws Exception
     {

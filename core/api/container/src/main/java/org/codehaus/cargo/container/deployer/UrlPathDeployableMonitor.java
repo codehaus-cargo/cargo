@@ -77,8 +77,8 @@ public class UrlPathDeployableMonitor extends AbstractDeployableMonitor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.deployer.DeployableMonitor#getDeployableName()
      */
+    @Override
     public String getDeployableName()
     {
         return pingUrlPath;
@@ -87,6 +87,7 @@ public class UrlPathDeployableMonitor extends AbstractDeployableMonitor
     /**
      * @see DeployableMonitor#monitor()
      */
+    @Override
     public void monitor()
     {
         URL pingUrl = constructPingUrl();

@@ -31,7 +31,7 @@ public abstract class AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractLocalConfigurationCapability#AbstractLocalConfigurationCapability()
+     * @see AbstractLocalConfigurationCapability#AbstractLocalConfigurationCapability()
      */
     public AbstractStandaloneLocalConfigurationCapability()
     {

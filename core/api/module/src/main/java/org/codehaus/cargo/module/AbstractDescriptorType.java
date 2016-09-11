@@ -84,6 +84,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * 
      * @return the IO class
      */
+    @Override
     public DescriptorIo getDescriptorIo()
     {
         return this.descriptorIo;
@@ -104,6 +105,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * 
      * @return grammar
      */
+    @Override
     public Grammar getGrammar()
     {
         return this.grammar;
@@ -114,6 +116,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * 
      * @param tag the tag to add.
      */
+    @Override
     public void addTag(DescriptorTag tag)
     {
         this.tags.add(tag);
@@ -123,6 +126,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
      * @param name name of the tag
      * @return the matching descriptor tag
      */
+    @Override
     public DescriptorTag getTagByName(String name)
     {
         for (DescriptorTag tag : tags)
@@ -139,6 +143,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
     /**
      * @return a collection of all tags
      */
+    @Override
     public Collection<DescriptorTag> getAllTags()
     {
         List<DescriptorTag> items = new ArrayList<DescriptorTag>(tags);
@@ -151,7 +156,6 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
 
     /**
      * {@inheritDoc}
-     * @see org.jdom.JDOMFactory#element(java.lang.String)
      */
     @Override
     public Element element(String name)
@@ -227,8 +231,8 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.DescriptorType#getJDOMFactory()
      */
+    @Override
     public JDOMFactory getJDOMFactory()
     {
         // This class is itself the JDOMFactory

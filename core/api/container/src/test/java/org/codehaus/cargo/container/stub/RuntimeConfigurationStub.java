@@ -34,6 +34,7 @@ public class RuntimeConfigurationStub extends AbstractConfigurationStub
      * {@inheritDoc}
      * @return {@link ConfigurationType#RUNTIME}
      */
+    @Override
     public ConfigurationType getType()
     {
         return ConfigurationType.RUNTIME;

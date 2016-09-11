@@ -48,8 +48,8 @@ public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return "tomcat8x";
@@ -57,8 +57,8 @@ public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "Tomcat 8.x Embedded";
@@ -67,6 +67,7 @@ public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     protected void prepareController(TomcatEmbedded wrapper, File home, int port)
     {
         controller.enableNaming();

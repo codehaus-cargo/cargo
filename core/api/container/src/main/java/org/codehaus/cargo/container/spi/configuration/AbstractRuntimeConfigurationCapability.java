@@ -31,7 +31,7 @@ public abstract class AbstractRuntimeConfigurationCapability
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractConfigurationCapability#AbstractConfigurationCapability()
+     * @see AbstractConfigurationCapability#AbstractConfigurationCapability()
      */
     protected AbstractRuntimeConfigurationCapability()
     {

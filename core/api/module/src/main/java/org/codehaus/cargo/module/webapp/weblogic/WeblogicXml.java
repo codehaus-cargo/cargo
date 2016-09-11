@@ -52,6 +52,7 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
     /**
      * @return weblogic.xml
      */
+    @Override
     public String getFileName()
     {
         return FILE_NAME;
@@ -61,6 +62,7 @@ public class WeblogicXml extends AbstractDescriptor implements VendorWebAppDescr
      * Adds a ejb reference description to the weblogic.xml.
      * @param ref the reference to add
      */
+    @Override
     public void addEjbReference(EjbRef ref)
     {
         Element refDescr;

@@ -69,6 +69,7 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
     /**
      * {@inheritDoc}
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return CAPABILITY;
@@ -77,6 +78,7 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getId()
     {
         return "glassfish3x";
@@ -85,6 +87,7 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getName()
     {
         return "GlassFish 3.x";

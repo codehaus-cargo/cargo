@@ -46,8 +46,9 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
     }
 
     /**
-     * {@inheritDoc}
-     * @see #deploy(Deployable)
+     * Helper method to deploy multiple deployables at a time.
+     * @see Deployer#deploy(Deployable)
+     * @param deployables Deployables to deploy.
      */
     public void deploy(List<Deployable> deployables)
     {
@@ -59,8 +60,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#deploy(Deployable, DeployableMonitor)
      */
+    @Override
     public void deploy(Deployable deployable, DeployableMonitor monitor)
     {
         try
@@ -90,8 +91,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#undeploy(Deployable, DeployableMonitor)
      */
+    @Override
     public void undeploy(Deployable deployable, DeployableMonitor monitor)
     {
         try
@@ -120,8 +121,9 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
     }
 
     /**
-     * {@inheritDoc}
-     * @see #redeploy(Deployable)
+     * Helper method to redeploy multiple deployables at a time.
+     * @see Deployer#redeploy(Deployable)
+     * @param deployables Deployables to redeploy.
      */
     public void redeploy(List<Deployable> deployables)
     {
@@ -133,8 +135,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#redeploy(Deployable, DeployableMonitor)
      */
+    @Override
     public void redeploy(Deployable deployable, DeployableMonitor monitor)
     {
         try
@@ -163,8 +165,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#start(Deployable, DeployableMonitor)
      */
+    @Override
     public void start(Deployable deployable, DeployableMonitor monitor)
     {
         start(deployable);
@@ -177,8 +179,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#stop(Deployable, DeployableMonitor)
      */
+    @Override
     public void stop(Deployable deployable, DeployableMonitor monitor)
     {
         stop(deployable);
@@ -191,8 +193,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#deploy(Deployable)
      */
+    @Override
     public void deploy(Deployable deployable)
     {
         throw new ContainerException("Not supported");
@@ -200,8 +202,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#start(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void start(Deployable deployable)
     {
         throw new ContainerException("Not supported");
@@ -209,8 +211,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#stop(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void stop(Deployable deployable)
     {
         throw new ContainerException("Not supported");
@@ -218,8 +220,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
+    @Override
     public void undeploy(Deployable deployable)
     {
         throw new ContainerException("Not supported");
@@ -227,8 +229,8 @@ public abstract class AbstractDeployer extends LoggedObject implements Deployer
 
     /**
      * {@inheritDoc}
-     * @see Deployer#redeploy(Deployable)
      */
+    @Override
     public void redeploy(Deployable deployable)
     {
         try

@@ -50,7 +50,7 @@ public class SystemProperty extends DescriptorElement
     }
 
     /**
-     * {@inheritDoc}
+     * @return System property name.
      */
     public String getElementId()
     {

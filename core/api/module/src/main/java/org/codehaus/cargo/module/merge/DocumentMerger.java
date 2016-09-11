@@ -45,8 +45,8 @@ public class DocumentMerger implements MergeProcessor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.MergeProcessor#addMergeItem(java.lang.Object)
      */
+    @Override
     public void addMergeItem(Object mergeItem) throws MergeException
     {
         if (mergeItem instanceof Document)
@@ -61,8 +61,8 @@ public class DocumentMerger implements MergeProcessor
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.module.merge.MergeProcessor#performMerge()
      */
+    @Override
     public Object performMerge()
     {
         if (this.documents.isEmpty())

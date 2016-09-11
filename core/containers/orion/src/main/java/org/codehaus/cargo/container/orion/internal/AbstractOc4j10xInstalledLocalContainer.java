@@ -56,8 +56,8 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.Container#getCapability()
      */
+    @Override
     public ContainerCapability getCapability()
     {
         return this.capability;
@@ -65,7 +65,6 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStop(JvmLauncher)
      */
     @Override
     public void doStop(JvmLauncher java)
@@ -89,7 +88,6 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractInstalledLocalContainer#doStart(JvmLauncher)
      */
     @Override
     public void doStart(JvmLauncher java) throws Exception

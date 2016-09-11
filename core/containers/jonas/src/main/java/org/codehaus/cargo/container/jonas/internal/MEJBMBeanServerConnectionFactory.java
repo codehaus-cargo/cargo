@@ -164,6 +164,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
          * NotificationListener, NotificationFilter,Object)
          */
+        @Override
         public void addNotificationListener(ObjectName arg0, NotificationListener arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException, IOException
         {
@@ -176,6 +177,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
          * ObjectName, NotificationFilter,Object)
          */
+        @Override
         public void addNotificationListener(ObjectName arg0, ObjectName arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException, IOException
         {
@@ -187,6 +189,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName)
          */
+        @Override
         public ObjectInstance createMBean(String arg0, ObjectName arg1) throws ReflectionException,
             InstanceAlreadyExistsException, MBeanException, NotCompliantMBeanException, IOException
         {
@@ -198,6 +201,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName, ObjectName)
          */
+        @Override
         public ObjectInstance createMBean(String arg0, ObjectName arg1, ObjectName arg2)
             throws ReflectionException, InstanceAlreadyExistsException, MBeanException,
             NotCompliantMBeanException, InstanceNotFoundException, IOException
@@ -211,6 +215,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName, Object[],
          * String[])
          */
+        @Override
         public ObjectInstance createMBean(String arg0, ObjectName arg1, Object[] arg2,
             String[] arg3) throws ReflectionException, InstanceAlreadyExistsException,
             MBeanException, NotCompliantMBeanException, IOException
@@ -224,6 +229,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#createMBean(String, ObjectName, ObjectName
          * ,Object[], String[])
          */
+        @Override
         public ObjectInstance createMBean(String arg0, ObjectName arg1, ObjectName arg2,
             Object[] arg3, String[] arg4) throws ReflectionException,
             InstanceAlreadyExistsException, MBeanException, NotCompliantMBeanException,
@@ -237,6 +243,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getAttribute(ObjectName, String)
          */
+        @Override
         public Object getAttribute(ObjectName arg0, String arg1) throws MBeanException,
             AttributeNotFoundException, InstanceNotFoundException, ReflectionException, IOException
         {
@@ -248,6 +255,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getAttributes(ObjectName, String[])
          */
+        @Override
         public AttributeList getAttributes(ObjectName arg0, String[] arg1)
             throws InstanceNotFoundException, ReflectionException, IOException
         {
@@ -259,6 +267,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getDefaultDomain()
          */
+        @Override
         public String getDefaultDomain() throws IOException
         {
             return mejb.getDefaultDomain();
@@ -269,6 +278,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getDomains()
          */
+        @Override
         public String[] getDomains() throws IOException
         {
             throw new UnsupportedOperationException("MEJB proxy does not support this method call");
@@ -279,6 +289,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getMBeanCount()
          */
+        @Override
         public Integer getMBeanCount() throws IOException
         {
             return mejb.getMBeanCount();
@@ -289,6 +300,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getMBeanInfo(ObjectName)
          */
+        @Override
         public MBeanInfo getMBeanInfo(ObjectName arg0) throws InstanceNotFoundException,
             IntrospectionException, ReflectionException, IOException
         {
@@ -300,6 +312,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#getObjectInstance(ObjectName)
          */
+        @Override
         public ObjectInstance getObjectInstance(ObjectName arg0) throws InstanceNotFoundException,
             IOException
         {
@@ -312,6 +325,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#invoke(ObjectName, String, Object[],
          * String[])
          */
+        @Override
         public Object invoke(ObjectName arg0, String arg1, Object[] arg2, String[] arg3)
             throws InstanceNotFoundException, MBeanException, ReflectionException, IOException
         {
@@ -323,6 +337,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#isInstanceOf(ObjectName, String)
          */
+        @Override
         public boolean isInstanceOf(ObjectName arg0, String arg1) throws InstanceNotFoundException,
             IOException
         {
@@ -334,6 +349,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#isRegistered(ObjectName)
          */
+        @Override
         public boolean isRegistered(ObjectName arg0) throws IOException
         {
             return mejb.isRegistered(arg0);
@@ -344,6 +360,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#queryMBeans(ObjectName, QueryExp)
          */
+        @Override
         public Set<ObjectInstance> queryMBeans(ObjectName arg0, QueryExp arg1) throws IOException
         {
             throw new UnsupportedOperationException("MEJB proxy does not support this method call");
@@ -354,6 +371,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#queryNames(ObjectName, QueryExp)
          */
+        @Override
         public Set<ObjectName> queryNames(ObjectName arg0, QueryExp arg1) throws IOException
         {
             return mejb.queryNames(arg0, arg1);
@@ -365,6 +383,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
          * ObjectName)
          */
+        @Override
         public void removeNotificationListener(ObjectName arg0, ObjectName arg1)
             throws InstanceNotFoundException, ListenerNotFoundException, IOException
         {
@@ -377,6 +396,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
          * NotificationListener)
          */
+        @Override
         public void removeNotificationListener(ObjectName arg0, NotificationListener arg1)
             throws InstanceNotFoundException, ListenerNotFoundException, IOException
         {
@@ -389,6 +409,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
          * ObjectName, NotificationFilter, Object)
          */
+        @Override
         public void removeNotificationListener(ObjectName arg0, ObjectName arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException,
             ListenerNotFoundException, IOException
@@ -402,6 +423,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * @see javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
          * NotificationListener, NotificationFilter, Object )
          */
+        @Override
         public void removeNotificationListener(ObjectName arg0, NotificationListener arg1,
             NotificationFilter arg2, Object arg3) throws InstanceNotFoundException,
             ListenerNotFoundException, IOException
@@ -414,6 +436,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#setAttribute(ObjectName, Attribute)
          */
+        @Override
         public void setAttribute(ObjectName arg0, Attribute arg1) throws InstanceNotFoundException,
             AttributeNotFoundException, InvalidAttributeValueException, MBeanException,
             ReflectionException, IOException
@@ -426,6 +449,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#setAttributes(ObjectName, AttributeList)
          */
+        @Override
         public AttributeList setAttributes(ObjectName arg0, AttributeList arg1)
             throws InstanceNotFoundException, ReflectionException, IOException
         {
@@ -437,6 +461,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
          * 
          * @see javax.management.MBeanServerConnection#unregisterMBean(ObjectName)
          */
+        @Override
         public void unregisterMBean(ObjectName arg0) throws InstanceNotFoundException,
             MBeanRegistrationException, IOException
         {
@@ -447,6 +472,7 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
     /**
      * {@inheritDoc}
      */
+    @Override
     public MBeanServerConnection getServerConnection(RuntimeConfiguration configuration)
         throws Exception
     {
@@ -580,9 +606,8 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.jonas.internal.MBeanServerConnectionFactory#destroy()
      */
+    @Override
     public void destroy()
     {
         if (jndiContext != null)
@@ -601,9 +626,8 @@ public class MEJBMBeanServerConnectionFactory implements MBeanServerConnectionFa
 
     /**
      * {@inheritDoc}
-     * 
-     * @see javax.security.auth.callback.CallbackHandler#handle(Callback[])
      */
+    @Override
     public void handle(Callback[] callbacks) throws UnsupportedCallbackException
     {
         for (Callback callback : callbacks)

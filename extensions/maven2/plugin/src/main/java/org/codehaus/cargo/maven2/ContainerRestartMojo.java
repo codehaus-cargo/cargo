@@ -29,7 +29,6 @@ public class ContainerRestartMojo extends ContainerStartMojo
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.maven2.ContainerStartMojo#executeLocalContainerAction()
      */
     @Override
     protected void executeLocalContainerAction()

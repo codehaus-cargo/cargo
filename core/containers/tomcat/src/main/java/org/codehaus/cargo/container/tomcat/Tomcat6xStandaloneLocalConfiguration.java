@@ -53,8 +53,6 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
@@ -95,7 +93,6 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
      */
     @Override
     public String toString()

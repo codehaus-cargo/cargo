@@ -52,8 +52,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#buildStarted(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void buildStarted(BuildEvent event)
     {
         // Voluntarily do nothing
@@ -61,8 +61,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#buildFinished(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void buildFinished(BuildEvent event)
     {
         // Voluntarily do nothing
@@ -70,8 +70,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#targetStarted(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void targetStarted(BuildEvent event)
     {
         // Voluntarily do nothing
@@ -79,8 +79,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#targetFinished(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void targetFinished(BuildEvent event)
     {
         // Voluntarily do nothing
@@ -88,8 +88,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#taskStarted(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void taskStarted(BuildEvent event)
     {
         // Voluntarily do nothing
@@ -97,8 +97,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#taskFinished(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void taskFinished(BuildEvent event)
     {
         // Voluntarily do nothing
@@ -106,8 +106,8 @@ public class AntBuildListener implements BuildListener
 
     /**
      * {@inheritDoc}
-     * @see BuildListener#messageLogged(org.apache.tools.ant.BuildEvent)
      */
+    @Override
     public void messageLogged(BuildEvent event)
     {
         if (event.getMessage() == null)

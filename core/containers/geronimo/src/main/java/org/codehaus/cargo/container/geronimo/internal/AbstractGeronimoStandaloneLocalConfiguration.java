@@ -52,7 +52,7 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
 {
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
+     * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public AbstractGeronimoStandaloneLocalConfiguration(String dir)
     {

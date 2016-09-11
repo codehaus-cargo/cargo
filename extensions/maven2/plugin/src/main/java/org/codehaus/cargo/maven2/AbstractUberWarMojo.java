@@ -40,6 +40,7 @@ public abstract class AbstractUberWarMojo extends AbstractMojo
     /**
      * @throws MojoExecutionException on error
      */
+    @Override
     public abstract void execute() throws MojoExecutionException;
 
     /**

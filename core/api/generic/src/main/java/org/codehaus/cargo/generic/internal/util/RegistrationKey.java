@@ -68,7 +68,6 @@ public class RegistrationKey
 
     /**
      * Differentiate two keys. Needed as we're using this class as an index in a Map. {@inheritDoc}
-     * @see Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object registrationKey)
@@ -91,7 +90,6 @@ public class RegistrationKey
     /**
      * Allows quick verification to check is two keys are different. Needed as we're using this
      * class as an index in a Map. {@inheritDoc}
-     * @see Object#hashCode()
      */
     @Override
     public int hashCode()

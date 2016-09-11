@@ -126,6 +126,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
     /**
      * {@inheritDoc}
      */
+    @Override
     public void configureDataSources(LocalContainer container)
     {
         for (DataSource dataSource : getDataSources())
@@ -137,6 +138,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
     /**
      * {@inheritDoc}
      */
+    @Override
     public void configure(Resource ds, LocalContainer container)
     {
         ConfigurationBuilder builder = this.createConfigurationBuilder(container);
@@ -148,6 +150,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
     /**
      * {@inheritDoc}
      */
+    @Override
     public void configureResources(LocalContainer container)
     {
         for (Resource resource : getResources())
@@ -159,6 +162,7 @@ public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBu
     /**
      * {@inheritDoc}
      */
+    @Override
     public void configure(DataSource ds, LocalContainer container)
     {
         ConfigurationBuilder builder = this.createConfigurationBuilder(container);

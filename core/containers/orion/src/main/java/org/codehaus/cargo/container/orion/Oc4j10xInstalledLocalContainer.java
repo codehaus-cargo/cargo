@@ -81,6 +81,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -89,6 +90,7 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getName()
     {
         return "OC4J 10.x";

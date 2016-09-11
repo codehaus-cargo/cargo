@@ -37,7 +37,6 @@ public class WebLogic10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
      * @see AbstractWebLogicInstalledLocalContainer#AbstractWebLogicInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic10xInstalledLocalContainer(LocalConfiguration configuration)
@@ -47,9 +46,8 @@ public class WebLogic10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getName()
      */
+    @Override
     public String getName()
     {
         return "WebLogic 10.x";
@@ -57,9 +55,8 @@ public class WebLogic10xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.Container#getId()
      */
+    @Override
     public String getId()
     {
         return ID;
@@ -69,6 +66,7 @@ public class WebLogic10xInstalledLocalContainer extends
      * {@inheritDoc}
      * 
      */
+    @Override
     public String getAutoDeployDirectory()
     {
         return "autodeploy";

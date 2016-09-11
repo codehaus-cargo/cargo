@@ -109,8 +109,8 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.configuration.Configuration#getCapability()
      */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
@@ -118,7 +118,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#performXmlReplacements(LocalContainer)
      */
     @Override
     protected void performXmlReplacements(LocalContainer container) 
@@ -131,7 +130,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#configure(LocalContainer)
      */
     @Override
     public void configure(LocalContainer container)
@@ -185,7 +183,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * {@inheritDoc}
-     * @see AbstractStandaloneLocalConfiguration#doConfigure(LocalContainer)
      */
     @Override
     protected void doConfigure(LocalContainer c) throws Exception

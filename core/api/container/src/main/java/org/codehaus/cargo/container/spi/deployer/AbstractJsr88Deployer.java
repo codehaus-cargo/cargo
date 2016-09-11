@@ -83,8 +83,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#deploy(Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -155,8 +153,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#undeploy(Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)
@@ -182,8 +178,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#redeploy(Deployable)
      */
     @Override
     public void redeploy(Deployable deployable)
@@ -218,8 +212,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#start(Deployable)
      */
     @Override
     public void start(Deployable deployable)
@@ -242,8 +234,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * 
-     * @see org.codehaus.cargo.container.deployer.Deployer#stop(Deployable)
      */
     @Override
     public void stop(Deployable deployable)

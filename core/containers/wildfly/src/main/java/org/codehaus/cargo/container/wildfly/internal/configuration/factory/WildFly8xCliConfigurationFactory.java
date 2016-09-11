@@ -56,8 +56,8 @@ public class WildFly8xCliConfigurationFactory implements WildFlyCliConfiguration
 
     /**
      * {@inheritDoc}
-     * @see WildFlyCliConfigurationFactory#shutdownServerScript()
      */
+    @Override
     public ScriptCommand shutdownServerScript()
     {
         return new ShutdownServerScriptCommand(configuration, RESOURCE_PATH);
@@ -67,8 +67,8 @@ public class WildFly8xCliConfigurationFactory implements WildFlyCliConfiguration
 
     /**
      * {@inheritDoc}
-     * @see WildFlyCliConfigurationFactory#addModuleScript(java.lang.String, java.util.List, java.util.List)
      */
+    @Override
     public ScriptCommand addModuleScript(String moduleName, List<String> jarFilePaths,
         List<String> moduleDependencies)
     {

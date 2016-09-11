@@ -43,16 +43,19 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     public static final MergeStrategy IGNORE = new MergeStrategy()
     {
+        @Override
         public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
         {
             return 0;
         }
 
+        @Override
         public int inLeft(Descriptor target, DescriptorElement left)
         {
             return 0;
         }
 
+        @Override
         public int inRight(Descriptor target, DescriptorElement right)
         {
             return 0;
@@ -64,6 +67,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     public static final MergeStrategy OVERWRITE = new MergeStrategy()
     {
+        @Override
         public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
         {
             Element parent = left.getParentElement();
@@ -72,11 +76,13 @@ public class DescriptorMergerByTag implements DescriptorMerger
             return 1;
         }
 
+        @Override
         public int inLeft(Descriptor target, DescriptorElement left)
         {
             return 0;
         }
 
+        @Override
         public int inRight(Descriptor target, DescriptorElement right)
         {
             target.addElement(right.getTag(), right, target.getRootElement());
@@ -89,16 +95,19 @@ public class DescriptorMergerByTag implements DescriptorMerger
      */
     public static final MergeStrategy PRESERVE = new MergeStrategy()
     {
+        @Override
         public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
         {
             return 0;
         }
 
+        @Override
         public int inLeft(Descriptor target, DescriptorElement left)
         {
             return 0;
         }
 
+        @Override
         public int inRight(Descriptor target, DescriptorElement right)
         {
             target.addElement(right.getTag(), right, target.getRootElement());
@@ -150,6 +159,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * 
      * @param base the base for the merge.
      */
+    @Override
     public void init(Descriptor base)
     {
         this.baseDescriptor = base;
@@ -159,6 +169,7 @@ public class DescriptorMergerByTag implements DescriptorMerger
      * Merge this descriptor onto another.
      * @param other descriptor to merge
      */
+    @Override
     public void merge(Descriptor other)
     {
         for (DescriptorTag tag : descriptorTagFactory.getAllTags())

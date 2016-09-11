@@ -481,6 +481,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      * @param context Context to contextualize.
      * @throws ContextException If anything goes wrong.
      */
+    @Override
     public void contextualize(Context context) throws ContextException
     {
         container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
