@@ -218,13 +218,12 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
         appId.setTextContent(id);
         Element target = appDeployment.getOwnerDocument().createElement("target");
         appDeployment.appendChild(target);
-        target.setTextContent(id);
+        target.setTextContent(getServerName());
         Element moduleType = appDeployment.getOwnerDocument().createElement("module-type");
         appDeployment.appendChild(moduleType);
         moduleType.setTextContent(deployable.getType().getType());
         Element sourcePath = appDeployment.getOwnerDocument().createElement("source-path");
         appDeployment.appendChild(sourcePath);
-        sourcePath.setTextContent(id);
         if (deployable.getType() == DeployableType.WAR
             && getFileHandler().exists(getAbsolutePath(deployable)))
         {
