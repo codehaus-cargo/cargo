@@ -28,10 +28,6 @@
   <packaging>jar</packaging>
   <description>Sample application that tries remote deployment</description>
 
-  <properties>
-    <cargo.remoteDeploy-test.servlet.port>${cargo.samples.servlet.port}</cargo.remoteDeploy-test.servlet.port>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

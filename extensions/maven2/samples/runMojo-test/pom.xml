@@ -28,6 +28,14 @@
   <packaging>jar</packaging>
   <description>Sample application that tries the cargo:run MOJO</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-sample-java</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
   <profiles>
     <profile>
       <id>only-run-its-manually</id>
@@ -131,4 +139,3 @@
     </plugins>
   </build>
 </project>
-
