@@ -75,6 +75,11 @@ public class CargoDaemonBrowserTest extends TestCase
     private static URL daemonUrl = null;
 
     /**
+     * Exception starting the Cargo Daemon.
+     */
+    private Exception daemonStartException = null;
+
+    /**
      * Logger.
      */
     private Logger logger = new SimpleLogger();
@@ -119,6 +124,7 @@ public class CargoDaemonBrowserTest extends TestCase
                     }
                     catch (Exception e)
                     {
+                        CargoDaemonBrowserTest.this.daemonStartException = e;
                         CargoDaemonBrowserTest.this.logger.warn("Cannot start daemon: " + e,
                             CargoDaemonBrowserTest.class.getName());
                     }
@@ -139,7 +145,21 @@ public class CargoDaemonBrowserTest extends TestCase
         DeployableMonitor daemonMonitor =
             new URLDeployableMonitor(CargoDaemonBrowserTest.daemonUrl);
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
-        daemonWatchdog.watchForAvailability();
+        try
+        {
+            daemonWatchdog.watchForAvailability();
+        }
+        catch (Exception e)
+        {
+            if (daemonStartException != null)
+            {
+                throw daemonStartException;
+            }
+            else
+            {
+                throw e;
+            }
+        }
     }
 
     /**
