@@ -219,6 +219,9 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
         Element target = appDeployment.getOwnerDocument().createElement("target");
         appDeployment.appendChild(target);
         target.setTextContent(id);
+        Element moduleType = appDeployment.getOwnerDocument().createElement("module-type");
+        appDeployment.appendChild(moduleType);
+        moduleType.setTextContent(deployable.getType().getType());
         Element sourcePath = appDeployment.getOwnerDocument().createElement("source-path");
         appDeployment.appendChild(sourcePath);
         sourcePath.setTextContent(id);
