@@ -47,7 +47,7 @@
         <version>${project.version}</version>
         <configuration>
           <container>
-            <containerId>jetty6x</containerId>
+            <containerId>jetty8x</containerId>
             <type>embedded</type>
           </container>
           <configuration>
@@ -64,15 +64,6 @@
             </deployable>
           </deployables>
         </configuration>
-
-        <!-- Add dependency due to a limitation of the Maven embedder plugin -->
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-core-container-jetty</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>

@@ -30,16 +30,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-embedder</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-module</artifactId>
       <scope>test</scope>
@@ -52,41 +42,83 @@
     </dependency>
   </dependencies>
 
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
+  <profiles>
+    <profile>
+      <id>only-run-its-manually</id>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
 
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <configuration>
+              <showErrors>true</showErrors>
+              <streamLogs>true</streamLogs>
+              <pom>${project.build.directory}/classes/pom.xml</pom>
+              <goals>
+                <goal>clean</goal>
+                <goal>verify</goal>
+              </goals>
+              <properties>
+                <interactiveMode>false</interactiveMode>
+              </properties>
+            </configuration>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>verify</goal>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>false</skip>
+                  <systemProperties>
+                    <property>
+                      <name>project.version</name>
+                      <value>${project.version}</value>
+                    </property>
+                    <property>
+                      <name>target</name>
+                      <value>${project.build.directory}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <systemProperties>
-                <property>
-                  <name>project.version</name>
-                  <value>${project.version}</value>
-                </property>
-                <property>
-                  <name>target</name>
-                  <value>${project.build.directory}</value>
-                </property>
-              </systemProperties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

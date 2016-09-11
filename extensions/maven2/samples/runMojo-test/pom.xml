@@ -28,37 +28,9 @@
   <packaging>jar</packaging>
   <description>Sample application that tries the cargo:run MOJO</description>
 
-  <properties>
-    <cargo.runMojo-test.servlet.port>${cargo.samples.servlet.port}</cargo.runMojo-test.servlet.port>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-embedder</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-sample-java</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
   <profiles>
     <profile>
-      <id>run-its</id>
-      <activation>
-        <property>
-          <name>skipTests</name>
-          <value>!true</value>
-        </property>
-      </activation>
+      <id>only-run-its-manually</id>
       <build>
         <resources>
           <resource>
@@ -69,12 +41,60 @@
 
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <configuration>
+              <showErrors>true</showErrors>
+              <streamLogs>true</streamLogs>
+              <pom>${project.build.directory}/classes/pom.xml</pom>
+              <goals>
+                <goal>clean</goal>
+                <goal>cargo:run</goal>
+              </goals>
+              <properties>
+                <interactiveMode>false</interactiveMode>
+              </properties>
+            </configuration>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>verify</goal>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>false</skip>
+                  <systemProperties>
+                    <property>
+                      <name>http.port</name>
+                      <value>${cargo.samples.servlet.port}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
             <version>${project.version}</version>
             <configuration>
               <container>
-                <containerId>jetty6x</containerId>
+                <containerId>jetty8x</containerId>
                 <type>embedded</type>
               </container>
               <configuration>
@@ -94,40 +114,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <configuration>
-              <escapeString>\</escapeString>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-            <executions>
-              <execution>
-                <id>surefire-it</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-                <configuration>
-                  <systemProperties>
-                    <property>
-                      <name>http.port</name>
-                      <value>${cargo.samples.servlet.port}</value>
-                    </property>
-                    <property>
-                      <name>target</name>
-                      <value>${project.build.directory}</value>
-                    </property>
-                  </systemProperties>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
@@ -136,6 +122,7 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
@@ -144,3 +131,4 @@
     </plugins>
   </build>
 </project>
+

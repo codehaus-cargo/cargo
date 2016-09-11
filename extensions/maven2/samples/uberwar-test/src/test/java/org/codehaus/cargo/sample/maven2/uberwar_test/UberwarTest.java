@@ -21,12 +21,7 @@ package org.codehaus.cargo.sample.maven2.uberwar_test;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.maven.cli.MavenCli;
 
 import org.jdom.Element;
 
@@ -48,51 +43,6 @@ public class UberwarTest extends AbstractDocumentBuilderTest
     public void testUberwar() throws Exception
     {
         File target = new File(System.getProperty("target"));
-        final File projectDirectory = new File(target, "classes").getAbsoluteFile();
-
-        final File output = new File(target, "output.log");
-        final PrintStream outputStream = new PrintStream(output);
-
-        final String[] options = new String[] {"-o", "-X", "clean", "verify"};
-
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                MavenCli maven2 = new MavenCli();
-                maven2.doMain(options , projectDirectory.getPath(), outputStream, outputStream);
-            }
-        }).start();
-
-        String outputString = null;
-        long timeout = 90 * 1000 + System.currentTimeMillis();
-        while (System.currentTimeMillis() < timeout)
-        {
-            try
-            {
-                outputString = FileUtils.readFileToString(output);
-            }
-            catch (FileNotFoundException e)
-            {
-                outputString = e.toString();
-            }
-
-            if (outputString.contains("BUILD SUCCESS"))
-            {
-                return;
-            }
-            else if (outputString.contains("BUILD FAILURE"))
-            {
-                fail("There has been a BUILD FAILURE. Please check file " + output);
-                return;
-            }
-
-            Thread.sleep(1000);
-            System.gc();
-        }
-
-        fail("The file " + output + " did not have the BUILD SUCCESS message after 60 seconds. "
-            + "Current content: \n\n" + outputString);
 
         String projectVersion = System.getProperty("project.version");
         assertNotNull("System property project.version not set", projectVersion);

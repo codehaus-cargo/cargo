@@ -66,15 +66,6 @@
             </deployable>
           </deployables>
         </configuration>
-
-        <!-- Add dependency due to a limitation of the Maven embedder plugin -->
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-core-container-tomcat</artifactId>
-            <version>${project.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>

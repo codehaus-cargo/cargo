@@ -34,16 +34,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-embedder</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
       <scope>test</scope>
@@ -108,16 +98,41 @@
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <configuration>
+              <showErrors>true</showErrors>
+              <streamLogs>true</streamLogs>
+              <pom>${project.build.directory}/classes/pom.xml</pom>
+              <goals>
+                <goal>clean</goal>
+                <goal>cargo:deploy</goal>
+              </goals>
+              <properties>
+                <interactiveMode>false</interactiveMode>
+                <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
+              </properties>
+            </configuration>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>verify</goal>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
             <configuration>
               <escapeString>\</escapeString>
             </configuration>
           </plugin>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
             <executions>
               <execution>
                 <id>surefire-it</id>
@@ -126,6 +141,7 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
+                  <skip>false</skip>
                   <systemProperties>
                     <property>
                       <name>http.port</name>
@@ -148,6 +164,7 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>

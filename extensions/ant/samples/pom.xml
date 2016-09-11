@@ -54,6 +54,104 @@
     </cargo-test-applications.directory>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-ant-tasks</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${cargo-ant-tasks.directory}</outputDirectory>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.codehaus.cargo</groupId>
+                      <artifactId>cargo-ant</artifactId>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.codehaus.cargo</groupId>
+                      <artifactId>cargo-core-uberjar</artifactId>
+                    </artifactItem>
+
+                    <artifactItem>
+                      <groupId>commons-discovery</groupId>
+                      <artifactId>commons-discovery</artifactId>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>commons-logging</groupId>
+                      <artifactId>commons-logging</artifactId>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!--
+            Make sure tests always use randomly assigned and available ports
+          -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>generate-port-numbers</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <configuration>
+                  <portNames>
+                    <portName>cargo.samples.servlet.port</portName>
+                    <portName>cargo.samples.rmi.port</portName>
+                    <portName>cargo.samples.tomcat.ajp.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>false</skip>
+                  <systemProperties>
+                    <property>
+                      <name>http.port</name>
+                      <value>${cargo.samples.servlet.port}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
     <testResources>
       <testResource>
@@ -67,86 +165,11 @@
     </testResources>
     <plugins>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-ant-tasks</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${cargo-ant-tasks.directory}</outputDirectory>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-ant</artifactId>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-core-uberjar</artifactId>
-                </artifactItem>
-
-                <artifactItem>
-                  <groupId>commons-discovery</groupId>
-                  <artifactId>commons-discovery</artifactId>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>commons-logging</groupId>
-                  <artifactId>commons-logging</artifactId>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!--
-        Make sure tests always use randomly assigned and available ports
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-port-numbers</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>reserve-network-port</goal>
-            </goals>
-            <configuration>
-              <portNames>
-                <portName>cargo.samples.servlet.port</portName>
-                <portName>cargo.samples.rmi.port</portName>
-                <portName>cargo.samples.tomcat.ajp.port</portName>
-              </portNames>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
-        <executions>
-          <execution>
-            <id>surefire-it</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <systemProperties>
-                <property>
-                  <name>http.port</name>
-                  <value>${cargo.samples.servlet.port}</value>
-                </property>
-              </systemProperties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

@@ -129,10 +129,8 @@
             </executions>
           </plugin>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
             <executions>
               <execution>
                 <id>surefire-it</id>
@@ -141,6 +139,7 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
+                  <skip>false</skip>
                   <systemProperties>
                     <property>
                       <name>http.port</name>
@@ -159,6 +158,7 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
