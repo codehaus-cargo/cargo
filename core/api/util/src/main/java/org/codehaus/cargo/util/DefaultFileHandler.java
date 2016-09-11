@@ -692,7 +692,14 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         String result;
         if (!path.endsWith("/") && !path.endsWith("\\"))
         {
-            result = path + "/" + suffixToAppend;
+            if (path.contains("\\"))
+            {
+                result = path + "\\" + suffixToAppend;
+            }
+            else
+            {
+                result = path + "/" + suffixToAppend;
+            }
         }
         else
         {
