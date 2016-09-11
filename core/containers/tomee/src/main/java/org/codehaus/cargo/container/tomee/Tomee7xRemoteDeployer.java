@@ -17,23 +17,21 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomee.internal;
+package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomee.TomeePropertySet;
+import org.codehaus.cargo.container.RemoteContainer;
 
 /**
- * Capabilities of TomEE's
- * {@link org.codehaus.cargo.container.tomee.Tomee1xStandaloneLocalConfiguration} configuration.
+ * A special TomEE 7.x manager-based deployer to perform deployment to a remote container.
  */
-public class Tomee1xStandaloneLocalConfigurationCapability extends
-    Tomcat7x8xStandaloneLocalConfigurationCapability
+public class Tomee7xRemoteDeployer extends Tomee1xRemoteDeployer
 {
     /**
-     * Initialize the configuration-specific supports Map.
+     * {@inheritDoc}
+     * @see Tomee1xRemoteDeployer#Tomee1xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
-    public Tomee1xStandaloneLocalConfigurationCapability()
+    public Tomee7xRemoteDeployer(RemoteContainer container)
     {
-        this.propertySupportMap.put(TomeePropertySet.APPS_DIRECTORY, true);
+        super(container);
     }
 }

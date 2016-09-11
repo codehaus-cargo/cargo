@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer;
 
 /**
- * Special container support for wrapping a running instance of Apache TomEE.
+ * Special container support for wrapping a running instance of Apache TomEE 1.x.
  */
 public class Tomee1xRemoteContainer extends AbstractTomcatRemoteContainer
 {

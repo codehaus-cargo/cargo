@@ -138,6 +138,7 @@ public class ConfluenceContainerDocumentationGenerator
         "resin4x",
         "tomcat7x",
         "tomee1x",
+        "tomee7x",
         "weblogic103x",
         "websphere85x"
     });
@@ -1142,7 +1143,7 @@ public class ConfluenceContainerDocumentationGenerator
                 "Runtime", ConfigurationType.RUNTIME, containerId, ContainerType.REMOTE));
             output.append(LINE_SEPARATOR);
             if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
-                || containerId.equals("tomee1x"))
+                || containerId.equals("tomcat9x") || containerId.startsWith("tomee"))
             {
                 output.append("{info}With ");
                 if (containerId.equals("tomcat7x"))
@@ -1153,7 +1154,11 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     output.append("Tomcat 8");
                 }
-                else if (containerId.equals("tomee1x"))
+                else if (containerId.equals("tomcat9x"))
+                {
+                    output.append("Tomcat 9");
+                }
+                else if (containerId.startsWith("tomee"))
                 {
                     output.append("TomEE");
                 }
@@ -1171,13 +1176,17 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("{{tomcat-users.xml}} file to give that role to a user.");
                 output.append(LINE_SEPARATOR);
                 output.append("You can read more in the Tomcat documentation: ");
-                if (containerId.equals("tomcat7x") || containerId.equals("tomee1x"))
+                if (containerId.equals("tomcat7x") || containerId.startsWith("tomee"))
                 {
                     output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html");
                 }
                 else if (containerId.equals("tomcat8x"))
                 {
                     output.append("http://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html");
+                }
+                else if (containerId.equals("tomcat9x"))
+                {
+                    output.append("http://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html");
                 }
                 output.append("{info}");
                 output.append(LINE_SEPARATOR);

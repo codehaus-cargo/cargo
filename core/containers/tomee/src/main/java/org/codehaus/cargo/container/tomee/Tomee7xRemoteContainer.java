@@ -19,42 +19,42 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * TomEE 1.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
- * implementation.
+ * Special container support for wrapping a running instance of Apache TomEE 7.x.
  */
-public class Tomee1xExistingLocalConfiguration extends TomcatExistingLocalConfiguration
+public class Tomee7xRemoteContainer extends Tomee1xRemoteContainer
 {
     /**
-     * {@inheritDoc}
-     * @see TomcatExistingLocalConfiguration#TomcatExistingLocalConfiguration(String)
+     * Unique container id.
      */
-    public Tomee1xExistingLocalConfiguration(String dir)
+    public static final String ID = "tomee7x";
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.tomcat.internal.Tomee1xRemoteContainer#Tomee1xRemoteContainer(RuntimeConfiguration)
+     */
+    public Tomee7xRemoteContainer(RuntimeConfiguration configuration)
     {
-        super(dir);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
+     * @see org.codehaus.cargo.container.Container#getName()
      */
-    @Override
-    public String toString()
+    public String getName()
     {
-        return "TomEE 1.x Existing Configuration";
+        return "TomEE 7.x Remote";
     }
 
     /**
      * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getId()
      */
-    @Override
-    protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
+    public String getId()
     {
-        return new TomeeCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+        return ID;
     }
 }

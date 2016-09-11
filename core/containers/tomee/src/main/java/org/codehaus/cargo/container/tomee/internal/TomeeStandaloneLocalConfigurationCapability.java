@@ -19,22 +19,20 @@
  */
 package org.codehaus.cargo.container.tomee.internal;
 
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomee.TomeePropertySet;
 
 /**
- * TomEE 1.x container capability.
+ * Capabilities of TomEE's standalone local configurations.
  */
-public class Tomee1xContainerCapability extends J2EEContainerCapability
+public class TomeeStandaloneLocalConfigurationCapability extends
+    Tomcat7x8xStandaloneLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
+     * Initialize the configuration-specific supports Map.
      */
-    @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public TomeeStandaloneLocalConfigurationCapability()
     {
-        return type == DeployableType.EJB || type == DeployableType.EAR
-            || super.supportsDeployableType(type);
+        this.propertySupportMap.put(TomeePropertySet.APPS_DIRECTORY, true);
     }
-
 }

@@ -1074,6 +1074,15 @@
                 <name>cargo.tomee1x.java.home</name>
                 <value>${cargo.java.home.1_6}</value>
               </property>
+  
+              <property>
+                <name>cargo.tomee7x.url</name>
+                <value>http://repo1.maven.org/maven2/org/apache/tomee/apache-tomee/7.0.1/apache-tomee-7.0.1-plus.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomee7x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
 
               <!--
                 If you're behind a proxy, you can define the following properties in your
@@ -1799,6 +1808,12 @@
       <id>tomee1x</id>
       <properties>
         <cargo.containers>tomee1x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomee7x</id>
+      <properties>
+        <cargo.containers>tomee7x</cargo.containers>
       </properties>
     </profile>
   </profiles>

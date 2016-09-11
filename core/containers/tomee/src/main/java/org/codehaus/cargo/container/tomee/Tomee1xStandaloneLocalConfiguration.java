@@ -26,11 +26,10 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.Tomcat7xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.container.tomee.internal.Tomee1xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomee.internal.TomeeStandaloneLocalConfigurationCapability;
 
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * Standalone local configuration for TomEE 1.x.
  */
 public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocalConfiguration
 {
@@ -41,7 +40,7 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
      * @see TomcatStandaloneLocalConfigurationCapability
      */
     private static ConfigurationCapability capability =
-        new Tomee1xStandaloneLocalConfigurationCapability();
+        new TomeeStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -114,7 +113,7 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     @Override
     protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
     {
-        return new Tomee1xCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+        return new TomeeCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
     }
 
 }

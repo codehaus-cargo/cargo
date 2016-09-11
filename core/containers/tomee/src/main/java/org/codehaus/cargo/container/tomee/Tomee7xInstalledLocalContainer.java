@@ -19,42 +19,47 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * TomEE 1.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
- * implementation.
+ * Special container support for the Apache TomEE 7.x servlet container.
  */
-public class Tomee1xExistingLocalConfiguration extends TomcatExistingLocalConfiguration
+public class Tomee7xInstalledLocalContainer extends Tomee1xInstalledLocalContainer
 {
     /**
-     * {@inheritDoc}
-     * @see TomcatExistingLocalConfiguration#TomcatExistingLocalConfiguration(String)
+     * Unique container id.
      */
-    public Tomee1xExistingLocalConfiguration(String dir)
+    public static final String ID = "tomee7x";
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see Tomee1xInstalledLocalContainer#Tomee1xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     */
+    public Tomee7xInstalledLocalContainer(LocalConfiguration configuration)
     {
-        super(dir);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
-     * @see Object#toString()
+     * 
+     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
-    public String toString()
+    public String getId()
     {
-        return "TomEE 1.x Existing Configuration";
+        return ID;
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
-    protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
+    public String getName()
     {
-        return new TomeeCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
+        return "TomEE " + getVersion("7.x");
     }
 }

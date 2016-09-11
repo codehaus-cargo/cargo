@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 /**
  * Static deployer that deploys EARs, EJBs and WARs to the TomEE directories.
  */
-public class Tomee1xCopyingInstalledLocalDeployer extends TomcatCopyingInstalledLocalDeployer
+public class TomeeCopyingInstalledLocalDeployer extends TomcatCopyingInstalledLocalDeployer
 {
     /**
      * @see #setShouldCopyWars(boolean)
@@ -38,7 +38,7 @@ public class Tomee1xCopyingInstalledLocalDeployer extends TomcatCopyingInstalled
      * {@inheritDoc}
      * @see TomcatCopyingInstalledLocalDeployer#TomcatCopyingInstalledLocalDeployer(LocalContainer)
      */
-    public Tomee1xCopyingInstalledLocalDeployer(LocalContainer container)
+    public TomeeCopyingInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

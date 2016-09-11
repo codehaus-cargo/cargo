@@ -19,42 +19,31 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.container.tomcat.TomcatExistingLocalConfiguration;
-
 /**
- * TomEE 1.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
- * implementation.
+ * Standalone local configuration for TomEE 7.x.
  */
-public class Tomee1xExistingLocalConfiguration extends TomcatExistingLocalConfiguration
+public class Tomee7xStandaloneLocalConfiguration extends Tomee1xStandaloneLocalConfiguration
 {
+
     /**
      * {@inheritDoc}
-     * @see TomcatExistingLocalConfiguration#TomcatExistingLocalConfiguration(String)
+     * 
+     * @see Tomee1xStandaloneLocalConfiguration#Tomee1xStandaloneLocalConfiguration(String)
      */
-    public Tomee1xExistingLocalConfiguration(String dir)
+    public Tomee7xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
     }
 
     /**
      * {@inheritDoc}
+     * 
      * @see Object#toString()
      */
     @Override
     public String toString()
     {
-        return "TomEE 1.x Existing Configuration";
+        return "TomEE 7.x Standalone Configuration";
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected TomcatCopyingInstalledLocalDeployer createDeployer(LocalContainer container)
-    {
-        return new TomeeCopyingInstalledLocalDeployer((InstalledLocalContainer) container);
-    }
 }
