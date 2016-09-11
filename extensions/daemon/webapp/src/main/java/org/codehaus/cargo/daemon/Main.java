@@ -163,8 +163,12 @@ public final class Main
             File destFile = new File(destDir, jarEntry.getName());
             if (jarEntry.isDirectory())
             {
-                destFile.mkdir();
+                destFile.mkdirs();
                 continue;
+            }
+            else if (!destFile.getParentFile().isDirectory())
+            {
+                destFile.getParentFile().mkdirs();
             }
 
             try
