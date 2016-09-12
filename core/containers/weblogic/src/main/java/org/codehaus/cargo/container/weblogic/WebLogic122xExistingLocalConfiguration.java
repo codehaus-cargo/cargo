@@ -30,7 +30,6 @@ public class WebLogic122xExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
      * @see WebLogic121xExistingLocalConfiguration#WebLogic121xExistingLocalConfiguration(String)
      */
     public WebLogic122xExistingLocalConfiguration(String dir)
@@ -40,8 +39,6 @@ public class WebLogic122xExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
-     * @see Object#toString()
      */
     @Override
     public String toString()

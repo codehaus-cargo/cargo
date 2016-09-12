@@ -59,8 +59,6 @@ public abstract class AbstractTomcatConfigurationBuilder extends AbstractConfigu
     /**
      * {@inheritDoc} this implementation first converts the DataSource to a Resource before
      * returning XML.
-     * 
-     * @see #convertDataSourceToResourceAndGetXMLEntry(DataSource)
      */
     @Override
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)

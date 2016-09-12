@@ -49,7 +49,6 @@ public class WebLogic121xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     *
      * @see AbstractWebLogicInstalledLocalContainer#AbstractWebLogicInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic121xInstalledLocalContainer(LocalConfiguration configuration)
@@ -59,8 +58,6 @@ public class WebLogic121xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -70,8 +67,6 @@ public class WebLogic121xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()
@@ -91,8 +86,6 @@ public class WebLogic121xInstalledLocalContainer extends
     /**
      * {@inheritDoc} Also includes checking of the modules directory, which is unique to WebLogic
      * 10.
-     *
-     * @see org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer#getBeaHomeDirs()
      */
     @Override
     protected List<String> getBeaHomeDirs()
@@ -270,6 +263,6 @@ public class WebLogic121xInstalledLocalContainer extends
      */
     protected String getDomainName()
     {
-        return getFileHandler().getName(getDomainHome());
+        return getFileHandler().getName(getConfiguration().getHome());
     }
 }

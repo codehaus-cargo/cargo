@@ -65,7 +65,6 @@ public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
 
     /**
      * {@inheritDoc}
-     * org.w3c.dom.Element)
      */
     @Override
     MergeStrategy getApplicableStrategy(Descriptor set, DescriptorElement element)

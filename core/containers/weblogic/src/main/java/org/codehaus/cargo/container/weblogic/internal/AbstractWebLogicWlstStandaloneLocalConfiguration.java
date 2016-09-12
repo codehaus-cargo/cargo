@@ -43,9 +43,6 @@ public abstract class AbstractWebLogicWlstStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
-     * @param dir Home directory for container.
-     *
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
     public AbstractWebLogicWlstStandaloneLocalConfiguration(String dir)

@@ -48,7 +48,6 @@ public class WebLogic121xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
      * @see AbstractWebLogicWlstStandaloneLocalConfiguration#AbstractWebLogicWlstStandaloneLocalConfiguration(String)
      */
     public WebLogic121xStandaloneLocalConfiguration(String dir)
@@ -170,8 +169,6 @@ public class WebLogic121xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
-     * @see Object#toString()
      */
     @Override
     public String toString()

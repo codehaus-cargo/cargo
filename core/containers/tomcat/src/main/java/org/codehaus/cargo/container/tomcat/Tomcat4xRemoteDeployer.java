@@ -48,8 +48,6 @@ public class Tomcat4xRemoteDeployer extends AbstractTomcatRemoteDeployer
      * http://issues.apache.org/bugzilla/show_bug.cgi?id=28851 issue. The issue has been fixed in
      * Tomcat 5.x and performUndeploy implementation for Tomcat5x differs from Tomcat4.x.
      * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     protected void performUndeploy(Deployable deployable) throws TomcatManagerException,

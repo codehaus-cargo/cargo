@@ -58,8 +58,6 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractCopyingInstalledLocalDeployer#deploy(Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -72,8 +70,6 @@ public class Jonas5xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * {@inheritDoc}
-     *
-     * @see AbstractCopyingInstalledLocalDeployer#undeploy(Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)

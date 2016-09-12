@@ -88,7 +88,7 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
     }
 
     /**
-     * @see DeployableMonitor#monitor()
+     * {@inheritDoc}
      */
     @Override
     public void monitor()

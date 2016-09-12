@@ -536,7 +536,7 @@ public class CargoTask extends Task
     }
 
     /**
-     * @see Task#execute()
+     * {@inheritDoc}
      */
     @Override
     public void execute()

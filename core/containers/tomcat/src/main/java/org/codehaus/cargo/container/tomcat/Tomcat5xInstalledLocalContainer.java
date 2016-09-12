@@ -36,8 +36,6 @@ public class Tomcat5xInstalledLocalContainer extends AbstractCatalinaInstalledLo
     public static final String ID = "tomcat5x";
 
     /**
-     * Perform Tomcat 5.x-specific initializations.
-     * 
      * {@inheritDoc}
      * @see AbstractCatalinaInstalledLocalContainer#AbstractCatalinaInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */

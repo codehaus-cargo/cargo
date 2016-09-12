@@ -106,8 +106,6 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     /**
      * {@inheritDoc}. CARGO-1255: Remove the JVM arguments from the asadmin, else debugging and
      * potentially many other functions do work.
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#startInternal()
      */
     @Override
     protected void startInternal() throws Exception
@@ -134,8 +132,6 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     /**
      * {@inheritDoc}. CARGO-1255: Remove the JVM arguments from the asadmin, else debugging and
      * potentially many other functions do work.
-     * 
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#stopInternal()
      */
     @Override
     protected void stopInternal() throws Exception

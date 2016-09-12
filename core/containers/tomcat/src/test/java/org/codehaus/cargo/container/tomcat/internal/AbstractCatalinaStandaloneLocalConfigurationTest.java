@@ -49,8 +49,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     /**
      * {@inheritDoc}. This implementation simply calls
      * <code>getResourceConfigurationFile(null)</code>.
-     * @param fixture Datasource fixture.
-     * @return Resource file name for <code>fixture</code>.
      * @see AbstractCatalinaStandaloneLocalConfigurationTest#getResourceConfigurationFile(ResourceFixture)
      */
     @Override

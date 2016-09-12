@@ -73,8 +73,6 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     /**
      * {@inheritDoc} deploys files by adding their configuration to the config.xml file of the
      * WebLogic server.
-     * 
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void deploy(Deployable deployable)
@@ -104,8 +102,6 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
     /**
      * {@inheritDoc} undeploys files by removing their configuration to the config.xml file of the
      * WebLogic server.
-     * 
-     * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     public void undeploy(Deployable deployable)

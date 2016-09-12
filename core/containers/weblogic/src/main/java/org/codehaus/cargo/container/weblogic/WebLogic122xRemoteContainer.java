@@ -35,7 +35,6 @@ public class WebLogic122xRemoteContainer extends AbstractWebLogicRemoteContainer
 
     /**
      * {@inheritDoc}
-     *
      * @see AbstractWebLogicRemoteContainer#AbstractWebLogicRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
     public WebLogic122xRemoteContainer(RuntimeConfiguration configuration)
@@ -45,7 +44,6 @@ public class WebLogic122xRemoteContainer extends AbstractWebLogicRemoteContainer
 
     /**
      * {@inheritDoc}
-     *
      * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
@@ -56,7 +54,6 @@ public class WebLogic122xRemoteContainer extends AbstractWebLogicRemoteContainer
 
     /**
      * {@inheritDoc}
-     *
      * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override

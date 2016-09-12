@@ -41,11 +41,7 @@ public class Tomcat5xRemoteDeployer extends AbstractTomcatRemoteDeployer
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * This is a special implementation of undeploy command for Tomcat 5.x.
-     * </p>
+     * {@inheritDoc} This is a special implementation of undeploy command for Tomcat 5.x.
      * 
      * @see Tomcat4xRemoteDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)

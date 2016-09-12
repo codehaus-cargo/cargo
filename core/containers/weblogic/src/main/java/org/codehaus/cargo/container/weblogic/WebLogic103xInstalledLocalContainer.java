@@ -73,8 +73,6 @@ public class WebLogic103xInstalledLocalContainer extends AbstractWebLogicInstall
     /**
      * {@inheritDoc} Also includes checking of the modules directory, which is unique to WebLogic
      * 10.
-     * 
-     * @see org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer#getBeaHomeDirs()
      */
     @Override
     protected List<String> getBeaHomeDirs()

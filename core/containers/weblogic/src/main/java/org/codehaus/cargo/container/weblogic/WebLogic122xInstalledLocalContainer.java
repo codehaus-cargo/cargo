@@ -34,7 +34,6 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
 
     /**
      * {@inheritDoc}
-     *
      * @see WebLogic121xInstalledLocalContainer#WebLogic121xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public WebLogic122xInstalledLocalContainer(LocalConfiguration configuration)
@@ -44,8 +43,6 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
     public String getName()
@@ -55,8 +52,6 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
     public String getId()

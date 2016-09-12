@@ -95,8 +95,6 @@ public abstract class AbstractJettyExistingLocalConfiguration
 
     /**
      * {@inheritDoc}
-     *
-     * @see Object#toString()
      */
     @Override
     public String toString()

@@ -37,9 +37,6 @@ public abstract class AbstractWebLogicWlstExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
-     * @param dir Home directory for container.
-     *
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
     public AbstractWebLogicWlstExistingLocalConfiguration(String dir)

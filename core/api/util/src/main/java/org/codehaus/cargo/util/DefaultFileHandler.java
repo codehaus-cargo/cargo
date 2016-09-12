@@ -417,7 +417,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
     /**
      * {@inheritDoc}. The default buffer size if 1024.
-     * @see FileHandler#copy(java.io.InputStream, java.io.OutputStream, int)
      */
     @Override
     public void copy(InputStream in, OutputStream out)
@@ -426,8 +425,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     }
 
     /**
-     * {@inheritDoc}.
-     * @see FileHandler#replaceInFile(String, Map, String)
+     * {@inheritDoc}
      */
     @Override
     public void replaceInFile(String file, Map<String, String> replacements, String encoding)
@@ -437,8 +435,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     }
 
     /**
-     * {@inheritDoc}.
-     * @see FileHandler#replaceInFile(String, Map, String, boolean)
+     * {@inheritDoc}
      */
     @Override
     public void replaceInFile(String file, Map<String, String> replacements, String encoding,
@@ -471,8 +468,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     }
 
     /**
-     * {@inheritDoc}.
-     * @see FileHandler#replaceInXmlFile(org.codehaus.cargo.util.XmlReplacement[])
+     * {@inheritDoc}
      */
     @Override
     public void replaceInXmlFile(XmlReplacement... xmlReplacements)

@@ -41,7 +41,6 @@ public abstract class AbstractWebLogicWlstRuntimeConfiguration extends
 
     /**
      * {@inheritDoc}
-     *
      * @see AbstractRuntimeConfiguration#AbstractRuntimeConfiguration()
      */
     public AbstractWebLogicWlstRuntimeConfiguration()

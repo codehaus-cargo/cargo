@@ -50,8 +50,6 @@ public class AbstractTomeeRemoteDeployer extends AbstractTomcatRemoteDeployer
      * <p>
      * This is a special implementation of undeploy command for TomEE.
      * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
@@ -66,8 +64,6 @@ public class AbstractTomeeRemoteDeployer extends AbstractTomcatRemoteDeployer
      * <p>
      * This is a special implementation of undeploy command for TomEE with version support.
      * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#getPath(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     protected String getPath(Deployable deployable)
@@ -94,8 +90,6 @@ public class AbstractTomeeRemoteDeployer extends AbstractTomcatRemoteDeployer
      * <p>
      * This is a special implementation of undeploy command for TomEE with version support.
      * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#getVersion(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     protected String getVersion(Deployable deployable)

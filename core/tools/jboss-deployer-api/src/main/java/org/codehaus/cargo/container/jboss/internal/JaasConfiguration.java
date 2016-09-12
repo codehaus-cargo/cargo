@@ -53,7 +53,6 @@ public class JaasConfiguration extends Configuration
 
     /**
      * {@inheritDoc}. Does nothing.
-     * @see Configuration#refresh()
      */
     @Override
     public void refresh()

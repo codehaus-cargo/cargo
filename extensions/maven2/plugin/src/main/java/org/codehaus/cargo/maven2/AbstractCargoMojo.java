@@ -371,8 +371,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Note: This method is final so that extending classes cannot extend it. Instead they should
      * implement the {@link #doExecute()} method.
      * </p>
-     * 
-     * @see org.apache.maven.plugin.Mojo#execute()
      */
     @Override
     public final void execute() throws MojoExecutionException

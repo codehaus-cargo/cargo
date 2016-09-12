@@ -31,8 +31,6 @@ public class WebLogic122xRuntimeConfiguration extends
 {
     /**
      * {@inheritDoc}
-     *
-     * @see Object#toString()
      */
     @Override
     public String toString()

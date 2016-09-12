@@ -86,7 +86,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
+     * {@inheritDoc}
      */
     @Override
     protected final void verify()
@@ -417,8 +417,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * @return the <code>BEA_HOME</code>
-     * @see WebLogicLocalContainer#getBeaHome()
+     * {@inheritDoc}
      */
     @Override
     public String getBeaHome()
@@ -427,17 +426,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     }
 
     /**
-     * @return the <code>DOMAIN_HOME</code>
-     * @see org.codehaus.cargo.container.weblogic.WebLogicConfiguration#getDomainHome()
-     */
-    public String getDomainHome()
-    {
-        return getConfiguration().getHome();
-    }
-
-    /**
-     * @return the <code>WL_HOME</code>
-     * @see WebLogicLocalContainer#getWeblogicHome()
+     * {@inheritDoc}
      */
     @Override
     public String getWeblogicHome()

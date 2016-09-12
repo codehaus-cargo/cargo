@@ -46,8 +46,6 @@ public class Tomcat6xRemoteDeployer extends AbstractTomcatRemoteDeployer
      * <p>
      * This is a special implementation of undeploy command for Tomcat 6.x
      * </p>
-     * 
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
     protected void performUndeploy(Deployable deployable) throws TomcatManagerException,

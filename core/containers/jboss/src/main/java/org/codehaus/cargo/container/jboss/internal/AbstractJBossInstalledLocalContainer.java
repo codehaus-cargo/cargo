@@ -137,7 +137,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     }
 
     /**
-     * @see org.codehaus.cargo.container.spi.AbstractLocalContainer#verify()
+     * {@inheritDoc}
      */
     @Override
     protected final void verify()

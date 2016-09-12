@@ -52,7 +52,7 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
     }
 
     /**
-     * @see DeployableMonitorListener#deployed()
+     * {@inheritDoc}
      */
     @Override
     public void deployed()
@@ -61,7 +61,7 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
     }
 
     /**
-     * @see DeployableMonitorListener#undeployed()
+     * {@inheritDoc}
      */
     @Override
     public void undeployed()

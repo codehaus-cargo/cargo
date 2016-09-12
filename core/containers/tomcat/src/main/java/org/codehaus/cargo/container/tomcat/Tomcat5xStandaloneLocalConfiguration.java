@@ -103,8 +103,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc} this does not deploy the manager, if the application is embedded.
-     * 
-     * @see AbstractCatalinaStandaloneLocalConfiguration#setupManager(org.codehaus.cargo.container.LocalContainer)
      */
     @Override
     protected void setupManager(LocalContainer container)
