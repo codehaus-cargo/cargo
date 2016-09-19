@@ -1,2 +1,7 @@
-# Set system property
-/system-property=@cargo.wildfly.property.name@:add(value=@cargo.wildfly.property.value@)
+try
+    /system-property=@cargo.wildfly.property.name@:add(value=@cargo.wildfly.property.value@)
+catch
+    # System property is already defined, replace it
+    /system-property=@cargo.wildfly.property.name@:remove
+    /system-property=@cargo.wildfly.property.name@:add(value=@cargo.wildfly.property.value@)
+end-try
