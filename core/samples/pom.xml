@@ -306,6 +306,13 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
+                <!--
+                  Tomcat 7.0.72 cannot be used due to an org.apache.catalina.LifecycleException:
+                  A child container failed during stop
+                  -->
+                <!--
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.72/tomcat-7.0.72.zip</value>
+                 -->
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
               </property>
               <property>
