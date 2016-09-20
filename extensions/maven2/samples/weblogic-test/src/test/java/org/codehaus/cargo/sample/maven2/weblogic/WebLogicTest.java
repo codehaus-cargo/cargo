@@ -37,11 +37,6 @@ public class WebLogicTest extends TestCase
 {
 
     /**
-     * Project version.
-     */
-    private final String projectVersion = System.getProperty("project.version");
-
-    /**
      * Logger.
      */
     private Logger logger = new SimpleLogger();
@@ -53,7 +48,7 @@ public class WebLogicTest extends TestCase
     public void testClasspathWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/classpath-war-" + projectVersion + "/test");
+            + "/classpath-war/test");
         final String expected = "Got class!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
@@ -79,7 +74,7 @@ public class WebLogicTest extends TestCase
     public void testSimpleWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/simple-war-" + projectVersion);
+            + "/simple-war");
         final String expected = "Sample page for testing";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
@@ -92,7 +87,7 @@ public class WebLogicTest extends TestCase
     public void testDatasource() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/datasource-war-" + projectVersion + "/test");
+            + "/datasource-war/test");
         final String expected = "Got connection!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
@@ -105,7 +100,7 @@ public class WebLogicTest extends TestCase
     public void testJms() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/jms-war-" + projectVersion + "/test");
+            + "/jms-war/test");
         final String expected = "Got queue!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
@@ -118,7 +113,7 @@ public class WebLogicTest extends TestCase
     public void testAuthentication() throws Exception
     {
         URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/authentication-war-" + projectVersion + "/test");
+            + "/authentication-war/test");
         final String expected = "Principal name [someone], Is user in \"cargo\" role [true]";
 
         Map<String, String> requestProperties = new HashMap<String, String>();
@@ -136,7 +131,7 @@ public class WebLogicTest extends TestCase
     public void testSystemProperty() throws Exception
     {
         URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/systemproperty-war-" + projectVersion
+            + "/systemproperty-war"
             + "/test?systemPropertyName=cargo.system.property");
         final String expected = "CargoSystemProp";
 
