@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,18 +33,25 @@ import java.util.jar.JarFile;
 import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.ContainerCapability;
+import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.util.ContainerUtils;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * JBoss 7.x series container implementation.
  */
 public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContainer
+    implements ScriptingCapableContainer
 {
     /**
      * JBoss 7.x series unique id.
@@ -238,6 +246,26 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * {@inheritDoc}
      */
     @Override
+    protected void executePostStartTasks() throws Exception
+    {
+        Map<String, String> properties = getConfiguration().getProperties();
+
+        // Execute online CLI scripts
+        for (Map.Entry<String, String> property : properties.entrySet())
+        {
+            String propertyName = property.getKey();
+            if (propertyName.startsWith(JBossPropertySet.CLI_ONLINE_SCRIPT))
+            {
+                String scriptPath = property.getValue();
+                executeScriptFiles(Arrays.asList(scriptPath));
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
         String host =
@@ -272,15 +300,21 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines,
      * the system property <code>jboss.bind.address</code> must be set.
      * @param java JVM launcher to set the properties on.
-     * @throws MalformedURLException If URL construction fails.
      */
-    protected void setProperties(JvmLauncher java) throws MalformedURLException
+    protected void setProperties(JvmLauncher java)
     {
         java.setSystemProperty("org.jboss.boot.log.file",
             getConfiguration().getHome() + "/log/boot.log");
-        java.setSystemProperty("logging.configuration",
-            new File(getConfiguration().getHome() + "/configuration/logging.properties")
-                .toURI().toURL().toString());
+        try
+        {
+            java.setSystemProperty("logging.configuration",
+                new File(getConfiguration().getHome() + "/configuration/logging.properties")
+                    .toURI().toURL().toString());
+        }
+        catch (MalformedURLException e)
+        {
+            throw new CargoException("Cannot create logging file URL." , e);
+        }
         java.setSystemProperty("jboss.home.dir", getHome());
         java.setSystemProperty("jboss.server.base.dir", getConfiguration().getHome());
 
@@ -354,5 +388,116 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
                     getFileHandler().append(folder, "module.xml"),
                         getFileHandler(), filterChain, "UTF-8");
         }
+    }
+
+    /**
+     * Writes CLI configuration script.
+     *
+     * @param configurationScript Script containing CLI configuration to be executed.
+     */
+    @Override
+    public void executeScript(List<ScriptCommand> configurationScript)
+    {
+        String newLine = System.getProperty("line.separator");
+        StringBuffer buffer = new StringBuffer();
+
+        for (ScriptCommand configuration : configurationScript)
+        {
+            buffer.append(configuration.readScript());
+            buffer.append(newLine);
+        }
+
+        getLogger().debug("Sending CLI script: " + newLine + buffer.toString(),
+            this.getClass().getName());
+
+        try
+        {
+            // script is stored to *.cli file which is added as parameter when invoking CLI
+            // executor
+            File tempFile = File.createTempFile("jboss-", ".cli");
+            tempFile.deleteOnExit();
+            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), buffer.toString(), null);
+
+            executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Cannot create temporary CLI script file.", e);
+        }
+    }
+
+    /**
+     * Executes CLI scripts.
+     *
+     * @param scriptFilePaths List of file paths containing CLI scripts.
+     */
+    @Override
+    public void executeScriptFiles(List<String> scriptFilePaths)
+    {
+        for (String scriptFilePath : scriptFilePaths)
+        {
+            File scriptFile = new File(scriptFilePath);
+
+            if (scriptFile.isAbsolute() && !scriptFile.exists())
+            {
+                getLogger().warn(String.format("Script file %s doesn't exists.", scriptFilePath),
+                        this.getClass().getName());
+            }
+            else
+            {
+                JvmLauncher java = createJvmLauncher(false);
+
+                addCliArguments(java);
+                setProperties(java);
+
+                java.addAppArguments("--file=" + scriptFile);
+                int result = java.execute();
+                if (result != 0)
+                {
+                    throw new ContainerException("Failure when invoking CLI script,"
+                            + " java returned " + result);
+                }
+            }
+        }
+    }
+
+    /**
+     * Adding JBoss CLI dependencies and setting main class.
+     *
+     * @param java Launcher.
+     */
+    private void addCliArguments(JvmLauncher java)
+    {
+        String host =
+                getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String port =
+            getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+
+        java.setJarFile(new File(getHome(), "jboss-modules.jar"));
+
+        String modules = getConfiguration().getPropertyValue(
+            JBossPropertySet.ALTERNATIVE_MODULES_DIR);
+        if (!new File(modules).isAbsolute())
+        {
+            modules = getFileHandler().append(getHome(), modules);
+        }
+
+        java.addAppArguments(
+                "-mp", modules,
+                "org.jboss.as.cli");
+
+        if (isOnline())
+        {
+            java.addAppArguments("--connect", "--controller=" + host + ":" + port);
+        }
+    }
+
+    /**
+     * @return True if WildFly is started and has cargocpc deployed.
+     */
+    public boolean isOnline()
+    {
+        HttpUtils httpUtils = new HttpUtils();
+        return httpUtils.ping(ContainerUtils.getCPCURL(getConfiguration()));
     }
 }

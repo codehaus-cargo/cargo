@@ -54,6 +54,8 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
             Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
             Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CLI_ONLINE_SCRIPT,
+            Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }
