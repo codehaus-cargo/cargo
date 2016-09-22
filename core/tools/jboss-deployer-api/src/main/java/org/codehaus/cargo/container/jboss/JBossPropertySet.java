@@ -135,4 +135,13 @@ public interface JBossPropertySet
      */
     String ALTERNATIVE_MODULES_DIR = "cargo.jboss.modules.dir";
 
+    /**
+     * External CLI script file paths.<br>
+     * Used for custom configuration of JBoss container in online mode.<br>
+     * <br>
+     * Example usage:<br>
+     * setProperty("cargo.jboss.script.cli.online.journal",
+     *              "target/jms-journal.cli")<br>
+     */
+    String CLI_ONLINE_SCRIPT = "cargo.jboss.script.cli.online";
 }
