@@ -115,7 +115,7 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
                 String port = resource.getParameter("mail.smtp.port") != null
                         ? resource.getParameter("mail.smtp.port") : "25";
 
-                XmlFileBuilder manager = new DefaultXmlFileBuilder(getFileHandler());
+                XmlFileBuilder manager = new DefaultXmlFileBuilder(getFileHandler(), true);
                 manager.setFile(configurationXmlFilePath);
                 Document document = manager.loadFile();
                 manager.setNamespaces(ns);
