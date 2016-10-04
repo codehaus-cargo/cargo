@@ -24,9 +24,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -69,7 +69,12 @@ public class XmlUtils
     /**
      * XML namespaces map.
      */
-    private Map<String, String> namespaces;
+    private NamespaceContextImpl namespaceContext;
+
+    /**
+     * True if XmlUtils should be namespace aware.
+     */
+    private boolean namespaceAware;
 
     /**
      * default constructor will assign no namespaces and use a default file handler.
@@ -80,16 +85,41 @@ public class XmlUtils
     }
 
     /**
+     * default constructor will assign no namespaces and use a default file handler.
+     *
+     * @param namespaceAware true if XmlUtils should be namespace aware.
+     */
+    public XmlUtils(boolean namespaceAware)
+    {
+        this(new DefaultFileHandler(), namespaceAware);
+    }
+
+    /**
      * constructor will assign no namespaces.
      * 
      * @param fileHandler used to read and write xml files.
      */
     public XmlUtils(FileHandler fileHandler)
     {
+        this(fileHandler, false);
+    }
+
+    /**
+     * constructor will assign no namespaces.
+     *
+     * @param fileHandler used to read and write xml files.
+     * @param namespaceAware true if XmlUtils should be namespace aware.
+     */
+    public XmlUtils(FileHandler fileHandler, boolean namespaceAware)
+    {
         this.fileHandler = fileHandler;
+        this.namespaceContext = new NamespaceContextImpl();
+        this.namespaceAware = namespaceAware;
         XPathFactory xPathFactory = XPathFactory.newInstance();
         this.xPath = xPathFactory.newXPath();
+        this.xPath.setNamespaceContext(namespaceContext);
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+        domFactory.setNamespaceAware(namespaceAware);
         // Do not load remote DTDS as remote servers sometimes become unreachable
         try
         {
@@ -126,7 +156,8 @@ public class XmlUtils
         try
         {
             String xpathWithoutNamespace = xpath;
-            if (namespaces != null && !namespaces.isEmpty())
+            Map<String, String> namespaces = namespaceContext.getNamespaces();
+            if (namespaces != null && !namespaces.isEmpty() && !namespaceAware)
             {
                 for (Map.Entry<String, String> namespace : namespaces.entrySet())
                 {
@@ -287,7 +318,7 @@ public class XmlUtils
      */
     public void setNamespaces(Map<String, String> namespaces)
     {
-        this.namespaces = namespaces;
+        this.namespaceContext.setNamespaces(namespaces);
     }
 
     /**
@@ -295,11 +326,7 @@ public class XmlUtils
      */
     public Map<String, String> getNamespaces()
     {
-        if (namespaces == null)
-        {
-            namespaces = new HashMap<String, String>();
-        }
-        return namespaces;
+        return namespaceContext.getNamespaces();
     }
 
     /**

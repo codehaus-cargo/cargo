@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -49,7 +52,7 @@ public class XmlUtilsTest extends TestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        util = new XmlUtils();
+        util = new XmlUtils(true);
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = domFactory.newDocumentBuilder();
         Document document = builder.newDocument();
@@ -93,7 +96,7 @@ public class XmlUtilsTest extends TestCase
     {
         try
         {
-            util.selectElementMatchingXPath("weblogic:app-deployment", testElement);
+            util.selectElementMatchingXPath("app-deployment", testElement);
             fail("should have thrown an exception");
         }
         catch (ElementNotFoundException e)
@@ -102,4 +105,44 @@ public class XmlUtilsTest extends TestCase
         }
     }
 
+
+    /**
+     * Test that search for a non-existing element throws an exception.
+     */
+    public void testNoNamespaceThrowsException()
+    {
+        String xPath = "weblogic:app-deployment";
+        try
+        {
+            util.selectElementMatchingXPath(xPath, testElement);
+            fail("should have thrown an exception");
+        }
+        catch (CargoException e)
+        {
+            assertEquals("Cannot evaluate XPath: " + xPath, e.getMessage());
+        }
+    }
+
+    /**
+     * Test simple element parse.
+     * @throws Exception If anything does wrong.
+     */
+    public void testSelectElementMatchingXPath() throws Exception
+    {
+        Map<String, String> namespace = new HashMap<String, String>();
+        namespace.put("animal", "urn:animal");
+        util.setNamespaces(namespace);
+
+        String string = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
+                + "<base-element>"
+                + "<element>dog</element>"
+                + "<element xmlns=\"urn:animal\">cat</element>"
+                + "</base-element>";
+        Element element = util.parseIntoElement(string);
+        Element animalElement = util.selectElementMatchingXPath("//base-element/animal:element",
+                element);
+
+        assertEquals("element", animalElement.getNodeName());
+        assertEquals("cat", animalElement.getTextContent());
+    }
 }
