@@ -24,6 +24,8 @@ import java.util.Map;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 import org.codehaus.cargo.util.FileHandler;
 
@@ -66,6 +68,38 @@ public class DeployDeployableOnlineScriptCommand extends AbstractScriptCommand
         FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
         String path = deployable.getFile();
         String absolutePath = fileHandler.getAbsolutePath(path);
+        if (deployable.getType() == DeployableType.WAR && fileHandler.exists(absolutePath))
+        {
+            // CARGO-1402: Add support for context path configuration for WebLogic
+            WAR war = (WAR) deployable;
+            boolean needsCopy;
+            if (deployable.isExpanded())
+            {
+                needsCopy = !fileHandler.getName(absolutePath).equals(war.getContext());
+            }
+            else
+            {
+                needsCopy = !fileHandler.getName(absolutePath).equals(war.getContext() + ".war");
+            }
+            if (needsCopy)
+            {
+                String cargodeploy = fileHandler.createUniqueTmpDirectory();
+                String targetDirectoryname = fileHandler.append(cargodeploy, war.getContext());
+                fileHandler.delete(targetDirectoryname);
+                String targetFilename = fileHandler.append(cargodeploy, war.getContext() + ".war");
+                fileHandler.delete(targetFilename);
+                if (deployable.isExpanded())
+                {
+                    fileHandler.copyDirectory(deployable.getFile(), targetDirectoryname);
+                    absolutePath = targetDirectoryname;
+                }
+                else
+                {
+                    fileHandler.copyFile(deployable.getFile(), targetFilename, true);
+                    absolutePath = targetFilename;
+                }
+            }
+        }
         String escapedAbsolutePath = absolutePath.replace('\\', '/');
         propertiesMap.put("cargo.deployable.path.absolute", escapedAbsolutePath);
     }

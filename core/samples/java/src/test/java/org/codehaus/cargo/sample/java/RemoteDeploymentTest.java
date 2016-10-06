@@ -347,13 +347,6 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
     {
-        // WebLogic retrieve WAR context from file name,
-        // cannot be tested on context change.
-        if (getTestData().containerId.startsWith("weblogic"))
-        {
-            return;
-        }
-
         this.war.setContext("simple");
 
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/"
