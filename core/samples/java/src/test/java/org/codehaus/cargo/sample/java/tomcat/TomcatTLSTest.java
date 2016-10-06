@@ -21,6 +21,8 @@ package org.codehaus.cargo.sample.java.tomcat;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -66,17 +68,20 @@ public class TomcatTLSTest extends AbstractCargoTestCase
      */
     public static Test suite() throws Exception
     {
+        // We exclude tomcat4x container as it does not support TLS
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("tomcat4x");
+
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
         // TomcatTLSTest doesn't work in Java 6 and earlier due to expired certificates
         if (JdkUtils.getMajorJavaVersion() > 6)
         {
             suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
-                new StartsWithContainerValidator(
-                    "tomcat5", "tomcat6", "tomcat7", "tomcat8", "tomcat9", "tomee"),
+                new StartsWithContainerValidator("tomcat", "tomee"),
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
-                new HasDirectoryPackagerValidator()});
+                new HasDirectoryPackagerValidator()}, excludedContainerIds);
         }
         return suite;
     }
