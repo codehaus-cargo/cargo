@@ -41,11 +41,10 @@ import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalle
 import org.codehaus.cargo.container.property.User;
 
 /**
- * GlassFish 3.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
- * applications.
+ * GlassFish 3.x installed local deployer, which uses the GlassFish asadmin to
+ * deploy and undeploy applications.
  */
-public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalledLocalDeployer
-{
+public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalledLocalDeployer {
 
     /**
      * Allowed JMS resource types per <code>create-jms-resource</code>
@@ -58,14 +57,13 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
                     "javax.jms.ConnectionFactory",
                     "javax.jms.TopicConnectionFactory",
                     "javax.jms.QueueConnectionFactory")));
-    
+
     /**
      * Calls parent constructor, which saves the container.
-     * 
+     *
      * @param localContainer Container.
      */
-    public GlassFish3xInstalledLocalDeployer(InstalledLocalContainer localContainer)
-    {
+    public GlassFish3xInstalledLocalDeployer(InstalledLocalContainer localContainer) {
         super(localContainer);
     }
 
@@ -73,33 +71,25 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * {@inheritDoc}
      */
     @Override
-    protected void doDeploy(Deployable deployable, boolean overwrite)
-    {
+    protected void doDeploy(Deployable deployable, boolean overwrite) {
         List<String> args = new ArrayList<String>();
         this.addConnectOptions(args);
 
         args.add("deploy");
 
-        if (overwrite)
-        {
+        if (overwrite) {
             args.add("--force");
         }
 
-        if (deployable instanceof WAR)
-        {
+        if (deployable instanceof WAR) {
             args.add("--contextroot");
-            if (((WAR) deployable).getContext().isEmpty())
-            {
+            if (((WAR) deployable).getContext().isEmpty()) {
                 // CARGO-1179: If --contextroot is '', deployment fails on Windows
                 args.add("/");
-            }
-            else
-            {
+            } else {
                 args.add(((WAR) deployable).getContext());
             }
-        }
-        else if (deployable instanceof Bundle)
-        {
+        } else if (deployable instanceof Bundle) {
             args.add("--type=osgi");
         }
 
@@ -114,8 +104,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * {@inheritDoc}
      */
     @Override
-    public void undeploy(Deployable deployable)
-    {
+    public void undeploy(Deployable deployable) {
         List<String> args = new ArrayList<String>();
         this.addConnectOptions(args);
 
@@ -134,8 +123,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * {@inheritDoc}
      */
     @Override
-    public void deployDatasource(DataSource dataSource)
-    {
+    public void deployDatasource(DataSource dataSource) {
         StringBuilder dataSourcePropertyString = new StringBuilder();
         Map<String, String> dataSourceProperties = new HashMap<String, String>();
 
@@ -143,24 +131,20 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         dataSourceProperties.put("password", dataSource.getPassword());
         dataSourceProperties.put("url", dataSource.getUrl());
         Properties extraProperties = dataSource.getConnectionProperties();
-        for (Object propertyName : extraProperties.keySet())
-        {
-            if (propertyName != null && extraProperties.get(propertyName) != null)
-            {
+        for (Object propertyName : extraProperties.keySet()) {
+            if (propertyName != null && extraProperties.get(propertyName) != null) {
                 dataSourceProperties.put(
-                    propertyName.toString(), extraProperties.get(propertyName).toString());
+                        propertyName.toString(), extraProperties.get(propertyName).toString());
             }
         }
-        for (Map.Entry<String, String> dataSourceProperty : dataSourceProperties.entrySet())
-        {
-            if (dataSourcePropertyString.length() > 0)
-            {
+        for (Map.Entry<String, String> dataSourceProperty : dataSourceProperties.entrySet()) {
+            if (dataSourcePropertyString.length() > 0) {
                 dataSourcePropertyString.append(":");
             }
             dataSourcePropertyString.append(dataSourceProperty.getKey());
             dataSourcePropertyString.append("=\"");
             dataSourcePropertyString.append(dataSourceProperty.getValue()
-                .replace("\\", "\\\\").replace(":", "\\:").replace("=", "\\="));
+                    .replace("\\", "\\\\").replace(":", "\\:").replace("=", "\\="));
             dataSourcePropertyString.append("\"");
         }
 
@@ -171,16 +155,11 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add("create-jdbc-connection-pool");
         args.add("--restype");
         args.add(dataSource.getConnectionType());
-        if ("javax.sql.XADataSource".equals(dataSource.getConnectionType()))
-        {
+        if ("javax.sql.XADataSource".equals(dataSource.getConnectionType())) {
             args.add("--datasourceclassname");
-        }
-        else if ("javax.sql.DataSource".equals(dataSource.getConnectionType()))
-        {
+        } else if ("javax.sql.DataSource".equals(dataSource.getConnectionType())) {
             args.add("--datasourceclassname");
-        }
-        else
-        {
+        } else {
             args.add("--driverclassname");
         }
         args.add(dataSource.getDriverClass());
@@ -206,8 +185,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * {@inheritDoc}
      */
     @Override
-    public void undeployDatasource(String poolName, String jdbcName)
-    {
+    public void undeployDatasource(String poolName, String jdbcName) {
         List<String> args = new ArrayList<String>();
 
         args.clear();
@@ -233,10 +211,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * <code>create-jms-resource</code> respectively. {@inheritDoc}
      */
     @Override
-    public void deployResource(Resource resource)
-    {
-        if (JMS_RESOURCE_TYPES.contains(resource.getType()))
-        {
+    public void deployResource(Resource resource) {
+        if (JMS_RESOURCE_TYPES.contains(resource.getType())) {
             List<String> args = new ArrayList<String>();
             this.addConnectOptions(args);
             args.add("create-jms-resource");
@@ -245,9 +221,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getName());
 
             this.getLocalContainer().invokeAsAdmin(false, args);
-        }        
-        else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType()))
-        {
+        } else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType())) {
             List<String> args = new ArrayList<String>();
             this.addConnectOptions(args);
             args.add("create-javamail-resource");
@@ -258,10 +232,9 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("--fromaddress");
             args.add(resource.getParameter("mail.smtp.from"));
             args.add("--property");
-            
+
             StringBuilder propertyBuilder = new StringBuilder();
-            for (String parameterName : resource.getParameterNames())
-            {
+            for (String parameterName : resource.getParameterNames()) {
                 propertyBuilder.append(parameterName);
                 propertyBuilder.append("=");
                 propertyBuilder.append(resource.getParameter(parameterName)
@@ -272,49 +245,52 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(propertyBuilder.toString());
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
-        }
-		else
-		{
-		/*
-			Adding support for Custom Resource types with little to no parameter validation
+        } else {
+            /*
+			Adding support for Custom Resource types with no parameter validation
 
 			asadmin create-custom-resource 
 			--restype=java.lang.String 
 			--enabled=true 
 			--description="CAS Server Name" 
-
 			--factoryclass=org.glassfish.resources.custom.factory.PrimitivesAndStringFactory 
 			--property value=http\\://mymachine/cenas 
 			"segsocial-cas/casServerName"
-		*/
-
+             */
             List<String> args = new ArrayList<String>();
             this.addConnectOptions(args);
             args.add("create-custom-resource");
             args.add("--enabled=true");
             args.add("--restype");
             args.add(resource.getType());
-
             args.add("--factoryclass");
-            args.add(resource.getParameter("factoryclass"));
+            args.add(resource.getClassName());
+            //ok ^
 
-            args.add("--property");
-            args.add(resource.getParameter("property"));
+            StringBuilder propertyBuilder = new StringBuilder();
+            for (String parameterName : resource.getParameterNames()) {
+                propertyBuilder.append("--property=");
+                propertyBuilder.append(parameterName);
+                propertyBuilder.append("=");
+                propertyBuilder.append(resource.getParameter(parameterName)
+                        .replace("\\", "\\\\").replace(":", "\\:")
+                        .replace("=", "\\="));
+            }
+            args.add(propertyBuilder.toString());
 
+            //ok v
             args.add(resource.getName());
-
             this.getLocalContainer().invokeAsAdmin(false, args);
-		}
+        }
     }
 
     /**
      * Does not do anything since GlassFish 3.x support was not tested.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
-    public void createFileUser(final User user)
-    {
+    public void createFileUser(final User user) {
         // nothing
     }
 
@@ -323,8 +299,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * {@inheritDoc}
      */
     @Override
-    public void activateDefaultPrincipalToRoleMapping()
-    {
+    public void activateDefaultPrincipalToRoleMapping() {
         // nothing
     }
 }
