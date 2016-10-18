@@ -273,6 +273,43 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
+        else
+        {
+            /*
+            Adding support for Custom Resource types with no parameter validation
+
+            asadmin create-custom-resource
+            --restype=java.lang.String
+            --enabled=true
+            --description="SAC Server Name"
+            --factoryclass=org.glassfish.resources.custom.factory.PrimitivesAndStringFactory
+            --property value=http\\://mymachine/cenas
+            "sac/sacServerName"
+            */
+            List<String> args = new ArrayList<String>();
+            this.addConnectOptions(args);
+            args.add("create-custom-resource");
+            args.add("--enabled=true");
+            args.add("--restype");
+            args.add(resource.getType());
+            args.add("--factoryclass");
+            args.add(resource.getClassName());
+
+            StringBuilder propertyBuilder = new StringBuilder();
+            for (String parameterName : resource.getParameterNames())
+            {
+                propertyBuilder.append("--property=");
+                propertyBuilder.append(parameterName);
+                propertyBuilder.append("=");
+                propertyBuilder.append(resource.getParameter(parameterName)
+                        .replace("\\", "\\\\").replace(":", "\\:")
+                        .replace("=", "\\="));
+            }
+            args.add(propertyBuilder.toString());
+
+            args.add(resource.getName());
+            this.getLocalContainer().invokeAsAdmin(false, args);
+        }
     }
 
     /**
