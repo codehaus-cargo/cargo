@@ -341,7 +341,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     logFilePath = handle.getContainerLogPath();
                 }
                 
-                long filesize = fileManager.getFileSize(logFilePath);                
+                long filesize = fileManager.getFileSize(logFilePath);
 
                 response.setContentType("text/plain");
                 response.setCharacterEncoding("UTF-8");
@@ -975,7 +975,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     {
         try
         {
-            return Long.valueOf(text); 
+            return Long.valueOf(text);
         }
         catch (Throwable e)
         {

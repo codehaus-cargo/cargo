@@ -137,7 +137,7 @@ public class TomcatEmbeddedLocalDeployer extends AbstractLocalDeployer
     @Override
     public void redeploy(Deployable deployable)
     {
-        TomcatEmbedded.Context context;        
+        TomcatEmbedded.Context context;
         try
         {
             WAR war = (WAR) deployable;

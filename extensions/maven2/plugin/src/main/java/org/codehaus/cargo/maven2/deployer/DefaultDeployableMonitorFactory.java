@@ -45,11 +45,11 @@ public class DefaultDeployableMonitorFactory implements DeployableMonitorFactory
 
         if (deployable.getPingURL() != null)
         {
-            deployableMonitor = createUrlDeployableMonitor(deployable); 
+            deployableMonitor = createUrlDeployableMonitor(deployable);
         }
         else if (deployable.getPingUrlPath() != null)
         {
-            deployableMonitor = createUrlPathDeployableMonitor(configuration, deployable); 
+            deployableMonitor = createUrlPathDeployableMonitor(configuration, deployable);
         }
 
         return deployableMonitor;

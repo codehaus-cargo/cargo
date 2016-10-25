@@ -242,7 +242,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic9xInstalledLocalContainer.class);
 
         containerFactory.registerContainer("weblogic10x", ContainerType.INSTALLED,
-            WebLogic10xInstalledLocalContainer.class);        
+            WebLogic10xInstalledLocalContainer.class);
 
         containerFactory.registerContainer("weblogic103x", ContainerType.INSTALLED,
             WebLogic103xInstalledLocalContainer.class);

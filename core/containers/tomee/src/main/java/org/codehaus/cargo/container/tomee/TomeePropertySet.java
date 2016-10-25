@@ -27,5 +27,5 @@ public interface TomeePropertySet
     /**
      * The <code>apps</code> directory of TomEE.
      */
-    String APPS_DIRECTORY = "cargo.tomee.appsDirectory";   
+    String APPS_DIRECTORY = "cargo.tomee.appsDirectory";
 }

@@ -465,7 +465,7 @@ public class FileManager
         byte[] buf = new byte[64 * 1024];
         int bytesRead;
         long pos = 0;
-        long remaining = size;  
+        long remaining = size;
 
         try
         {
