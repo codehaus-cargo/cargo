@@ -88,6 +88,9 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("weblogic103x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogicExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("weblogic103x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            WebLogicWlstRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("weblogic12x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -152,6 +155,9 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("weblogic103x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogic9x10x103x12xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("weblogic103x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            WebLogic103xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("weblogic12x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -197,6 +203,8 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic9x10x103x12xCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("weblogic103x", DeployerType.INSTALLED,
             WebLogic9x10x103x12xCopyingInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("weblogic103x", DeployerType.REMOTE,
+            WebLogicWlstRemoteDeployer.class);
         deployerFactory.registerDeployer("weblogic12x", DeployerType.INSTALLED,
             WebLogic9x10x103x12xCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("weblogic121x", DeployerType.INSTALLED,
@@ -234,10 +242,12 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic9xInstalledLocalContainer.class);
 
         containerFactory.registerContainer("weblogic10x", ContainerType.INSTALLED,
-            WebLogic10xInstalledLocalContainer.class);
+            WebLogic10xInstalledLocalContainer.class);        
 
         containerFactory.registerContainer("weblogic103x", ContainerType.INSTALLED,
             WebLogic103xInstalledLocalContainer.class);
+        containerFactory.registerContainer("weblogic103x", ContainerType.REMOTE,
+            WebLogic103xRemoteContainer.class);
 
         containerFactory.registerContainer("weblogic12x", ContainerType.INSTALLED,
             WebLogic12xInstalledLocalContainer.class);
