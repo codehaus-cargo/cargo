@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstRuntimeConfiguration;
 
 /**
@@ -29,6 +30,18 @@ import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstRuntim
 public class WebLogic103xRuntimeConfiguration extends
     AbstractWebLogicWlstRuntimeConfiguration
 {
+
+    /**
+     * {@inheritDoc}
+     * @see AbstractWebLogicWlstRuntimeConfiguration#AbstractWebLogicWlstRuntimeConfiguration()
+     */
+    public WebLogic103xRuntimeConfiguration()
+    {
+        super();
+
+        setProperty(RemotePropertySet.PASSWORD, "weblogic");
+    }
+
     /**
      * {@inheritDoc}
      */
