@@ -22,22 +22,10 @@
  */
 package org.codehaus.cargo.container.internal.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import org.codehaus.cargo.util.Base64;
+import org.codehaus.cargo.container.internal.http.HttpConnection;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -145,82 +133,27 @@ public class HttpUtils extends LoggedObject
     private HttpResult testConnectivity(URL url, Map<String, String> requestProperties,
         long timeout)
     {
-        HttpResult result = new HttpResult();
-        try
+        HttpConnection connection = new HttpConnection(url, timeout);
+
+        if (requestProperties != null)
         {
-            HttpURLConnection connection;
-            if (url.getProtocol().equalsIgnoreCase("https"))
+            for (Map.Entry<String, String> requestProperty : requestProperties.entrySet())
             {
-                TrustManager[] trustAll = {new PermissiveTrustManager()};
-                SSLContext sc = SSLContext.getInstance("SSL");
-                sc.init(null, trustAll, new java.security.SecureRandom());
-                HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+                String key = requestProperty.getKey();
+                String value = requestProperty.getValue();
 
-                connection = (HttpsURLConnection) url.openConnection();
-
-                HostnameVerifier verifyAll = new PermissiveHostnameVerifier();
-                ((HttpsURLConnection) connection).setHostnameVerifier(verifyAll);
+                connection.addRequestProperty(key, value);
             }
-            else
-            {
-                connection = (HttpURLConnection) url.openConnection();
-            }
-
-            String userInfo = url.getUserInfo();
-            if (userInfo != null)
-            {
-                userInfo = Base64.encode(userInfo);
-                connection.setRequestProperty("Authorization", "Basic " + userInfo);
-            }
-
-            connection.setRequestProperty("Connection", "close");
-            if (timeout != 0)
-            {
-                connection.setReadTimeout((int) timeout);
-                connection.setConnectTimeout((int) timeout);
-            }
-
-            // Add optional request properties specified by the caller
-            if (requestProperties != null)
-            {
-                for (Map.Entry<String, String> requestProperty : requestProperties.entrySet())
-                {
-                    String key = requestProperty.getKey();
-                    String value = requestProperty.getValue();
-
-                    connection.setRequestProperty(key, value);
-
-                    getLogger().debug("Added property [" + key + "] = [" + value + "]",
-                        this.getClass().getName());
-                }
-            }
-
-            connection.connect();
-            result.responseBody = readFully(connection);
-            connection.disconnect();
-            result.responseCode = connection.getResponseCode();
-            result.responseMessage = connection.getResponseMessage();
-        }
-        catch (IOException e)
-        {
-            result.responseCode = -1;
-            result.responseMessage = e.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            result.responseCode = -1;
-            result.responseMessage = e.toString();
-        }
-        catch (KeyManagementException e)
-        {
-            result.responseCode = -1;
-            result.responseMessage = e.toString();
         }
 
-        getLogger().debug("Pinged [" + url + "], result = [" + result.responseCode + "]",
-            this.getClass().getName());
+        org.codehaus.cargo.container.internal.http.HttpResult httpResult = connection.get();
 
-        return result;
+        HttpResult responseResult = new HttpResult();
+        responseResult.responseBody = httpResult.getResponseBody();
+        responseResult.responseCode = httpResult.getResponseCode();
+        responseResult.responseMessage = httpResult.getResponseMessage();
+
+        return responseResult;
     }
 
     /**
@@ -244,122 +177,5 @@ public class HttpUtils extends LoggedObject
             result = false;
         }
         return result;
-    }
-
-    /**
-     * Fully reads the input stream from the passed HTTP URL connection to prevent (harmless)
-     * server-side exception.
-     * 
-     * @param connection the HTTP URL connection to read from
-     * @exception IOException if an error happens during the read
-     * @return the HTTP connection response body
-     */
-    private String readFully(HttpURLConnection connection) throws IOException
-    {
-        String responseBody = "";
-
-        // Only read if there is data to read ... The problem is that not all servers return a
-        // content-length header. If there is no header getContentLength() returns -1. It seems to
-        // work and it seems that all servers that return no content-length header also do not
-        // block on read() operations!
-        if (connection.getContentLength() != 0)
-        {
-            // try getting data from the input stream first an if it fails from the error stream
-            try
-            {
-                InputStream in = connection.getInputStream();
-                if (in != null)
-                {
-                    responseBody = readStreamData(in);
-                }
-            }
-            catch (IOException e)
-            {
-                InputStream in = connection.getErrorStream();
-                if (in != null)
-                {
-                    responseBody = readStreamData(in);
-                }
-                else
-                {
-                    throw e;
-                }
-            }
-        }
-
-        return responseBody;
-    }
-
-    /**
-     * @param stream the stream from which to read data from
-     * @return the stream data
-     * @throws IOException in case of error
-     */
-    private String readStreamData(InputStream stream) throws IOException
-    {
-        StringBuilder body = new StringBuilder();
-        byte[] buf = new byte[256];
-
-        // Make sure we read all the data in the stream
-        int n;
-        while ((n = stream.read(buf)) != -1)
-        {
-            body.append(new String(buf, 0, n));
-        }
-
-        return body.toString();
-    }
-
-    /**
-     * A TrustManager that does not validate certificate chains.
-     */
-    private class PermissiveTrustManager implements X509TrustManager
-    {
-        /**
-         * {@inheritDoc}
-         * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
-         */
-        @Override
-        public java.security.cert.X509Certificate[] getAcceptedIssuers()
-        {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[],
-         * String)
-         */
-        @Override
-        public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
-        {
-        }
-
-        /**
-         * {@inheritDoc}
-         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[],
-         * String)
-         */
-        @Override
-        public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
-        {
-        }
-    }
-
-    /**
-     * A HostnameVerifier that does not care whether the name on the certificate matches the
-     * hostname.
-     */
-    private class PermissiveHostnameVerifier implements HostnameVerifier
-    {
-        /**
-         * {@inheritDoc}
-         * @see HostnameVerifier#verify
-         */
-        @Override
-        public boolean verify(String hostname, SSLSession session)
-        {
-            return true;
-        }
     }
 }
