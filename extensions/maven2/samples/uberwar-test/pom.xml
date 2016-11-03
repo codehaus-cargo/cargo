@@ -44,7 +44,13 @@
 
   <profiles>
     <profile>
-      <id>only-run-its-manually</id>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
       <build>
         <resources>
           <resource>
