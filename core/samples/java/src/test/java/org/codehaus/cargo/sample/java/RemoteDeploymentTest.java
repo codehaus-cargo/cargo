@@ -176,11 +176,11 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 }
             }
         }
-        // WildFly requires the same huge classpath as JBoss 7.x
+        // WildFly requires some delay between starting server (detected by pinging CPC)
+        // and availability of management REST API.
         else if (getTestData().containerId.startsWith("wildfly"))
         {
-            AbstractJBossCapabilityTestCase.addAllJars(
-                new File(this.localContainer.getHome(), "modules"), filesToAddToClasspath);
+            Thread.sleep(500);
         }
         URL[] urlsArray = new URL[filesToAddToClasspath.size()];
         for (int i = 0; i < filesToAddToClasspath.size(); i++)
@@ -287,6 +287,11 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         else if (getTestData().containerId.startsWith("tomee"))
         {
             List<User> users = User.parseUsers("cargo:password:manager-script");
+            this.localContainer.getConfiguration().getUsers().addAll(users);
+        }
+        else if (getTestData().containerId.startsWith("wildfly"))
+        {
+            List<User> users = User.parseUsers("cargo:password:admin");
             this.localContainer.getConfiguration().getUsers().addAll(users);
         }
 

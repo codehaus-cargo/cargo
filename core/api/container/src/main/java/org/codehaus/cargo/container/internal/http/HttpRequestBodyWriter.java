@@ -1,8 +1,5 @@
-/* 
+/*
  * ========================================================================
- *
- * Copyright 2005 Jeff Genender. Code from this file
- * was originally imported from the JBoss Maven2 plugin.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2016 Ali Tokmen.
  *
@@ -20,22 +17,21 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly;
+package org.codehaus.cargo.container.internal.http;
 
-import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyRemoteDeployer;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * Remote deployer that uses the remote API to deploy to WildFly 8.x.
+ * Class which want to create own custom HTTP request body has to implement this interface.
  */
-public class WildFly8xRemoteDeployer extends AbstractWildFlyRemoteDeployer
+public interface HttpRequestBodyWriter
 {
     /**
-     * @param container the container containing the configuration to use to find the deployer
-     * properties such as url, user name and password to use to connect to the deployer
+     * Write custom request body to output stream.
+     *
+     * @param outputStream Output stream.
+     * @throws IOException If anything goes wrong.
      */
-    public WildFly8xRemoteDeployer(RemoteContainer container)
-    {
-        super(container);
-    }
+    void writeToOutputStream(OutputStream outputStream) throws IOException;
 }

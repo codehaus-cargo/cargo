@@ -23,11 +23,12 @@
 package org.codehaus.cargo.container.wildfly;
 
 import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyRemoteDeployer;
 
 /**
- * Remote deployer that uses the Model Controller Client to deploy to WildFly 9.x.
+ * Remote deployer that uses the remote API to deploy to WildFly 9.x.
  */
-public class WildFly9xRemoteDeployer extends WildFly8xRemoteDeployer
+public class WildFly9xRemoteDeployer extends AbstractWildFlyRemoteDeployer
 {
     /**
      * @param container the container containing the configuration to use to find the deployer
