@@ -48,6 +48,19 @@
         </resources>
 
         <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-filtered-resources-including-properties-set-by-build-helper-maven-plugin</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>resources</goal>
+                </goals>
+              </execution>
+            </executions>
+        </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
