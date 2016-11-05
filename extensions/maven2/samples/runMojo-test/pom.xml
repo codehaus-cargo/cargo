@@ -28,7 +28,33 @@
   <packaging>jar</packaging>
   <description>Sample application that tries the cargo:run MOJO</description>
 
+  <properties>
+    <maven.embedder.version>3.0.3</maven.embedder.version>
+  </properties>
+
   <dependencies>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-embedder</artifactId>
+      <version>${maven.embedder.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>${maven.embedder.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-settings</artifactId>
+      <version>${maven.embedder.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-sample-java</artifactId>
@@ -38,7 +64,13 @@
 
   <profiles>
     <profile>
-      <id>only-run-its-manually</id>
+      <id>run-its</id>
+      <activation>
+        <property>
+          <name>skipTests</name>
+          <value>!true</value>
+        </property>
+      </activation>
       <build>
         <resources>
           <resource>
@@ -48,45 +80,6 @@
         </resources>
 
         <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-filtered-resources-including-properties-set-by-build-helper-maven-plugin</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>resources</goal>
-                </goals>
-              </execution>
-            </executions>
-        </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <showErrors>true</showErrors>
-              <streamLogs>true</streamLogs>
-              <pom>${project.build.directory}/classes/pom.xml</pom>
-              <goals>
-                <goal>clean</goal>
-                <goal>cargo:run</goal>
-              </goals>
-              <properties>
-                <interactiveMode>false</interactiveMode>
-              </properties>
-            </configuration>
-            <executions>
-              <execution>
-                <id>integration-test</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>verify</goal>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -103,6 +96,10 @@
                     <property>
                       <name>http.port</name>
                       <value>${cargo.samples.servlet.port}</value>
+                    </property>
+                    <property>
+                      <name>target</name>
+                      <value>${project.build.directory}</value>
                     </property>
                   </systemProperties>
                 </configuration>
