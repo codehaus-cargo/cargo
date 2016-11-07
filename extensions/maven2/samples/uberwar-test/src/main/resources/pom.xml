@@ -18,12 +18,9 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.codehaus.cargo</groupId>
-    <artifactId>codehaus-cargo</artifactId>
-    <version>${project.version}</version>
-  </parent>
+  <groupId>org.codehaus.cargo</groupId>
   <artifactId>cargo-sample-maven2-uberwar-test-artifact</artifactId>
+  <version>${project.version}</version>
   <description>Sample application that will be used to test the uberwar functionalities</description>
   <packaging>uberwar</packaging>
 
@@ -31,11 +28,13 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>authentication-war</artifactId>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>datasource-war</artifactId>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
