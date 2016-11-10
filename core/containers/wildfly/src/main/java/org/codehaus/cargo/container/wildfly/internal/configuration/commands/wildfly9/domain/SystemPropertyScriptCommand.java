@@ -52,8 +52,21 @@ public class SystemPropertyScriptCommand extends AbstractWildFlyScriptCommand
             String name, String value)
     {
         super(configuration, resourcePath);
-        this.name = name;
-        this.value = value;
+
+        if (name == null || name.isEmpty())
+        {
+            throw new IllegalArgumentException("System property name is null or empty.");
+        }
+        else if (value == null)
+        {
+            throw new IllegalArgumentException("Value of system property " + name
+                    + " is null.");
+        }
+        else
+        {
+            this.name = name;
+            this.value = value;
+        }
     }
 
     @Override
