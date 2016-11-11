@@ -606,19 +606,20 @@ public class ConfluenceContainerDocumentationGenerator
         }
         output.append(LINE_SEPARATOR);
 
-        if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x"))
+        if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
+            || containerId.equals("tomcat9x"))
         {
-            output.append("{info:title=Running multiple Tomcat 7.x / Tomcat 8.x embedded ");
-            output.append("containers within the same JVM}");
+            output.append("{info:title=Running multiple Tomcat 7.x / Tomcat 8.x / Tomcat 9.x ");
+            output.append("embedded containers within the same JVM}");
             output.append(LINE_SEPARATOR);
             output.append("Tomcat 7.x has introduced a class called ");
             output.append("{{TomcatURLStreamHandlerFactory}} where the singleton has a static ");
             output.append("{{instance}} field and a final {{registered}} attribute which are ");
             output.append("not always in sync and cause unexpected exceptions. Due to this, it ");
-            output.append("is not possible to execute Tomcat 7.x and Tomcat 8.x embedded in the ");
-            output.append("same JVM, in addition running one of these Tomcat embedded versions ");
-            output.append("one after the other within the same JVM but different classpaths ");
-            output.append("might also fail.");
+            output.append("is not possible to execute Tomcat 7.x, Tomcat 8.x and / or Tomcat 9.x ");
+            output.append("embedded in the same JVM, in addition running one of these Tomcat ");
+            output.append("embedded versions one after the other within the same JVM but ");
+            output.append("different classpaths might also fail.");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append("If you want to be safe, prefer using the [Installed Container].");
