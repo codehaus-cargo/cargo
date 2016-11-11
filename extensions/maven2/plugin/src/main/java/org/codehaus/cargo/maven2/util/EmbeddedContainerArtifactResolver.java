@@ -310,22 +310,22 @@ public class EmbeddedContainerArtifactResolver
         tomcat8xDependencies.add(new Dependency("javax.security.auth.message",
             "javax.security.auth.message-api", "1.1"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-servlet-api",
-            "8.5.6"));
+            "8.5.8"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-annotations-api",
-            "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "8.5.6"));
+            "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "8.5.8"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util-scan",
-            "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "8.5.6"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "8.5.6"));
+            "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "8.5.8"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "8.5.8"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
-            "8.5.6"));
+            "8.5.8"));
         tomcat8xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.5.1"));
         this.containerDependencies.put("tomcat8x", tomcat8xDependencies);
@@ -334,24 +334,24 @@ public class EmbeddedContainerArtifactResolver
         tomcat9xDependencies.add(new Dependency("javax.security.auth.message",
             "javax.security.auth.message-api", "1.1"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-servlet-api",
-            "9.0.0.M11"));
+            "9.0.0.M13"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-annotations-api",
-            "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "9.0.0.M11"));
+            "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "9.0.0.M13"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
-            "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "9.0.0.M11"));
+            "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "9.0.0.M13"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util-scan",
-            "9.0.0.M11"));
+            "9.0.0.M13"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina",
-            "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.0.M11"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.0.M11"));
+            "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.0.M13"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.0.M13"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
-            "9.0.0.M11"));
+            "9.0.0.M13"));
         tomcat9xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.5.1"));
         this.containerDependencies.put("tomcat9x", tomcat9xDependencies);
