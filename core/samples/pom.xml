@@ -307,11 +307,12 @@
               <property>
                 <name>cargo.tomcat7x.url</name>
                 <!--
-                  Tomcat 7.0.72 cannot be used due to an org.apache.catalina.LifecycleException:
-                  A child container failed during stop
+                  Tomcat 7.0.73 cannot be used due to a java.lang.NullPointerException at
+                  org.apache.catalina.core.NamingContextListener.getGlobalNamingContext
+                  in the Embedded container
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.72/tomcat-7.0.72.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.73/tomcat-7.0.73.zip</value>
                  -->
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
               </property>
@@ -323,7 +324,7 @@
               <property>
                 <name>cargo.tomcat8x.url</name>
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.38/tomcat-8.0.38.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.39/tomcat-8.0.39.zip</value>
                  -->
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.8/tomcat-8.5.8.zip</value>
               </property>
