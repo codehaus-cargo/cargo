@@ -68,7 +68,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
             }
             catch (Throwable t2)
             {
-                getLog().error("Stopping container [" + this.localContainer + "] failed", t2);
+                getLog().debug("Stopping container [" + this.localContainer + "] failed", t2);
             }
 
             throw new MojoExecutionException(
