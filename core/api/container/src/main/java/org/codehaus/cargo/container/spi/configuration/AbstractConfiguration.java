@@ -60,9 +60,17 @@ public abstract class AbstractConfiguration extends LoggedObject
     @Override
     public void setProperty(String name, String value)
     {
-        getLogger().debug("Setting property [" + name + "] = [" + value + "]",
-            this.getClass().getName());
-        this.properties.put(name, value);
+        if (value != null)
+        {
+            getLogger().debug("Setting property [" + name + "] = [" + value + "]",
+                this.getClass().getName());
+            this.properties.put(name, value);
+        }
+        else
+        {
+            getLogger().debug("Removing property [" + name + "]", this.getClass().getName());
+            this.properties.remove(name);
+        }
     }
 
     /**
