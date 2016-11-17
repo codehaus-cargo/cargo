@@ -99,14 +99,21 @@ public class WildFly8xStandaloneLocalConfiguration
     @Override
     public void configure(LocalContainer container)
     {
+        boolean portOffsetApplied = isOffsetApplied(ServletPropertySet.PORT);
         try
         {
-            this.revertPortOffset();
+            if (portOffsetApplied)
+            {
+                revertPortOffset();
+            }
             super.configure(container);
         }
         finally
         {
-            this.applyPortOffset();
+            if (portOffsetApplied)
+            {
+                applyPortOffset();
+            }
         }
     }
 
