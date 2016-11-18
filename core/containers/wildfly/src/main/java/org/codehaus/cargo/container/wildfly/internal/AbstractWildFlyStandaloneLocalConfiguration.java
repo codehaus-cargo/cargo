@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.wildfly.internal.util.WildFlyModuleUtils;
@@ -51,6 +52,32 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
         setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
         setProperty(JBossPropertySet.JBOSS_AJP_PORT, "8009");
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, "9990");
+    }
+
+    /**
+     * {@inheritDoc}. Ignore port offset and configure, see
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1415">CARGO-1415
+     * (<code>cargo.port.offset</code> sets the port offset twice)</a> for details.
+     */
+    @Override
+    public void configure(LocalContainer container)
+    {
+        boolean portOffsetApplied = isOffsetApplied(ServletPropertySet.PORT);
+        try
+        {
+            if (portOffsetApplied)
+            {
+                revertPortOffset();
+            }
+            super.configure(container);
+        }
+        finally
+        {
+            if (portOffsetApplied)
+            {
+                applyPortOffset();
+            }
+        }
     }
 
     /**

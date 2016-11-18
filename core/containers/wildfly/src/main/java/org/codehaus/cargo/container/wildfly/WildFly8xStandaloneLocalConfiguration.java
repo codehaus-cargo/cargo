@@ -92,32 +92,6 @@ public class WildFly8xStandaloneLocalConfiguration
     }
 
     /**
-     * {@inheritDoc}. Ignore port offset and configure, see
-     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1415">CARGO-1415
-     * (<code>cargo.port.offset</code> sets the port offset twice)</a> for details.
-     */
-    @Override
-    public void configure(LocalContainer container)
-    {
-        boolean portOffsetApplied = isOffsetApplied(ServletPropertySet.PORT);
-        try
-        {
-            if (portOffsetApplied)
-            {
-                revertPortOffset();
-            }
-            super.configure(container);
-        }
-        finally
-        {
-            if (portOffsetApplied)
-            {
-                applyPortOffset();
-            }
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
