@@ -252,6 +252,19 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         return this.home;
     }
 
+    @Override
+    public String getPropertyValue(String name)
+    {
+        if (isOffsetApplied(name))
+        {
+            return super.getProperties().get(name);
+        }
+        else
+        {
+            return super.getPropertyValue(name);
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -788,7 +801,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     protected boolean isOffsetApplied(String name)
     {
-        return this.getPropertyValue(PORT_OFFSET_APPLIED_PREFIX + name) != null;
+        return super.getPropertyValue(PORT_OFFSET_APPLIED_PREFIX + name) != null;
     }
 
     /**

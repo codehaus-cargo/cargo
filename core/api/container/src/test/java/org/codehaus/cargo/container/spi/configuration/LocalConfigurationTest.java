@@ -335,5 +335,45 @@ public class LocalConfigurationTest extends TestCase
 
         assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
         assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+
+        // re-revert
+
+        configuration.revertPortOffset();
+
+        assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+    }
+
+    /**
+     * Test port offset with system properties.
+     */
+    public void testPortOffsetWithSystemProperties()
+    {
+        AbstractLocalConfiguration configuration =
+                new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
+                    GeneralPropertySet.PORT_OFFSET,
+                    ServletPropertySet.PORT}));
+
+        configuration.setProperty(ServletPropertySet.PORT, "8080");
+        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+
+        try
+        {
+            System.setProperty(ServletPropertySet.PORT, "8091");
+            assertEquals("8091", configuration.getPropertyValue(ServletPropertySet.PORT));
+
+            configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "20");
+            assertEquals("8091", configuration.getPropertyValue(ServletPropertySet.PORT));
+
+            configuration.applyPortOffset();
+            assertEquals("8111", configuration.getPropertyValue(ServletPropertySet.PORT));
+
+            configuration.revertPortOffset();
+            assertEquals("8091", configuration.getPropertyValue(ServletPropertySet.PORT));
+        }
+        finally
+        {
+            System.clearProperty(ServletPropertySet.PORT);
+        }
     }
 }
