@@ -54,24 +54,9 @@ public class GeronimoUtils
     private Logger logger;
 
     /**
-     * Host name.
+     * Configuration.
      */
-    private String host;
-
-    /**
-     * RMI port.
-     */
-    private String rmiPort;
-
-    /**
-     * User name.
-     */
-    private String username;
-
-    /**
-     * Password.
-     */
-    private String password;
+    private Configuration configuration;
 
     /**
      * @param configuration Configuration to use.
@@ -79,10 +64,7 @@ public class GeronimoUtils
     public GeronimoUtils(Configuration configuration)
     {
         logger = configuration.getLogger();
-        host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
-        rmiPort = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
-        username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
-        password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+        this.configuration = configuration;
     }
 
     /**
@@ -191,6 +173,11 @@ public class GeronimoUtils
      */
     public long getBundleId(Bundle bundle) throws Exception
     {
+        String host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String rmiPort = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
+        String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+
         logger.debug("Looking for bundle " + bundle, this.getClass().getName());
 
         JarFile bundleJar = new JarFile(bundle.getFile());
@@ -278,6 +265,11 @@ public class GeronimoUtils
      */
     private boolean isKernelFullyStarted() throws Exception
     {
+        String host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String rmiPort = configuration.getPropertyValue(GeneralPropertySet.RMI_PORT);
+        String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+
         JMXServiceURL jmxServiceURL = new JMXServiceURL("service:jmx:rmi://" + host
             + "/jndi/rmi://" + host + ":" + rmiPort + "/JMXConnector");
 

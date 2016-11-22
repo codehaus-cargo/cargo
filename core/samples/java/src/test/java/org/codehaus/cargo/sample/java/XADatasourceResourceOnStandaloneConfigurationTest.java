@@ -69,9 +69,6 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         // cannot deploy XA datasources as a resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("wildfly8x");
-        excludedContainerIds.add("wildfly9x");
-        excludedContainerIds.add("wildfly10x");
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
         excludedContainerIds.add("weblogic121x");

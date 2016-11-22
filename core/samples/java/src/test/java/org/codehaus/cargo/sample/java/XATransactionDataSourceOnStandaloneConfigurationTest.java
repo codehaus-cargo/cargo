@@ -64,14 +64,12 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
 
-        // The WebLogic 12.x, 12.1.x and 12.2.x deployers as well as WildFly
+        // The WebLogic 12.x, 12.1.x and 12.2.x deployers
         // cannot deploy datasource-cmt-local
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("weblogic12x");
         excludedContainerIds.add("weblogic121x");
         excludedContainerIds.add("weblogic122x");
-        excludedContainerIds.add("wildfly9x");
-        excludedContainerIds.add("wildfly10x");
 
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
