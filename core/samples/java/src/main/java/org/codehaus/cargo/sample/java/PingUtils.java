@@ -20,11 +20,13 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Map;
 
 import junit.framework.Assert;
 
 import org.codehaus.cargo.container.internal.util.HttpUtils;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
@@ -53,7 +55,16 @@ public class PingUtils extends Assert
         HttpUtils httpUtils = new HttpUtils();
         httpUtils.setLogger(errorLogger);
         HttpUtils.HttpResult result = new HttpUtils.HttpResult();
-        boolean success = httpUtils.ping(pingURL, requestProperties, result, PingUtils.TIMEOUT);
+
+        boolean success = false;
+        if (expectTrue)
+        {
+            success = pingSuccessWithTimeout(httpUtils, pingURL, requestProperties, result);
+        }
+        else
+        {
+            success = httpUtils.ping(pingURL, requestProperties, result, PingUtils.TIMEOUT);
+        }
 
         String text = message + ". Failed to ping [" + pingURL.toString() + "], ";
         if (result.responseCode == -1)
@@ -82,6 +93,46 @@ public class PingUtils extends Assert
             assertTrue(content + " does not contain " + expectedContent,
                 content.contains(expectedContent));
         }
+    }
+
+    /**
+     * Ping a container and check the result.
+     *
+     * @param httpUtils HTTP utils.
+     * @param pingUrl Ping URL.
+     * @param requestProperties Properties for the request.
+     * @param result Result of last request.
+     * @return <code>true</code> if container responded with a correct content
+     */
+    private static boolean pingSuccessWithTimeout(HttpUtils httpUtils, URL pingUrl,
+        Map<String, String> requestProperties, HttpUtils.HttpResult result)
+    {
+        boolean success = false;
+
+        // Some containers have delay between their startup and deploying of deployables.
+        // This construct will apply timeout for call response for cases when deployable
+        // isn't deployed immediately.
+        long timeout = Calendar.getInstance().getTimeInMillis() + PingUtils.TIMEOUT;
+        do
+        {
+            success = httpUtils.ping(pingUrl, requestProperties, result, PingUtils.TIMEOUT);
+            if (success)
+            {
+                break;
+            }
+
+            try
+            {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e)
+            {
+                throw new CargoException("Cannot ping container", e);
+            }
+        }
+        while (Calendar.getInstance().getTimeInMillis() < timeout);
+
+        return success;
     }
 
     /**
