@@ -20,7 +20,6 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
-import java.util.Calendar;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -112,7 +111,7 @@ public class PingUtils extends Assert
         // Some containers have delay between their startup and deploying of deployables.
         // This construct will apply timeout for call response for cases when deployable
         // isn't deployed immediately.
-        long timeout = Calendar.getInstance().getTimeInMillis() + PingUtils.TIMEOUT;
+        long timeout = System.currentTimeMillis() + PingUtils.TIMEOUT;
         do
         {
             success = httpUtils.ping(pingUrl, requestProperties, result, PingUtils.TIMEOUT);
@@ -130,7 +129,7 @@ public class PingUtils extends Assert
                 throw new CargoException("Cannot ping container", e);
             }
         }
-        while (Calendar.getInstance().getTimeInMillis() < timeout);
+        while (System.currentTimeMillis() < timeout);
 
         return success;
     }
