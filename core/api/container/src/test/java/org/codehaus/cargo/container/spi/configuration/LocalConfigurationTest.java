@@ -302,6 +302,7 @@ public class LocalConfigurationTest extends TestCase
 
         configuration.applyPortOffset();
 
+        assertTrue(configuration.isOffsetApplied());
         assertEquals("1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
         assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
 
@@ -333,6 +334,7 @@ public class LocalConfigurationTest extends TestCase
 
         configuration.revertPortOffset();
 
+        assertFalse(configuration.isOffsetApplied());
         assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
         assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
 

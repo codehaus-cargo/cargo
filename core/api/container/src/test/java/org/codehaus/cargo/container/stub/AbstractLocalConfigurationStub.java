@@ -247,6 +247,16 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     }
 
     /**
+     * Stub value. {@inheritDoc}
+     */
+    @Override
+    public boolean isOffsetApplied()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
      * Voluntarily do nothing for testing. {@inheritDoc}
      * @param container Ignored.
      */

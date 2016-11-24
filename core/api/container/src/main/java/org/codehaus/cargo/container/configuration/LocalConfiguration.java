@@ -133,6 +133,12 @@ public interface LocalConfiguration extends Configuration
     void revertPortOffset();
 
     /**
+     * Checks whether the offset is already applied or not.
+     * @return <code>true</code> if the offset is already applied
+     */
+    boolean isOffsetApplied();
+
+    /**
      * Setup the container which means setting up a valid directory structure, setting up
      * configuration files and deploying static deployables.
      * 
