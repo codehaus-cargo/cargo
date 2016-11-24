@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +31,6 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyInstalledLocalContainer;
 import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.wildfly.internal.WildFly9xStandaloneLocalConfigurationCapability;
@@ -158,21 +156,6 @@ public class WildFly9xStandaloneLocalConfiguration
         }
 
         // deploy deployments
-        String deployments;
-        String altDeployDir = container.getConfiguration().
-            getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
-        if (altDeployDir != null && !altDeployDir.equals(""))
-        {
-            container.getLogger().info("Using non-default deployment target directory "
-                + altDeployDir, this.getClass().getName());
-            deployments = getFileHandler().append(getHome(), altDeployDir);
-        }
-        else
-        {
-            deployments = getFileHandler().append(getHome(), "deployments");
-        }
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(deployments, "cargocpc.war"));
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
     }

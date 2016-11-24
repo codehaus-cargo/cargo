@@ -33,13 +33,12 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
-import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.spi.util.ContainerUtils;
+import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 import org.codehaus.cargo.util.CargoException;
 
@@ -60,12 +59,18 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     protected String version;
 
     /**
+     * Monitor used for checking if WildFly container is online.
+     */
+    private ContainerMonitor monitor;
+
+    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(LocalConfiguration)
      */
     public AbstractWildFlyInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+        monitor = new ManagementUrlWildFlyMonitor(this);
     }
 
     /**
@@ -369,12 +374,11 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     }
 
     /**
-     * @return True if WildFly is started and has cargocpc deployed.
+     * @return True if WildFly is started.
      */
     public boolean isOnline()
     {
-        HttpUtils httpUtils = new HttpUtils();
-        return httpUtils.ping(ContainerUtils.getCPCURL(getConfiguration()));
+        return monitor.isRunning();
     }
 
     /**
@@ -386,5 +390,18 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     protected void addRuntimeArgs(JvmLauncher java)
     {
         // Nothing
+    }
+
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+    {
+        if (waitForStarting)
+        {
+            waitForStarting(monitor);
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 }

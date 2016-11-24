@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
+import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -326,6 +327,37 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
 
         start();
+    }
+
+    /**
+     * Use container monitor to verify if the container is started.
+     * @param monitor Container monitor checking container availability.
+     * @throws InterruptedException if the thread sleep is interrupted.
+     */
+    protected void waitForStarting(ContainerMonitor monitor) throws InterruptedException
+    {
+        try
+        {
+            long startTime = System.currentTimeMillis();
+            do
+            {
+                if (System.currentTimeMillis() - startTime > getTimeout())
+                {
+                    String message = "Monitor [" + monitor.getClass().getName()
+                        + "] failed to detect running container"
+                        + " within the timeout period [" + getTimeout() + "].";
+                    getLogger().info(message, this.getClass().getName());
+                    throw new ContainerException(message);
+                }
+
+                Thread.sleep(100);
+            }
+            while (!monitor.isRunning());
+        }
+        catch (InterruptedException e)
+        {
+            throw new ContainerException("Failed to monitor container", e);
+        }
     }
 
     /**

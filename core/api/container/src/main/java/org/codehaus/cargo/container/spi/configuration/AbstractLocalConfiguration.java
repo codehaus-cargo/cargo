@@ -794,6 +794,14 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         }
     }
 
+    @Override
+    public boolean isOffsetApplied()
+    {
+        // Servlet port should be available in all containers, so we can use it
+        // to check if offset was applied.
+        return isOffsetApplied(ServletPropertySet.PORT);
+    }
+
     /**
      * Checks whether the offset is already applied or not 
      * @param name the name of the property to be checked

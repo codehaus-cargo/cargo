@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,21 +144,6 @@ public class WildFly8xStandaloneLocalConfiguration
         configureDataSources(container, configurationXmlFile);
 
         // deploy deployments
-        String deployments;
-        String altDeployDir = container.getConfiguration().
-            getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
-        if (altDeployDir != null && !altDeployDir.equals(""))
-        {
-            container.getLogger().info("Using non-default deployment target directory " 
-                + altDeployDir, this.getClass().getName());
-            deployments = getFileHandler().append(getHome(), altDeployDir);
-        }
-        else
-        {
-            deployments = getFileHandler().append(getHome(), "deployments");
-        }
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(deployments, "cargocpc.war"));
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
     }
