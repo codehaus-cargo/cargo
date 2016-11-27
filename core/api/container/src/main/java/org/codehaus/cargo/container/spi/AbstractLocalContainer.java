@@ -363,8 +363,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     /**
      * Ping the WAR CPC to verify if the container is started or stopped.
      * 
-     * @param waitForStarting if true then wait for container start, if false wait for container
-     * stop
+     * @param waitForStarting if <code>true</code> then wait for container start, if
+     * <code>false</code> wait for container stop
      * @throws InterruptedException if the thread sleep is interrupted
      */
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
