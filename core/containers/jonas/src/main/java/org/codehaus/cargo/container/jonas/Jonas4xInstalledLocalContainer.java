@@ -47,7 +47,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     private static final ContainerCapability CAPABILITY = new Jonas4xContainerCapability();
 
     /**
-     * The jonas admin.
+     * The JOnAS admin.
      */
     private Jonas4xAdmin jonasAdmin;
 
@@ -91,7 +91,7 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         if (returnCode != 0 && returnCode != 2)
         {
             throw new IllegalStateException("JonasAdmin stop returned " + returnCode
-                    + ", the only values allowed are 0 and 2");
+                + ", the only values allowed are 0 and 2");
         }
     }
 
@@ -101,32 +101,14 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
-        long timeout = System.currentTimeMillis() + this.getTimeout();
-        while (System.currentTimeMillis() < timeout)
+        if (waitForStarting)
         {
-            Thread.sleep(1000);
-
-            if (waitForStarting)
-            {
-                // Wait for JOnAS to start by pinging
-                // (to ensure all modules are deployed and ready)
-                if (jonasAdmin.isServerRunning("ping", 0))
-                {
-                    return;
-                }
-            }
-            else
-            {
-                // Wait for JOnAS to stop by listing JNDI
-                if (jonasAdmin.isServerRunning("j", 2))
-                {
-                    return;
-                }
-            }
+            waitForStarting(new Jonas4xContainerMonitor(this, jonasAdmin, waitForStarting));
         }
-
-        throw new ContainerException("Server.waitForCompletion not finished after "
-                + Long.toString(this.getTimeout()) + " milliseconds!");
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 
     /**

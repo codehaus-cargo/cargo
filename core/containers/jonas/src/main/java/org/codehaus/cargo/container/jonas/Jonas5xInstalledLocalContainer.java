@@ -84,7 +84,7 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
         if (returnCode != 0 && returnCode != 2)
         {
             throw new ContainerException("JonasAdmin stop returned " + returnCode
-                    + ", the only values allowed are 0 and 2");
+                + ", the only values allowed are 0 and 2");
         }
     }
 
@@ -96,65 +96,49 @@ public class Jonas5xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     {
         if (waitForStarting)
         {
-            // Wait for JOnAS to start by pinging
-            // (to ensure all modules are deployed and ready)
-            this.ping(0);
+            waitForStarting(new Jonas5xContainerMonitor(this));
         }
         else
         {
-            // Wait for JOnAS to stop by listing JNDI
-            this.ping(1);
+            super.waitForCompletion(waitForStarting);
         }
     }
 
     /**
-     * Wait for the JOnAS server to reach a given state.
+     * Ping the JOnAS server.
      * 
-     * @param expectedReturnCode expected return code.
+     * @return Return code from the JOnAS server.
      */
-    protected void ping(int expectedReturnCode)
+    public int ping()
     {
-        int returnCode = -1;
+        JvmLauncher ping = createJvmLauncher(false);
 
-        // Wait for JOnAS to start by pinging (to ensure all modules are deployed and ready)
-        long timeout = System.currentTimeMillis() + this.getTimeout();
-        while (System.currentTimeMillis() < timeout)
+        doAction(ping);
+        doServerAndDomainNameArgs(ping);
+        ping.addAppArguments("-ping");
+        // IMPORTANT: impose timeout since default is 120 seconds,
+        // the argument is in milliseconds in JOnAS 5
+        ping.addAppArguments("-timeout");
+        ping.addAppArguments("2000");
+        doUsernameAndPasswordArgs(ping);
+        ping.setTimeout(10000);
+        try
         {
-            JvmLauncher ping = createJvmLauncher(false);
-
-            doAction(ping);
-            doServerAndDomainNameArgs(ping);
-            ping.addAppArguments("-ping");
-            // IMPORTANT: impose timeout since default is 120 seconds
-            // the argument is in milliseconds in JOnAS 5
-            ping.addAppArguments("-timeout");
-            ping.addAppArguments("2000");
-            doUsernameAndPasswordArgs(ping);
-            ping.setTimeout(10000);
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e)
-            {
-                throw new ContainerException("Thread.sleep failed", e);
-            }
-
-            returnCode = ping.execute();
-            if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
-            {
-                throw new ContainerException("JonasAdmin ping returned " + returnCode
-                        + ", the only values allowed are -1, 0, 1 and 2");
-            }
-            if (returnCode == expectedReturnCode)
-            {
-                return;
-            }
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e)
+        {
+            throw new ContainerException("Thread.sleep failed", e);
         }
 
-        throw new ContainerException("Server did not reach wanted state after "
-                + Long.toString(this.getTimeout()) + " milliseconds: last ping return code was "
-                    + returnCode + ", expected return code was " + expectedReturnCode);
+        int returnCode = ping.execute();
+        getLogger().debug("JonasAdmin ping returned " + returnCode, this.getClass().getName());
+        if (returnCode != -1 && returnCode != 0 && returnCode != 1 && returnCode != 2)
+        {
+            throw new ContainerException("JonasAdmin ping returned " + returnCode
+                + ", the only values allowed are -1, 0, 1 and 2");
+        }
+        return returnCode;
     }
 
     /**

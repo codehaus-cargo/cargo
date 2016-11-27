@@ -54,9 +54,5 @@ public class Jonas5xExistingLocalConfiguration extends AbstractJonasExistingLoca
         Jonas5xInstalledLocalDeployer deployer = new Jonas5xInstalledLocalDeployer(jonasContainer);
         deployer.setWarn(false);
         deployer.redeploy(getDeployables());
-
-        // Deploy the CPC (Cargo Ping Component) to the webapps directory.
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            getFileHandler().append(getHome(), "/deploy/cargocpc.war"), getFileHandler());
     }
 }
