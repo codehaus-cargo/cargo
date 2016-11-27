@@ -50,6 +50,9 @@ public class ManagementUrlWildFlyMonitor extends AbstractContainerMonitor
         this.httpUtils = new HttpUtils();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isRunning()
     {

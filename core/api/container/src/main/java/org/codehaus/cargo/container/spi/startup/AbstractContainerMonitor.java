@@ -66,12 +66,18 @@ public abstract class AbstractContainerMonitor implements ContainerMonitor
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setLogger(Logger logger)
     {
         this.logger = logger;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Logger getLogger()
     {

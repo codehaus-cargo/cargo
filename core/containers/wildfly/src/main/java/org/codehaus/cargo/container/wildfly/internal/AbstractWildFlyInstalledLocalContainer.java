@@ -392,6 +392,9 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
         // Nothing
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {

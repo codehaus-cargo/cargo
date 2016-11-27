@@ -794,6 +794,9 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isOffsetApplied()
     {
