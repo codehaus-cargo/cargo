@@ -1,0 +1,1 @@
+connect @cargo.hostname@:@cargo.jboss.management-http.port@

@@ -24,6 +24,7 @@ import java.util.List;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.wildfly.internal.configuration.commands.wildfly8.server.AddModuleScriptCommand;
+import org.codehaus.cargo.container.wildfly.internal.configuration.commands.wildfly8.server.ConnectToServerScriptCommand;
 import org.codehaus.cargo.container.wildfly.internal.configuration.commands.wildfly8.server.ShutdownServerScriptCommand;
 
 /**
@@ -61,6 +62,15 @@ public class WildFly8xCliConfigurationFactory implements WildFlyCliConfiguration
     public ScriptCommand shutdownServerScript()
     {
         return new ShutdownServerScriptCommand(configuration, RESOURCE_PATH);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ScriptCommand connectToServerScript()
+    {
+        return new ConnectToServerScriptCommand(configuration, RESOURCE_PATH);
     }
 
     /* Domain configuration*/

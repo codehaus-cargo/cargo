@@ -179,6 +179,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
         WildFlyConfiguration configuration = (WildFlyConfiguration) getConfiguration();
         WildFlyCliConfigurationFactory factory = configuration.getConfigurationFactory();
+        configurationScript.add(factory.connectToServerScript());
         configurationScript.add(factory.shutdownServerScript());
 
         executeScript(configurationScript);
@@ -262,11 +263,6 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
      */
     private void addCliArguments(JvmLauncher java)
     {
-        String host =
-                getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
-        String port =
-            getConfiguration().getPropertyValue(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
-
         java.setJarFile(new File(getHome(), "jboss-modules.jar"));
 
         String modules = getConfiguration().getPropertyValue(
@@ -279,11 +275,6 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
         java.addAppArguments(
                 "-mp", modules,
                 "org.jboss.as.cli");
-
-        if (isOnline())
-        {
-            java.addAppArguments("--connect", "--controller=" + host + ":" + port);
-        }
     }
 
     /**
@@ -371,14 +362,6 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     protected File getConfigAdminDirectory()
     {
         return new File(getHome(), "modules/system/layers/base/org/jboss/as/system-jmx/main");
-    }
-
-    /**
-     * @return True if WildFly is started.
-     */
-    public boolean isOnline()
-    {
-        return monitor.isRunning();
     }
 
     /**
