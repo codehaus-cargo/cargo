@@ -36,6 +36,11 @@ public interface WildFlyCliConfigurationFactory
     ScriptCommand shutdownServerScript();
 
     /**
+     * @return Connect to running server CLI script.
+     */
+    ScriptCommand connectToServerScript();
+
+    /**
      * @param moduleName Module name.
      * @param jarFilePaths Paths to module's jar files.
      * @param moduleDependencies List of module names the module being added depends on.
