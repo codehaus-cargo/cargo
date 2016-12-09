@@ -335,7 +335,7 @@
 
               <property>
                 <name>cargo.tomcat9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M13/tomcat-9.0.0.M13.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M15/tomcat-9.0.0.M15.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat9x.java.home</name>
