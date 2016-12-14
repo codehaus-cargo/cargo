@@ -545,7 +545,7 @@ public class TomcatManager extends LoggedObject
             // When trying to upload large amount of data the internal connection buffer can become
             // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
             // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
-            // CARGO-1418 Tomcat deploy transfer speed - use a sensible chunk size for high capacity links
+            // CARGO-1418 Tomcat deploy transfer speed - use a sensible chunk size for fast links
             connection.setChunkedStreamingMode(1024 * 256);
         }
 
