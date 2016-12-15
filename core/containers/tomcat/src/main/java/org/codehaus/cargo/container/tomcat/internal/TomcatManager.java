@@ -536,16 +536,16 @@ public class TomcatManager extends LoggedObject
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/octet-stream");
 
-            // CARGO-1418 Tomcat deploy transfer speed
-            // Expect/Continue causes a slowdown in chunked transfer when remotely deploying over
-            // fast links. This may cause faulures (i.e. auth fail) to be be very slow as the
-            //  entire PUT request will be transferred before getting the error response
-            //connection.setRequestProperty("Expect", "100-continue");
+            // As per CARGO-1418, Expect/Continue causes a slowdown in chunked transfer when
+            // remotely deploying over fast links. This may cause failures (i.e. auth fail) to be
+            // be very slow as the entire PUT request will be transferred before getting the error
+            // response.
+            // connection.setRequestProperty("Expect", "100-continue");
 
             // When trying to upload large amount of data the internal connection buffer can become
             // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
             // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
-            // CARGO-1418 Tomcat deploy transfer speed - use a sensible chunk size for fast links
+            // As per CARGO-1418, use a sensible chunk size for fast links.
             connection.setChunkedStreamingMode(1024 * 256);
         }
 
