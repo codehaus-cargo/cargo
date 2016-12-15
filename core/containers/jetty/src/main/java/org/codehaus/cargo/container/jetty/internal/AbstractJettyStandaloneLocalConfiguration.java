@@ -91,7 +91,10 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         replaceJettyHome.put("jetty.home", "config.home");
         for (String etcChild : getFileHandler().getChildren(etcDir))
         {
-            getFileHandler().replaceInFile(etcChild, replaceJettyHome, "UTF-8", true);
+            if (!getFileHandler().isDirectory(etcChild))
+            {
+                getFileHandler().replaceInFile(etcChild, replaceJettyHome, "UTF-8", true);
+            }
         }
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
             new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");

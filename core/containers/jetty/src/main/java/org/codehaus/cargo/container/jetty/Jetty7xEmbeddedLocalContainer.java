@@ -226,6 +226,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
                     .invoke(credentialClass, user.getPassword());
                 String[] roles = user.getRoles().toArray(new String[user.getRoles().size()]);
 
+                // TODO: Method putUser was removed with Jetty 9.4.0.v20161208
                 Method putUser =
                     this.defaultRealm.getClass().getMethod("putUser",
                         new Class[] {java.lang.String.class,

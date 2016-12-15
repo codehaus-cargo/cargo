@@ -99,10 +99,11 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
                 getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext");
 
             if (webAppContextClass.getPackage().getImplementationVersion() != null
-                && webAppContextClass.getPackage().getImplementationVersion().startsWith("9.3."))
+                && (webAppContextClass.getPackage().getImplementationVersion().startsWith("9.3.")
+                || webAppContextClass.getPackage().getImplementationVersion().startsWith("9.4.")))
             {
-                // Override of the Jetty 9.3.x server classes list, to work around the nasty
-                // javax.servlet.ServletContainerInitializer error: Provider
+                // Override of the Jetty 9.3.x / 9.4.x server classes list, to work around the
+                // nasty javax.servlet.ServletContainerInitializer error: Provider
                 // org.eclipse.jetty.cdi.websocket.WebSocketCdiInitializer not found.
                 String[] dftServerClasses = (String[])
                     webAppContextClass.getDeclaredField("__dftServerClasses").get(null);

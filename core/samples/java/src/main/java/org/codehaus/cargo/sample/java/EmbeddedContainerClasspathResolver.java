@@ -137,7 +137,7 @@ public class EmbeddedContainerClasspathResolver
                 }
             }
 
-            // Jetty 9.3.x onwards has a WebSocket implementation that needs CDI
+            // Jetty 9.3.x and 9.4.x have a WebSocket implementation that needs CDI
             if ("jetty9x".equals(containerId))
             {
                 String cdi = System.getProperty("cargo.testdata.cdi-jars");

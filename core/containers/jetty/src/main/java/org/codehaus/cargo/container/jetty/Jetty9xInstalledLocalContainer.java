@@ -106,6 +106,24 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "path=" + classpath
             };
         }
+        else if (getVersion().startsWith("9.4."))
+        {
+            return new String[]
+            {
+                "--ini",
+                "--module=ext",
+                "--module=server",
+                "--module=client",
+                "--module=jsp",
+                "--module=resources",
+                "--module=deploy",
+                "--module=jstl",
+                "--module=websocket",
+                "--module=http",
+                "--module=plus",
+                "path=" + classpath
+            };
+        }
         else
         {
             return new String[]
