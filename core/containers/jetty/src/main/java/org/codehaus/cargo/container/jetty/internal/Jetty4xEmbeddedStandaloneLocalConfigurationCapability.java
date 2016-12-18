@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
@@ -36,5 +37,6 @@ public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.propertySupportMap.put(JettyPropertySet.REALM_NAME, Boolean.TRUE);
     }
 }

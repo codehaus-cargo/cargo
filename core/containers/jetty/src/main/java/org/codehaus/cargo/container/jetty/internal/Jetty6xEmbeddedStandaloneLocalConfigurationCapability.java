@@ -38,5 +38,6 @@ public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(JettyPropertySet.SESSION_PATH, Boolean.TRUE);
         this.propertySupportMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
         this.propertySupportMap.put(JettyPropertySet.CREATE_CONTEXT_XML, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.REALM_NAME, Boolean.TRUE);
     }
 }
