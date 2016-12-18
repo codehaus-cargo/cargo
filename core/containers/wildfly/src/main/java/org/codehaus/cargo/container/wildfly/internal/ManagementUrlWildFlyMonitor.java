@@ -23,22 +23,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.spi.startup.AbstractContainerMonitor;
+import org.codehaus.cargo.container.spi.startup.AbstractPingContainerMonitor;
 import org.codehaus.cargo.util.CargoException;
 
 /**
  * WildFly monitor checking if management URL is available.
  */
-public class ManagementUrlWildFlyMonitor extends AbstractContainerMonitor
+public class ManagementUrlWildFlyMonitor extends AbstractPingContainerMonitor
 {
-    /**
-     * HTTP utils.
-     */
-    private HttpUtils httpUtils;
-
     /**
      * Constructor.
      *
@@ -47,23 +41,13 @@ public class ManagementUrlWildFlyMonitor extends AbstractContainerMonitor
     public ManagementUrlWildFlyMonitor(Container container)
     {
         super(container);
-        this.httpUtils = new HttpUtils();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isRunning()
-    {
-        URL managementUrl = getManagementConsoleUrl();
-        return httpUtils.ping(managementUrl);
     }
 
     /**
      * @return Management console URL for WildFly.
      */
-    private URL getManagementConsoleUrl()
+    @Override
+    protected URL getPingUrl()
     {
         String protocolProperty = getConfiguration().getPropertyValue(GeneralPropertySet.PROTOCOL);
         String hostnameProperty = getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
@@ -77,30 +61,5 @@ public class ManagementUrlWildFlyMonitor extends AbstractContainerMonitor
         {
             throw new CargoException("Unable to construct management console URL.", e);
         }
-    }
-
-    /**
-     * Returns port with offset.
-     *
-     * @param portProperty Port property.
-     * @return Port value with offset.
-     */
-    private int getPortWithOffset(String portProperty)
-    {
-        String portOffset = getConfiguration().getPropertyValue(GeneralPropertySet.PORT_OFFSET);
-
-        boolean portOffsetApplicable = portOffset != null && !portOffset.equals("0");
-        boolean portOffsetApplied = getConfiguration().isOffsetApplied();
-        boolean applyPortOffset = portOffsetApplicable && !portOffsetApplied;
-
-        int portValue = Integer.parseInt(getConfiguration().getPropertyValue(portProperty));
-
-        if (applyPortOffset)
-        {
-            int portOffsetValue = Integer.parseInt(portOffset);
-            portValue = portValue + portOffsetValue;
-        }
-
-        return portValue;
     }
 }
