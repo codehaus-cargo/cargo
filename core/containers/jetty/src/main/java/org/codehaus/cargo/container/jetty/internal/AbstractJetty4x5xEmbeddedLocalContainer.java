@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 
@@ -47,7 +48,6 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
     /**
      * {@inheritDoc}
      * @see AbstractJetty4x5xEmbeddedLocalContainer#doStart()
-     * {@link AbstractJettyStandaloneLocalConfiguration}
      */
     @Override
     protected void doStart() throws Exception
@@ -129,7 +129,8 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
         {
             Class realmClass = getClassLoader().loadClass("org.mortbay.http.HashUserRealm");
             Object defaultRealm = realmClass.getConstructor(
-                new Class[] {String.class}).newInstance(new Object[] {"Cargo Test Realm"});
+                new Class[] {String.class}).newInstance(new Object[] {
+                    getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME)});
 
             for (User user : getConfiguration().getUsers())
             {

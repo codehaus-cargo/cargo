@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.JettyUtils;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -54,6 +55,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
     public Jetty7xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        setProperty(JettyPropertySet.REALM_NAME, "Cargo Test Realm");
     }
 
     /**
@@ -99,6 +101,26 @@ public class Jetty7xStandaloneLocalConfiguration extends
 
         Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
         jettyXmlReplacements.put("<Property", "<SystemProperty");
+
+        if (getUsers() != null && !getUsers().isEmpty())
+        {
+            JettyUtils.createRealmFile(getUsers(), etcDir, getFileHandler());
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("<Call name=\"addBean\">\n");
+            sb.append("  <Arg>\n");
+            sb.append("    <New class=\"org.eclipse.jetty.security.HashLoginService\">\n");
+            sb.append("      <Set name=\"name\">"
+                + getPropertyValue(JettyPropertySet.REALM_NAME) + "</Set>\n");
+            sb.append("      <Set name=\"config\">"
+                + "<SystemProperty name=\"config.home\" default=\".\"/>"
+                    + "/etc/cargo-realm.properties</Set>\n");
+            sb.append("    </New>\n");
+            sb.append("  </Arg>\n");
+            sb.append("</Call>\n");
+
+            jettyXmlReplacements.put("</Configure>", sb.toString() + "</Configure>");
+        }
 
         if (getDataSources() != null && !getDataSources().isEmpty())
         {

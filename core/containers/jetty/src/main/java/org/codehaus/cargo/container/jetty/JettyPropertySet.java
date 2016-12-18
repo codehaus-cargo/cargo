@@ -44,4 +44,9 @@ public interface JettyPropertySet
      */
     String CREATE_CONTEXT_XML = "cargo.jetty.createContextXml";
 
+    /**
+     * Name of the security realm for Jetty.
+     */
+    String REALM_NAME = "cargo.jetty.realm.name";
+
 }

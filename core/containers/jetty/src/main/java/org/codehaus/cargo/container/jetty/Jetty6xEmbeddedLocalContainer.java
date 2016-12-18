@@ -352,8 +352,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             Class realmClass =
                 getClassLoader().loadClass("org.mortbay.jetty.security.HashUserRealm");
             this.defaultRealm =
-                realmClass.getConstructor(new Class[] {String.class}).newInstance(
-                    new Object[] {"Cargo Test Realm"});
+                realmClass.getConstructor(new Class[] {String.class}).newInstance(new Object[] {
+                    getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME)});
 
             for (User user : getConfiguration().getUsers())
             {

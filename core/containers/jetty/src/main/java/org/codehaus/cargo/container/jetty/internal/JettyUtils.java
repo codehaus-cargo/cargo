@@ -19,7 +19,11 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import java.util.List;
+
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * A utility class to assist the Jetty containers.
@@ -66,6 +70,31 @@ public final class JettyUtils
             result = result.replace("&", "&amp;");
         }
         return result;
+    }
+
+    /**
+     * Create realm (user, password and role) file.
+     * @param users Users for which to create the file.
+     * @param etcDir The <code>etc</code> directory of the configuration.
+     * @param fileHandler File handler for writing the file.
+     */
+    public static void createRealmFile(List<User> users, String etcDir, FileHandler fileHandler)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (User user : users)
+        {
+            sb.append(user.getName());
+            sb.append(": ");
+            sb.append(user.getPassword().replace("\\", "\\\\"));
+            for (String role : user.getRoles())
+            {
+                sb.append(",");
+                sb.append(role);
+            }
+            sb.append("\n");
+        }
+        fileHandler.writeTextFile(
+            fileHandler.append(etcDir, "cargo-realm.properties"), sb.toString(), "UTF-8");
     }
 
 }

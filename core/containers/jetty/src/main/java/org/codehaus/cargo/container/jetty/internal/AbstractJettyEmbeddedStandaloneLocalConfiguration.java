@@ -44,6 +44,7 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
 
         setProperty(JettyPropertySet.USE_FILE_MAPPED_BUFFER, "true");
         setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "true");
+        setProperty(JettyPropertySet.REALM_NAME, "Cargo Test Realm");
     }
 
     /**

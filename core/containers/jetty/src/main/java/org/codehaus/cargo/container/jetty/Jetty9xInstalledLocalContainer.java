@@ -112,6 +112,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
             {
                 "--ini",
                 "--module=ext",
+                "--module=logging",
                 "--module=server",
                 "--module=client",
                 "--module=jsp",

@@ -197,42 +197,56 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     @Override
     protected void setSecurityRealm() throws Exception
     {
-        if (!getConfiguration().getUsers().isEmpty())
+        if (getConfiguration().getUsers() != null && !getConfiguration().getUsers().isEmpty())
         {
             Class realmClass =
-                // see: http://wiki.eclipse.org/Jetty/Starting/Porting_to_Jetty_7
                 getClassLoader().loadClass("org.eclipse.jetty.security.HashLoginService");
-            this.defaultRealm =
-                realmClass.getConstructor(new Class[] {String.class}).newInstance(
-                    new Object[] {"Cargo Test Realm"});
 
-            for (User user : getConfiguration().getUsers())
+            Class credentialClass;
+            try
             {
-                String userName = user.getName();
-                Class credentialClass;
-                try
-                {
-                    // Name until Jetty 7.5 (inclusive) and Jetty 8.0
-                    credentialClass = getClassLoader()
-                        .loadClass("org.eclipse.jetty.http.security.Credential");
-                }
-                catch (ClassNotFoundException e)
-                {
-                    // Name after Jetty 7.6 and Jetty 8.1
-                    credentialClass = getClassLoader()
-                        .loadClass("org.eclipse.jetty.util.security.Credential");
-                }
-                Object credential = credentialClass.getMethod("getCredential", String.class)
-                    .invoke(credentialClass, user.getPassword());
-                String[] roles = user.getRoles().toArray(new String[user.getRoles().size()]);
-
-                // TODO: Method putUser was removed with Jetty 9.4.0.v20161208
+                // Name until Jetty 7.5 (inclusive) and Jetty 8.0
+                credentialClass = getClassLoader()
+                    .loadClass("org.eclipse.jetty.http.security.Credential");
+            }
+            catch (ClassNotFoundException e)
+            {
+                // Name after Jetty 7.6 and Jetty 8.1
+                credentialClass = getClassLoader()
+                    .loadClass("org.eclipse.jetty.util.security.Credential");
+            }
+            try
+            {
+                this.defaultRealm =
+                    realmClass.getConstructor(new Class[] {String.class}).newInstance(
+                        new Object[] {
+                            getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME)});
                 Method putUser =
-                    this.defaultRealm.getClass().getMethod("putUser",
+                    realmClass.getMethod("putUser",
                         new Class[] {java.lang.String.class,
                             credentialClass, java.lang.String[].class});
-                putUser.invoke(this.defaultRealm,
-                    new Object[] {userName, credential, roles});
+                for (User user : getConfiguration().getUsers())
+                {
+                    String userName = user.getName();
+                    Object credential = credentialClass.getMethod("getCredential", String.class)
+                        .invoke(credentialClass, user.getPassword());
+                    String[] roles = user.getRoles().toArray(new String[user.getRoles().size()]);
+
+                    putUser.invoke(this.defaultRealm,
+                        new Object[] {userName, credential, roles});
+                }
+            }
+            catch (NoSuchMethodException e)
+            {
+                // Method putUser was removed with Jetty 9.4
+                String etcDir = getFileHandler().append(getConfiguration().getHome(), "etc");
+                JettyUtils.createRealmFile(
+                    getConfiguration().getUsers(), etcDir, getFileHandler());
+                this.defaultRealm =
+                    realmClass.getConstructor(new Class[] {String.class, String.class})
+                        .newInstance(new Object[] {
+                            getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME),
+                                getFileHandler().append(etcDir, "cargo-realm.properties")});
             }
 
             Object userRealmsArray =
