@@ -136,6 +136,13 @@ public class Container
     private File systemPropertiesFile;
 
     /**
+     * Container unique Id - if starting multiple containers on one single maven
+     * build, the container id should be specified, as it may act as a unique id
+     * to the maven context attribute
+     */
+    private String id;
+
+    /**
      * @return System properties.
      */
     public Map<String, String> getSystemProperties()
@@ -368,6 +375,23 @@ public class Container
     }
 
     /**
+     * @return the container unique id
+     */
+    public String getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            the container unique id to set
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    /**
      * Creates the container based on its configuration and attaches the logger.
      * @param configuration Container configuration.
      * @param logger Logger.
@@ -506,9 +530,9 @@ public class Container
 
     /**
      * Merges static and system properties loaded from file together
-     * @param container Container. 
+     * @param container Container.
      * @return merged system properties
-     * @throws MojoExecutionException 
+     * @throws MojoExecutionException in case something fails
      */
     private Map<String, String> mergeSystemProperties(Loggable container)
         throws MojoExecutionException
@@ -553,8 +577,8 @@ public class Container
             if (systemProperties != null)
             {
                 systemProperties.putAll(getSystemProperties());
-            } 
-            else 
+            }
+            else
             {
                 systemProperties = getSystemProperties();
             }
@@ -565,7 +589,7 @@ public class Container
     /**
      * Setup the embedded container's system properties.
      * @param container Container.
-     * @throws MojoExecutionException 
+     * @throws MojoExecutionException throws an exception in case the system properties are not ok
      */
     private void setupEmbeddedSystemProperties(EmbeddedLocalContainer container)
         throws MojoExecutionException
