@@ -17,49 +17,49 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly.internal;
+package org.codehaus.cargo.container.weblogic.internal;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.startup.AbstractPingContainerMonitor;
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * WildFly monitor checking if management URL is available.
+ * WebLogic monitor checking if console URL is available.
  */
-public class ManagementUrlWildFlyMonitor extends AbstractPingContainerMonitor
+public class ConsoleUrlWebLogicMonitor extends AbstractPingContainerMonitor
 {
     /**
      * Constructor.
      *
      * @param container Container to be monitored.
      */
-    public ManagementUrlWildFlyMonitor(Container container)
+    public ConsoleUrlWebLogicMonitor(Container container)
     {
         super(container);
     }
 
     /**
-     * @return Management console URL for WildFly.
+     * @return Console URL for WebLogic.
      */
     @Override
     protected URL getPingUrl()
     {
         String protocolProperty = getConfiguration().getPropertyValue(GeneralPropertySet.PROTOCOL);
         String hostnameProperty = getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME);
-        int managementPort = getPortWithOffset(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+        int consolePort = getPortWithOffset(ServletPropertySet.PORT);
 
         try
         {
-            return new URL(protocolProperty, hostnameProperty, managementPort, "/console");
+            return new URL(protocolProperty, hostnameProperty, consolePort, "/console");
         }
         catch (MalformedURLException e)
         {
-            throw new CargoException("Unable to construct management console URL.", e);
+            throw new CargoException("Unable to construct console URL.", e);
         }
     }
 }

@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,6 @@ import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstStandaloneLocalConfigurationCapability;
 
@@ -141,30 +139,10 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         // execute script
         weblogicContainer.executeScript(configurationScript);
 
-        // deploy cargo ping
-        deployCargoPing(weblogicContainer);
-
         // Execute offline jython scripts
         String scriptPaths = getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_OFFLINE);
         List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
         weblogicContainer.executeScriptFiles(scriptPathList);
-    }
-
-    /**
-     * Deploy the Cargo Ping utility to the container.
-     *
-     * @param container the container to configure
-     * @throws IOException if the cargo ping deployment fails
-     */
-    private void deployCargoPing(WebLogicLocalContainer container) throws IOException
-    {
-        // as this is an initial install, this directory will not exist, yet
-        String deployDir =
-            getFileHandler().createDirectory(getDomainHome(), container.getAutoDeployDirectory());
-
-        // Deploy the cargocpc web-app by copying the WAR file
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
     }
 
     /**
