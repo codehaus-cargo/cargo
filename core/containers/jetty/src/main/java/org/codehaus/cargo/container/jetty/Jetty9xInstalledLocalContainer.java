@@ -111,15 +111,14 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
             return new String[]
             {
                 "--ini",
-                "--module=ext",
-                "--module=logging",
+                "--module=console-capture",
                 "--module=server",
                 "--module=client",
-                "--module=jsp",
-                "--module=resources",
                 "--module=deploy",
-                "--module=jstl",
                 "--module=websocket",
+                "--module=jsp",
+                "--module=ext",
+                "--module=resources",
                 "--module=http",
                 "--module=plus",
                 "path=" + classpath
