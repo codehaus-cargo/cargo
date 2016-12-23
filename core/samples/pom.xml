@@ -1235,8 +1235,53 @@
                 </artifactItem>
                 <!-- CDI is needed by the Jetty WebSocket implementation -->
                 <artifactItem>
+                  <groupId>javax.enterprise</groupId>
+                  <artifactId>cdi-api</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>javax.inject</groupId>
+                  <artifactId>javax.inject</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>javax.interceptor</groupId>
+                  <artifactId>javax.interceptor-api</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.classfilewriter</groupId>
+                  <artifactId>jboss-classfilewriter</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.logging</groupId>
+                  <artifactId>jboss-logging</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.weld</groupId>
+                  <artifactId>weld-core</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.weld</groupId>
+                  <artifactId>weld-api</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.weld</groupId>
+                  <artifactId>weld-spi</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.jboss.weld.environment</groupId>
+                  <artifactId>weld-environment-common</artifactId>
+                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                </artifactItem>
+                <artifactItem>
                   <groupId>org.jboss.weld.servlet</groupId>
-                  <artifactId>weld-servlet</artifactId>
+                  <artifactId>weld-servlet-core</artifactId>
                   <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                 </artifactItem>
                 <!-- deployables -->
