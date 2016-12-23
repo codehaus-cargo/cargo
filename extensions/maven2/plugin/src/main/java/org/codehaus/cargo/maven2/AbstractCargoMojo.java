@@ -96,7 +96,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Configures a Cargo {@link org.codehaus.cargo.container.configuration.Configuration}. See the
      * <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
-     * 
+     *
      * @parameter
      * @see #getConfigurationElement()
      */
@@ -106,7 +106,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Configures a Cargo {@link org.codehaus.cargo.container.Container}. See the <a
      * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
-     * 
+     *
      * @parameter
      */
     private Container container;
@@ -114,8 +114,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Daemon configuration.
-     * 
-     * @parameter 
+     *
+     * @parameter
      */
     private Daemon daemon;
 
@@ -124,7 +124,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
      * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
-     * 
+     *
      * @parameter
      * @see #getDeployerElement()
      */
@@ -134,7 +134,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * List of {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
      * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
-     * 
+     *
      * @parameter
      * @see #getDeployablesElement()
      */
@@ -142,7 +142,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * The metadata source.
-     * 
+     *
      * @component
      */
     private ArtifactMetadataSource metadataSource;
@@ -150,7 +150,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Maven artifact resolver, used to dynamically resolve JARs for the containers and also to
      * resolve the JARs for the embedded container's classpaths.
-     * 
+     *
      * @component
      */
     private ArtifactResolver artifactResolver;
@@ -159,7 +159,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * The local Maven repository. This is used by the artifact resolver to download resolved
      * artifacts and put them in the local repository so that they won't have to be fetched again
      * next time the plugin is executed.
-     * 
+     *
      * @parameter property="localRepository"
      * @required
      * @readonly
@@ -168,7 +168,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * The remote Maven repositories used by the artifact resolver to look for artifacts.
-     * 
+     *
      * @parameter property="project.remoteArtifactRepositories"
      * @required
      * @readonly
@@ -177,7 +177,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Set this to 'true' to bypass cargo execution.
-     * 
+     *
      * @parameter property="cargo.maven.skip" default-value="false"
      * @since 1.0.3
      */
@@ -187,7 +187,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * The artifact factory is used to create valid Maven {@link org.apache.maven.artifact.Artifact}
      * objects. This is used to pass Maven artifacts to the artifact resolver so that it can
      * download the required JARs to put in the embedded container's classpaths.
-     * 
+     *
      * @component
      */
     private ArtifactFactory artifactFactory;
@@ -199,7 +199,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Maven settings, injected automatically.
-     * 
+     *
      * @parameter property="settings"
      * @required
      * @readonly
@@ -208,12 +208,19 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Cargo plugin version.
-     * 
+     *
      * @parameter property="plugin.version"
      * @required
      * @readonly
      */
     private String pluginVersion;
+
+    /**
+     * Should the mojo ignore failures if something fails
+     *
+     * @parameter property="cargo.ignore.failures" default-value="false"
+     */
+    private boolean ignoreFailures = false;
 
     /**
      * Calculates the container artifact ID for a given container ID. Note that all containers
@@ -365,8 +372,25 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
+     * @return the ignoreFailures
+     */
+    public boolean isIgnoreFailures()
+    {
+        return ignoreFailures;
+    }
+
+    /**
+     * @param ignoreFailures
+     *            the ignoreFailures to set
+     */
+    public void setIgnoreFailures(boolean ignoreFailures)
+    {
+        this.ignoreFailures = ignoreFailures;
+    }
+
+    /**
      * {@inheritDoc}
-     * 
+     *
      * <p>
      * Note: This method is final so that extending classes cannot extend it. Instead they should
      * implement the {@link #doExecute()} method.
@@ -433,7 +457,21 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
             }
 
-            doExecute();
+            try
+            {
+                doExecute();
+            }
+            catch (MojoExecutionException e)
+            {
+                if (ignoreFailures)
+                {
+                    getLog().error("Ignoring failures during execution", e);
+                }
+                else
+                {
+                    throw e;
+                }
+            }
         }
         finally
         {
@@ -453,7 +491,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Executes the plugin.
-     * 
+     *
      * <p>
      * This method must be implemented by all Mojos extending this class. The reason for this
      * pattern is because we want the {@link #execute()} method to always be called so that
@@ -461,7 +499,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * class could "forget" to call <code>super.execute()</code> thus leading to unpredictible
      * results.
      * </p>
-     * 
+     *
      * @throws MojoExecutionException in case of error
      */
     protected abstract void doExecute() throws MojoExecutionException;
@@ -471,7 +509,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * user has not specified a configuration element in the POM file then automatically create a
      * standalone configuration if the container's type is local or otherwise create a runtime
      * configuration.
-     * 
+     *
      * @return a valid {@link org.codehaus.cargo.container.configuration.Configuration} instance
      * @throws MojoExecutionException in case of error
      */
@@ -612,6 +650,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             containerKey += "." + getContainerElement().getType()
                 + "." + getContainerElement().getHome();
+
+            if (getContainerElement().getId() != null)
+            {
+                containerKey += "." + getContainerElement().getId();
+            }
         }
         if (getConfigurationElement() != null && !getCargoProject().isDaemonRun())
         {
@@ -690,7 +733,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * container id then automatically create a default container (as defined in
      * {@link #createDefaultContainerElementIfNecessary}) if the project calling this plugin has a
      * WAR packaging. If the packaging is different then an exception is raised.
-     * 
+     *
      * @return a valid {@link org.codehaus.cargo.container.Container} instance
      * @throws MojoExecutionException in case of error or if a default container could not be
      * created
@@ -736,7 +779,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         Logger logger = createLogger();
-        org.codehaus.cargo.container.configuration.Configuration configuration = 
+        org.codehaus.cargo.container.configuration.Configuration configuration =
             createConfiguration();
         configuration.setLogger(logger);
         container = getContainerElement().createContainer(configuration,
@@ -879,7 +922,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Creates a installer element if required.
-     * 
+     *
      * @throws IOException If the properties file cannot be loaded.
      */
     protected void createDefaultInstallerElementIfNecessary() throws IOException
@@ -949,7 +992,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Create a logger. If a <code>&lt;log&gt;</code> configuration element has been specified by
      * the user then use it. If none is specified then log to the Maven 2 logging subsystem.
-     * 
+     *
      * @return the logger to use for logging this plugin's activity
      */
     protected Logger createLogger()

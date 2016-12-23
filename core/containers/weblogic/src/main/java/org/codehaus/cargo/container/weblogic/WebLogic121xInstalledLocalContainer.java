@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledLocalContainer;
+import org.codehaus.cargo.container.weblogic.internal.ConsoleUrlWebLogicMonitor;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.util.CargoException;
 
@@ -259,10 +260,18 @@ public class WebLogic121xInstalledLocalContainer extends
     }
 
     /**
-     * @return Domain name.
+     * {@inheritDoc}
      */
-    protected String getDomainName()
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
-        return getFileHandler().getName(getConfiguration().getHome());
+        if (waitForStarting)
+        {
+            waitForStarting(new ConsoleUrlWebLogicMonitor(this));
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 }

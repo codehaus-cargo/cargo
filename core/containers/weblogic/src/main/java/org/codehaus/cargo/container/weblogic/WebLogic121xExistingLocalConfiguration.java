@@ -74,10 +74,6 @@ public class WebLogic121xExistingLocalConfiguration extends
         String deployDir = getFileHandler().createDirectory(getDomainHome(),
             weblogicContainer.getAutoDeployDirectory());
 
-        // Deploy the cargocpc web-app by copying the WAR file
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-            getFileHandler().append(deployDir, "cargocpc.war"), getFileHandler());
-
         for (Deployable deployable : getDeployables())
         {
             String deployableName = getFileHandler().getName(deployable.getFile());
