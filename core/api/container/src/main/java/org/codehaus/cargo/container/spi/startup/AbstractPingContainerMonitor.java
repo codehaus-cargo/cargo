@@ -44,7 +44,8 @@ public abstract class AbstractPingContainerMonitor extends AbstractContainerMoni
     public AbstractPingContainerMonitor(Container container)
     {
         super(container);
-        this.httpUtils = new HttpUtils();
+        httpUtils = new HttpUtils();
+        httpUtils.setLogger(container.getLogger());
     }
 
     /**

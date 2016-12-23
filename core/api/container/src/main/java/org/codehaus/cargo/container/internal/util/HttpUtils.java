@@ -134,6 +134,7 @@ public class HttpUtils extends LoggedObject
         long timeout)
     {
         HttpConnection connection = new HttpConnection(url, timeout);
+        connection.setLogger(getLogger());
 
         if (requestProperties != null)
         {
