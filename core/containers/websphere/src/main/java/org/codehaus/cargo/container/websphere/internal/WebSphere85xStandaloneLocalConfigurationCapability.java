@@ -65,5 +65,7 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
+
+        this.propertySupportMap.put(WebSpherePropertySet.ADMINISTRATION_PORT, Boolean.TRUE);
     }
 }

@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -83,6 +82,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         factory = new WebSphereJythonConfigurationFactory(this);
 
         setProperty(ServletPropertySet.PORT, "9080");
+        setProperty(WebSpherePropertySet.ADMINISTRATION_PORT, "9060");
 
         setProperty(WebSpherePropertySet.ADMIN_USERNAME, "websphere");
         setProperty(WebSpherePropertySet.ADMIN_PASSWORD, "websphere");
@@ -177,9 +177,6 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         {
             commands.add(factory.createResourceScript(resource));
         }
-
-        // deploy cargo ping
-        commands.add(getDeployCargoPingScript());
 
         // deploy deployables
         for (Deployable deployable : getDeployables())
@@ -341,20 +338,6 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         }
 
         return sessionManPropertiesCommands;
-    }
-
-    /**
-     * Deploy the Cargo Ping utility to the container.
-     * @return Script command deploying cargo ping war file.
-     * @throws Exception if the cargo ping deployment fails
-     */
-    private ScriptCommand getDeployCargoPingScript() throws Exception
-    {
-        File cargoCpc = File.createTempFile("cargo-cpc-", ".war");
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", cargoCpc);
-        WAR cargoCpcWar = new WAR(cargoCpc.getAbsolutePath());
-        cargoCpcWar.setContext("cargocpc");
-        return factory.deployDeployableScript(cargoCpcWar);
     }
 
     /**

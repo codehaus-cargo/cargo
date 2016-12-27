@@ -32,14 +32,14 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
-import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.spi.util.ContainerUtils;
+import org.codehaus.cargo.container.startup.ContainerMonitor;
+import org.codehaus.cargo.container.websphere.internal.ConsoleUrlWebSphereMonitor;
 import org.codehaus.cargo.container.websphere.internal.ProcessExecutor;
 import org.codehaus.cargo.container.websphere.util.ByteUnit;
 import org.codehaus.cargo.container.websphere.util.JvmArguments;
@@ -290,7 +290,8 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
                 arguments.add("-javaoption -Xmx"
                         + Long.toString(parsedArguments.getMaxHeap(ByteUnit.MEGABYTES)) + "m");
 
-                if (!isOnline())
+                ContainerMonitor monitor = new ConsoleUrlWebSphereMonitor(this);
+                if (!monitor.isRunning())
                 {
                     arguments.add("-conntype");
                     arguments.add("NONE");
@@ -391,11 +392,18 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     }
 
     /**
-     * @return True if WebSphere is started and has cargocpc deployed.
+     * {@inheritDoc}
      */
-    public boolean isOnline()
+    @Override
+    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
     {
-        HttpUtils httpUtils = new HttpUtils();
-        return httpUtils.ping(ContainerUtils.getCPCURL(getConfiguration()));
+        if (waitForStarting)
+        {
+            waitForStarting(new ConsoleUrlWebSphereMonitor(this));
+        }
+        else
+        {
+            super.waitForCompletion(waitForStarting);
+        }
     }
 }

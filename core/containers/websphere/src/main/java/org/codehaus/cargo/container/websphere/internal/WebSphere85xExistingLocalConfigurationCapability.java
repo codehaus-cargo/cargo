@@ -46,5 +46,7 @@ public class WebSphere85xExistingLocalConfigurationCapability
 
         this.propertySupportMap.put(WebSpherePropertySet.OVERWRITE_EXISTING_CONFIGURATION,
             Boolean.TRUE);
+
+        this.propertySupportMap.put(WebSpherePropertySet.ADMINISTRATION_PORT, Boolean.TRUE);
     }
 }
