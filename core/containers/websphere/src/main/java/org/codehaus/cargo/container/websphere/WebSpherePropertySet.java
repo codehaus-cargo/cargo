@@ -181,4 +181,9 @@ public interface WebSpherePropertySet
      * /home/me/script2.py<br>
      */
     String JYTHON_SCRIPT_ONLINE = "cargo.websphere.script.jython.online";
+
+    /**
+     * WebSphere administration port.
+     */
+    String ADMINISTRATION_PORT = "cargo.websphere.administration.port";
 }

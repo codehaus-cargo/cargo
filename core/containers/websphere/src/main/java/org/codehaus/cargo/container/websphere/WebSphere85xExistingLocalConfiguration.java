@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.websphere;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +28,6 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
@@ -68,6 +66,7 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
         factory = new WebSphereJythonConfigurationFactory(this);
 
         setProperty(ServletPropertySet.PORT, "9080");
+        setProperty(WebSpherePropertySet.ADMINISTRATION_PORT, "9060");
 
         setProperty(WebSpherePropertySet.ADMIN_USERNAME, "websphere");
         setProperty(WebSpherePropertySet.ADMIN_PASSWORD, "websphere");
@@ -143,14 +142,6 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
                         systemProperty.getValue()));
             }
         }
-
-        // deploy cargo ping
-        File cargoCpc = File.createTempFile("cargo-cpc-", ".war");
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war", cargoCpc);
-        WAR cargoCpcWar = new WAR(cargoCpc.getAbsolutePath());
-        cargoCpcWar.setContext("cargocpc");
-        wsAdminCommands.add(factory.undeployDeployableScript(cargoCpcWar));
-        wsAdminCommands.add(factory.deployDeployableScript(cargoCpcWar));
 
         // redeploy deployables
         List<String> extraLibraries = Arrays.asList(wsContainer.getExtraClasspath());

@@ -38,7 +38,6 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 import org.codehaus.cargo.util.CargoException;
 
@@ -59,18 +58,12 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     protected String version;
 
     /**
-     * Monitor used for checking if WildFly container is online.
-     */
-    private ContainerMonitor monitor;
-
-    /**
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(LocalConfiguration)
      */
     public AbstractWildFlyInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-        monitor = new ManagementUrlWildFlyMonitor(this);
     }
 
     /**
@@ -383,7 +376,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     {
         if (waitForStarting)
         {
-            waitForStarting(monitor);
+            waitForStarting(new ManagementUrlWildFlyMonitor(this));
         }
         else
         {
