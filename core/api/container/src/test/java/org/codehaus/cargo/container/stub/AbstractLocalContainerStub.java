@@ -35,6 +35,17 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     private LocalConfiguration configuration;
 
     /**
+     * The file to which output of the container should be written.
+     */
+    private String output;
+
+    /**
+     * Whether output of the container should be appended to an existing file, or the existing file
+     * should be truncated.
+     */
+    private boolean append;
+
+    /**
      * Allows creating a container with no configuration for test that do not require a
      * configuration.
      */
@@ -53,43 +64,39 @@ public abstract class AbstractLocalContainerStub extends AbstractContainerStub
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritDoc}
-     * @return Nothing.
+     * {@inheritDoc}
      */
     @Override
     public boolean isAppend()
     {
-        throw new RuntimeException("Not implemented");
+        return append;
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritDoc}
-     * @param shouldAppend Ignored.
+     * {@inheritDoc}
      */
     @Override
     public void setAppend(boolean shouldAppend)
     {
-        throw new RuntimeException("Not implemented");
+        this.append = shouldAppend;
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritDoc}
-     * @return Nothing.
+     * {@inheritDoc}
      */
     @Override
     public String getOutput()
     {
-        throw new RuntimeException("Not implemented");
+        return output;
     }
 
     /**
-     * Throws a {@link RuntimeException}. {@inheritDoc}
-     * @param output Ignored.
+     * {@inheritDoc}
      */
     @Override
     public void setOutput(String output)
     {
-        throw new RuntimeException("Not implemented");
+        this.output = output;
     }
 
     /**
