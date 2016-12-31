@@ -324,6 +324,26 @@ public class ContainerTest extends MockObjectTestCase
     }
 
     /**
+     * Test installed local container creation with output.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testCreateInstalledLocalContainerWithOutput() throws Exception
+    {
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new InstalledLocalContainerStub());
+        final String output = "container/output.log";
+        containerElement.setOutput(output);
+        containerElement.setAppend(true);
+
+        org.codehaus.cargo.container.InstalledLocalContainer container =
+            (InstalledLocalContainer) containerElement.createContainer(
+                new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
+                createTestCargoProject("whatever"));
+        assertEquals("Container output not set", output, container.getOutput());
+        assertTrue("Container output append not set", container.isAppend());
+    }
+
+    /**
      * Setup a container element.
      * @param container Container definition.
      * @return Container element.

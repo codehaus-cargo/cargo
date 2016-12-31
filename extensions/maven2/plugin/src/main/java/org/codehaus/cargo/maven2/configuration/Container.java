@@ -617,6 +617,7 @@ public class Container
         if (getOutput() != null)
         {
             container.setOutput(getOutput());
+            container.setAppend(shouldAppend());
         }
         else if (project.getLog() != null)
         {

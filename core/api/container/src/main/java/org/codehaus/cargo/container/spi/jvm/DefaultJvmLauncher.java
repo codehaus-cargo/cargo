@@ -27,6 +27,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.RedirectorElement;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 
 /**
@@ -278,6 +279,14 @@ class DefaultJvmLauncher implements JvmLauncher
     {
         this.java.setOutput(outputFile);
         this.java.setError(outputFile);
+
+        // Don't create empty log files!
+        // Output and error streams are redirected to same file. Creating of empty files
+        // would overwrite content in log file written by the other output stream!
+        // See CARGO-1423.
+        RedirectorElement redirector = new RedirectorElement();
+        redirector.setCreateEmptyFiles(false);
+        this.java.addConfiguredRedirector(redirector);
     }
 
     /**
