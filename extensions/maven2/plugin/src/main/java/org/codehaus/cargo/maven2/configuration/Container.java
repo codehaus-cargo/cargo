@@ -136,11 +136,11 @@ public class Container
     private File systemPropertiesFile;
 
     /**
-     * Container unique Id - if starting multiple containers on one single maven
-     * build, the container id should be specified, as it may act as a unique id
-     * to the maven context attribute
+     * Container context key suffix. If starting multiple containers of the same type and with the
+     * same home on one single maven build, the container context key suffix should be specified,
+     * as it may act as a unique id to the maven context attribute.
      */
-    private String id;
+    private String contextKeySuffix;
 
     /**
      * @return System properties.
@@ -375,20 +375,23 @@ public class Container
     }
 
     /**
-     * @return the container unique id
+     * @return The container context key suffix. If starting multiple containers of the same type
+     * and with the same home on one single maven build, the container context key suffix should be
+     * specified, as it may act as a unique id to the maven context attribute.
      */
-    public String getId()
+    public String getContextKeySuffix()
     {
-        return id;
+        return contextKeySuffix;
     }
 
     /**
-     * @param id
-     *            the container unique id to set
+     * @param contextKeySuffix The container context key suffix. If starting multiple containers of
+     * the same type and with the same home on one single maven build, the container context key
+     * suffix should be specified, as it may act as a unique id to the maven context attribute.
      */
-    public void setId(String id)
+    public void setContextKeySuffix(String contextKeySuffix)
     {
-        this.id = id;
+        this.contextKeySuffix = contextKeySuffix;
     }
 
     /**
