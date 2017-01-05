@@ -136,8 +136,8 @@ public class Container
     private File systemPropertiesFile;
 
     /**
-     * Container context key, which can be used to define a unique key in order to reuse a
-     * previously instantiated Cargo container from a different Maven artifact.
+     * Container context key, which can be used to start, stop, configure or deploy to the same
+     * Cargo container (together with its configuration) from different Maven artifacts.
      */
     private String contextKey;
 
@@ -374,8 +374,8 @@ public class Container
     }
 
     /**
-     * @return Container context key, which can be used to define a unique key in order to reuse a
-     * previously instantiated Cargo container from a different Maven artifact.
+     * @return Container context key, which can be used to start, stop, configure or deploy to the
+     * same Cargo container (together with its configuration) from different Maven artifacts.
      */
     public String getContextKey()
     {
@@ -383,8 +383,9 @@ public class Container
     }
 
     /**
-     * @param contextKey Container context key, which can be used to define a unique key in order
-     * to reuse a previously instantiated Cargo container from a different Maven artifact.
+     * @param contextKey Container context key, which can be used to start, stop, configure or
+     * deploy to the same Cargo container (together with its configuration) from different Maven
+     * artifacts.
      */
     public void setContextKey(String contextKey)
     {
