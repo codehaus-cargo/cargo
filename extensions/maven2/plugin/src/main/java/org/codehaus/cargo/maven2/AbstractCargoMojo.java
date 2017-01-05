@@ -648,12 +648,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                         getContainerElement().getZipUrlInstaller().getExtractDir()));
             }
 
-            containerKey += "." + getContainerElement().getType()
-                + "." + getContainerElement().getHome();
-
-            if (getContainerElement().getContextKeySuffix() != null)
+            if (getContainerElement().getContextKey() != null
+                && !getContainerElement().getContextKey().isEmpty())
             {
-                containerKey += "." + getContainerElement().getContextKeySuffix();
+                containerKey += "." + getContainerElement().getContextKey();
+            }
+            else
+            {
+                containerKey += "." + getContainerElement().getType()
+                    + "." + getContainerElement().getHome();
             }
         }
         if (getConfigurationElement() != null && !getCargoProject().isDaemonRun())
@@ -664,7 +667,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     getConfigurationElement().getHome()));
             }
 
-            containerKey += "." + getConfigurationElement().getHome();
+            if (getContainerElement() == null || getContainerElement().getContextKey() == null
+                || getContainerElement().getContextKey().isEmpty())
+            {
+                containerKey += "." + getConfigurationElement().getHome();
+            }
         }
 
         if (context != null)

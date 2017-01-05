@@ -136,11 +136,10 @@ public class Container
     private File systemPropertiesFile;
 
     /**
-     * Container context key suffix. If starting multiple containers of the same type and with the
-     * same home on one single maven build, the container context key suffix should be specified,
-     * as it may act as a unique id to the maven context attribute.
+     * Container context key, which can be used to define a unique key in order to reuse a
+     * previously instantiated Cargo container from a different Maven artifact.
      */
-    private String contextKeySuffix;
+    private String contextKey;
 
     /**
      * @return System properties.
@@ -375,23 +374,21 @@ public class Container
     }
 
     /**
-     * @return The container context key suffix. If starting multiple containers of the same type
-     * and with the same home on one single maven build, the container context key suffix should be
-     * specified, as it may act as a unique id to the maven context attribute.
+     * @return Container context key, which can be used to define a unique key in order to reuse a
+     * previously instantiated Cargo container from a different Maven artifact.
      */
-    public String getContextKeySuffix()
+    public String getContextKey()
     {
-        return contextKeySuffix;
+        return contextKey;
     }
 
     /**
-     * @param contextKeySuffix The container context key suffix. If starting multiple containers of
-     * the same type and with the same home on one single maven build, the container context key
-     * suffix should be specified, as it may act as a unique id to the maven context attribute.
+     * @param contextKey Container context key, which can be used to define a unique key in order
+     * to reuse a previously instantiated Cargo container from a different Maven artifact.
      */
-    public void setContextKeySuffix(String contextKeySuffix)
+    public void setContextKey(String contextKey)
     {
-        this.contextKeySuffix = contextKeySuffix;
+        this.contextKey = contextKey;
     }
 
     /**
