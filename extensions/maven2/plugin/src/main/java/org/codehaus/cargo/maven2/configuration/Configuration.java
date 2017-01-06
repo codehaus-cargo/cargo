@@ -25,7 +25,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -70,6 +72,11 @@ public class Configuration
      * Container properties loaded from file.
      */
     private File propertiesFile;
+
+    /**
+     * List of properties set using properties file or directly.
+     */
+    private List<String> setProperties;
 
     /**
      * Extra files.
@@ -158,6 +165,14 @@ public class Configuration
     public void setPropertiesFile(File propertiesFile)
     {
         this.propertiesFile = propertiesFile;
+    }
+
+    /**
+     * @return List of properties set using properties file or directly.
+     */
+    public List<String> getSetProperties()
+    {
+        return this.setProperties;
     }
 
     /**
@@ -315,6 +330,8 @@ public class Configuration
                 getHome());
         }
 
+        this.setProperties = new ArrayList<String>();
+
         // Set container properties loaded from file (if any)
         if (getPropertiesFile() != null)
         {
@@ -336,6 +353,7 @@ public class Configuration
                     String propertyName = (String) propertyNames.nextElement();
                     String propertyValue = properties.getProperty(propertyName);
                     configuration.setProperty(propertyName, propertyValue);
+                    this.setProperties.add(propertyName);
                 }
             }
             catch (FileNotFoundException e)
@@ -366,6 +384,7 @@ public class Configuration
                 }
 
                 configuration.setProperty(property.getKey(), propertyValue);
+                this.setProperties.add(property.getKey());
             }
         }
 

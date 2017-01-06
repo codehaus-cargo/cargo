@@ -551,34 +551,40 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             getContainerElement().getContainerId(), getContainerElement().getType(),
                 getDeployablesElement(), getCargoProject());
 
-        // Find the cargo.server.settings for the current configuration. When found, iterate in
-        // the list of servers in Maven's settings.xml file in order to find out which server id
-        // corresponds to that identifier, and copy all non-set settings (cargo.remote.uri, ...).
+        // Find the container context key or cargo.server.settings for the current configuration.
+        // When found, iterate in the list of servers in Maven's settings.xml file in order to find
+        // out which server id corresponds to that identifier, and copy all non-set settings.
         //
         // This feature helps people out in centralising their configurations.
-        for (Map.Entry<String, String> property : configuration.getProperties().entrySet())
+        String serverId = configuration.getPropertyValue("cargo.server.settings");
+        if (serverId != null && !serverId.isEmpty())
         {
-            String propertyKey = (String) property.getKey();
-            if ("cargo.server.settings".equals(propertyKey))
+            getLog().debug("Found cargo.server.settings: " + serverId);
+        }
+        else if (getContainerElement() != null && getContainerElement().getContextKey() != null
+            && !getContainerElement().getContextKey().isEmpty())
+        {
+            serverId = getContainerElement().getContextKey();
+            getLog().debug("Found container context key: " + serverId);
+        }
+        if (serverId != null && !serverId.isEmpty())
+        {
+            for (Object serverObject : settings.getServers())
             {
-                String serverId = (String) property.getValue();
-                getLog()
-                    .debug(
-                        "Found cargo.server.settings: key is " + propertyKey + ", value is "
-                            + serverId);
-                for (Object serverObject : settings.getServers())
+                Server server = (Server) serverObject;
+                if (serverId.equals(server.getId()))
                 {
-                    Server server = (Server) serverObject;
-                    if (serverId.equals(server.getId()))
-                    {
-                        getLog().debug(
-                            "The Maven settings.xml file contains a reference for the "
-                                + "server with cargo.server.settings " + serverId
-                                + ", starting property injection");
+                    getLog().info(
+                        "The Maven settings.xml file contains a reference for the server with "
+                            + "identifier [" + serverId + "], injecting configuration properties");
 
-                        Xpp3Dom[] globalConfigurationOptions = ((Xpp3Dom) server.getConfiguration())
-                            .getChildren();
-                        for (Xpp3Dom option : globalConfigurationOptions)
+                    Xpp3Dom[] globalConfigurationOptions = ((Xpp3Dom) server.getConfiguration())
+                        .getChildren();
+                    for (Xpp3Dom option : globalConfigurationOptions)
+                    {
+                        if (getConfigurationElement().getSetProperties() == null
+                            || !getConfigurationElement().getSetProperties().contains(
+                                option.getName()))
                         {
                             configuration.setProperty(option.getName(), option.getValue());
                             if (option.getName().contains("password"))
@@ -593,10 +599,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                                         + option.getValue());
                             }
                         }
-                        break;
+                        else
+                        {
+                            getLog().debug(
+                                "\tProperty " + option.getName()
+                                    + " already set in the Maven artifact, skipping");
+                        }
                     }
+                    break;
                 }
-                break;
             }
         }
 
