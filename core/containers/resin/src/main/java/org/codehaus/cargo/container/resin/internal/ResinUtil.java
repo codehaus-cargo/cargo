@@ -55,6 +55,11 @@ public class ResinUtil
             throw new ContainerException("Cannot get Resin version", e);
         }
 
+        if (version.startsWith("resin-"))
+        {
+            version = version.substring(6);
+        }
+
         return version;
     }
 }
