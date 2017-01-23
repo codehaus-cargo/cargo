@@ -127,8 +127,9 @@ public class DeployerServlet extends HttpServlet
         Log.getLogger(this.getClass()).debug(
             "Started the CARGO Jetty deployer servlet with context " + this.context);
 
-        // Due to weird bugs with Jetty 9.4.0.v20161208 webapp class loader, we need to access some
-        // classes in the constructor to avoid ClassNotFoundExceptions when accessing later
+        // Due to weird bugs with Jetty 9.4.0.v20161208 and 9.4.1.v20170120 webapp class loader, we
+        // need to access some classes in the constructor to avoid ClassNotFoundExceptions when
+        // accessing later
         Class dummy;
         dummy = ContextHandler.class;
         dummy = Thread.class;
