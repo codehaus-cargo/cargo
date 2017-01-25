@@ -307,12 +307,12 @@
               <property>
                 <name>cargo.tomcat7x.url</name>
                 <!--
-                  Tomcat 7.0.73 cannot be used due to a java.lang.NullPointerException at
+                  Tomcat 7.0.75 cannot be used due to a java.lang.NullPointerException at
                   org.apache.catalina.core.NamingContextListener.getGlobalNamingContext
                   in the Embedded container
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.73/tomcat-7.0.73.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.75/tomcat-7.0.75.zip</value>
                  -->
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
               </property>
