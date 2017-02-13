@@ -48,24 +48,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
     private WildFlyRemoteDeploymentJsonMarshaller marshaller;
 
     /**
-     * Username for remote deployment.
+     * Configuration.
      */
-    private String username;
-
-    /**
-     * Password for remote deployment.
-     */
-    private String password;
-
-    /**
-     * Hostname.
-     */
-    private String hostname;
-
-    /**
-     * Management port.
-     */
-    private int managementPort;
+    private RuntimeConfiguration configuration;
 
     /**
      * @param container the container containing the configuration to use to find the deployer
@@ -75,16 +60,8 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
     {
         super(container);
 
-        RuntimeConfiguration configuration = container.getConfiguration();
-
+        this.configuration = container.getConfiguration();
         this.marshaller = new WildFlyRemoteDeploymentJsonMarshaller();
-
-        this.username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
-        this.password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
-        this.hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
-        String managementPort = configuration.getPropertyValue(
-                JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
-        this.managementPort = Integer.valueOf(managementPort);
     }
 
     /**
@@ -115,6 +92,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      */
     private String uploadDeployable(Deployable deployable)
     {
+        String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+
         URL addContentUrl = getAddContentUrl();
         String deploymentName = deployable.getName() + "." + deployable.getType().getType();
 
@@ -140,6 +120,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      */
     private void deployDeployable(Deployable deployable, String bytesValue)
     {
+        String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+
         URL managementUrl = getManagementUrl();
         String deployRequest = marshaller.marshallDeployRequest(deployable, bytesValue);
 
@@ -159,6 +142,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      */
     private void undeployDeployable(Deployable deployable)
     {
+        String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+
         URL managementUrl = getManagementUrl();
         String undeployRequest = marshaller.marshallUndeployRequest(deployable);
 
@@ -178,6 +164,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      */
     private void removeDeployable(Deployable deployable)
     {
+        String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+
         URL managementUrl = getManagementUrl();
         String removeRequest = marshaller.marshallRemoveRequest(deployable);
 
@@ -195,6 +184,11 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      */
     private URL getAddContentUrl()
     {
+        String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String managementPortValue = configuration.getPropertyValue(
+                JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+        int managementPort = Integer.valueOf(managementPortValue);
+
         try
         {
             return new URL("http", hostname, managementPort, "/management/add-content");
@@ -210,6 +204,11 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      */
     private URL getManagementUrl()
     {
+        String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
+        String managementPortValue = configuration.getPropertyValue(
+                JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+        int managementPort = Integer.valueOf(managementPortValue);
+
         try
         {
             return new URL("http", hostname, managementPort, "/management");
