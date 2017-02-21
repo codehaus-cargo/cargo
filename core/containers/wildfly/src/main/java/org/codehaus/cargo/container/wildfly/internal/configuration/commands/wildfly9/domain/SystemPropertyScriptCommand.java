@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.wildfly.internal.configuration.commands.wil
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.wildfly.internal.configuration.commands.AbstractWildFlyScriptCommand;
 
 /**
@@ -79,6 +80,9 @@ public class SystemPropertyScriptCommand extends AbstractWildFlyScriptCommand
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
         propertiesMap.put("cargo.wildfly.property.name", name);
-        propertiesMap.put("cargo.wildfly.property.value", value);
+
+        // CARGO-1429 - escape backslashes in system properties
+        propertiesMap.put("cargo.wildfly.property.value",
+                PropertyUtils.escapeBackSlashesIfNotNull(value));
     }
 }
