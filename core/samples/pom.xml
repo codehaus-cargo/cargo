@@ -326,7 +326,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.41/tomcat-8.0.41.zip</value>
                  -->
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.11/tomcat-8.5.11.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.12/tomcat-8.5.12.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
@@ -335,7 +335,7 @@
 
               <property>
                 <name>cargo.tomcat9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M15/tomcat-9.0.0.M15.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M18/tomcat-9.0.0.M18.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat9x.java.home</name>
