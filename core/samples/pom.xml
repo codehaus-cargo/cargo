@@ -290,12 +290,12 @@
               <property>
                 <name>cargo.tomcat6x.url</name>
                 <!--
-                  Tomcat 6.0.47 cannot be used due to a ClassCastException:
+                  Tomcat 6.0.51 cannot be used due to a ClassCastException:
                   org.apache.catalina.core.StandardContext cannot be cast to
                   org.apache.catalina.Context in the Embedded container
                   -->
                 <!--
-                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.48/bin/apache-tomcat-6.0.48.zip</value>
+                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.51/bin/apache-tomcat-6.0.51.zip</value>
                  -->
                 <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</value>
               </property>
@@ -307,12 +307,12 @@
               <property>
                 <name>cargo.tomcat7x.url</name>
                 <!--
-                  Tomcat 7.0.75 cannot be used due to a java.lang.NullPointerException at
+                  Tomcat 7.0.76 cannot be used due to a java.lang.NullPointerException at
                   org.apache.catalina.core.NamingContextListener.getGlobalNamingContext
                   in the Embedded container
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.75/tomcat-7.0.75.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.76/tomcat-7.0.76.zip</value>
                  -->
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
               </property>
@@ -324,7 +324,7 @@
               <property>
                 <name>cargo.tomcat8x.url</name>
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.41/tomcat-8.0.41.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.42/tomcat-8.0.42.zip</value>
                  -->
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.12/tomcat-8.5.12.zip</value>
               </property>
