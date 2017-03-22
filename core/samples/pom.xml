@@ -422,10 +422,10 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.21.v20170120/jetty-distribution-9.2.21.v20170120.tar.gz</value>
                  -->
-                                                <!--
-<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.16.v20170120/jetty-distribution-9.3.16.v20170120.tar.gz</value>
+                <!--
+<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.17.v20170317/jetty-distribution-9.3.17.v20170317.tar.gz</value>
                  -->
-<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.2.v20170220/jetty-distribution-9.4.2.v20170220.tar.gz</value>
+<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.3.v20170317/jetty-distribution-9.4.3.v20170317.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
