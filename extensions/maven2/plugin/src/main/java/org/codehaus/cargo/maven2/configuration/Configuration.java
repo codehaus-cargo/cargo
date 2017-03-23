@@ -94,6 +94,11 @@ public class Configuration
     private XmlReplacement[] xmlReplacements;
 
     /**
+     * Extra datasources.
+     */
+    private DataSource[] datasources;
+
+    /**
      * Extra resources.
      */
     private Resource[] resources;
@@ -237,6 +242,22 @@ public class Configuration
     public void setImplementation(String implementation)
     {
         this.implementation = implementation;
+    }
+
+    /**
+     * @return Extra datasources.
+     */
+    public DataSource[] getDatasources()
+    {
+        return datasources;
+    }
+
+    /**
+     * @param datasources Extra datasources.
+     */
+    public void setDatasources(DataSource[] datasources)
+    {
+        this.datasources = datasources;
     }
 
     /**
@@ -410,6 +431,11 @@ public class Configuration
                 addStaticDeployables(containerId, localConfiguration, deployables, project);
             }
 
+            if (getDatasources() != null)
+            {
+                addDatasources(localConfiguration);
+            }
+
             if (getResources() != null)
             {
                 addResources(containerId, localConfiguration, project);
@@ -439,6 +465,20 @@ public class Configuration
         }
 
         return configuration;
+    }
+
+    /**
+     * Add datasources to the configuration.
+     * @param configuration Container configuration.
+     * @throws MojoExecutionException If datasource creation fails.
+     */
+    private void addDatasources(LocalConfiguration configuration)
+        throws MojoExecutionException
+    {
+        for (DataSource dataSource : datasources)
+        {
+            configuration.addDataSource(dataSource.createDataSource());
+        }
     }
 
     /**
