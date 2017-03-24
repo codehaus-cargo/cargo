@@ -59,6 +59,28 @@ public final class TransactionSupport
     }
 
     /**
+     * Convert string representation of transaction support to appropriate value.
+     *
+     * @param transactionSupport String representation of transaction support.
+     * @return Appropriate TransactionSupport instance.
+     */
+    public static TransactionSupport valueOf(String transactionSupport)
+    {
+        if (TransactionSupport.XA_TRANSACTION.toString().equals(transactionSupport))
+        {
+            return TransactionSupport.XA_TRANSACTION;
+        }
+        else if (TransactionSupport.LOCAL_TRANSACTION.toString().equals(transactionSupport))
+        {
+            return TransactionSupport.LOCAL_TRANSACTION;
+        }
+        else
+        {
+            return TransactionSupport.NO_TRANSACTION;
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

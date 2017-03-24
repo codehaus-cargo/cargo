@@ -19,10 +19,8 @@
  */
 package org.codehaus.cargo.container.property;
 
-import java.util.Arrays;
 import java.util.Properties;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
@@ -58,76 +56,24 @@ public class DataSourceConverter
      */
     public DataSource fromProperties(Properties properties)
     {
-        DataSource data = new DataSource();
-        data.setJndiLocation(properties.getProperty(DatasourcePropertySet.JNDI_LOCATION));
+        String jndiLocation = properties.getProperty(DatasourcePropertySet.JNDI_LOCATION);
         String connectionType = properties.getProperty(DatasourcePropertySet.CONNECTION_TYPE);
-        if (ConfigurationEntryType.XA_DATASOURCE.equals(connectionType))
-        {
-            data.setConnectionType(connectionType);
-        }
-        else if (ConfigurationEntryType.DATASOURCE.equals(connectionType))
-        {
-            data.setConnectionType(connectionType);
-        }
-        else
-        {
-            data.setConnectionType(ConfigurationEntryType.JDBC_DRIVER);
-        }
-        String transactionSupportProperty =
-            properties.getProperty(DatasourcePropertySet.TRANSACTION_SUPPORT);
+        TransactionSupport transactionSupport = TransactionSupport.valueOf(
+                properties.getProperty(DatasourcePropertySet.TRANSACTION_SUPPORT));
+        String driverClass = properties.getProperty(DatasourcePropertySet.DRIVER_CLASS);
+        String url = properties.getProperty(DatasourcePropertySet.URL);
+        String username = properties.getProperty(DatasourcePropertySet.USERNAME);
+        String password = properties.getProperty(DatasourcePropertySet.PASSWORD);
+        String id = properties.getProperty(DatasourcePropertySet.ID);
 
-        if (TransactionSupport.XA_TRANSACTION.toString().equals(transactionSupportProperty)
-            || ConfigurationEntryType.XA_DATASOURCE.equals(connectionType))
-        {
-            data.setTransactionSupport(TransactionSupport.XA_TRANSACTION);
-        }
-        else if (TransactionSupport.LOCAL_TRANSACTION.toString().equals(
-            transactionSupportProperty))
-        {
-            data.setTransactionSupport(TransactionSupport.LOCAL_TRANSACTION);
-        }
-        else
-        {
-            data.setTransactionSupport(TransactionSupport.NO_TRANSACTION);
-        }
-        data.setDriverClass(properties.getProperty(DatasourcePropertySet.DRIVER_CLASS));
-        data.setUrl(properties.getProperty(DatasourcePropertySet.URL));
-        data.setUsername(properties.getProperty(DatasourcePropertySet.USERNAME));
-        data.setPassword(properties.getProperty(DatasourcePropertySet.PASSWORD));
-        data.setId(properties.getProperty(DatasourcePropertySet.ID));
         String driverPropertiesAsASemicolonDelimitedString =
             properties.getProperty(DatasourcePropertySet.CONNECTION_PROPERTIES);
-        data
-            .setConnectionProperties(getDriverPropertiesFromString(
-                driverPropertiesAsASemicolonDelimitedString));
-        if (data.getId() == null)
-        {
-            data.setId(createIdFromJndiLocationIfNotNull(data.getJndiLocation()));
-        }
-        setCredentialsIfInsideDriverProperties(data);
+        Properties connectionProperties = getDriverPropertiesFromString(
+                driverPropertiesAsASemicolonDelimitedString);
+
+        DataSource data = new DataSource(jndiLocation, connectionType, transactionSupport,
+                driverClass, url, username, password, id, connectionProperties);
         return data;
-    }
-
-    /**
-     * if the enclosed driver properties object is set, and also contains the user and password
-     * properties, set the corresponding member values.
-     * 
-     * @param data DataSource to serialize into a string.
-     */
-    private void setCredentialsIfInsideDriverProperties(DataSource data)
-    {
-        if (data.getConnectionProperties() != null)
-        {
-            if (data.getConnectionProperties().containsKey("user"))
-            {
-                data.setUsername(data.getConnectionProperties().getProperty("user"));
-            }
-
-            if (data.getConnectionProperties().containsKey("password"))
-            {
-                data.setPassword(data.getConnectionProperties().getProperty("password"));
-            }
-        }
     }
 
     /**
@@ -147,52 +93,6 @@ public class DataSourceConverter
         {
             return new Properties();
         }
-    }
-
-    /**
-     * return a string that can be used to name this configuration or null, if jndiLocation was not
-     * specified.
-     * 
-     * @param jndiLocation used to construct the id
-     * @return a string that can be used to name this configuration or null, if jndiLocation was not
-     * specified.
-     * @see org.codehaus.cargo.container.configuration.entry.DataSource#createIdFromJndiLocation(String)
-     */
-    private static String createIdFromJndiLocationIfNotNull(String jndiLocation)
-    {
-        String id = null;
-        if (jndiLocation != null)
-        {
-            id = createIdFromJndiLocation(jndiLocation);
-        }
-        return id;
-    }
-
-    /**
-     * Get a string name for the configuration of this datasource. This should be XML and filesystem
-     * friendly. For example, the String returned will have no slashes or punctuation, and be as
-     * short as possible.
-     * 
-     * @param jndiLocation used to construct the id
-     * @return a string that can be used to name this configuration
-     */
-    protected static String createIdFromJndiLocation(String jndiLocation)
-    {
-        // using indexOf to avoid introducing a regex package dependency. when we move
-        // to jdk 5+, this can be more easily performed with regex.
-
-        int[] delimeters =
-            new int[] {
-                // jndi locations are organized by dots or slashes. In JBoss, it could have a colon
-                jndiLocation.lastIndexOf('/'), jndiLocation.lastIndexOf('.'),
-                jndiLocation.lastIndexOf(':')};
-        Arrays.sort(delimeters);
-
-        int highestIndex = delimeters[2];
-
-        // highestIndex could be -1, or a location of a character we don't want. In either case, we
-        // want to increase it by one
-        return jndiLocation.substring(highestIndex + 1);
     }
 
     /**

@@ -93,6 +93,11 @@ public class ConfigurationElement
     private List<XmlReplacement> xmlReplacements = new ArrayList<XmlReplacement>();
 
     /**
+     * List of datasources
+     */
+    private List<DataSourceElement> dataSources = new ArrayList<DataSourceElement>();
+
+    /**
      * List of users
      */
     private List<UserElement> users = new ArrayList<UserElement>();
@@ -211,6 +216,22 @@ public class ConfigurationElement
     protected List<XmlReplacement> getXmlReplacements()
     {
         return this.xmlReplacements;
+    }
+
+    /**
+     * @param dataSourceElement the nested datasource element
+     */
+    public void addConfiguredDataSource(DataSourceElement dataSourceElement)
+    {
+        this.dataSources.add(dataSourceElement);
+    }
+
+    /**
+     * @return the nested datasource elements
+     */
+    public List<DataSourceElement> getDataSources()
+    {
+        return dataSources;
     }
 
     /**
@@ -359,6 +380,14 @@ public class ConfigurationElement
                 for (FileConfig file : getFiles())
                 {
                     localConfiguration.setFileProperty(file);
+                }
+            }
+
+            if (getDataSources() != null)
+            {
+                for (DataSourceElement dataSource : getDataSources())
+                {
+                    localConfiguration.addDataSource(dataSource.createDataSource());
                 }
             }
 

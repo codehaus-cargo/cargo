@@ -91,14 +91,16 @@
                     cargo.datasource.username=APP|
                     cargo.datasource.password=nonemptypassword
                   </cargo.datasource.datasource.derby1>
-                  <cargo.datasource.datasource.derby2>
-                    cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
-                    cargo.datasource.url=jdbc:derby:derbyDB2;create=true|
-                    cargo.datasource.jndi=jdbc/CargoDS2|
-                    cargo.datasource.username=APP|
-                    cargo.datasource.password=nonemptypassword
-                  </cargo.datasource.datasource.derby2>
                 </properties>
+                <datasources>
+                  <datasource>
+                    <driverClass>org.apache.derby.jdbc.EmbeddedDriver</driverClass>
+                    <url>jdbc:derby:derbyDB2;create=true</url>
+                    <jndiName>jdbc/CargoDS2</jndiName>
+                    <username>APP</username>
+                    <password>nonemptypassword</password>
+                  </datasource>
+                </datasources>
               </configuration>
               <deployables>
                 <deployable>
