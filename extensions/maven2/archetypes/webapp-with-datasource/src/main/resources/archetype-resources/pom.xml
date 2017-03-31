@@ -64,14 +64,16 @@
             <configuration>
               <properties>
                 <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
-                <cargo.datasource.datasource.derby>
-                  cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
-                  cargo.datasource.url=jdbc:derby:derbyDB;create=true|
-                  cargo.datasource.jndi=jdbc/CargoDS|
-                  cargo.datasource.username=APP|
-                  cargo.datasource.password=nonemptypassword
-                </cargo.datasource.datasource.derby>
               </properties>
+              <datasources>
+                <datasource>
+                  <driverClass>org.apache.derby.jdbc.EmbeddedDriver</driverClass>
+                  <url>jdbc:derby:derbyDB;create=true</url>
+                  <jndiName>jdbc/CargoDS</jndiName>
+                  <username>APP</username>
+                  <password>nonemptypassword</password>
+                </datasource>
+              </datasources>
             </configuration>
           </configuration>
         </plugin>
