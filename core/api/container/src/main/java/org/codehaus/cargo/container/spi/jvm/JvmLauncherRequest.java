@@ -43,6 +43,11 @@ public class JvmLauncherRequest
     private boolean ssh;
 
     /**
+     * {@code true} if JVM should be spawned - outlive parent process.
+     */
+    private boolean spawned;
+
+    /**
      * Creates a new JVM launch request with the specified properties.
      * 
      * @param server {@code true} to launch a server process, {@code false} to launch a
@@ -64,6 +69,20 @@ public class JvmLauncherRequest
      */
     public JvmLauncherRequest(boolean server, Loggable loggable, boolean ssh)
     {
+        this(server, loggable, ssh, false);
+    }
+
+    /**
+     * Creates a new JVM launch request with the specified properties.
+     *
+     * @param server {@code true} to launch a server process, {@code false} to launch a
+     * client/utility process.
+     * @param loggable The object to forward all logging to, must not be {@code null}.
+     * @param ssh {@code true} to launch a remote JVM via SSH, {@code false} to launch a local JVM.
+     * @param spawned {@code true} if JVM should be spawned - outlive parent process.
+     */
+    public JvmLauncherRequest(boolean server, Loggable loggable, boolean ssh, boolean spawned)
+    {
         if (loggable == null)
         {
             throw new IllegalArgumentException("JVM launch loggable missing");
@@ -71,6 +90,7 @@ public class JvmLauncherRequest
         this.server = server;
         this.loggable = loggable;
         this.ssh = ssh;
+        this.spawned = spawned;
     }
 
     /**
@@ -106,4 +126,13 @@ public class JvmLauncherRequest
         return this.ssh;
     }
 
+    /**
+     * Indicates whether the JVM should be launched as spawned process.
+     *
+     * @return {@code true} if JVM should be spawned - outlive parent process.
+     */
+    public boolean isSpawned()
+    {
+        return spawned;
+    }
 }
