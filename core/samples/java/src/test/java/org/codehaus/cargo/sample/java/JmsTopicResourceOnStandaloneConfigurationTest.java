@@ -126,7 +126,8 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
                     "cargo.wildfly.script.cli.embedded.journal",
                     "target/test-classes/wildfly/wildfly9/jms-journal.cli");
         }
-        else if (getTestData().containerId.equals("wildfly10x"))
+        else if (getTestData().containerId.equals("wildfly10x")
+                || getTestData().containerId.equals("wildfly11x"))
         {
             getLocalContainer().getConfiguration().setProperty("cargo.jboss.configuration",
                     "standalone-full");
