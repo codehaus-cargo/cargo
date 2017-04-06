@@ -328,6 +328,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected JvmLauncher createJvmLauncher(boolean server)
     {
         boolean ssh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
+        boolean spawned = Boolean.parseBoolean(getConfiguration().getPropertyValue(
+                GeneralPropertySet.SPAWN_PROCESS));
 
         if (jvmMajorVersion == -1)
         {
@@ -397,7 +399,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             jvmMajorVersion = JdkUtils.parseMajorJavaVersion(jvmVersion);
         }
 
-        JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh);
+        JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh, spawned);
 
         JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
 

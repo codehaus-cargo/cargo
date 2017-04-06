@@ -54,7 +54,11 @@ public class DefaultJvmLauncherFactory implements JvmLauncherFactory
         Java java = (Java) antUtils.createAntTask(request.isSsh() ? "sshjava" : "java");
 
         java.setFork(true);
-        java.setLogError(true);
+
+        if (!request.isSpawned())
+        {
+            java.setLogError(true);
+        }
 
         boolean foundBuildListener = false;
         for (Object listenerObject : java.getProject().getBuildListeners())
