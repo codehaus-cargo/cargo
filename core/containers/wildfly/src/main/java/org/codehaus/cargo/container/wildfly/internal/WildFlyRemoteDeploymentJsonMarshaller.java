@@ -102,7 +102,10 @@ public class WildFlyRemoteDeploymentJsonMarshaller
         deployRequest.put("operation", "add");
         deployRequest.put("enabled", "true");
 
-        return deployRequest.toJSONString();
+        // JSON library escapes slash with backslash. This is unwanted feature
+        // as WildFly needs exact hash value of uploaded content.
+        String jsonString = deployRequest.toJSONString();
+        return jsonString.replace("\\/", "/");
     }
 
     /**
