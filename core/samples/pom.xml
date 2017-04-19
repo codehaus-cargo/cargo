@@ -326,14 +326,7 @@
                 <!--
                 <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.43/tomcat-8.0.43.zip</value>
                   -->
-                <!--
-                  Tomcat 8.5.13 cannot be used due to a javax.management.MBeanException:
-                  Cannot find operation isServiced when performing remote deployments.
-                  -->
-                <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.13/tomcat-8.5.13.zip</value>
-                  -->
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.12/tomcat-8.5.12.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.14/tomcat-8.5.14.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
