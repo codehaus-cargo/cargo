@@ -335,14 +335,7 @@
 
               <property>
                 <name>cargo.tomcat9x.url</name>
-                <!--
-                  Tomcat 9.0.0.M19 cannot be used due to a javax.management.MBeanException:
-                  Cannot find operation isServiced when performing remote deployments.
-                  -->
-                <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M19/tomcat-9.0.0.M19.zip</value>
-                  -->
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M18/tomcat-9.0.0.M18.zip</value>
+                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M20/tomcat-9.0.0.M20.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat9x.java.home</name>
