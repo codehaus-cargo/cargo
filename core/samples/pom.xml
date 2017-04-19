@@ -439,7 +439,7 @@
                 <!--
 <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.18.v20170406/jetty-distribution-9.3.18.v20170406.tar.gz</value>
                   -->
-<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.3.v20170317/jetty-distribution-9.4.3.v20170317.tar.gz</value>
+<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.4.v20170414/jetty-distribution-9.4.4.v20170414.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
