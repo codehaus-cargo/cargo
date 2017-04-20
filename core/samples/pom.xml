@@ -312,9 +312,9 @@
                   in the Embedded container
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.77/tomcat-7.0.77.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.77/tomcat-7.0.77.zip</value>
                   -->
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -324,9 +324,9 @@
               <property>
                 <name>cargo.tomcat8x.url</name>
                 <!--
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.0.43/tomcat-8.0.43.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.43/tomcat-8.0.43.zip</value>
                   -->
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/8.5.14/tomcat-8.5.14.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.14/tomcat-8.5.14.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
@@ -335,7 +335,7 @@
 
               <property>
                 <name>cargo.tomcat9x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/tomcat/tomcat/9.0.0.M20/tomcat-9.0.0.M20.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.0.M20/tomcat-9.0.0.M20.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat9x.java.home</name>
@@ -372,24 +372,24 @@
               <property>
                 <name>cargo.jetty7x.url</name>
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
                   -->
                 <!--
                   Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
                   -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.17.v20150415/jetty-distribution-7.6.17.v20150415.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.17.v20150415/jetty-distribution-7.6.17.v20150415.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -402,9 +402,9 @@
                   Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
                   -->
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.17.v20150415/jetty-distribution-8.1.17.v20150415.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.17.v20150415/jetty-distribution-8.1.17.v20150415.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
@@ -414,18 +414,18 @@
               <property>
                 <name>cargo.jetty9x.url</name>
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.21.v20170120/jetty-distribution-9.2.21.v20170120.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.21.v20170120/jetty-distribution-9.2.21.v20170120.tar.gz</value>
                   -->
                 <!--
-<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.18.v20170406/jetty-distribution-9.3.18.v20170406.tar.gz</value>
+<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.18.v20170406/jetty-distribution-9.3.18.v20170406.tar.gz</value>
                   -->
-<value>http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.4.v20170414/jetty-distribution-9.4.4.v20170414.tar.gz</value>
+<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.4.v20170414/jetty-distribution-9.4.4.v20170414.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -448,7 +448,7 @@
                   DO NOT try to use version 2.2.1 because of Geronimo issue
                   https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
                   -->
-                <value>http://repo1.maven.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>
@@ -457,7 +457,7 @@
 
               <property>
                 <name>cargo.geronimo3x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo3x.java.home</name>
@@ -811,7 +811,7 @@
 
               <property>
                 <name>cargo.liberty.url</name>
-                <value>http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/16.0.0.3/wlp-javaee7-16.0.0.3.zip</value>
+                <value>http://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/16.0.0.3/wlp-javaee7-16.0.0.3.zip</value>
               </property>
 
               <property>
@@ -1052,7 +1052,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://repo1.maven.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
@@ -1097,7 +1097,7 @@
   
               <property>
                 <name>cargo.tomee7x.url</name>
-                <value>http://repo1.maven.org/maven2/org/apache/tomee/apache-tomee/7.0.2/apache-tomee-7.0.2-plus.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.2/apache-tomee-7.0.2-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee7x.java.home</name>
