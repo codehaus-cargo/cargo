@@ -50,7 +50,7 @@ import org.codehaus.cargo.container.websphere.util.WebSphereResourceComparator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * IBM WebSphere 8.5 standalone
+ * WebSphere 8.5.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  */
 public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
@@ -346,7 +346,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     @Override
     public String toString()
     {
-        return "WebSphere 8.5 Standalone Configuration";
+        return "WebSphere 8.5.x Standalone Configuration";
     }
 
     /**

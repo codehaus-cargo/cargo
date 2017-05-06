@@ -741,6 +741,34 @@
               </property>
 
               <!--
+                WebSphere 9.x
+
+                Notes:
+
+                WebSphere 9 runs on JDK 8
+
+                There is no non-interactive download link for WebSphere 9.x.  Here is is a link that requires license agreement:
+                   * http://www.ibm.com/developerworks/downloads/ws/was/
+
+                Once you install this, set the cargo.websphere9x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.websphere9x.home</name>
+                    <value>C:/Program Files/IBM/WebSphere/AppServer</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.websphere9x.home</name>
+                <value>${cargo.websphere9x.home}</value>
+              </property>
+              <property>
+                <name>cargo.websphere9x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <!--
                 OC4J 9.x
 
                 Notes:
@@ -1847,6 +1875,13 @@
       <id>websphere85x</id>
       <properties>
         <cargo.containers>websphere85x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>websphere9x</id>
+      <properties>
+        <cargo.containers>websphere9x</cargo.containers>
       </properties>
     </profile>
 

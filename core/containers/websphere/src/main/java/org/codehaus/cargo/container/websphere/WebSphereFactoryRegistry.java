@@ -25,6 +25,8 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.websphere.internal.WebSphere85xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.websphere.internal.WebSphere9xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.websphere.internal.WebSphere9xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -35,7 +37,7 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
- * Registers IBM WebSphere support into default factories.
+ * Registers WebSphere support into default factories.
  */
 public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
 {
@@ -64,6 +66,13 @@ public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("websphere85x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebSphere85xExistingLocalConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("websphere9x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            WebSphere9xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("websphere9x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            WebSphere9xExistingLocalConfigurationCapability.class);
     }
 
     /**
@@ -80,6 +89,13 @@ public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("websphere85x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebSphere85xExistingLocalConfiguration.class);
+
+        configurationFactory.registerConfiguration("websphere9x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            WebSphere9xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("websphere9x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            WebSphere9xExistingLocalConfiguration.class);
     }
 
     /**
@@ -92,6 +108,8 @@ public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
     {
         deployerFactory.registerDeployer("websphere85x", DeployerType.INSTALLED,
             WebSphere85xInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("websphere9x", DeployerType.INSTALLED,
+            WebSphere9xInstalledLocalDeployer.class);
     }
 
     /**
@@ -114,6 +132,8 @@ public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
     {
         containerFactory.registerContainer("websphere85x", ContainerType.INSTALLED,
             WebSphere85xInstalledLocalContainer.class);
+        containerFactory.registerContainer("websphere9x", ContainerType.INSTALLED,
+            WebSphere9xInstalledLocalContainer.class);
     }
 
     /**
@@ -125,6 +145,8 @@ public class WebSphereFactoryRegistry extends AbstractFactoryRegistry
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("websphere85x",
+            J2EEContainerCapability.class);
+        containerCapabilityFactory.registerContainerCapability("websphere9x",
             J2EEContainerCapability.class);
     }
 

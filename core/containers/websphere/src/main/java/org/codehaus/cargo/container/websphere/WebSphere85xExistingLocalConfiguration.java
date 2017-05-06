@@ -38,9 +38,8 @@ import org.codehaus.cargo.container.websphere.util.JvmArguments;
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * WebSphere existing {@link org.codehaus.cargo.container.configuration.Configuration}
+ * WebSphere 8.5.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
- *
  */
 public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
     implements WebSphereConfiguration
@@ -172,7 +171,7 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
     @Override
     public String toString()
     {
-        return "WebSphere 8.5 Existing Configuration";
+        return "WebSphere 8.5.x Existing Configuration";
     }
 
     /**

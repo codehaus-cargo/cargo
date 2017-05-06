@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.websphere.internal.configuration.WebSphereJy
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * Static deployer that deploys WARs to IBM WebSphere 8.5.
+ * Static deployer that deploys WARs to WebSphere 8.5.x.
  */
 public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
 {
