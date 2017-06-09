@@ -419,8 +419,8 @@
                 <!--
                 <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                   -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.21.v20170120/jetty-distribution-9.2.21.v20170120.tar.gz</value>
+                                <!--
+<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.22.v20170606/jetty-distribution-9.2.22.v20170606.tar.gz</value>
                   -->
                 <!--
 <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.20.v20170531/jetty-distribution-9.3.20.v20170531.tar.gz</value>
