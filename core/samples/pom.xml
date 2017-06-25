@@ -844,7 +844,7 @@
 
               <property>
                 <name>cargo.jboss3x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-3.2.8.SP1.zip?big_mirror=1</value>
+                <value>https://repository.jboss.org/sourceforge/jboss-3.2.8.SP1.zip</value>
               </property>
               <property>
                 <name>cargo.jboss3x.java.home</name>
@@ -853,7 +853,7 @@
 
               <property>
                 <name>cargo.jboss4x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-4.0.5.GA.zip?big_mirror=1</value>
+                <value>https://repository.jboss.org/sourceforge/jboss-4.0.5.GA.zip</value>
               </property>
               <property>
                 <name>cargo.jboss4x.java.home</name>
@@ -862,7 +862,7 @@
 
               <property>
                 <name>cargo.jboss42x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip?big_mirror=1</value>
+                <value>https://repository.jboss.org/sourceforge/jboss-4.2.3.GA.zip</value>
               </property>
               <property>
                 <name>cargo.jboss42x.java.home</name>
@@ -871,7 +871,7 @@
 
               <property>
                 <name>cargo.jboss5x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-5.0.1.GA.zip?big_mirror=1</value>
+                <value>https://repository.jboss.org/sourceforge/jboss-5.0.1.GA.zip</value>
               </property>
               <property>
                 <name>cargo.jboss5x.java.home</name>
@@ -880,7 +880,7 @@
 
               <property>
                 <name>cargo.jboss51x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-5.1.0.GA.zip?big_mirror=1</value>
+                <value>https://repository.jboss.org/sourceforge/jboss-5.1.0.GA.zip</value>
               </property>
               <property>
                 <name>cargo.jboss51x.java.home</name>
@@ -889,7 +889,7 @@
 
               <property>
                 <name>cargo.jboss6x.url</name>
-                <value>http://downloads.sourceforge.net/jboss/jboss-as-distribution-6.0.0.Final.zip?big_mirror=1</value>
+                <value>https://repository.jboss.org/org/jboss/jbossas/jboss-as-distribution/6.0.0.Final/jboss-as-distribution-6.0.0.Final.zip</value>
               </property>
               <property>
                 <name>cargo.jboss6x.java.home</name>
