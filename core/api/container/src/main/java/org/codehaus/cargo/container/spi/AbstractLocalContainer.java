@@ -201,7 +201,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             for (Map.Entry<String, String> property
                 : getConfiguration().getProperties().entrySet())
             {
-                if (property.getKey().endsWith(".port") && property.getValue() != null)
+                // CARGO-1438: Only check ports for property names prefixed with "cargo."
+                if (property.getKey().startsWith("cargo.") && property.getKey().endsWith(".port")
+                    && property.getValue() != null)
                 {
                     try
                     {
@@ -389,7 +391,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             int connectTimeout = 0;
             for (Map.Entry<String, String> property : getConfiguration().getProperties().entrySet())
             {
-                if (!property.getKey().endsWith(".port") || property.getValue() == null)
+                // CARGO-1438: Only check ports for property names prefixed with "cargo."
+                if (!property.getKey().startsWith("cargo.") || !property.getKey().endsWith(".port")
+                    || property.getValue() == null)
                 {
                     continue;
                 }

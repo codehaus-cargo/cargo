@@ -709,7 +709,8 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
             Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
             for (String key : keysCopy) 
             {
-                if (key.endsWith(".port")) 
+                // CARGO-1438: Only update numbers for properties prefixed with "cargo."
+                if (key.startsWith("cargo.") && key.endsWith(".port")) 
                 {
                     this.applyPortOffset(key);
                 }
@@ -735,7 +736,8 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
             Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
             for (String key : keysCopy) 
             {
-                if (key.endsWith(".port")) 
+                // CARGO-1438: Only update numbers for properties prefixed with "cargo."
+                if (key.startsWith("cargo.") && key.endsWith(".port")) 
                 {
                     this.revertPortOffset(key);
                 }
