@@ -29,7 +29,7 @@ public class WebSphere9xInstalledLocalDeployer extends WebSphere85xInstalledLoca
 {
     /**
      * {@inheritDoc}
-     * @see WebSphere85xInstalledLocalDeployer#WebSphere85xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see WebSphere85xInstalledLocalDeployer#WebSphere85xInstalledLocalDeployer(org.codehaus.cargo.container.InstalledLocalContainer)
      */
     public WebSphere9xInstalledLocalDeployer(InstalledLocalContainer container)
     {
