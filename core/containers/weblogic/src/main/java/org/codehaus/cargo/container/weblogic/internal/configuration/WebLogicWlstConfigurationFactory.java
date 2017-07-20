@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
@@ -53,6 +54,7 @@ import org.codehaus.cargo.container.weblogic.internal.configuration.commands.res
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsQueueScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsServerScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsSubdeploymentScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.MailSessionScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.user.AddUserToGroupScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.user.CreateGroupScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.commands.user.CreateUserScriptCommand;
@@ -89,6 +91,7 @@ public class WebLogicWlstConfigurationFactory
         resourceMap.put(WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY,
                 JmsConnectionFactoryScriptCommand.class);
         resourceMap.put(WebLogicConfigurationEntryType.JMS_QUEUE, JmsQueueScriptCommand.class);
+        resourceMap.put(ConfigurationEntryType.MAIL_SESSION, MailSessionScriptCommand.class);
     }
 
     /**

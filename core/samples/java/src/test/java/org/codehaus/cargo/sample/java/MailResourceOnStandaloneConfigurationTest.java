@@ -101,8 +101,6 @@ public class MailResourceOnStandaloneConfigurationTest extends
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
-        excludedContainerIds.add("weblogic121x");
-        excludedContainerIds.add("weblogic122x");
         excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
