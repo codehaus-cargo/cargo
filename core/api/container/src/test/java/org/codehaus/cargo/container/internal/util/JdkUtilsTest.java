@@ -13,8 +13,9 @@ public class JdkUtilsTest extends TestCase
      */
     public void testParseMajorJavaVersion()
     {
-        assertEquals(7, JdkUtils.parseMajorJavaVersion("1.7.0_3\""));
-        assertEquals(8, JdkUtils.parseMajorJavaVersion("1.8.0_121\""));
-        assertEquals(9, JdkUtils.parseMajorJavaVersion("9\""));
+        assertEquals(7, JdkUtils.parseMajorJavaVersion("1.7.0_3"));
+        assertEquals(8, JdkUtils.parseMajorJavaVersion("1.8.0_121"));
+        assertEquals(9, JdkUtils.parseMajorJavaVersion("\"9-ea\""));
+        assertTrue(JdkUtils.getMajorJavaVersion() > 0);
     }
 }
