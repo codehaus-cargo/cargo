@@ -72,5 +72,6 @@
     <module>weblogic</module>
     <module>websphere</module>
     <module>wildfly</module>
+    <module>wildfly-swarm</module>
   </modules>
 </project>
