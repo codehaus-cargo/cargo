@@ -54,6 +54,7 @@
     <module>users-test</module>
     <module>weblogic-test</module>
     <module>websphere-test</module>
+    <module>wildfly-swarm-test</module>
   </modules>
 
   <build>

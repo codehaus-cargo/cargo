@@ -671,6 +671,11 @@
       <!-- External dependencies -->
       <!-- Sorted alphabetically by groupId (and artifactId + type if needed). Keep the order! -->
       <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-yaml</artifactId>
+        <version>2.7.9</version>
+      </dependency>
+      <dependency>
         <groupId>com.googlecode.json-simple</groupId>
         <artifactId>json-simple</artifactId>
         <version>1.1.1</version>
