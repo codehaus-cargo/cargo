@@ -87,7 +87,7 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
                 cargocpc);
             getLocalContainer().getConfiguration().setProperty(
                 WildFlySwarmPropertySet.SWARM_APPLICATION_URL,
-                    "http://localhost:" + getTestData().port + "/");
+                    "http://localhost:" + getTestData().port + "/favicon.ico");
         }
 
         getLocalContainer().start();
