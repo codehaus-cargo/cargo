@@ -83,7 +83,7 @@ public class ProcessExecutor
 
     /**
      * Reads program's output to specified stream
-     * */
+     */
     private final class ProcessOutputReader implements Runnable
     {
         /**

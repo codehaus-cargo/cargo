@@ -161,11 +161,12 @@ public class ConfluenceContainerDocumentationGenerator
      * Containers that work on Java 8.
      */
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
+        "tomcat9x",
         "weblogic122x",
+        "websphere9x",
         "wildfly10x",
         "wildfly11x",
-        "tomcat9x",
-        "websphere9x"
+        "wildfly-swarm2017x"
     });
 
     /**

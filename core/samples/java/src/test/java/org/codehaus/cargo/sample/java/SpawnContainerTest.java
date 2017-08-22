@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasSpawnSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
@@ -66,7 +67,8 @@ public class SpawnContainerTest extends AbstractCargoTestCase
             new IsLocalContainerValidator(),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
-            new HasSpawnSupportValidator(ConfigurationType.STANDALONE)});
+            new HasSpawnSupportValidator(ConfigurationType.STANDALONE),
+            new HasWarSupportValidator()});
         return suite;
     }
 

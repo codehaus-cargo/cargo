@@ -17,45 +17,49 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.wildfly.swarm.internal.
-        AbstractWildFlySwarmInstalledLocalContainer;
+import org.codehaus.cargo.container.wildfly.swarm.internal.AbstractWildFlySwarmInstalledLocalContainer;
 
 /**
  * WildFly Swarm 2017.x series container implementation.
- * */
+ */
 public class WildFlySwarm2017xInstalledLocalContainer extends
-        AbstractWildFlySwarmInstalledLocalContainer
+    AbstractWildFlySwarmInstalledLocalContainer
 {
     /**
      * WildFly Swarm 2017.x series unique id.
-     * */
+     */
     static final String CONTAINER_ID = "wildfly-swarm2017x";
 
     /**
      * Version String.
-     * */
+     */
     static final String VERSION = "2017.x";
 
     /**
      * {@inheritDoc}
      * @see AbstractWildFlySwarmInstalledLocalContainer#
      * AbstractWildFlySwarmInstalledLocalContainer(LocalConfiguration)
-     * */
+     */
     public WildFlySwarm2017xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getId()
     {
         return CONTAINER_ID;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getVersion()
     {

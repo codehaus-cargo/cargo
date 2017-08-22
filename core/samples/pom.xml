@@ -233,6 +233,470 @@
                 -->
 
               <property>
+                <name>cargo.jboss3x.url</name>
+                <value>https://repository.jboss.org/sourceforge/jboss-3.2.8.SP1.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss3x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss4x.url</name>
+                <value>https://repository.jboss.org/sourceforge/jboss-4.0.5.GA.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss42x.url</name>
+                <value>https://repository.jboss.org/sourceforge/jboss-4.2.3.GA.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss42x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss5x.url</name>
+                <value>https://repository.jboss.org/sourceforge/jboss-5.0.1.GA.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss5x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss51x.url</name>
+                <value>https://repository.jboss.org/sourceforge/jboss-5.1.0.GA.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss51x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss6x.url</name>
+                <value>https://repository.jboss.org/org/jboss/jbossas/jboss-as-distribution/6.0.0.Final/jboss-as-distribution-6.0.0.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss6x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss61x.url</name>
+                <value>http://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss61x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss7x.url</name>
+                <value>http://download.jboss.org/jbossas/7.0/jboss-as-7.0.2.Final/jboss-as-7.0.2.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss7x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
+                <name>cargo.jboss71x.url</name>
+                <value>http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.jboss71x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
+                JBoss 7.2 is actually called EAP 6.1.0
+
+                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
+                cargo.jboss72x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss72x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.1.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss72x.home</name>
+                <value>${cargo.jboss72x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss72x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
+                JBoss 7.3 is actually called EAP 6.2.0
+
+                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
+                cargo.jboss73x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss73x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.2.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss73x.home</name>
+                <value>${cargo.jboss73x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss73x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
+                JBoss 7.4 is actually called EAP 6.3.0
+
+                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
+                cargo.jboss74x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss74x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.3.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss74x.home</name>
+                <value>${cargo.jboss74x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss74x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <!--
+                JBoss 7.5 is actually called EAP 6.4.0
+
+                Please download it manually from https://www.jboss.org/products/eap/download/ and
+                set the cargo.jboss75x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.jboss75x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-6.4.0</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.jboss75x.home</name>
+                <value>${cargo.jboss75x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jboss75x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty4x.url</name>
+                <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-4.2.20-all.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jetty4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty5x.url</name>
+                <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-5.1.15.tgz</value>
+              </property>
+              <property>
+                <name>cargo.jetty5x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty6x.url</name>
+                <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-6.1.26.zip</value>
+              </property>
+              <property>
+                <name>cargo.jetty6x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty7x.url</name>
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
+                  -->
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
+                  -->
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
+                  -->
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
+                  -->
+                <!--
+                  Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
+                  -->
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
+                  -->
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.17.v20150415/jetty-distribution-7.6.17.v20150415.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jetty7x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty8x.url</name>
+                <!--
+                  Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
+                  -->
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
+                  -->
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.17.v20150415/jetty-distribution-8.1.17.v20150415.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jetty8x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty9x.url</name>
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
+                  -->
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
+                  -->
+                                <!--
+<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.22.v20170606/jetty-distribution-9.2.22.v20170606.tar.gz</value>
+                  -->
+                <!--
+<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.20.v20170531/jetty-distribution-9.3.20.v20170531.tar.gz</value>
+                  -->
+<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.6.v20170531/jetty-distribution-9.4.6.v20170531.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jetty9x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <property>
+                <name>cargo.jo1x.url</name>
+                <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
+              </property>
+              <property>
+                <name>cargo.jo1x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.jonas4x.url</name>
+                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
+              </property>
+              <property>
+                <name>cargo.jonas4x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+              <property>
+                <name>cargo.samples.jonas4x.jonas.services.list</name>
+                <value>registry,jmx,security,jtm,resource,web,ear</value>
+              </property>
+
+              <property>
+                <name>cargo.jonas5x.url</name>
+                <value>http://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jonas5x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+              <property>
+                <name>cargo.samples.jonas5x.jonas.services.list</name>
+                <value>resource,web,ear,depmonitor,datasource</value>
+              </property>
+
+              <!--
+                Note: There is no direct download link for JRun 4.x as the download page
+                requires free account registration and login:
+
+                * http://www.adobe.com/products/jrun/download
+                Once manually installed on your machine you must specify where it is
+                installed using the cargo.jrun4x.home property.
+                For example:
+
+                <property>
+                  <name>cargo.jrun4x.home</name>
+                  <value>C:/JRun4</value>
+                </property>
+              -->
+              <property>
+                <name>cargo.jrun4x.home</name>
+                <value>${cargo.jrun4x.home}</value>
+              </property>
+              <property>
+                <name>cargo.jrun4x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.geronimo1x.url</name>
+                <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
+                <value>http://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
+              </property>
+              <property>
+                <name>cargo.geronimo1x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <property>
+                <name>cargo.geronimo2x.url</name>
+                <!--
+                  DO NOT try to use version 2.2.1 because of Geronimo issue
+                  https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
+                  -->
+                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
+              </property>
+              <property>
+                <name>cargo.geronimo2x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.geronimo3x.url</name>
+                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
+              </property>
+              <property>
+                <name>cargo.geronimo3x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <!--
+                GlassFish 2.x
+
+                Notes:
+
+                GlassFish 2.x needs to be installed manually.
+
+                Once you install this, set the cargo.glassfish2x.home accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.glassfish2x.home</name>
+                    <value>/Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1</value>
+                  </property>
+                -->
+
+              <property>
+                <name>cargo.glassfish2x.home</name>
+                <value>${cargo.glassfish2x.home}</value>
+              </property>
+              <property>
+                <name>cargo.glassfish2x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
+                <name>cargo.glassfish3x.url</name>
+                <!--
+                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
+                  -->
+                <value>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</value>
+              </property>
+              <property>
+                <name>cargo.glassfish3x.java.home</name>
+                <value>${cargo.java.home.1_6}</value>
+              </property>
+
+              <property>
+                <name>cargo.glassfish4x.url</name>
+                <!--
+                <value>http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip</value>
+                  -->
+                <value>http://download.java.net/glassfish/4.1.2/release/glassfish-4.1.2.zip</value>
+              </property>
+              <property>
+                <name>cargo.glassfish4x.java.home</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <property>
+                <name>cargo.liberty.url</name>
+                <value>http://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/16.0.0.4/wlp-javaee7-16.0.0.4.zip</value>
+              </property>
+
+              <!--
+                OC4J 9.x
+
+                Notes:
+
+                OC4J 9.0.4 runs on JDK 1.3.1+
+
+                There is no non-interactive download link for OC4J 9.x.  Here is a link that requires license agreement:
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/utilsoft.html
+
+                Download the zip and extract it to a directory corresponding with the cargo.oc4j9x.home property.
+
+                For example:
+
+                  <property>
+                    <name>cargo.oc4j9x.home</name>
+                    <value>c:/oracle/oc4j_extended_904</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.oc4j9x.home</name>
+                <value>${cargo.oc4j9x.home}</value>
+              </property>
+              <property>
+                <name>cargo.oc4j9x.java.home</name>
+                <value>${cargo.java.home.1_4}</value>
+              </property>
+
+              <!--
+                OC4J 10.x
+
+                Notes:
+
+                OC4J 10.1.2.0.2 runs on JDK 1.4+
+                     10.1.3.3.0 runs on JDK 1.4.2+
+                     10.1.3.4.0 runs on JDK 1.4.2+
+
+                We recommend setting this to a JDK 5.
+
+                There is no non-interactive download link for OC4J 10.x.  Here is a link that requires license agreement:
+                   * http://www.oracle.com/technology/software/products/ias/htdocs/utilsoft.html
+
+                Download the zip and extract it to a directory corresponding with the cargo.oc4j10x.home property.
+
+                For example:
+
+                  <property>
+                    <name>cargo.oc4j10x.home</name>
+                    <value>c:/oracle/oc4j_extended_101340</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.oc4j10x.home</name>
+                <value>${cargo.oc4j10x.home}</value>
+              </property>
+              <property>
+                <name>cargo.oc4j10x.java.home</name>
+                <value>${cargo.java.home.1_5}</value>
+              </property>
+
+              <property>
                 <name>cargo.resin2x.url</name>
                 <value>http://www.caucho.com/download/resin-2.1.17.zip</value>
               </property>
@@ -341,176 +805,22 @@
                 <name>cargo.tomcat9x.java.home</name>
                 <value>${cargo.java.home.1_8}</value>
               </property>
-
+  
               <property>
-                <name>cargo.jetty4x.url</name>
-                <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-4.2.20-all.tar.gz</value>
+                <name>cargo.tomee1x.url</name>
+                <value>http://archive.apache.org/dist/tomee/tomee-1.7.4/apache-tomee-1.7.4-plus.zip</value>
               </property>
               <property>
-                <name>cargo.jetty4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty5x.url</name>
-                <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-5.1.15.tgz</value>
-              </property>
-              <property>
-                <name>cargo.jetty5x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty6x.url</name>
-                <value>ftp://ftp.fi.freebsd.org/pub/FreeBSD/ports/distfiles/jetty-6.1.26.zip</value>
-              </property>
-              <property>
-                <name>cargo.jetty6x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty7x.url</name>
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
-                  -->
-                <!--
-                  Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
-                  -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.17.v20150415/jetty-distribution-7.6.17.v20150415.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty7x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jetty8x.url</name>
-                <!--
-                  Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
-                  -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.17.v20150415/jetty-distribution-8.1.17.v20150415.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty8x.java.home</name>
+                <name>cargo.tomee1x.java.home</name>
                 <value>${cargo.java.home.1_6}</value>
               </property>
-
+  
               <property>
-                <name>cargo.jetty9x.url</name>
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
-                  -->
-                                <!--
-<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.22.v20170606/jetty-distribution-9.2.22.v20170606.tar.gz</value>
-                  -->
-                <!--
-<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.20.v20170531/jetty-distribution-9.3.20.v20170531.tar.gz</value>
-                  -->
-<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.6.v20170531/jetty-distribution-9.4.6.v20170531.tar.gz</value>
+                <name>cargo.tomee7x.url</name>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.2/apache-tomee-7.0.2-plus.zip</value>
               </property>
               <property>
-                <name>cargo.jetty9x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
-
-              <property>
-                <name>cargo.geronimo1x.url</name>
-                <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-                <value>http://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
-              </property>
-              <property>
-                <name>cargo.geronimo1x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.geronimo2x.url</name>
-                <!--
-                  DO NOT try to use version 2.2.1 because of Geronimo issue
-                  https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
-                  -->
-                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
-              </property>
-              <property>
-                <name>cargo.geronimo2x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.geronimo3x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
-              </property>
-              <property>
-                <name>cargo.geronimo3x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <!--
-                GlassFish 2.x
-
-                Notes:
-
-                GlassFish 2.x needs to be installed manually.
-
-                Once you install this, set the cargo.glassfish2x.home accordingly.
-
-                For example:
-
-                  <property>
-                    <name>cargo.glassfish2x.home</name>
-                    <value>/Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1</value>
-                  </property>
-                -->
-
-              <property>
-                <name>cargo.glassfish2x.home</name>
-                <value>${cargo.glassfish2x.home}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish2x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.glassfish3x.url</name>
-                <!--
-                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
-                  -->
-                <value>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish3x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <property>
-                <name>cargo.glassfish4x.url</name>
-                <!--
-                <value>http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip</value>
-                  -->
-                <value>http://download.java.net/glassfish/4.1.2/release/glassfish-4.1.2.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish4x.java.home</name>
+                <name>cargo.tomee7x.java.home</name>
                 <value>${cargo.java.home.1_7}</value>
               </property>
 
@@ -768,249 +1078,6 @@
                 <value>${cargo.java.home.1_8}</value>
               </property>
 
-              <!--
-                OC4J 9.x
-
-                Notes:
-
-                OC4J 9.0.4 runs on JDK 1.3.1+
-
-                There is no non-interactive download link for OC4J 9.x.  Here is a link that requires license agreement:
-                   * http://www.oracle.com/technology/software/products/ias/htdocs/utilsoft.html
-
-                Download the zip and extract it to a directory corresponding with the cargo.oc4j9x.home property.
-
-                For example:
-
-                  <property>
-                    <name>cargo.oc4j9x.home</name>
-                    <value>c:/oracle/oc4j_extended_904</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.oc4j9x.home</name>
-                <value>${cargo.oc4j9x.home}</value>
-              </property>
-              <property>
-                <name>cargo.oc4j9x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <!--
-                OC4J 10.x
-
-                Notes:
-
-                OC4J 10.1.2.0.2 runs on JDK 1.4+
-                     10.1.3.3.0 runs on JDK 1.4.2+
-                     10.1.3.4.0 runs on JDK 1.4.2+
-
-                We recommend setting this to a JDK 5.
-
-                There is no non-interactive download link for OC4J 10.x.  Here is a link that requires license agreement:
-                   * http://www.oracle.com/technology/software/products/ias/htdocs/utilsoft.html
-
-                Download the zip and extract it to a directory corresponding with the cargo.oc4j10x.home property.
-
-                For example:
-
-                  <property>
-                    <name>cargo.oc4j10x.home</name>
-                    <value>c:/oracle/oc4j_extended_101340</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.oc4j10x.home</name>
-                <value>${cargo.oc4j10x.home}</value>
-              </property>
-              <property>
-                <name>cargo.oc4j10x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jo1x.url</name>
-                <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
-              </property>
-              <property>
-                <name>cargo.jo1x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.liberty.url</name>
-                <value>http://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/16.0.0.4/wlp-javaee7-16.0.0.4.zip</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss3x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-3.2.8.SP1.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss3x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss4x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-4.0.5.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss42x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-4.2.3.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss42x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss5x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-5.0.1.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss5x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss51x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-5.1.0.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss51x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss6x.url</name>
-                <value>https://repository.jboss.org/org/jboss/jbossas/jboss-as-distribution/6.0.0.Final/jboss-as-distribution-6.0.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss6x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss61x.url</name>
-                <value>http://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss61x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss7x.url</name>
-                <value>http://download.jboss.org/jbossas/7.0/jboss-as-7.0.2.Final/jboss-as-7.0.2.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss7x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <property>
-                <name>cargo.jboss71x.url</name>
-                <value>http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss71x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <!--
-                JBoss 7.2 is actually called EAP 6.1.0
-
-                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
-                cargo.jboss72x.home property accordingly.
-
-                For example:
-
-                  <property>
-                    <name>cargo.jboss72x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.1.0</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.jboss72x.home</name>
-                <value>${cargo.jboss72x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss72x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <!--
-                JBoss 7.3 is actually called EAP 6.2.0
-
-                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
-                cargo.jboss73x.home property accordingly.
-
-                For example:
-
-                  <property>
-                    <name>cargo.jboss73x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.2.0</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.jboss73x.home</name>
-                <value>${cargo.jboss73x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss73x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-
-              <!--
-                JBoss 7.4 is actually called EAP 6.3.0
-
-                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
-                cargo.jboss74x.home property accordingly.
-
-                For example:
-
-                  <property>
-                    <name>cargo.jboss74x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.3.0</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.jboss74x.home</name>
-                <value>${cargo.jboss74x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss74x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
-
-              <!--
-                JBoss 7.5 is actually called EAP 6.4.0
-
-                Please download it manually from https://www.jboss.org/products/eap/download/ and
-                set the cargo.jboss75x.home property accordingly.
-
-                For example:
-
-                  <property>
-                    <name>cargo.jboss75x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.4.0</value>
-                  </property>
-                -->
-              <property>
-                <name>cargo.jboss75x.home</name>
-                <value>${cargo.jboss75x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss75x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
-
               <property>
                 <name>cargo.wildfly8x.url</name>
                 <!-- <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value> -->
@@ -1066,70 +1133,25 @@
               </property>
 
               <property>
-                <name>cargo.jonas4x.url</name>
-                <value>http://download.fr.forge.objectweb.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
+                <name>cargo.wildfly11x.url</name>
+                <value>http://download.jboss.org/wildfly/11.0.0.Alpha1/wildfly-11.0.0.Alpha1.zip</value>
               </property>
               <property>
-                <name>cargo.jonas4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-              <property>
-                <name>cargo.samples.jonas4x.jonas.services.list</name>
-                <value>registry,jmx,security,jtm,resource,web,ear</value>
+                <name>cargo.wildfly11x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
               </property>
 
               <property>
-                <name>cargo.jonas5x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
+                <name>cargo.wildfly-swarm2017x.home</name>
+                <value>${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar</value>
               </property>
               <property>
-                <name>cargo.jonas5x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
+                <name>cargo.wildfly-swarm2017x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
               </property>
               <property>
-                <name>cargo.samples.jonas5x.jonas.services.list</name>
-                <value>resource,web,ear,depmonitor,datasource</value>
-              </property>
-
-              <!--
-                Note: There is no direct download link for JRun 4.x as the download page
-                requires free account registration and login:
-
-                * http://www.adobe.com/products/jrun/download
-                Once manually installed on your machine you must specify where it is
-                installed using the cargo.jrun4x.home property.
-                For example:
-
-                <property>
-                  <name>cargo.jrun4x.home</name>
-                  <value>C:/JRun4</value>
-                </property>
-              -->
-              <property>
-                <name>cargo.jrun4x.home</name>
-                <value>${cargo.jrun4x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jrun4x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-  
-              <property>
-                <name>cargo.tomee1x.url</name>
-                <value>http://archive.apache.org/dist/tomee/tomee-1.7.4/apache-tomee-1.7.4-plus.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomee1x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-  
-              <property>
-                <name>cargo.tomee7x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.2/apache-tomee-7.0.2-plus.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomee7x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
+                <name>cargo.samples.wildfly-swarm2017x.swarm.ping.url</name>
+                <value>http://localhost:${cargo.samples.servlet.port}/simple-war/</value>
               </property>
 
               <!--
@@ -1829,6 +1851,19 @@
     </profile>
 
     <profile>
+      <id>tomee1x</id>
+      <properties>
+        <cargo.containers>tomee1x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomee7x</id>
+      <properties>
+        <cargo.containers>tomee7x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
       <id>weblogic8x</id>
       <properties>
         <cargo.containers>weblogic8x</cargo.containers>
@@ -1909,18 +1944,39 @@
         <cargo.containers>wildfly11x</cargo.containers>
       </properties>
     </profile>
-
     <profile>
-      <id>tomee1x</id>
+      <id>wildfly-swarm2017x</id>
       <properties>
-        <cargo.containers>tomee1x</cargo.containers>
+        <cargo.containers>wildfly-swarm2017x</cargo.containers>
       </properties>
-    </profile>
-    <profile>
-      <id>tomee7x</id>
-      <properties>
-        <cargo.containers>tomee7x</cargo.containers>
-      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>process-test-resources</phase>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.wildfly.swarm.servers</groupId>
+                      <artifactId>microprofile</artifactId>
+                      <classifier>hollowswarm</classifier>
+                      <version>${wildfly-swarm.version}</version>
+                      <outputDirectory>${project.build.directory}/wildfly-swarm</outputDirectory>
+                      <destFileName>wildfly-hollowswarm-${wildfly-swarm.version}.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

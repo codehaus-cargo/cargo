@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.jvm;
 
 import java.io.IOException;
@@ -25,12 +24,12 @@ import java.io.StringWriter;
 
 /**
  * Utility class for Exceptions.
- * */
+ */
 public final class StackTraceUtil
 {
     /**
      * Prevent creating an instance.
-     * */
+     */
     private StackTraceUtil()
     {
         // no instance
@@ -40,7 +39,7 @@ public final class StackTraceUtil
      * Returns error stacktrace as a String.
      * @param error error to be converted to String.
      * @return error stacktrace
-     * */
+     */
     public static String getStackTrace(final Throwable error)
     {
         StringWriter writer = new StringWriter();

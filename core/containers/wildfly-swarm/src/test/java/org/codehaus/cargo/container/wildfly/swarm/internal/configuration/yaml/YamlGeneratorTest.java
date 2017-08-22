@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -31,22 +30,22 @@ import java.io.Writer;
 
 /**
  * Tests YAML creation used by WildFly Swarm configurator classes.
- * */
+ */
 public class YamlGeneratorTest extends TestCase
 {
     /**
      * Factory for creating {@link YAMLGenerator} instances.
-     * */
+     */
     private final YAMLFactory yamlFactory = new YAMLFactory();
 
     /**
      * YAML generator under test.
-     * */
+     */
     private YAMLGenerator yamlGenerator;
 
     /**
      * Prepares test environment - creates a new YAML generator.
-     * */
+     */
     public void setUp()
     {
         this.yamlGenerator = createYamlGenerator();
@@ -54,7 +53,7 @@ public class YamlGeneratorTest extends TestCase
 
     /**
      * Closes the YAML generator used in tests.
-     * */
+     */
     public void tearDown()
     {
         closeGenerator();
@@ -63,7 +62,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Tests a simple {@link YAMLGenerator} usage.
      * @throws IOException if creating YAML content fails.
-     * */
+     */
     public void testSimpleYamlGeneration() throws IOException
     {
         Assert.assertFalse(yamlFactory.isEnabled(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
@@ -84,7 +83,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Converts YAML generator's content to string.
      * @return YAML string.
-     * */
+     */
     private String getYamlString()
     {
         try
@@ -113,7 +112,7 @@ public class YamlGeneratorTest extends TestCase
 
     /**
      * Closes the YAML generator.
-     * */
+     */
     private void closeGenerator()
     {
         if (yamlGenerator != null)
@@ -132,7 +131,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Creates a new generator.
      * @return YAMLGenerator instance.
-     * */
+     */
     private YAMLGenerator createYamlGenerator()
     {
         final Writer writer = new StringWriter();

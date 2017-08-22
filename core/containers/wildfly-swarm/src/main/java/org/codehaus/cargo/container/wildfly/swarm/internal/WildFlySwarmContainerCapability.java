@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal;
 
 import org.codehaus.cargo.container.ContainerCapability;
@@ -25,14 +24,14 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * WildFly Swarm container capability.
- * */
+ */
 public class WildFlySwarmContainerCapability implements ContainerCapability
 {
     /**
      * As WildFly Swarm is already bundled with application, it does not support any deployment.
      * {@inheritDoc}
      * @return always false.
-     * */
+     */
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {

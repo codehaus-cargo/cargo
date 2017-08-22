@@ -17,11 +17,11 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.spi.startup.AbstractPingContainerMonitor;
@@ -31,19 +31,22 @@ import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
  * Monitors URL that is provided as a mandatory configuration property. WildFly Swarm does not
  * accept deployments - container is bundled together with application, thus defining the ping URL
  * is user's responsibility.
- * */
+ */
 public class WildFlySwarmStartupMonitor extends AbstractPingContainerMonitor
 {
 
     /**
      * {@inheritDoc}
      * @see {@link AbstractPingContainerMonitor#AbstractPingContainerMonitor(Container)}
-     * */
+     */
     public WildFlySwarmStartupMonitor(final Container container)
     {
         super(container);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected URL getPingUrl()
     {

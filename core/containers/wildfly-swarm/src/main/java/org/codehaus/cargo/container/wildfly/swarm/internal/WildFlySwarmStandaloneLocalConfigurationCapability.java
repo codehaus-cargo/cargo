@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal;
 
 import org.codehaus.cargo.container.spi.configuration.
@@ -26,13 +25,13 @@ import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
 
 /**
  * WildFly Swarm standalone local configuration capability.
- * */
+ */
 public class WildFlySwarmStandaloneLocalConfigurationCapability extends
         AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Accepts WildFly Swarm-specific properties.
-     * */
+     */
     public WildFlySwarmStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(WildFlySwarmPropertySet.SWARM_PROJECT_NAME, Boolean.TRUE);

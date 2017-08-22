@@ -17,42 +17,40 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm;
-
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.wildfly.swarm.internal.
-        WildFlySwarmStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.ConfigurationContext;
-import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.WildFlySwarmConfiguratorFactory;
-import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml.WildFlySwarmYamlConfiguratorFactory;
 
 import java.io.File;
 import java.io.Flushable;
 import java.io.IOException;
 
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.wildfly.swarm.internal.WildFlySwarmStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.ConfigurationContext;
+import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.WildFlySwarmConfiguratorFactory;
+import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml.WildFlySwarmYamlConfiguratorFactory;
+
 /**
  * WildFly Swarm standalone container configuration.
- * */
+ */
 public class WildFlySwarmStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
 
     /**
      * Default Swarm project name.
-     * */
+     */
     private static final String DEFAULT_PROJECT_CONFIG_NAME = "cargo";
 
     /**
      * WildFly Swarm capability instance.
-     * */
+     */
     private static final ConfigurationCapability CAPABILITY =
             new WildFlySwarmStandaloneLocalConfigurationCapability();
 
     /**
      * Reference to a configurator factory.
-     * */
+     */
     private final WildFlySwarmConfiguratorFactory configuratorFactory;
 
     /**
@@ -94,7 +92,7 @@ public class WildFlySwarmStandaloneLocalConfiguration extends AbstractStandalone
     /**
      * Resolves Swarm project descriptor file.
      * @return Swarm project descriptor file.
-     * */
+     */
     public File getSwarmProjectDescriptor()
     {
         String projectNameProperty = getPropertyValue(WildFlySwarmPropertySet.SWARM_PROJECT_NAME);
@@ -108,7 +106,7 @@ public class WildFlySwarmStandaloneLocalConfiguration extends AbstractStandalone
      * Constructs Swarm project descriptor file name.
      * @param projectName Swarm project name.
      * @return Swarm project descriptor file name.
-     * */
+     */
     private String getSwarmProjectDescriptorName(String projectName)
     {
         return "project-" + projectName + ".yaml";
@@ -116,7 +114,7 @@ public class WildFlySwarmStandaloneLocalConfiguration extends AbstractStandalone
 
     /**
      * Configure user accounts.
-     * */
+     */
     private void configureUsers()
     {
         configuratorFactory.userAccountsConfigurator().configureApplicationUsers(getUsers());
@@ -124,7 +122,7 @@ public class WildFlySwarmStandaloneLocalConfiguration extends AbstractStandalone
 
     /**
      * Flushes the configuration changes.
-     * */
+     */
     private void flush()
     {
         try

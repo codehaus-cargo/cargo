@@ -46,7 +46,7 @@ class StreamRedirector implements Runnable
 
     /**
      * Exception that might occur in redirecting the stream.
-     * */
+     */
     private Exception error;
 
     /**
@@ -88,7 +88,7 @@ class StreamRedirector implements Runnable
     /**
      * Closes the associated input stream.
      * @throws IOException when input stream cannot be closed.
-     * */
+     */
     public void close() throws IOException
     {
         inputStream.close();
@@ -97,7 +97,7 @@ class StreamRedirector implements Runnable
     /**
      * Getter for error.
      * @return error instance if any exception occured; null otherwise.
-     * */
+     */
     public Exception getError()
     {
         return error;
@@ -106,7 +106,7 @@ class StreamRedirector implements Runnable
     /**
      * Tells whether any error occurred.
      * @return true in case error occurred, false otherwise.
-     * */
+     */
     public boolean hasError()
     {
         return getError() != null;

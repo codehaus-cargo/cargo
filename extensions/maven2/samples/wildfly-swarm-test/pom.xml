@@ -33,17 +33,12 @@
 
   <packaging>war</packaging>
 
-  <properties>
-    <version.wildfly-swarm>2017.8.1</version.wildfly-swarm>
-    <cargo.samples.servlet.port>8080</cargo.samples.servlet.port>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.wildfly.swarm</groupId>
         <artifactId>bom-all</artifactId>
-        <version>${version.wildfly-swarm}</version>
+        <version>${wildfly-swarm.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -138,7 +133,7 @@
             <plugin>
               <groupId>org.wildfly.swarm</groupId>
               <artifactId>wildfly-swarm-plugin</artifactId>
-              <version>${version.wildfly-swarm}</version>
+              <version>${wildfly-swarm.version}</version>
               <configuration>
                 <jvmArguments>
                   <jvmArgument>-Xmx128m</jvmArgument>
@@ -169,7 +164,7 @@
                 <configuration>
                   <type>standalone</type>
                   <properties>
-                    <cargo.swarm.ping.url>http://localhost:8080/test</cargo.swarm.ping.url>
+                    <cargo.swarm.ping.url>http://localhost:${cargo.samples.servlet.port}/test</cargo.swarm.ping.url>
                     <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
                     <cargo.swarm.project.name>testing</cargo.swarm.project.name>
                   </properties>

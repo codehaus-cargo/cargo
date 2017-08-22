@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasPortOffsetValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
@@ -69,7 +70,8 @@ public class PortOffsetContainerTest extends AbstractCargoTestCase
         suite.addTestSuite(PortOffsetContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
-            new HasPortOffsetValidator(ConfigurationType.STANDALONE)});
+            new HasPortOffsetValidator(ConfigurationType.STANDALONE),
+            new HasWarSupportValidator()});
         return suite;
     }
 

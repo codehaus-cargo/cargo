@@ -17,12 +17,11 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm;
 
 /**
  * WildFly Swarm property set.
- * */
+ */
 public interface WildFlySwarmPropertySet
 {
     /**
@@ -32,6 +31,6 @@ public interface WildFlySwarmPropertySet
 
     /**
      * URL of an application deployed with WildFly Swarm.
-     * */
+     */
     String SWARM_APPLICATION_URL = "cargo.swarm.ping.url";
 }

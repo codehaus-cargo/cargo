@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.sample.maven2.wildfly.swarm;
 
 import javax.servlet.ServletException;

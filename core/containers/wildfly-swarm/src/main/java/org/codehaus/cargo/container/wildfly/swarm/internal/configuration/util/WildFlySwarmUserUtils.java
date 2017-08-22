@@ -19,12 +19,12 @@
  */
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.util;
 
-import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.util.CargoException;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Utility class providing informations about users.
@@ -34,7 +34,7 @@ public final class WildFlySwarmUserUtils
 
     /**
      * System-dependent line separator.
-     * */
+     */
     private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**

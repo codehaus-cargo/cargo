@@ -20,11 +20,13 @@
 package org.codehaus.cargo.container.wildfly.swarm.internal;
 
 import java.io.File;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
@@ -35,7 +37,7 @@ import org.codehaus.cargo.container.wildfly.swarm.internal.jvm.SwarmJvmLauncherF
  * WildFly Swarm container common implementation.
  */
 public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
-        AbstractInstalledLocalContainer
+    AbstractInstalledLocalContainer
 {
 
     /**
@@ -45,7 +47,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
 
     /**
      * JVM launcher instance.
-     * */
+     */
     private JvmLauncher swarmJvmLauncher;
 
     /**
@@ -90,7 +92,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
         if (!wildFlySwarmExecutable.exists() || !wildFlySwarmExecutable.getName().endsWith(".jar"))
         {
             throw new ContainerException("[" + getHome() + "] "
-                    + "does not point to a valid WildFly Swarm executable.");
+                + "does not point to a valid WildFly Swarm executable.");
         }
 
         verifyPingURL();
@@ -99,7 +101,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
     /**
      * Verifies that the property {@link WildFlySwarmPropertySet#SWARM_APPLICATION_URL} has been
      * defined.
-     * */
+     */
     private void verifyPingURL()
     {
         String pingUrl =
@@ -108,8 +110,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
         if (pingUrl == null || pingUrl.isEmpty())
         {
             throw new ContainerException("Missing mandatory configuration property ["
-                    + WildFlySwarmPropertySet.SWARM_APPLICATION_URL
-                    + "].");
+                + WildFlySwarmPropertySet.SWARM_APPLICATION_URL + "].");
         }
     }
 
@@ -147,14 +148,16 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
     {
         final File swarmExecutable = new File(getHome());
         swarmJvmLauncher.setJarFile(swarmExecutable);
-        swarmJvmLauncher.setWorkingDirectory(swarmExecutable.getParentFile());
+        swarmJvmLauncher.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
+            getConfiguration().getHome())));
 
         final Configuration configuration = getConfiguration();
 
         String jvmArgs = configuration.getPropertyValue(GeneralPropertySet.JVMARGS);
-        if (jvmArgs != null)
+        if (jvmArgs == null || !jvmArgs.contains("-Dswarm.http.port="))
         {
-            swarmJvmLauncher.addJvmArgumentLine(jvmArgs);
+            swarmJvmLauncher.addJvmArguments("-Dswarm.http.port="
+                + getConfiguration().getPropertyValue(ServletPropertySet.PORT));
         }
 
         WildFlySwarmStandaloneLocalConfiguration wildFlySwarmConfiguration =
@@ -163,7 +166,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
         if (swarmProjectDescriptor != null && swarmProjectDescriptor.exists())
         {
             swarmJvmLauncher.addAppArgumentLine("-s "
-                    + swarmProjectDescriptor.getAbsolutePath());
+                + swarmProjectDescriptor.getAbsolutePath());
         }
 
         swarmJvmLauncher.start();

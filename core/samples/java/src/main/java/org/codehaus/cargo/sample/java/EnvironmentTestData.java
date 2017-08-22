@@ -133,14 +133,18 @@ public class EnvironmentTestData
         {
             throw new ContainerException("Property cargo.testdata.deployables not set");
         }
-        for (File deployable : new File(deployablesLocation).listFiles())
+        File[] deployables = new File(deployablesLocation).listFiles();
+        if (deployables != null)
         {
-            if (deployable.isFile())
+            for (File deployable : deployables)
             {
-                String deployableName = deployable.getName();
-                this.testDataArtifacts.put(
-                    deployableName.substring(0, deployableName.lastIndexOf('.')),
-                        deployable.getAbsolutePath());
+                if (deployable.isFile())
+                {
+                    String deployableName = deployable.getName();
+                    this.testDataArtifacts.put(
+                        deployableName.substring(0, deployableName.lastIndexOf('.')),
+                            deployable.getAbsolutePath());
+                }
             }
         }
     }

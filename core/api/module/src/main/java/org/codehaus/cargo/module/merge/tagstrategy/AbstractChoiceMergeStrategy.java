@@ -17,7 +17,6 @@
  *
  * ========================================================================
  */
-
 package org.codehaus.cargo.module.merge.tagstrategy;
 
 import org.codehaus.cargo.module.Descriptor;

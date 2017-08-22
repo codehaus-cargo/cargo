@@ -73,6 +73,10 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-tomee</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-weblogic</artifactId>
     </dependency>
     <dependency>
@@ -85,7 +89,7 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-tomee</artifactId>
+      <artifactId>cargo-core-container-wildfly-swarm</artifactId>
     </dependency>
   </dependencies>
   <build>

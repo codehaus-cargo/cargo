@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.jvm;
 
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -26,14 +25,14 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 
 /**
  * Factory for a custom WildFly Swarm JVM launcher.
- * */
+ */
 public class SwarmJvmLauncherFactory implements JvmLauncherFactory
 {
     /**
      * Creates a new @see {@link SwarmJvmLauncher} and sets logger.
      * {@inheritDoc}
      * @return Swarm JVM launcher instance.
-     * */
+     */
     @Override
     public JvmLauncher createJvmLauncher(final JvmLauncherRequest request)
     {

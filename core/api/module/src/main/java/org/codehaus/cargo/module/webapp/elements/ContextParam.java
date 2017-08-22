@@ -17,7 +17,6 @@
  *
  * ========================================================================
  */
-
 package org.codehaus.cargo.module.webapp.elements;
 
 import org.codehaus.cargo.module.webapp.WebXmlTag;

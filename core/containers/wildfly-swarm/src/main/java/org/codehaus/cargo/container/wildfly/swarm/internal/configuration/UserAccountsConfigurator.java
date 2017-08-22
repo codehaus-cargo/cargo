@@ -17,21 +17,20 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration;
-
-import org.codehaus.cargo.container.property.User;
 
 import java.util.List;
 
+import org.codehaus.cargo.container.property.User;
+
 /**
  * User accounts configurator.
- * */
+ */
 public interface UserAccountsConfigurator
 {
     /**
      * Configures user accounts and roles.
      * @param users list of users with roles to create.
-     * */
+     */
     void configureApplicationUsers(final List<User> users);
 }

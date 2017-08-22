@@ -19,15 +19,22 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.io.File;
+
 import junit.framework.Test;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration;
+import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
+import org.codehaus.cargo.util.DefaultFileHandler;
 
 /**
  * Test for local containers.
@@ -68,6 +75,21 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
+        if (getTestData().containerId.startsWith("wildfly-swarm"))
+        {
+            String cargocpc = new File(
+                new File(getInstalledLocalContainer().getHome()).getParentFile(),
+                    "cargocpc.war").getAbsolutePath();
+            new ResourceUtils().copyResource(
+                AbstractLocalConfiguration.RESOURCE_PATH + "cargocpc.war", cargocpc,
+                    new DefaultFileHandler());
+            getLocalContainer().getConfiguration().setProperty(GeneralPropertySet.RUNTIME_ARGS,
+                cargocpc);
+            getLocalContainer().getConfiguration().setProperty(
+                WildFlySwarmPropertySet.SWARM_APPLICATION_URL,
+                    "http://localhost:" + getTestData().port + "/");
+        }
+
         getLocalContainer().start();
         assertEquals(State.STARTED, getContainer().getState());
 
@@ -101,6 +123,12 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
 
         // JOnAS 4.x has trouble restarting too quickly, skip
         if ("jonas4x".equals(getTestData().containerId))
+        {
+            return;
+        }
+
+        // WildFly Swarm is a headache to test, skip
+        if (getTestData().containerId.startsWith("wildfly-swarm"))
         {
             return;
         }

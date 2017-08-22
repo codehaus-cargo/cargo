@@ -17,7 +17,6 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.jvm;
 
 import java.io.File;
@@ -29,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.apache.tools.ant.types.Commandline;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
@@ -38,7 +38,7 @@ import org.codehaus.cargo.util.log.Logger;
  * Custom launcher for WildFly Swarm. Swarm cannot guarantee there will be any management interface
  * accepting commands (e.g. stop command), thus this implementation relies on
  * {@link java.lang.Process}.
- * */
+ */
 public class SwarmJvmLauncher implements JvmLauncher
 {
 
@@ -104,24 +104,24 @@ public class SwarmJvmLauncher implements JvmLauncher
 
     /**
      * Logger instance.
-     * */
+     */
     private Logger logger;
 
     /**
      * Stream redirector.
-     * */
+     */
     private StreamRedirector streamRedirector;
 
     /**
      * Sets to <code>true</code> when either {@link #kill()} has been called or a shutdown hook
      * took effect.
-     * */
+     */
     private AtomicBoolean killed = new AtomicBoolean(false);
 
     /**
      * Constructor.
      * @param logger logger instance.
-     * */
+     */
     public SwarmJvmLauncher(final Logger logger)
     {
         this.logger = logger;
@@ -524,7 +524,7 @@ public class SwarmJvmLauncher implements JvmLauncher
 
     /**
      * Terminates Swarm process execution.
-     * */
+     */
     private void terminateProcess()
     {
         if (!killed.getAndSet(true))

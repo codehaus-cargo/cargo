@@ -17,8 +17,12 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml;
+
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
@@ -26,38 +30,33 @@ import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.Configu
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.UserAccountsConfigurator;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.WildFlySwarmConfiguratorFactory;
 
-import java.io.Flushable;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
 /**
  * WildFly Swarm yaml configuration factory. Writes configuration changes to project-{name}.yaml
  * file.
- * */
+ */
 public final class WildFlySwarmYamlConfiguratorFactory implements
         WildFlySwarmConfiguratorFactory, Flushable
 {
     /**
      * Configuration context makes accessible data and utilities from configuration.
-     * */
+     */
     private final ConfigurationContext configurationContext;
 
     /**
      * YAML generator instance for creating YAML content.
-     * */
+     */
     private final YAMLGenerator yamlGenerator;
 
     /**
      * User accounts configuration implementation.
-     * */
+     */
     private UserAccountsConfigurator userAccountsYamlConfigurator;
 
 
     /**
      * Creates new instance of this factory class.
      * @param configurationContext configuration context.
-     * */
+     */
     public WildFlySwarmYamlConfiguratorFactory(ConfigurationContext configurationContext)
     {
         this.configurationContext = configurationContext;
@@ -66,7 +65,7 @@ public final class WildFlySwarmYamlConfiguratorFactory implements
 
     /**
      * {@inheritDoc}
-     * */
+     */
     @Override
     public UserAccountsConfigurator userAccountsConfigurator()
     {
@@ -80,7 +79,7 @@ public final class WildFlySwarmYamlConfiguratorFactory implements
 
     /**
      * {@inheritDoc}
-     * */
+     */
     @Override
     public void flush()
     {
@@ -127,7 +126,7 @@ public final class WildFlySwarmYamlConfiguratorFactory implements
     /**
      * Creates YAML generator instance.
      * @return YAMLGenerator instance.
-     * */
+     */
     private YAMLGenerator createYamlGenerator()
     {
         final Writer writer = new StringWriter();

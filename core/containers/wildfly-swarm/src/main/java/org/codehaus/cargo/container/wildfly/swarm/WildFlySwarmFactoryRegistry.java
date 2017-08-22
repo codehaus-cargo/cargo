@@ -22,8 +22,7 @@ package org.codehaus.cargo.container.wildfly.swarm;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.wildfly.swarm.internal.WildFlySwarmContainerCapability;
-import org.codehaus.cargo.container.wildfly.swarm.internal.
-        WildFlySwarmStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.swarm.internal.WildFlySwarmStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -39,59 +38,80 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 public class WildFlySwarmFactoryRegistry extends AbstractFactoryRegistry
 {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(DeployableFactory factory)
     {
         //no deployments are supported
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(ConfigurationCapabilityFactory factory)
     {
         factory.registerConfigurationCapability(
-                WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
-                ContainerType.INSTALLED,
-                ConfigurationType.STANDALONE,
-                WildFlySwarmStandaloneLocalConfigurationCapability.class);
+            WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
+            ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE,
+            WildFlySwarmStandaloneLocalConfigurationCapability.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(ConfigurationFactory factory)
     {
         factory.registerConfiguration(
-                WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
-                ContainerType.INSTALLED,
-                ConfigurationType.STANDALONE,
-                WildFlySwarmStandaloneLocalConfiguration.class
+            WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
+            ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE,
+            WildFlySwarmStandaloneLocalConfiguration.class
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(DeployerFactory factory)
     {
         //no deployments are supported
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(PackagerFactory factory)
     {
         //no packages are supported
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(ContainerFactory factory)
     {
         factory.registerContainer(
-                WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
-                ContainerType.INSTALLED,
-                WildFlySwarm2017xInstalledLocalContainer.class);
+            WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
+            ContainerType.INSTALLED,
+            WildFlySwarm2017xInstalledLocalContainer.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void register(ContainerCapabilityFactory factory)
     {
         factory.registerContainerCapability(
-                WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
-                WildFlySwarmContainerCapability.class);
+            WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
+            WildFlySwarmContainerCapability.class);
     }
 }

@@ -17,18 +17,17 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration;
 
 /**
  * Configurator factory interface. Multiple implementations can provide different strategies
  * for configuring WildFly Swarm.
- * */
+ */
 public interface WildFlySwarmConfiguratorFactory
 {
     /**
      * Provides an implementation of user accounts configurator.
      * @return user accounts configurator implementation.
-     * */
+     */
     UserAccountsConfigurator userAccountsConfigurator();
 }

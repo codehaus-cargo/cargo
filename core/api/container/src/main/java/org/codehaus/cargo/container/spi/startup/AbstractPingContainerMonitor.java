@@ -17,7 +17,6 @@
  *
  * ========================================================================
  */
-
 package org.codehaus.cargo.container.spi.startup;
 
 import java.net.URL;

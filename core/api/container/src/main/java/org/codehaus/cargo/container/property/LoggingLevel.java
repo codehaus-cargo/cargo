@@ -17,7 +17,6 @@
  *
  * ========================================================================
  */
-
 package org.codehaus.cargo.container.property;
 
 import java.util.Locale;

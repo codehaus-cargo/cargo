@@ -17,7 +17,6 @@
  *
  * ========================================================================
  */
-
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.File;

@@ -17,23 +17,22 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration;
 
 /**
  * Common base for configurator classes.
- * */
+ */
 public abstract class AbstractConfigurator
 {
     /**
      * Configuration context - data and utilities passed to Configurators.
-     * */
+     */
     private final ConfigurationContext configurationContext;
 
     /**
      * Constructor.
      * @param configurationContext ConfigurationContext instance.
-     * */
+     */
     protected AbstractConfigurator(ConfigurationContext configurationContext)
     {
         this.configurationContext = configurationContext;
@@ -42,7 +41,7 @@ public abstract class AbstractConfigurator
     /**
      * Getter for Configuration context.
      * @return ConfigurationContext instance.
-     * */
+     */
     public ConfigurationContext getConfigurationContext()
     {
         return configurationContext;

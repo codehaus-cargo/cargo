@@ -17,8 +17,11 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import org.codehaus.cargo.container.property.User;
@@ -26,10 +29,6 @@ import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.Abstrac
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.ConfigurationContext;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.UserAccountsConfigurator;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.util.WildFlySwarmUserUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * User accounts configurator writing configuration to yaml.
@@ -73,7 +72,7 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
      * Creates the yaml configuration pointing to users and roles properties files.
      * @param applicationUsers application users.
      * @param applicationRoles application roles.
-     * */
+     */
     private void configureApplicationRealm(File applicationUsers, File applicationRoles)
     {
         try
@@ -122,7 +121,7 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
      * Creates YAML configuration for properties authentication.
      * @param applicationUsers application-users.properties file
      * @throws IOException when writing YAML content fails.
-     * */
+     */
     private void yamlAuthenticationConfig(File applicationUsers) throws IOException
     {
         yamlGenerator.writeFieldName("properties-authentication");
@@ -137,7 +136,7 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
      * Creates YAML configuration for properties authorization.
      * @param applicationRoles application-roles.properties file
      * @throws IOException when writing YAML content fails.
-     * */
+     */
     private void yamlAuthorizationConfig(File applicationRoles) throws IOException
     {
         yamlGenerator.writeFieldName("properties-authorization");

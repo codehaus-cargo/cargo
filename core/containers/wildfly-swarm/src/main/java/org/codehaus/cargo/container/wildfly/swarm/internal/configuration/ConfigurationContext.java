@@ -17,30 +17,30 @@
  *
  *  ========================================================================
  */
-
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration;
 
-import org.codehaus.cargo.util.FileHandler;
 import java.io.File;
+
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Context passed to configurators.
- * */
+ */
 public class ConfigurationContext
 {
     /**
      * File handler utility instance.
-     * */
+     */
     private final FileHandler fileHandler;
 
     /**
      * Configuration home directory.
-     * */
+     */
     private final String configurationHome;
 
     /**
      * WildFly Swarm project descriptor.
-     * */
+     */
     private final File projectDescriptor;
 
     /**
@@ -48,7 +48,7 @@ public class ConfigurationContext
      * @param fileHandler FileHandler utility.
      * @param configurationHome Configuration home directory.
      * @param projectDescriptor Project descriptor file.
-     * */
+     */
     public ConfigurationContext(FileHandler fileHandler, String configurationHome,
                                 File projectDescriptor)
     {
@@ -60,7 +60,7 @@ public class ConfigurationContext
     /**
      * FileHandler getter.
      * @return File Handler instance.
-     * */
+     */
     public FileHandler getFileHandler()
     {
         return fileHandler;
@@ -69,7 +69,7 @@ public class ConfigurationContext
     /**
      * Configuration home directory getter.
      * @return Path to configuration home.
-     * */
+     */
     public String getConfigurationHome()
     {
         return configurationHome;
@@ -78,7 +78,7 @@ public class ConfigurationContext
     /**
      * Project descriptor getter.
      * @return Project descriptor file.
-     * */
+     */
     public File getProjectDescriptor()
     {
         return projectDescriptor;
