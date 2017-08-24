@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
@@ -150,17 +151,48 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
 
         // add users and groups
         List<User> users = getConfiguration().getUsers();
-        for (User user : users)
-        {
-            configurationScript.addAll(configuration.getFactory().createUserScript(user));
-        }
-
-        configurationScript.add(configuration.getFactory().saveSyncScript());
-
         if (!users.isEmpty())
         {
             getLogger().info("Adding users and groups to WebSphere domain.",
-                this.getClass().getName());
+                    this.getClass().getName());
+
+            for (User user : users)
+            {
+                configurationScript.addAll(configuration.getFactory().createUserScript(user));
+            }
+            configurationScript.add(configuration.getFactory().saveSyncScript());
+        }
+
+        String onlineDeploymentValue = getConfiguration().getPropertyValue(
+                WebSpherePropertySet.ONLINE_DEPLOYMENT);
+        boolean onlineDeployment = Boolean.parseBoolean(onlineDeploymentValue);
+        if (onlineDeployment)
+        {
+            getLogger().info("Adding deployments to WebSphere domain.",
+                    this.getClass().getName());
+
+            // deploy deployables
+            List<String> extraLibraries = Arrays.asList(getExtraClasspath());
+            for (Deployable deployable : getConfiguration().getDeployables())
+            {
+                configurationScript.addAll(configuration.getFactory()
+                        .deployDeployableScript(deployable, extraLibraries));
+            }
+
+            configurationScript.add(configuration.getFactory().saveSyncScript());
+
+            // start deployables
+            for (Deployable deployable : getConfiguration().getDeployables())
+            {
+                configurationScript.add(configuration.getFactory()
+                        .startDeployableScript(deployable));
+            }
+
+            configurationScript.add(configuration.getFactory().saveSyncScript());
+        }
+
+        if (!configurationScript.isEmpty())
+        {
             executeScript(configurationScript);
         }
 

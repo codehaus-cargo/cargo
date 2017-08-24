@@ -98,6 +98,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         setProperty(WebSpherePropertySet.LOGGING_ROLLOVER, "50");
 
         setProperty(WebSpherePropertySet.JMS_SIBUS, "jmsBus");
+
+        setProperty(WebSpherePropertySet.ONLINE_DEPLOYMENT, "false");
     }
 
     /**
@@ -178,10 +180,15 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
             commands.add(factory.createResourceScript(resource));
         }
 
-        // deploy deployables
-        for (Deployable deployable : getDeployables())
+        String onlineDeploymentValue = getPropertyValue(WebSpherePropertySet.ONLINE_DEPLOYMENT);
+        boolean onlineDeployment = Boolean.parseBoolean(onlineDeploymentValue);
+        if (!onlineDeployment)
         {
-            commands.addAll(factory.deployDeployableScript(deployable, extraLibraries));
+            // deploy deployables
+            for (Deployable deployable : getDeployables())
+            {
+                commands.addAll(factory.deployDeployableScript(deployable, extraLibraries));
+            }
         }
 
         //save and activate

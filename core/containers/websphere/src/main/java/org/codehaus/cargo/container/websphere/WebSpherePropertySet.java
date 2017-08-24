@@ -186,4 +186,14 @@ public interface WebSpherePropertySet
      * WebSphere administration port.
      */
     String ADMINISTRATION_PORT = "cargo.websphere.administration.port";
+
+    /**
+     * If set to false then deployments are deployed to WebSphere in stopped state.
+     * If set to true then deployments are deployed while WebSphere is running.
+     *
+     * Online deployment is usable for deploying larger applications with roles defined in web.xml.
+     *
+     * Possible values: true or false. Default value false.
+     */
+    String ONLINE_DEPLOYMENT = "cargo.websphere.deployment.online";
 }
