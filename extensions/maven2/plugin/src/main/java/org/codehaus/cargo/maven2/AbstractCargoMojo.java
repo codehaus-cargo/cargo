@@ -88,6 +88,15 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         AbstractCargoMojo.class.getName() + "-Container";
 
     /**
+     * The key suffix under which the classloader of the container instance is stored
+     * in the plugin context. We store it so that it's possible to get back the same classloader
+     * even if this mojo is called in a different Maven execution context.
+     * This is required for starting and stopping multiple containers as each container
+     * initialization requires different classloader.
+     */
+    public static final String CONTEXT_KEY_CLASSLOADER = "-classloader";
+
+    /**
      * File utility class.
      */
     private FileHandler fileHandler = new DefaultFileHandler();
@@ -688,6 +697,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         if (context != null)
         {
             container = (org.codehaus.cargo.container.Container) context.get(containerKey);
+            String classloaderKey = containerKey + CONTEXT_KEY_CLASSLOADER;
+            if (context.containsKey(classloaderKey))
+            {
+                ResourceUtils.setResourceLoader((ClassLoader) context.get(classloaderKey));
+            }
         }
 
         if (container == null)
@@ -740,6 +754,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         if (context != null)
         {
             context.put(containerKey, container);
+            if (ResourceUtils.getResourceLoader() != null)
+            {
+                context.put(containerKey + CONTEXT_KEY_CLASSLOADER,
+                        ResourceUtils.getResourceLoader());
+            }
         }
 
         return container;
