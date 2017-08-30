@@ -19,9 +19,10 @@
  */
 package org.codehaus.cargo.maven2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.artifact.Artifact;
@@ -131,10 +132,9 @@ public class ContainerStartMojoTest extends MockObjectTestCase
         this.mojo.getConfigurationElement().setHome("bar");
         this.mojo.execute();
 
-        assertEquals(2, context.size());
-        Iterator<org.codehaus.cargo.container.Container> iter = context.values().iterator();
-        org.codehaus.cargo.container.Container container1 = iter.next();
-        org.codehaus.cargo.container.Container container2 = iter.next();
+        assertEquals(4, context.size());
+        org.codehaus.cargo.container.Container container1 = retrieveContainers(context).get(0);
+        org.codehaus.cargo.container.Container container2 = retrieveContainers(context).get(1);
         // can't work out which container is which, so we just check they're different
         assertFalse("containers should be different", container1.equals(container2));
     }
@@ -155,17 +155,15 @@ public class ContainerStartMojoTest extends MockObjectTestCase
 
         this.mojo.getConfigurationElement().getProperties().put("foo", "bar");
         this.mojo.execute();
-        assertEquals(1, context.size());
-        Iterator<org.codehaus.cargo.container.Container> iter = context.values().iterator();
-        org.codehaus.cargo.container.Container container = iter.next();
+        assertEquals(2, context.size());
+        org.codehaus.cargo.container.Container container = retrieveContainers(context).get(0);
         assertEquals("bar",
             ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
 
         this.mojo.getConfigurationElement().getProperties().put("foo", "qux");
         this.mojo.execute();
-        assertEquals(1, context.size());
-        iter = context.values().iterator();
-        container = iter.next();
+        assertEquals(2, context.size());
+        container = retrieveContainers(context).get(0);
         assertEquals("qux",
             ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
 
@@ -211,5 +209,26 @@ public class ContainerStartMojoTest extends MockObjectTestCase
         this.mojo.setConfigurationElement(configurationElement);
 
         this.mojo.setDeployablesElement(new Deployable[0]);
+    }
+
+    /**
+     * Retrieve containers from the context - filter out classloaders.
+     *
+     * @param context Context with containers and classloaders.
+     * @return List of containers.
+     */
+    private List<org.codehaus.cargo.container.Container> retrieveContainers(
+            Map<String, org.codehaus.cargo.container.Container> context)
+    {
+        List<org.codehaus.cargo.container.Container> containers =
+                new ArrayList<org.codehaus.cargo.container.Container>();
+        for (String containerKey : context.keySet())
+        {
+            if (!containerKey.endsWith(AbstractCargoMojo.CONTEXT_KEY_CLASSLOADER))
+            {
+                containers.add(context.get(containerKey));
+            }
+        }
+        return containers;
     }
 }
