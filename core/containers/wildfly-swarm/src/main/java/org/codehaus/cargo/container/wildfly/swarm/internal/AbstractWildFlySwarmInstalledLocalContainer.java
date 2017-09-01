@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
@@ -169,7 +170,39 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
                 + swarmProjectDescriptor.getAbsolutePath());
         }
 
+        addDeployables();
+
+        getLogger().info("Swarm arg line: " + swarmJvmLauncher.getCommandLine(),
+                getClass().getCanonicalName());
+
         swarmJvmLauncher.start();
+    }
+
+    /**
+     * Tells whether WildFly Swarm operates in Hollow Swarm mode.
+     * @return true if WildFly Swarm operates in Hollow Swarm mode, otherwise false.
+     * */
+    protected boolean isHollowSwarm()
+    {
+        String hollowSwarmProperty
+            = getConfiguration().getPropertyValue(WildFlySwarmPropertySet.SWARM_HOLLOW_ENABLED);
+        return Boolean.valueOf(hollowSwarmProperty);
+    }
+
+    /**
+     * Adds deployments on startup arg line. Only available in the Hollow Swarm mode.
+     * */
+    protected void addDeployables()
+    {
+        if (isHollowSwarm() && !getConfiguration().getDeployables().isEmpty())
+        {
+            getLogger().info("Deploying to Hollow Swarm.", getClass().getCanonicalName());
+            for (Deployable deployable : getConfiguration().getDeployables())
+            {
+                swarmJvmLauncher.addAppArgument(new File(deployable.getFile()));
+            }
+        }
+
     }
 
     /**
@@ -189,6 +222,13 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
     {
         if (waitForStarting)
         {
+            if (isHollowSwarm())
+            {
+                getLogger().debug("Running in Hollow Swarm mode - no waiting",
+                    getClass().getCanonicalName());
+                return;
+            }
+
             waitForStarting(new WildFlySwarmStartupMonitor(this));
         }
         else

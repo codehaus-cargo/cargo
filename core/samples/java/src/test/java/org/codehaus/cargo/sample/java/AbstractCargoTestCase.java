@@ -40,6 +40,7 @@ import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
@@ -253,6 +254,12 @@ public abstract class AbstractCargoTestCase extends TestCase
         configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.HIGH.getLevel());
 
         configuration.setLogger(getLogger());
+
+        // WildFly Swarm can operate without deployment in Hollow Swarm mode
+        if (getTestData().containerId.startsWith("wildfly-swarm"))
+        {
+            configuration.setProperty(WildFlySwarmPropertySet.SWARM_HOLLOW_ENABLED, "true");
+        }
 
         return configuration;
     }

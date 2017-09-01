@@ -33,4 +33,10 @@ public interface WildFlySwarmPropertySet
      * URL of an application deployed with WildFly Swarm.
      */
     String SWARM_APPLICATION_URL = "cargo.swarm.ping.url";
+
+    /**
+     * Property telling if Hollow Swarm mode is enabled. In this mode WildFly Swarm allows
+     * deployments.
+     */
+    String SWARM_HOLLOW_ENABLED = "cargo.swarm.hollowswarm";
 }
