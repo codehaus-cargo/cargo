@@ -1949,6 +1949,12 @@
       <properties>
         <cargo.containers>wildfly-swarm2017x</cargo.containers>
       </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.codehaus.cargo</groupId>
+          <artifactId>cargo-core-container-wildfly-swarm</artifactId>
+        </dependency>
+      </dependencies>
       <build>
         <plugins>
           <plugin>
@@ -1956,6 +1962,7 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <executions>
               <execution>
+                <id>copy-hollowswarm-jar</id>
                 <phase>process-test-resources</phase>
                 <configuration>
                   <artifactItems>

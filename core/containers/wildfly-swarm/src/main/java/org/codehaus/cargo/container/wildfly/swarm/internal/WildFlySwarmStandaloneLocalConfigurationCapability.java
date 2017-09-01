@@ -36,5 +36,6 @@ public class WildFlySwarmStandaloneLocalConfigurationCapability extends
     {
         this.propertySupportMap.put(WildFlySwarmPropertySet.SWARM_PROJECT_NAME, Boolean.TRUE);
         this.propertySupportMap.put(WildFlySwarmPropertySet.SWARM_APPLICATION_URL, Boolean.TRUE);
+        this.propertySupportMap.put(WildFlySwarmPropertySet.SWARM_HOLLOW_ENABLED, Boolean.TRUE);
     }
 }

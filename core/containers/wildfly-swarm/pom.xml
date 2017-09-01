@@ -16,6 +16,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jboss</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>

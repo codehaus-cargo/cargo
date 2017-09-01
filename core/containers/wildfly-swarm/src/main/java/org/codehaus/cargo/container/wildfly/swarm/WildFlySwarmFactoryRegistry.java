@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.wildfly.swarm;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.wildfly.swarm.internal.WildFlySwarmContainerCapability;
 import org.codehaus.cargo.container.wildfly.swarm.internal.WildFlySwarmStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -45,6 +47,9 @@ public class WildFlySwarmFactoryRegistry extends AbstractFactoryRegistry
     protected void register(DeployableFactory factory)
     {
         //no deployments are supported
+        factory.registerDeployable(WildFlySwarm2017xInstalledLocalContainer.CONTAINER_ID,
+                DeployableType.WAR,
+                JBossWAR.class);
     }
 
     /**
