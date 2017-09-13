@@ -127,25 +127,37 @@ public class WildFly8xStandaloneLocalConfiguration
             "//server/profile/subsystem/root-logger/level",
             "name", wildFlyLogLevel);
 
-        List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
-
-        // add modules
-        for (String classpathElement : container.getExtraClasspath())
-        {
-            addModuleScript(classpathElement, container, configurationScript);
-        }
-        for (String classpathElement : container.getSharedClasspath())
-        {
-            addModuleScript(classpathElement, container, configurationScript);
-        }
-
-        container.executeScript(configurationScript);
+        configureClassPath(container);
 
         configureDataSources(container, configurationXmlFile);
 
         // deploy deployments
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
+    }
+
+    /**
+     * Configures classpath via WildFly modules.
+     * @param container reference to a local container
+     * */
+    private void configureClassPath(AbstractWildFlyInstalledLocalContainer container)
+    {
+        if (container.getExtraClasspath().length > 0)
+        {
+            List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
+
+            // add modules
+            for (String classpathElement : container.getExtraClasspath())
+            {
+                addModuleScript(classpathElement, container, configurationScript);
+            }
+            for (String classpathElement : container.getSharedClasspath())
+            {
+                addModuleScript(classpathElement, container, configurationScript);
+            }
+
+            container.executeScript(configurationScript);
+        }
     }
 
     /**
