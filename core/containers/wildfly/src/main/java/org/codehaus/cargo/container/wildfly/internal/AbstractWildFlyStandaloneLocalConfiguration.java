@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +40,11 @@ import org.codehaus.cargo.util.CargoException;
 public abstract class AbstractWildFlyStandaloneLocalConfiguration
     extends AbstractStandaloneLocalConfiguration implements WildFlyConfiguration
 {
+
+    /**
+     * Configured modules - next modules will be dependent on them.
+     * */
+    private List<String> modules = new ArrayList<String>();
 
     /**
      * {@inheritDoc}
@@ -132,10 +138,16 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
         else
         {
             // Dependencies needed for DataSource driver initialization.
-            List<String> dependencies = Arrays.asList("javax.api", "javax.transaction.api");
+            List<String> commonDependencies = Arrays.asList("javax.api", "javax.transaction.api");
+            List<String> dependencies = new ArrayList<String>();
+            dependencies.addAll(commonDependencies);
+            dependencies.addAll(modules);
+
             configurationScript.add(getConfigurationFactory().addModuleScript(moduleName,
                     Arrays.asList(jarFile), dependencies));
         }
+
+        modules.add(moduleName);
     }
 
     /**
