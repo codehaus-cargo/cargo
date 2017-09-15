@@ -30,11 +30,12 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import java.util.Set;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactResolver;
@@ -653,7 +654,7 @@ public class Container
     {
         if (getDependencies() != null)
         {
-            HashSet<String> classpaths = new HashSet<String>();
+            Set<String> classpaths = new LinkedHashSet<String>();
             for (Dependency dependency : getDependencies())
             {
                 if (dependency.isOnClasspath(Dependency.EXTRA_CLASSPATH))
@@ -676,7 +677,7 @@ public class Container
     {
         if (getDependencies() != null)
         {
-            HashSet<String> classpaths = new HashSet<String>();
+            Set<String> classpaths = new LinkedHashSet<String>();
             for (Dependency dependency : getDependencies())
             {
                 if (dependency.isOnClasspath(Dependency.SHARED_CLASSPATH))

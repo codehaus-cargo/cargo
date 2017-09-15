@@ -55,6 +55,16 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     private Map<String, String> systemProperties;
 
     /**
+     * Extra classpath.
+     * */
+    private String[] extraClasspath;
+
+    /**
+     * Shared classpath.
+     * */
+    private String[] sharedClasspath;
+
+    /**
      * Allows creating a container with no configuration for test that do not require a
      * configuration.
      */
@@ -111,7 +121,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     @Override
     public String[] getExtraClasspath()
     {
-        throw new RuntimeException("Not implemented");
+        return extraClasspath;
     }
 
     /**
@@ -121,7 +131,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     @Override
     public String[] getSharedClasspath()
     {
-        throw new RuntimeException("Not implemented");
+        return sharedClasspath;
     }
 
     /**
@@ -131,7 +141,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     @Override
     public void setExtraClasspath(String[] classpath)
     {
-        throw new RuntimeException("Not implemented");
+        this.extraClasspath = classpath;
     }
 
     /**
@@ -151,7 +161,7 @@ public class InstalledLocalContainerStub extends AbstractLocalContainerStub
     @Override
     public void setSharedClasspath(String[] classpath)
     {
-        throw new RuntimeException("Not implemented");
+        this.sharedClasspath = classpath;
     }
 
     /**
