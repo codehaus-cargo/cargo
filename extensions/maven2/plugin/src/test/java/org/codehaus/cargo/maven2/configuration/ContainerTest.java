@@ -344,6 +344,34 @@ public class ContainerTest extends MockObjectTestCase
     }
 
     /**
+     * Test whether container dependencies preserve order.
+     * @throws Exception If anything goes wrong.
+     * */
+    public void testExtraClasspathOrdering() throws Exception
+    {
+        Dependency firstDependencyElement = new Dependency();
+        firstDependencyElement.setLocation("firstDependency.jar");
+        Dependency secondDependencyElement = new Dependency();
+        secondDependencyElement.setLocation("secondDependency.jar");
+
+        org.codehaus.cargo.maven2.configuration.Container containerElement =
+            setUpContainerElement(new InstalledLocalContainerStub());
+        containerElement.setDependencies(
+            new Dependency[] {firstDependencyElement, secondDependencyElement});
+
+        org.codehaus.cargo.container.InstalledLocalContainer container =
+            (InstalledLocalContainer) containerElement.createContainer(
+                new StandaloneLocalConfigurationStub("configuration/home"),
+                new NullLogger(),
+                createTestCargoProject("whatever"));
+
+        String [] extraClasspath = container.getExtraClasspath();
+        assertEquals("Extra classpath elements count", 2, extraClasspath.length);
+        assertEquals("firstDependency.jar", extraClasspath[0]);
+        assertEquals("secondDependency.jar", extraClasspath[1]);
+    }
+
+    /**
      * Setup a container element.
      * @param container Container definition.
      * @return Container element.
