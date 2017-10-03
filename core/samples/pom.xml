@@ -790,7 +790,7 @@
                 <!--
                 <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.46/tomcat-8.0.46.zip</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.20/tomcat-8.5.20.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.23/tomcat-8.5.23.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
