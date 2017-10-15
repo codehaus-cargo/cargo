@@ -83,6 +83,20 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     {
         if (DeployableType.WAR.equals(deployable.getType()))
         {
+            // CARGO-1450: Add a warning if the a WAR path cannot be set in Tomcat due to a
+            // context.xml file
+            if (deployable instanceof TomcatWAR)
+            {
+                TomcatWAR tomcatWar = (TomcatWAR) deployable;
+                String tomcatContextXml = tomcatWar.parseTomcatContextXml();
+                if (tomcatContextXml != null)
+                {
+                    getLogger().info("The WAR contains a context.xml file which sets the path to ["
+                        + tomcatContextXml + "], which means path set it the Cargo configuration "
+                            + "will be ignored by Tomcat", getClass().getName());
+                }
+            }
+
             WAR war = (WAR) deployable;
             if (deployable.isExpanded())
             {

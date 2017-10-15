@@ -74,7 +74,7 @@ public class TomcatWAR extends WAR
      * @return the context from Tomcat's <code>context.xml</code> if it is defined or
      * <code>null</code> otherwise.
      */
-    private String parseTomcatContextXml()
+    public String parseTomcatContextXml()
     {
         String context = null;
 
