@@ -40,8 +40,7 @@ public class WildFlySwarm2017xInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractWildFlySwarmInstalledLocalContainer#
-     * AbstractWildFlySwarmInstalledLocalContainer(LocalConfiguration)
+     * @see AbstractWildFlySwarmInstalledLocalContainer#AbstractWildFlySwarmInstalledLocalContainer(LocalConfiguration)
      */
     public WildFlySwarm2017xInstalledLocalContainer(LocalConfiguration configuration)
     {

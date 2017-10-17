@@ -37,7 +37,7 @@ public class WildFlySwarmStartupMonitor extends AbstractPingContainerMonitor
 
     /**
      * {@inheritDoc}
-     * @see {@link AbstractPingContainerMonitor#AbstractPingContainerMonitor(Container)}
+     * @see AbstractPingContainerMonitor#AbstractPingContainerMonitor(Container)
      */
     public WildFlySwarmStartupMonitor(final Container container)
     {
