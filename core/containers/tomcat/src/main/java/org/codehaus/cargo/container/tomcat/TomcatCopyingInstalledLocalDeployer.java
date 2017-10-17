@@ -91,7 +91,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
                 String tomcatContextXml = tomcatWar.parseTomcatContextXml();
                 if (tomcatContextXml != null)
                 {
-                    getLogger().info("The WAR contains a context.xml file which sets the path to ["
+                    getLogger().warn("The WAR contains a context.xml file which sets the path to ["
                         + tomcatContextXml + "], which means path set it the Cargo configuration "
                             + "will be ignored by Tomcat", getClass().getName());
                 }
