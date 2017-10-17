@@ -23,7 +23,7 @@
   <parent>
     <artifactId>cargo-samples-maven2</artifactId>
     <groupId>org.codehaus.cargo</groupId>
-    <version>1.6.5</version>
+    <version>1.6.6-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
