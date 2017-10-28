@@ -1125,16 +1125,7 @@
 
               <property>
                 <name>cargo.wildfly11x.url</name>
-                <value>http://download.jboss.org/wildfly/11.0.0.Alpha1/wildfly-11.0.0.Alpha1.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly11x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
-
-              <property>
-                <name>cargo.wildfly11x.url</name>
-                <value>http://download.jboss.org/wildfly/11.0.0.Alpha1/wildfly-11.0.0.Alpha1.zip</value>
+                <value>http://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.zip</value>
               </property>
               <property>
                 <name>cargo.wildfly11x.java.home</name>
