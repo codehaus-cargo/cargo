@@ -25,7 +25,7 @@
   </parent>
   <artifactId>cargo-archetype-multiple-containers</artifactId>
   <packaging>maven-archetype</packaging>
-  <name>Cargo Maven Archetype Starting and Stopping Mulitple Containers</name>
+  <name>Cargo Maven Archetype Starting and Stopping Multiple Containers</name>
   <description>Sample Maven archetype showing how to start / stop multiple containers.</description>
 
   <build>

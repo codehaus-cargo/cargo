@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -64,7 +65,6 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
-import org.codehaus.cargo.uberjar.Uberjar;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
@@ -142,6 +142,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      */
     private void readIndexPage() throws Exception
     {
+        Properties manifestMf = new Properties();
+        manifestMf.load(getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF"));
+        String implementationVersion = manifestMf.getProperty("Implementation-Version");
+
         List<String> deployableTypes = new ArrayList<String>();
 
         deployableTypes.add(DeployableType.AOP.toString());
@@ -156,7 +160,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
         Map<String, String> replacements = new HashMap<String, String>();
 
-        replacements.put("daemonVersion", Uberjar.class.getPackage().getImplementationVersion());
+        replacements.put("daemonVersion", implementationVersion);
         replacements.put("containerIds", JSONArray
             .toJSONString(new ArrayList<String>(new TreeSet<String>(CONTAINER_FACTORY
                 .getContainerIds().keySet()))));

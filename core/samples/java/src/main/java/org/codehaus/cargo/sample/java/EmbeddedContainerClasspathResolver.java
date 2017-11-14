@@ -219,8 +219,10 @@ public class EmbeddedContainerClasspathResolver
                 urls.add(JdkUtils.getToolsJar().toURI().toURL());
             }
 
-            // We pass null as the parent to ensure no other JARs are in the classpath.
-            classloader = new URLClassLoader(urls.toArray(new URL[urls.size()]), null);
+            // We pass the GSSException as the parent to ensure no other JARs are in the classpath,
+            // and still allow Java 9 to properly function
+            classloader = new URLClassLoader(urls.toArray(new URL[urls.size()]),
+                org.ietf.jgss.GSSException.class.getClassLoader());
         }
         catch (MalformedURLException e)
         {

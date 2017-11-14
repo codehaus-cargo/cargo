@@ -179,9 +179,20 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         WAR war = createWar();
         deployer.addDeployableToDomain(war, this.domain);
         String xml = this.xmlUtil.toString(domain);
-        XMLAssert.assertXpathEvaluatesTo("cargo", "//weblogic:app-deployment/weblogic:name", xml);
-        XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
-            "//weblogic:app-deployment/weblogic:source-path", xml);
+        try
+        { 
+            XMLAssert.assertXpathEvaluatesTo("cargo",
+                "//weblogic:app-deployment/weblogic:name", xml);
+            XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
+                "//weblogic:app-deployment/weblogic:source-path", xml);
+        }
+        catch (Throwable t)
+        {
+            XMLAssert.assertXpathEvaluatesTo("cargo",
+                "//app-deployment/name", xml);
+            XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
+                "//app-deployment/source-path", xml);
+        }
     }
 
     /**

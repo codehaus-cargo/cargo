@@ -110,20 +110,19 @@
                 <includes>
                   <include>org.codehaus.cargo:*</include>
 
-                    <!-- EJB, JSR-88 and JSR-160 -->
+                  <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs:*</include>
 
-                    <!-- The JOnAS container uses the OW2 API -->
+                  <!-- The JOnAS container uses the OW2 API -->
                   <include>org.ow2.jonas.tools.configurator:*</include>
                 </includes>
               </artifactSet>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>org.codehaus.cargo.uberjar.Uberjar</Main-Class>
                     <Implementation-Version>${project.version}</Implementation-Version>
+                    <Main-Class>org.codehaus.cargo.uberjar.Uberjar</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>
