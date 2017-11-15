@@ -65,6 +65,7 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
+import org.codehaus.cargo.uberjar.Uberjar;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
@@ -95,11 +96,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     private static final long serialVersionUID = 3514721195204610896L;
 
     /**
-     * Daemon version key for daemon properties file.
-     */
-    private static final String DAEMON_VERSION = "daemon.version";
-
-    /**
      * Container factory.
      */
     private static final ContainerFactory CONTAINER_FACTORY = new DefaultContainerFactory();
@@ -114,6 +110,16 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * Deployable factory.
      */
     private static final DeployableFactory DEPLOYABLE_FACTORY = new DefaultDeployableFactory();
+
+    /**
+     * Daemon version.
+     */
+    private String daemonVersion;
+
+    /**
+     * List of deployables supported by the daemon, stored as a JSON.
+     */
+    private String deployableTypes;
 
     /**
      * File manager for the daemon.
@@ -131,45 +137,23 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     private ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1);
 
     /**
-     * Default index page.
-     */
-    private String indexPage;
-
-    /**
      * Read the index page.
      * 
+     * @return Index page.
      * @throws Exception If exception happens
      */
-    private void readIndexPage() throws Exception
+    private String generateIndexPage() throws Exception
     {
-        Properties manifestMf = new Properties();
-        manifestMf.load(getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF"));
-        String implementationVersion = manifestMf.getProperty("Implementation-Version");
-
-        List<String> deployableTypes = new ArrayList<String>();
-
-        deployableTypes.add(DeployableType.AOP.toString());
-        deployableTypes.add(DeployableType.BUNDLE.toString());
-        deployableTypes.add(DeployableType.EAR.toString());
-        deployableTypes.add(DeployableType.EJB.toString());
-        deployableTypes.add(DeployableType.FILE.toString());
-        deployableTypes.add(DeployableType.HAR.toString());
-        deployableTypes.add(DeployableType.RAR.toString());
-        deployableTypes.add(DeployableType.SAR.toString());
-        deployableTypes.add(DeployableType.WAR.toString());
-
         Map<String, String> replacements = new HashMap<String, String>();
 
-        replacements.put("daemonVersion", implementationVersion);
+        replacements.put("daemonVersion", this.daemonVersion);
+        replacements.put("deployableTypes", this.deployableTypes);
         replacements.put("containerIds", JSONArray
             .toJSONString(new ArrayList<String>(new TreeSet<String>(CONTAINER_FACTORY
                 .getContainerIds().keySet()))));
-        replacements.put("deployableTypes", JSONArray.toJSONString(deployableTypes));
-
         replacements.put("handles", JSONValue.toJSONString(getHandleDetails()));
 
         StringBuilder indexPageBuilder = new StringBuilder();
-
         BufferedReader reader =
             new BufferedReader(new InputStreamReader(this.getServletContext()
                 .getResourceAsStream("/index.html"), "UTF-8"));
@@ -191,14 +175,64 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             reader = null;
             System.gc();
         }
-
-        this.indexPage = indexPageBuilder.toString();
+        return indexPageBuilder.toString();
     }
 
     @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
+
+        try
+        {
+            InputStream manifestMf =
+                this.getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF");
+            if (manifestMf != null)
+            {
+                try
+                {
+                    Properties prop = new Properties();
+                    prop.load(manifestMf);
+                    this.daemonVersion = prop.getProperty("Implementation-Version");
+                }
+                finally
+                {
+                    manifestMf.close();
+                    manifestMf = null;
+                    System.gc();
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            // Ignore
+        }
+        if (this.daemonVersion == null)
+        {
+            this.daemonVersion = this.getClass().getPackage().getImplementationVersion();
+        }
+        if (this.daemonVersion == null)
+        {
+            this.daemonVersion = Uberjar.class.getPackage().getImplementationVersion();
+        }
+        if (this.daemonVersion == null)
+        {
+            this.daemonVersion = "unknown";
+        }
+
+        List<String> deployableTypes = new ArrayList<String>();
+
+        deployableTypes.add(DeployableType.AOP.toString());
+        deployableTypes.add(DeployableType.BUNDLE.toString());
+        deployableTypes.add(DeployableType.EAR.toString());
+        deployableTypes.add(DeployableType.EJB.toString());
+        deployableTypes.add(DeployableType.FILE.toString());
+        deployableTypes.add(DeployableType.HAR.toString());
+        deployableTypes.add(DeployableType.RAR.toString());
+        deployableTypes.add(DeployableType.SAR.toString());
+        deployableTypes.add(DeployableType.WAR.toString());
+
+        this.deployableTypes = JSONArray.toJSONString(deployableTypes);
 
         // Try loading the handle database files
         try
@@ -424,9 +458,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         }
         else if ("index.html".equals(servletPath))
         {
+            String indexPage;
             try
             {
-                readIndexPage();
+                indexPage = generateIndexPage();
             }
             catch (Exception e)
             {
@@ -435,7 +470,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             }
             response.setContentType("text/html");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().print(this.indexPage);
+            response.getWriter().print(indexPage);
         }
         else
         {
