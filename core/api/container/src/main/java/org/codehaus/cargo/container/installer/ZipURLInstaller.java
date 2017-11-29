@@ -334,7 +334,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         String foundDirectory = null;
         for (String file : files)
         {
-            if (getFileHandler().isDirectory(file))
+            if (getFileHandler().isDirectory(file)
+                && !"PaxHeaders.X".equals(getFileHandler().getName(file)))
             {
                 nbDirectories++;
                 foundDirectory = file;
