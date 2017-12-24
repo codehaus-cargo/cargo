@@ -319,7 +319,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             try
             {
-                boolean delete = Boolean.valueOf(request.getParameter("deleteContainer"));
+                boolean delete = Boolean.parseBoolean(request.getParameter("deleteContainer"));
                 String handleId = request.getParameter("handleId");
 
                 Handle handle = handles.get(handleId);
@@ -578,7 +578,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     }
                     else
                     {
-                        ignoreIfNonExisting = Boolean.valueOf(ignoreIfNonExistingString);
+                        ignoreIfNonExisting = Boolean.parseBoolean(ignoreIfNonExistingString);
                     }
 
                     XmlReplacement xmlReplacementObject = new XmlReplacement(

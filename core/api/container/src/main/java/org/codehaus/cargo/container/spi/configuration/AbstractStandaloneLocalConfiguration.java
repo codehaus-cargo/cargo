@@ -71,7 +71,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     protected void performXmlReplacements(LocalContainer container)
     {
-        Boolean ignoreNonExistingProperties = Boolean.valueOf(
+        boolean ignoreNonExistingProperties = Boolean.parseBoolean(
             getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES));
 
         for (Map.Entry<String, Map<XmlReplacementDetails, String>> xmlReplacementDetails
@@ -336,8 +336,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
     protected void replaceInFile(String file, Map<String, String> replacements, String encoding)
         throws CargoException
     {
-        boolean ignoreNonExistingProperties = Boolean.valueOf(
-            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES)).booleanValue();
+        boolean ignoreNonExistingProperties = Boolean.parseBoolean(
+            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES));
 
         if (replacements.isEmpty())
         {

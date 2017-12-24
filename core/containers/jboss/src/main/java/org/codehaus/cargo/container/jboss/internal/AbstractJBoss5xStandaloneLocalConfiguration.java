@@ -64,8 +64,8 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
         String confDir = getFileHandler().createDirectory(getHome(), "/conf");
         String confBootstrapDir = getFileHandler().createDirectory(getHome(), "/conf/bootstrap");
 
-        if (Boolean.valueOf(jbossContainer.getConfiguration().
-                getPropertyValue(JBossPropertySet.CLUSTERED)).booleanValue())
+        if (Boolean.parseBoolean(jbossContainer.getConfiguration().
+                getPropertyValue(JBossPropertySet.CLUSTERED)))
         {
             String farmDir = getFileHandler().createDirectory(getHome(), "/farm");
         }

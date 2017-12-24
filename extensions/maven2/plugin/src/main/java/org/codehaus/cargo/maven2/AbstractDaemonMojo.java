@@ -97,7 +97,7 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         }
 
         daemonAutostartContainer =
-            Boolean.valueOf(getDaemon().getProperty(DaemonPropertySet.AUTOSTART));
+            Boolean.parseBoolean(getDaemon().getProperty(DaemonPropertySet.AUTOSTART));
         daemonClasspaths = getDaemon().getClasspaths();
 
         try

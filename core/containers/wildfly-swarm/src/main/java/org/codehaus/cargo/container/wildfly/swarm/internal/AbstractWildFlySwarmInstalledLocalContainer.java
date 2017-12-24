@@ -186,7 +186,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
     {
         String hollowSwarmProperty
             = getConfiguration().getPropertyValue(WildFlySwarmPropertySet.SWARM_HOLLOW_ENABLED);
-        return Boolean.valueOf(hollowSwarmProperty);
+        return Boolean.parseBoolean(hollowSwarmProperty);
     }
 
     /**

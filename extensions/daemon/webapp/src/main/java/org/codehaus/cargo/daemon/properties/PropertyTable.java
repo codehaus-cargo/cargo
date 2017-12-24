@@ -46,7 +46,7 @@ public class PropertyTable extends HashMap<String, String>
 
         if (object != null)
         {
-            return Boolean.valueOf(object.toString());
+            return Boolean.parseBoolean(object.toString());
         }
         else
         {

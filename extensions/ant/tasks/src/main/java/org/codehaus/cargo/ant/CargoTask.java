@@ -599,7 +599,7 @@ public class CargoTask extends Task
                 String daemonPassword = daemonElement.getProperty(DaemonPropertySet.PASSWORD);
                 String daemonHandleId = daemonElement.getProperty(DaemonPropertySet.HANDLE);
                 boolean daemonAutostartContainer =
-                    Boolean.valueOf(daemonElement.getProperty(DaemonPropertySet.AUTOSTART));
+                    Boolean.parseBoolean(daemonElement.getProperty(DaemonPropertySet.AUTOSTART));
 
                 if (daemonURLString == null || daemonURLString.isEmpty())
                 {

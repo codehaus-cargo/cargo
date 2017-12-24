@@ -52,7 +52,7 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
         String clustered = getContainer().getConfiguration().
                                  getPropertyValue(JBossPropertySet.CLUSTERED);
 
-        if (Boolean.valueOf(clustered).booleanValue())
+        if (Boolean.parseBoolean(clustered))
         {
             return getFileHandler().append(getContainer().getConfiguration().getHome(), "farm");
         }
