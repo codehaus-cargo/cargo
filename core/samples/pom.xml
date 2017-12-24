@@ -632,6 +632,15 @@
               </property>
 
               <property>
+                <name>cargo.glassfish5x.url</name>
+                <value>http://download.oracle.com/glassfish/5.0/release/glassfish-5.0.zip</value>
+              </property>
+              <property>
+                <name>cargo.glassfish5x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.liberty.url</name>
                 <value>http://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee7/16.0.0.4/wlp-javaee7-16.0.0.4.zip</value>
               </property>
@@ -1753,6 +1762,12 @@
       <id>glassfish4x</id>
       <properties>
         <cargo.containers>glassfish4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish5x</id>
+      <properties>
+        <cargo.containers>glassfish5x</cargo.containers>
       </properties>
     </profile>
 

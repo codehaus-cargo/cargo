@@ -161,6 +161,7 @@ public class ConfluenceContainerDocumentationGenerator
      * Containers that work on Java 8.
      */
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
+        "glassfish5x",
         "tomcat9x",
         "weblogic122x",
         "websphere9x",
@@ -392,9 +393,9 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("glassfish4x"))
+        else if (containerId.equals("glassfish4x") || containerId.equals("glassfish5x"))
         {
-            output.append("{info}The GlassFish 4.x container also works with ");
+            output.append("{info}The GlassFish 4.x and GlassFish 5.x container also work with ");
             output.append("[Payara|http://www.payara.fish/].{info}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
