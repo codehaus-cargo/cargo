@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2018 Ali Tokmen.
+ * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2011-2017 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
