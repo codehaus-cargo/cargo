@@ -43,7 +43,7 @@ public class GlassFishExistingLocalConfiguration extends AbstractExistingLocalCo
     /**
      * Creates the local configuration object.
      * 
-     * @param home The work directory where files needed to run Glassfish will be created.
+     * @param home The work directory where files needed to run GlassFish will be created.
      */
     public GlassFishExistingLocalConfiguration(String home)
     {

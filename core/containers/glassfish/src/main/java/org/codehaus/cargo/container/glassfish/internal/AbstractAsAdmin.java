@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * Implements an Glassfish AsAdmin command.
+ * Implements an GlassFish AsAdmin command.
  */
 public abstract class AbstractAsAdmin
 {

@@ -395,7 +395,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
         else if (containerId.equals("glassfish4x") || containerId.equals("glassfish5x"))
         {
-            output.append("{info}The Glassfish 4.x and Glassfish 5.x containers also work with ");
+            output.append("{info}The GlassFish 4.x and GlassFish 5.x containers also work with ");
             output.append("[Payara|http://www.payara.fish/].{info}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
@@ -946,7 +946,7 @@ public class ConfluenceContainerDocumentationGenerator
                     + GlassFishPropertySet.class.getName().replace('.', '/') + ".html#";
             output.append("{info:title=Adding arguments to the Deployer}");
             output.append(LINE_SEPARATOR);
-            output.append("The Glassfish installed deployer allows for additional deployment and ");
+            output.append("The GlassFish installed deployer allows for additional deployment and ");
             output.append("undeployment arguments by adding properties prefixed with ");
             output.append("{{[GlassFishPropertySet.DEPLOY_ARG_PREFIX|" + glassFishPropertySetLink);
             output.append("DEPLOY_ARG_PREFIX]}} and {{[GlassFishPropertySet.UNDEPLOY_ARG_PREFIX|");

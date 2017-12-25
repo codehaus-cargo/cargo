@@ -36,9 +36,9 @@ import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test the deployment of Glassfish deployment plans.
+ * Test the deployment of GlassFish deployment plans.
  */
-public class GlassfishDeploymentPlanTest extends AbstractCargoTestCase
+public class GlassFishDeploymentPlanTest extends AbstractCargoTestCase
 {
     /**
      * Initializes the test case.
@@ -46,7 +46,7 @@ public class GlassfishDeploymentPlanTest extends AbstractCargoTestCase
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public GlassfishDeploymentPlanTest(String testName, EnvironmentTestData testData)
+    public GlassFishDeploymentPlanTest(String testName, EnvironmentTestData testData)
         throws Exception
     {
         super(testName, testData);
@@ -62,10 +62,10 @@ public class GlassfishDeploymentPlanTest extends AbstractCargoTestCase
         Set<String> excludedContainerIds = new TreeSet<String>();
 
         CargoTestSuite suite =
-            new CargoTestSuite("Test that verifies Glassfish-specific standalone local "
+            new CargoTestSuite("Test that verifies GlassFish-specific standalone local "
                 + "configuration options");
 
-        suite.addTestSuite(GlassfishDeploymentPlanTest.class, new Validator[] {
+        suite.addTestSuite(GlassFishDeploymentPlanTest.class, new Validator[] {
             new StartsWithContainerValidator("glassfish"),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),

@@ -43,7 +43,7 @@ public class GlassFish2xStandaloneLocalConfiguration
     /**
      * Creates the local configuration object.
      * 
-     * @param home The work directory where files needed to run Glassfish will be created.
+     * @param home The work directory where files needed to run GlassFish will be created.
      */
     public GlassFish2xStandaloneLocalConfiguration(String home)
     {

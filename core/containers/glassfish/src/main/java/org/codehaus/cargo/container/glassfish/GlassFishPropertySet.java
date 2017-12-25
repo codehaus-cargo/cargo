@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 /**
- * Interface for Glassfish-specific properties.
+ * Interface for GlassFish-specific properties.
  */
 public interface GlassFishPropertySet
 {
@@ -30,7 +30,7 @@ public interface GlassFishPropertySet
     String TARGET = "cargo.glassfish.target";
 
     /**
-     * The admin HTTP port that Glassfish will use. Defaults to 4848.
+     * The admin HTTP port that GlassFish will use. Defaults to 4848.
      */
     String ADMIN_PORT = "cargo.glassfish.admin.port";
 
@@ -43,7 +43,7 @@ public interface GlassFishPropertySet
      * By default, GlassFish deploys a datasource called <code>DerbyPool</code> which attempts to
      * connect to a locally running Derby database on port <code>1527</code>. On the other hand, it
      * will not by default start such a server -as a result, it is safer to remove this datasource
-     * in order to avoid confusing the Glassfish persistence manager.
+     * in order to avoid confusing the GlassFish persistence manager.
      */
     String REMOVE_DEFAULT_DATASOURCE = "cargo.glassfish.removeDefaultDatasource";
 
@@ -96,12 +96,12 @@ public interface GlassFishPropertySet
     String OSGI_SHELL_PORT = "cargo.glassfish.osgi.shell.telnet.port";
 
     /**
-     * Glassfish domain name.
+     * GlassFish domain name.
      */
     String DOMAIN_NAME = "cargo.glassfish.domain.name";
 
     /**
-     * Glassfish domain debug mode.
+     * GlassFish domain debug mode.
      */
     String DEBUG_MODE = "cargo.glassfish.domain.debug";
 

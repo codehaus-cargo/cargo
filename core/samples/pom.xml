@@ -108,7 +108,7 @@
                 <value>${cargo.samples.servlet.port}</value>
               </property>
 
-              <!-- ports required for Glassfish domain to be created -->
+              <!-- ports required for GlassFish domain to be created -->
               <property>
                 <name>cargo.glassfish.admin.port</name>
                 <value>${cargo.samples.glassfish.admin.port}</value>

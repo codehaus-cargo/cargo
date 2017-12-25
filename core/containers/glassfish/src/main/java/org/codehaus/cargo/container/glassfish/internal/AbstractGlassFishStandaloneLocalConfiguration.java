@@ -50,7 +50,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     /**
      * Creates the local configuration object.
      * 
-     * @param home The work directory where files needed to run Glassfish will be created.
+     * @param home The work directory where files needed to run GlassFish will be created.
      */
     public AbstractGlassFishStandaloneLocalConfiguration(String home)
     {
@@ -157,7 +157,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
             if (!domainXml.contains(" java-home="))
             {
                 /*
-                 * The java-home attribute is not explicitly set in Glassfish 3.x and as per their
+                 * The java-home attribute is not explicitly set in GlassFish 3.x and as per their
                  * docs should default to the above property. Strangely though, it requires to
                  * explicitly set the attribute for the desired java home location to take effect.
                  */
