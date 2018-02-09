@@ -242,9 +242,27 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("create-jms-resource");
             args.add("--restype");
             args.add(resource.getType());
-            args.add(resource.getName());
+	    
+	    if(!resource.getParameters().isEmpty())
+	    {
+		StringBuilder propertyBuilder = new StringBuilder();
+		for (String parameterName : resource.getParameterNames())
+		{
+		    propertyBuilder.append("--property=");
+		    propertyBuilder.append(parameterName);
+		    propertyBuilder.append("=");
+		    propertyBuilder.append(resource.getParameter(parameterName));
+		    /*
+			    .replace("\\", "\\\\").replace(":", "\\:")
+			    .replace("=", "\\="));
+		    */
+		}
+		args.add(propertyBuilder.toString());	    
+	    }
 
-            this.getLocalContainer().invokeAsAdmin(false, args);
+            args.add(resource.getName());
+	    
+	    this.getLocalContainer().invokeAsAdmin(false, args);
         }        
         else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType()))
         {
