@@ -247,7 +247,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             Some JMS connections need extra parameters.
             Add them without validation
             */
-            if(!resource.getParameters().isEmpty())
+            if (!resource.getParameters().isEmpty())
             {
                 StringBuilder propertyBuilder = new StringBuilder();
                 for (String parameterName : resource.getParameterNames())
