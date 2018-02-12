@@ -260,7 +260,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
                 args.add(propertyBuilder.toString());
             }
             args.add(resource.getName());
-			this.getLocalContainer().invokeAsAdmin(false, args);
+            this.getLocalContainer().invokeAsAdmin(false, args);
         }        
         else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType()))
         {
