@@ -36,6 +36,7 @@ public class GlassFish3xStandaloneLocalConfigurationCapability extends
     {
         // recognize those as well
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
         this.propertySupportMap.put(GlassFishPropertySet.DEBUGGER_PORT, Boolean.TRUE);
