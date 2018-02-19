@@ -159,8 +159,11 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             }
             dataSourcePropertyString.append(dataSourceProperty.getKey());
             dataSourcePropertyString.append("=\"");
-            dataSourcePropertyString.append(dataSourceProperty.getValue()
-                .replace("\\", "\\\\").replace(":", "\\:").replace("=", "\\="));
+            if (dataSourceProperty.getValue() != null)
+            {
+                dataSourcePropertyString.append(dataSourceProperty.getValue()
+                    .replace("\\", "\\\\").replace(":", "\\:").replace("=", "\\="));
+            }
             dataSourcePropertyString.append("\"");
         }
 
