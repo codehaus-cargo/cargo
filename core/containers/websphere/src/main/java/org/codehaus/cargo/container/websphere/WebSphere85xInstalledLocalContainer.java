@@ -263,8 +263,10 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             // import wsadminlib library
             File wsadminlibFile = File.createTempFile("wsadminlib-", ".py");
             wsadminlibFile.deleteOnExit();
+            // wsadminlib.py is taken from websphere85x container resources
+            // as it seems to be compatible with later releases
             getResourceUtils().copyResource(AbstractLocalConfiguration.RESOURCE_PATH
-                    + getId() + "/wsadminlib.py",
+                    + "websphere85x/wsadminlib.py",
                     wsadminlibFile, new FilterChain(), null);
             configurationScript.add(0, ((WebSphereConfiguration) getConfiguration()).
                     getFactory().importWsadminlibScript(wsadminlibFile.getAbsolutePath()));

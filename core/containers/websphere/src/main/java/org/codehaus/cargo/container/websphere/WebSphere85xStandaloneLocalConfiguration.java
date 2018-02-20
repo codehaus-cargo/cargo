@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -121,7 +120,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
 
         // delete old profile and create new profile
         deleteOldProfile();
-        createNewProfile(container);
+        createNewProfile();
 
         getLogger().info("Configuring profile.", this.getClass().getName());
 
@@ -231,13 +230,14 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
 
     /**
      * Create new profile.
-     * @param container Container.
      * @throws Exception if any error is raised during deleting of profile
      */
-    private void createNewProfile(Container container) throws Exception
+    private void createNewProfile() throws Exception
     {
         File portsFile = File.createTempFile("cargo-websphere-portdef-", ".properties");
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/portdef.props",
+        // portdef.props is taken from websphere85x container resources
+        // as it seems to be compatible with later releases
+        getResourceUtils().copyResource(RESOURCE_PATH + "websphere85x/portdef.props",
             portsFile, createFilterChain(), "ISO-8859-1");
 
         try
