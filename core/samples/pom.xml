@@ -1142,6 +1142,15 @@
               </property>
 
               <property>
+                <name>cargo.wildfly12x.url</name>
+                <value>http://download.jboss.org/wildfly/12.0.0.Final/wildfly-12.0.0.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.wildfly12x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.wildfly-swarm2017x.home</name>
                 <value>${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar</value>
               </property>
@@ -1948,6 +1957,12 @@
       <id>wildfly11x</id>
       <properties>
         <cargo.containers>wildfly11x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>wildfly12x</id>
+      <properties>
+        <cargo.containers>wildfly12x</cargo.containers>
       </properties>
     </profile>
     <profile>

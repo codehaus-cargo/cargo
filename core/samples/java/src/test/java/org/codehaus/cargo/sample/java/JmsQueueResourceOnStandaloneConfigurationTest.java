@@ -125,7 +125,8 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
                     "target/test-classes/wildfly/wildfly9/jms-journal.cli");
         }
         else if (getTestData().containerId.equals("wildfly10x")
-                || getTestData().containerId.equals("wildfly11x"))
+                || getTestData().containerId.equals("wildfly11x")
+                || getTestData().containerId.equals("wildfly12x"))
         {
             getLocalContainer().getConfiguration().setProperty("cargo.jboss.configuration",
                     "standalone-full");
