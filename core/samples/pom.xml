@@ -81,11 +81,12 @@
                 <name>http.proxyHost</name>
                 <value>proxy</value>
               </property>
-              -->
+                -->
 
-              <!-- pass locations of java homes to the test classes so that they can
-                   look them up and determine if a container is running on jdk 1.4,
-                   1.5, etc. -->
+              <!--
+                Pass locations of java homes to the test classes so that they can look them up and
+                determine if a container is running on jdk 1.4, 1.5, etc.
+                -->
               <property>
                 <name>cargo.java.home.1_4</name>
                 <value>${cargo.java.home.1_4}</value>
@@ -98,6 +99,14 @@
                 <name>cargo.java.home.1_6</name>
                 <value>${cargo.java.home.1_6}</value>
               </property>
+              <property>
+                <name>cargo.java.home.1_7</name>
+                <value>${cargo.java.home.1_7}</value>
+              </property>
+              <property>
+                <name>cargo.java.home.1_8</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
 
               <property>
                 <name>cargo.rmi.port</name>
@@ -108,7 +117,7 @@
                 <value>${cargo.samples.servlet.port}</value>
               </property>
 
-              <!-- ports required for GlassFish domain to be created -->
+              <!-- Ports required for GlassFish domain to be created -->
               <property>
                 <name>cargo.glassfish.admin.port</name>
                 <value>${cargo.samples.glassfish.admin.port}</value>
@@ -142,7 +151,7 @@
                 <value>${cargo.samples.glassfish.osgi.shell.telnet.port}</value>
               </property>
 
-              <!-- ports required for JBoss tests to pass -->
+              <!-- Ports required for JBoss tests to pass -->
               <property>
                 <name>cargo.jboss.ajp.port</name>
                 <value>${cargo.samples.jboss.ajp.port}</value>
@@ -204,19 +213,19 @@
                 <value>${cargo.samples.jboss.remotedeploy.port}</value>
               </property>
 
-              <!-- avoid port number clashes in Resin -->
+              <!-- Avoid port number clashes in Resin -->
               <property>
                 <name>cargo.resin.socketwait.port</name>
                 <value>${cargo.samples.resin.socketwait.port}</value>
               </property>
 
-              <!-- avoid port number clashes in Tomcat -->
+              <!-- Avoid port number clashes in Tomcat -->
               <property>
                 <name>cargo.tomcat.ajp.port</name>
                 <value>${cargo.samples.tomcat.ajp.port}</value>
               </property>
 
-              <!-- set default parser -->
+              <!-- Set default parser -->
               <property>
                 <name>javax.xml.parsers.SAXParserFactory</name>
                 <value>${javax.xml.parsers.SAXParserFactory}</value>
@@ -478,13 +487,13 @@
                 <!--
                 <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                   -->
-                                <!--
-<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.22.v20170606/jetty-distribution-9.2.22.v20170606.tar.gz</value>
+                <!--
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.23.v20180228/jetty-distribution-9.3.23.v20180228.tar.gz</value>
                   -->
                 <!--
-<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.22.v20171030/jetty-distribution-9.3.22.v20171030.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.22.v20171030/jetty-distribution-9.3.22.v20171030.tar.gz</value>
                   -->
-<value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.8.v20171121/jetty-distribution-9.4.8.v20171121.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.8.v20171121/jetty-distribution-9.4.8.v20171121.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -743,7 +752,10 @@
 
               <property>
                 <name>cargo.tomcat4x.url</name>
-                <!-- note that we want the larger download (not LE), as it contains dbcp needed for database tests -->
+                <!--
+                  Note that we want the larger download (not LE), as it contains dbcp needed for
+                  database tests
+                  -->
                 <value>http://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
               </property>
               <property>
@@ -1089,8 +1101,12 @@
 
               <property>
                 <name>cargo.wildfly8x.url</name>
-                <!-- <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value> -->
-                <!-- <value>http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz</value> -->
+                <!--
+                <value>http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value>
+                  -->
+                <!--
+                <value>http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz</value>
+                  -->
                 <value>http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz</value>
               </property>
               <property>
@@ -1124,7 +1140,9 @@
                 -->
               <property>
                 <name>cargo.wildfly10x.url</name>
-                <!-- <value>http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz</value> -->
+                <!--
+                <value>http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz</value>
+                  -->
                 <value>http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.tar.gz</value>
               </property>
               <property>
@@ -1244,9 +1262,11 @@
                 <value>${cargo.download.dir}</value>
               </property>
 
-              <!-- Default list of containers to run on. If you want to shorten or change the
-                   execution of 'samples', simply specify a shorter list of containers on the
-                   command line or in your settings -->
+              <!--
+                Default list of containers to run on. If you want to shorten or change the
+                execution of 'samples', simply specify a shorter list of containers on the command
+                line or in your settings
+                -->
               <property>
                 <name>cargo.containers</name>
                 <value>${cargo.containers}</value>
@@ -1262,8 +1282,9 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <!-- Copy the designated jdbc driver to an area where the containers can reference
-                 it -->
+            <!--
+              Copy the designated jdbc driver to an area where the containers can reference it
+              -->
             <phase>process-test-resources</phase>
             <configuration>
               <artifactItems>
@@ -1279,7 +1300,7 @@
                   <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
                 </artifactItem>
-                <!-- to allow jdk 1.4 containers to parse schema files -->
+                <!-- To allow jdk 1.4 containers to parse schema files -->
                 <artifactItem>
                   <groupId>xerces</groupId>
                   <artifactId>xercesImpl</artifactId>
@@ -1290,7 +1311,7 @@
                   <artifactId>xml-apis</artifactId>
                   <outputDirectory>${project.build.directory}/xerces-jars</outputDirectory>
                 </artifactItem>
-                <!-- to get sun licensed jars needed for tomcat to work with mail sessions -->
+                <!-- To get Sun licensed jars needed for Tomcat to work with mail sessions -->
                 <artifactItem>
                   <groupId>javax.activation</groupId>
                   <artifactId>activation</artifactId>
@@ -1352,7 +1373,7 @@
                   <artifactId>weld-servlet-core</artifactId>
                   <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                 </artifactItem>
-                <!-- deployables -->
+                <!-- Deployables -->
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>empty-ear</artifactId>
@@ -1509,9 +1530,7 @@
         </executions>
       </plugin>
 
-      <!--
-        Make sure tests always use randomly assigned and available ports
-      -->
+      <!-- Make sure tests always use randomly assigned and available ports -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -1564,7 +1583,7 @@
   </modules>
 
   <properties>
-    <!-- default from surefire -->
+    <!-- Default from surefire -->
     <surefire.childDelegation>false</surefire.childDelegation>
     <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
     <surefire.useSystemClassLoader>true</surefire.useSystemClassLoader>
