@@ -838,7 +838,7 @@
   
               <property>
                 <name>cargo.tomee7x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.2/apache-tomee-7.0.2-plus.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.4/apache-tomee-7.0.4-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee7x.java.home</name>
