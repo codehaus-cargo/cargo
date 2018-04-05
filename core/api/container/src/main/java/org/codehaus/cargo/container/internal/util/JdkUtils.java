@@ -135,6 +135,11 @@ public final class JdkUtils
         {
             jvmVersion = jvmVersion.substring(0, separator);
         }
+        separator = jvmVersion.indexOf(' ');
+        if (separator > 0)
+        {
+            jvmVersion = jvmVersion.substring(0, separator);
+        }
         return Integer.parseInt(jvmVersion);
     }
 
