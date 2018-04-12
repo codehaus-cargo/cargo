@@ -56,7 +56,7 @@
                 <artifactItem>
                   <groupId>org.eclipse.jetty</groupId>
                   <artifactId>jetty-distribution</artifactId>
-                  <version>8.1.17.v20150415</version>
+                  <version>8.1.22.v20160922</version>
                   <type>zip</type>
                   <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
                 </artifactItem>
@@ -91,7 +91,7 @@
                     </deployable>
                   </configuration>
                 </cargo>
-                <cargo containerId="jetty8x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.17.v20150415">
+                <cargo containerId="jetty8x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.22.v20160922">
                   <configuration home="\${project.build.directory}/cargo/configurations/jetty8x">
                     <property name="cargo.servlet.port" value="\${servlet2.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi2.port}"/>
@@ -119,7 +119,7 @@
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
                   </configuration>
                 </cargo>
-                <cargo containerId="jetty8x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.17.v20150415">
+                <cargo containerId="jetty8x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.22.v20160922">
                   <configuration home="\${project.build.directory}/cargo/configurations/jetty8x">
                     <property name="cargo.servlet.port" value="\${servlet2.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi2.port}"/>

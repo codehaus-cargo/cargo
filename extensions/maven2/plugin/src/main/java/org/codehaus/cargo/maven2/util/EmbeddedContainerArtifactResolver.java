@@ -189,29 +189,29 @@ public class EmbeddedContainerArtifactResolver
         List<Dependency> jetty8xDependencies = new ArrayList<Dependency>();
         jetty8xDependencies.add(new Dependency("org.mortbay.jetty", "servlet-api", "3.0.20100224"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-annotations",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
-            "8.1.17.v20150415"));
+            "8.1.22.v20160922"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "org.objectweb.asm",
             "3.1.0.v200803061910"));
         jetty8xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.mail.glassfish",

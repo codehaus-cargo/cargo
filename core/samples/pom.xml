@@ -472,7 +472,7 @@
                 <!--
                 <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.17.v20150415/jetty-distribution-8.1.17.v20150415.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
