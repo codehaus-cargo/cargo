@@ -161,25 +161,25 @@ public class EmbeddedContainerArtifactResolver
         jetty7xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.5"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "3.5.1"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-continuation",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jsp",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml",
-            "7.6.17.v20150415"));
+            "7.6.21.v20160908"));
         jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-api-2.1-glassfish",
             "2.1.v20100127"));
         jetty7xDependencies.add(new Dependency("org.mortbay.jetty", "jsp-2.1-glassfish",

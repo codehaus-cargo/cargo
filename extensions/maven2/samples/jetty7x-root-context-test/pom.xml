@@ -62,7 +62,7 @@
                 <artifactInstaller>
                   <groupId>org.eclipse.jetty</groupId>
                   <artifactId>jetty-distribution</artifactId>
-                  <version>7.6.17.v20150415</version>
+                  <version>7.6.21.v20160908</version>
                 </artifactInstaller>
               </container>
               <configuration>

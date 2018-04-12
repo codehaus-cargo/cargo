@@ -49,7 +49,7 @@
                 <artifactItem>
                   <groupId>org.eclipse.jetty</groupId>
                   <artifactId>jetty-distribution</artifactId>
-                  <version>7.6.17.v20150415</version>
+                  <version>7.6.21.v20160908</version>
                   <type>zip</type>
                   <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
                 </artifactItem>
@@ -82,7 +82,7 @@
               <tasks>
                 <taskdef resource="cargo.tasks"/>
 
-                <cargo containerId="jetty7x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.17.v20150415">
+                <cargo containerId="jetty7x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.21.v20160908">
                   <configuration home="\${project.build.directory}/cargo/configurations/jetty7x">
                     <property name="cargo.servlet.port" value="\${servlet.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
@@ -113,7 +113,7 @@
               <tasks>
                 <taskdef resource="cargo.tasks"/>
 
-                <cargo containerId="jetty7x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.17.v20150415">
+                <cargo containerId="jetty7x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.21.v20160908">
                   <configuration home="\${project.build.directory}/cargo/configurations/jetty7x">
                     <property name="cargo.servlet.port" value="\${servlet.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
