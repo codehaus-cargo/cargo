@@ -120,26 +120,7 @@ public final class JdkUtils
      */
     public static int parseMajorJavaVersion(String version)
     {
-        String jvmVersion = version.replace("\"", "");
-        if (jvmVersion.startsWith("1."))
-        {
-            jvmVersion = jvmVersion.substring(2);
-        }
-        int separator = jvmVersion.indexOf('.');
-        if (separator > 0)
-        {
-            jvmVersion = jvmVersion.substring(0, separator);
-        }
-        separator = jvmVersion.indexOf('-');
-        if (separator > 0)
-        {
-            jvmVersion = jvmVersion.substring(0, separator);
-        }
-        separator = jvmVersion.indexOf(' ');
-        if (separator > 0)
-        {
-            jvmVersion = jvmVersion.substring(0, separator);
-        }
+        String jvmVersion = version.replaceAll("^\"?(1\\.)?([0-9]+).*", "$2");
         return Integer.parseInt(jvmVersion);
     }
 
