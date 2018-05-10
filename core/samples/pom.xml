@@ -809,7 +809,7 @@
               <property>
                 <name>cargo.tomcat8x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.51/tomcat-8.0.51.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.52/tomcat-8.0.52.zip</value>
                   -->
                 <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.31/tomcat-8.5.31.zip</value>
               </property>
