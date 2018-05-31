@@ -456,5 +456,12 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "sslProtocol",
                     TomcatPropertySet.CONNECTOR_SSL_PROTOCOL);
         }
+
+        if (container.getConfiguration().getPropertyValue(
+                TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE) != null)
+        {
+            addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "maxHttpHeaderSize",
+                    TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE);
+        }
     }
 }
