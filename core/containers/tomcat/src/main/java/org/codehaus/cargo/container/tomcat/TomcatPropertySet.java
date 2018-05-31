@@ -120,6 +120,11 @@ public interface TomcatPropertySet
     String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
 
     /**
+     * The maximum HTTP header size.
+     */
+    String CONNECTOR_MAX_HTTP_HEADER_SIZE = "cargo.tomcat.connector.maxHttpHeaderSize";
+
+    /**
      * Custom valves defined as properties separated by <code>|</code><br>
      * Maven example:<br>
      * <code>

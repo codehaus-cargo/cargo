@@ -44,6 +44,7 @@ public class Tomcat5x6xStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_SSL_PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE, Boolean.TRUE);
     }
 
 }
