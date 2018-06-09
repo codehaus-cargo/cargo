@@ -376,7 +376,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     {
         if (waitForStarting)
         {
-            waitForStarting(new ManagementUrlWildFlyMonitor(this));
+            waitForStarting(new CLIWildFlyMonitor(this));
         }
         else
         {
