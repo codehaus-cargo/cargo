@@ -25,13 +25,19 @@ import java.util.List;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ScriptingCapableContainer;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.spi.startup.AbstractContainerMonitor;
 import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 
 /**
  * WildFly monitor checking if CLI API is available.
  */
-public class CLIWildFlyMonitor extends ManagementUrlWildFlyMonitor
+public class CLIWildFlyMonitor extends AbstractContainerMonitor
 {
+
+    /**
+     * Url monitor to perform http checks
+     */
+    private final ManagementUrlWildFlyMonitor managementUrlWildFlyMonitor;
 
     /**
      * Constructor.
@@ -41,6 +47,7 @@ public class CLIWildFlyMonitor extends ManagementUrlWildFlyMonitor
     public CLIWildFlyMonitor(ScriptingCapableContainer container) 
     {
         super(container);
+        managementUrlWildFlyMonitor = new ManagementUrlWildFlyMonitor(container);
     }
 
     /**
@@ -49,7 +56,8 @@ public class CLIWildFlyMonitor extends ManagementUrlWildFlyMonitor
     @Override
     public boolean isRunning() 
     {
-        if (!super.isRunning())
+        // first check whether management console is available
+        if (!managementUrlWildFlyMonitor.isRunning())
         {
             return false;
         }
