@@ -35,11 +35,6 @@ public class CLIWildFlyMonitor extends AbstractContainerMonitor
 {
 
     /**
-     * Url monitor to perform http checks
-     */
-    private final ManagementUrlWildFlyMonitor managementUrlWildFlyMonitor;
-
-    /**
      * Constructor.
      *
      * @param container Container to be monitored.
@@ -47,7 +42,6 @@ public class CLIWildFlyMonitor extends AbstractContainerMonitor
     public CLIWildFlyMonitor(ScriptingCapableContainer container) 
     {
         super(container);
-        managementUrlWildFlyMonitor = new ManagementUrlWildFlyMonitor(container);
     }
 
     /**
@@ -56,11 +50,6 @@ public class CLIWildFlyMonitor extends AbstractContainerMonitor
     @Override
     public boolean isRunning() 
     {
-        // first check whether management console is available
-        if (!managementUrlWildFlyMonitor.isRunning())
-        {
-            return false;
-        }
         WildFlyConfiguration configuration = (WildFlyConfiguration) getConfiguration();
         WildFlyCliConfigurationFactory factory = configuration.getConfigurationFactory();
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();

@@ -38,6 +38,8 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.container.spi.startup.CombinedContainerMonitor;
+import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 import org.codehaus.cargo.util.CargoException;
 
@@ -376,7 +378,9 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     {
         if (waitForStarting)
         {
-            waitForStarting(new CLIWildFlyMonitor(this));
+            ContainerMonitor first = new ManagementUrlWildFlyMonitor(this);
+            ContainerMonitor second = new CLIWildFlyMonitor(this);
+            waitForStarting(new CombinedContainerMonitor(this, first, second));
         }
         else
         {
