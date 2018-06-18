@@ -44,7 +44,15 @@ public class ContainerStopMojo extends AbstractCargoMojo
             throw new MojoExecutionException("Only local containers can be stopped");
         }
 
-        ((LocalContainer) container).stop();
-        waitDeployableMonitor(container, false);
+        try
+        {
+            ((LocalContainer) container).stop();
+            waitDeployableMonitor(container, false);
+        }
+        catch (Exception ex)
+        {
+            throw new MojoExecutionException(
+                    "Cannot start container [" + container + "]", ex);
+        }
     }
 }
