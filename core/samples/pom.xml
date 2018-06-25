@@ -493,7 +493,7 @@
                 <!--
                 <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.24.v20180605/jetty-distribution-9.3.24.v20180605.tar.gz</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.10.v20180503/jetty-distribution-9.4.10.v20180503.tar.gz</value>
+                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.11.v20180605/jetty-distribution-9.4.11.v20180605.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>

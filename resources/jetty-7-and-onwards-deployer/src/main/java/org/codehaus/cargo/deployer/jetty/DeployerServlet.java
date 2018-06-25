@@ -129,9 +129,9 @@ public class DeployerServlet extends HttpServlet
 
         // Due to weird bugs with Jetty 9.4.0.v20161208, 9.4.1.v20170120, 9.4.2.v20170220,
         // 9.4.3.v20170317, 9.4.4.v20170414, 9.4.5.v20170502, 9.4.6.v20170531, 9.4.7.v20170914
-        // 9.4.8.v20171121, 9.4.9.v20180320 and 9.4.10.v20180503 webapp class loader, we need to
-        // access some classes in the constructor to avoid ClassNotFoundExceptions when accessing
-        // later.
+        // 9.4.8.v20171121, 9.4.9.v20180320, 9.4.10.v20180503 and 9.4.11.v20180605 webapp class
+        // loader, we need to access some classes in the constructor to avoid
+        // ClassNotFoundExceptions when accessing later.
         Class dummy;
         dummy = ContextHandler.class;
         dummy = Thread.class;
