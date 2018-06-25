@@ -1361,6 +1361,22 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
 
+        if (ConfigurationType.STANDALONE.equals(type)
+            && !ContainerType.EMBEDDED.equals(containerType) && "jetty9x".equals(containerId))
+        {
+            output.append("{info:title=How to run Jetty under a Java Security Manager}");
+            output.append(LINE_SEPARATOR);
+            output.append("Jetty 9.x can be configured to run under a Java Security Manager.");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("For further information on how to achieve this, please refer to the ");
+            output.append("[associated tip in the Maven2/Maven3 Plugin Tips page|");
+            output.append("Maven2 Plugin Tips#tip4].");
+            output.append(LINE_SEPARATOR);
+            output.append("{info}");
+            output.append(LINE_SEPARATOR);
+        }
+
         if (ConfigurationType.STANDALONE.equals(type) && containerId.startsWith("weblogic"))
         {
             output.append("{note}");
