@@ -435,7 +435,6 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("* The [WildFly 10.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7; i.e. the version released in ");
             output.append("May 2016");
-            output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append("* The [WildFly 11.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7.1; i.e. the version released in ");
