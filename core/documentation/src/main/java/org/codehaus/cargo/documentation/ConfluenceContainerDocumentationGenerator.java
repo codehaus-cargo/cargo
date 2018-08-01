@@ -403,7 +403,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
         else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
-            || containerId.startsWith("wildfly10"))
+            || containerId.startsWith("wildfly10") || containerId.startsWith("wildfly11"))
         {
             output.append("{note}With the opening of the JBoss EAP to the public and the split ");
             output.append("between JBoss and WildFly, the below naming correspondance should be ");
