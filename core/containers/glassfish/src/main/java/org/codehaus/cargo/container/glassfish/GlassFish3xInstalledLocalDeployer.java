@@ -245,20 +245,21 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("create-jms-resource");
             args.add("--restype");
             args.add(resource.getType());
-            
-            /*            
-            Some JMS connections need extra parameters.
-            Add them without validation
-            */
             if (!resource.getParameters().isEmpty())
             {
+                args.add("--property");
                 StringBuilder propertyBuilder = new StringBuilder();
                 for (String parameterName : resource.getParameterNames())
                 {
-                    propertyBuilder.append("--property=");
+                    if (propertyBuilder.length() > 0)
+                    {
+                        propertyBuilder.append(":");
+                    }
                     propertyBuilder.append(parameterName);
                     propertyBuilder.append("=");
-                    propertyBuilder.append(resource.getParameter(parameterName));
+                    propertyBuilder.append(resource.getParameter(parameterName)
+                            .replace("\\", "\\\\").replace(":", "\\:")
+                            .replace("=", "\\="));
                 }
                 args.add(propertyBuilder.toString());
             }
@@ -276,19 +277,24 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getParameter("mail.smtp.user"));
             args.add("--fromaddress");
             args.add(resource.getParameter("mail.smtp.from"));
-            args.add("--property");
-            
-            StringBuilder propertyBuilder = new StringBuilder();
-            for (String parameterName : resource.getParameterNames())
+            if (!resource.getParameters().isEmpty())
             {
-                propertyBuilder.append(parameterName);
-                propertyBuilder.append("=");
-                propertyBuilder.append(resource.getParameter(parameterName)
-                        .replace("\\", "\\\\").replace(":", "\\:")
-                        .replace("=", "\\="));
-                propertyBuilder.append(":");
+                args.add("--property");
+                StringBuilder propertyBuilder = new StringBuilder();
+                for (String parameterName : resource.getParameterNames())
+                {
+                    if (propertyBuilder.length() > 0)
+                    {
+                        propertyBuilder.append(":");
+                    }
+                    propertyBuilder.append(parameterName);
+                    propertyBuilder.append("=");
+                    propertyBuilder.append(resource.getParameter(parameterName)
+                            .replace("\\", "\\\\").replace(":", "\\:")
+                            .replace("=", "\\="));
+                }
+                args.add(propertyBuilder.toString());
             }
-            args.add(propertyBuilder.toString());
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
@@ -313,19 +319,24 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getType());
             args.add("--factoryclass");
             args.add(resource.getClassName());
-
-            StringBuilder propertyBuilder = new StringBuilder();
-            for (String parameterName : resource.getParameterNames())
+            if (!resource.getParameters().isEmpty())
             {
-                propertyBuilder.append("--property=");
-                propertyBuilder.append(parameterName);
-                propertyBuilder.append("=");
-                propertyBuilder.append(resource.getParameter(parameterName)
-                        .replace("\\", "\\\\").replace(":", "\\:")
-                        .replace("=", "\\="));
+                args.add("--property");
+                StringBuilder propertyBuilder = new StringBuilder();
+                for (String parameterName : resource.getParameterNames())
+                {
+                    if (propertyBuilder.length() > 0)
+                    {
+                        propertyBuilder.append(":");
+                    }
+                    propertyBuilder.append(parameterName);
+                    propertyBuilder.append("=");
+                    propertyBuilder.append(resource.getParameter(parameterName)
+                            .replace("\\", "\\\\").replace(":", "\\:")
+                            .replace("=", "\\="));
+                }
+                args.add(propertyBuilder.toString());
             }
-            args.add(propertyBuilder.toString());
-
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
