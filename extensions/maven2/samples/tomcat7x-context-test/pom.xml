@@ -71,6 +71,7 @@
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
                   <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
                   <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+                  <cargo.tomcat.host.startStopThreads>2</cargo.tomcat.host.startStopThreads>
                 </properties>
               </configuration>
               <deployables>

@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.custommonkey.xmlunit.XMLAssert;
 
 import junit.framework.Assert;
 
@@ -49,11 +51,27 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
             }
 
             @Override
-            protected void performXmlReplacements(LocalContainer container)
+            protected void configureFiles(FilterChain filterChain, LocalContainer container)
             {
-                // Nothing
+                createServerXml();
+                super.configureFiles(filterChain, container);
             }
         };
+    }
+
+    /**
+     * Create a template server.xml needed for performXmlReplacements.
+     */
+    void createServerXml()
+    {
+        String file = configuration.getHome() + "/conf/server.xml";
+        getFileHandler().writeTextFile(file,
+                "<Server><Service>"
+                        + "<Connector/>"
+                        + "<Engine><Host>"
+                        + "<Valve className='org.apache.catalina.valves.AccessLogValve'/>"
+                        + "</Host></Engine>"
+                        + "</Service></Server>", "UTF-8");
     }
 
     /**
@@ -78,4 +96,30 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
             configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWWEBJARS)));
     }
 
+    /**
+     * Assert that the attribute 'startStopThreads' isn't added if the property isn't set.
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureWithoutHostStartStopThreads() throws Exception
+    {
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
+    }
+
+    /**
+     * Assert that the attribute 'startStopThreads' is added to the property's value .
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureSetsHostStartStopThreads() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.HOST_STARTSTOPTHREADS, "42");
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathEvaluatesTo("42", "//Host/@startStopThreads", config);
+    }
 }
