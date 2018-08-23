@@ -65,8 +65,7 @@ public interface TomcatPropertySet
     String WEBAPPS_DIRECTORY = "cargo.tomcat.webappsDirectory";
 
     /**
-     * Number of threads host will use to start context elements in parallel
-     * @since tomcat-7.x
+     * Number of threads the host will use to start context elements in parallel.
      */
     String HOST_STARTSTOPTHREADS = "cargo.tomcat.host.startStopThreads";
 
