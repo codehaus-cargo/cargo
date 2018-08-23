@@ -60,21 +60,6 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Create a template server.xml needed for performXmlReplacements.
-     */
-    void createServerXml()
-    {
-        String file = configuration.getHome() + "/conf/server.xml";
-        getFileHandler().writeTextFile(file,
-                "<Server><Service>"
-                        + "<Connector/>"
-                        + "<Engine><Host>"
-                        + "<Valve className='org.apache.catalina.valves.AccessLogValve'/>"
-                        + "</Host></Engine>"
-                        + "</Service></Server>", "UTF-8");
-    }
-
-    /**
      * Creates a {@link Tomcat7xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
@@ -113,6 +98,7 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'startStopThreads' is added to the property's value .
      * @throws Exception If anything does wrong.
      */
+    @Override
     public void testConfigureSetsHostStartStopThreads() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.HOST_STARTSTOPTHREADS, "42");
