@@ -619,9 +619,9 @@
               <property>
                 <name>cargo.glassfish3x.url</name>
                 <!--
-                <value>http://download.java.net/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
+                <value>http://download.oracle.com/glassfish/3.0.1/release/glassfish-3.0.1.zip</value>
                   -->
-                <value>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</value>
+                <value>http://download.oracle.com/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish3x.java.home</name>
@@ -631,9 +631,9 @@
               <property>
                 <name>cargo.glassfish4x.url</name>
                 <!--
-                <value>http://download.java.net/glassfish/4.0/release/glassfish-4.0.zip</value>
+                <value>http://download.oracle.com/glassfish/4.0/release/glassfish-4.0.zip</value>
                   -->
-                <value>http://download.java.net/glassfish/4.1.2/release/glassfish-4.1.2.zip</value>
+                <value>http://download.oracle.com/glassfish/4.1.2/release/glassfish-4.1.2.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish4x.java.home</name>
