@@ -152,7 +152,18 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     @Override
     protected void performXmlReplacements(LocalContainer container)
     {
-        addXmlReplacement("conf/server.xml",
+        String serverXmlFileName = "conf/server.xml";
+
+        String startStopThreads = getPropertyValue(TomcatPropertySet.HOST_STARTSTOPTHREADS);
+        if (startStopThreads != null)
+        {
+            addXmlReplacement(serverXmlFileName,
+                    "//Server/Service/Engine/Host",
+                    "startStopThreads",
+                    startStopThreads);
+        }
+
+        addXmlReplacement(serverXmlFileName,
             "//Server/Service/Engine/Host/Valve["
                 + "@className='org.apache.catalina.valves.AccessLogValve']",
                     "prefix", getPropertyValue(GeneralPropertySet.HOSTNAME) + "_access_log.");

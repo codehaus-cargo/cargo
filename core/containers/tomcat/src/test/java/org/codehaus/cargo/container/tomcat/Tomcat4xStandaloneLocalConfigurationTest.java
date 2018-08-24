@@ -271,4 +271,17 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         XMLAssert.assertXpathEvaluatesTo("some_directory", "//Host/@appBase", config);
     }
 
+    /**
+     * Assert that the attribute 'startStopThreads' isn't added if the property isn't set.
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureSetsHostStartStopThreads() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.HOST_STARTSTOPTHREADS, "42");
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
+    }
 }
