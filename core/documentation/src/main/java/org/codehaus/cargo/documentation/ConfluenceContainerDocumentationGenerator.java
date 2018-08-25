@@ -134,7 +134,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss72x",
         "jboss73x",
         "jetty8x",
-        "liberty",
         "resin4x",
         "tomcat7x",
         "tomee1x",
@@ -149,6 +148,7 @@ public class ConfluenceContainerDocumentationGenerator
         "glassfish4x",
         "jboss74x",
         "jboss75x",
+        "liberty",
         "tomcat8x",
         "tomee7x",
         "weblogic12x",
@@ -282,9 +282,22 @@ public class ConfluenceContainerDocumentationGenerator
         for (String containerId : containerIds.keySet())
         {
             String sortedContainerId = containerId.
-                replace("10", "9y").
-                replace("12", "9z").
-                replace("x", "0x").
+                replace("31", "3xx").
+                replace("42", "4xx").
+                replace("51", "5xx").
+                replace("61", "6xx").
+                replace("71", "7xx").
+                replace("72", "7xxx").
+                replace("73", "7xxxx").
+                replace("74", "7xxxxx").
+                replace("75", "7xxxxxx").
+                replace("103", "9xxx").
+                replace("10", "9xx").
+                replace("11", "9xxxx").
+                replace("121", "9xxxxxx").
+                replace("122", "9xxxxxxx").
+                replace("12", "9xxxxx").
+                replace("13", "9xxxxxxxx").
                 replace("liberty", "websphere_liberty");
             sortedContainerIds.put(sortedContainerId, containerId);
         }
