@@ -148,7 +148,6 @@ public class ConfluenceContainerDocumentationGenerator
         "glassfish4x",
         "jboss74x",
         "jboss75x",
-        "liberty",
         "tomcat8x",
         "tomee7x",
         "weblogic12x",
@@ -1328,6 +1327,10 @@ public class ConfluenceContainerDocumentationGenerator
                 else if ("jonas5x".equals(containerId))
                 {
                     javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
+                }
+                else if ("liberty".equals(containerId))
+                {
+                    javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
                 }
                 else
                 {
