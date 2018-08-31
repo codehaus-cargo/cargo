@@ -46,6 +46,14 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     protected static final String JAR_RESOURCE_SET =
         "org.apache.catalina.webresources.JarResourceSet";
+    
+    /**
+     * For further details, see
+     * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8
+     * Configuration Reference</a>, in particular the <code>FileResourceSet</code> section.
+     */
+    protected static final String FILE_RESOURCE_SET =
+        "org.apache.catalina.webresources.FileResourceSet";
 
     /**
      * {@inheritDoc}
@@ -73,7 +81,6 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         {
             sb.append("<PostResources ");
             writePostResource(path, sb);
-            sb.append("\" webAppMount=\"/WEB-INF/classes");
             sb.append("\" />");
         }
         sb.append("</Resources>");
@@ -97,7 +104,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
             }
             else
             {
-                resources = context.getOwnerDocument().createElement("Loader");
+                resources = context.getOwnerDocument().createElement("Resources");
                 context.appendChild(resources);
             }
 
@@ -106,7 +113,6 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
                 Element postResource = resources.getOwnerDocument().createElement("PostResources");
                 resources.appendChild(postResource);
                 writePostResource(path, postResource);
-                postResource.setAttribute("webAppMount", "/WEB-INF/classes");
             }
         }
     }
@@ -165,6 +171,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     {
         sb.append("className=\"" + DIR_RESOURCE_SET + "\" base=\"");
         sb.append(path.replace("&", "&amp;"));
+        sb.append("\" webAppMount=\"/WEB-INF/classes");
     }
 
     /**
@@ -177,6 +184,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     {
         postResourceEl.setAttribute("className", DIR_RESOURCE_SET);
         postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
+        postResourceEl.setAttribute("webAppMount", "/WEB-INF/classes");
     }
 
     /**
@@ -187,8 +195,10 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(StringBuilder sb, String path)
     {
-        sb.append("className=\"" + JAR_RESOURCE_SET + "\" base=\"");
+        sb.append("className=\"" + FILE_RESOURCE_SET + "\" base=\"");
         sb.append(path.replace("&", "&amp;"));
+        sb.append("\" webAppMount=\"/WEB-INF/lib/");
+        sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
     }
 
     /**
@@ -199,8 +209,10 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(Element postResourceEl, String path)
     {
-        postResourceEl.setAttribute("className", JAR_RESOURCE_SET);
+        postResourceEl.setAttribute("className", FILE_RESOURCE_SET);
         postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
+        postResourceEl.setAttribute("webAppMount", "/WEB-INF/lib/"
+            + getFileHandler().getName(path).replace("&", "&amp;"));
     }
 
     /**
@@ -215,6 +227,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         sb.append(getFileHandler().getParent(path).replace("&", "&amp;"));
         sb.append("\" internalPath=\"");
         sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
+        sb.append("\" webAppMount=\"/WEB-INF/classes");
     }
 
     /**
@@ -230,6 +243,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
             getFileHandler().getParent(path).replace("&", "&amp;"));
         postResourceEl.setAttribute("internalPath",
             getFileHandler().getName(path).replace("&", "&amp;"));
+        postResourceEl.setAttribute("webAppMount", "/WEB-INF/classes");
     }
 
     /**
