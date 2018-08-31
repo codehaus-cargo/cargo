@@ -37,7 +37,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5xStandaloneLocalConfigurationCapability;
 import org.w3c.dom.Element;
 
 /**
@@ -55,13 +55,14 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      */
     protected static final String CONNECTOR_XPATH = 
         "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+            + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
             + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
 
     /**
      * {@inheritDoc}
      */
     private static ConfigurationCapability capability =
-        new Tomcat5x6xStandaloneLocalConfigurationCapability();
+        new Tomcat5xStandaloneLocalConfigurationCapability();
 
     /**
      * used to insert DataSources and Resources into the configuration file.

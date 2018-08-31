@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -193,7 +194,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
         if (fileReplacements == null)
         {
-            fileReplacements = new HashMap<XmlReplacementDetails, String>();
+            fileReplacements = new LinkedHashMap<XmlReplacementDetails, String>();
             this.xmlReplacements.put(filename, fileReplacements);
         }
 

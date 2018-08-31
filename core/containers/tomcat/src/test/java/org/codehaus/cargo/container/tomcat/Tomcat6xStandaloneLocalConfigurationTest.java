@@ -23,6 +23,7 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest
@@ -88,4 +89,34 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
             configuration.getHome() + "/webapps/host-manager"));
     }
 
+    /**
+     * Assert that the attribute 'protocol' isn't added if the property isn't set.
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureWithoutConnectorProtocol() throws Exception
+    {
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathNotExists(
+                "//Server/Service/Connector[@port='8080']/@protocol", config);
+    }
+
+    /**
+     * Assert that the attribute 'protocol' is overidden with the property's value.
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureSetsConnectorProtocol() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
+                "org.apache.coyote.http11.Http11NioProtocol");
+
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11NioProtocol",
+                "//Server/Service/Connector[@port='8080']/@protocol", config);
+    }
 }

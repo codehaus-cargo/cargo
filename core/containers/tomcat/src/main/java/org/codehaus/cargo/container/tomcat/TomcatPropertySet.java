@@ -80,6 +80,11 @@ public interface TomcatPropertySet
     String USE_HTTP_ONLY = "cargo.tomcat.useHttpOnly";
 
     /**
+     * The HTTP protocol class.
+     */
+    String CONNECTOR_PROTOCOL_CLASS = "cargo.tomcat.connector.protocolClass";
+
+    /**
      * The file path for the key store file.
      */
     String CONNECTOR_KEY_STORE_FILE = "cargo.tomcat.connector.keystoreFile";
