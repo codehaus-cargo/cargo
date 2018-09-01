@@ -489,7 +489,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
             XmlReplacementDetails xmlReplacementDetails = new XmlReplacementDetails(
                 xmlReplacement.getXpathExpression(), xmlReplacement.getAttributeName(),
-                    xmlReplacement.isIgnoreIfNonExisting());
+                    xmlReplacement.getReplacementBehavior());
             replacementDetails.put(xmlReplacementDetails, xmlReplacement.getValue());
         }
 
@@ -532,14 +532,21 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 {
                     String message = "Node " + expression + " not found in file " + file;
 
-                    if (replacement.getKey().isIgnoreIfNonExisting() == Boolean.TRUE)
+                    XmlReplacement.ReplacementBehavior replacementBehavior =
+                            replacement.getKey().getReplacementBehavior();
+                    switch (replacementBehavior)
                     {
-                        getLogger().debug(message, this.getClass().getName());
-                        continue;
-                    }
-                    else
-                    {
-                        throw new CargoException(message);
+                        case IGNORE_IF_NON_EXISTING:
+                            getLogger().debug(message, this.getClass().getName());
+                            continue;
+
+                        case THROW_EXCEPTION:
+                            throw new CargoException(message);
+
+                        default:
+                            throw new IllegalStateException("Unknown ReplacementBehavior '"
+                                    + replacementBehavior
+                                    + "'");
                     }
                 }
 

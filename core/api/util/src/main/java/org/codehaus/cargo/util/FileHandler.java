@@ -52,9 +52,9 @@ public interface FileHandler extends Loggable
         private String attributeName;
 
         /**
-         * Ignore if XPath expression doesn't match anything.
+         * Behavior if XPath expression doesn't match anything.
          */
-        private Boolean ignoreIfNonExisting;
+        private XmlReplacement.ReplacementBehavior replacementBehavior;
 
         /**
          * String form.
@@ -63,17 +63,16 @@ public interface FileHandler extends Loggable
 
         /**
          * Saves the attributes for this XML replacement.
-         * 
-         * @param xpathExpression XPath expression.
+         *  @param xpathExpression XPath expression.
          * @param attributeName XML attribute name.
-         * @param ignoreIfNonExisting Ignore if XPath expression doesn't match anything.
+         * @param replacementBehavior Behavior if XPath expression doesn't match anything.
          */
         public XmlReplacementDetails(String xpathExpression, String attributeName,
-            Boolean ignoreIfNonExisting)
+                                     XmlReplacement.ReplacementBehavior replacementBehavior)
         {
             this.xpathExpression = xpathExpression;
             this.attributeName = attributeName;
-            this.ignoreIfNonExisting = ignoreIfNonExisting;
+            this.replacementBehavior = replacementBehavior;
             this.toString = "XmlReplacement[xpathExpression='" + xpathExpression
                 + "',attributeName='" + attributeName + "']";
         }
@@ -95,11 +94,11 @@ public interface FileHandler extends Loggable
         }
 
         /**
-         * @return Ignore if XPath expression doesn't match anything.
+         * @return ReplacementBehavior
          */
-        public Boolean isIgnoreIfNonExisting()
+        public XmlReplacement.ReplacementBehavior getReplacementBehavior()
         {
-            return ignoreIfNonExisting;
+            return replacementBehavior;
         }
 
         /**

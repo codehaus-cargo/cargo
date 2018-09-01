@@ -102,11 +102,12 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      * will be modified.
      * @param configurationPropertyName Name of the configuration property to set. The XML
      * replacement will be ignored if the property is set to <code>null</code>.
-     * @param ignoreIfNonExisting
+     * @param replacementBehavior Behavior if XPath expression doesn't match anything.
      */
     @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
-         String configurationPropertyName, boolean ignoreIfNonExisting)
+                                  String configurationPropertyName,
+                                  XmlReplacement.ReplacementBehavior replacementBehavior)
     {
         // Nothing
     }

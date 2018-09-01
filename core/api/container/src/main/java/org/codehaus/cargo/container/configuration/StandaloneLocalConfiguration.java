@@ -72,10 +72,11 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
      * will be modified.
      * @param configurationPropertyName Name of the configuration property to set. The XML
      * replacement will be ignored if the property is set to <code>null</code>.
-     * @param ignoreIfNonExisting No error if property not exists
+     * @param replacementBehavior Behavior if XPath expression doesn't match anything.
      */
     void addXmlReplacement(String filename, String xpathExpression, String attributeName,
-                           String configurationPropertyName, boolean ignoreIfNonExisting);
+                           String configurationPropertyName,
+                           XmlReplacement.ReplacementBehavior replacementBehavior);
 
     /**
      * Removes an XML replacement.

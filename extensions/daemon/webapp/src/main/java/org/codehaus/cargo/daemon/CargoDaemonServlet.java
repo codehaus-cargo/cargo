@@ -569,20 +569,23 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                         attributeName = null;
                     }
                     String value = xmlReplacement.get("value", true);
-                    Boolean ignoreIfNonExisting;
-                    String ignoreIfNonExistingString =
-                        xmlReplacement.get("ignoreIfNonExisting", false);
-                    if (ignoreIfNonExistingString == null)
+
+                    final XmlReplacement.ReplacementBehavior replacementBehavior;
+                    String replacementBehaviorString =
+                            xmlReplacement.get("replacementBehavior", false);
+                    if (replacementBehaviorString == null)
                     {
-                        ignoreIfNonExisting = Boolean.FALSE;
+                        replacementBehavior = XmlReplacement.ReplacementBehavior.THROW_EXCEPTION;
                     }
                     else
                     {
-                        ignoreIfNonExisting = Boolean.parseBoolean(ignoreIfNonExistingString);
+                        replacementBehavior = XmlReplacement.ReplacementBehavior.valueOf(
+                                replacementBehaviorString);
                     }
 
                     XmlReplacement xmlReplacementObject = new XmlReplacement(
-                        file, xpathExpression, attributeName, ignoreIfNonExisting, value);
+                        file, xpathExpression, attributeName, replacementBehavior,
+                        value);
                     standaloneConfiguration.addXmlReplacement(xmlReplacementObject);
                 }
             }

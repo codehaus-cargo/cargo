@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.util.XmlReplacement;
 import org.w3c.dom.Element;
 
 /**
@@ -355,7 +356,8 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                     "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Connector[@protocol='AJP/1.3']",
-                "port", TomcatPropertySet.AJP_PORT, true);
+                "port", TomcatPropertySet.AJP_PORT,
+                XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Engine",
                 "defaultHost", GeneralPropertySet.HOSTNAME);
@@ -385,7 +387,8 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                         "address", GeneralPropertySet.HOSTNAME);
             addXmlReplacement("conf/server.xml",
                 "//Server/Service/Connector[@protocol='AJP/1.3']",
-                        "address", GeneralPropertySet.HOSTNAME, true);
+                        "address", GeneralPropertySet.HOSTNAME,
+                        XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
         }
 
         if (container.getConfiguration().getPropertyValue(

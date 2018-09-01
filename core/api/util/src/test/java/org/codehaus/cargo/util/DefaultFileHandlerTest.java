@@ -99,7 +99,8 @@ public class DefaultFileHandlerTest extends TestCase
         assertTrue("File " + file + " does not contain: " + old, read.contains(old));
 
         XmlReplacement xmlReplacement = new XmlReplacement(file,
-            "//server/socket-binding-group/socket-binding[@name='http']", "port", false, "test1");
+            "//server/socket-binding-group/socket-binding[@name='http']", "port",
+                XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, "UTF-8");
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
@@ -134,7 +135,8 @@ public class DefaultFileHandlerTest extends TestCase
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' and text()='jboss:service=Naming']/.."
                 + "/property[@name='bindingName' and text()='Port']/.."
-                + "/property[@name='port']", null, false, "test1");
+                + "/property[@name='port']", null,
+                XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, "UTF-8");
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
@@ -155,7 +157,8 @@ public class DefaultFileHandlerTest extends TestCase
         this.fileHandler.copyFile("src/test/resources/jboss-standalone.xml", file, true);
 
         XmlReplacement xmlReplacement =
-            new XmlReplacement(file, nonExistingXpath, null, false, "test");
+            new XmlReplacement(file, nonExistingXpath, null,
+                    XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test");
         try
         {
             this.fileHandler.replaceInXmlFile(xmlReplacement);
@@ -183,7 +186,7 @@ public class DefaultFileHandlerTest extends TestCase
 
         XmlReplacement xmlReplacement = new XmlReplacement(file,
             "//server/socket-binding-group/socket-binding[@name='http']", nonExistingAttribute,
-                false, "test");
+                XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test");
 
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         String read = this.fileHandler.readTextFile(file, "UTF-8");
