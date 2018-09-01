@@ -46,6 +46,7 @@
     <module>authentication-war</module>
     <module>expanded-war</module>
     <module>tomcat-context</module>
+    <module>tomcat-context-link-simple-jar</module>
     <module>simple-bundle</module>
     <module>simple-har</module>
     <module>simple-aop</module>

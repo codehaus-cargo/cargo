@@ -314,7 +314,7 @@
   <scm>
     <connection>scm:git:https://github.com/codehaus-cargo/cargo.git</connection>
     <developerConnection>scm:git:https://github.com/codehaus-cargo/cargo.git</developerConnection>
-    <url>https://github.com/codehaus-cargo/cargo</url> 
+    <url>https://github.com/codehaus-cargo/cargo</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -445,7 +445,7 @@
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-core-container-liberty</artifactId>
-        <version>${project.version}</version>        
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
@@ -658,6 +658,12 @@
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>tomcatcontext-war</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>tomcatcontext-war-link-simple-jar</artifactId>
         <version>${project.version}</version>
         <type>war</type>
       </dependency>
