@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
@@ -230,6 +231,25 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
             getFileHandler().getParent(path).replace("&", "&amp;"));
         postResourceEl.setAttribute("internalPath",
             getFileHandler().getName(path).replace("&", "&amp;"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void performXmlReplacements(LocalContainer container)
+    {
+        String sslImplementationName = getPropertyValue(
+                TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME);
+        if (sslImplementationName != null)
+        {
+            addXmlReplacement("conf/server.xml",
+                    CONNECTOR_XPATH,
+                    "sslImplementationName",
+                    sslImplementationName);
+        }
+
+        super.performXmlReplacements(container);
     }
 
     /**

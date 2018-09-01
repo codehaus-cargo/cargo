@@ -24,19 +24,15 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
-public class Tomcat7x8xStandaloneLocalConfigurationCapability extends
-    Tomcat5xStandaloneLocalConfigurationCapability
+public class Tomcat8x9xStandaloneLocalConfigurationCapability
+        extends Tomcat7xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Tomcat7x8xStandaloneLocalConfigurationCapability()
+    public Tomcat8x9xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(TomcatPropertySet.CUSTOM_VALVE, Boolean.TRUE);
-        this.propertySupportMap.put(TomcatPropertySet.CONTEXT_ALLOWMULTIPART, Boolean.TRUE);
-        this.propertySupportMap.put(TomcatPropertySet.HOST_STARTSTOPTHREADS, Boolean.TRUE);
-        // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
-        this.propertySupportMap.remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        this.propertySupportMap.put(
+                TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
     }
-
 }

@@ -125,7 +125,12 @@ public interface TomcatPropertySet
     String CONNECTOR_CLIENT_AUTH = "cargo.tomcat.connector.clientAuth";
 
     /**
-     * The password for the server key store.
+     * The class name of the SSL implementation to use.
+     */
+    String CONNECTOR_SSL_IMPLEMENTATION_NAME = "cargo.tomcat.connector.sslImplementationName";
+
+    /**
+     * The SSL protocol the connector is using. If not specified, the default is TLS.
      */
     String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
 

@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationChecker;
+import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 8 implementation of StandaloneLocalConfigurationTest
@@ -79,4 +80,37 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
         return new Tomcat8x9xConfigurationChecker();
     }
 
+    /**
+     * Assert that the attribute 'sslImplementationName' isn't added if the property isn't set.
+     *
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureWithoutSslImplementationName() throws Exception
+    {
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathNotExists(
+                "//Server/Service/Connector[@port='8080']/@sslImplementationName", config);
+    }
+
+    /**
+     * Assert that the attribute 'sslImplementationName' is overidden with the property's value.
+     *
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureSetsSslImplementationName() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME,
+                "org.apache.tomcat.util.net.openssl.OpenSSLImplementation");
+
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathEvaluatesTo("org.apache.tomcat.util.net.openssl.OpenSSLImplementation",
+                Tomcat5xStandaloneLocalConfiguration.CONNECTOR_XPATH + "/@sslImplementationName",
+                config);
+    }
 }
