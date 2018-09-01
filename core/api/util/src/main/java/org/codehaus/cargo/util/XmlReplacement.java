@@ -36,7 +36,11 @@ public class XmlReplacement
         /**
          * Throw exception, if the XPath can't be found
          */
-        THROW_EXCEPTION;
+        THROW_EXCEPTION,
+        /**
+         * Add missing nodes, if the XPath only matches on any upper level
+         */
+        ADD_MISSING_NODES;
     }
 
     /**

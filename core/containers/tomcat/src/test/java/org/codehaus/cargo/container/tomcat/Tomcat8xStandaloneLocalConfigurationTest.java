@@ -113,4 +113,39 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
                 Tomcat5xStandaloneLocalConfiguration.CONNECTOR_XPATH + "/@sslImplementationName",
                 config);
     }
+
+    /**
+     * Assert that the element 'UpgradeProtocol' isn't present if the property isn't set.
+     *
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureWithoutHttpUpgradeProtocol() throws Exception
+    {
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathNotExists(
+                "//Server/Service/Connector[@port='8080']/UpgradeProtocol",
+                config);
+    }
+
+    /**
+     * Assert that the element 'UpgradeProtocol' is added if the property is set.
+     *
+     * @throws Exception If anything does wrong.
+     */
+    public void testConfigureAddsHttpUpgradeProtocol() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, "true");
+
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", "UTF-8");
+        XMLAssert.assertXpathExists(
+                "//Server/Service/Connector[@port='8080']"
+                        + "/UpgradeProtocol[@className='org.apache.coyote.http2.Http2Protocol']",
+                config);
+    }
 }

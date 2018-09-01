@@ -543,6 +543,10 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                         case THROW_EXCEPTION:
                             throw new CargoException(message);
 
+                        case ADD_MISSING_NODES:
+                            node = new MissingXmlElementAppender(doc, expression).append();
+                            break;
+
                         default:
                             throw new IllegalStateException("Unknown ReplacementBehavior '"
                                     + replacementBehavior

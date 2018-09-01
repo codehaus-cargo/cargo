@@ -34,5 +34,7 @@ public class Tomcat8x9xStandaloneLocalConfigurationCapability
     {
         this.propertySupportMap.put(
                 TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(
+                TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, Boolean.TRUE);
     }
 }

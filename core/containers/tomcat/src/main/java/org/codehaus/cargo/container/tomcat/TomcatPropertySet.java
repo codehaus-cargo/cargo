@@ -135,6 +135,12 @@ public interface TomcatPropertySet
     String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
 
     /**
+     * To enable HTTP/2 support for an HTTP connector.
+     * @since tomcat-8.5
+     */
+    String CONNECTOR_HTTP_UPGRADE_PROTOCOL = "cargo.tomcat.connector.httpUpgradeProtocol";
+
+    /**
      * The maximum HTTP header size.
      */
     String CONNECTOR_MAX_HTTP_HEADER_SIZE = "cargo.tomcat.connector.maxHttpHeaderSize";

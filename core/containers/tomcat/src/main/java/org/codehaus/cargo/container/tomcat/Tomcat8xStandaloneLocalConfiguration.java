@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
+import org.codehaus.cargo.util.XmlReplacement;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -239,14 +240,26 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     @Override
     protected void performXmlReplacements(LocalContainer container)
     {
+        String serverXmlFileName = "conf/server.xml";
+
         String sslImplementationName = getPropertyValue(
                 TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME);
         if (sslImplementationName != null)
         {
-            addXmlReplacement("conf/server.xml",
+            addXmlReplacement(serverXmlFileName,
                     CONNECTOR_XPATH,
                     "sslImplementationName",
                     sslImplementationName);
+        }
+
+        if ("true".equalsIgnoreCase(
+                getPropertyValue(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL)))
+        {
+            addXmlReplacement(serverXmlFileName,
+                    CONNECTOR_XPATH + "/UpgradeProtocol",
+                    "className",
+                    "org.apache.coyote.http2.Http2Protocol",
+                    XmlReplacement.ReplacementBehavior.ADD_MISSING_NODES);
         }
 
         super.performXmlReplacements(container);
