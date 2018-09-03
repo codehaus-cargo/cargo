@@ -146,7 +146,8 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         File artifactDir = new File(getTestData().targetDir).getParentFile();
         Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");
         expandTask.setDest(new File(artifactDir, "tomcat-context"));
-        expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war-link-simple-jar")));
+        expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war-link-simple"
+                + "-jar")));
         expandTask.execute();
         
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
