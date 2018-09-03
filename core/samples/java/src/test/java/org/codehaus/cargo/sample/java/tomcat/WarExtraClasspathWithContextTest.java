@@ -107,8 +107,8 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         // path defined in its context.xml file.
         File artifactDir = new File(getTestData().targetDir).getParentFile();
         Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-        copyTask.setTofile(new File(artifactDir, "tomcatcontext-war-link-simple-jar.war"));
-        copyTask.setFile(new File(getTestData().getTestDataFileFor("tomcatcontext-war-link-simple-jar")));
+        copyTask.setTofile(new File(artifactDir, "tomcat-context.war"));
+        copyTask.setFile(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
         copyTask.execute();
         
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
@@ -119,7 +119,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         }
 
         WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir, "tomcatcontext-war-link-simple-jar.war").getPath(), DeployableType.WAR);
+            new File(artifactDir, "tomcat-context.war").getPath(), DeployableType.WAR);
         war.setExtraClasspath(new String[] {simpleJar});
 
         getLocalContainer().getConfiguration().addDeployable(war);
@@ -134,7 +134,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         getLocalContainer().stop();
         PingUtils.assertPingFalse("tomcat context war not stopped", warPingURL, getLogger());
     }
-
+    
     /**
      * Tests that a servlet has access to a class in added to the extraclasspath
      * with expanded WAR with a <code>context.xml</code> file.
@@ -146,7 +146,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         File artifactDir = new File(getTestData().targetDir).getParentFile();
         Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");
         expandTask.setDest(new File(artifactDir, "tomcat-context"));
-        expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
+        expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war-link-simple-jar")));
         expandTask.execute();
         
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
@@ -172,4 +172,6 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         getLocalContainer().stop();
         PingUtils.assertPingFalse("tomcat context war not stopped", warPingURL, getLogger());
     }
+
+
 }
