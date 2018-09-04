@@ -829,7 +829,7 @@
                 <name>cargo.tomcat9x.java.home</name>
                 <value>${cargo.java.home.1_8}</value>
               </property>
-  
+
               <property>
                 <name>cargo.tomee1x.url</name>
                 <value>http://archive.apache.org/dist/tomee/tomee-1.7.5/apache-tomee-1.7.5-plus.zip</value>
@@ -838,7 +838,7 @@
                 <name>cargo.tomee1x.java.home</name>
                 <value>${cargo.java.home.1_6}</value>
               </property>
-  
+
               <property>
                 <name>cargo.tomee7x.url</name>
                 <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.4/apache-tomee-7.0.4-plus.zip</value>
@@ -1490,6 +1490,13 @@
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
                   <destFileName>tomcatcontext-war.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>tomcatcontext-war-link-simple-jar</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>tomcatcontext-war-link-simple-jar.war</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
