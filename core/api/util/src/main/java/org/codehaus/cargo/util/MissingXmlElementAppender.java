@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
  * This class detects missing nodes of a DOM document based on an XPath expression and
  * appends the missing branch.
  */
-class MissingXmlElementAppender
+public class MissingXmlElementAppender
 {
     /**
      * Document that may have missing nodes
@@ -56,7 +56,7 @@ class MissingXmlElementAppender
      * @param document Document that may have missing nodes
      * @param xPathString XPath that needs to be present in the document
      */
-    MissingXmlElementAppender(Document document, String xPathString)
+    public MissingXmlElementAppender(Document document, String xPathString)
     {
         this.document = document;
 
@@ -68,7 +68,7 @@ class MissingXmlElementAppender
      * Getter
      * @return documnet given via the constructor
      */
-    Document getDocument()
+    public Document getDocument()
     {
         return document;
     }
@@ -79,7 +79,7 @@ class MissingXmlElementAppender
      * @return the common node of document and XPath
      * @throws XPathExpressionException if anything goes wrong
      */
-    Node append() throws XPathExpressionException
+    public Node append() throws XPathExpressionException
     {
         LinkedList<String> missingNodes = new LinkedList<String>();
         Node evaluate = getMostCommonNode(missingNodes);
