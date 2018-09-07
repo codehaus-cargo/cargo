@@ -80,6 +80,11 @@ public interface TomcatPropertySet
     String USE_HTTP_ONLY = "cargo.tomcat.useHttpOnly";
 
     /**
+     * The HTTP protocol class.
+     */
+    String CONNECTOR_PROTOCOL_CLASS = "cargo.tomcat.connector.protocolClass";
+
+    /**
      * The file path for the key store file.
      */
     String CONNECTOR_KEY_STORE_FILE = "cargo.tomcat.connector.keystoreFile";
@@ -120,9 +125,20 @@ public interface TomcatPropertySet
     String CONNECTOR_CLIENT_AUTH = "cargo.tomcat.connector.clientAuth";
 
     /**
-     * The password for the server key store.
+     * The class name of the SSL implementation to use.
+     */
+    String CONNECTOR_SSL_IMPLEMENTATION_NAME = "cargo.tomcat.connector.sslImplementationName";
+
+    /**
+     * The SSL protocol the connector is using. If not specified, the default is TLS.
      */
     String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
+
+    /**
+     * To enable HTTP/2 support for an HTTP connector.
+     * @since tomcat-8.5
+     */
+    String CONNECTOR_HTTP_UPGRADE_PROTOCOL = "cargo.tomcat.connector.httpUpgradeProtocol";
 
     /**
      * The maximum HTTP header size.

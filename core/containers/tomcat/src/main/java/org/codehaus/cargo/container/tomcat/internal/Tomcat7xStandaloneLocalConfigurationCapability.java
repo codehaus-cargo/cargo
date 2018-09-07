@@ -17,22 +17,26 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomee.internal;
+package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.tomcat.internal.Tomcat7xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomee.TomeePropertySet;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Capabilities of TomEE's standalone local configurations.
+ * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
-public class TomeeStandaloneLocalConfigurationCapability extends
-    Tomcat7xStandaloneLocalConfigurationCapability
+public class Tomcat7xStandaloneLocalConfigurationCapability extends
+    Tomcat5xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public TomeeStandaloneLocalConfigurationCapability()
+    public Tomcat7xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(TomeePropertySet.APPS_DIRECTORY, true);
+        this.propertySupportMap.put(TomcatPropertySet.CUSTOM_VALVE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONTEXT_ALLOWMULTIPART, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.HOST_STARTSTOPTHREADS, Boolean.TRUE);
+        // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
+        this.propertySupportMap.remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
     }
+
 }

@@ -17,22 +17,24 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomee.internal;
+package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.tomcat.internal.Tomcat7xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomee.TomeePropertySet;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Capabilities of TomEE's standalone local configurations.
+ * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
-public class TomeeStandaloneLocalConfigurationCapability extends
-    Tomcat7xStandaloneLocalConfigurationCapability
+public class Tomcat8x9xStandaloneLocalConfigurationCapability
+        extends Tomcat7xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public TomeeStandaloneLocalConfigurationCapability()
+    public Tomcat8x9xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(TomeePropertySet.APPS_DIRECTORY, true);
+        this.propertySupportMap.put(
+                TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
+        this.propertySupportMap.put(
+                TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, Boolean.TRUE);
     }
 }

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -92,14 +93,18 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                     value = xmlReplacementDetail.getValue();
                 }
 
-                XmlReplacement xmlReplacement = new XmlReplacement(destinationFile,
-                    xmlReplacementDetail.getKey().getXpathExpression(),
-                        xmlReplacementDetail.getKey().getAttributeName(),
-                            xmlReplacementDetail.getKey().isIgnoreIfNonExisting(), value);
+                XmlReplacementDetails key = xmlReplacementDetail.getKey();
+                XmlReplacement xmlReplacement = new XmlReplacement(
+                        destinationFile,
+                        key.getXpathExpression(),
+                        key.getAttributeName(),
+                        key.getReplacementBehavior(),
+                        value);
 
-                if (xmlReplacement.isIgnoreIfNonExisting() == null)
+                if (ignoreNonExistingProperties)
                 {
-                    xmlReplacement.setIgnoreIfNonExisting(ignoreNonExistingProperties);
+                    xmlReplacement.setReplacementBehavior(
+                            XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
                 }
 
                 replacements.add(xmlReplacement);
@@ -169,7 +174,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
 
         fileReplacements.put(new XmlReplacementDetails(xmlReplacement.getXpathExpression(),
-            xmlReplacement.getAttributeName(), xmlReplacement.isIgnoreIfNonExisting()),
+                        xmlReplacement.getAttributeName(),
+                        xmlReplacement.getReplacementBehavior()),
                 xmlReplacement.getValue());
     }
 
@@ -193,12 +199,15 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
         if (fileReplacements == null)
         {
-            fileReplacements = new HashMap<XmlReplacementDetails, String>();
+            fileReplacements = new LinkedHashMap<XmlReplacementDetails, String>();
             this.xmlReplacements.put(filename, fileReplacements);
         }
 
-        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName, null),
-            configurationPropertyName);
+        fileReplacements.put(new XmlReplacementDetails(
+                        xpathExpression,
+                        attributeName,
+                        XmlReplacement.ReplacementBehavior.THROW_EXCEPTION),
+                configurationPropertyName);
     }
 
     /**
@@ -206,7 +215,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
-                                  String configurationPropertyName, boolean ignoreIfNonExisting)
+                                  String configurationPropertyName,
+                                  XmlReplacement.ReplacementBehavior replacementBehavior)
     {
         Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
         if (fileReplacements == null)
@@ -215,8 +225,11 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             this.xmlReplacements.put(filename, fileReplacements);
         }
 
-        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName,
-             ignoreIfNonExisting), configurationPropertyName);
+        fileReplacements.put(new XmlReplacementDetails(
+                        xpathExpression,
+                        attributeName,
+                        replacementBehavior),
+                configurationPropertyName);
     }
 
     /**
@@ -239,7 +252,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         if (fileReplacements != null)
         {
             fileReplacements.remove(
-                new XmlReplacementDetails(xpathExpression, attributeName, null));
+                new XmlReplacementDetails(
+                        xpathExpression,
+                        attributeName,
+                        XmlReplacement.ReplacementBehavior.THROW_EXCEPTION));
 
             if (fileReplacements.isEmpty())
             {
@@ -262,12 +278,14 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             for (Map.Entry<XmlReplacementDetails, String> xmlReplacementDetail
                 : xmlReplacementEntry.getValue().entrySet())
             {
+                XmlReplacementDetails key = xmlReplacementDetail.getKey();
                 XmlReplacement xmlReplacement = new XmlReplacement(
-                    xmlReplacementEntry.getKey(),
-                    xmlReplacementDetail.getKey().getXpathExpression(),
-                    xmlReplacementDetail.getKey().getAttributeName(),
-                    xmlReplacementDetail.getKey().isIgnoreIfNonExisting(),
-                    xmlReplacementDetail.getValue());
+                        xmlReplacementEntry.getKey(),
+                        key.getXpathExpression(),
+                        key.getAttributeName(),
+                        key.getReplacementBehavior(),
+                        xmlReplacementDetail.getValue());
+
                 xmlReplacements.add(xmlReplacement);
             }
         }

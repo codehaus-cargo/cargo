@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat7xStandaloneLocalConfigurationCapability;
 
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -50,7 +50,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
      * {@inheritDoc}
      */
     private static ConfigurationCapability capability =
-        new Tomcat7x8xStandaloneLocalConfigurationCapability();
+        new Tomcat7xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

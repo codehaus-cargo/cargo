@@ -46,8 +46,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
         super(dir);
 
         addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
-                + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']",
+            CONNECTOR_XPATH,
                     "SSLEnabled", TomcatPropertySet.HTTP_SECURE);
     }
 
@@ -87,15 +86,6 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             getFileHandler().copyDirectory(from + "/webapps/host-manager",
                 to + "/webapps/host-manager");
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString()
-    {
-        return "Tomcat 6.x Standalone Configuration";
     }
 
     /**
@@ -173,5 +163,33 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             }
             loader.setAttribute("virtualClasspath", virtualClasspath);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void performXmlReplacements(LocalContainer container)
+    {
+        String connectorProtocolClass = getPropertyValue(
+                TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
+        if (connectorProtocolClass != null)
+        {
+            addXmlReplacement("conf/server.xml",
+                    CONNECTOR_XPATH,
+                    "protocol",
+                    connectorProtocolClass);
+        }
+
+        super.performXmlReplacements(container);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "Tomcat 6.x Standalone Configuration";
     }
 }

@@ -25,6 +25,25 @@ package org.codehaus.cargo.util;
 public class XmlReplacement
 {
     /**
+     * Define how the XmlReplacement behaves XPath expression doesn't match anything.
+     */
+    public enum ReplacementBehavior
+    {
+        /**
+         * Continue, if the XPath can't be found
+         */
+        IGNORE_IF_NON_EXISTING,
+        /**
+         * Throw exception, if the XPath can't be found
+         */
+        THROW_EXCEPTION,
+        /**
+         * Add missing nodes, if the XPath only matches on any upper level
+         */
+        ADD_MISSING_NODES;
+    }
+
+    /**
      * File name.
      */
     private String file;
@@ -40,9 +59,9 @@ public class XmlReplacement
     private String attributeName;
 
     /**
-     * Ignore if XPath expression doesn't match anything.
+     * Behavior if XPath expression doesn't match anything.
      */
-    private Boolean ignoreIfNonExisting;
+    private ReplacementBehavior replacementBehavior = ReplacementBehavior.THROW_EXCEPTION;
 
     /**
      * Value or property name.
@@ -59,20 +78,20 @@ public class XmlReplacement
 
     /**
      * Saves the attributes for this XML replacement.
-     * 
+     *
      * @param file File name.
      * @param xpathExpression XPath expression.
      * @param attributeName XML attribute name.
-     * @param ignoreIfNonExisting Ignore if XPath expression doesn't match anything.
+     * @param replacementBehavior Behavior if XPath expression doesn't match anything.
      * @param value Value or property name.
      */
     public XmlReplacement(String file, String xpathExpression, String attributeName,
-        Boolean ignoreIfNonExisting, String value)
+        ReplacementBehavior replacementBehavior, String value)
     {
         this.file = file;
         this.xpathExpression = xpathExpression;
         this.attributeName = attributeName;
-        this.ignoreIfNonExisting = ignoreIfNonExisting;
+        this.replacementBehavior = replacementBehavior;
         this.value = value;
     }
 
@@ -125,19 +144,19 @@ public class XmlReplacement
     }
 
     /**
-     * @return Ignore if XPath expression doesn't match anything.
+     * @return Behavior if XPath expression doesn't match anything.
      */
-    public Boolean isIgnoreIfNonExisting()
+    public ReplacementBehavior getReplacementBehavior()
     {
-        return ignoreIfNonExisting;
+        return replacementBehavior;
     }
 
     /**
-     * @param ignoreIfNonExisting Ignore if XPath expression doesn't match anything.
+     * @param replacementBehavior Behavior if XPath expression doesn't match anything.
      */
-    public void setIgnoreIfNonExisting(Boolean ignoreIfNonExisting)
+    public void setReplacementBehavior(ReplacementBehavior replacementBehavior)
     {
-        this.ignoreIfNonExisting = ignoreIfNonExisting;
+        this.replacementBehavior = replacementBehavior;
     }
 
     /**

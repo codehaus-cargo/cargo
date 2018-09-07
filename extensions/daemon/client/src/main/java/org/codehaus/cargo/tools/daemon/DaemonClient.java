@@ -719,8 +719,8 @@ public class DaemonClient extends LoggedObject
                     +  "\"value\":\"" + escapeJson(xmlReplacement.getValue()) + "\","
                     + "\"xpathExpression\":\""
                         + escapeJson(xmlReplacement.getXpathExpression()) + "\","
-                    + "\"ignoreIfNonExisting\":\""
-                        + xmlReplacement.isIgnoreIfNonExisting() + "\"}");
+                    + "\"replacementBehavior\": \""
+                        + xmlReplacement.getReplacementBehavior() + "\"}");
 
                 i++;
             }

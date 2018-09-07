@@ -37,7 +37,8 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationBuilder;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat5xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.util.XmlReplacement;
 import org.w3c.dom.Element;
 
 /**
@@ -55,13 +56,14 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      */
     protected static final String CONNECTOR_XPATH = 
         "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+            + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
             + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
 
     /**
      * {@inheritDoc}
      */
     private static ConfigurationCapability capability =
-        new Tomcat5x6xStandaloneLocalConfigurationCapability();
+        new Tomcat5xStandaloneLocalConfigurationCapability();
 
     /**
      * used to insert DataSources and Resources into the configuration file.
@@ -354,7 +356,8 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                     "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Connector[@protocol='AJP/1.3']",
-                "port", TomcatPropertySet.AJP_PORT, true);
+                "port", TomcatPropertySet.AJP_PORT,
+                XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Engine",
                 "defaultHost", GeneralPropertySet.HOSTNAME);
@@ -384,7 +387,8 @@ public class Tomcat5xStandaloneLocalConfiguration extends
                         "address", GeneralPropertySet.HOSTNAME);
             addXmlReplacement("conf/server.xml",
                 "//Server/Service/Connector[@protocol='AJP/1.3']",
-                        "address", GeneralPropertySet.HOSTNAME, true);
+                        "address", GeneralPropertySet.HOSTNAME,
+                        XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
         }
 
         if (container.getConfiguration().getPropertyValue(
