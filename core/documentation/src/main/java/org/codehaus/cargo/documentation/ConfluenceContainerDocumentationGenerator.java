@@ -1398,6 +1398,21 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
 
+        if (ConfigurationType.STANDALONE.equals(type)
+            && ("tomcat8x".equals(containerId) || "tomcat9x".equals(containerId)))
+        {
+            output.append("{info:title=Configuring HTTP/2 for Tomcat 8.5 and above}");
+            output.append(LINE_SEPARATOR);
+            output.append("Tomcat 8.5 and above support HTTP/2.");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("For further information on how to enable this, please refer to ");
+            output.append("[Configuring HTTP/2 for Tomcat 8.5 and above].");
+            output.append(LINE_SEPARATOR);
+            output.append("{info}");
+            output.append(LINE_SEPARATOR);
+        }
+
         if (ConfigurationType.STANDALONE.equals(type) && containerId.startsWith("weblogic"))
         {
             output.append("{note}");

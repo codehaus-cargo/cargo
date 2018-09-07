@@ -136,7 +136,6 @@ public interface TomcatPropertySet
 
     /**
      * To enable HTTP/2 support for an HTTP connector.
-     * @since tomcat-8.5
      */
     String CONNECTOR_HTTP_UPGRADE_PROTOCOL = "cargo.tomcat.connector.httpUpgradeProtocol";
 
