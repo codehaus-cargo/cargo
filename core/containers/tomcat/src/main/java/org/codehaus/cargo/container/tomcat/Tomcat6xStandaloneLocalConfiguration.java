@@ -45,9 +45,8 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
     {
         super(dir);
 
-        addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "SSLEnabled", TomcatPropertySet.HTTP_SECURE);
+        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "SSLEnabled",
+            TomcatPropertySet.HTTP_SECURE);
     }
 
     /**
@@ -175,10 +174,8 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
                 TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
         if (connectorProtocolClass != null)
         {
-            addXmlReplacement("conf/server.xml",
-                    CONNECTOR_XPATH,
-                    "protocol",
-                    connectorProtocolClass);
+            addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "protocol",
+                connectorProtocolClass);
         }
 
         super.performXmlReplacements(container);

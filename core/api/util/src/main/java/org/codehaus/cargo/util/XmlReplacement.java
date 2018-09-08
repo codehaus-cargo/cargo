@@ -33,10 +33,12 @@ public class XmlReplacement
          * Continue, if the XPath can't be found
          */
         IGNORE_IF_NON_EXISTING,
+
         /**
          * Throw exception, if the XPath can't be found
          */
         THROW_EXCEPTION,
+
         /**
          * Add missing nodes, if the XPath only matches on any upper level
          */

@@ -548,9 +548,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                             break;
 
                         default:
-                            throw new IllegalStateException("Unknown ReplacementBehavior '"
-                                    + replacementBehavior
-                                    + "'");
+                            throw new IllegalStateException("Unknown ReplacementBehavior ["
+                                + replacementBehavior + "]");
                     }
                 }
 

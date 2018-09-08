@@ -106,8 +106,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
      */
     @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
-                                  String configurationPropertyName,
-                                  XmlReplacement.ReplacementBehavior replacementBehavior)
+        String configurationPropertyName, XmlReplacement.ReplacementBehavior replacementBehavior)
     {
         // Nothing
     }

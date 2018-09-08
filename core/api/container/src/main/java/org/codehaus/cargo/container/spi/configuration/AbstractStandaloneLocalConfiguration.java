@@ -93,11 +93,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 }
 
                 XmlReplacementDetails key = xmlReplacementDetail.getKey();
-                XmlReplacement xmlReplacement = new XmlReplacement(
-                        destinationFile,
-                        key.getXpathExpression(),
-                        key.getAttributeName(),
-                        key.getReplacementBehavior(),
+                XmlReplacement xmlReplacement = new XmlReplacement(destinationFile,
+                    key.getXpathExpression(), key.getAttributeName(), key.getReplacementBehavior(),
                         value);
 
                 if (ignoreNonExistingProperties)
@@ -173,8 +170,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         }
 
         fileReplacements.put(new XmlReplacementDetails(xmlReplacement.getXpathExpression(),
-                        xmlReplacement.getAttributeName(),
-                        xmlReplacement.getReplacementBehavior()),
+            xmlReplacement.getAttributeName(), xmlReplacement.getReplacementBehavior()),
                 xmlReplacement.getValue());
     }
 
@@ -202,10 +198,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             this.xmlReplacements.put(filename, fileReplacements);
         }
 
-        fileReplacements.put(new XmlReplacementDetails(
-                        xpathExpression,
-                        attributeName,
-                        XmlReplacement.ReplacementBehavior.THROW_EXCEPTION),
+        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName,
+            XmlReplacement.ReplacementBehavior.THROW_EXCEPTION),
                 configurationPropertyName);
     }
 
@@ -214,8 +208,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      */
     @Override
     public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
-                                  String configurationPropertyName,
-                                  XmlReplacement.ReplacementBehavior replacementBehavior)
+        String configurationPropertyName, XmlReplacement.ReplacementBehavior replacementBehavior)
     {
         Map<XmlReplacementDetails, String> fileReplacements = this.xmlReplacements.get(filename);
         if (fileReplacements == null)
@@ -224,11 +217,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
             this.xmlReplacements.put(filename, fileReplacements);
         }
 
-        fileReplacements.put(new XmlReplacementDetails(
-                        xpathExpression,
-                        attributeName,
-                        replacementBehavior),
-                configurationPropertyName);
+        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName,
+            replacementBehavior), configurationPropertyName);
     }
 
     /**
@@ -251,10 +241,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         if (fileReplacements != null)
         {
             fileReplacements.remove(
-                new XmlReplacementDetails(
-                        xpathExpression,
-                        attributeName,
-                        XmlReplacement.ReplacementBehavior.THROW_EXCEPTION));
+                new XmlReplacementDetails(xpathExpression, attributeName,
+                    XmlReplacement.ReplacementBehavior.THROW_EXCEPTION));
 
             if (fileReplacements.isEmpty())
             {
@@ -278,11 +266,8 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
                 : xmlReplacementEntry.getValue().entrySet())
             {
                 XmlReplacementDetails key = xmlReplacementDetail.getKey();
-                XmlReplacement xmlReplacement = new XmlReplacement(
-                        xmlReplacementEntry.getKey(),
-                        key.getXpathExpression(),
-                        key.getAttributeName(),
-                        key.getReplacementBehavior(),
+                XmlReplacement xmlReplacement = new XmlReplacement(xmlReplacementEntry.getKey(),
+                    key.getXpathExpression(), key.getAttributeName(), key.getReplacementBehavior(),
                         xmlReplacementDetail.getValue());
 
                 xmlReplacements.add(xmlReplacement);

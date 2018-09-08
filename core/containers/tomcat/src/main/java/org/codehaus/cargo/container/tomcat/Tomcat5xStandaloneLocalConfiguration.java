@@ -333,40 +333,27 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      */
     private void addXmlReplacements()
     {
-        addXmlReplacement("conf/server.xml",
-            "//Server", "port",
-                GeneralPropertySet.RMI_PORT);
-        addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "port", ServletPropertySet.PORT);
-        addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "scheme", GeneralPropertySet.PROTOCOL);
-        addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "secure", TomcatPropertySet.HTTP_SECURE);
-        addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "emptySessionPath", TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        addXmlReplacement("conf/server.xml", "//Server", "port", GeneralPropertySet.RMI_PORT);
+        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "port", ServletPropertySet.PORT);
+        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "scheme",
+            GeneralPropertySet.PROTOCOL);
+        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "secure",
+            TomcatPropertySet.HTTP_SECURE);
+        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "emptySessionPath",
+            TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
         addXmlReplacement("conf/server.xml",
             CONNECTOR_XPATH,
                     "URIEncoding", TomcatPropertySet.URI_ENCODING);
+        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "port", ServletPropertySet.PORT);
-        addXmlReplacement("conf/server.xml",
-            "//Server/Service/Connector[@protocol='AJP/1.3']",
-                "port", TomcatPropertySet.AJP_PORT,
-                XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
-        addXmlReplacement("conf/server.xml",
-            "//Server/Service/Engine",
-                "defaultHost", GeneralPropertySet.HOSTNAME);
-        addXmlReplacement("conf/server.xml",
-            "//Server/Service/Engine/Host",
-                "name", GeneralPropertySet.HOSTNAME);
-        addXmlReplacement("conf/server.xml",
-            "//Server/Service/Engine/Host",
-                "appBase", TomcatPropertySet.WEBAPPS_DIRECTORY);
+            "//Server/Service/Connector[@protocol='AJP/1.3']", "port", TomcatPropertySet.AJP_PORT,
+            XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
+        addXmlReplacement("conf/server.xml", "//Server/Service/Engine", "defaultHost",
+            GeneralPropertySet.HOSTNAME);
+        addXmlReplacement("conf/server.xml", "//Server/Service/Engine/Host", "name",
+            GeneralPropertySet.HOSTNAME);
+        addXmlReplacement("conf/server.xml", "//Server/Service/Engine/Host", "appBase",
+            TomcatPropertySet.WEBAPPS_DIRECTORY);
     }
 
     /**
@@ -382,13 +369,11 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         if (!"localhost".equals(container.getConfiguration().getPropertyValue(
             GeneralPropertySet.HOSTNAME)))
         {
-            addXmlReplacement("conf/server.xml",
-                CONNECTOR_XPATH,
-                        "address", GeneralPropertySet.HOSTNAME);
-            addXmlReplacement("conf/server.xml",
-                "//Server/Service/Connector[@protocol='AJP/1.3']",
-                        "address", GeneralPropertySet.HOSTNAME,
-                        XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
+            addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "address",
+                GeneralPropertySet.HOSTNAME);
+            addXmlReplacement("conf/server.xml", "//Server/Service/Connector[@protocol='AJP/1.3']",
+                "address", GeneralPropertySet.HOSTNAME,
+                    XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
         }
 
         if (container.getConfiguration().getPropertyValue(
@@ -399,73 +384,73 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
+            TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "keystoreFile",
-                    TomcatPropertySet.CONNECTOR_KEY_STORE_FILE);
+                TomcatPropertySet.CONNECTOR_KEY_STORE_FILE);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
+            TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "keystorePass",
-                    TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD);
+                TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE) != null)
+            TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "keystoreType",
-                    TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE);
+                TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_KEY_ALIAS) != null)
+            TomcatPropertySet.CONNECTOR_KEY_ALIAS) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "keyAlias",
-                    TomcatPropertySet.CONNECTOR_KEY_ALIAS);
+                TomcatPropertySet.CONNECTOR_KEY_ALIAS);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_CLIENT_AUTH) != null)
+            TomcatPropertySet.CONNECTOR_CLIENT_AUTH) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "clientAuth",
-                    TomcatPropertySet.CONNECTOR_CLIENT_AUTH);
+                TomcatPropertySet.CONNECTOR_CLIENT_AUTH);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE) != null)
+            TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "truststoreFile",
-                    TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE);
+                TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD) != null)
+            TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "truststorePass",
-                    TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD);
+                TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE) != null)
+            TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "truststoreType",
-                    TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE);
+                TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_SSL_PROTOCOL) != null)
+            TomcatPropertySet.CONNECTOR_SSL_PROTOCOL) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "sslProtocol",
-                    TomcatPropertySet.CONNECTOR_SSL_PROTOCOL);
+                TomcatPropertySet.CONNECTOR_SSL_PROTOCOL);
         }
 
         if (container.getConfiguration().getPropertyValue(
-                TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE) != null)
+            TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE) != null)
         {
             addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "maxHttpHeaderSize",
-                    TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE);
+                TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE);
         }
     }
 }

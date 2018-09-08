@@ -75,8 +75,7 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
      * @param replacementBehavior Behavior if XPath expression doesn't match anything.
      */
     void addXmlReplacement(String filename, String xpathExpression, String attributeName,
-                           String configurationPropertyName,
-                           XmlReplacement.ReplacementBehavior replacementBehavior);
+        String configurationPropertyName, XmlReplacement.ReplacementBehavior replacementBehavior);
 
     /**
      * Removes an XML replacement.

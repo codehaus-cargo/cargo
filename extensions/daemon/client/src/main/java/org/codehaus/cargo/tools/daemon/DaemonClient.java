@@ -719,7 +719,7 @@ public class DaemonClient extends LoggedObject
                     +  "\"value\":\"" + escapeJson(xmlReplacement.getValue()) + "\","
                     + "\"xpathExpression\":\""
                         + escapeJson(xmlReplacement.getXpathExpression()) + "\","
-                    + "\"replacementBehavior\": \""
+                    + "\"replacementBehavior\":\""
                         + xmlReplacement.getReplacementBehavior() + "\"}");
 
                 i++;

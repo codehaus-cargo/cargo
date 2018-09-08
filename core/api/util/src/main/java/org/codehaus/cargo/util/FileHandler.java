@@ -63,12 +63,12 @@ public interface FileHandler extends Loggable
 
         /**
          * Saves the attributes for this XML replacement.
-         *  @param xpathExpression XPath expression.
+         * @param xpathExpression XPath expression.
          * @param attributeName XML attribute name.
          * @param replacementBehavior Behavior if XPath expression doesn't match anything.
          */
         public XmlReplacementDetails(String xpathExpression, String attributeName,
-                                     XmlReplacement.ReplacementBehavior replacementBehavior)
+            XmlReplacement.ReplacementBehavior replacementBehavior)
         {
             this.xpathExpression = xpathExpression;
             this.attributeName = attributeName;
