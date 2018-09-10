@@ -149,7 +149,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jboss74x",
         "jboss75x",
         "tomcat8x",
-        "tomee7x",
         "weblogic12x",
         "weblogic121x",
         "wildfly8x",
@@ -1331,6 +1330,10 @@ public class ConfluenceContainerDocumentationGenerator
                 else if ("liberty".equals(containerId))
                 {
                     javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
+                }
+                else if ("tomee7x".equals(containerId))
+                {
+                    javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
                 }
                 else
                 {
