@@ -215,6 +215,11 @@ public class ConfluenceContainerDocumentationGenerator
     private static final String SAMPLES_DIRECTORY = System.getProperty("basedir") + "/../samples/";
 
     /**
+     * Relative path to the cargo-root directory.
+     */
+    private static final String CARGO_ROOT_DIRECTORY = System.getProperty("basedir") + "/../../";
+
+    /**
      * Constant for known POM file name.
      */
     private static final String POM = "pom.xml";
@@ -1536,8 +1541,17 @@ public class ConfluenceContainerDocumentationGenerator
                 + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
                 + "every time there is a code change.");
             output.append(LINE_SEPARATOR);
-            output.append("The server used for tests is downloaded from: ");
-            output.append(url);
+            if ("wildfly-swarm2017x".equals(containerId))
+            {
+                output.append("The WildFly Swarm version used during tests is: {{");
+                output.append(url);
+                output.append("}}");
+            }
+            else
+            {
+                output.append("The server used for tests is downloaded from: ");
+                output.append(url);
+            }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             return output.toString();
@@ -1556,7 +1570,15 @@ public class ConfluenceContainerDocumentationGenerator
      */
     public String getContainerServerDownloadUrl(String containerId)
     {
-        File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
+        File pom;
+        if ("wildfly-swarm2017x".equals(containerId))
+        {
+            pom = new File(CARGO_ROOT_DIRECTORY, POM).getAbsoluteFile();
+        }
+        else
+        {
+            pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
+        }
 
         Model model = new Model();
         try
@@ -1565,48 +1587,55 @@ public class ConfluenceContainerDocumentationGenerator
         }
         catch (Exception e)
         {
-            throw new IllegalStateException("Caught Exception reading pom.xml", e);
+            throw new IllegalStateException("Caught Exception reading " + pom, e);
         }
 
         MavenProject project = new MavenProject(model);
         project.setFile(pom);
 
-        Map<String, Plugin> plugins = project.getPluginManagement().getPluginsAsMap();
-        Plugin surefire = plugins.get(SUREFIRE_PLUGIN);
-        if (surefire == null)
+        if ("wildfly-swarm2017x".equals(containerId))
         {
-            throw new IllegalStateException("Cannot find plugin " + SUREFIRE_PLUGIN
-                + " in pom file " + pom + ". Found plugins: " + plugins.keySet());
+            return project.getProperties().getProperty("wildfly-swarm.version");
         }
-
-        Xpp3Dom configuration = (Xpp3Dom) surefire.getConfiguration();
-        if (configuration == null)
+        else
         {
-            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
-                + " does not have any configuration.");
-        }
-        Xpp3Dom systemProperties = configuration.getChild(SYSTEM_PROPERTIES);
-        if (systemProperties == null)
-        {
-            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
-                + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
-        }
-
-        String urlName = "cargo." + containerId + ".url";
-        for (Xpp3Dom property : systemProperties.getChildren())
-        {
-            Xpp3Dom nameChild = property.getChild("name");
-            Xpp3Dom valueChild = property.getChild("value");
-            if (nameChild == null || valueChild == null)
+            Map<String, Plugin> plugins = project.getPluginManagement().getPluginsAsMap();
+            Plugin surefire = plugins.get(SUREFIRE_PLUGIN);
+            if (surefire == null)
             {
-                throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
-                    + "'s configuration options in pom file " + pom + " is incomplete:\n"
-                        + property);
+                throw new IllegalStateException("Cannot find plugin " + SUREFIRE_PLUGIN
+                    + " in pom file " + pom + ". Found plugins: " + plugins.keySet());
             }
 
-            if (urlName.equals(nameChild.getValue()))
+            Xpp3Dom configuration = (Xpp3Dom) surefire.getConfiguration();
+            if (configuration == null)
             {
-                return valueChild.getValue();
+                throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
+                    + " does not have any configuration.");
+            }
+            Xpp3Dom systemProperties = configuration.getChild(SYSTEM_PROPERTIES);
+            if (systemProperties == null)
+            {
+                throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
+                    + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
+            }
+
+            String urlName = "cargo." + containerId + ".url";
+            for (Xpp3Dom property : systemProperties.getChildren())
+            {
+                Xpp3Dom nameChild = property.getChild("name");
+                Xpp3Dom valueChild = property.getChild("value");
+                if (nameChild == null || valueChild == null)
+                {
+                    throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
+                        + "'s configuration options in pom file " + pom + " is incomplete:\n"
+                            + property);
+                }
+
+                if (urlName.equals(nameChild.getValue()))
+                {
+                    return valueChild.getValue();
+                }
             }
         }
 
