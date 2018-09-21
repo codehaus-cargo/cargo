@@ -795,12 +795,12 @@
               <property>
                 <name>cargo.tomcat7x.url</name>
                 <!--
-                  Tomcat 7.0.90 cannot be used due to a java.lang.NullPointerException at
+                  Tomcat 7.0.91 cannot be used due to a java.lang.NullPointerException at
                   org.apache.catalina.core.NamingContextListener.getGlobalNamingContext
                   in the Embedded container
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.90/tomcat-7.0.90.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.91/tomcat-7.0.91.zip</value>
                   -->
                 <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
               </property>
