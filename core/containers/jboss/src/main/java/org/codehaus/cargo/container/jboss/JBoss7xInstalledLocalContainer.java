@@ -296,9 +296,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     }
 
     /**
-     * Set the properties on the JVM launcher.<br><br>
-     * CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines,
-     * the system property <code>jboss.bind.address</code> must be set.
+     * Set the properties on the JVM launcher.
      * @param java JVM launcher to set the properties on.
      */
     protected void setProperties(JvmLauncher java)
@@ -318,6 +316,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
         java.setSystemProperty("jboss.home.dir", getHome());
         java.setSystemProperty("jboss.server.base.dir", getConfiguration().getHome());
 
+        // CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines, the
+        // system property jboss.bind.address must be set.
         final Map<String, String> systemProperties = getSystemProperties();
         if (!systemProperties.containsKey("jboss.bind.address"))
         {

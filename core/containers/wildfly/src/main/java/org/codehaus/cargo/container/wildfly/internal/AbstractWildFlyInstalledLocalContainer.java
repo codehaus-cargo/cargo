@@ -116,16 +116,13 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     }
 
     /**
-     * Set the properties on the JVM launcher.<br><br>
-     * CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines,
-     * the system property <code>jboss.bind.address</code> must be set.
+     * Set the properties on the JVM launcher.
      * @param java JVM launcher to set the properties on.
      */
     protected void setProperties(JvmLauncher java)
     {
         java.setSystemProperty("org.jboss.boot.log.file",
             getConfiguration().getHome() + "/log/boot.log");
-
         try
         {
             java.setSystemProperty("logging.configuration",
@@ -136,21 +133,12 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
         {
             throw new CargoException("Cannot create logging file URL." , e);
         }
-
         java.setEnvironmentVariable("JBOSS_HOME", getHome());
         java.setSystemProperty("jboss.home.dir", getHome());
         java.setSystemProperty("jboss.server.base.dir", getConfiguration().getHome());
-        java.setSystemProperty("jboss.server.config.dir", getConfiguration().getHome()
-                + File.separator + "configuration");
-        java.setSystemProperty("jboss.server.data.dir", getConfiguration().getHome()
-                + File.separator + "data");
-        java.setSystemProperty("jboss.server.log.dir", getConfiguration().getHome()
-                + File.separator + "log");
-        java.setSystemProperty("jboss.server.temp.dir", getConfiguration().getHome()
-                + File.separator + "tmp");
-        java.setSystemProperty("jboss.server.deploy.dir", getConfiguration().getHome()
-                + File.separator + "content");
 
+        // CARGO-1111: To allow JBoss 7.x and onwards to be accessed from remote machines, the
+        // system property jboss.bind.address must be set.
         final Map<String, String> systemProperties = getSystemProperties();
         if (!systemProperties.containsKey("jboss.bind.address"))
         {
