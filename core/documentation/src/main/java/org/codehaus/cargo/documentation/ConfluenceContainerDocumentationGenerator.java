@@ -35,9 +35,9 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -282,39 +282,16 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
 
         Map<String, Set<ContainerType>> containerIds = containerFactory.getContainerIds();
-        SortedMap<String, String> sortedContainerIds = new TreeMap<String, String>();
+        SortedMap<String, InstalledLocalContainer> sortedContainers =
+            new TreeMap<String, InstalledLocalContainer>();
         for (String containerId : containerIds.keySet())
-        {
-            String sortedContainerId = containerId.
-                replace("31", "3xx").
-                replace("42", "4xx").
-                replace("51", "5xx").
-                replace("61", "6xx").
-                replace("71", "7xx").
-                replace("72", "7xxx").
-                replace("73", "7xxxx").
-                replace("74", "7xxxxx").
-                replace("75", "7xxxxxx").
-                replace("103", "9xxx").
-                replace("10", "9xx").
-                replace("11", "9xxxx").
-                replace("121", "9xxxxxx").
-                replace("122", "9xxxxxxx").
-                replace("12", "9xxxxx").
-                replace("13", "9xxxxxxxx").
-                replace("14", "9xxxxxxxxx").
-                replace("liberty", "websphere_liberty");
-            sortedContainerIds.put(sortedContainerId, containerId);
-        }
-        for (String containerId : sortedContainerIds.values())
         {
             Map<String, Boolean> properties;
             try
             {
                 properties = this.configurationCapabilityFactory.
-                createConfigurationCapability(
-                    containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE
-                ).getProperties();
+                createConfigurationCapability(containerId, ContainerType.INSTALLED,
+                    ConfigurationType.STANDALONE).getProperties();
             }
             catch (ContainerException e)
             {
@@ -329,63 +306,89 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     Configuration configuration = this.configurationFactory.createConfiguration(
                         containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-                    Container container = this.containerFactory.createContainer(
-                        containerId, ContainerType.INSTALLED, configuration);
+                    InstalledLocalContainer container = (InstalledLocalContainer)
+                        this.containerFactory.createContainer(
+                            containerId, ContainerType.INSTALLED, configuration);
 
-                    Class configurationClass = configuration.getClass();
-
-                    output.append("| [");
-                    output.append(container.getName());
-                    int bracket = container.getName().indexOf('(');
-                    if (bracket != -1)
+                    String[] containerNameAndVersion = container.getName().split("\\s");
+                    if (containerNameAndVersion[1].charAt(0) >= '0'
+                        && containerNameAndVersion[1].charAt(0) <= '9')
                     {
-                        output.append('|');
-                        output.append(container.getName().substring(0, bracket).trim());
-                    }
-                    output.append("] | {{");
-                    output.append(computedFQCN(configurationClass.getName()));
-                    output.append("}} | (");
-                    if (properties.keySet().contains(ResourcePropertySet.RESOURCE))
-                    {
-                        output.append('/');
-                    }
-                    else
-                    {
-                        output.append('x');
-                    }
-                    output.append(") | (");
-                    if (properties.keySet().contains(DatasourcePropertySet.DATASOURCE))
-                    {
-                        output.append('/');
+                        Double containerVersion = Double.parseDouble(
+                            containerNameAndVersion[1].replace(".x", ""));
+                        if (containerVersion < 10.0)
+                        {
+                            sortedContainers.put(
+                                containerNameAndVersion[0] + '0' + containerVersion, container);
+                        }
+                        else
+                        {
+                            sortedContainers.put(
+                                containerNameAndVersion[0] + containerVersion, container);
+                        }
                     }
                     else
                     {
-                        output.append('x');
+                        sortedContainers.put(
+                            containerNameAndVersion[0] + containerNameAndVersion[1], container);
                     }
-                    output.append(") | (");
-                    if (properties.keySet().contains(DatasourcePropertySet.TRANSACTION_SUPPORT))
-                    {
-                        output.append('/');
-                    }
-                    else
-                    {
-                        output.append('x');
-                    }
-                    output.append(") | (");
-                    if (properties.keySet().contains(DatasourcePropertySet.CONNECTION_TYPE))
-                    {
-                        output.append('/');
-                    }
-                    else
-                    {
-                        output.append('x');
-                    }
-                    output.append(") |");
-                    output.append(LINE_SEPARATOR);
-
-                    break;
                 }
             }
+        }
+        for (InstalledLocalContainer container : sortedContainers.values())
+        {
+            Configuration configuration = container.getConfiguration();
+            Class configurationClass = configuration.getClass();
+            Map<String, Boolean> properties = configuration.getCapability().getProperties();
+
+            output.append("| [");
+            output.append(container.getName());
+            int bracket = container.getName().indexOf('(');
+            if (bracket != -1)
+            {
+                output.append('|');
+                output.append(container.getName().substring(0, bracket).trim());
+            }
+            output.append("] | {{");
+            output.append(computedFQCN(configurationClass.getName()));
+            output.append("}} | (");
+            if (properties.keySet().contains(ResourcePropertySet.RESOURCE))
+            {
+                output.append('/');
+            }
+            else
+            {
+                output.append('x');
+            }
+            output.append(") | (");
+            if (properties.keySet().contains(DatasourcePropertySet.DATASOURCE))
+            {
+                output.append('/');
+            }
+            else
+            {
+                output.append('x');
+            }
+            output.append(") | (");
+            if (properties.keySet().contains(DatasourcePropertySet.TRANSACTION_SUPPORT))
+            {
+                output.append('/');
+            }
+            else
+            {
+                output.append('x');
+            }
+            output.append(") | (");
+            if (properties.keySet().contains(DatasourcePropertySet.CONNECTION_TYPE))
+            {
+                output.append('/');
+            }
+            else
+            {
+                output.append('x');
+            }
+            output.append(") |");
+            output.append(LINE_SEPARATOR);
         }
 
         return output.toString();
