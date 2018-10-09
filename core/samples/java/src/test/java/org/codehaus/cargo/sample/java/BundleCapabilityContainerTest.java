@@ -81,6 +81,7 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         excludedContainerIds.add("wildfly11x");
         excludedContainerIds.add("wildfly12x");
         excludedContainerIds.add("wildfly13x");
+        excludedContainerIds.add("wildfly14x");
 
         suite.addTestSuite(BundleCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
