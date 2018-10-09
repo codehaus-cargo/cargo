@@ -302,6 +302,7 @@ public class ConfluenceContainerDocumentationGenerator
                 replace("122", "9xxxxxxx").
                 replace("12", "9xxxxx").
                 replace("13", "9xxxxxxxx").
+                replace("14", "9xxxxxxxxx").
                 replace("liberty", "websphere_liberty");
             sortedContainerIds.put(sortedContainerId, containerId);
         }
