@@ -25,6 +25,7 @@ import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -310,7 +311,8 @@ public class ConfluenceContainerDocumentationGenerator
                         this.containerFactory.createContainer(
                             containerId, ContainerType.INSTALLED, configuration);
 
-                    String[] containerNameAndVersion = container.getName().split("\\s");
+                    String[] containerNameAndVersion = container.getName().toLowerCase(
+                        Locale.ENGLISH).split("\\s");
                     if (containerNameAndVersion[1].charAt(0) >= '0'
                         && containerNameAndVersion[1].charAt(0) <= '9')
                     {
