@@ -90,14 +90,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
         MavenProject baseProject = createProjectFromPom(basePom);
         markup.append(getProjectInfo(baseProject, 1));
 
-        // create markup for the non-maven sandbox directory not found via module discovery.
-        markup.append("** *sandbox/* : Base directory for cargo plugin projects");
-        markup.append(LINE_SEPARATOR);
-        markup.append("*** *intellijidea/* : IntelliJ IDEA plugin");
-        markup.append(LINE_SEPARATOR);
-        markup.append("*** *netbeans/* : Netbeans plugin");
-        markup.append(LINE_SEPARATOR);
-
         return markup.toString();
     }
 
