@@ -217,12 +217,12 @@ public class CargoDaemonBrowserTest extends TestCase
         ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
-            .getOptionByText("jetty7x").setSelected(true);
+            .getOptionByText("jetty9x").setSelected(true);
 
-        File jetty7x = new File(System.getProperty("artifacts.dir"), "jetty7x.zip");
-        assertTrue("File " + jetty7x + " is missing", jetty7x.isFile());
+        File jetty9x = new File(System.getProperty("artifacts.dir"), "jetty9x.zip");
+        assertTrue("File " + jetty9x + " is missing", jetty9x.isFile());
         ((HtmlTextInput) htmlPage.getElementByName("installerZipUrl")).setText(
-            jetty7x.toURI().toURL().toString());
+            jetty9x.toURI().toURL().toString());
 
         File configurationDirectory =
             new File(System.getProperty("daemon.test-configurations.home"));

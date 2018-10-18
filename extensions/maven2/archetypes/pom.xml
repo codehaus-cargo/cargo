@@ -70,6 +70,8 @@
                   <portName>cargo.itest.servlet2.port</portName>
                   <portName>cargo.itest.rmi.port</portName>
                   <portName>cargo.itest.rmi2.port</portName>
+                  <portName>cargo.itest.ajp.port</portName>
+                  <portName>cargo.itest.ajp2.port</portName>
                 </portNames>
               </configuration>
             </execution>
@@ -98,6 +100,8 @@
               <servlet2.port>${cargo.itest.servlet.port2}</servlet2.port>
               <rmi.port>${cargo.itest.rmi.port}</rmi.port>
               <rmi2.port>${cargo.itest.rmi.port2}</rmi2.port>
+              <ajp.port>${cargo.itest.ajp.port}</ajp.port>
+              <ajp2.port>${cargo.itest.ajp.port2}</ajp2.port>
               <daemon.port>${cargo.itest.daemon.port}</daemon.port>
             </properties>
           </configuration>

@@ -86,7 +86,7 @@
                       <groupId>org.eclipse.jetty</groupId>
                       <artifactId>jetty-distribution</artifactId>
                       <type>zip</type>
-                      <destFileName>jetty7x.zip</destFileName>
+                      <destFileName>jetty9x.zip</destFileName>
                     </artifactItem>
                     <artifactItem>
                       <groupId>org.codehaus.cargo</groupId>
@@ -201,4 +201,20 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <!--
+       We need to use Jetty 9.x as all previous versions use the Jasper compiler in a way to try
+       generate Java 5 compatible bytecode - Which, in JDK 11, generates a JasperException PWC6033
+       (error in Javac compilation for JSP) with cause PWC6199 (generated servlet error:
+       Target option 1.5 is no longer supported. Use 1.6 or later).
+       -->
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-distribution</artifactId>
+        <version>9.4.12.v20180830</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

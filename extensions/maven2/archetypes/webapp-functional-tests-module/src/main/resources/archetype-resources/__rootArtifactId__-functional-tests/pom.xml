@@ -106,7 +106,7 @@
 
   <profiles>
     <profile>
-      <id>jetty8x</id>
+      <id>jetty9x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -118,11 +118,11 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty8x</containerId>
+                  <containerId>jetty9x</containerId>
                   <artifactInstaller>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-distribution</artifactId>
-                    <version>8.1.22.v20160922</version>
+                    <version>9.4.12.v20180830</version>
                   </artifactInstaller>
                 </container>
               </configuration>

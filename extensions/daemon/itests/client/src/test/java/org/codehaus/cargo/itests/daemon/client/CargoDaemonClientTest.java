@@ -221,8 +221,8 @@ public class CargoDaemonClientTest extends TestCase
      */
     public void testStartStopRestartContainer() throws Exception
     {
-        File jetty7x = new File(System.getProperty("artifacts.dir"), "jetty7x.zip");
-        assertTrue("File " + jetty7x + " is missing", jetty7x.isFile());
+        File jetty9x = new File(System.getProperty("artifacts.dir"), "jetty9x.zip");
+        assertTrue("File " + jetty9x + " is missing", jetty9x.isFile());
 
         File configurationDirectory =
             new File(System.getProperty("daemon.test-configurations.home"));
@@ -230,11 +230,11 @@ public class CargoDaemonClientTest extends TestCase
             configurationDirectory.isDirectory());
 
         StandaloneLocalConfiguration configuration = (StandaloneLocalConfiguration)
-            CargoDaemonClientTest.configurationFactory.createConfiguration("jetty7x",
+            CargoDaemonClientTest.configurationFactory.createConfiguration("jetty9x",
                 ContainerType.INSTALLED, ConfigurationType.STANDALONE,
                     configurationDirectory.getAbsolutePath());
         InstalledLocalContainer container = (InstalledLocalContainer)
-            CargoDaemonClientTest.containerFactory.createContainer("jetty7x",
+            CargoDaemonClientTest.containerFactory.createContainer("jetty9x",
                 ContainerType.INSTALLED, configuration);
         container.getSystemProperties().put("systemPropertyName", "testProperty");
         configuration.setProperty(ServletPropertySet.PORT, System.getProperty("servlet.port"));
@@ -243,10 +243,10 @@ public class CargoDaemonClientTest extends TestCase
             "Testing XML replacements via the CARGO Daemon");
         DeployableFactory deployableFactory = new DefaultDeployableFactory();
         List<Deployable> deployables = new ArrayList<Deployable>();
-        deployables.add(deployableFactory.createDeployable("jetty7x",
+        deployables.add(deployableFactory.createDeployable("jetty9x",
             new File(System.getProperty("artifacts.dir"), "simple-war.war").getAbsolutePath(),
                 DeployableType.WAR));
-        deployables.add(deployableFactory.createDeployable("jetty7x",
+        deployables.add(deployableFactory.createDeployable("jetty9x",
             new File(System.getProperty("artifacts.dir"),
                 "systemproperty-war.war").getAbsolutePath(), DeployableType.WAR));
 
@@ -256,7 +256,7 @@ public class CargoDaemonClientTest extends TestCase
         start.setContainer(container);
         start.setDeployables(deployables);
         start.setHandleId("test1");
-        start.setInstallerZipFile(jetty7x.getAbsolutePath());
+        start.setInstallerZipFile(jetty9x.getAbsolutePath());
         client.start(start);
 
         DeployableMonitor cargoCpcMonitor = new URLDeployableMonitor(new URL(

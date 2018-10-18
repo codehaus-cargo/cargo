@@ -25,11 +25,22 @@
     <servlet2.port>18080</servlet2.port>
     <rmi.port>8079</rmi.port>
     <rmi2.port>18079</rmi2.port>
+    <ajp.port>8009</ajp.port>
+    <ajp2.port>18009</ajp2.port>
   </properties>
 
   <build>
     <pluginManagement>
       <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
@@ -47,16 +58,16 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.eclipse.jetty</groupId>
-                  <artifactId>jetty-distribution</artifactId>
-                  <version>7.6.21.v20160908</version>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>tomcat</artifactId>
+                  <version>7.0.70</version>
                   <type>zip</type>
                   <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
                 </artifactItem>
                 <artifactItem>
-                  <groupId>org.eclipse.jetty</groupId>
-                  <artifactId>jetty-distribution</artifactId>
-                  <version>8.1.22.v20160922</version>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>tomcat</artifactId>
+                  <version>8.5.34</version>
                   <type>zip</type>
                   <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
                 </artifactItem>
@@ -82,19 +93,21 @@
               <tasks>
                 <taskdef resource="cargo.tasks"/>
 
-                <cargo containerId="jetty7x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.21.v20160908">
-                  <configuration home="\${project.build.directory}/cargo/configurations/jetty7x">
+                <cargo containerId="tomcat7x" action="start" home="\${project.build.directory}/cargo/containers/apache-tomcat-7.0.70">
+                  <configuration home="\${project.build.directory}/cargo/configurations/tomcat7x">
                     <property name="cargo.servlet.port" value="\${servlet.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
+                    <property name="cargo.tomcat.ajp.port" value="\${ajp.port}"/>
                     <deployable type="war" file="\${project.build.directory}/\${artifactId}-\${version}.war">
                       <property name="context" value="\${artifactId}"/>
                     </deployable>
                   </configuration>
                 </cargo>
-                <cargo containerId="jetty8x" action="start" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.22.v20160922">
-                  <configuration home="\${project.build.directory}/cargo/configurations/jetty8x">
+                <cargo containerId="tomcat8x" action="start" home="\${project.build.directory}/cargo/containers/apache-tomcat-8.5.34">
+                  <configuration home="\${project.build.directory}/cargo/configurations/tomcat8x">
                     <property name="cargo.servlet.port" value="\${servlet2.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi2.port}"/>
+                    <property name="cargo.tomcat.ajp.port" value="\${ajp2.port}"/>
                     <deployable type="war" file="\${project.build.directory}/\${artifactId}-\${version}.war">
                       <property name="context" value="\${artifactId}"/>
                     </deployable>
@@ -113,14 +126,14 @@
               <tasks>
                 <taskdef resource="cargo.tasks"/>
 
-                <cargo containerId="jetty7x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-7.6.21.v20160908">
-                  <configuration home="\${project.build.directory}/cargo/configurations/jetty7x">
+                <cargo containerId="tomcat7x" action="stop" home="\${project.build.directory}/cargo/containers/apache-tomcat-7.0.70">
+                  <configuration home="\${project.build.directory}/cargo/configurations/tomcat7x">
                     <property name="cargo.servlet.port" value="\${servlet.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
                   </configuration>
                 </cargo>
-                <cargo containerId="jetty8x" action="stop" home="\${project.build.directory}/cargo/containers/jetty-distribution-8.1.22.v20160922">
-                  <configuration home="\${project.build.directory}/cargo/configurations/jetty8x">
+                <cargo containerId="tomcat8x" action="stop" home="\${project.build.directory}/cargo/containers/apache-tomcat-8.5.34">
+                  <configuration home="\${project.build.directory}/cargo/configurations/tomcat8x">
                     <property name="cargo.servlet.port" value="\${servlet2.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi2.port}"/>
                   </configuration>

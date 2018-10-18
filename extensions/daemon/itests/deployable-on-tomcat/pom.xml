@@ -57,10 +57,11 @@
             <configuration>
               <container>
                 <containerId>tomcat7x</containerId>
-                <zipUrlInstaller>
-                  <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</url>
-                  <downloadDir>${project.basedir}/../../../../core/samples/java/installs</downloadDir>
-                </zipUrlInstaller>
+                <artifactInstaller>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>tomcat</artifactId>
+                  <version>7.0.70</version>
+                </artifactInstaller>
               </container>
               <configuration>
                 <home>${project.build.directory}/catalina-base</home>
