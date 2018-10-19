@@ -63,9 +63,15 @@
   </dependencies>
 
   <profiles>
+    <!--
+      The cargo:run MOJO itself runs on any JDK that Codehaus Cargo can run on, meanwhile the way
+      this sample works is that it uses the embedded Jetty 9.x container (which is the only Jetty
+      working with JDK 11), unfortunately that version needs JDK 8 or newer
+      -->
     <profile>
-      <id>run-its</id>
+      <id>java8+</id>
       <activation>
+        <jdk>[1.8,)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>
