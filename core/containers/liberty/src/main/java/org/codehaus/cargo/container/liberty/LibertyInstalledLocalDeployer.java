@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.liberty.internal.ServerConfigUtils;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Deploys the application to the WebSphere Liberty server.
@@ -80,26 +81,35 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      */
     @Override
-    protected void doDeploy(String deployableDir, Deployable app)
+    protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        super.doDeploy(deployableDir, app);
-        if (app.getType() == DeployableType.WAR)
-        {
-            LibertyInstall install = new LibertyInstall(
-                (AbstractInstalledLocalContainer) getContainer());
+        super.doDeploy(deployableDir, deployable);
 
-            File serverDir = install.getServerDir(null);
-            File configOverrides = new File(serverDir, "configDropins/overrides");
+        String serverDirectory = new LibertyInstall(
+            (AbstractInstalledLocalContainer) getContainer()).getServerDir(null).getAbsolutePath();
+        String fileName = getDeployableName(deployable);
+
+        // CARGO-1468: Websphere Liberty server does not deploy the war, if there were an old
+        // version of the war before. Delete the old expanded version to avoid this issue.
+        String expandedDeployableDirectory = getFileHandler().append(serverDirectory,
+            "apps/expanded/" + fileName);
+        if (getFileHandler().isDirectory(expandedDeployableDirectory))
+        {
+            getFileHandler().delete(expandedDeployableDirectory);
+        }
+
+        if (deployable.getType() == DeployableType.WAR)
+        {
+            File configOverrides = new File(serverDirectory, "configDropins/overrides");
             configOverrides.mkdirs();
 
-            String fileName = getDeployableName(app);
             File appXML = new File(configOverrides,
                 "cargo-app-" + fileName.replaceAll("/", "_") + ".xml");
             try
             {
                 PrintStream writer = ServerConfigUtils.open(appXML);
 
-                String ctxRoot = getContextRoot(app);
+                String ctxRoot = getContextRoot(deployable);
 
                 writer.print("  <webApplication location=\"");
                 writer.print(fileName);
@@ -112,15 +122,15 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 }
                 writer.println('>');
 
-                writeLibrary(writer, app);
+                writeLibrary(writer, deployable);
                 writeSecurity(writer);
 
                 writer.println("  </webApplication>");
                 ServerConfigUtils.close(writer);
             }
-            catch (IOException ioe)
+            catch (IOException e)
             {
-                // TODO work out what to do here.
+                throw new CargoException("Cannot deploy [" + fileName + "]", e);
             }
         }
     }
