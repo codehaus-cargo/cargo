@@ -55,8 +55,7 @@ public class UberwarTest extends AbstractDocumentBuilderTest
         File webXmlFile = new File(uberwarExpandedDirectory, "WEB-INF/web.xml");
         assertNotNull("Not a file: " + webXmlFile, webXmlFile.isFile());
 
-        FileInputStream webXmlStream = new FileInputStream(webXmlFile);
-        try
+        try (FileInputStream webXmlStream = new FileInputStream(webXmlFile))
         {
             WebXml webXml = WebXmlIo.parseWebXml(webXmlStream, getEntityResolver());
 
@@ -76,10 +75,6 @@ public class UberwarTest extends AbstractDocumentBuilderTest
             List<Element> resRefNames = resourceRefs.get(0).getChildren("res-ref-name");
             assertEquals(1, resRefNames.size());
             assertEquals("jdbc/CargoDS", resRefNames.get(0).getText());
-        }
-        finally
-        {
-            webXmlStream.close();
         }
     }
 

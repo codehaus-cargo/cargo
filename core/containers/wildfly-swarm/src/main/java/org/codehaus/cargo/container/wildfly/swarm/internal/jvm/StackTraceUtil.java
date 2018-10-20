@@ -19,14 +19,16 @@
  */
 package org.codehaus.cargo.container.wildfly.swarm.internal.jvm;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
 /**
  * Utility class for Exceptions.
  */
 public final class StackTraceUtil
 {
+    /**
+     * Line separator character.
+     */
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     /**
      * Prevent creating an instance.
      */
@@ -42,27 +44,12 @@ public final class StackTraceUtil
      */
     public static String getStackTrace(final Throwable error)
     {
-        StringWriter writer = new StringWriter();
-
+        StringBuilder output = new StringBuilder();
         for (StackTraceElement element : error.getStackTrace())
         {
-            writer.write(element.toString());
+            output.append(element.toString());
+            output.append(StackTraceUtil.LINE_SEPARATOR);
         }
-
-        try
-        {
-            return writer.toString();
-        }
-        finally
-        {
-            try
-            {
-                writer.close();
-            }
-            catch (IOException ex)
-            {
-                //nothing to do here.
-            }
-        }
+        return output.toString();
     }
 }

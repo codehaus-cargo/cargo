@@ -289,9 +289,9 @@ public class WebXmlMerger extends XmlMerger
                 + (count != 1 ? "s " : " ") + "into the descriptor",
                 this.getClass().getName());
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            throw new CargoException("Exception merging servlet definitions", ex);
+            throw new CargoException("Exception merging servlet definitions", e);
         }
     }
 

@@ -161,17 +161,9 @@ public class Dtd implements Grammar
             reader.parse(new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8"))));
             this.elementOrders = dtdHandler.getElementOrders();
         }
-        catch (IOException e)
+        catch (IOException|ParserConfigurationException|SAXException e)
         {
             throw new DtdParseException("Failed to read dtd", e);
-        }
-        catch (SAXException e)
-        {
-            throw new DtdParseException("Failed to parse dtd", e);
-        }
-        catch (ParserConfigurationException e)
-        {
-            throw new DtdParseException("Failed to parse dtd", e);
         }
     }
 

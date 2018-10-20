@@ -36,16 +36,10 @@ public class TestBundle implements BundleActivator
      */
     public void start(BundleContext bundleContext) throws Exception
     {
-        FileOutputStream fos = new FileOutputStream("bundle-output.txt", false);
-
-        try
+        try (FileOutputStream fos = new FileOutputStream("bundle-output.txt", false))
         {
             fos.write("Hello, World".getBytes("UTF-8"));
             fos.flush();
-        }
-        finally
-        {
-            fos.close();
         }
     }
 
@@ -56,16 +50,10 @@ public class TestBundle implements BundleActivator
      */
     public void stop(BundleContext bundleContext) throws Exception
     {
-        FileOutputStream fos = new FileOutputStream("bundle-output.txt", false);
-
-        try
+        try (FileOutputStream fos = new FileOutputStream("bundle-output.txt", false))
         {
             fos.write("Goodbye, World".getBytes("UTF-8"));
             fos.flush();
-        }
-        finally
-        {
-            fos.close();
         }
     }
 }

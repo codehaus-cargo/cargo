@@ -461,13 +461,11 @@ public class FileManager
             return 0;
         }
         
-        BufferedInputStream is = new BufferedInputStream(getFileInputStream(filename));
         byte[] buf = new byte[64 * 1024];
         int bytesRead;
         long pos = 0;
         long remaining = size;
-
-        try
+        try (BufferedInputStream is = new BufferedInputStream(getFileInputStream(filename)))
         {
             if (offset != 0)
             {
@@ -500,17 +498,6 @@ public class FileManager
         {
             // Ignore
             out.flush();
-        }
-        finally
-        {
-            try
-            {
-                is.close();
-            }
-            catch (Exception e) 
-            {
-                // Ignore
-            }
         }
         
         return pos;

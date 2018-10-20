@@ -539,8 +539,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
      */
     private boolean isPortShutdown(int port, int connectTimeout)
     {
-        Socket s = new Socket();
-        try
+        try (Socket s = new Socket())
         {
             getLogger().debug("\tConnection attempt with socket " + s + ", current time is "
                 + System.currentTimeMillis(), this.getClass().getName());
@@ -583,24 +582,8 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         }
         finally
         {
-            try
-            {
-                s.close();
-            }
-            catch (IOException e)
-            {
-                // ignored, irrelevant
-                getLogger().debug("\tFailed to close socket " + s + ": " + e,
-                    this.getClass().getName());
-            }
-            finally
-            {
-                getLogger().debug("\tSocket " + s + " for port " + port + " closed",
-                    this.getClass().getName());
-
-                s = null;
-                System.gc();
-            }
+            getLogger().debug("\tSocket for port " + port + " closed",
+                this.getClass().getName());
         }
 
         return false;

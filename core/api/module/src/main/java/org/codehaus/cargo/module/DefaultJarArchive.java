@@ -143,10 +143,8 @@ public class DefaultJarArchive implements JarArchive
     @Override
     public InputStream getResource(String path) throws IOException
     {
-        JarInputStream in = null;
-        try
+        try (JarInputStream in = getContentAsStream())
         {
-            in = getContentAsStream();
             ZipEntry zipEntry;
             while ((zipEntry = in.getNextEntry()) != null)
             {
@@ -161,13 +159,6 @@ public class DefaultJarArchive implements JarArchive
                     }
                     return new ByteArrayInputStream(buffer.toByteArray());
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
         return null;
@@ -186,10 +177,8 @@ public class DefaultJarArchive implements JarArchive
         }
 
         List<String> resources = new ArrayList<String>();
-        JarInputStream in = null;
-        try
+        try (JarInputStream in = getContentAsStream())
         {
-            in = getContentAsStream();
             ZipEntry zipEntry;
             while ((zipEntry = in.getNextEntry()) != null)
             {
@@ -198,13 +187,6 @@ public class DefaultJarArchive implements JarArchive
                 {
                     resources.add(zipEntry.getName());
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
         return resources;

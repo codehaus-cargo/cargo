@@ -88,14 +88,11 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
         // It seems Resin 4.x requires the following property to be set in order to start
         java.setSystemProperty("java.util.logging.manager", "com.caucho.log.LogManagerImpl");
 
-        JarInputStream jarStream = null;
         String classPath;
         String mainClass;
-        try
+        try (JarInputStream jarStream = new JarInputStream(getFileHandler().getInputStream(
+            getFileHandler().append(getHome(), "lib/resin.jar"))))
         {
-            jarStream = new JarInputStream(
-                getFileHandler().getInputStream(
-                    getFileHandler().append(getHome(), "lib/resin.jar")));
             Manifest mf = jarStream.getManifest();
             classPath = mf.getMainAttributes().getValue("Class-Path");
             mainClass = mf.getMainAttributes().getValue("Main-Class");
@@ -104,22 +101,6 @@ public class Resin4xInstalledLocalContainer extends AbstractResinInstalledLocalC
         catch (IOException e)
         {
             throw new ContainerException("Cannot read the resin JAR file", e);
-        }
-        finally
-        {
-            if (jarStream != null)
-            {
-                try
-                {
-                    jarStream.close();
-                }
-                catch (IOException ignored)
-                {
-                    // Ignored
-                }
-                jarStream = null;
-                System.gc();
-            }
         }
 
         File lib = new File(getHome(), "lib");

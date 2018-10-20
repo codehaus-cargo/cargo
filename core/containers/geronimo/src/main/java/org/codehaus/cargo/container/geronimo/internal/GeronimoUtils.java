@@ -78,13 +78,9 @@ public class GeronimoUtils
         {
             isStarted = isKernelFullyStarted();
         }
-        catch (IOException e)
+        catch (IOException|SecurityException e)
         {
-            // Connection error, assume container not started
-        }
-        catch (SecurityException e)
-        {
-            // Security error, happens when container is starting
+            // Connection or Security error, assume container not started
         }
         catch (InstanceNotFoundException e)
         {
@@ -196,8 +192,7 @@ public class GeronimoUtils
         map.put(JMXConnector.CREDENTIALS, new String[] {username, password});
 
         long bundleId = 0;
-        JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map);
-        try
+        try (JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map))
         {
             MBeanServerConnection mbServerConnection = connector.getMBeanServerConnection();
 
@@ -235,20 +230,6 @@ public class GeronimoUtils
                 }
             }
         }
-        finally
-        {
-            try
-            {
-                connector.close();
-            }
-            catch (IOException ignored)
-            {
-                // Ignored
-            }
-
-            connector = null;
-            System.gc();
-        }
 
         logger.debug("Returning bundle ID " + bundleId, this.getClass().getName());
 
@@ -276,8 +257,7 @@ public class GeronimoUtils
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(JMXConnector.CREDENTIALS, new String[] {username, password});
 
-        JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map);
-        try
+        try (JMXConnector connector = JMXConnectorFactory.connect(jmxServiceURL, map))
         {
             MBeanServerConnection mbServerConnection = connector.getMBeanServerConnection();
 
@@ -301,20 +281,6 @@ public class GeronimoUtils
                 }
             }
             return result;
-        }
-        finally
-        {
-            try
-            {
-                connector.close();
-            }
-            catch (IOException ignored)
-            {
-                // Ignored
-            }
-
-            connector = null;
-            System.gc();
         }
     }
 

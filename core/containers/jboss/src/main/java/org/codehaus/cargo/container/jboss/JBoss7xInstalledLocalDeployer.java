@@ -158,62 +158,50 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
         outputFile = getFileHandler().append(outputFile, getDeployableName(originalDeployable));
 
         byte[] buf = new byte[1024];
-
-        ZipInputStream zin = new ZipInputStream(new FileInputStream(originalDeployable.getFile()));
-        try
+        try (ZipInputStream zin = new ZipInputStream(
+            new FileInputStream(originalDeployable.getFile()));
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(outputFile)))
         {
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(outputFile));
-            try
+            ZipEntry entry = zin.getNextEntry();
+            while (entry != null)
             {
-                ZipEntry entry = zin.getNextEntry();
-                while (entry != null)
+                String name = entry.getName();
+                if (name.equalsIgnoreCase("META-INF/MANIFEST.MF"))
                 {
-                    String name = entry.getName();
-                    if (name.equalsIgnoreCase("META-INF/MANIFEST.MF"))
+                    Manifest manifest = new Manifest(zin);
+                    String dependencies =
+                        manifest.getMainAttributes().getValue("Dependencies");
+                    if (dependencies == null)
                     {
-                        Manifest manifest = new Manifest(zin);
-                        String dependencies =
-                            manifest.getMainAttributes().getValue("Dependencies");
-                        if (dependencies == null)
+                        dependencies = "";
+                    }
+                    for (String classpathEntry : classpath)
+                    {
+                        if (!dependencies.contains(classpathEntry))
                         {
-                            dependencies = "";
-                        }
-                        for (String classpathEntry : classpath)
-                        {
-                            if (!dependencies.contains(classpathEntry))
+                            if (!dependencies.isEmpty())
                             {
-                                if (!dependencies.isEmpty())
-                                {
-                                    dependencies += ", ";
-                                }
-                                dependencies += "org.codehaus.cargo.classpath." + classpathEntry;
+                                dependencies += ", ";
                             }
-                        }
-                        manifest.getMainAttributes().putValue("Dependencies", dependencies);
-                        out.putNextEntry(new ZipEntry(name));
-                        manifest.write(out);
-                        out.closeEntry();
-                    }
-                    else
-                    {
-                        out.putNextEntry(new ZipEntry(name));
-                        int len;
-                        while ((len = zin.read(buf)) > 0)
-                        {
-                            out.write(buf, 0, len);
+                            dependencies += "org.codehaus.cargo.classpath." + classpathEntry;
                         }
                     }
-                    entry = zin.getNextEntry();
+                    manifest.getMainAttributes().putValue("Dependencies", dependencies);
+                    out.putNextEntry(new ZipEntry(name));
+                    manifest.write(out);
+                    out.closeEntry();
                 }
+                else
+                {
+                    out.putNextEntry(new ZipEntry(name));
+                    int len;
+                    while ((len = zin.read(buf)) > 0)
+                    {
+                        out.write(buf, 0, len);
+                    }
+                }
+                entry = zin.getNextEntry();
             }
-            finally
-            {
-                out.close();
-            }
-        }
-        finally
-        {
-            zin.close();
         }
 
         return originalDeployable.getClass().getConstructor(String.class).newInstance(outputFile);

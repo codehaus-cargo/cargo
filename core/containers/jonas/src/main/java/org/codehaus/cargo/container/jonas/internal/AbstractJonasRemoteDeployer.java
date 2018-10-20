@@ -304,9 +304,9 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
                 });
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            throw new ContainerException("Deployment error", ex);
+            throw new ContainerException("Deployment error", e);
         }
         finally
         {
@@ -383,9 +383,9 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
                 });
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            throw new ContainerException("Undeployment error: " + ex.getMessage(), ex);
+            throw new ContainerException("Undeployment error: " + e.getMessage(), e);
         }
         finally
         {

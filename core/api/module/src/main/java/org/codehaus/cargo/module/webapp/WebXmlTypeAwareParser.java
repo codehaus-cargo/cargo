@@ -123,15 +123,15 @@ public class WebXmlTypeAwareParser extends DefaultHandler
 
                 parser.parse(new InputSource(bufferedStream), this);
             }
-            catch (SAXException e)
+            catch (SAXException ignored)
             {
                 // This exception is expected - the handler aborts the reading
                 // when it has worked out what the type is.
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 // Something went wrong - just try normal generation
-                throw new CargoException("Problem in parsing", ex);
+                throw new CargoException("Problem in parsing", e);
             }
         }
 
@@ -224,9 +224,9 @@ public class WebXmlTypeAwareParser extends DefaultHandler
 
             generateWebXml();
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            throw new CargoException("Problem in parsing web xml file", ex);
+            throw new CargoException("Problem in parsing web xml file", e);
         }
         throw new SAXException("Finished examining file - stop the parser");
     }

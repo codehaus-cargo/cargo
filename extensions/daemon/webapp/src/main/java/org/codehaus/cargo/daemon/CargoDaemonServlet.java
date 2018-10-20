@@ -154,10 +154,9 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         replacements.put("handles", JSONValue.toJSONString(getHandleDetails()));
 
         StringBuilder indexPageBuilder = new StringBuilder();
-        BufferedReader reader =
-            new BufferedReader(new InputStreamReader(this.getServletContext()
-                .getResourceAsStream("/index.html"), "UTF-8"));
-        try
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+            this.getServletContext().getResourceAsStream("/index.html"), "UTF-8")))
         {
             for (String line = reader.readLine(); line != null; line = reader.readLine())
             {
@@ -169,12 +168,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 indexPageBuilder.append("\r\n");
             }
         }
-        finally
-        {
-            reader.close();
-            reader = null;
-            System.gc();
-        }
         return indexPageBuilder.toString();
     }
 
@@ -183,24 +176,14 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     {
         super.init(config);
 
-        try
+        try (InputStream manifestMf =
+                this.getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF"))
         {
-            InputStream manifestMf =
-                this.getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF");
             if (manifestMf != null)
             {
-                try
-                {
-                    Properties prop = new Properties();
-                    prop.load(manifestMf);
-                    this.daemonVersion = prop.getProperty("Implementation-Version");
-                }
-                finally
-                {
-                    manifestMf.close();
-                    manifestMf = null;
-                    System.gc();
-                }
+                Properties prop = new Properties();
+                prop.load(manifestMf);
+                this.daemonVersion = prop.getProperty("Implementation-Version");
             }
         }
         catch (IOException e)

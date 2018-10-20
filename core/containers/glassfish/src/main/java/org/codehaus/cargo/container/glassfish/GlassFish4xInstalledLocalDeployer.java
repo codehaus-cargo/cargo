@@ -114,31 +114,17 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
     private File createPasswordProperties(String password) throws IOException
     {
         Properties passwordProperties = new Properties();
-        InputStream existing = new FileInputStream(
-            AbstractAsAdmin.getPasswordFile(getLocalContainer().getConfiguration()));
-        try
+        try (InputStream existing = new FileInputStream(
+            AbstractAsAdmin.getPasswordFile(getLocalContainer().getConfiguration())))
         {
             passwordProperties.load(existing);
-        }
-        finally
-        {
-            existing.close();
-            existing = null;
-            System.gc();
         }
         passwordProperties.setProperty("AS_ADMIN_USERPASSWORD", password);
         
         File tempFile = File.createTempFile("password", ".properties");
-        OutputStream tempFileStream = new FileOutputStream(tempFile);
-        try
+        try (OutputStream tempFileStream = new FileOutputStream(tempFile))
         {
             passwordProperties.store(tempFileStream, null);
-        }
-        finally
-        {
-            tempFileStream.close();
-            tempFileStream = null;
-            System.gc();
         }
         return tempFile;
     }

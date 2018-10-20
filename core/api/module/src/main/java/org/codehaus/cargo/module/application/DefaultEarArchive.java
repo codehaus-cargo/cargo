@@ -70,18 +70,9 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
     {
         if (this.applicationXml == null)
         {
-            InputStream in = null;
-            try
+            try (InputStream in = getResource("META-INF/application.xml"))
             {
-                in = getResource("META-INF/application.xml");
                 this.applicationXml = ApplicationXmlIo.parseApplicationXml(in, null);
-            }
-            finally
-            {
-                if (in != null)
-                {
-                    in.close();
-                }
             }
         }
         return this.applicationXml;
@@ -93,20 +84,11 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
     @Override
     public WarArchive getWebModule(String uri) throws IOException
     {
-        InputStream war = null;
-        try
+        try (InputStream war = getResource(uri))
         {
-            war = getResource(uri);
             if (war != null)
             {
                 return new DefaultWarArchive(war);
-            }
-        }
-        finally
-        {
-            if (war != null)
-            {
-                war.close();
             }
         }
         return null;
@@ -118,20 +100,11 @@ public class DefaultEarArchive extends DefaultJarArchive implements EarArchive
     @Override
     public EjbArchive getEjbModule(String uri) throws IOException
     {
-        InputStream ejb = null;
-        try
+        try (InputStream ejb = getResource(uri))
         {
-            ejb = getResource(uri);
             if (ejb != null)
             {
                 return new DefaultEjbArchive(ejb);
-            }
-        }
-        finally
-        {
-            if (ejb != null)
-            {
-                ejb.close();
             }
         }
         return null;

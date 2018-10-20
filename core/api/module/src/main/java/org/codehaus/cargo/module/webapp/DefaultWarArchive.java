@@ -95,10 +95,8 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
     {
         if (this.webXml == null)
         {
-            InputStream in = null;
-            try
+            try (InputStream in = getResource("WEB-INF/web.xml"))
             {
-                in = getResource("WEB-INF/web.xml");
                 if (in != null)
                 {
                     this.webXml = WebXmlIo.parseWebXml(in, null);
@@ -113,13 +111,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
             catch (Exception ex)
             {
                 throw new CargoException("Error parsing the web.xml file in " + file, ex);
-            }
-            finally
-            {
-                if (in != null)
-                {
-                    in.close();
-                }
             }
             addWeblogicDescriptor();
             addOracleDescriptor();
@@ -220,13 +211,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    private void addWeblogicDescriptor()
-        throws IOException, JDOMException
+    private void addWeblogicDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("WEB-INF/weblogic.xml"))
         {
-            in = getResource("WEB-INF/weblogic.xml");
             if (in != null)
             {
                 WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(in);
@@ -234,13 +222,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 {
                     this.webXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -251,13 +232,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    private void addResinDescriptor()
-        throws IOException, JDOMException
+    private void addResinDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("WEB-INF/resin-web.xml"))
         {
-            in = getResource("WEB-INF/resin-web.xml");
             if (in != null)
             {
                 ResinWebXml descr = ResinWebXmlIo.parseResinXml(in);
@@ -265,13 +243,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 {
                     this.webXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -282,13 +253,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    private void addOracleDescriptor()
-        throws IOException, JDOMException
+    private void addOracleDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("WEB-INF/orion-web.xml"))
         {
-            in = getResource("WEB-INF/orion-web.xml");
             if (in != null)
             {
                 OrionWebXml descr = OrionWebXmlIo.parseOrionXml(in);
@@ -296,13 +264,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 {
                     this.webXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -313,13 +274,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    private void addWebsphereDescriptor()
-        throws IOException, JDOMException
+    private void addWebsphereDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("WEB-INF/ibm-web-bnd.xmi"))
         {
-            in = getResource("WEB-INF/ibm-web-bnd.xmi");
             if (in != null)
             {
                 IbmWebBndXmi descr = IbmWebBndXmiIo.parseIbmWebBndXmi(in);
@@ -327,13 +285,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 {
                     this.webXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -344,13 +295,10 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the WAR
      * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
      */
-    private void addJBossDescriptor()
-        throws IOException, JDOMException
+    private void addJBossDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("WEB-INF/jboss-web.xml"))
         {
-            in = getResource("WEB-INF/jboss-web.xml");
             if (in != null)
             {
                 JBossWebXml descr = JBossWebXmlIo.parseJBossWebXml(in);
@@ -358,13 +306,6 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
                 {
                     this.webXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }

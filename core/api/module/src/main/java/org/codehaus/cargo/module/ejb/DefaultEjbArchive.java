@@ -71,18 +71,9 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
     {
         if (this.ejbJarXml == null)
         {
-            InputStream in = null;
-            try
+            try (InputStream in = getResource("META-INF/ejb-jar.xml"))
             {
-                in = getResource("META-INF/ejb-jar.xml");
                 this.ejbJarXml = EjbJarXmlIo.parseEjbJarXml(in, null);
-            }
-            finally
-            {
-                if (in != null)
-                {
-                    in.close();
-                }
             }
             addWeblogicDescriptor();
             addOracleDescriptor();
@@ -100,10 +91,8 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      */
     private void addWeblogicDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("META-INF/weblogic-ejb-jar.xml"))
         {
-            in = getResource("META-INF/weblogic-ejb-jar.xml");
             if (in != null)
             {
                 WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(in);
@@ -111,13 +100,6 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
                 {
                     this.ejbJarXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -130,10 +112,8 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      */
     private void addOracleDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("META-INF/orion-ejb-jar.xml"))
         {
-            in = getResource("META-INF/orion-ejb-jar.xml");
             if (in != null)
             {
                 OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(in);
@@ -141,13 +121,6 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
                 {
                     this.ejbJarXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -160,10 +133,8 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      */
     private void addWebsphereDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("META-INF/ibm-ejb-jar-bnd.xmi"))
         {
-            in = getResource("META-INF/ibm-ejb-jar-bnd.xmi");
             if (in != null)
             {
                 IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(in);
@@ -171,13 +142,6 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
                 {
                     this.ejbJarXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }
@@ -190,10 +154,8 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
      */
     private void addJBossDescriptor() throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = getResource("META-INF/jboss.xml"))
         {
-            in = getResource("META-INF/jboss.xml");
             if (in != null)
             {
                 JBossXml descr = JBossXmlIo.parseJBossXml(in);
@@ -201,13 +163,6 @@ public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
                 {
                     this.ejbJarXml.addVendorDescriptor(descr);
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
             }
         }
     }

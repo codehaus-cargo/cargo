@@ -202,35 +202,22 @@ public class Jetty7xStandaloneLocalConfiguration extends
             sb.append("</New>\n");
         }
 
-        InputStream mchangeCommonsReader = getClass().getClassLoader().getResourceAsStream(
-            "org/codehaus/cargo/container/jetty/datasource/mchange-commons-java.jar");
         String mchangeCommonsFile = getFileHandler().append(getHome(),
             "lib/ext/mchange-commons-java.jar");
-        OutputStream mchangeCommonsWriter = getFileHandler().getOutputStream(mchangeCommonsFile);
-        try
+        try (InputStream mchangeCommonsReader = getClass().getClassLoader().getResourceAsStream(
+            "org/codehaus/cargo/container/jetty/datasource/mchange-commons-java.jar");
+            OutputStream mchangeCommonsWriter =
+                getFileHandler().getOutputStream(mchangeCommonsFile))
         {
             getFileHandler().copy(mchangeCommonsReader, mchangeCommonsWriter);
         }
-        finally
-        {
-            mchangeCommonsWriter.close();
-            mchangeCommonsWriter = null;
-            System.gc();
-        }
 
-        InputStream c3p0Reader = getClass().getClassLoader().getResourceAsStream(
-            "org/codehaus/cargo/container/jetty/datasource/c3p0.jar");
         String c3p0File = getFileHandler().append(getHome(), "lib/ext/c3p0.jar");
-        OutputStream c3p0Writer = getFileHandler().getOutputStream(c3p0File);
-        try
+        try (InputStream c3p0Reader = getClass().getClassLoader().getResourceAsStream(
+            "org/codehaus/cargo/container/jetty/datasource/c3p0.jar");
+            OutputStream c3p0Writer = getFileHandler().getOutputStream(c3p0File))
         {
             getFileHandler().copy(c3p0Reader, c3p0Writer);
-        }
-        finally
-        {
-            c3p0Writer.close();
-            c3p0Writer = null;
-            System.gc();
         }
 
         InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;

@@ -67,7 +67,6 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
             return;
         }
 
-        InputStream is = null;
         try
         {
             DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
@@ -81,17 +80,10 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
                 throw new CargoException("The destination is a directory: " + file);
             }
 
-            is = getFileHandler().getInputStream(file);
             Document doc;
-            try
+            try (InputStream is = getFileHandler().getInputStream(file))
             {
                 doc = builder.parse(is);
-            }
-            finally
-            {
-                is.close();
-                is = null;
-                System.gc();
             }
 
             String expression = "//Server/Service/Engine/Host";
@@ -118,26 +110,6 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
         catch (Exception e)
         {
             throw new CargoException("Cannot read the Tomcat server.xml file", e);
-        }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (Exception ignored)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    is = null;
-                }
-            }
-
-            System.gc();
         }
     }
 

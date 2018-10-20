@@ -365,8 +365,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     protected String lastLine(String string) throws IOException
     {
-        BufferedReader reader = new BufferedReader(new StringReader(string));
-        try
+        try (BufferedReader reader = new BufferedReader(new StringReader(string)))
         {
             String lastNonNullLine = "";
             String lastLine = null;
@@ -378,10 +377,6 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
                 }
             }
             return lastNonNullLine;
-        }
-        finally
-        {
-            reader.close();
         }
     }
 

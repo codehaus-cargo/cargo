@@ -156,9 +156,6 @@ public final class Main
         Enumeration enumeration = jar.entries();
         while (enumeration.hasMoreElements())
         {
-            InputStream is = null;
-            FileOutputStream os = null;
-
             JarEntry jarEntry = (JarEntry) enumeration.nextElement();
             File destFile = new File(destDir, jarEntry.getName());
             if (jarEntry.isDirectory())
@@ -171,24 +168,12 @@ public final class Main
                 destFile.getParentFile().mkdirs();
             }
 
-            try
+            try (InputStream is = jar.getInputStream(jarEntry);
+                FileOutputStream os = new FileOutputStream(destFile))
             {
-                is = jar.getInputStream(jarEntry);
-                os = new FileOutputStream(destFile);
                 while ((length = is.read(buffer)) >= 0)
                 {
                     os.write(buffer, 0, length);
-                }
-            }
-            finally
-            {
-                if (os != null)
-                {
-                    os.close();
-                }
-                if (is != null)
-                {
-                    is.close();
                 }
             }
         }
@@ -318,13 +303,6 @@ public final class Main
             Class<?> mainClass = serverClassloader.loadClass("Acme.Serve.Main");
             Method main = mainClass.getMethod("main", new Class[] {new String[0].getClass()});
             main.invoke(null, new Object[] {serverArguments.toArray(new String[0])});
-        }
-        catch (UnsupportedClassVersionError e)
-        {
-            LOGGER.println(
-                "Cargo Daemon requires Java 6 or greater in order to run in standalone mode.");
-            LOGGER.println(
-                "Read more on: https://codehaus-cargo.github.io/cargo/Cargo+Daemon.html");
         }
         catch (NullPointerException e)
         {

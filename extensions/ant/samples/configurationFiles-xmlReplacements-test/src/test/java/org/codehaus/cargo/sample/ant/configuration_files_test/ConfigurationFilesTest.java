@@ -106,18 +106,10 @@ public class ConfigurationFilesTest extends TestCase
         assertTrue(propertiesFile + " is not a file", propertiesFile.isFile());
 
         Properties properties = new Properties();
-        FileInputStream fis = new FileInputStream(propertiesFile);
-        try
+        try (FileInputStream fis = new FileInputStream(propertiesFile))
         {
             properties.load(fis);
         }
-        finally
-        {
-            fis.close();
-            fis = null;
-            System.gc();
-        }
-
         return properties;
     }
 

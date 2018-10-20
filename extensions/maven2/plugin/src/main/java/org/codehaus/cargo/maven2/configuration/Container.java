@@ -545,14 +545,9 @@ public class Container
             Properties properties = new Properties();
             try
             {
-                InputStream inputStream = new FileInputStream(getSystemPropertiesFile());
-                try
+                try (InputStream inputStream = new FileInputStream(getSystemPropertiesFile()))
                 {
                     properties.load(new BufferedInputStream(inputStream));
-                }
-                finally
-                {
-                    inputStream.close();
                 }
                 systemProperties = new HashMap<String, String>(properties.size());
                 for (Enumeration<?> propertyNames = properties.propertyNames();

@@ -217,9 +217,9 @@ public class DescriptorMergerByTag implements DescriptorMerger
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    throw new CargoException("Element Merging Exception", ex);
+                    throw new CargoException("Element Merging Exception", e);
                 }
             }
             else
@@ -269,9 +269,9 @@ public class DescriptorMergerByTag implements DescriptorMerger
                             strategy.inRight(left, rightElement);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        throw new CargoException("Element Merging Exception", ex);
+                        throw new CargoException("Element Merging Exception", e);
                     }
                 }
 

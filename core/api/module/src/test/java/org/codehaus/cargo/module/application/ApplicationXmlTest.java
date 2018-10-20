@@ -45,7 +45,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             new ApplicationXml(null, null);
             fail("Expected NullPointerException");
         }
-        catch (NullPointerException npe)
+        catch (NullPointerException expected)
         {
             // expected
         }

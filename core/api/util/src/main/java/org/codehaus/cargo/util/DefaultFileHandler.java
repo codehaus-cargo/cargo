@@ -140,26 +140,17 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyFile(String source, String target, FilterChain filterChain, String encoding)
     {
-        InputStream fileIS = null;
-
-        try
+        try (InputStream fileIS = new FileInputStream(source))
         {
-            fileIS = new FileInputStream(source);
-
-            BufferedReader in = null;
-            BufferedWriter out = null;
-            try
+            ChainReaderHelper helper = new ChainReaderHelper();
+            helper.setBufferSize(8192);
+            helper.setPrimaryReader(new BufferedReader(newReader(fileIS, encoding)));
+            Vector<FilterChain> filterChains = new Vector<FilterChain>();
+            filterChains.add(filterChain);
+            helper.setFilterChains(filterChains);
+            try (BufferedReader in = new BufferedReader(helper.getAssembledReader());
+                BufferedWriter out = new BufferedWriter(newWriter(target, encoding)))
             {
-                ChainReaderHelper helper = new ChainReaderHelper();
-                helper.setBufferSize(8192);
-                helper.setPrimaryReader(new BufferedReader(newReader(fileIS, encoding)));
-                Vector<FilterChain> filterChains = new Vector<FilterChain>();
-                filterChains.add(filterChain);
-                helper.setFilterChains(filterChains);
-                in = new BufferedReader(helper.getAssembledReader());
-
-                out = new BufferedWriter(newWriter(target, encoding));
-
                 String line;
                 while ((line = in.readLine()) != null)
                 {
@@ -174,38 +165,11 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                     }
                 }
             }
-            finally
-            {
-                if (in != null)
-                {
-                    in.close();
-                }
-                if (out != null)
-                {
-                    out.close();
-                }
-            }
         }
         catch (IOException e)
         {
             throw new CargoException("Failed to copy source file [" + source + "] to [" + target
                     + "] with FilterChain", e);
-        }
-        finally
-        {
-            if (fileIS != null)
-            {
-                try
-                {
-                    fileIS.close();
-                }
-                catch (IOException ignored)
-                {
-                    // Ignored
-                }
-                fileIS = null;
-                System.gc();
-            }
         }
     }
 
@@ -304,10 +268,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
         byte[] buf = new byte[1024];
 
-        JarFile archive = null;
-        try
+        try (JarFile archive = new JarFile(new File(war).getAbsoluteFile()))
         {
-            archive = new JarFile(new File(war).getAbsoluteFile());
             Enumeration e = archive.entries();
             while (e.hasMoreElements())
             {
@@ -322,12 +284,9 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
 
                 mkdirs(getParent(dst));
 
-                InputStream in = null;
-                FileOutputStream out = null;
-                try
+                try (InputStream in = archive.getInputStream(j);
+                    FileOutputStream out = new FileOutputStream(dst))
                 {
-                    in = archive.getInputStream(j);
-                    out = new FileOutputStream(dst);
                     while (true)
                     {
                         int sz = in.read(buf);
@@ -338,43 +297,12 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                         out.write(buf, 0, sz);
                     }
                 }
-                finally
-                {
-                    if (in != null)
-                    {
-                        in.close();
-                        in = null;
-                        System.gc();
-                    }
-                    if (out != null)
-                    {
-                        out.close();
-                        out = null;
-                        System.gc();
-                    }
-                }
             }
         }
         catch (IOException e)
         {
             throw new CargoException(
                 "Failed to extract file [" + war + "] to [" + exploded + "]", e);
-        }
-        finally
-        {
-            if (archive != null)
-            {
-                try
-                {
-                    archive.close();
-                }
-                catch (IOException ignored)
-                {
-                    // Ignored
-                }
-                archive = null;
-                System.gc();
-            }
         }
     }
 
@@ -861,31 +789,19 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public String readTextFile(String file, String encoding)
     {
-        BufferedReader in = null;
-        StringBuilder out = new StringBuilder();
-        try
+        try (BufferedReader in = new BufferedReader(newReader(getInputStream(file), encoding)))
         {
-            try
+            String str;
+            StringBuilder out = new StringBuilder();
+            while ((str = in.readLine()) != null)
             {
-                in = new BufferedReader(newReader(getInputStream(file), encoding));
-                String str;
-                while ((str = in.readLine()) != null)
+                if (out.length() > 0)
                 {
-                    if (out.length() > 0)
-                    {
-                        out.append(System.getProperty("line.separator"));
-                    }
-                    out.append(str);
+                    out.append(System.getProperty("line.separator"));
                 }
-                return out.toString();
+                out.append(str);
             }
-            finally
-            {
-                if (in != null)
-                {
-                    in.close();
-                }
-            }
+            return out.toString();
         }
         catch (IOException e)
         {
@@ -899,35 +815,13 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void writeTextFile(String file, String content, String encoding)
     {
-        Writer writer;
-        try
-        {
-            writer = newWriter(file, encoding);
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Cannot get writer for file" + file, e);
-        }
-        try
+        try (Writer writer = newWriter(file, encoding))
         {
             writer.write(content);
         }
         catch (IOException e)
         {
             throw new CargoException("Cannot write file" + file, e);
-        }
-        finally
-        {
-            try
-            {
-                writer.close();
-                writer = null;
-                System.gc();
-            }
-            catch (IOException ignored)
-            {
-                // Ignored
-            }
         }
     }
 

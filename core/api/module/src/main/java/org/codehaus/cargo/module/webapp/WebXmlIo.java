@@ -155,29 +155,12 @@ public final class WebXmlIo extends AbstractDescriptorIo
      * @throws JDOMException If the file could not be parsed
      * @throws IOException If an I/O error occurs
      */
-    public static WebXml parseWebXmlFromFile(File theFile,
-        EntityResolver theEntityResolver)
+    public static WebXml parseWebXmlFromFile(File theFile, EntityResolver theEntityResolver)
         throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = new FileInputStream(theFile))
         {
-            in = new FileInputStream(theFile);
             return parseWebXml(in, theEntityResolver);
-        }
-        finally
-        {
-            if (in != null)
-            {
-                try
-                {
-                    in.close();
-                }
-                catch (IOException ioe)
-                {
-                    // we'll pass on the original IO error, so ignore this one
-                }
-            }
         }
     }
 

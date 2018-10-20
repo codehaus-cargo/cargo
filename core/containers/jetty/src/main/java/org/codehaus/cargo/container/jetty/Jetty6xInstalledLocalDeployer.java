@@ -98,8 +98,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             getLogger().info("Deploying WAR by creating Jetty context XML file in [" + contextFile
                 + "]...", getClass().getName());
 
-            OutputStream out = getFileHandler().getOutputStream(contextFile);
-            try
+            try (OutputStream out = getFileHandler().getOutputStream(contextFile))
             {
                 out.write(createContextXml(war).getBytes("UTF-8"));
                 out.close();
@@ -108,22 +107,6 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             {
                 throw new ContainerException("Failed to create Jetty Context file for ["
                     + war.getFile() + "]", e);
-            }
-            finally
-            {
-                try
-                {
-                    out.close();
-                }
-                catch (IOException ignored)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    out = null;
-                    System.gc();
-                }
             }
         }
         else

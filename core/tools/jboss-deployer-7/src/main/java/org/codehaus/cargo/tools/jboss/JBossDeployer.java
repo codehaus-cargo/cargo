@@ -21,7 +21,6 @@ package org.codehaus.cargo.tools.jboss;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.as.controller.client.helpers.standalone.DeploymentAction;
@@ -117,9 +116,8 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
         }
         int portnumber = Integer.parseInt(portname);
 
-        ModelControllerClient client = ModelControllerClient.Factory.create(hostname, portnumber,
-            new UsernamePasswordCallbackHandler(this.configuration));
-        try
+        try (ModelControllerClient client = ModelControllerClient.Factory.create(hostname,
+            portnumber, new UsernamePasswordCallbackHandler(this.configuration)))
         {
             ServerDeploymentManager manager = ServerDeploymentManager.Factory.create(client);
             DeploymentPlanBuilder builder = manager.newDeploymentPlan();
@@ -162,19 +160,6 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
                             break;
                     }
                 }
-            }
-        }
-        finally
-        {
-            try
-            {
-                client.close();
-            }
-            catch (IOException e)
-            {
-                this.configuration.getLogger().warn(
-                    "Failed closing the JBoss deployment client: " + e.toString(),
-                        this.getClass().getName());
             }
         }
     }

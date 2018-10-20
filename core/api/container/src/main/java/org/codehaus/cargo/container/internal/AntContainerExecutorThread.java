@@ -122,14 +122,14 @@ public class AntContainerExecutorThread extends Thread
             // Blocking call
             this.java.execute();
         }
-        catch (BuildException ex)
+        catch (BuildException e)
         {
-            if (ex.getMessage().contains("Java returned: 1"))
+            if (e.getMessage().contains("Java returned: 1"))
             {
-                ex = new BuildException(ex.getMessage()
-                    + "  See Cargo log for details.", ex.getCause(), ex.getLocation());
+                e = new BuildException(e.getMessage()
+                    + "  See Cargo log for details.", e.getCause(), e.getLocation());
             }
-            this.setBuildException(ex);
+            this.setBuildException(e);
         }
         finally
         {

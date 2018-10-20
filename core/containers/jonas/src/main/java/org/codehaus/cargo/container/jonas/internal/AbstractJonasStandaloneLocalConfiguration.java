@@ -108,16 +108,9 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
             {
                 throw new ContainerException("File [" + jonasPropertiesFile + "] does not exist");
             }
-            InputStream jonasPropertiesStream = new FileInputStream(jonasPropertiesFile);
-            try
+            try (InputStream jonasPropertiesStream = new FileInputStream(jonasPropertiesFile))
             {
                 jonasProperties.load(jonasPropertiesStream);
-            }
-            finally
-            {
-                jonasPropertiesStream.close();
-                jonasPropertiesStream = null;
-                System.gc();
             }
             services = jonasProperties.getProperty("jonas.services");
         }

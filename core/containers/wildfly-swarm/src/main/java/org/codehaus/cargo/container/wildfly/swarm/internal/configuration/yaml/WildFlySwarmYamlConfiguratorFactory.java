@@ -92,9 +92,8 @@ public final class WildFlySwarmYamlConfiguratorFactory implements
             if (yamlContent != null && !yamlContent.isEmpty())
             {
                 configurationContext.getFileHandler().writeTextFile(
-                        configurationContext.getProjectDescriptor().getAbsolutePath(),
-                        yamlContent,
-                        "UTF-8"
+                    configurationContext.getProjectDescriptor().getAbsolutePath(),
+                        yamlContent, "UTF-8"
                 );
             }
             else

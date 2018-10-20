@@ -268,16 +268,12 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
         while (!this.stopped)
         {
-            Socket socket = null;
+            this.logger.debug("Waiting for connection on socket " + this.serverSocket,
+                this.getClass().getName());
 
-            try
+            // wait for a connection
+            try (Socket socket = this.serverSocket.accept())
             {
-                this.logger.debug("Waiting for connection on socket " + this.serverSocket,
-                    this.getClass().getName());
-
-                // wait for a connection
-                socket = this.serverSocket.accept();
-
                 this.logger.debug("Handling request on socket " + socket,
                     this.getClass().getName());
 
@@ -333,8 +329,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
                     byte[] fileBytes = new byte[socket.getSendBufferSize()];
 
-                    InputStream file = this.fileHandler.getInputStream(this.filePath);
-                    try
+                    try (InputStream file = this.fileHandler.getInputStream(this.filePath))
                     {
                         int read;
                         while ((read = file.read(fileBytes)) > 0)
@@ -342,11 +337,6 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                             out.write(fileBytes, 0, read);
                             out.flush();
                         }
-                    }
-                    finally
-                    {
-                        file.close();
-                        file = null;
                     }
 
                     this.callCount++;
@@ -365,14 +355,6 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
             {
                 // Ignored exception. Not ignoring will break the while loop, end the sending
                 // thread and result in the CARGO-859 (JBoss timing out with big files)
-            }
-            finally
-            {
-                if (socket != null)
-                {
-                    socket.close();
-                    socket = null;
-                }
             }
         }
     }

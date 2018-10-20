@@ -70,18 +70,19 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
                 + "is the CARGO JBoss container JAR broken?");
         }
         URL deployerJarURL;
-        FileOutputStream deployerJarOutputStream = null;
         try
         {
             File deployerJarFile = File.createTempFile("cargo-jboss-deployer-", ".jar");
-            deployerJarOutputStream = new FileOutputStream(deployerJarFile);
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = deployerJarInputStream.read(buf)) > 0)
+            try (FileOutputStream deployerJarOutputStream = new FileOutputStream(deployerJarFile))
             {
-                deployerJarOutputStream.write(buf, 0, len);
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = deployerJarInputStream.read(buf)) > 0)
+                {
+                    deployerJarOutputStream.write(buf, 0, len);
+                }
+                deployerJarURL = deployerJarFile.toURI().toURL();
             }
-            deployerJarURL = deployerJarFile.toURI().toURL();
         }
         catch (IOException e)
         {
@@ -98,21 +99,7 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
             {
                 // Ignored
             }
-
-            if (deployerJarOutputStream != null)
-            {
-                try
-                {
-                    deployerJarOutputStream.close();
-                }
-                catch (IOException e)
-                {
-                    // Ignored
-                }
-            }
-
             deployerJarInputStream = null;
-            deployerJarOutputStream = null;
             System.gc();
         }
 

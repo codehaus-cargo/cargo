@@ -216,9 +216,10 @@ public class DescriptorTag
                             break;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        throw new CargoException("Error instantiating class for " + getTagName());
+                        throw new CargoException(
+                            "Error instantiating class for " + getTagName(), e);
                     }
                 }
             }

@@ -109,8 +109,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * @throws JDOMException if problem parsing the stream
      */
     @Override
-    public Document parseXml(InputStream input) throws
-        JDOMException, IOException
+    public Document parseXml(InputStream input) throws JDOMException, IOException
     {
         return parseXml(input, new XmlEntityResolver());
     }
@@ -171,25 +170,9 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     public static void writeDescriptor(Descriptor descriptor, File file, String encoding,
         boolean isIndent) throws IOException
     {
-        OutputStream out = null;
-        try
+        try (OutputStream out = new FileOutputStream(file))
         {
-            out = new FileOutputStream(file);
             writeDescriptor(descriptor, out, encoding, isIndent);
-        }
-        finally
-        {
-            if (out != null)
-            {
-                try
-                {
-                    out.close();
-                }
-                catch (IOException ioe)
-                {
-                    // we'll pass on the original IO error, so ignore this one
-                }
-            }
         }
     }
 

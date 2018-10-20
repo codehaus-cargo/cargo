@@ -495,9 +495,9 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new ContainerException("Failed looking for deployable" + deployable, ex);
+                throw new ContainerException("Failed looking for deployable" + deployable, e);
             }
             finally
             {

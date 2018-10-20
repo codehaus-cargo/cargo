@@ -363,9 +363,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
                 wam.addMergeItem(f);
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            throw new MojoExecutionException("Problem merging dependent JAR files", ex);
+            throw new MojoExecutionException("Problem merging dependent JAR files", e);
         }
     }
 

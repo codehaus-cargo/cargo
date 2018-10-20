@@ -105,11 +105,8 @@ public final class ResourceUtils extends LoggedObject
                 + "] not found in resource loader " + ResourceUtils.resourceLoader);
         }
 
-        OutputStream out = null;
-        try
+        try (OutputStream out = handler.getOutputStream(destFile))
         {
-            out = handler.getOutputStream(destFile);
-
             byte[] buf = new byte[4096];
             int numBytes;
             while ((numBytes = in.read(buf)) > 0)
@@ -120,10 +117,6 @@ public final class ResourceUtils extends LoggedObject
         finally
         {
             in.close();
-            if (out != null)
-            {
-                out.close();
-            }
         }
     }
 
@@ -168,20 +161,16 @@ public final class ResourceUtils extends LoggedObject
                 + "] not found in resource loader " + ResourceUtils.resourceLoader);
         }
 
-        BufferedReader in = null;
-        BufferedWriter out = null;
-        try
+        ChainReaderHelper helper = new ChainReaderHelper();
+        helper.setBufferSize(8192);
+        helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
+        Vector filterChains = new Vector();
+        filterChains.add(filterChain);
+        helper.setFilterChains(filterChains);
+        try (BufferedReader in = new BufferedReader(helper.getAssembledReader());
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+                handler.getOutputStream(destFile))))
         {
-            ChainReaderHelper helper = new ChainReaderHelper();
-            helper.setBufferSize(8192);
-            helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
-            Vector filterChains = new Vector();
-            filterChains.add(filterChain);
-            helper.setFilterChains(filterChains);
-            in = new BufferedReader(helper.getAssembledReader());
-
-            out = new BufferedWriter(new OutputStreamWriter(handler.getOutputStream(destFile)));
-
             String line;
             while ((line = in.readLine()) != null)
             {
@@ -194,17 +183,6 @@ public final class ResourceUtils extends LoggedObject
                     out.write(line);
                     out.newLine();
                 }
-            }
-        }
-        finally
-        {
-            if (in != null)
-            {
-                in.close();
-            }
-            if (out != null)
-            {
-                out.close();
             }
         }
     }
@@ -284,8 +262,10 @@ public final class ResourceUtils extends LoggedObject
      * @param encoding The encoding that should be used when reading the resource. Use null for
      * system default encoding
      * @return Content of resource as String.
+     * @throws IOException If an I/O error occurs while reading the resource
      */
     public String readResource(String resourceName, FilterChain filterChain, String encoding)
+        throws IOException
     {
         String newLine = System.getProperty("line.separator");
         InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
@@ -296,22 +276,16 @@ public final class ResourceUtils extends LoggedObject
                 + "] not found in resource loader " + ResourceUtils.resourceLoader);
         }
 
-        BufferedReader in = null;
-        StringBuffer out = null;
-
-        try
+        ChainReaderHelper helper = new ChainReaderHelper();
+        helper.setBufferSize(8192);
+        helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
+        Vector<FilterChain> filterChains = new Vector<FilterChain>();
+        filterChains.add(filterChain);
+        helper.setFilterChains(filterChains);
+        try (BufferedReader in = new BufferedReader(helper.getAssembledReader()))
         {
-            ChainReaderHelper helper = new ChainReaderHelper();
-            helper.setBufferSize(8192);
-            helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
-            Vector<FilterChain> filterChains = new Vector<FilterChain>();
-            filterChains.add(filterChain);
-            helper.setFilterChains(filterChains);
-            in = new BufferedReader(helper.getAssembledReader());
-
-            out = new StringBuffer();
-
             String line;
+            StringBuilder out = new StringBuilder();
             while ((line = in.readLine()) != null)
             {
                 if (line.isEmpty())
@@ -327,26 +301,7 @@ public final class ResourceUtils extends LoggedObject
                     out.append(line);
                 }
             }
+            return out.toString();
         }
-        catch (IOException e)
-        {
-            throw new CargoException("Error while reading resource [" + resourceName + "] ", e);
-        }
-        finally
-        {
-            if (in != null)
-            {
-                try
-                {
-                    in.close();
-                }
-                catch (IOException e)
-                {
-                    getLogger().warn("Failed to close input stream for [" + resourceName + "]",
-                            this.getClass().getName());
-                }
-            }
-        }
-        return out.toString();
     }
 }

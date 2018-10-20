@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.configuration.script;
 
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Implementation of general functionality for configuration script commands.
@@ -87,8 +89,15 @@ public abstract class AbstractScriptCommand implements ScriptCommand
         addConfigurationScriptProperties(propertiesMap);
         antUtils.addTokensToFilterChain(filterChain, propertiesMap);
 
-        return resourceUtils.readResource(resourcePath + getScriptRelativePath(), filterChain,
-                "UTF-8") + NEW_LINE;
+        String resourceName = resourcePath + getScriptRelativePath();
+        try
+        {
+            return resourceUtils.readResource(resourceName, filterChain, "UTF-8") + NEW_LINE;
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Error while reading resource [" + resourceName + "] ", e);
+        }
     }
 
     /**

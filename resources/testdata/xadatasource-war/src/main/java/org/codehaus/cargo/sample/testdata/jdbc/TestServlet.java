@@ -41,7 +41,6 @@ public class TestServlet extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         XAConnection c = null;
         Object o = null;
         try
@@ -54,11 +53,7 @@ public class TestServlet extends HttpServlet
             out.close();
 
         }
-        catch (SQLException e)
-        {
-            throw new ServletException(e);
-        }
-        catch (NamingException e)
+        catch (NamingException|SQLException e)
         {
             throw new ServletException(e);
         }

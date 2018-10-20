@@ -905,14 +905,9 @@ public class CargoTask extends Task
             Properties properties = new Properties();
             try
             {
-                InputStream inputStream = new FileInputStream(getSystemPropertiesFile());
-                try
+                try (InputStream inputStream = new FileInputStream(getSystemPropertiesFile()))
                 {
                     properties.load(new BufferedInputStream(inputStream));
-                }
-                finally
-                {
-                    inputStream.close();
                 }
                 for (Enumeration<?> propertyNames = properties.propertyNames();
                     propertyNames.hasMoreElements();)

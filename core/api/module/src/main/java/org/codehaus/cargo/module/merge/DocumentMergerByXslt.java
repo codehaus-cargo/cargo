@@ -155,9 +155,9 @@ public class DocumentMergerByXslt implements MergeProcessor
 
             return factory.build(new ByteArrayInputStream(baos.toByteArray()));
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            throw new CargoException("Exception whilst trying to transform documents", ex);
+            throw new CargoException("Exception whilst trying to transform documents", e);
         }
     }
 

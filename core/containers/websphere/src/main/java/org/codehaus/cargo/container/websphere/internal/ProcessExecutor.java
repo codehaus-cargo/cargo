@@ -105,11 +105,9 @@ public class ProcessExecutor
         @Override
         public void run()
         {
-            BufferedReader br = null;
-            try
+            try (InputStreamReader isr = new InputStreamReader(fromStream);
+                BufferedReader br = new BufferedReader(isr))
             {
-                InputStreamReader isr = new InputStreamReader(fromStream);
-                br = new BufferedReader(isr);
                 String line = null;
                 while ((line = br.readLine()) != null)
                 {
@@ -120,17 +118,6 @@ public class ProcessExecutor
             catch (IOException ioe)
             {
                 throw new CargoException("Error reading from stream!", ioe);
-            }
-            finally
-            {
-                try
-                {
-                    br.close();
-                }
-                catch (Exception ex)
-                {
-                    throw new CargoException("Error closing streams!", ex);
-                }
             }
         }
     }

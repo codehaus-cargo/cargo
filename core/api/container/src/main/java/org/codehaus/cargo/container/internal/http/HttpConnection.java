@@ -261,17 +261,7 @@ public class HttpConnection extends LoggedObject
 
             connection.disconnect();
         }
-        catch (IOException e)
-        {
-            result.setResponseCode(-1);
-            result.setResponseMessage(e.toString());
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            result.setResponseCode(-1);
-            result.setResponseMessage(e.toString());
-        }
-        catch (KeyManagementException e)
+        catch (KeyManagementException|IOException|NoSuchAlgorithmException e)
         {
             result.setResponseCode(-1);
             result.setResponseMessage(e.toString());

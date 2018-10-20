@@ -318,14 +318,9 @@ public class ConfigurationElement
             Properties properties = new Properties();
             try
             {
-                InputStream inputStream = new FileInputStream(getPropertiesFile());
-                try
+                try (InputStream inputStream = new FileInputStream(getPropertiesFile()))
                 {
                     properties.load(new BufferedInputStream(inputStream));
-                }
-                finally
-                {
-                    inputStream.close();
                 }
                 for (Enumeration<?> propertyNames = properties.propertyNames();
                     propertyNames.hasMoreElements();)

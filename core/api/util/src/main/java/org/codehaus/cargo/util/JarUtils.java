@@ -40,9 +40,7 @@ public final class JarUtils
      * @param jarStream the jar stream to be added to
      * @throws IOException on IOException
      */
-    protected void createJarFromDirectory(File root,
-                                          File directory,
-                                          JarOutputStream jarStream)
+    protected void createJarFromDirectory(File root, File directory, JarOutputStream jarStream)
         throws IOException
     {
         byte[] buffer = new byte[40960];
@@ -58,8 +56,7 @@ public final class JarUtils
             }
             else
             {
-                FileInputStream addFile = new FileInputStream(fileToAdd);
-                try
+                try (FileInputStream addFile = new FileInputStream(fileToAdd))
                 {
                     // Create a jar entry and add it to the temp jar.
                     String entryName = fileToAdd.getPath().substring(root.getPath().length() + 1);
@@ -79,10 +76,6 @@ public final class JarUtils
                     }
                     jarStream.closeEntry();
                 }
-                finally
-                {
-                    addFile.close();
-                }
             }
         }
     }
@@ -98,25 +91,14 @@ public final class JarUtils
     public File createJarFromDirectory(String directory, File outputJar)
         throws IOException
     {
-        JarOutputStream jarStream = null;
-        try
+        if (!outputJar.getParentFile().exists())
         {
-            if (!outputJar.getParentFile().exists())
-            {
-                outputJar.getParentFile().mkdirs();
-            }
-
-            jarStream = new JarOutputStream(new FileOutputStream(outputJar));
-            File dir = new File(directory);
-
-            createJarFromDirectory(dir, dir, jarStream);
+            outputJar.getParentFile().mkdirs();
         }
-        finally
+        try (JarOutputStream jarStream = new JarOutputStream(new FileOutputStream(outputJar)))
         {
-            if (jarStream != null)
-            {
-                jarStream.close();
-            }
+            File dir = new File(directory);
+            createJarFromDirectory(dir, dir, jarStream);
         }
         return outputJar;
     }

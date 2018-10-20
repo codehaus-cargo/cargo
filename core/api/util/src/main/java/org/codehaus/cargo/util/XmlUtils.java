@@ -210,45 +210,21 @@ public class XmlUtils
      */
     public Document loadXmlFromFile(String sourceFile)
     {
-        InputStream is = null;
-        try
+        if (!getFileHandler().exists(sourceFile))
         {
-            if (!getFileHandler().exists(sourceFile))
-            {
-                throw new CargoException("Cannot find file: " + sourceFile);
-            }
-            if (getFileHandler().isDirectory(sourceFile))
-            {
-                throw new CargoException("The destination is a directory: " + sourceFile);
-            }
-
-            is = getFileHandler().getInputStream(sourceFile);
-            Document document = this.builder.parse(is);
-            return document;
+            throw new CargoException("Cannot find file: " + sourceFile);
+        }
+        if (getFileHandler().isDirectory(sourceFile))
+        {
+            throw new CargoException("The destination is a directory: " + sourceFile);
+        }
+        try (InputStream is = getFileHandler().getInputStream(sourceFile))
+        {
+            return this.builder.parse(is);
         }
         catch (Exception e)
         {
             throw new CargoException("Cannot parse XML file " + sourceFile, e);
-        }
-        finally
-        {
-            if (is != null)
-            {
-                try
-                {
-                    is.close();
-                }
-                catch (Exception ignored)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    is = null;
-                }
-            }
-
-            System.gc();
         }
     }
 
@@ -260,38 +236,15 @@ public class XmlUtils
      */
     public void saveXml(Document document, String filename)
     {
-        OutputStream os = null;
-        try
+        try (OutputStream os = getFileHandler().getOutputStream(filename))
         {
             TransformerFactory tFactory = TransformerFactory.newInstance();
             Transformer transformer = tFactory.newTransformer();
-
-            os = getFileHandler().getOutputStream(filename);
             transformer.transform(new DOMSource(document), new StreamResult(os));
         }
         catch (Exception e)
         {
             throw new CargoException("Cannot modify XML file " + filename, e);
-        }
-        finally
-        {
-            if (os != null)
-            {
-                try
-                {
-                    os.close();
-                }
-                catch (Exception ignored)
-                {
-                    // Ignored
-                }
-                finally
-                {
-                    os = null;
-                }
-            }
-
-            System.gc();
         }
     }
 

@@ -145,8 +145,7 @@ public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
 
         for (File serverXmlFile : serverXmlFiles)
         {
-            BufferedReader reader = new BufferedReader(new FileReader(serverXmlFile));
-            try
+            try (BufferedReader reader = new BufferedReader(new FileReader(serverXmlFile)))
             {
                 String line;
                 while ((line = reader.readLine()) != null)
@@ -164,10 +163,6 @@ public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
                             !line.contains(check));
                     }
                 }
-            }
-            finally
-            {
-                reader.close();
             }
         }
 

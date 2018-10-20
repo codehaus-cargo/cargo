@@ -90,61 +90,34 @@ public class ArchiveResourceMerger
      */
     public void execute(File assembleDir) throws MergeException
     {
-        InputStream is = (InputStream) this.next.performMerge();
-
-        // If we get back nothing, then none of the source files
-        // had this resource to do the merge.
-
-        if (is == null)
+        try (InputStream is = (InputStream) this.next.performMerge())
         {
-            return;
-        }
-
-        File outputFile = new File(assembleDir.getAbsolutePath() + File.separator
-            + this.resource);
-
-        // Make sure the directory actually exists
-        outputFile.getParentFile().mkdir();
-
-        FileOutputStream fos = null;
-
-        try
-        {
-            fos = new FileOutputStream(outputFile);
-
-            byte[] buffer = new byte[1024];
-
-            int count;
-
-            while ((count = is.read(buffer)) > 0)
+            // If we get back nothing, then none of the source files
+            // had this resource to do the merge.
+            if (is == null)
             {
-                fos.write(buffer, 0, count);
+                return;
+            }
+
+            File outputFile = new File(assembleDir.getAbsolutePath() + File.separator
+                + this.resource);
+
+            // Make sure the directory actually exists
+            outputFile.getParentFile().mkdir();
+
+            try (FileOutputStream fos = new FileOutputStream(outputFile))
+            {
+                byte[] buffer = new byte[1024];
+                int count;
+                while ((count = is.read(buffer)) > 0)
+                {
+                    fos.write(buffer, 0, count);
+                }
             }
         }
         catch (Exception e)
         {
             throw new MergeException("Problem executing merge", e);
         }
-
-        finally
-        {
-            try
-            {
-                if (is != null)
-                {
-                    is.close();
-                }
-                if (fos != null)
-                {
-                    fos.close();
-                }
-            }
-            catch (Exception e)
-            {
-                throw new MergeException("Problem when closing files used in merge", e);
-            }
-
-        }
-
     }
 }

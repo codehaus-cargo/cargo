@@ -74,17 +74,12 @@ public class ContainerTest extends MockObjectTestCase
             File.createTempFile(ConfigurationTest.class.getName(), ".properties");
         try
         {
-            OutputStream outputStream = new FileOutputStream(systemPropertiesFile);
-            try
+            try (OutputStream outputStream = new FileOutputStream(systemPropertiesFile))
             {
                 Properties properties = new Properties();
                 properties.put("id2", "foobar");
                 properties.put("id3", "value3");
                 properties.store(outputStream, null);
-            }
-            finally
-            {
-                outputStream.close();
             }
             containerElement.setSystemPropertiesFile(systemPropertiesFile);
 
@@ -125,17 +120,12 @@ public class ContainerTest extends MockObjectTestCase
             File.createTempFile(ConfigurationTest.class.getName(), ".properties");
         try
         {
-            OutputStream outputStream = new FileOutputStream(systemPropertiesFile);
-            try
+            try (OutputStream outputStream = new FileOutputStream(systemPropertiesFile))
             {
                 Properties properties = new Properties();
                 properties.put("id2", "foobar");
                 properties.put("id3", "value3");
                 properties.store(outputStream, null);
-            }
-            finally
-            {
-                outputStream.close();
             }
             containerElement.setSystemPropertiesFile(systemPropertiesFile);
 

@@ -93,28 +93,11 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @throws JDOMException If the file could not be parsed
      */
     public static ApplicationXml parseApplicationXmlFromFile(File file,
-        EntityResolver entityResolver)
-        throws IOException, JDOMException
+        EntityResolver entityResolver) throws IOException, JDOMException
     {
-        InputStream in = null;
-        try
+        try (InputStream in = new FileInputStream(file))
         {
-            in = new FileInputStream(file);
             return parseApplicationXml(in, entityResolver);
-        }
-        finally
-        {
-            if (in != null)
-            {
-                try
-                {
-                    in.close();
-                }
-                catch (IOException ioe)
-                {
-                    // we'll pass on the original IO error, so ignore this one
-                }
-            }
         }
     }
 
@@ -128,8 +111,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @throws JDOMException If the input could not be parsed
      */
     public static ApplicationXml parseApplicationXml(InputStream input,
-        EntityResolver entityResolver)
-        throws IOException, JDOMException
+        EntityResolver entityResolver) throws IOException, JDOMException
     {
         ApplicationXmlIo io = new ApplicationXmlIo();
         SAXBuilder builder = io.createDocumentBuilder();
@@ -152,8 +134,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param file The file to write to
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml,
-                                           File file)
+    public static void writeApplicationXml(ApplicationXml appXml, File file)
         throws IOException
     {
         writeApplicationXml(appXml, file, null, false);
@@ -167,9 +148,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param encoding The character encoding to use
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml,
-                                           File file,
-                                           String encoding)
+    public static void writeApplicationXml(ApplicationXml appXml, File file, String encoding)
         throws IOException
     {
         writeApplicationXml(appXml, file, encoding, false);
@@ -184,31 +163,12 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param isIndent Whether the written XML should be indented
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml,
-                                           File file,
-                                           String encoding,
-                                           boolean isIndent)
-        throws IOException
+    public static void writeApplicationXml(ApplicationXml appXml, File file, String encoding,
+        boolean isIndent) throws IOException
     {
-        OutputStream out = null;
-        try
+        try (OutputStream out = new FileOutputStream(file))
         {
-            out = new FileOutputStream(file);
             writeApplicationXml(appXml, out, encoding, isIndent);
-        }
-        finally
-        {
-            if (out != null)
-            {
-                try
-                {
-                    out.close();
-                }
-                catch (IOException ioe)
-                {
-                    // we'll pass on the original IO error, so ignore this one
-                }
-            }
         }
     }
 
@@ -221,11 +181,8 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param isIndent Whether the written XML should be indented
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml,
-                                           OutputStream output,
-                                           String encoding,
-                                           boolean isIndent)
-        throws IOException
+    public static void writeApplicationXml(ApplicationXml appXml, OutputStream output,
+        String encoding, boolean isIndent) throws IOException
     {
         Format format = Format.getPrettyFormat();
         if (encoding != null)

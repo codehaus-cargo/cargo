@@ -57,11 +57,7 @@ public class TestServlet extends HttpServlet
             out.close();
 
         }
-        catch (SQLException e)
-        {
-            throw new ServletException(e);
-        }
-        catch (NamingException e)
+        catch (NamingException|SQLException e)
         {
             throw new ServletException(e);
         }

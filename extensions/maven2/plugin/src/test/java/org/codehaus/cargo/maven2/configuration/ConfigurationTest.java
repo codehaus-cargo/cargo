@@ -93,17 +93,12 @@ public class ConfigurationTest extends TestCase
         File propertiesFile = File.createTempFile(ConfigurationTest.class.getName(), ".properties");
         try
         {
-            OutputStream outputStream = new FileOutputStream(propertiesFile);
-            try
+            try (OutputStream outputStream = new FileOutputStream(propertiesFile))
             {
                 Properties fileProperties = new Properties();
                 fileProperties.put("someName1", "foobar");
                 fileProperties.put("someName2", "someValue2");
                 fileProperties.store(outputStream, null);
-            }
-            finally
-            {
-                outputStream.close();
             }
             configurationElement.setPropertiesFile(propertiesFile);
 
