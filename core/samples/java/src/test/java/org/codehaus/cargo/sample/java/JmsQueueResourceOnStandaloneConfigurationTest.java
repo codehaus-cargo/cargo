@@ -78,8 +78,8 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // JBoss, JRun, Resin, Tomcat, TomEE, WebLogic and WildFly 8.x containers
-        // cannot deploy JMS topic resources
+        // JBoss 7.5.x, JRun, Resin, Tomcat, TomEE and WildFly 8.x
+        // containers cannot deploy JMS queue resources
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("jrun4x");
