@@ -1353,7 +1353,14 @@ public class ConfluenceContainerDocumentationGenerator
                         "Java version for " + containerId + " is not defined");
                 }
 
-                if (containerId.startsWith("websphere"))
+                if ("resin3x".equals(containerId))
+                {
+                    extra = LINE_SEPARATOR + "{_}Due to incompabilities between "
+                        + "{{com.caucho.log.EnvironmentLogger}} and the behaviour described in "
+                            + "[JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
+                                + "Resin 3.x doesn't run on Java 7 and above{_}";
+                }
+                else if (containerId.startsWith("websphere"))
                 {
                     extra = LINE_SEPARATOR + "{_}By default, CARGO will use the JVM from the "
                         + "WebSphere installation directory{_}";
@@ -1544,20 +1551,33 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            output.append("This container is automatically tested by the "
-                + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
-                + "every time there is a code change.");
-            output.append(LINE_SEPARATOR);
-            if ("wildfly-swarm2017x".equals(containerId))
+            if ("resin3x".equals(containerId))
             {
-                output.append("The WildFly Swarm version used during tests is: {{");
-                output.append(url);
-                output.append("}}");
+                output.append("Due to incompabilities between ");
+                output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
+                output.append("in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098]");
+                output.append(", Resin 3.x doesn't run on Java 7 and above and hence cannot be ");
+                output.append("tested on our Continous Integration system (which [has Java 7 as ");
+                output.append("the lowest JDK version");
+                output.append("|https://codehaus-cargo.atlassian.net/browse/CARGO-1466]).");
             }
             else
             {
-                output.append("The server used for tests is downloaded from: ");
-                output.append(url);
+                output.append("This container is automatically tested by the "
+                    + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
+                    + "every time there is a code change.");
+                output.append(LINE_SEPARATOR);
+                if ("wildfly-swarm2017x".equals(containerId))
+                {
+                    output.append("The WildFly Swarm version used during tests is: {{");
+                    output.append(url);
+                    output.append("}}");
+                }
+                else
+                {
+                    output.append("The server used for tests is downloaded from: ");
+                    output.append(url);
+                }
             }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
