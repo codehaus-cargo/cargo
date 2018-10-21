@@ -86,43 +86,51 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     {
         LibertyInstall install = new LibertyInstall((InstalledLocalContainer) container);
         File serverDir = install.getServerDir(null);
-        if (!serverDir.exists())
+
+        // CARGO-1468: Websphere Liberty server does not deploy the war, if there were an old
+        // version of the war before. Delete the old server environment to avoid such issues.
+        if (serverDir.exists())
         {
-            Process p = install.runCommand("create");
-            int retVal = p.waitFor();
-            if (retVal != 0)
-            {
-                throw new Exception("The server could not be created");
-            }
+            getLogger().info("Deleting old WebSphere Liberty configuration in [" + serverDir
+                + "]...", this.getClass().getName());
 
-            File configDefaults = new File(serverDir, "configDropins/defaults");
-            if (!configDefaults.mkdirs())
-            {
-                throw new Exception("There is no config dropins defaults dir to "
-                    + "write to " + configDefaults);
-            }
+            getFileHandler().delete(serverDir.getAbsolutePath());
+        }
 
-            writeKeystore(configDefaults);
+        Process p = install.runCommand("create");
+        int retVal = p.waitFor();
+        if (retVal != 0)
+        {
+            throw new Exception("The server could not be created");
+        }
 
-            File configOverrides = new File(serverDir, "configDropins/overrides");
-            if (!configOverrides.mkdirs())
-            {
-                throw new Exception("There is no config dropins overrides dir to "
-                    + "write to " + configOverrides);
-            }
+        File configDefaults = new File(serverDir, "configDropins/defaults");
+        if (!configDefaults.mkdirs())
+        {
+            throw new Exception("There is no config dropins defaults dir to write to "
+                + configDefaults);
+        }
 
-            writeHttpEndpoint(container, configOverrides);
-            writeJVMOptions(container, install);
-            processUsers(container, configOverrides);
-            writeDatasources(configOverrides);
-            writeLibrary(container, configOverrides);
+        writeKeystore(configDefaults);
 
-            List<Deployable> apps = getDeployables();
-            LibertyInstalledLocalDeployer deployer = new LibertyInstalledLocalDeployer(container);
-            for (Deployable dep : apps)
-            {
-                deployer.deploy(dep);
-            }
+        File configOverrides = new File(serverDir, "configDropins/overrides");
+        if (!configOverrides.mkdirs())
+        {
+            throw new Exception("There is no config dropins overrides dir to write to "
+                + configOverrides);
+        }
+
+        writeHttpEndpoint(container, configOverrides);
+        writeJVMOptions(container, install);
+        processUsers(container, configOverrides);
+        writeDatasources(configOverrides);
+        writeLibrary(container, configOverrides);
+
+        List<Deployable> apps = getDeployables();
+        LibertyInstalledLocalDeployer deployer = new LibertyInstalledLocalDeployer(container);
+        for (Deployable dep : apps)
+        {
+            deployer.deploy(dep);
         }
 
         // Deploy the CPC (Cargo Ping Component) to the dropins directory

@@ -89,15 +89,6 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             (AbstractInstalledLocalContainer) getContainer()).getServerDir(null).getAbsolutePath();
         String fileName = getDeployableName(deployable);
 
-        // CARGO-1468: Websphere Liberty server does not deploy the war, if there were an old
-        // version of the war before. Delete the old expanded version to avoid this issue.
-        String expandedDeployableDirectory = getFileHandler().append(serverDirectory,
-            "apps/expanded/" + fileName);
-        if (getFileHandler().isDirectory(expandedDeployableDirectory))
-        {
-            getFileHandler().delete(expandedDeployableDirectory);
-        }
-
         if (deployable.getType() == DeployableType.WAR)
         {
             File configOverrides = new File(serverDirectory, "configDropins/overrides");
