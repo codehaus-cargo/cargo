@@ -27,10 +27,6 @@
   <packaging>pom</packaging>
   <name>Cargo Samples</name>
   <description>Samples that exercises the Cargo Java APIs</description>
-  <prerequisites>
-    <!-- The way we run some tests require Maven 2.1 -->
-    <maven>2.1</maven>
-  </prerequisites>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

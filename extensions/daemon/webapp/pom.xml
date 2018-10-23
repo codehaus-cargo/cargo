@@ -28,10 +28,6 @@
   <name>Cargo Daemon Web Application</name>
   <description>Cargo Daemon Web Application</description>
 
-  <properties>
-    <json.version>1.1.1</json.version>
-  </properties>
-
   <build>
     <resources>
       <resource>
