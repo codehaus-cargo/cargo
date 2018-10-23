@@ -32,6 +32,7 @@
     <module>daemon-test</module>
     <module>datasource-test</module>
     <module>remote-test</module>
+    <module>users-test</module>
   </modules>
 
   <dependencies>
