@@ -21,7 +21,6 @@ package org.codehaus.cargo.itests.daemon.deployable_on_jetty;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
@@ -107,12 +106,9 @@ public class CargoDaemonDeployableTest extends TestCase
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
 
-        long timeout = System.currentTimeMillis() + CargoDaemonDeployableTest.TIMEOUT;
-        for (List<DomElement> handles = htmlPage.getElementsByName("handleId");
-            System.currentTimeMillis() < timeout && handles.size() > 1;
-            handles = htmlPage.getElementsByName("handleId"))
+        for (DomElement handle : htmlPage.getElementsByName("handleId"))
         {
-            String handleId = handles.get(0).getAttribute("value");
+            String handleId = handle.getAttribute("value");
             if (handleId != null && !handleId.isEmpty())
             {
                 DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
@@ -120,10 +116,8 @@ public class CargoDaemonDeployableTest extends TestCase
                 {
                     deleteButton.click();
                 }
-                Thread.sleep(1000);
             }
         }
-
         ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
@@ -179,12 +173,9 @@ public class CargoDaemonDeployableTest extends TestCase
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
 
-        timeout = System.currentTimeMillis() + CargoDaemonDeployableTest.TIMEOUT;
-        for (List<DomElement> handles = htmlPage.getElementsByName("handleId");
-            System.currentTimeMillis() < timeout && handles.size() > 1;
-            handles = htmlPage.getElementsByName("handleId"))
+        for (DomElement handle : htmlPage.getElementsByName("handleId"))
         {
-            String handleId = handles.get(0).getAttribute("value");
+            String handleId = handle.getAttribute("value");
             if (handleId != null && !handleId.isEmpty())
             {
                 DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
@@ -192,9 +183,7 @@ public class CargoDaemonDeployableTest extends TestCase
                 {
                     deleteButton.click();
                 }
-                Thread.sleep(1000);
             }
         }
     }
-
 }

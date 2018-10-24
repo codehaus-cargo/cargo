@@ -23,7 +23,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import java.util.Map;
 import java.util.jar.JarFile;
 
@@ -216,12 +215,9 @@ public class CargoDaemonBrowserTest extends TestCase
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
 
-        long timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
-        for (List<DomElement> handles = htmlPage.getElementsByName("handleId");
-            System.currentTimeMillis() < timeout && handles.size() > 1;
-            handles = htmlPage.getElementsByName("handleId"))
+        for (DomElement handle : htmlPage.getElementsByName("handleId"))
         {
-            String handleId = handles.get(0).getAttribute("value");
+            String handleId = handle.getAttribute("value");
             if (handleId != null && !handleId.isEmpty())
             {
                 DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
@@ -229,10 +225,8 @@ public class CargoDaemonBrowserTest extends TestCase
                 {
                     deleteButton.click();
                 }
-                Thread.sleep(1000);
             }
         }
-
         ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
@@ -288,12 +282,9 @@ public class CargoDaemonBrowserTest extends TestCase
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
 
-        timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
-        for (List<DomElement> handles = htmlPage.getElementsByName("handleId");
-            System.currentTimeMillis() < timeout && handles.size() > 1;
-            handles = htmlPage.getElementsByName("handleId"))
+        for (DomElement handle : htmlPage.getElementsByName("handleId"))
         {
-            String handleId = handles.get(0).getAttribute("value");
+            String handleId = handle.getAttribute("value");
             if (handleId != null && !handleId.isEmpty())
             {
                 DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
@@ -301,9 +292,7 @@ public class CargoDaemonBrowserTest extends TestCase
                 {
                     deleteButton.click();
                 }
-                Thread.sleep(1000);
             }
         }
     }
-
 }
