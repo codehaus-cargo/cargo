@@ -21,9 +21,10 @@ package org.codehaus.cargo.itests.daemon.deployable_on_tomcat;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
@@ -105,6 +106,24 @@ public class CargoDaemonDeployableTest extends TestCase
 
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
+
+        long timeout = System.currentTimeMillis() + CargoDaemonDeployableTest.TIMEOUT;
+        for (List<DomElement> handles = htmlPage.getElementsByName("handleId");
+            System.currentTimeMillis() < timeout && handles.size() > 1;
+            handles = htmlPage.getElementsByName("handleId"))
+        {
+            String handleId = handles.get(0).getAttribute("value");
+            if (handleId != null && !handleId.isEmpty())
+            {
+                DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
+                if (deleteButton != null)
+                {
+                    deleteButton.click();
+                }
+                Thread.sleep(1000);
+            }
+        }
+
         ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
@@ -143,9 +162,9 @@ public class CargoDaemonDeployableTest extends TestCase
         daemonWatchdog.watchForAvailability();
 
         // htmlPage = (HtmlPage) htmlPage.refresh();
-        webClient.closeAllWindows();
+        webClient.close();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
-        HtmlElement stopButton = htmlPage.getElementById("stopContainer_test1");
+        DomElement stopButton = htmlPage.getElementById("stopContainer_test1");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
         assertTrue("There should be running containers",
@@ -155,10 +174,27 @@ public class CargoDaemonDeployableTest extends TestCase
         daemonWatchdog.watchForUnavailability();
 
         // htmlPage = (HtmlPage) htmlPage.refresh();
-        webClient.closeAllWindows();
+        webClient.close();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
+
+        timeout = System.currentTimeMillis() + CargoDaemonDeployableTest.TIMEOUT;
+        for (List<DomElement> handles = htmlPage.getElementsByName("handleId");
+            System.currentTimeMillis() < timeout && handles.size() > 1;
+            handles = htmlPage.getElementsByName("handleId"))
+        {
+            String handleId = handles.get(0).getAttribute("value");
+            if (handleId != null && !handleId.isEmpty())
+            {
+                DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
+                if (deleteButton != null)
+                {
+                    deleteButton.click();
+                }
+                Thread.sleep(1000);
+            }
+        }
     }
 
 }

@@ -1242,11 +1242,6 @@
               </property>
 
               <property>
-                <name>cargo.testdata.xerces-jars</name>
-                <value>${project.build.directory}/xerces-jars</value>
-              </property>
-
-              <property>
                 <name>cargo.testdata.cdi-jars</name>
                 <value>${project.build.directory}/cdi-jars</value>
               </property>
@@ -1319,17 +1314,6 @@
                   <artifactId>simple-jar</artifactId>
                   <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
-                </artifactItem>
-                <!-- To allow jdk 1.4 containers to parse schema files -->
-                <artifactItem>
-                  <groupId>xerces</groupId>
-                  <artifactId>xercesImpl</artifactId>
-                  <outputDirectory>${project.build.directory}/xerces-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>xml-apis</groupId>
-                  <artifactId>xml-apis</artifactId>
-                  <outputDirectory>${project.build.directory}/xerces-jars</outputDirectory>
                 </artifactItem>
                 <!-- To get Sun licensed jars needed for Tomcat to work with mail sessions -->
                 <artifactItem>

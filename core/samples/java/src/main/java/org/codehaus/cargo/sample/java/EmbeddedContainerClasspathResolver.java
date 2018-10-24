@@ -117,25 +117,6 @@ public class EmbeddedContainerClasspathResolver
         {
             List<URL> urls = new ArrayList<URL>();
 
-            // Until JDK version 7, we need to have Xerces in the classpath
-            if (JdkUtils.getMajorJavaVersion() < 7)
-            {
-                String xerces = System.getProperty("cargo.testdata.xerces-jars");
-                if (xerces == null)
-                {
-                    throw new IllegalArgumentException("cargo.testdata.xerces-jars not defined");
-                }
-                File[] xercesJARs = new File(xerces).listFiles();
-                if (xercesJARs == null)
-                {
-                    throw new FileNotFoundException("Directory not found: " + xerces);
-                }
-                for (File xercesJAR : xercesJARs)
-                {
-                    urls.add(xercesJAR.toURI().toURL());
-                }
-            }
-
             // Jetty 9.3.x and 9.4.x have a WebSocket implementation that needs CDI
             if ("jetty9x".equals(containerId))
             {

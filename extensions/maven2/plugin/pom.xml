@@ -66,9 +66,8 @@
       <artifactId>cargo-daemon-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-container</artifactId>
-      <type>test-jar</type>
+      <groupId>commons-vfs</groupId>
+      <artifactId>commons-vfs</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -77,8 +76,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>commons-vfs</groupId>
-      <artifactId>commons-vfs</artifactId>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container</artifactId>
+      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
   </dependencies>

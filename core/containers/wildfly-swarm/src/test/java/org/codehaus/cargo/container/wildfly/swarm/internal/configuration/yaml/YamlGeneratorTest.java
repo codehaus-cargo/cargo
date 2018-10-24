@@ -77,7 +77,7 @@ public class YamlGeneratorTest extends TestCase
 
         final String result = getYamlString();
 
-        Assert.assertEquals("swarm:\n  management: true", result);
+        Assert.assertEquals("swarm:\n  management: \"true\"", result);
     }
 
     /**
