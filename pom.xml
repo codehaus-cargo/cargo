@@ -339,7 +339,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cargo.derby.version>10.14.2.0</cargo.derby.version>
+    <cargo.derby.version>10.12.1.1</cargo.derby.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
     <jmock.version>1.2.0</jmock.version>
   </properties>
