@@ -215,15 +215,25 @@ public class CargoDaemonBrowserTest extends TestCase
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
 
-        for (DomElement handle : htmlPage.getElementsByName("handleId"))
+        final long timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
+        boolean foundContainerToStop = true;
+        while (foundContainerToStop && System.currentTimeMillis() < timeout)
         {
-            String handleId = handle.getAttribute("value");
-            if (handleId != null && !handleId.isEmpty())
+            foundContainerToStop = false;
+            for (DomElement handle : htmlPage.getElementsByName("handleId"))
             {
-                DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
-                if (deleteButton != null)
+                String handleId = handle.getAttribute("value");
+                if (handleId != null && !handleId.isEmpty())
                 {
-                    deleteButton.click();
+                    DomElement deleteButton =
+                        htmlPage.getElementById("deleteContainer_" + handleId);
+                    if (deleteButton != null)
+                    {
+                        foundContainerToStop = true;
+                        deleteButton.click();
+                        Thread.sleep(1000);
+                        break;
+                    }
                 }
             }
         }
@@ -281,18 +291,5 @@ public class CargoDaemonBrowserTest extends TestCase
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         assertFalse("There should be no running containers",
             htmlPage.asText().contains("started"));
-
-        for (DomElement handle : htmlPage.getElementsByName("handleId"))
-        {
-            String handleId = handle.getAttribute("value");
-            if (handleId != null && !handleId.isEmpty())
-            {
-                DomElement deleteButton = htmlPage.getElementById("deleteContainer_" + handleId);
-                if (deleteButton != null)
-                {
-                    deleteButton.click();
-                }
-            }
-        }
     }
 }
