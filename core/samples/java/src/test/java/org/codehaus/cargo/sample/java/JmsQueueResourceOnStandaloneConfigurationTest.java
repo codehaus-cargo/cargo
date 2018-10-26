@@ -93,8 +93,6 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat7x");
         excludedContainerIds.add("tomcat8x");
         excludedContainerIds.add("tomcat9x");
-        excludedContainerIds.add("tomee1x");
-        excludedContainerIds.add("tomee7x");
         excludedContainerIds.add("wildfly8x");
 
         suite.addTestSuite(JmsQueueResourceOnStandaloneConfigurationTest.class,
@@ -119,17 +117,17 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         if (getTestData().containerId.equals("wildfly9x"))
         {
             getLocalContainer().getConfiguration().setProperty("cargo.jboss.configuration",
-                    "standalone-full");
+                "standalone-full");
             getLocalContainer().getConfiguration().setProperty(
-                    "cargo.wildfly.script.cli.embedded.journal",
+                "cargo.wildfly.script.cli.embedded.journal",
                     "target/test-classes/wildfly/wildfly9/jms-journal.cli");
         }
         else if (getTestData().containerId.startsWith("wildfly1"))
         {
             getLocalContainer().getConfiguration().setProperty("cargo.jboss.configuration",
-                    "standalone-full");
+                "standalone-full");
             getLocalContainer().getConfiguration().setProperty(
-                    "cargo.wildfly.script.cli.embedded.journal",
+                "cargo.wildfly.script.cli.embedded.journal",
                     "target/test-classes/wildfly/wildfly10/jms-journal.cli");
         }
     }

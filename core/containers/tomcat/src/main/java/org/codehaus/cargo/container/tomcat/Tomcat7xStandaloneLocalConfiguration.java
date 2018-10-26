@@ -157,10 +157,8 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
         String startStopThreads = getPropertyValue(TomcatPropertySet.HOST_STARTSTOPTHREADS);
         if (startStopThreads != null)
         {
-            addXmlReplacement(serverXmlFileName,
-                    "//Server/Service/Engine/Host",
-                    "startStopThreads",
-                    startStopThreads);
+            addXmlReplacement(serverXmlFileName, "//Server/Service/Engine/Host",
+                "startStopThreads", startStopThreads);
         }
 
         addXmlReplacement(serverXmlFileName,

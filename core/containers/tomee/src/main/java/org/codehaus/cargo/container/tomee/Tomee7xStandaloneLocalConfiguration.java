@@ -25,6 +25,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.tomcat.Tomcat8xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.container.tomee.internal.TomeeStandaloneLocalConfigurationCapability;
@@ -80,13 +81,35 @@ public class Tomee7xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocal
 
         String apps = getPropertyValue(TomeePropertySet.APPS_DIRECTORY);
         String tomeeXml = getFileHandler().append(getHome(), "conf/tomee.xml");
-        Map<String, String> replacements = new HashMap<String, String>(1);
+        Map<String, String> replacements = new HashMap<String, String>();
         replacements.put(
             "<!-- activate next line to be able to deploy applications in apps -->",
             "<!-- activate deployment applications in " +  apps + " directory -->");
         replacements.put(
             "<!-- <Deployments dir=\"apps\" /> -->",
             "<Deployments dir=\"" +  apps + "\" />");
+        StringBuilder resourceReplacements = new StringBuilder();
+        for (Resource resource : getResources())
+        {
+            if (resource.getType().startsWith("javax.jms."))
+            {
+                if (resourceReplacements.length() == 0)
+                {
+                    resourceReplacements.append(
+                        "\n  <!-- JMS resources deployed by Codehaus Cargo -->\n");
+                }
+                resourceReplacements.append("  <Resource id=\"");
+                resourceReplacements.append(resource.getName());
+                resourceReplacements.append("\" type=\"");
+                resourceReplacements.append(resource.getType());
+                resourceReplacements.append("\"/>\n");
+            }
+        }
+        if (resourceReplacements.length() > 0)
+        {
+            resourceReplacements.append("</tomee>");
+            replacements.put("</tomee>", resourceReplacements.toString());
+        }
         getFileHandler().replaceInFile(tomeeXml, replacements, "UTF-8");
     }
 
