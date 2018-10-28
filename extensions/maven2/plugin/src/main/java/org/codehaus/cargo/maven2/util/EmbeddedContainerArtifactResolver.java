@@ -255,21 +255,6 @@ public class EmbeddedContainerArtifactResolver
         jetty9xDependencies.add(new Dependency("javax.servlet", "javax.servlet-api", "3.1.0"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty.toolchain", "jetty-schemas",
             "3.1"));
-        jetty9xDependencies.add(new Dependency("javax.enterprise", "cdi-api", "1.2"));
-        jetty9xDependencies.add(new Dependency("javax.inject", "javax.inject", "1"));
-        jetty9xDependencies.add(new Dependency("javax.interceptor", "javax.interceptor-api",
-            "1.2"));
-        jetty9xDependencies.add(new Dependency("org.jboss.classfilewriter",
-            "jboss-classfilewriter", "1.1.2.Final"));
-        jetty9xDependencies.add(new Dependency("org.jboss.logging", "jboss-logging",
-            "3.3.0.Final"));
-        jetty9xDependencies.add(new Dependency("org.jboss.weld", "weld-core", "2.4.1.Final"));
-        jetty9xDependencies.add(new Dependency("org.jboss.weld", "weld-api", "2.4.Final"));
-        jetty9xDependencies.add(new Dependency("org.jboss.weld", "weld-spi", "2.4.Final"));
-        jetty9xDependencies.add(new Dependency("org.jboss.weld.environment",
-            "weld-environment-common", "2.4.1.Final"));
-        jetty9xDependencies.add(new Dependency("org.jboss.weld.servlet", "weld-servlet-core",
-            "2.4.1.Final"));
         // annotations
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "5.0.1"));
         jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "5.0.1"));

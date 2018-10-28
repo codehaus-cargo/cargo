@@ -1242,11 +1242,6 @@
               </property>
 
               <property>
-                <name>cargo.testdata.cdi-jars</name>
-                <value>${project.build.directory}/cdi-jars</value>
-              </property>
-
-              <property>
                 <name>cargo.testdata.mail-jars</name>
                 <value>${project.build.directory}/mail-jars</value>
               </property>
@@ -1325,57 +1320,6 @@
                   <groupId>javax.mail</groupId>
                   <artifactId>mail</artifactId>
                   <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
-                </artifactItem>
-                <!-- CDI is needed by the Jetty WebSocket implementation -->
-                <artifactItem>
-                  <groupId>javax.enterprise</groupId>
-                  <artifactId>cdi-api</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>javax.inject</groupId>
-                  <artifactId>javax.inject</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>javax.interceptor</groupId>
-                  <artifactId>javax.interceptor-api</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.classfilewriter</groupId>
-                  <artifactId>jboss-classfilewriter</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.logging</groupId>
-                  <artifactId>jboss-logging</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.weld</groupId>
-                  <artifactId>weld-core</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.weld</groupId>
-                  <artifactId>weld-api</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.weld</groupId>
-                  <artifactId>weld-spi</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.weld.environment</groupId>
-                  <artifactId>weld-environment-common</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.jboss.weld.servlet</groupId>
-                  <artifactId>weld-servlet-core</artifactId>
-                  <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                 </artifactItem>
                 <!-- Deployables -->
                 <artifactItem>

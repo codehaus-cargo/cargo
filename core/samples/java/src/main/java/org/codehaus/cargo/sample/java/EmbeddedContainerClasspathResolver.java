@@ -117,25 +117,6 @@ public class EmbeddedContainerClasspathResolver
         {
             List<URL> urls = new ArrayList<URL>();
 
-            // Jetty 9.3.x and 9.4.x have a WebSocket implementation that needs CDI
-            if ("jetty9x".equals(containerId))
-            {
-                String cdi = System.getProperty("cargo.testdata.cdi-jars");
-                if (cdi == null)
-                {
-                    throw new IllegalArgumentException("cargo.testdata.cdi-jars not defined");
-                }
-                File[] cdiJARs = new File(cdi).listFiles();
-                if (cdiJARs == null)
-                {
-                    throw new FileNotFoundException("Directory not found: " + cdi);
-                }
-                for (File cdiJAR : cdiJARs)
-                {
-                    urls.add(cdiJAR.toURI().toURL());
-                }
-            }
-
             for (String dependencyRelativePath : dependencies)
             {
                 if (dependencyRelativePath.endsWith("*.jar"))
