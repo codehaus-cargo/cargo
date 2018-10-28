@@ -265,11 +265,11 @@ public class EmbeddedContainerArtifactResolver
         jetty9xDependencies.add(new Dependency("javax.transaction", "javax.transaction-api",
             "1.2"));
         // jsp
-        jetty9xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "4.4.2"));
+        jetty9xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.12.3"));
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp",
             "9.4.12.v20180830"));
-        jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "8.0.27"));
-        jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "8.0.27"));
+        jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "8.5.24.2"));
+        jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "8.5.24.2"));
         this.containerDependencies.put("jetty9x", jetty9xDependencies);
 
         List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();
