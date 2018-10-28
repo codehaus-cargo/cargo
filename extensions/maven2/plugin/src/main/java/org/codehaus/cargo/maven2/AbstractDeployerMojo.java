@@ -43,17 +43,17 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
     public class DeployerListener implements DeployableMonitorListener
     {
         /**
-         * {@link Deployable} to listen.
+         * {@link DeployableMonitor} to listen.
          */
-        private org.codehaus.cargo.container.deployable.Deployable deployable;
+        private DeployableMonitor monitor;
 
         /**
          * Saves all attributes.
-         * @param deployable {@link Deployable} to listen.
+         * @param monitor {@link DeployableMonitor} to listen.
          */
-        public DeployerListener(org.codehaus.cargo.container.deployable.Deployable deployable)
+        public DeployerListener(DeployableMonitor monitor)
         {
-            this.deployable = deployable;
+            this.monitor = monitor;
         }
 
         /**
@@ -62,7 +62,8 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         @Override
         public void deployed()
         {
-            getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] deployed.");
+            getLog().debug("Watchdog finds [" + this.monitor.toString() + "] for deployable ["
+                + this.monitor.getDeployableName() + "] deployed.");
         }
 
         /**
@@ -71,7 +72,8 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         @Override
         public void undeployed()
         {
-            getLog().debug("Watchdog finds [" + this.deployable.getFile() + "] not deployed yet.");
+            getLog().debug("Watchdog finds [" + this.monitor.toString() + "] for deployable ["
+                + this.monitor.getDeployableName() + "] not deployed yet.");
         }
     }
 
@@ -211,7 +213,7 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
 
         if (monitor != null)
         {
-            DeployerListener listener = new DeployerListener(deployable);
+            DeployerListener listener = new DeployerListener(monitor);
             monitor.registerListener(listener);
         }
 
