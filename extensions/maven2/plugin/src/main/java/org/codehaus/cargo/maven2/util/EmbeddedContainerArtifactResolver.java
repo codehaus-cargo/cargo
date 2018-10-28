@@ -256,8 +256,8 @@ public class EmbeddedContainerArtifactResolver
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty.toolchain", "jetty-schemas",
             "3.1"));
         // annotations
-        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "5.0.1"));
-        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "5.0.1"));
+        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm", "6.2"));
+        jetty9xDependencies.add(new Dependency("org.ow2.asm", "asm-commons", "6.2"));
         jetty9xDependencies.add(new Dependency("javax.annotation", "javax.annotation-api", "1.2"));
         // jndi
         jetty9xDependencies.add(new Dependency("org.eclipse.jetty.orbit", "javax.mail.glassfish",
