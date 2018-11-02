@@ -72,6 +72,10 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFa
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.sample.java.CargoTestSuite;
+import org.codehaus.cargo.sample.java.JmsQueueResourceOnStandaloneConfigurationTest;
+import org.codehaus.cargo.sample.java.JmsTopicResourceOnStandaloneConfigurationTest;
+import org.codehaus.cargo.sample.java.MailResourceOnStandaloneConfigurationTest;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
@@ -356,13 +360,65 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("}} | (");
             if (properties.keySet().contains(ResourcePropertySet.RESOURCE))
             {
-                output.append('/');
+                output.append("/)");
+                String containerId = System.getProperty(
+                    CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS);
+                String deployables = System.getProperty("cargo.testdata.deployables");
+                String targetDir = System.getProperty("cargo.target.dir");
+                try
+                {
+                    System.setProperty(
+                        CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS, container.getId());
+                    System.setProperty(
+                        "cargo.testdata.deployables", System.getProperty("java.io.tmpdir"));
+                    System.setProperty("cargo.target.dir", System.getProperty("java.io.tmpdir"));
+                    if (JmsQueueResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
+                    {
+                        output.append("^Q^");
+                    }
+                    if (JmsTopicResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
+                    {
+                        output.append("^T^");
+                    }
+                    if (MailResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
+                    {
+                        output.append("^M^");
+                    }
+                }
+                finally
+                {
+                    if (containerId == null)
+                    {
+                        System.clearProperty(CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS);
+                    }
+                    else
+                    {
+                        System.setProperty(
+                            CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS, containerId);
+                    }
+                    if (deployables == null)
+                    {
+                        System.clearProperty("cargo.testdata.deployables");
+                    }
+                    else
+                    {
+                        System.setProperty("cargo.testdata.deployables", deployables);
+                    }
+                    if (targetDir == null)
+                    {
+                        System.clearProperty("cargo.target.dir");
+                    }
+                    else
+                    {
+                        System.setProperty("cargo.target.dir", targetDir);
+                    }
+                } 
             }
             else
             {
-                output.append('x');
+                output.append("x)");
             }
-            output.append(") | (");
+            output.append(" | (");
             if (properties.keySet().contains(DatasourcePropertySet.DATASOURCE))
             {
                 output.append('/');
@@ -392,6 +448,16 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(") |");
             output.append(LINE_SEPARATOR);
         }
+
+        output.append(LINE_SEPARATOR);
+        output.append("Container-specific notes:");
+        output.append(LINE_SEPARATOR);
+        output.append("* ^Q^: JMS Queues are not supported by this container");
+        output.append(LINE_SEPARATOR);
+        output.append("* ^T^: JMS Topics are not supported by this container");
+        output.append(LINE_SEPARATOR);
+        output.append("* ^M^: Mail resources are not supported by this container");
+        output.append(LINE_SEPARATOR);
 
         return output.toString();
     }

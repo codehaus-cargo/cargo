@@ -42,7 +42,7 @@ public class CargoTestSuite extends TestSuite
     /**
      * The system property for the container identifiers to run tests on.
      */
-    private static final String SYSTEM_PROPERTY_CONTAINER_IDS = "cargo.containers";
+    public static final String SYSTEM_PROPERTY_CONTAINER_IDS = "cargo.containers";
 
     /**
      * Registered containers.

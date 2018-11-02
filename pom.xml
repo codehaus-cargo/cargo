@@ -546,6 +546,12 @@
         <artifactId>cargo-sample-java</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-sample-java</artifactId>
+        <version>${project.version}</version>
+        <type>test-jar</type>
+      </dependency>
 
       <dependency>
         <groupId>org.codehaus.cargo</groupId>

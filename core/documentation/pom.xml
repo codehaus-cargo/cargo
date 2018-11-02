@@ -30,8 +30,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-uberjar</artifactId>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -40,9 +40,20 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-uberjar</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-sample-java</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-sample-java</artifactId>
+      <type>test-jar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
