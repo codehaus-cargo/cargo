@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.wildfly;
 
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.internal.util.JdkUtils;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * WildFly 13.x series container implementation.
@@ -57,5 +59,19 @@ public class WildFly13xInstalledLocalContainer extends WildFly12xInstalledLocalC
     public String getName()
     {
         return "WildFly " + getVersion("13.x");
+    }
+
+    @Override
+    protected void setProperties(JvmLauncher java)
+    {
+        super.setProperties(java);
+        // CARGO-1473: For modular JVMs (from Java 11) there is additional configuration required.
+        if (JdkUtils.getMajorJavaVersion() > 10)
+        {
+            java.addJvmArguments("--add-exports=java.base/sun.nio.ch=ALL-UNNAMED");
+            java.addJvmArguments("--add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED");
+            java.addJvmArguments("--add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED");
+            java.addJvmArguments("--add-modules=java.se");
+        }
     }
 }
