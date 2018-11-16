@@ -841,7 +841,16 @@
               </property>
               <property>
                 <name>cargo.tomee7x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
+                <name>cargo.tomee8x.url</name>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/8.0.0-M1/apache-tomee-8.0.0-M1-plus.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomee8x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
               </property>
 
               <!--
@@ -1846,6 +1855,12 @@
       <id>tomee7x</id>
       <properties>
         <cargo.containers>tomee7x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomee8x</id>
+      <properties>
+        <cargo.containers>tomee8x</cargo.containers>
       </properties>
     </profile>
 

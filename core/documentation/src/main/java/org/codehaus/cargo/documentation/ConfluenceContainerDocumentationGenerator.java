@@ -166,6 +166,7 @@ public class ConfluenceContainerDocumentationGenerator
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
         "glassfish5x",
         "tomcat9x",
+        "tomee8x",
         "weblogic122x",
         "websphere9x",
         "wildfly10x",
