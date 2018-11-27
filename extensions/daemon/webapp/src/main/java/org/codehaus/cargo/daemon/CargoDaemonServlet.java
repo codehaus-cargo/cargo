@@ -364,7 +364,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 
                 long filesize = fileManager.getFileSize(logFilePath);
 
-                response.setContentType("text/plain");
+                response.setContentType("text/html");
                 response.setCharacterEncoding("UTF-8");
                 response.setHeader("X-Text-Size", String.valueOf(filesize));
 
