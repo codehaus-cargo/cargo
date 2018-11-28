@@ -364,7 +364,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 
                 long filesize = fileManager.getFileSize(logFilePath);
 
-                response.setContentType("text/plain");
+                response.setContentType("text/html");
                 response.setCharacterEncoding("UTF-8");
                 response.setHeader("X-Text-Size", String.valueOf(filesize));
 
@@ -1053,12 +1053,11 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      */
     private void outputLogPageHeader(ServletOutputStream outputStream) throws Exception 
     {
-        outputStream.print("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n"
-                + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \""
-                + "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\""
-                + "lang=\"en-US\">\n"
-                + "  <head profile=\"http://www.w3.org/2000/08/w3c-synd/#\">\n"
+        outputStream.print(""
+                + "<!doctype html>\n"
+                + "<html lang=\"en-US\">\n"
+                + "  <head>\n"
+                + "     <meta charset=\"utf-8\">\n"
                 + "     <style>\n"
                 + "       pre {\n" 
                 + "         margin: 0px;\n" 
