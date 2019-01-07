@@ -1195,6 +1195,15 @@
               </property>
 
               <property>
+                <name>cargo.wildfly15x.url</name>
+                <value>http://download.jboss.org/wildfly/15.0.1.Final/wildfly-15.0.1.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.wildfly15x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.wildfly-swarm2017x.home</name>
                 <value>${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar</value>
               </property>
@@ -1961,6 +1970,12 @@
       <id>wildfly14x</id>
       <properties>
         <cargo.containers>wildfly14x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>wildfly15x</id>
+      <properties>
+        <cargo.containers>wildfly15x</cargo.containers>
       </properties>
     </profile>
     <profile>
