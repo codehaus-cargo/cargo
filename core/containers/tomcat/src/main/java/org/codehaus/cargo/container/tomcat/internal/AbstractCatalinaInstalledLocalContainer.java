@@ -73,8 +73,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
         {
             try
             {
-                // Unfortunately, there's no safe way to find out the version of
-                // a Catalina
+                // Unfortunately, there's no safe way to find out the version of a Catalina
                 // installation, so we need to try multiple paths here
 
                 // Tomcat 4.1.0 and later includes a ServerInfo.properties
@@ -146,13 +145,16 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     }
 
     /**
-     * Does not add anything to the extra classpath since this is already handled by the
+     * Configures the extra classpath if and only if we are not on an
      * {@link AbstractCatalinaStandaloneLocalConfiguration}. {@inheritDoc}
      */
     @Override
     protected void addExtraClasspath(JvmLauncher java)
     {
-        // Nothing, else we have bug https://codehaus-cargo.atlassian.net/browse/CARGO-1032
+        if (!(getConfiguration() instanceof AbstractCatalinaStandaloneLocalConfiguration))
+        {
+            super.addExtraClasspath(java);
+        }
     }
 
     /**

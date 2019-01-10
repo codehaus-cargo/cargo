@@ -548,7 +548,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected final void addToolsJarToClasspath(JvmLauncher java) throws FileNotFoundException
     {
         // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
-        // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
+        // include any tools.jar file to the classpath. On Java 9, there is no more tools.jar.
         if (!JdkUtils.isOSX() && jvmMajorVersion < 9)
         {
             java.addClasspathEntries(JdkUtils.getToolsJar(getJavaHome()));
@@ -562,15 +562,12 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     protected void addExtraClasspath(JvmLauncher java)
     {
-        if (extraClasspath.size() > 0)
+        for (String extraClasspathItem : extraClasspath)
         {
-            for (String extraClasspathItem : extraClasspath)
-            {
-                java.addClasspathEntries(extraClasspathItem);
+            java.addClasspathEntries(extraClasspathItem);
 
-                getLogger().debug("Adding [" + extraClasspathItem + "] to execution classpath",
-                    this.getClass().getName());
-            }
+            getLogger().debug("Adding [" + extraClasspathItem + "] to execution classpath",
+                this.getClass().getName());
         }
     }
 
