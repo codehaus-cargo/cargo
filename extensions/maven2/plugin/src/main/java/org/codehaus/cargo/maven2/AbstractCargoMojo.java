@@ -710,6 +710,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         else if (getConfigurationElement() != null)
         {
+            getContainerElement().updateContainer(container, cargoProject);
+
             createDefaultContainerElementIfNecessary();
             org.codehaus.cargo.container.configuration.Configuration configuration =
                 createConfiguration();

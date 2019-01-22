@@ -493,6 +493,22 @@ public class Container
         return container;
     }
 
+   /**
+    * Update container based on this configuration
+    * @param container Container
+    * @param cargoProject Cargo project.
+    */
+    public void updateContainer(org.codehaus.cargo.container.Container container,
+          CargoProject cargoProject)
+    {
+        if (!container.getType().isLocal())
+        {
+            return;
+        }
+
+        setupTimeout((LocalContainer) container, cargoProject);
+    }
+
     /**
      * Setup the embedded container's extra classpath.
      * @param container Container.
