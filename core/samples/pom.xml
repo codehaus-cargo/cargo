@@ -739,7 +739,7 @@
 
               <property>
                 <name>cargo.resin4x.url</name>
-                <value>http://www.caucho.com/download/resin-4.0.58.zip</value>
+                <value>http://www.caucho.com/download/resin-4.0.59.zip</value>
               </property>
               <property>
                 <name>cargo.resin4x.java.home</name>
