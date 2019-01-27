@@ -59,7 +59,7 @@ public class WildFly10xInstalledLocalContainer extends WildFly9xInstalledLocalCo
         String version = getVersion(null);
         if (version == null)
         {
-            return "WildFly 10.x (JBoss EAP 7.x)";
+            return "WildFly 10.x (JBoss EAP 7.0)";
         }
         else if (version.startsWith("7."))
         {

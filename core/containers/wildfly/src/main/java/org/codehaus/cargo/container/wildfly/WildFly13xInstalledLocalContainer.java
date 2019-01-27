@@ -58,7 +58,19 @@ public class WildFly13xInstalledLocalContainer extends WildFly12xInstalledLocalC
     @Override
     public String getName()
     {
-        return "WildFly " + getVersion("13.x");
+        String version = getVersion(null);
+        if (version == null)
+        {
+            return "WildFly 13.x (JBoss EAP 7.2)";
+        }
+        else if (version.startsWith("7."))
+        {
+            return "JBoss EAP " + version;
+        }
+        else
+        {
+            return "WildFly " + version;
+        }
     }
 
     @Override

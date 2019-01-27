@@ -116,7 +116,9 @@
 
     <module name="AvoidStaticImport"/>
 
-    <module name="BooleanExpressionComplexity"/>
+    <module name="BooleanExpressionComplexity">
+      <property name="max" value="6"/>
+    </module>
 
     <!--module name="ClassDataAbstractionCoupling"/-->
 
