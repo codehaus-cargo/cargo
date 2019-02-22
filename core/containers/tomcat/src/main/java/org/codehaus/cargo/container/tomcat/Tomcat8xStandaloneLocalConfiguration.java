@@ -79,11 +79,14 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         String[] extraClasspath = TomcatUtils.getExtraClasspath(deployable);
         StringBuilder sb = new StringBuilder();
         sb.append("<Resources>");
-        for (String path : extraClasspath)
+        if (extraClasspath != null)
         {
-            sb.append("<PostResources ");
-            writePostResource(path, sb);
-            sb.append("\" />");
+            for (String path : extraClasspath)
+            {
+                sb.append("<PostResources ");
+                writePostResource(path, sb);
+                sb.append("\" />");
+            }
         }
         sb.append("</Resources>");
         return sb.toString();
