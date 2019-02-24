@@ -539,8 +539,7 @@ public class DeployerServlet extends HttpServlet
                 else
                 {
                     // we are dealing with a directory, which is a pain to
-                    // delete so
-                    // we have to call a separate method
+                    // delete so we have to call a separate method
                     deleteDirectory(webAppFile);
                     deleted = !webAppFile.exists();
                 }
