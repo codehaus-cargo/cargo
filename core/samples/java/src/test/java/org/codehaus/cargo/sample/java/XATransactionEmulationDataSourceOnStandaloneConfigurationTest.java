@@ -64,7 +64,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude Geronimo and JBoss containers as these don't support
+        // We exclude Geronimo, JBoss and some WildFly containers, as these don't support
         // XA transaction emulation the way CARGO tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
@@ -84,6 +84,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("wildfly14x");
         excludedContainerIds.add("wildfly15x");
+        excludedContainerIds.add("wildfly16x");
 
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
