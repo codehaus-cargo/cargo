@@ -85,12 +85,12 @@
   </dependencies>
 
   <profiles>
-    <!-- WebLogic 12.1.x -->
+    <!-- WebLogic 12.2.x -->
     <profile>
-      <id>weblogic121x</id>
+      <id>weblogic122x</id>
       <activation>
         <property>
-          <name>cargo.weblogic121x.home</name>
+          <name>cargo.weblogic122x.home</name>
         </property>
       </activation>
       <build>
@@ -101,9 +101,9 @@
             <version>${project.version}</version>
             <configuration>
               <container>
-                <containerId>weblogic121x</containerId>
+                <containerId>weblogic122x</containerId>
                 <type>installed</type>
-                <home>${cargo.weblogic121x.home}</home>
+                <home>${cargo.weblogic122x.home}</home>
                 <dependencies>
                   <dependency>
                     <groupId>org.codehaus.cargo</groupId>

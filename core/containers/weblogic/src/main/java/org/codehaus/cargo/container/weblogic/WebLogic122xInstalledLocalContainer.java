@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
@@ -57,5 +60,24 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
     public String getId()
     {
         return ID;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected List<String> getBeaHomeFiles()
+    {
+        List<String> requiredFiles = new ArrayList<String>();
+        if (getFileHandler().exists(
+            getFileHandler().append(getBeaHome(), "inventory/registry.xml")))
+        {
+            requiredFiles.add(getFileHandler().append(getBeaHome(), "inventory/registry.xml"));
+        }
+        else
+        {
+            requiredFiles.add(getFileHandler().append(getBeaHome(), "inventory/registry.pre"));
+        }
+        return requiredFiles;
     }
 }
