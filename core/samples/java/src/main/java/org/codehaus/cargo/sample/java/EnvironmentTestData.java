@@ -140,10 +140,12 @@ public class EnvironmentTestData
             {
                 if (deployable.isFile())
                 {
-                    String deployableName = deployable.getName();
-                    this.testDataArtifacts.put(
-                        deployableName.substring(0, deployableName.lastIndexOf('.')),
-                            deployable.getAbsolutePath());
+                    String name = deployable.getName();
+                    if (name.contains("."))
+                    {
+                        name = name.substring(0, name.lastIndexOf('.'));
+                    }
+                    this.testDataArtifacts.put(name, deployable.getAbsolutePath());
                 }
             }
         }
