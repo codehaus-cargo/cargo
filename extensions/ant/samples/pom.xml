@@ -28,6 +28,7 @@
   <packaging>pom</packaging>
   <description>Cargo Samples for ANT</description>
   <modules>
+    <module>ant1.10-test</module>
     <module>configurationFiles-xmlReplacements-test</module>
     <module>daemon-test</module>
     <module>datasource-test</module>
