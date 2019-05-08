@@ -31,7 +31,7 @@
   <profiles>
     <profile>
       <!-- JDK 8 -->
-      <id>java8+</id>
+      <id>run-its</id>
       <activation>
         <jdk>[1.8,)</jdk>
         <property>
@@ -94,16 +94,4 @@
       </build>
     </profile>
   </profiles>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
