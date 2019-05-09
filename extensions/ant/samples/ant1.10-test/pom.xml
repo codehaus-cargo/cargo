@@ -30,7 +30,11 @@
 
   <profiles>
     <profile>
-      <id>do-run-its-by-default</id>
+      <!--
+        By default, skip surefire tests.
+        These will be re-enabled in Java 8 and above with the profile below.
+        -->
+      <id>run-its</id>
       <build>
         <plugins>
           <plugin>
