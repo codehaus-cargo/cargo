@@ -30,13 +30,7 @@
 
   <profiles>
     <profile>
-      <id>run-its</id>
-      <activation>
-        <property>
-          <name>skipTests</name>
-          <value>!true</value>
-        </property>
-      </activation>
+      <id>do-run-its-by-default</id>
       <build>
         <plugins>
           <plugin>
