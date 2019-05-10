@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.ant.configuration_files_test;
+package org.codehaus.cargo.sample.ant.ant_110_configuration_files_test;
 
 import java.io.File;
 import java.io.FileInputStream;

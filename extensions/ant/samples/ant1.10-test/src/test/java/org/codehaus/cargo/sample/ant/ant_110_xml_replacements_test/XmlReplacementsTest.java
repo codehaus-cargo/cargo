@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.ant.xml_replacements_test;
+package org.codehaus.cargo.sample.ant.ant_110_xml_replacements_test;
 
 import java.io.BufferedReader;
 import java.io.File;

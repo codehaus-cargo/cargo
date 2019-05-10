@@ -31,10 +31,12 @@
   <profiles>
     <profile>
       <!--
-        By default, skip surefire tests.
-        These will be re-enabled in Java 8 and above with the profile below.
+        Skip surefire tests on Java versions older than 8, as ANT 1.10.x requires Java 8.
         -->
-      <id>run-its</id>
+      <id>java8-</id>
+      <activation>
+        <jdk>(,1.8)</jdk>
+      </activation>
       <build>
         <plugins>
           <plugin>
