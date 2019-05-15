@@ -36,5 +36,6 @@ public class WebLogicWlstRuntimeConfigurationCapability extends
     {
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.LOCAL_WEBLOGIC_HOME, Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
     }
 }
