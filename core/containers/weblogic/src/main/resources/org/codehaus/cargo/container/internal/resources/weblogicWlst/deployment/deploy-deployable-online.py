@@ -15,4 +15,4 @@
 """
 
 cd('/')
-deploy('@cargo.deployable.id@', path = '@cargo.deployable.path.absolute@', retireTimeout = -1, upload = 'True')
+deploy('@cargo.deployable.id@', path = '@cargo.deployable.path.absolute@', retireTimeout = -1, upload = 'True', targets = '@cargo.weblogic.server@')
