@@ -1004,29 +1004,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * Checks if the autodeployable is part of deployables.
-     * @param deployableElements Deployable elements.
-     * @return <code>true</code> if autodeployable is in <code>deployableElements</code>,
-     * <code>false</code> otherwise.
-     */
-    protected boolean containsAutoDeployable(Deployable[] deployableElements)
-    {
-        boolean found = false;
-
-        for (Deployable deployableElement : deployableElements)
-        {
-            if (deployableElement.getGroupId().equals(getCargoProject().getGroupId())
-                && deployableElement.getArtifactId().equals(getCargoProject().getArtifactId()))
-            {
-                found = true;
-                break;
-            }
-        }
-
-        return found;
-    }
-
-    /**
      * Create a logger. If a <code>&lt;log&gt;</code> configuration element has been specified by
      * the user then use it. If none is specified then log to the Maven 2 logging subsystem.
      *

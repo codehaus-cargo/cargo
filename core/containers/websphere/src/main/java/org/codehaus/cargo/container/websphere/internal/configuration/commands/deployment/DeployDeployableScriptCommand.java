@@ -75,7 +75,10 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
     @Override
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
-        propertiesMap.put("cargo.deployable.path.absolute", deployable.getFile());
+        // CARGO-1484: Replace \ characters so, for example, the \t of \target in Windows
+        // doesn't become a TAB character in the middle of the file name
+        propertiesMap.put("cargo.deployable.path.absolute",
+            deployable.getFile().replace('\\', '/'));
         propertiesMap.put("cargo.deployable.id", deployable.getName());
 
         StringBuffer additionalArguments = new StringBuffer();
@@ -108,9 +111,10 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
                     String resType = resource.getChildText(WebXmlType.RES_TYPE);
 
                     List<String> entryList = new ArrayList<String>();
-                    entryList.add(fileHandler.getName(deployable.getFile()));
+                    entryList.add(fileHandler.getName(deployable.getFile().replace('\\', '/')));
                     entryList.add(resRefName);
-                    entryList.add(fileHandler.getName(deployable.getFile()) + ",WEB-INF/web.xml");
+                    entryList.add(fileHandler.getName(
+                        deployable.getFile().replace('\\', '/')) + ",WEB-INF/web.xml");
                     entryList.add(resRefName);
                     entryList.add(resType);
                     entryList.add(resRefName);
@@ -202,8 +206,8 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
                             List<String> entryList = new ArrayList<String>();
                             entryList.add(".*");
                             entryList.add(ejbName);
-                            entryList.add(fileHandler.getName(deployable.getFile())
-                                    + ",WEB-INF/ejb-jar.xml");
+                            entryList.add(fileHandler.getName(
+                                deployable.getFile().replace('\\', '/')) + ",WEB-INF/ejb-jar.xml");
                             entryList.add("\"\"");
                             entryList.add("jms/activation/" + resource.getId());
                             entryList.add(resource.getName());

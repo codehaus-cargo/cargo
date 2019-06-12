@@ -171,13 +171,10 @@ public abstract class AbstractDeployerMojo extends AbstractCargoMojo
         // Perform deployment action on the autodeployable (if any).
         if (getCargoProject().getPackaging() != null && getCargoProject().isJ2EEPackaging())
         {
-            Deployable[] deployableElementsArray = new Deployable[deployableElements.size()];
-            deployableElements.toArray(deployableElementsArray);
-
-            if (!containsAutoDeployable(deployableElementsArray))
+            if (deployableElements.isEmpty())
             {
-                // Deployable monitor is always null here because if the user has explicitly
-                // specified deployable then the auto deployable has already been deployed...
+                // Deployable monitor is null here because we cannot reliably know the URL
+                // of the autodeployable
                 performDeployerActionOnSingleDeployable(deployer,
                     createAutoDeployDeployable(container), null);
             }

@@ -103,8 +103,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
         {
             // Has the auto-deployable already been specified as part of the <deployables> config
             // element?
-            if (getDeployablesElement() == null
-                || !containsAutoDeployable(getDeployablesElement()))
+            if (getDeployablesElement() == null || getDeployablesElement().length == 0)
             {
                 LocalConfiguration configuration = container.getConfiguration();
                 configuration.addDeployable(createAutoDeployDeployable(container));
