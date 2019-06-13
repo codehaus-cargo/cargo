@@ -1,78 +1,19 @@
 <!--
-Copyright (c) 2000 Sun Microsystems, Inc.,
-901 San Antonio Road,
-Palo Alto, California 94303, U.S.A.
-All rights reserved.
 
-Sun Microsystems, Inc. has intellectual property rights relating to
-technology embodied in the product that is described in this document.
-In particular, and without limitation, these intellectual property
-rights may include one or more of the U.S. patents listed at
-http://www.sun.com/patents and one or more additional patents or
-pending patent applications in the U.S. and in other countries.
+    Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
 
-This document and the product to which it pertains are distributed
-under licenses restricting their use, copying, distribution, and
-decompilation.  This document may be reproduced and distributed but may
-not be changed without prior written authorization of Sun and its
-licensors, if any.
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
 
-Third-party software, including font technology, is copyrighted and
-licensed from Sun suppliers.
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
 
-Sun,  Sun Microsystems,  the Sun logo,  Java,  JavaServer Pages,  Java
-Naming and Directory Interface,  JDBC,  JDK,  JavaMail and  and
-Enterprise JavaBeans are trademarks or registered trademarks of Sun
-Microsystems, Inc. in the U.S. and other countries.
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
-Federal Acquisitions: Commercial Software - Government Users Subject to
-Standard License Terms and Conditions.
-
-DOCUMENTATION IS PROVIDED "AS IS" AND ALL EXPRESS OR IMPLIED
-CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED
-WARRANTY OF MERCHANTABILITY, FITNESS FOR FOR A PARTICULAR PURPOSE OR
-NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH
-DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
-
-
-_________________________________________________________________________
-
-Copyright (c) 2000 Sun Microsystems, Inc.,
-901 San Antonio Road,
-Palo Alto, California 94303, E'tats-Unis.
-Tous droits re'serve's.
-
-Sun Microsystems, Inc. a les droits de proprie'te' intellectuels
-relatants a` la technologie incorpore'e dans le produit qui est de'crit
-dans ce document. En particulier, et sans la limitation, ces droits de
-proprie'te' intellectuels peuvent inclure un ou plus des brevets
-ame'ricains e'nume're's a` http://www.sun.com/patents et un ou les
-brevets plus supple'mentaires ou les applications de brevet en attente
-dans les E'tats-Unis et dans les autres pays.
-
-Ce produit ou document est prote'ge' par un copyright et distribue'
-avec des licences qui en restreignent l'utilisation, la copie, la
-distribution, et la de'compilation.  Ce documention associe n peut
-e^tre reproduite et distribuer, par quelque moyen que ce soit, sans
-l'autorisation pre'alable et e'crite de Sun et de ses bailleurs de
-licence, le cas e'che'ant.
-
-Le logiciel de'tenu par des tiers, et qui comprend la technologie
-relative aux polices de caracte`res, est prote'ge' par un copyright et
-licencie' par des fournisseurs de Sun.
-
-Sun,  Sun Microsystems,  le logo Sun,  Java,  JavaServer Pages,  Java
-Naming and Directory Interface,  JDBC,  JDK,  JavaMail et  and
-Enterprise JavaBeans sont des marques de fabrique ou des marques
-de'pose'es de Sun Microsystems, Inc. aux E'tats-Unis et dans d'autres
-pays.
-
-LA DOCUMENTATION EST FOURNIE "EN L'E'TAT" ET TOUTES AUTRES CONDITIONS,
-DECLARATIONS ET GARANTIES EXPRESSES OU TACITES SONT FORMELLEMENT
-EXCLUES, DANS LA MESURE AUTORISEE PAR LA LOI APPLICABLE, Y COMPRIS
-NOTAMMENT TOUTE GARANTIE IMPLICITE RELATIVE A LA QUALITE MARCHANDE, A
-L'APTITUDE A UNE UTILISATION PARTICULIERE OU A L'ABSENCE DE
-CONTREFAC,ON.
 -->
 
 <!--
@@ -146,7 +87,7 @@ managed transaction demarcation.
 The acknowledge-mode element must be one of the two following:
 
 	<acknowledge-mode>Auto-acknowledge</acknowledge-mode>
-	<acknowledge-mode>Dups-ok-acknowledge</acknowledge-mode>
+	<acknowledge-mode>Dups-ok-acknowledge</acknowledgemode>
 
 Used in: message-driven
 -->
@@ -169,7 +110,6 @@ optional for the ejb-jar file producer.
 
 Used in: ejb-jar
 -->
-
 <!ELEMENT assembly-descriptor (security-role*, method-permission*,
 container-transaction*, exclude-list?)>
 
@@ -433,7 +373,6 @@ an enterprise bean's home. The declaration consists of:
 
 Used in: entity, message-driven, session
 -->
-
 <!ELEMENT ejb-ref (description?, ejb-ref-name, ejb-ref-type,
 		home, remote, ejb-link?)>
 
@@ -762,7 +701,6 @@ enterprise bean's local interface.
 Used in: ejb-local-ref, entity, session
 
 -->
-
 <!ELEMENT local (#PCDATA)>
 
 <!--
@@ -1211,7 +1149,6 @@ The reentrant element must be one of the two following:
 
 Used in: entity
 -->
-
 <!ELEMENT reentrant (#PCDATA)>
 
 <!--
@@ -1431,7 +1368,6 @@ Example:
 	<role-name>employee</role-name>
     </security-role>
 -->
-
 <!ELEMENT security-role (description?, role-name)>
 
 <!--
@@ -1596,7 +1532,6 @@ standard deployment descriptor.
 <!ATTLIST abstract-schema-name id ID #IMPLIED>
 <!ATTLIST acknowledge-mode id ID #IMPLIED>
 <!ATTLIST assembly-descriptor id ID #IMPLIED>
-
 <!ATTLIST cascade-delete id ID #IMPLIED>
 <!ATTLIST cmp-field id ID #IMPLIED>
 <!ATTLIST cmp-version id ID #IMPLIED>
@@ -1614,7 +1549,6 @@ standard deployment descriptor.
 <!ATTLIST ejb-local-ref id ID #IMPLIED>
 <!ATTLIST ejb-name id ID #IMPLIED>
 <!ATTLIST ejb-ql id ID #IMPLIED>
-
 <!ATTLIST ejb-ref id ID #IMPLIED>
 <!ATTLIST ejb-ref-name id ID #IMPLIED>
 <!ATTLIST ejb-ref-type id ID #IMPLIED>
@@ -1632,7 +1566,6 @@ standard deployment descriptor.
 <!ATTLIST field-name id ID #IMPLIED>
 <!ATTLIST home id ID #IMPLIED>
 <!ATTLIST large-icon id ID #IMPLIED>
-
 <!ATTLIST local id ID #IMPLIED>
 <!ATTLIST local-home id ID #IMPLIED>
 <!ATTLIST message-driven id ID #IMPLIED>
@@ -1650,7 +1583,6 @@ standard deployment descriptor.
 <!ATTLIST primkey-field id ID #IMPLIED>
 <!ATTLIST query id ID #IMPLIED>
 <!ATTLIST query-method id ID #IMPLIED>
-
 <!ATTLIST reentrant id ID #IMPLIED>
 <!ATTLIST relationship-role-source id ID #IMPLIED>
 <!ATTLIST relationships id ID #IMPLIED>
@@ -1668,7 +1600,6 @@ standard deployment descriptor.
 <!ATTLIST role-name id ID #IMPLIED>
 <!ATTLIST run-as id ID #IMPLIED>
 <!ATTLIST security-identity id ID #IMPLIED>
-
 <!ATTLIST security-role id ID #IMPLIED>
 <!ATTLIST security-role-ref id ID #IMPLIED>
 <!ATTLIST session id ID #IMPLIED>
