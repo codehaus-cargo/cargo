@@ -86,7 +86,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
 
     /**
      * If the project's packaging is war, ear or ejb and there is no deployer specified and the user
-     * has not defined the auto-deployable inside the <code>&lt;deployables&gt;</code> element, then
+     * has not defined any deployables inside the <code>&lt;deployables&gt;</code> element, then
      * add the generated artifact to the list of deployables to deploy statically.
      * 
      * Note that the reason we check that a deployer element has not been specified is because if it
@@ -101,7 +101,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
         if (getDeployerElement() == null && getCargoProject().getPackaging() != null
             && getCargoProject().isJ2EEPackaging())
         {
-            // Has the auto-deployable already been specified as part of the <deployables> config
+            // Has no deployable been specified as part of the <deployables> config
             // element?
             if (getDeployablesElement() == null || getDeployablesElement().length == 0)
             {
