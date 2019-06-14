@@ -101,7 +101,7 @@ public class ContainerStartMojo extends AbstractCargoMojo
         if (getDeployerElement() == null && getCargoProject().getPackaging() != null
             && getCargoProject().isJ2EEPackaging())
         {
-            // Has the auto-deployable already been specified as part of the <deployables> config
+            // Has no deployable been specified as part of the <deployables> config
             // element?
             if (getDeployablesElement() == null || getDeployablesElement().length == 0)
             {
