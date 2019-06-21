@@ -87,8 +87,8 @@ public class ContainerStartMojo extends AbstractCargoMojo
     /**
      * If the project's packaging is war, ear or ejb and there is no deployer specified using the
      * <code>&lt;deployables&gt;</code> element, then add the generated artifact to the list of
-     * deployables to deploy statically.<br/>
-     * <br/>
+     * deployables to deploy statically.<br>
+     * <br>
      * Note that the reason we check that a deployer element has not been specified is because if it
      * has then the auto deployable will be deployed by the specified deployer.
      * 
