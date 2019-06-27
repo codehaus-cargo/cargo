@@ -217,6 +217,11 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
                     rolesToken.append(role);
                     rolesToken.append(",");
                 }
+                final int lastCommaIndex = rolesToken.lastIndexOf(",");
+                if (lastCommaIndex != -1)
+                {
+                    rolesToken.deleteCharAt(lastCommaIndex);
+                }
                 rolesToken.append('\n');
             }
 
