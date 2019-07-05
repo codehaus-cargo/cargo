@@ -498,7 +498,7 @@ public class ConfluenceContainerDocumentationGenerator
             || containerId.startsWith("wildfly10") || containerId.startsWith("wildfly11")
             || containerId.startsWith("wildfly13"))
         {
-            output.append("{note}With the opening of the JBoss EAP to the public and the split ");
+            output.append("{info}With the opening of the JBoss EAP to the public and the split ");
             output.append("between JBoss and WildFly, the below naming correspondance should be ");
             output.append("used with JBoss EAP containers:");
             output.append(LINE_SEPARATOR);
@@ -536,7 +536,24 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("* The [WildFly 13.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7.2; i.e. the version released in ");
             output.append("January 2019");
-            output.append("{note}");
+            output.append("{info}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+        else if (containerId.startsWith("jonas"))
+        {
+            output.append("{note}Due to [license ");
+            output.append("conflicts|https://codehaus-cargo.atlassian.net/browse/CARGO-1489], ");
+            output.append("Codehaus Cargo versions 1.7.6 onwards do not contain the JOnAS ");
+            output.append("Configurator in the Uberjar. If you plan to use the Codehaus Cargo ");
+            output.append("JOnAS containers via [Java API|Javadocs] or ");
+            output.append("[ANT|Ant support], please [download the JOnAS Configurator JARs|");
+            output.append("http://repo.maven.apache.org/maven2/org/ow2/jonas/tools/");
+            output.append("configurator/] separately and put them in your classpath.");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("This does not affect the [Maven2 / Maven 3 plugin|Maven2 plugin], as ");
+            output.append("it will download the required dependencies automatically.{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
