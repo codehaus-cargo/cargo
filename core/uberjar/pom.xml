@@ -49,6 +49,21 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jonas</artifactId>
+      <!-- CARGO-1489: The Uberjar cannot contain OW2 JOnAS components due to license -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.ow2.jonas.tools.configurator</groupId>
+          <artifactId>api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.ow2.jonas.tools.configurator</groupId>
+          <artifactId>configurator</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jrun</artifactId>
     </dependency>
     <dependency>
@@ -116,10 +131,10 @@
               <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
               <artifactSet>
                 <includes>
-                  <include>org.codehaus.cargo:*</include>
+                  <include>org.codehaus.cargo</include>
 
                   <!-- EJB, JSR-88 and JSR-160 -->
-                  <include>org.apache.geronimo.specs:*</include>
+                  <include>org.apache.geronimo.specs</include>
                 </includes>
                 <excludes>
                   <exclude>*:*:*:sources</exclude>
@@ -254,17 +269,6 @@
         <dependency>
           <groupId>org.apache.geronimo.specs</groupId>
           <artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
-          <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-          <groupId>org.ow2.jonas.tools.configurator</groupId>
-          <artifactId>api</artifactId>
-          <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.ow2.jonas.tools.configurator</groupId>
-          <artifactId>configurator</artifactId>
           <classifier>sources</classifier>
         </dependency>
       </dependencies>

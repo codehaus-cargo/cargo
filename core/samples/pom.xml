@@ -49,6 +49,13 @@
       <artifactId>simple-ejb</artifactId>
       <type>ejb</type>
     </dependency>
+
+    <!-- CARGO-1489: The Uberjar cannot contain OW2 JOnAS components due to license -->
+    <dependency>
+      <groupId>org.ow2.jonas.tools.configurator</groupId>
+      <artifactId>configurator</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <pluginManagement>
