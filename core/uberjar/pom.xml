@@ -102,6 +102,18 @@
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-wildfly-swarm</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-ejb_2.1_spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee-deployment_1.1_spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -191,11 +203,6 @@
         <dependency>
           <groupId>org.codehaus.cargo</groupId>
           <artifactId>cargo-core-container-jo</artifactId>
-          <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.codehaus.cargo</groupId>
-          <artifactId>cargo-core-container-jonas</artifactId>
           <classifier>sources</classifier>
         </dependency>
         <dependency>

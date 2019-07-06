@@ -35,9 +35,6 @@
 
                   <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs:*:*:sources:*</include>
-
-                  <!-- The JOnAS container uses the OW2 API -->
-                  <include>org.ow2.jonas.tools.configurator:*:*:sources:*</include>
             </includes>
             <unpack>true</unpack>
             <unpackOptions>
