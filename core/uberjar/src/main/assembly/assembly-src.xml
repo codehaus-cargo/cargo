@@ -20,34 +20,31 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
 
-    <id>sources</id>
-    <includeBaseDirectory>false</includeBaseDirectory>
-    <formats>
-        <format>jar</format>
-    </formats>
-    <dependencySets>
-        <dependencySet>
-            <outputDirectory>.</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0644</fileMode>
-            <includes>
-                <include>org.codehaus.cargo:*:*:sources:*</include>
-
-                  <!-- EJB, JSR-88 and JSR-160 -->
-                  <include>org.apache.geronimo.specs:*:*:sources:*</include>
-            </includes>
-            <unpack>true</unpack>
-            <unpackOptions>
-                <excludes>
-                    <exclude>META-INF/services/*</exclude>
-                </excludes>
-            </unpackOptions>
-        </dependencySet>
-    </dependencySets>
-    <fileSets>
-        <fileSet>
-            <directory>src/main/java</directory>
-            <outputDirectory>.</outputDirectory>
-        </fileSet>
-    </fileSets>
+  <id>sources</id>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>.</outputDirectory>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0644</fileMode>
+      <includes>
+        <include>org.codehaus.cargo:*:*:sources:*</include>
+      </includes>
+      <unpack>true</unpack>
+      <unpackOptions>
+        <excludes>
+          <exclude>META-INF/services/*</exclude>
+        </excludes>
+      </unpackOptions>
+    </dependencySet>
+  </dependencySets>
+  <fileSets>
+    <fileSet>
+      <directory>src/main/java</directory>
+      <outputDirectory>.</outputDirectory>
+    </fileSet>
+  </fileSets>
 </assembly>
