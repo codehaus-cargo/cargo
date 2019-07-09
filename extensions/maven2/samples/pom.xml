@@ -40,7 +40,6 @@
     <module>jetty7x-root-context-test</module>
     <module>jetty8x-embedded-test</module>
     <module>jetty9x-embedded-test</module>
-    <module>jonas5x-test</module>
     <module>ping-test</module>
     <module>multi-datasource-test</module>
     <module>remoteDeploy-test</module>
