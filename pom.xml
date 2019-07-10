@@ -925,6 +925,12 @@
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-ejb_2.1_spec</artifactId>
+        <version>1.1</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
         <artifactId>geronimo-j2ee_1.4_spec</artifactId>
         <version>1.0</version>
       </dependency>
@@ -935,8 +941,20 @@
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-j2ee-deployment_1.1_spec</artifactId>
+        <version>1.1</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
         <artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
         <version>1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-j2ee-management_1.0_spec</artifactId>
+        <version>1.1</version>
+        <classifier>sources</classifier>
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
