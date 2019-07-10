@@ -49,10 +49,6 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-container-jonas</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-container-jrun</artifactId>
     </dependency>
     <dependency>
@@ -126,9 +122,6 @@
 
                   <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs</include>
-
-                  <!-- The JOnAS container uses the OW2 API -->
-                  <include>org.ow2.jonas.tools.configurator</include>
                 </includes>
                 <excludes>
                   <exclude>*:*:*:sources</exclude>
