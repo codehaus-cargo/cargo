@@ -545,14 +545,16 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("conflicts|https://codehaus-cargo.atlassian.net/browse/CARGO-1489], ");
             output.append("Codehaus Cargo versions 1.7.6 onwards do not contain the JOnAS ");
             output.append("Configurator in the Uberjar. If you plan to use the Codehaus Cargo ");
-            output.append("JOnAS containers via [Java API|Javadocs] or ");
-            output.append("[ANT|Ant support], please [download the JOnAS Configurator JARs|");
+            output.append("JOnAS containers via [Java API|Javadocs], [ANT|Ant support] or ");
+            output.append("[Cargo Daemon], please [download the JOnAS Configurator JARs|");
             output.append("http://repo.maven.apache.org/maven2/org/ow2/jonas/tools/");
             output.append("configurator/] separately and put them in your classpath.");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append("This does not affect the [Maven2 / Maven 3 plugin|Maven2 plugin], as ");
-            output.append("it will download the required dependencies automatically.{note}");
+            output.append("it will download the required dependencies automatically (and, since ");
+            output.append("Maven downloads and stores the JOnAS Configurator JARs separately ");
+            output.append("from Codehaus Cargo you won’t run into license issues).{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
