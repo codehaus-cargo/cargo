@@ -19,11 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss;
 
-import java.io.File;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * JBoss 7.3.x (EAP 6.2.x) series container implementation.
@@ -60,55 +56,5 @@ public class JBoss73xInstalledLocalContainer extends JBoss72xInstalledLocalConta
     public String getName()
     {
         return "JBoss " + getVersion("7.3.x") + " (EAP 6.2.x)";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void doStart(JvmLauncher java) throws Exception
-    {
-        copyExtraClasspathJars();
-
-        setProperties(java);
-        java.addJvmArgumentLine("-D[Standalone]");
-
-        java.setJarFile(new File(getHome(), "jboss-modules.jar"));
-
-        String modules = getConfiguration().getPropertyValue(
-            JBossPropertySet.ALTERNATIVE_MODULES_DIR);
-        if (!new File(modules).isAbsolute())
-        {
-            modules = getFileHandler().append(getHome(), modules);
-        }
-
-        java.addAppArguments(
-            "-mp", modules,
-            "org.jboss.as.standalone",
-            "--server-config="
-                + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml");
-
-        String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
-        if (runtimeArgs != null)
-        {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
-            // specify multiline runtime arguments in their XML files
-            runtimeArgs = runtimeArgs.replace('\n', ' ');
-            runtimeArgs = runtimeArgs.replace('\r', ' ');
-            runtimeArgs = runtimeArgs.replace('\t', ' ');
-            java.addAppArgumentLine(runtimeArgs);
-        }
-
-        java.start();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected File getConfigAdminDirectory()
-    {
-        return new File(getHome(),
-            "bundles/system/layers/base/org/jboss/as/osgi/configadmin/main");
     }
 }
