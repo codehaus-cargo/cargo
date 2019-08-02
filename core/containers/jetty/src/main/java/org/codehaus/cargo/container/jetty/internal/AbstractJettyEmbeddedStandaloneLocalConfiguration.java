@@ -20,9 +20,12 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
@@ -54,18 +57,6 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
     public abstract ConfigurationCapability getCapability();
 
     /**
-     * Creates the filter chain that should be applied while copying container configuration files
-     * to the working directory from which the container is started.
-     * 
-     * @return The filter chain, never {@code null}.
-     */
-    protected FilterChain createJettyFilterChain()
-    {
-        FilterChain filterChain = createFilterChain();
-        return filterChain;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -73,15 +64,47 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
     {
         try
         {
-            setupConfigurationDir();
+            EmbeddedLocalContainer embeddedContainer = (EmbeddedLocalContainer) container;
 
-            FilterChain filterChain = createJettyFilterChain();
+            setupConfigurationDir();
 
             String etcDir = getFileHandler().createDirectory(getHome(), "etc");
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
                 new File(getHome(), "cargocpc.war"));
-            getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
-                new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");
+            String webdefault = getFileHandler().append(etcDir, "webdefault.xml");
+            getFileHandler().createFile(webdefault);
+            InputStream webdefaultReader = null;
+            try
+            {
+                webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
+                    "org/mortbay/jetty/servlet/webdefault.xml");
+                if (webdefaultReader == null)
+                {
+                    webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
+                        "org/mortbay/jetty/webapp/webdefault.xml");
+                }
+                if (webdefaultReader == null)
+                {
+                    webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
+                        "org/eclipse/jetty/webapp/webdefault.xml");
+                }
+                if (webdefaultReader == null)
+                {
+                    throw new FileNotFoundException("Cannot find the webdefault.xml file");
+                }
+                try (OutputStream webdefaultWriter = getFileHandler().getOutputStream(webdefault))
+                {
+                    getFileHandler().copy(webdefaultReader, webdefaultWriter);
+                }
+            }
+            finally
+            {
+                if (webdefaultReader != null)
+                {
+                    webdefaultReader.close();
+                }
+                webdefaultReader = null;
+            }
 
             if (container.getOutput() != null)
             {

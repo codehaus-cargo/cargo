@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.apache.tools.ant.types.FilterChain;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
@@ -46,6 +49,11 @@ public class Jetty6xStandaloneLocalConfiguration extends
     public Jetty6xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        addXmlReplacement(
+            "etc/webdefault.xml",
+            "//servlet/init-param/param-name[text()='useFileMappedBuffer']/../param-value",
+            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
     /**
@@ -57,10 +65,13 @@ public class Jetty6xStandaloneLocalConfiguration extends
         return capability;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    protected FilterChain createJettyFilterChain()
+    public void doConfigure(LocalContainer container) throws Exception
     {
-        FilterChain filterChain = super.createJettyFilterChain();
+        super.doConfigure(container);
 
         String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
         String sessionContextParam = "";
@@ -71,14 +82,16 @@ public class Jetty6xStandaloneLocalConfiguration extends
                     + "    <param-name>org.mortbay.jetty.servlet.SessionPath</param-name>\n"
                     + "    <param-value>" + sessionPath + "</param-value>\n"
                     + "  </context-param>\n";
+            Map<String, String> replacements = new HashMap<String, String>(1);
+            replacements.put("</web-app>", sessionContextParam + "</web-app>");
+            String webdefault = getFileHandler().append(getHome(), "etc/webdefault.xml");
+            getFileHandler().replaceInFile(webdefault, replacements, "UTF-8", false);
         }
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            "cargo.jetty.session.path.context-param", sessionContextParam);
-
-        return filterChain;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected AbstractCopyingInstalledLocalDeployer createDeployer(
         InstalledLocalContainer container)

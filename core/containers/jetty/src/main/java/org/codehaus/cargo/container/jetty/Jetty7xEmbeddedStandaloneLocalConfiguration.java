@@ -19,31 +19,34 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty7xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 7.x instance.
  */
 public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
-    AbstractJettyEmbeddedStandaloneLocalConfiguration
+    Jetty6xEmbeddedStandaloneLocalConfiguration
 {
     /**
      * capabilities supported by this config.
      */
     private static ConfigurationCapability capability =
-        new Jetty6xEmbeddedStandaloneLocalConfigurationCapability();
+        new Jetty7xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see AbstractJettyEmbeddedStandaloneLocalConfiguration#AbstractJettyEmbeddedStandaloneLocalConfiguration(String)
+     * @see Jetty6xEmbeddedStandaloneLocalConfiguration#Jetty6xEmbeddedStandaloneLocalConfiguration(String)
      */
     public Jetty7xEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        addXmlReplacement(
+            "etc/webdefault.xml",
+            "//servlet/init-param/param-name[text()='useFileMappedBuffer']/../param-value",
+            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
     /**
@@ -55,35 +58,13 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
         return capability;
     }
 
-    @Override
-    protected FilterChain createJettyFilterChain()
-    {
-        FilterChain filterChain = super.createJettyFilterChain();
-
-        String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
-        String sessionContextParam = "";
-        if (sessionPath != null)
-        {
-            sessionContextParam =
-                "  <context-param>\n"
-                    + "    <param-name>org.eclipse.jetty.servlet.SessionPath</param-name>\n"
-                    + "    <param-value>" + sessionPath + "</param-value>\n"
-                    + "  </context-param>\n";
-        }
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            "cargo.jetty.session.path.context-param", sessionContextParam);
-
-        return filterChain;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     protected void activateLogging(LocalContainer container)
     {
-        getLogger().info("Jetty7x log configuration not implemented", this.getClass().getName());
+        getLogger().info("Jetty 7.x log configuration not implemented", this.getClass().getName());
     }
 
     /**

@@ -20,10 +20,9 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 import java.io.File;
-
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.tools.ant.types.FilterChain;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
@@ -52,18 +51,6 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
     }
 
     /**
-     * Creates the filter chain that should be applied while copying container configuration files
-     * to the working directory from which the container is started.
-     * 
-     * @return The filter chain, never {@code null}.
-     */
-    protected FilterChain createJettyFilterChain()
-    {
-        FilterChain filterChain = createFilterChain();
-        return filterChain;
-    }
-
-    /**
      * Creates a new deployer for the specified container.
      * 
      * @param container The container for which to create the deployer, must not be {@code null}.
@@ -82,8 +69,6 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
 
         setupConfigurationDir();
 
-        FilterChain filterChain = createJettyFilterChain();
-
         String etcDir = getFileHandler().createDirectory(getHome(), "etc");
         getFileHandler().copyDirectory(
             getFileHandler().append(ilContainer.getHome(), "etc"), etcDir);
@@ -96,8 +81,6 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
                 getFileHandler().replaceInFile(etcChild, replaceJettyHome, "UTF-8", true);
             }
         }
-        getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/webdefault.xml",
-            new File(etcDir, "webdefault.xml"), filterChain, "UTF-8");
 
         // Create a webapps directory for automatic deployment of WARs dropped inside.
         String appDir = getFileHandler().createDirectory(getHome(), "webapps");

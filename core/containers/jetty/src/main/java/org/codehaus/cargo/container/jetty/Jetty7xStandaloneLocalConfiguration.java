@@ -25,12 +25,10 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
-import org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyUtils;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
@@ -40,7 +38,7 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  */
 public class Jetty7xStandaloneLocalConfiguration extends
-    AbstractJettyStandaloneLocalConfiguration
+    Jetty6xStandaloneLocalConfiguration
 {
     /**
      * Capability of the Jetty 7.x standalone local configuration.
@@ -50,7 +48,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * @see AbstractJettyStandaloneLocalConfiguration#AbstractJettyStandaloneLocalConfiguration(String)
+     * @see Jetty7xStandaloneLocalConfiguration#Jetty7xStandaloneLocalConfiguration(String)
      */
     public Jetty7xStandaloneLocalConfiguration(String dir)
     {
@@ -67,33 +65,11 @@ public class Jetty7xStandaloneLocalConfiguration extends
         return capability;
     }
 
-    @Override
-    protected FilterChain createJettyFilterChain()
-    {
-        FilterChain filterChain = super.createJettyFilterChain();
-
-        String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
-        String sessionContextParam = "";
-        if (sessionPath != null)
-        {
-            sessionContextParam =
-                "  <context-param>\n"
-                    + "    <param-name>org.eclipse.jetty.servlet.SessionPath</param-name>\n"
-                    + "    <param-value>" + sessionPath + "</param-value>\n"
-                    + "  </context-param>\n";
-        }
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            "cargo.jetty.session.path.context-param", sessionContextParam);
-
-        return filterChain;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void doConfigure(LocalContainer container) throws Exception
+    public void doConfigure(LocalContainer container) throws Exception
     {
         super.doConfigure(container);
 

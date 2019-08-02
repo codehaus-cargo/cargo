@@ -46,7 +46,7 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
      * {@inheritDoc}
      */
     @Override
-    protected void doConfigure(LocalContainer container) throws Exception
+    public void doConfigure(LocalContainer container) throws Exception
     {
         super.doConfigure(container);
 
