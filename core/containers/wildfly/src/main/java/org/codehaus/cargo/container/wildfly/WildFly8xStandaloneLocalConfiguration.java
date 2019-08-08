@@ -218,7 +218,16 @@ public class WildFly8xStandaloneLocalConfiguration
                         RESOURCE_PATH + "wildfly-8/datasource/jboss-driver" + xa + ".xml",
                             temporaryDriver, getFileHandler(), filterChain, "UTF-8");
                     drivers.append("\n");
-                    drivers.append(getFileHandler().readTextFile(temporaryDriver, "UTF-8"));
+                    temporaryDriver = getFileHandler().readTextFile(temporaryDriver, "UTF-8");
+                    int stripTemporaryDriver =
+                        temporaryDriver.indexOf("<!-- Appended section starts here -->");
+                    if (stripTemporaryDriver > 0)
+                    {
+                        stripTemporaryDriver =
+                            temporaryDriver.indexOf('\n', stripTemporaryDriver);
+                        temporaryDriver = temporaryDriver.substring(stripTemporaryDriver + 1);
+                    }
+                    drivers.append(temporaryDriver);
                 }
 
                 String temporaryDatasource = getFileHandler().append(tmpDir, "datasource.xml");
@@ -226,11 +235,21 @@ public class WildFly8xStandaloneLocalConfiguration
                     RESOURCE_PATH + "wildfly-8/datasource/jboss-datasource.xml",
                         temporaryDatasource, getFileHandler(), filterChain, "UTF-8");
                 datasources.append("\n");
-                datasources.append(getFileHandler().readTextFile(temporaryDatasource, "UTF-8"));
+                temporaryDatasource = getFileHandler().readTextFile(temporaryDatasource, "UTF-8");
+                int stripTemporaryDatasource =
+                    temporaryDatasource.indexOf("<!-- Appended section starts here -->");
+                if (stripTemporaryDatasource > 0)
+                {
+                    stripTemporaryDatasource =
+                        temporaryDatasource.indexOf('\n', stripTemporaryDatasource);
+                    temporaryDatasource =
+                        temporaryDatasource.substring(stripTemporaryDatasource + 1);
+                }
+                datasources.append(temporaryDatasource);
             }
 
             Map<String, String> replacements = new HashMap<String, String>(1);
-            replacements.put("<drivers>", datasources + "<drivers>" + drivers);
+            replacements.put("<drivers>", datasources + "\n                <drivers>" + drivers);
             getFileHandler().replaceInFile(configurationXml, replacements, "UTF-8");
         }
         finally
