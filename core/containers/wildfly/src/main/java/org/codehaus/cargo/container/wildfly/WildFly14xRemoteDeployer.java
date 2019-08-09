@@ -1,9 +1,6 @@
 /* 
  * ========================================================================
  *
- * Copyright 2005 Jeff Genender. Code from this file
- * was originally imported from the JBoss Maven2 plugin.
- *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2019 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
