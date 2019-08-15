@@ -105,4 +105,50 @@ public class WebSphere85xInstalledLocalDeployer extends AbstractLocalDeployer
             throw new CargoException("Undeploy failed", e);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void start(Deployable deployable)
+    {
+        try
+        {
+            WebSphereJythonConfigurationFactory factory =
+                    ((WebSphereConfiguration) container.getConfiguration()).getFactory();
+            List<ScriptCommand> wsAdminCommands = new ArrayList<ScriptCommand>();
+
+            wsAdminCommands.add(factory.startDeployableScript(deployable));
+            wsAdminCommands.add(factory.saveSyncScript());
+
+            container.executeScript(wsAdminCommands);
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Start deployable failed", e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stop(Deployable deployable)
+    {
+        try
+        {
+            WebSphereJythonConfigurationFactory factory =
+                    ((WebSphereConfiguration) container.getConfiguration()).getFactory();
+            List<ScriptCommand> wsAdminCommands = new ArrayList<ScriptCommand>();
+
+            wsAdminCommands.add(factory.stopDeployableScript(deployable));
+            wsAdminCommands.add(factory.saveSyncScript());
+
+            container.executeScript(wsAdminCommands);
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Stop deployable failed", e);
+        }
+    }
 }

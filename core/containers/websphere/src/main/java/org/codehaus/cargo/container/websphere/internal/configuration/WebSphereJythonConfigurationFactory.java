@@ -38,6 +38,7 @@ import org.codehaus.cargo.container.websphere.internal.configuration.commands.de
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeployDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.DeploySharedLibraryScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.StartDeployableScriptCommand;
+import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.StopDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.deployment.UndeployDeployableScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.LoggingScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.commands.domain.MiscConfigurationScriptCommand;
@@ -237,6 +238,15 @@ public class WebSphereJythonConfigurationFactory
     public ScriptCommand undeployDeployableScript(Deployable deployable)
     {
         return new UndeployDeployableScriptCommand(configuration, RESOURCE_PATH, deployable);
+    }
+
+    /**
+     * @param deployable Deployable to be stopped.
+     * @return Stop deployable jython script.
+     */
+    public ScriptCommand stopDeployableScript(Deployable deployable)
+    {
+        return new StopDeployableScriptCommand(configuration, RESOURCE_PATH, deployable);
     }
 
     /* User/group configuration*/
