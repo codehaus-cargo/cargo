@@ -23,31 +23,7 @@
     <artifactId>cargo-resources</artifactId>
     <version>1.7.7-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
-  <packaging>war</packaging>
-  <name>Cargo Remote Deployer for Jetty (version 7 and onwards)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (versions 7 and onwards)</description>
-  <dependencies>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-deploy</artifactId>
-      <!--
-        Version declaration needs to stay here as different jetty-deployer modules
-        depend on different versions of same artifact. codehaus-cargo can not simply
-        use single version in dependencyManagement.
-        -->
-      <version>7.6.21.v20160908</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <artifactId>cargo-licensed-dtds</artifactId>
+  <name>DTDs that are used by some Cargo components which have licenses incompatible with the rest of Cargo</name>
+  <description>DTDs that are used by some Cargo components which have licenses incompatible with the rest of Cargo</description>
 </project>

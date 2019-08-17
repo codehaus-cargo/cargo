@@ -46,6 +46,13 @@
       <type>ejb</type>
     </dependency>
 
+    <!-- CARGO-1494: The Uberjar cannot contain licensed DTDs -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-licensed-dtds</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <!-- CARGO-1489: The Uberjar cannot contain OW2 JOnAS components due to license -->
     <dependency>
       <groupId>org.ow2.jonas.tools.configurator</groupId>

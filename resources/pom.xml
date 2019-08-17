@@ -29,8 +29,9 @@
   <description>Cargo Shared Resources (License files, Checkstyle configuration files, etc)</description>
   <modules>
     <module>build-tools</module>
-    <module>testdata</module>
     <module>jetty-6-and-earlier-deployer</module>
     <module>jetty-7-and-onwards-deployer</module>
+    <module>licensed-dtds</module>
+    <module>testdata</module>
   </modules>
 </project>

@@ -428,6 +428,17 @@
       </dependency>
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-licensed-dtds</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-licensed-dtds</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-core-container-geronimo</artifactId>
         <version>${project.version}</version>
       </dependency>

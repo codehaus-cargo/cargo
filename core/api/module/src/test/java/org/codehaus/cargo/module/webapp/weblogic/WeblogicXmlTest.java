@@ -89,9 +89,9 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
         List<Element> elements = getAllElements(descr.getDocument().getRootElement());
         Element n = elements.get(0);
         assertEquals("run-as-role-assignment", n.getName());
-        n = elements.get(1);
-        assertEquals("session-descriptor", n.getName());
         n = elements.get(2);
+        assertEquals("session-descriptor", n.getName());
+        n = elements.get(1);
         assertEquals("reference-descriptor", n.getName());
         n = (Element) n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
         assertEquals("ejb-reference-description", n.getName());

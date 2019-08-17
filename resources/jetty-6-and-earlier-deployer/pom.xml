@@ -27,7 +27,6 @@
   <packaging>war</packaging>
   <name>Cargo Remote Deployer for Jetty (version 6 and earlier)</name>
   <description>Webapp used by Cargo to remotely deploy applications of a Jetty 6.x server</description>
-  <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
