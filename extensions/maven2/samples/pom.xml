@@ -30,7 +30,6 @@
   <modules>
     <module>artifactInstaller-test</module>
     <module>autoDeployable-test</module>
-    <module>cargo-1489-test</module>
     <module>configurationFiles-xmlReplacements-test</module>
     <module>implementationClasses-test</module>
     <module>inPlaceDevelopment-test</module>
@@ -43,6 +42,7 @@
     <module>jetty9x-embedded-test</module>
     <module>jonas5x-test</module>
     <module>ping-test</module>
+    <module>license-test</module>
     <module>multi-datasource-test</module>
     <module>remoteDeploy-test</module>
     <module>runMojo-test</module>
