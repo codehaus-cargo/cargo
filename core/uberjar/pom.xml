@@ -126,6 +126,12 @@
 
                   <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs</include>
+
+                  <!-- JSON and YAML (used by the WildFly and WildFly Swarm containers) -->
+                  <include>com.googlecode.json-simple</include>
+                  <include>com.fasterxml.jackson.core</include>
+                  <include>com.fasterxml.jackson.dataformat</include>
+                  <include>org.yaml</include>
                 </includes>
                 <excludes>
                   <exclude>*:*:*:sources</exclude>

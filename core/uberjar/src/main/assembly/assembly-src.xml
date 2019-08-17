@@ -33,6 +33,10 @@
       <includes>
         <include>org.codehaus.cargo:*:*:sources:*</include>
         <include>org.apache.geronimo.specs:*:*:sources:*</include>
+        <include>com.googlecode.json-simple:*:*:sources:*</include>
+        <include>com.fasterxml.jackson.core:*:*:sources:*</include>
+        <include>com.fasterxml.jackson.dataformat:*:*:sources:*</include>
+        <include>org.yaml:*:*:sources:*</include>
       </includes>
       <unpack>true</unpack>
       <unpackOptions>
