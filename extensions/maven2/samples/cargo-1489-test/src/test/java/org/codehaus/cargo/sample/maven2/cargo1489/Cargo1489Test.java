@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.sample.maven2.cargo1489;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 import junit.framework.TestCase;
 
 /**
@@ -33,7 +37,11 @@ public class Cargo1489Test extends TestCase
      */
     public void testCargo1489() throws Exception
     {
-        ClassLoader loader = this.getClass().getClassLoader();
+        // The Uberjar itself should not contain JOnAS classes
+        URL uberjar = new File(System.getProperty("cargo-uberjar.file")).toURI().toURL();
+        URL[] uberjarUrl = new URL[1];
+        uberjarUrl[0] = uberjar;
+        ClassLoader loader = new URLClassLoader(uberjarUrl);
         loader.loadClass("org.codehaus.cargo.container.jonas.internal."
             + "AbstractJonasStandaloneLocalConfiguration");
         try
@@ -45,7 +53,13 @@ public class Cargo1489Test extends TestCase
         catch (ClassNotFoundException expected)
         {
             // Expected exception
-        }   
+        }
+
+        // The Maven dependency for Uberjar should link to JOnAS classes
+        loader = this.getClass().getClassLoader();
+        loader.loadClass("org.codehaus.cargo.container.jonas.internal."
+            + "AbstractJonasStandaloneLocalConfiguration");
+        loader.loadClass("org.ow2.jonas.tools.configurator.Jonas");
     }
 
 }
