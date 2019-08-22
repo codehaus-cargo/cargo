@@ -333,24 +333,24 @@ public class EmbeddedContainerArtifactResolver
         tomcat9xDependencies.add(new Dependency("javax.security.auth.message",
             "javax.security.auth.message-api", "1.1"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-servlet-api",
-            "9.0.22"));
+            "9.0.24"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-annotations-api",
-            "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "9.0.22"));
+            "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "9.0.24"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
-            "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "9.0.22"));
+            "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "9.0.24"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util-scan",
-            "9.0.22"));
+            "9.0.24"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina",
-            "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.22"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.22"));
+            "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.24"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.24"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
-            "9.0.22"));
+            "9.0.24"));
         tomcat9xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.5.1"));
         this.containerDependencies.put("tomcat9x", tomcat9xDependencies);
