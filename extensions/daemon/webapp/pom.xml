@@ -58,6 +58,12 @@
                   <destFileName>servlet.jar</destFileName>
                   <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/tjws</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-uberjar</artifactId>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -101,6 +107,17 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-uberjar</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>com.googlecode.json-simple</groupId>
       <artifactId>json-simple</artifactId>
     </dependency>
@@ -120,19 +137,39 @@
       <groupId>net.java.dev.jna</groupId>
       <artifactId>platform</artifactId>
     </dependency>
+
+    <!-- Dependencies as per https://codehaus-cargo.github.io/cargo/Installation.html -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-generic</artifactId>
-      <scope>provided</scope>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+    </dependency>
+
+    <!-- Dependencies added due to CARGO-1489 and CARGO-1494 -->
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-uberjar</artifactId>
+      <artifactId>cargo-licensed-dtds</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.jonas.tools.configurator</groupId>
+      <artifactId>configurator</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

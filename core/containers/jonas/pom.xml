@@ -90,10 +90,6 @@
 
     <dependency>
       <groupId>org.ow2.jonas.tools.configurator</groupId>
-      <artifactId>api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.ow2.jonas.tools.configurator</groupId>
       <artifactId>configurator</artifactId>
       <exclusions>
         <exclusion>
