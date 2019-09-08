@@ -143,7 +143,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat7x</id>
+      <id>tomcat8x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -155,7 +155,7 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>tomcat7x</containerId>
+                  <containerId>tomcat8x</containerId>
                 </container>
               </configuration>
             </plugin>

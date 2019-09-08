@@ -63,11 +63,11 @@
             <version>${project.version}</version>
             <configuration>
               <container>
-                <containerId>tomcat7x</containerId>
+                <containerId>tomcat8x</containerId>
                 <artifactInstaller>
                   <groupId>org.apache.tomcat</groupId>
                   <artifactId>tomcat</artifactId>
-                  <version>7.0.70</version>
+                  <version>8.5.45</version>
                 </artifactInstaller>
               </container>
               <configuration>

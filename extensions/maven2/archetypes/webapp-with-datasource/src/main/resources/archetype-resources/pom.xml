@@ -166,7 +166,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat7x</id>
+      <id>tomcat8x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -175,9 +175,9 @@
               <artifactId>cargo-maven2-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>tomcat7x</containerId>
+                  <containerId>tomcat8x</containerId>
                   <zipUrlInstaller>
-                    <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</url>
+                    <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.45/tomcat-8.5.45.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>

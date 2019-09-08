@@ -1852,15 +1852,15 @@
     </profile>
     <profile>
       <id>tomcat7x</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <properties>
         <cargo.containers>tomcat7x</cargo.containers>
       </properties>
     </profile>
     <profile>
       <id>tomcat8x</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <cargo.containers>tomcat8x</cargo.containers>
       </properties>

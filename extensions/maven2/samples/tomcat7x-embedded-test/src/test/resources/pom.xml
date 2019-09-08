@@ -57,7 +57,7 @@
 		<version>${cargo.version}</version>
 		<configuration>
 		  <container>
-			<containerId>tomcat7x</containerId>
+			<containerId>tomcat8x</containerId>
 			<type>embedded</type>
 		  </container>
 		  <configuration>
