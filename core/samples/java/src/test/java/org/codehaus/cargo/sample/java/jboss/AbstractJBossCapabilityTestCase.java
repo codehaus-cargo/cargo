@@ -87,7 +87,7 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
             // Thread's ContextClassLoader. We therefore need to include the client JAR in there.
             URL[] urls;
             if (getContainer().getId().startsWith("jboss7")
-              || getContainer().getId().startsWith("wildfly"))
+                || getContainer().getId().startsWith("wildfly"))
             {
                 List<File> files = new ArrayList<File>();
                 addAllJars(new File(getInstalledLocalContainer().getHome(), "modules"), files);
