@@ -66,6 +66,7 @@
     <module>jrun</module>
     <module>liberty</module>
     <module>orion</module>
+    <module>payara</module>
     <module>resin</module>
     <module>tomcat</module>
     <module>tomee</module>

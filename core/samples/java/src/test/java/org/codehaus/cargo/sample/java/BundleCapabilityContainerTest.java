@@ -112,9 +112,10 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
     {
         BufferedReader reader;
         File bundleOutput;
-        if (getContainer().getId().startsWith("glassfish"))
+        if (getContainer().getId().startsWith("glassfish")
+            || getContainer().getId().startsWith("payara"))
         {
-            // In GlassFish, the server runs in the domain's "config" directory
+            // In GlassFish and Payara, the server runs in the domain's "config" directory
             LocalConfiguration configuration = getLocalContainer().getConfiguration();
             bundleOutput = new File(configuration.getHome() + "/"
                 + configuration.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config",

@@ -72,6 +72,13 @@ public class GlassFishDeploymentPlanTest extends AbstractCargoTestCase
             new HasLocalDeployerValidator()
         }, excludedContainerIds);
 
+        suite.addTestSuite(GlassFishDeploymentPlanTest.class, new Validator[] {
+            new StartsWithContainerValidator("payara"),
+            new IsInstalledLocalContainerValidator(),
+            new HasStandaloneConfigurationValidator(),
+            new HasLocalDeployerValidator()
+        }, excludedContainerIds);
+
         return suite;
     }
 

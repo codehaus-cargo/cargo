@@ -96,11 +96,13 @@ public class MailResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // GlassFish 3.x, 4.x and 5.x containers cannot deploy mail sessions as a resource
+        // GlassFish 3.x, 4.x and 5.x as well as Payara containers
+        // cannot deploy mail sessions as a resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
         excludedContainerIds.add("glassfish5x");
+        excludedContainerIds.add("payara");
 
         suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
             new Validator[] {

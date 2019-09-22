@@ -164,6 +164,7 @@ public class ConfluenceContainerDocumentationGenerator
      */
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
         "glassfish5x",
+        "payara",
         "tomcat9x",
         "tomee8x",
         "weblogic122x",
@@ -320,26 +321,35 @@ public class ConfluenceContainerDocumentationGenerator
 
                     String[] containerNameAndVersion = container.getName().toLowerCase(
                         Locale.ENGLISH).split("\\s");
-                    if (containerNameAndVersion[1].charAt(0) >= '0'
-                        && containerNameAndVersion[1].charAt(0) <= '9')
+                    if (containerNameAndVersion.length > 1)
                     {
-                        Double containerVersion = Double.parseDouble(
-                            containerNameAndVersion[1].replace(".x", ""));
-                        if (containerVersion < 10.0)
+                        if (containerNameAndVersion[1].charAt(0) >= '0'
+                            && containerNameAndVersion[1].charAt(0) <= '9')
                         {
-                            sortedContainers.put(
-                                containerNameAndVersion[0] + '0' + containerVersion, container);
+                            Double containerVersion = Double.parseDouble(
+                                containerNameAndVersion[1].replace(".x", ""));
+                            if (containerVersion < 10.0)
+                            {
+                                sortedContainers.put(
+                                    containerNameAndVersion[0] + '0' + containerVersion,
+                                        container);
+                            }
+                            else
+                            {
+                                sortedContainers.put(
+                                    containerNameAndVersion[0] + containerVersion, container);
+                            }
                         }
                         else
                         {
                             sortedContainers.put(
-                                containerNameAndVersion[0] + containerVersion, container);
+                                containerNameAndVersion[0] + containerNameAndVersion[1],
+                                    container);
                         }
                     }
                     else
                     {
-                        sortedContainers.put(
-                            containerNameAndVersion[0] + containerNameAndVersion[1], container);
+                        sortedContainers.put(containerNameAndVersion[0], container);
                     }
                 }
             }
@@ -484,13 +494,6 @@ public class ConfluenceContainerDocumentationGenerator
         if (containerId.equals("geronimo1x"))
         {
             output.append("{note}The Geronimo 1.x CARGO container REQUIRES Geronimo 1.1.1.{note}");
-            output.append(LINE_SEPARATOR);
-            output.append(LINE_SEPARATOR);
-        }
-        else if (containerId.equals("glassfish4x") || containerId.equals("glassfish5x"))
-        {
-            output.append("{info}The GlassFish 4.x and GlassFish 5.x containers also work with ");
-            output.append("[Payara|http://www.payara.fish/].{info}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
@@ -1062,14 +1065,15 @@ public class ConfluenceContainerDocumentationGenerator
         }
         output.append(LINE_SEPARATOR);
 
-        if (containerId.startsWith("glassfish"))
+        if (containerId.startsWith("glassfish") || containerId.startsWith("payara"))
         {
             String glassFishPropertySetLink = JAVADOC_URL_PREFIX
                     + GlassFishPropertySet.class.getName().replace('.', '/') + ".html#";
             output.append("{info:title=Adding arguments to the Deployer}");
             output.append(LINE_SEPARATOR);
-            output.append("The GlassFish installed deployer allows for additional deployment and ");
-            output.append("undeployment arguments by adding properties prefixed with ");
+            output.append("The GlassFish / Payara installed deployer allows for additional ");
+            output.append("deployment and undeployment arguments by adding properties prefixed ");
+            output.append("with ");
             output.append("{{[GlassFishPropertySet.DEPLOY_ARG_PREFIX|" + glassFishPropertySetLink);
             output.append("DEPLOY_ARG_PREFIX]}} and {{[GlassFishPropertySet.UNDEPLOY_ARG_PREFIX|");
             output.append(glassFishPropertySetLink + "UNDEPLOY_ARG_PREFIX]}} respectively ");
@@ -1250,7 +1254,8 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("{info}Before using the Jetty remote deployer, ");
                 output.append("please read: [Jetty Remote Deployer]{info}");
             }
-            else if (containerId.equals("glassfish3x"))
+            else if (containerId.equals("glassfish3x") || containerId.equals("glassfish4x")
+                || containerId.equals("glassfish5x") || containerId.equals("payara"))
             {
                 output.append(LINE_SEPARATOR);
                 output.append(LINE_SEPARATOR);

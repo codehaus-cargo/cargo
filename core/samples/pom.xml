@@ -714,6 +714,15 @@
               </property>
 
               <property>
+                <name>cargo.payara.url</name>
+                <value>http://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.193/payara-5.193.zip</value>
+              </property>
+              <property>
+                <name>cargo.payara.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.resin2x.url</name>
                 <value>http://www.caucho.com/download/resin-2.1.17.zip</value>
               </property>
@@ -1809,6 +1818,13 @@
       <id>oc4j10x</id>
       <properties>
         <cargo.containers>oc4j10x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>payara</id>
+      <properties>
+        <cargo.containers>payara</cargo.containers>
       </properties>
     </profile>
 

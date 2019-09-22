@@ -72,6 +72,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
         excludedContainerIds.add("glassfish5x");
+        excludedContainerIds.add("payara");
         excludedContainerIds.add("weblogic121x");
         excludedContainerIds.add("weblogic122x");
         excludedContainerIds.add("wildfly8x");
