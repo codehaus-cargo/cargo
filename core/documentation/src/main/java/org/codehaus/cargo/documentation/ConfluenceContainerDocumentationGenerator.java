@@ -1071,9 +1071,17 @@ public class ConfluenceContainerDocumentationGenerator
                     + GlassFishPropertySet.class.getName().replace('.', '/') + ".html#";
             output.append("{info:title=Adding arguments to the Deployer}");
             output.append(LINE_SEPARATOR);
-            output.append("The GlassFish / Payara installed deployer allows for additional ");
-            output.append("deployment and undeployment arguments by adding properties prefixed ");
-            output.append("with ");
+            output.append("The ");
+            if (containerId.startsWith("glassfish"))
+            {
+                output.append("GlassFish");
+            }
+            else
+            {
+                output.append("Payara");
+            }
+            output.append(" installed deployer allows for additional deployment and ");
+            output.append("undeployment arguments by adding properties prefixed with ");
             output.append("{{[GlassFishPropertySet.DEPLOY_ARG_PREFIX|" + glassFishPropertySetLink);
             output.append("DEPLOY_ARG_PREFIX]}} and {{[GlassFishPropertySet.UNDEPLOY_ARG_PREFIX|");
             output.append(glassFishPropertySetLink + "UNDEPLOY_ARG_PREFIX]}} respectively ");
@@ -1259,8 +1267,16 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append(LINE_SEPARATOR);
                 output.append(LINE_SEPARATOR);
-                output.append("{info}Before using the GlassFish remote deployer, ");
-                output.append("please read: [JSR88]{info}");
+                output.append("{info}Before using the ");
+                if (containerId.startsWith("glassfish"))
+                {
+                    output.append("GlassFish");
+                }
+                else
+                {
+                    output.append("Payara");
+                }
+                output.append(" remote deployer, please read: [JSR88]{info}");
             }
             if (containerId.startsWith("wildfly"))
             {
