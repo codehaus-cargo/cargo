@@ -69,10 +69,17 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
     {
         CargoTestSuite suite =
             new CargoTestSuite("Test that verifies that deployment of HAR archive work on local "
-                + "installed JBoss containers");
+                + "installed JBoss / WildFly containers");
 
         suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
             new StartsWithContainerValidator("jboss"),
+            new HasDeployableSupportValidator(DeployableType.HAR),
+            new IsInstalledLocalContainerValidator(),
+            new HasStandaloneConfigurationValidator()
+        });
+
+        suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
+            new StartsWithContainerValidator("wildfly"),
             new HasDeployableSupportValidator(DeployableType.HAR),
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()

@@ -83,10 +83,11 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
                 GeneralPropertySet.RMI_PORT);
 
             // In order to do JNDI lookups on JBoss, the Java Naming Context requires stub classes
-            // from JBoss; and one of the place in which it looks for these is the Thread's
-            // ContextClassLoader. We therefore need to include the JBoss client JAR in there.
+            // from JBoss / WildFly; and one of the place in which it looks for these is the
+            // Thread's ContextClassLoader. We therefore need to include the client JAR in there.
             URL[] urls;
-            if (getContainer().getId().startsWith("jboss7"))
+            if (getContainer().getId().startsWith("jboss7")
+              || getContainer().getId().startsWith("wildfly"))
             {
                 List<File> files = new ArrayList<File>();
                 addAllJars(new File(getInstalledLocalContainer().getHome(), "modules"), files);
@@ -110,7 +111,8 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
             Thread.currentThread().setContextClassLoader(classloader);
 
             Properties props = new Properties();
-            if (getContainer().getId().startsWith("jboss7"))
+            if (getContainer().getId().startsWith("jboss7")
+                || getContainer().getId().startsWith("wildfly"))
             {
                 props.setProperty(
                     Context.INITIAL_CONTEXT_FACTORY, "org.jboss.as.naming.InitialContextFactory");
@@ -189,7 +191,8 @@ public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestC
                 // JNDI name is "jmxconnector" for JBoss 5.x
                 jndiName = "jmxconnector";
             }
-            else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7"))
+            else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
+                || containerId.startsWith("wildfly"))
             {
                 // JNDI name is "jmxrmi" starting with JBoss 6.0.0 M3
                 jndiName = "jmxrmi";
