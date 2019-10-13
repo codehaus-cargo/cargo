@@ -177,6 +177,7 @@ public class ConfluenceContainerDocumentationGenerator
         "wildfly15x",
         "wildfly16x",
         "wildfly17x",
+        "wildfly18x",
         "wildfly-swarm2017x"
     });
 
