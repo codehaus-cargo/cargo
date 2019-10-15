@@ -168,7 +168,7 @@
                 <container>
                   <containerId>tomcat8x</containerId>
                   <zipUrlInstaller>
-                    <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.46/tomcat-8.5.46.zip</url>
+                    <url>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.47/tomcat-8.5.47.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>
