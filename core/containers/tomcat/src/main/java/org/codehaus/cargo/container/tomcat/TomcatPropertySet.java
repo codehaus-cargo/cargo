@@ -155,4 +155,10 @@ public interface TomcatPropertySet
      * </code>
      */
     String CUSTOM_VALVE = "cargo.tomcat.valve";
+
+    /**
+     * Tomcat Manager update parameter when doing a deploy.
+     * Setting to true allows deploy without doing an explicit undeploy of existing web-app first.
+     */
+    String DEPLOY_UPDATE = "cargo.tomcat.deploy.update";
 }

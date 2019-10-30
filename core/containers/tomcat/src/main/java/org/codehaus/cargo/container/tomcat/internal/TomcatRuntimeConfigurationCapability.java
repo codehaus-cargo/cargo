@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
@@ -38,5 +39,6 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.URI, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.DEPLOY_UPDATE, Boolean.TRUE);
     }
 }

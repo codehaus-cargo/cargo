@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
  * Common code to perform both local or remote deployments using a Tomcat manager-based deployer.
@@ -96,8 +97,10 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
         try
         {
+            boolean update = Boolean.parseBoolean(
+                getConfiguration().getPropertyValue(TomcatPropertySet.DEPLOY_UPDATE));
             getTomcatManager().deploy(getPath(deployable), getVersion(deployable),
-                new FileInputStream(file), false, null);
+                new FileInputStream(file), update, null);
         }
         catch (IOException|TomcatManagerException exception)
         {
