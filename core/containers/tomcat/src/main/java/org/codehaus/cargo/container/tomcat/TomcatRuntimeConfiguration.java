@@ -37,6 +37,17 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
 
     /**
      * {@inheritDoc}
+     * @see AbstractRuntimeConfiguration#AbstractRuntimeConfiguration()
+     */
+    public TomcatRuntimeConfiguration()
+    {
+        super();
+
+        setProperty(TomcatPropertySet.DEPLOY_UPDATE, "false");
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public ConfigurationCapability getCapability()
