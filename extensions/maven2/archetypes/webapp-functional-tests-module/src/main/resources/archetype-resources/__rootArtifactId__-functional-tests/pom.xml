@@ -127,7 +127,7 @@
                       with both JDK 7 and JDK 11. Feel free to use the latest version
                       9.4.22.v20191022 if JDK 7 is not a constaint for you.
                       -->
-                    <version>9.2.25.v20180606</version>
+                    <version>9.2.29.v20191105</version>
                   </artifactInstaller>
                 </container>
               </configuration>
