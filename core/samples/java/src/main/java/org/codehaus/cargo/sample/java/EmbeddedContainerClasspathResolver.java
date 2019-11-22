@@ -68,7 +68,7 @@ public class EmbeddedContainerClasspathResolver
         jetty7xDependencies.add("lib/jsp/*.jar");
 
         List<String> jetty8x9xDependencies = new ArrayList<String>();
-        jetty8x9xDependencies.add("lib/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
+        jetty8x9xDependencies.add("lib/*.jar|lib/jaspi/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
         jetty8x9xDependencies.add("lib/annotations/*.jar");
         jetty8x9xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
 

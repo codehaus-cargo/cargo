@@ -68,18 +68,25 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     @Override
     public void setDefaultRealm(Object webapp) throws Exception
     {
-        // Class userRealmClass = getClassLoader()
-        // .loadClass("org.eclipse.jetty.security.UserRealm");
-        Class userRealmClass = getClassLoader()
-            .loadClass("org.eclipse.jetty.security.LoginService");
-
         if (this.defaultRealm != null)
         {
             Object securityHandler =
                 webapp.getClass().getMethod("getSecurityHandler", new Class[] {}).invoke(webapp,
                     new Object[] {});
+
+            Class userRealmClass = getClassLoader()
+                .loadClass("org.eclipse.jetty.security.LoginService");
             securityHandler.getClass().getMethod("setLoginService", new Class[] {userRealmClass})
                 .invoke(securityHandler, new Object[] {this.defaultRealm});
+
+            Class authenticatorClass = getClassLoader()
+                .loadClass("org.eclipse.jetty.security.Authenticator");
+            Object basicAuthenticator = getClassLoader()
+                .loadClass("org.eclipse.jetty.security.authentication.BasicAuthenticator")
+                    .getDeclaredConstructor().newInstance();
+            securityHandler.getClass().getMethod("setAuthenticator",
+                new Class[] {authenticatorClass})
+                    .invoke(securityHandler, new Object[] {basicAuthenticator});
         }
     }
 
