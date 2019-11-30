@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-maven2-archetypes</artifactId>
-    <version>1.7.8</version>
+    <version>1.7.9-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-archetype-remote-deployment</artifactId>
   <packaging>maven-archetype</packaging>
