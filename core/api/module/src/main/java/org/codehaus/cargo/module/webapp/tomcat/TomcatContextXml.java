@@ -92,10 +92,10 @@ public class TomcatContextXml extends AbstractDescriptor
     }
 
     /**
-     * Gets all the parameters that match XPath "<tt>Context/Parameter</tt>".
+     * Gets all the parameters that match XPath "<code>Context/Parameter</code>".
      * 
-     * @return Always non-null (but possibly empty) map keyed by <tt>Context/Parameter/@name</tt>
-     * and value is <tt>Context/Parameter/@value</tt>
+     * @return Always non-null (but possibly empty) map keyed by
+     * <code>Context/Parameter/@name</code> and value is <code>Context/Parameter/@value</code>
      */
     public Map<Attribute, Attribute> getParameters()
     {

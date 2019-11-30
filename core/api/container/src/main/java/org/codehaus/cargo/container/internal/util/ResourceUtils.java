@@ -191,7 +191,7 @@ public final class ResourceUtils extends LoggedObject
     /**
      * Creates a new InputStreamReader with provide encoding
      * @param is the stream used to create the reader
-     * @param encoding the encoding used to create the reader. If it is <tt>null</tt> then the
+     * @param encoding the encoding used to create the reader. If it is <code>null</code> then the
      * default system encoding will be used.
      * @return a new reader for provided stream and encoding
      * @throws UnsupportedEncodingException If the named charset is not supported

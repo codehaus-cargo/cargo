@@ -473,7 +473,7 @@ public final class TomcatEmbedded
     public final class Context extends Wrapper
     {
         /**
-         * Wraps <tt>org.apache.catalina.Context</tt> object.
+         * Wraps <code>org.apache.catalina.Context</code> object.
          * 
          * @param context object to be wrapped.
          */
@@ -885,7 +885,7 @@ public final class TomcatEmbedded
          * 
          * @param cl This needs to be set to {@link ClassLoader} that can see classes that implement
          * Tomcat, or else you'll get errors like "Servlet jsp is not available" (because the system
-         * failed to load <tt>JspServlet</tt> class.)
+         * failed to load <code>JspServlet</code> class.)
          */
         public void setParentClassLoader(ClassLoader cl)
         {

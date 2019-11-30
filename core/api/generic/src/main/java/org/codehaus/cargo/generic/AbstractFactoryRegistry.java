@@ -60,7 +60,7 @@ public abstract class AbstractFactoryRegistry
      * <p>
      * The discovery is done by <a href="http://java.sun.com/j2se/1.3/docs/guide/jar/jar.html">the
      * standard service loader mechanism</a>, by looking for
-     * <tt>/META-INF/services/org.codehaus.cargo.generic.AbstractFactoryRegistry</tt> files.
+     * <code>/META-INF/services/org.codehaus.cargo.generic.AbstractFactoryRegistry</code> files.
      * 
      * @param classLoader The class loader to be used to search service provide configuration files.
      * If null, the value defaults to the thread context classloader. If that's also null, the value
