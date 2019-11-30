@@ -1104,6 +1104,7 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.1</version>
           <configuration>
+            <!-- When you change the below, remember to also update the Javadoc plugin configuration -->
             <source>1.7</source>
             <target>1.7</target>
           </configuration>
@@ -1158,6 +1159,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.10.3</version>
           <configuration>
+            <source>1.7</source>
             <additionalDependencies>
               <additionalDependency>
                 <groupId>jmock</groupId>
