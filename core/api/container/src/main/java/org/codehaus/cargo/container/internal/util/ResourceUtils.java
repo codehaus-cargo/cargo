@@ -38,7 +38,8 @@ import java.util.Vector;
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.
+    ;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
 
@@ -283,7 +284,8 @@ public final class ResourceUtils extends LoggedObject
         Vector<FilterChain> filterChains = new Vector<FilterChain>();
         filterChains.add(filterChain);
         helper.setFilterChains(filterChains);
-        try (BufferedReader in = new BufferedReader(helper.getAssembledReader()))
+        try (BufferedReader in =
+                new BufferedReader(DefaultFileHandler.getAssembledReader(helper)))
         {
             String line;
             StringBuilder out = new StringBuilder();
