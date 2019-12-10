@@ -283,7 +283,8 @@ public final class ResourceUtils extends LoggedObject
         Vector<FilterChain> filterChains = new Vector<FilterChain>();
         filterChains.add(filterChain);
         helper.setFilterChains(filterChains);
-        try (BufferedReader in = new BufferedReader(helper.getAssembledReader()))
+        try (BufferedReader in =
+                new BufferedReader(DefaultFileHandler.getAssembledReader(helper)))
         {
             String line;
             StringBuilder out = new StringBuilder();
