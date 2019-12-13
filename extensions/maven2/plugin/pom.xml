@@ -59,6 +59,10 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-licensed-dtds</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-documentation</artifactId>
     </dependency>
     <dependency>
