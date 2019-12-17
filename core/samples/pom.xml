@@ -799,17 +799,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <!--
-                  Tomcat 7.0.96 cannot be used due to a java.lang.NullPointerException at
-                  org.apache.catalina.core.NamingContextListener.getGlobalNamingContext
-                  in the Embedded container
-
-                  Patch proposed as per https://github.com/apache/tomcat/pull/201
-                  -->
-                <!--
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.96/tomcat-7.0.96.zip</value>
-                  -->
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.70/tomcat-7.0.70.zip</value>
+                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.99/tomcat-7.0.99.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
