@@ -39,6 +39,7 @@ public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigu
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.URI, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.DEPLOY_UPDATE, Boolean.TRUE);
     }
 }

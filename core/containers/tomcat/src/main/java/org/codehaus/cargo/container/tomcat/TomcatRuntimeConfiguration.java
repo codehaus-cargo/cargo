@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCapability;
 
@@ -29,6 +30,8 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCa
  */
 public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
 {
+    private static final long TWO_HOURS = 2 * 60 * 60 * 1000;
+
     /**
      * Capability of the Tomcat runtime configuration.
      */
@@ -44,6 +47,7 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
         super();
 
         setProperty(TomcatPropertySet.DEPLOY_UPDATE, "false");
+        setProperty(RemotePropertySet.TIMEOUT, Long.toString(TWO_HOURS));
     }
 
     /**

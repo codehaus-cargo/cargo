@@ -81,6 +81,11 @@ public class TomcatManager extends LoggedObject
     private MessageDigest md5;
 
     /**
+     * Operation timeout when communicating with Tomcat manager
+     */
+    private int timeout = 0;
+
+    /**
      * Creates a Tomcat manager wrapper for the specified URL that uses a username of
      * <code>admin</code>, an empty password and ISO-8859-1 URL encoding.
      * 
@@ -524,6 +529,11 @@ public class TomcatManager extends LoggedObject
         connection.setAllowUserInteraction(false);
         connection.setDoInput(true);
         connection.setUseCaches(false);
+        if (timeout > 0)
+        {
+            connection.setConnectTimeout(timeout);
+            connection.setReadTimeout(timeout);
+        }
 
         if (data == null)
         {
@@ -908,5 +918,14 @@ public class TomcatManager extends LoggedObject
             }
         }
         return TomcatDeployableStatus.NOT_FOUND;
+    }
+
+    /**
+     * Operation timeout when communicating with Tomcat manager
+     * 
+     * @param timeout in milliseconds; max is Integer.MAX_VALUE
+     */
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }
