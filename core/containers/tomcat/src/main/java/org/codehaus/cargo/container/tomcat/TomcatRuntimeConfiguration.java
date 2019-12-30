@@ -30,6 +30,9 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCa
  */
 public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
 {
+    /**
+     * Default timeout for Tomcat (in milliseconds).
+     */
     private static final long TWO_HOURS = 2 * 60 * 60 * 1000;
 
     /**

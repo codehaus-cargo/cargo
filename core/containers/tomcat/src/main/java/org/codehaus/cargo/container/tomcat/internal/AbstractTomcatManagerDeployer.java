@@ -301,7 +301,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         }
         int timeout = 0;
         String timeoutStr = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
-        if (timeoutStr != null && !timeoutStr.isEmpty()) {
+        if (timeoutStr != null && !timeoutStr.isEmpty()) 
+        {
             timeout = Integer.parseInt(timeoutStr);
         }
         manager = new TomcatManager(managerURL, username, password);
