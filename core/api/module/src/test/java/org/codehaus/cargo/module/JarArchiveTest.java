@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.util.AbstractResourceTest;
 import org.codehaus.cargo.util.VFSFileHandler;
 

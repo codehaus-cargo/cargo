@@ -21,8 +21,8 @@ package org.codehaus.cargo.util;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 
 /**
  * Unit tests for {@link VFSFileHandler}.

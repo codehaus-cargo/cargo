@@ -70,8 +70,8 @@
       <artifactId>cargo-daemon-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>commons-vfs</groupId>
-      <artifactId>commons-vfs</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-vfs2</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

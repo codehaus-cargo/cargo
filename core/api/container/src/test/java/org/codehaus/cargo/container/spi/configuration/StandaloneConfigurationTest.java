@@ -24,9 +24,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.vfs.AllFileSelector;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs2.AllFileSelector;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.VFS;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;

@@ -23,7 +23,7 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Get;

@@ -24,7 +24,7 @@ package org.codehaus.cargo.container.jonas;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;

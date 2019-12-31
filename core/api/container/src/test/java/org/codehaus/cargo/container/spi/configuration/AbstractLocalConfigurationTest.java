@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.spi.configuration;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;

@@ -24,7 +24,7 @@ package org.codehaus.cargo.container.jonas;
 
 import java.util.Properties;
 
-import org.apache.commons.vfs.impl.StandardFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.stub.JvmLauncherStub;
 import org.codehaus.cargo.util.FileHandler;
