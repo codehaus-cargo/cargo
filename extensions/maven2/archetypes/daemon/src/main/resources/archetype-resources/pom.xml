@@ -139,7 +139,7 @@
                     <!--
                       We have used here Jetty 9.2.x as that's the only version that's working fine
                       with both JDK 7 and JDK 11. Feel free to use the latest version
-                      9.4.24.v20191120 if JDK 7 is not a constaint for you.
+                      9.4.25.v20191220 if JDK 7 is not a constaint for you.
                       -->
                     <version>9.2.29.v20191105</version>
                   </artifactInstaller>
