@@ -436,24 +436,24 @@
               <property>
                 <name>cargo.jetty7x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
                   -->
                 <!--
                   Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.21.v20160908/jetty-distribution-7.6.21.v20160908.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.21.v20160908/jetty-distribution-7.6.21.v20160908.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty7x.java.home</name>
@@ -466,9 +466,9 @@
                   Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty8x.java.home</name>
@@ -478,18 +478,18 @@
               <property>
                 <name>cargo.jetty9x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.29.v20191105/jetty-distribution-9.2.29.v20191105.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.29.v20191105/jetty-distribution-9.2.29.v20191105.tar.gz</value>
                   -->
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.28.v20191105/jetty-distribution-9.3.28.v20191105.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.28.v20191105/jetty-distribution-9.3.28.v20191105.tar.gz</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.25.v20191220/jetty-distribution-9.4.25.v20191220.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.26.v20200117/jetty-distribution-9.4.26.v20200117.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
@@ -520,7 +520,7 @@
 
               <property>
                 <name>cargo.jonas5x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jonas5x.java.home</name>
@@ -570,7 +570,7 @@
                   DO NOT try to use version 2.2.1 because of Geronimo issue
                   https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>
@@ -579,7 +579,7 @@
 
               <property>
                 <name>cargo.geronimo3x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo3x.java.home</name>
@@ -615,9 +615,9 @@
               <property>
                 <name>cargo.glassfish3x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/glassfish/distributions/glassfish/3.0.1/glassfish-3.0.1.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/distributions/glassfish/3.0.1/glassfish-3.0.1.zip</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/3.1.2.2/glassfish-3.1.2.2.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/3.1.2.2/glassfish-3.1.2.2.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish3x.java.home</name>
@@ -627,9 +627,9 @@
               <property>
                 <name>cargo.glassfish4x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.0/glassfish-4.0.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.0/glassfish-4.0.zip</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.1.2/glassfish-4.1.2.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.1.2/glassfish-4.1.2.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish4x.java.home</name>
@@ -639,9 +639,9 @@
               <property>
                 <name>cargo.glassfish5x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.0.1/glassfish-5.0.1.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.0.1/glassfish-5.0.1.zip</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.1.0/glassfish-5.1.0.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.1.0/glassfish-5.1.0.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish5x.java.home</name>
@@ -650,7 +650,7 @@
 
               <property>
                 <name>cargo.liberty.url</name>
-                <value>http://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/19.0.0.12/wlp-javaee8-19.0.0.12.zip</value>
+                <value>https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/19.0.0.12/wlp-javaee8-19.0.0.12.zip</value>
               </property>
 
               <!--
@@ -715,7 +715,7 @@
 
               <property>
                 <name>cargo.payara.url</name>
-                <value>http://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.194/payara-5.194.zip</value>
+                <value>https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.194/payara-5.194.zip</value>
               </property>
               <property>
                 <name>cargo.payara.java.home</name>
@@ -799,7 +799,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.99/tomcat-7.0.99.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.99/tomcat-7.0.99.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
@@ -809,9 +809,9 @@
               <property>
                 <name>cargo.tomcat8x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.50/tomcat-8.5.50.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.50/tomcat-8.5.50.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat8x.java.home</name>
@@ -820,7 +820,7 @@
 
               <property>
                 <name>cargo.tomcat9x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.30/tomcat-9.0.30.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.30/tomcat-9.0.30.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat9x.java.home</name>
@@ -839,9 +839,9 @@
               <property>
                 <name>cargo.tomee7x.url</name>
                 <!--
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.6/apache-tomee-7.0.6-plus.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.6/apache-tomee-7.0.6-plus.zip</value>
                   -->
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.1.1/apache-tomee-7.1.1-plus.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.1.1/apache-tomee-7.1.1-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee7x.java.home</name>
@@ -850,7 +850,7 @@
 
               <property>
                 <name>cargo.tomee8x.url</name>
-                <value>http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/8.0.0/apache-tomee-8.0.0-plus.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/8.0.0/apache-tomee-8.0.0-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee8x.java.home</name>

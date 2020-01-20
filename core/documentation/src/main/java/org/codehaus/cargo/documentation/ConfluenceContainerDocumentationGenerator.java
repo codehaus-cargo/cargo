@@ -552,7 +552,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("Configurator in the Uberjar. If you plan to use the Codehaus Cargo ");
             output.append("JOnAS containers via [Java API|Javadocs] or [ANT tasks|Ant support], ");
             output.append("please [download the JOnAS Configurator JARs|");
-            output.append("http://repo.maven.apache.org/maven2/org/ow2/jonas/tools/");
+            output.append("https://repo.maven.apache.org/maven2/org/ow2/jonas/tools/");
             output.append("configurator/] separately and put them in your classpath.");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
