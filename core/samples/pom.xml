@@ -841,7 +841,7 @@
                 <!--
                 <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.6/apache-tomee-7.0.6-plus.zip</value>
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.1.1/apache-tomee-7.1.1-plus.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.1.2/apache-tomee-7.1.2-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee7x.java.home</name>
