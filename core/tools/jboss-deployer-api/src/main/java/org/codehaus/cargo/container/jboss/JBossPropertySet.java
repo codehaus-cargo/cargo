@@ -45,6 +45,11 @@ public interface JBossPropertySet
     String JBOSS_AJP_PORT = "cargo.jboss.ajp.port";
 
     /**
+     * The port used for HTTPS.
+     */
+    String JBOSS_HTTPS_PORT = "cargo.jboss.https.port";
+
+    /**
      * The port used for the JRMP service.
      */
     String JBOSS_JRMP_PORT = "cargo.jboss.jrmp.port";

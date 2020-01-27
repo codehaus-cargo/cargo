@@ -153,6 +153,10 @@
                 <value>${cargo.samples.jboss.ajp.port}</value>
               </property>
               <property>
+                <name>cargo.jboss.https.port</name>
+                <value>${cargo.samples.jboss.https.port}</value>
+              </property>
+              <property>
                 <name>cargo.jboss.naming.port</name>
                 <value>${cargo.samples.jboss.naming.port}</value>
               </property>
@@ -1555,6 +1559,7 @@
                 <portName>cargo.samples.glassfish.orb.ssl.port</portName>
                 <portName>cargo.samples.glassfish.osgi.shell.telnet.port</portName>
                 <portName>cargo.samples.jboss.ajp.port</portName>
+                <portName>cargo.samples.jboss.https.port</portName>
                 <portName>cargo.samples.jboss.naming.port</portName>
                 <portName>cargo.samples.jboss.classloading.webservice.port</portName>
                 <portName>cargo.samples.jboss.jrmp.port</portName>

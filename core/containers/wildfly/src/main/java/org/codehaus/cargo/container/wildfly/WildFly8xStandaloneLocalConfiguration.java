@@ -112,6 +112,10 @@ public class WildFly8xStandaloneLocalConfiguration
             "port", JBossPropertySet.JBOSS_AJP_PORT);
         addXmlReplacement(
             configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='https']",
+            "port", JBossPropertySet.JBOSS_HTTPS_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='management-http']",
             "port", JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
         addXmlReplacement(

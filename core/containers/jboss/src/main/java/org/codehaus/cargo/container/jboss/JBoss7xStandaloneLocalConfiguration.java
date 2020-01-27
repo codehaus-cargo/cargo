@@ -78,6 +78,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         super(dir);
 
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
+        setProperty(JBossPropertySet.JBOSS_HTTPS_PORT, "8443");
         setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
         setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
@@ -209,6 +210,10 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='http']",
             "port", ServletPropertySet.PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='https']",
+            "port", JBossPropertySet.JBOSS_HTTPS_PORT);
         addXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='jndi']",
