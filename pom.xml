@@ -1160,12 +1160,23 @@
           <version>2.10.3</version>
           <configuration>
             <source>1.7</source>
+            <!--
+              Workaround for a bug which appends the /undefined/ string in search in the apidocs, see
+              https://stackoverflow.com/questions/52326318/maven-javadoc-search-redirects-to-undefined-url for details
+              -->
+            <additionalJOption>--allow-script-in-comments</additionalJOption>
             <bottom>
               Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and
               2012–2020 Ali Tokmen under the Apache Software License, except for the
               WebSphere Liberty container which has been released under the MIT License.
               &lt;a href="https://codehaus-cargo.github.io/cargo/License.html"&gt;Click here for
               more details&lt;/a&gt;.
+
+              &lt;script&gt;
+                if (typeof useModuleDirectories !== 'undefined') {
+                  useModuleDirectories = false;
+                }
+              &lt;/script&gt;
             </bottom>
             <additionalDependencies>
               <additionalDependency>
