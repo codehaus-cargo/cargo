@@ -511,7 +511,7 @@
 
               <property>
                 <name>cargo.jonas4x.url</name>
-                <value>http://download.forge.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
+                <value>https://download.forge.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
               </property>
               <property>
                 <name>cargo.jonas4x.java.home</name>
@@ -561,7 +561,7 @@
               <property>
                 <name>cargo.geronimo1x.url</name>
                 <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-                <value>http://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
+                <value>https://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo1x.java.home</name>
@@ -728,7 +728,7 @@
 
               <property>
                 <name>cargo.resin2x.url</name>
-                <value>http://www.caucho.com/download/resin-2.1.17.zip</value>
+                <value>https://www.caucho.com/download/resin-2.1.17.zip</value>
               </property>
               <property>
                 <name>cargo.resin2x.java.home</name>
@@ -737,7 +737,7 @@
 
               <property>
                 <name>cargo.resin3x.url</name>
-                <value>http://www.caucho.com/download/resin-3.0.27.zip</value>
+                <value>https://www.caucho.com/download/resin-3.0.27.zip</value>
               </property>
               <property>
                 <name>cargo.resin3x.java.home</name>
@@ -746,7 +746,7 @@
 
               <property>
                 <name>cargo.resin31x.url</name>
-                <value>http://www.caucho.com/download/resin-3.1.15.zip</value>
+                <value>https://www.caucho.com/download/resin-3.1.15.zip</value>
               </property>
               <property>
                 <name>cargo.resin31x.java.home</name>
@@ -755,7 +755,7 @@
 
               <property>
                 <name>cargo.resin4x.url</name>
-                <value>http://www.caucho.com/download/resin-4.0.63.zip</value>
+                <value>https://www.caucho.com/download/resin-4.0.63.zip</value>
               </property>
               <property>
                 <name>cargo.resin4x.java.home</name>
@@ -768,7 +768,7 @@
                   Note that we want the larger download (not LE), as it contains dbcp needed for
                   database tests
                   -->
-                <value>http://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
+                <value>https://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat4x.java.home</name>
@@ -777,7 +777,7 @@
 
               <property>
                 <name>cargo.tomcat5x.url</name>
-                <value>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.34/bin/apache-tomcat-5.5.34.zip</value>
+                <value>https://archive.apache.org/dist/tomcat/tomcat-5/v5.5.34/bin/apache-tomcat-5.5.34.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat5x.java.home</name>
@@ -792,9 +792,9 @@
                   org.apache.catalina.Context in the Embedded container
                   -->
                 <!--
-                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/apache-tomcat-6.0.53.zip</value>
+                <value>https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/apache-tomcat-6.0.53.zip</value>
                   -->
-                <value>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</value>
+                <value>https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat6x.java.home</name>
@@ -833,7 +833,7 @@
 
               <property>
                 <name>cargo.tomee1x.url</name>
-                <value>http://archive.apache.org/dist/tomee/tomee-1.7.5/apache-tomee-1.7.5-plus.zip</value>
+                <value>https://archive.apache.org/dist/tomee/tomee-1.7.5/apache-tomee-1.7.5-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee1x.java.home</name>
