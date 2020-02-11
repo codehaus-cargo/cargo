@@ -337,13 +337,13 @@
       <pluginRepositories>
         <pluginRepository>
           <id>glassfish</id>
-          <url>http://download.java.net/maven/glassfish/</url>
+          <url>https://download.java.net/maven/glassfish/</url>
         </pluginRepository>
       </pluginRepositories>
       <repositories>
         <repository>
           <id>glassfish</id>
-          <url>http://download.java.net/maven/glassfish</url>
+          <url>https://download.java.net/maven/glassfish</url>
         </repository>
       </repositories>
     </profile>
