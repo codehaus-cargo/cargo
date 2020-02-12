@@ -1275,8 +1275,8 @@
                     <name>cargo.proxy.excludehosts</name>
                     <value>
                       [A list of hosts to bypass the proxy on (if any). These should be
-                      separated with the vertical bar character '|'. Only in Java 1.4 does ftp use
-                      this list. e.g. fozbot.corp.sun.com|*.eng.sun.com]
+                      separated with the vertical bar character '|'.
+                      e.g. fozbot.corp.sun.com|*.eng.sun.com]
                     </value>
                   </property>
               -->
