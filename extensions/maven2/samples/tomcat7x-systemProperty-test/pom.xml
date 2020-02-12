@@ -62,7 +62,7 @@
                 <artifactInstaller>
                   <groupId>org.apache.tomcat</groupId>
                   <artifactId>tomcat</artifactId>
-                  <version>8.5.50</version>
+                  <version>8.5.51</version>
                 </artifactInstaller>
                 <systemProperties>
                   <testProperty>testValue</testProperty>
