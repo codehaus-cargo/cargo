@@ -135,10 +135,25 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         // Start by cleaning the configuration directory. Do it only if there's already a Cargo
         // timestamp or if the configuration directory exists but is empty or if the configuration
         // directory doesn't exist.
-        if (getFileHandler().exists(timestampFile)
-            || getFileHandler().exists(getHome())
-                && getFileHandler().isDirectoryEmpty(getHome())
-            || !getFileHandler().exists(getHome()))
+        boolean isEmpty = false;
+        if (!getFileHandler().exists(getHome()))
+        {
+            isEmpty = true;
+        }
+        else if (!getFileHandler().isDirectory(getHome()))
+        {
+            isEmpty = true;
+        }
+        else if (getFileHandler().isDirectoryEmpty(getHome()))
+        {
+            isEmpty = true;
+        }
+        else if (getFileHandler().exists(timestampFile))
+        {
+            isEmpty = true;
+        }
+
+        if (isEmpty)
         {
             getFileHandler().delete(getHome());
 
@@ -151,7 +166,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
         {
             throw new ContainerException("Invalid configuration dir [" + getHome() + "]. "
                 + "When using standalone configurations, the configuration dir must point to an "
-                + "empty directory. Note that everything in that dir will get deleted by Cargo.");
+                + "empty directory - Except if the configuration was created by Cargo.");
         }
     }
 

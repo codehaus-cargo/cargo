@@ -286,7 +286,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         catch (Exception e)
         {
             throw new ContainerException("Failed to create a " + container.getName() + " "
-                + getType().getType() + " configuration", e);
+                + getType().getType() + " configuration: " + e.getMessage(), e);
         }
 
         configureFiles(getFilterChain(), container);

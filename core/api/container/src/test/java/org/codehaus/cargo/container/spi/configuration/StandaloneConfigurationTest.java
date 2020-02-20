@@ -165,8 +165,8 @@ public class StandaloneConfigurationTest extends TestCase
         {
             assertEquals("Invalid configuration dir "
                 + "[ram:///cargo/testCreateConfigDirWhenDirectoryNotEmpty]. When using standalone "
-                + "configurations, the configuration dir must point to an empty directory. Note "
-                + "that everything in that dir will get deleted by Cargo.", expected.getMessage());
+                + "configurations, the configuration dir must point to an empty directory - "
+                + "Except if the configuration was created by Cargo.", expected.getMessage());
         }
     }
 
