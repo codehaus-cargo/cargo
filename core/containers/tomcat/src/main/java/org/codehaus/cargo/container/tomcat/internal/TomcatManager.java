@@ -33,7 +33,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.StringTokenizer;
 
 import org.codehaus.cargo.util.Base64;
-import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -80,11 +79,6 @@ public class TomcatManager extends LoggedObject
      * The user agent name to use when communicating with Tomcat manager.
      */
     private String userAgent;
-
-    /**
-     * MD5 message digest.
-     */
-    private MessageDigest md5;
 
     /**
      * Operation timeout when communicating with Tomcat manager
@@ -141,16 +135,6 @@ public class TomcatManager extends LoggedObject
         this.username = username;
         this.password = password;
         this.charset = charset;
-
-        try
-        {
-            md5 = MessageDigest.getInstance("md5");
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            throw new CargoException(
-                "Cannot get the MD5 digest for generating the Digest authentication headers", e);
-        }
     }
 
     /**
@@ -609,141 +593,151 @@ public class TomcatManager extends LoggedObject
         }
         catch (IOException e)
         {
-            if (connection.getResponseCode() == 401)
+            switch (connection.getResponseCode())
             {
-                String wwwAuthenticate = connection.getHeaderField("WWW-Authenticate");
-                if (digestData == null && wwwAuthenticate != null
-                    && wwwAuthenticate.startsWith("Digest "))
-                {
-                    getLogger().debug(
-                        "Response code is 401 and server requests Digest authentication",
-                        getClass().getName());
+                case 401:
+                    String wwwAuthenticate = connection.getHeaderField("WWW-Authenticate");
+                    if (digestData == null && wwwAuthenticate != null
+                        && wwwAuthenticate.startsWith("Digest "))
+                    {
+                        getLogger().debug(
+                            "Response code is 401 and server requests Digest authentication",
+                                getClass().getName());
 
-                    String realm = extractHeaderComponent(wwwAuthenticate, "realm");
-                    String qop = extractHeaderComponent(wwwAuthenticate, "qop");
-                    String nonce = extractHeaderComponent(wwwAuthenticate, "nonce");
-                    String opaque = extractHeaderComponent(wwwAuthenticate, "opaque");
-                    String algorithm = extractHeaderComponent(wwwAuthenticate, "algorithm");
+                        String realm = extractHeaderComponent(wwwAuthenticate, "realm");
+                        String qop = extractHeaderComponent(wwwAuthenticate, "qop");
+                        String nonce = extractHeaderComponent(wwwAuthenticate, "nonce");
+                        String opaque = extractHeaderComponent(wwwAuthenticate, "opaque");
+                        String algorithm = extractHeaderComponent(wwwAuthenticate, "algorithm");
 
-                    if (realm == null || nonce == null)
-                    {
-                        throw new TomcatManagerException(
-                            "The username and password you provided are not correct (error 401), "
-                                + "the server requested a Digest authentication but "
-                                    + "realm or nonce are not provided", e);
-                    }
-                    if (qop != null && !"auth".equals(qop))
-                    {
-                        throw new TomcatManagerException(
-                            "The username and password you provided are not correct (error 401), "
-                                + "the server requested a Digest authentication but qop is set to "
-                                    + qop, e);
-                    }
-                    if (algorithm != null && !"MD5".equals(algorithm))
-                    {
-                        throw new TomcatManagerException(
-                            "The username and password you provided are not correct (error 401), "
-                                + "the server requested a Digest authentication but "
-                                    + "algorithm is set to " + algorithm, e);
-                    }
+                        if (realm == null || nonce == null)
+                        {
+                            throw new TomcatManagerException(
+                                "The username and password you provided are not correct (error "
+                                    + "401), the server requested a Digest authentication but "
+                                        + "realm or nonce are not provided", e);
+                        }
+                        if (qop != null && !"auth".equals(qop))
+                        {
+                            throw new TomcatManagerException(
+                                "The username and password you provided are not correct (error "
+                                    + "401), the server requested a Digest authentication but qop "
+                                        + "is set to " + qop, e);
+                        }
+                        if (algorithm == null)
+                        {
+                            algorithm = "MD5";
+                        }
+                        MessageDigest digest;
+                        try
+                        {
+                            digest = MessageDigest.getInstance(algorithm);
+                        }
+                        catch (NoSuchAlgorithmException nsae)
+                        {
+                            throw new TomcatManagerException(
+                                "The username and password you provided are not correct (error "
+                                    + "401), the server requested a Digest authentication but "
+                                        + "algorithm is set to " + algorithm, nsae);
+                        }
 
-                    String ha1 = this.username + ":" + realm + ":" + this.password;
-                    byte[] hash = md5.digest(ha1.getBytes("UTF-8"));
-                    StringBuilder sb = new StringBuilder();
-                    for (byte hashByte : hash)
-                    {
-                        sb.append(String.format("%02x", hashByte));
-                    }
-                    ha1 = sb.toString();
+                        String ha1 = this.username + ":" + realm + ":" + this.password;
+                        byte[] hash = digest.digest(ha1.getBytes("UTF-8"));
+                        StringBuilder sb = new StringBuilder();
+                        for (byte hashByte : hash)
+                        {
+                            sb.append(String.format("%02x", hashByte));
+                        }
+                        ha1 = sb.toString();
 
-                    String uri;
-                    String uriPath = invokeURL.getPath();
-                    String uriQuery = invokeURL.getQuery();
-                    if (uriQuery != null)
-                    {
-                        uri = uriPath + "?" + uriQuery;
+                        String uri;
+                        String uriPath = invokeURL.getPath();
+                        String uriQuery = invokeURL.getQuery();
+                        if (uriQuery != null)
+                        {
+                            uri = uriPath + "?" + uriQuery;
+                        }
+                        else
+                        {
+                            uri = uriPath;
+                        }
+
+                        String ha2;
+                        if (fileData == null)
+                        {
+                            ha2 = "GET";
+                        }
+                        else
+                        {
+                            ha2 = "PUT";
+                        }
+                        ha2 += ":" + uri;
+                        hash = digest.digest(ha2.getBytes("UTF-8"));
+                        sb = new StringBuilder();
+                        for (byte hashByte : hash)
+                        {
+                            sb.append(String.format("%02x", hashByte));
+                        }
+                        ha2 = sb.toString();
+
+                        String nc = NONCE_COUNTER.count(nonce);
+
+                        String cnonce =
+                            String.format("%08x", (long) (Math.random() * 4294967295.0));
+                        cnonce = cnonce.substring(cnonce.length() - 8);
+
+                        String ha3;
+                        if (qop != null)
+                        {
+                            ha3 =
+                                ha1 + ":" + nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + ha2;
+                        }
+                        else
+                        {
+                            ha3 = ha1 + ":" + nonce + ":" + ha2;
+                        }
+                        hash = digest.digest(ha3.getBytes("UTF-8"));
+                        sb = new StringBuilder();
+                        for (byte hashByte : hash)
+                        {
+                            sb.append(String.format("%02x", hashByte));
+                        }
+                        ha3 = sb.toString();
+
+                        wwwAuthenticate = "Digest username=\"" + this.username + "\", "
+                            + "realm=\"" + realm + "\", "
+                            + "nonce=\"" + nonce + "\", "
+                            + "uri=\"" + uri + "\", "
+                            + "algorithm=" + algorithm + ", "
+                            + "nc=" + nc + ", "
+                            + "cnonce=\"" + cnonce + "\", "
+                            + "response=\"" + ha3 + "\"";
+                        if (qop != null)
+                        {
+                            wwwAuthenticate += ", qop=\"" + qop + "\"";
+                        }
+                        if (opaque != null)
+                        {
+                            wwwAuthenticate += ", opaque=\"" + opaque + "\"";
+                        }
+
+                        getLogger().debug("Digest authentication with ha=" + ha1 + ", ha2=" + ha2
+                            + " and full header " + wwwAuthenticate, getClass().getName());
+
+                        return invoke(path, fileData, wwwAuthenticate);
                     }
                     else
                     {
-                        uri = uriPath;
+                        throw new TomcatManagerException("The username and password you provided "
+                            + "are not correct (error 401)", e);
                     }
 
-                    String ha2;
-                    if (fileData == null)
-                    {
-                        ha2 = "GET";
-                    }
-                    else
-                    {
-                        ha2 = "PUT";
-                    }
-                    ha2 += ":" + uri;
-                    hash = md5.digest(ha2.getBytes("UTF-8"));
-                    sb = new StringBuilder();
-                    for (byte hashByte : hash)
-                    {
-                        sb.append(String.format("%02x", hashByte));
-                    }
-                    ha2 = sb.toString();
+                case 403:
+                    throw new TomcatManagerException("The username you provided is not allowed to "
+                        + "use the text-based Tomcat Manager (error 403)", e);
 
-                    String nc = NONCE_COUNTER.count(nonce);
-
-                    String cnonce = String.format("%08x", (long) (Math.random() * 4294967295.0));
-                    cnonce = cnonce.substring(cnonce.length() - 8);
-
-                    String ha3;
-                    if (qop != null)
-                    {
-                        ha3 = ha1 + ":" + nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + ha2;
-                    }
-                    else
-                    {
-                        ha3 = ha1 + ":" + nonce + ":" + ha2;
-                    }
-                    hash = md5.digest(ha3.getBytes("UTF-8"));
-                    sb = new StringBuilder();
-                    for (byte hashByte : hash)
-                    {
-                        sb.append(String.format("%02x", hashByte));
-                    }
-                    ha3 = sb.toString();
-
-                    wwwAuthenticate = "Digest username=\"" + this.username + "\", "
-                        + "realm=\"" + realm + "\", "
-                        + "nonce=\"" + nonce + "\", "
-                        + "uri=\"" + uri + "\", "
-                        + "algorithm=MD5, "
-                        + "nc=" + nc + ", "
-                        + "cnonce=\"" + cnonce + "\", "
-                        + "response=\"" + ha3 + "\"";
-                    if (qop != null)
-                    {
-                        wwwAuthenticate += ", qop=\"" + qop + "\"";
-                    }
-                    if (opaque != null)
-                    {
-                        wwwAuthenticate += ", opaque=\"" + opaque + "\"";
-                    }
-
-                    getLogger().debug("Digest authentication with ha=" + ha1 + ", ha2=" + ha2
-                        + " and full header " + wwwAuthenticate, getClass().getName());
-
-                    return invoke(path, fileData, wwwAuthenticate);
-                }
-                else
-                {
-                    throw new TomcatManagerException(
-                        "The username and password you provided are not correct (error 401)", e);
-                }
-            }
-            else if (connection.getResponseCode() == 403)
-            {
-                throw new TomcatManagerException("The username you provided is not allowed to "
-                    + "use the text-based Tomcat Manager (error 403)", e);
-            }
-            else
-            {
-                throw e;
+                default:
+                    throw e;
             }
         }
 
