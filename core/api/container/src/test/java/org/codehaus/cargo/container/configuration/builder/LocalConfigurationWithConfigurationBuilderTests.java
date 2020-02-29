@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.configuration.builder;
 /**
  * Marker interface to ensure all methods of <code>ConfigurationBuilder</code> are tested through
  * Configuration.configure(Container).
- *
+ * 
  * @see ConfigurationBuilderTests
  */
 public interface LocalConfigurationWithConfigurationBuilderTests

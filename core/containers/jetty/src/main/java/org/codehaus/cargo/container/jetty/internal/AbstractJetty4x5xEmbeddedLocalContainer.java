@@ -116,8 +116,8 @@ public abstract class AbstractJetty4x5xEmbeddedLocalContainer
     /**
      * Defines a security realm and adds defined users to it. If a user has specified the standard
      * ServletPropertySet.USERS property, then we try and turn these into an in-memory default
-     * realm, and then set that realm on all of the webapps.
-     *
+     * realm, and then set that realm on all of the webapps.<br>
+     * <br>
      * TODO: this is not ideal. We need a way to specify N named realms to the server so that
      * individual webapps can find their appropriate realms by name.
      * 

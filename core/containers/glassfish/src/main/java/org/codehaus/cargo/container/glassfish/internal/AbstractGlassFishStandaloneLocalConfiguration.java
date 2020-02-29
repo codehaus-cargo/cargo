@@ -113,7 +113,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
 
     /**
      * Creates a new domain and set up the workspace by invoking the "asadmin" command.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override

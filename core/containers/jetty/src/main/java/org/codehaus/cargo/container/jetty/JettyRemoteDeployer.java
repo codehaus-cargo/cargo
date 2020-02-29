@@ -287,8 +287,8 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * Reads all the data from the specified input stream and writes it to the specified output
-     * stream. Both streams are also closed.
-     *
+     * stream. Both streams are also closed.<br>
+     * <br>
      * TODO: make these commands as part of a generic helper class in Cargo. Duplicate function in
      * the Tomcat remote deployer
      * 
@@ -311,8 +311,8 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * Gets the data from the specified input stream as a string using the specified charset.
-     *
+     * Gets the data from the specified input stream as a string using the specified charset.<br>
+     * <br>
      * TODO: make these commands as part of a generic helper class in Cargo. Duplicate function in
      * the Tomcat remote deployer
      * 
@@ -337,8 +337,8 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * Gets the HTTP Basic Authorization header value for the supplied username and password.
-     *
+     * Gets the HTTP Basic Authorization header value for the supplied username and password.<br>
+     * <br>
      * TODO: make these commands as part of a generic helper class in Cargo. Duplicate function in
      * the Tomcat remote deployer
      * 

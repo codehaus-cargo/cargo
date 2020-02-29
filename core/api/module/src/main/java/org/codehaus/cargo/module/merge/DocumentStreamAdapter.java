@@ -36,8 +36,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Adapter class to convert streams into documents.
- *
+ * Adapter class to convert streams into documents.<br>
+ * <br>
  * This is needed because the DocumentMerger understands DOM Documents, but items in War files are
  * accessed as streams - therefore use this wrapper to pass streams into the DocumentMerger (or
  * subclass).

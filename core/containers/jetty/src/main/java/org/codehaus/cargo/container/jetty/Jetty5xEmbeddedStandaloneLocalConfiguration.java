@@ -76,11 +76,11 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * Configure the logging for the Jetty container. For this standalone config, Jetty's internal
      * logging mechanism will be used, iff the user has configured an output file. Otherwise, it is
      * assumed that the user wants to use the JCL discovery mechanism and will therefore be using
-     * other means of configuring logging.
-     *
+     * other means of configuring logging.<br>
+     * <br>
      * TODO this setup might be done a little late in the startup sequence - some log messages may
      * already have come out on stderr.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override

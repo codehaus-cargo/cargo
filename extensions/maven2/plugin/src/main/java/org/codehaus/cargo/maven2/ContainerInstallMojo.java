@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * happens. The container is defined using the <code>&lt;container&gt;</code> element as described
  * in the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
  * Maven 2 / Maven 3 plugin reference guide</a>.
- *
+ * 
  * @goal install
  * @requiresDependencyResolution compile
  * @since Cargo Maven 2 / Maven 3 plugin v0.3

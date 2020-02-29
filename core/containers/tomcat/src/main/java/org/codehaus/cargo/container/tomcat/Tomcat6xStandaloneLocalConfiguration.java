@@ -65,7 +65,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * the path to find the manager application is different between v5 and v6.
      */
     @Override

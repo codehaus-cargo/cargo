@@ -25,8 +25,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * This interface intends to remove hard-bindings to a specific xml api.
- *
+ * This interface intends to remove hard-bindings to a specific xml api.<br>
+ * <br>
  * Implementations of this interface will: 1. optionally load a file 2. insert some elements into
  * the current document 3. write the file to disk
  */

@@ -720,7 +720,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * This method should only be called once all the properties has been set.
      */
     @Override

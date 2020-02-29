@@ -26,7 +26,7 @@ import org.codehaus.cargo.tools.daemon.DaemonStart;
 
 /**
  * Start a container via the daemon.
- *
+ * 
  * @requiresDependencyResolution test
  * @goal daemon-start
  */

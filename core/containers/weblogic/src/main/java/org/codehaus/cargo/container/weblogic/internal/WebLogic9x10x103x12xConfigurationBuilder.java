@@ -48,7 +48,7 @@ public class WebLogic9x10x103x12xConfigurationBuilder extends
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * In WebLogic 9.x DataSource definitions are located in separate files linked to config.xml.
      * This method creates the definition of the datasource. This file must be linked to the
      * config.xml to become useful.

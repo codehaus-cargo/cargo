@@ -63,8 +63,8 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
     private final ContainerCapability capability = new ServletContainerCapability();
 
     /**
-     * {@link WAR}s to be deployed once the container is started.
-     *
+     * {@link WAR}s to be deployed once the container is started.<br>
+     * <br>
      * One can only deploy to an embedded container after it's started, but cargo allows you to
      * deploy apps before the container starts. so we need to remember what's supposed to be
      * deployed.

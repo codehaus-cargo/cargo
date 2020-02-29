@@ -80,7 +80,7 @@ public class ResinRun extends DefaultServerRun
     /**
      * Start the Resin server. We use reflection so that the Resin jars do not need to be in the
      * classpath to compile this class.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override
@@ -235,7 +235,7 @@ public class ResinRun extends DefaultServerRun
     /**
      * Stops the Resin server. We use reflection so that the Resin jars do not need to be in the
      * classpath to compile this class.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override

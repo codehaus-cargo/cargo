@@ -174,7 +174,7 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
 
     /**
      * Undeploy WAR deployables by deleting the local file from the Tomcat webapps directory.
-     *
+     * 
      * {@inheritDoc}
      */
     @Override

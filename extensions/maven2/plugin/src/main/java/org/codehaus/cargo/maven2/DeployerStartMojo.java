@@ -21,7 +21,7 @@ package org.codehaus.cargo.maven2;
 
 /**
  * Start a deployable which is already installed in a container.
- *
+ * 
  * @goal deployer-start
  * @requiresDependencyResolution test
  */

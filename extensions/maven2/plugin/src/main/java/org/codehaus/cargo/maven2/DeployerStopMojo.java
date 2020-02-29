@@ -21,7 +21,7 @@ package org.codehaus.cargo.maven2;
 
 /**
  * Stop a deployable which is already deployed in a container.
- *
+ * 
  * @goal deployer-stop
  * @requiresDependencyResolution test
  */

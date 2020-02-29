@@ -150,10 +150,9 @@ public abstract class AbstractJettyEmbeddedLocalDeployer extends AbstractEmbedde
 
     /**
      * copy webapp.
-     *
-     * If true, unpacked wars will be copied to a tmp location so their jars can be replaced at
-     * runtime
-     * @param copy if true, webapps are copied to tmp dir
+     * 
+     * @param copy if true, unpacked wars will be copied to a tmp location so their jars can be
+     * replaced at runtime
      */
     public void setCopyWebApp(Boolean copy)
     {

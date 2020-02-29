@@ -28,11 +28,12 @@ import org.jdom.Element;
 
 /**
  * Class that can merge two DOM Documents, relatively simply. This works by just importing all the
- * child nodes from the right-hand document into the left-hand document.
- *
- * Create the DocumentMerger, then call addMergeItem successive times with Documents. Finally call
- * performMerge(), which will return you the merged DOM Document.
- *
+ * child nodes from the right-hand document into the left-hand document.<br>
+ * <br>
+ * Create the <code>DocumentMerger</code>, then call <code>addMergeItem</code> successive times
+ * with <code>Document</code>s. Finally call <code>performMerge()</code>, which will return you the
+ * merged DOM Document.<br>
+ * <br>
  * This class may be overridden by subclasses that wish to apply strategies to particular types of
  * XML document.
  */

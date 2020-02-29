@@ -21,18 +21,19 @@ package org.codehaus.cargo.container.configuration;
 
 /**
  * Contains data about configuration files that should be used for the container. This option only
- * works with StandaloneLocal containers.
- *
- * The toDir and toFile are used to tell Cargo where to install the file in reference to the
- * containers home location.
- *
- * toDir and toFile can be used independently or together. If toDir is undefined/null and toFile is
- * foo, the destination of the file will be ${cargo.home}/foo
- *
- * If toDir is foo and the toFile is undefined/null, the destination of the new file will be
- * ${cargo.home}/foo/${original file's name}
- *
- * If toDir is foo and toFile is bar, the destination of the new file will be ${cargo.home}/foo/bar
+ * works with standalone local containers.
+ * <ul>
+ * <li>The <code>toDir</code> and <code>toFile</code> are used to tell Cargo where to install the
+ * file in reference to the container's <code>home</code> location.</li>
+ * <li><code>toDir</code> and <code>toFile</code> can be used independently or together. If
+ * <code>toDir</code> is <code>null</code> and <code>toFile</code> is <code>foo</code>, the
+ * destination of the file will be <code>${cargo.home}/foo</code>.</li>
+ * <li>If <code>toDir</code> is <code>foo</code> and the <code>toFile</code> is <code>null</code>,
+ * the destination of the new file will be
+ * <code>${cargo.home}/foo/<i>original file's name</i>}</code>.</li>
+ * <li>If <code>toDir</code> is <code>foo</code> and <code>toFile</code> is <code>bar</code>, the
+ * destination of the new file will be <code>${cargo.home}/foo/bar</code>.</li>
+ * </ul>
  */
 public class FileConfig
 {
