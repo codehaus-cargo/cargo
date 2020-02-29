@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -100,7 +100,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             boolean update = Boolean.parseBoolean(
                 getConfiguration().getPropertyValue(TomcatPropertySet.DEPLOY_UPDATE));
             getTomcatManager().deploy(getPath(deployable), getVersion(deployable),
-                new FileInputStream(file), update, null);
+                new File(file), update, null);
         }
         catch (IOException|TomcatManagerException exception)
         {

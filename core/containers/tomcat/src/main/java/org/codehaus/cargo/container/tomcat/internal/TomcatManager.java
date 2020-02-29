@@ -20,10 +20,11 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -49,6 +50,11 @@ public class TomcatManager extends LoggedObject
      * The charset to use when decoding Tomcat manager responses.
      */
     private static final String MANAGER_CHARSET = "UTF-8";
+
+    /**
+     * Size of the buffers / chunks used when sending files to Tomcat.
+     */
+    private static final int BUFFER_CHUNK_SIZE = 256 * 1024;
 
     /**
      * The full URL of the Tomcat manager instance to use.
@@ -257,11 +263,11 @@ public class TomcatManager extends LoggedObject
      * Deploys the specified WAR as a HTTP PUT to the specified context path.
      * 
      * @param path the webapp context path to deploy to
-     * @param war an input stream to the WAR to deploy
+     * @param war the WAR file to deploy
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    public void deploy(String path, InputStream war) throws TomcatManagerException, IOException
+    public void deploy(String path, File war) throws TomcatManagerException, IOException
     {
         deploy(path, war, false);
     }
@@ -271,12 +277,12 @@ public class TomcatManager extends LoggedObject
      * the webapp if it already exists.
      * 
      * @param path the webapp context path to deploy to
-     * @param war an input stream to the WAR to deploy
+     * @param war the WAR file to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    public void deploy(String path, InputStream war, boolean update)
+    public void deploy(String path, File war, boolean update)
         throws TomcatManagerException, IOException
     {
         deploy(path, war, update, null);
@@ -287,13 +293,13 @@ public class TomcatManager extends LoggedObject
      * the webapp if it already exists and using the specified tag name.
      * 
      * @param path the webapp context path to deploy to
-     * @param war an input stream to the WAR to deploy
+     * @param war the WAR file to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    public void deploy(String path, InputStream war, boolean update, String tag)
+    public void deploy(String path, File war, boolean update, String tag)
         throws TomcatManagerException, IOException
     {
         deployImpl(path, null, null, null, war, update, tag);
@@ -305,13 +311,13 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the webapp context path to deploy to
      * @param version the webapp version
-     * @param war an input stream to the WAR to deploy
+     * @param war the WAR file to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    public void deploy(String path, String version, InputStream war, boolean update, String tag)
+    public void deploy(String path, String version, File war, boolean update, String tag)
         throws TomcatManagerException, IOException
     {
         deployImpl(path, version, null, null, war, update, tag);
@@ -510,13 +516,13 @@ public class TomcatManager extends LoggedObject
      * Invokes Tomcat manager with the specified command and content data.
      * 
      * @param path the Tomcat manager command to invoke
-     * @param data an input stream to the content data
+     * @param fileData the file to stream as content data, if needed
      * @param digestData HTTP Digest authentication data, if available
      * @return the result of the invoking command, as returned by the Tomcat Manager application
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    protected String invoke(String path, InputStream data, String digestData) throws
+    protected String invoke(String path, File fileData, String digestData) throws
         TomcatManagerException, IOException
     {
         // TODO: This method should be refactored so that it can be unit testable.
@@ -535,13 +541,17 @@ public class TomcatManager extends LoggedObject
             connection.setReadTimeout(timeout);
         }
 
-        if (data == null)
+        if (fileData == null)
         {
+            getLogger().debug("Performing GET request", getClass().getName());
+
             connection.setDoOutput(false);
             connection.setRequestMethod("GET");
         }
         else
         {
+            getLogger().debug("Performing PUT request", getClass().getName());
+
             connection.setDoOutput(true);
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/octet-stream");
@@ -556,7 +566,7 @@ public class TomcatManager extends LoggedObject
             // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
             // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
             // As per CARGO-1418, use a sensible chunk size for fast links.
-            connection.setChunkedStreamingMode(1024 * 256);
+            connection.setChunkedStreamingMode(BUFFER_CHUNK_SIZE);
         }
 
         if (this.userAgent != null)
@@ -579,9 +589,20 @@ public class TomcatManager extends LoggedObject
         String response;
         try
         {
-            if (data != null)
+            if (fileData != null)
             {
-                pipe(data, connection.getOutputStream());
+                try (InputStream dataStream = new FileInputStream(fileData);
+                    BufferedOutputStream bufferedOut = new BufferedOutputStream(
+                        connection.getOutputStream()))
+                {
+                    int n;
+                    byte[] bytes = new byte[BUFFER_CHUNK_SIZE];
+                    while ((n = dataStream.read(bytes)) != -1)
+                    {
+                        bufferedOut.write(bytes, 0, n);
+                    }
+                    bufferedOut.flush();
+                }
             }
 
             response = toString(connection.getInputStream(), MANAGER_CHARSET);
@@ -648,7 +669,7 @@ public class TomcatManager extends LoggedObject
                     }
 
                     String ha2;
-                    if (data == null)
+                    if (fileData == null)
                     {
                         ha2 = "GET";
                     }
@@ -707,7 +728,7 @@ public class TomcatManager extends LoggedObject
                     getLogger().debug("Digest authentication with ha=" + ha1 + ", ha2=" + ha2
                         + " and full header " + wwwAuthenticate, getClass().getName());
 
-                    return invoke(path, data, wwwAuthenticate);
+                    return invoke(path, fileData, wwwAuthenticate);
                 }
                 else
                 {
@@ -741,14 +762,14 @@ public class TomcatManager extends LoggedObject
      * @param path the webapp context path to deploy to
      * @param version the webapp version
      * @param config the URL of the context XML configuration to deploy, or null for none
-     * @param war the URL of the WAR to deploy, or null to use <code>data</code>
-     * @param data an input stream to the WAR to deploy, or null to use <code>war</code>
+     * @param war the URL of the WAR to deploy, or null to use <code>file</code>
+     * @param file the WAR file to deploy, or null to use <code>war</code>
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
      * @throws IOException if an i/o error occurs
      */
-    private void deployImpl(String path, String version, URL config, URL war, InputStream data,
+    private void deployImpl(String path, String version, URL config, URL war, File file,
         boolean update, String tag) throws TomcatManagerException, IOException
     {
         StringBuilder buffer = new StringBuilder("/deploy");
@@ -774,7 +795,7 @@ public class TomcatManager extends LoggedObject
             buffer.append("&tag=").append(URLEncoder.encode(tag, this.charset));
         }
 
-        invoke(buffer.toString(), data, null);
+        invoke(buffer.toString(), file, null);
     }
 
     /**
@@ -817,28 +838,6 @@ public class TomcatManager extends LoggedObject
             buffer.append(password);
         }
         return "Basic " + new String(Base64.encodeBase64(buffer.toString().getBytes()));
-    }
-
-    /**
-     * Reads all the data from the specified input stream and writes it to the specified output
-     * stream. Both streams are also closed.
-     * 
-     * @param in the input stream to read from
-     * @param out the output stream to write to
-     * @throws IOException if an i/o error occurs
-     */
-    private void pipe(InputStream in, OutputStream out) throws IOException
-    {
-        BufferedOutputStream bufferedOut = new BufferedOutputStream(out);
-        int n;
-        byte[] bytes = new byte[1024 * 4];
-        while ((n = in.read(bytes)) != -1)
-        {
-            bufferedOut.write(bytes, 0, n);
-        }
-        bufferedOut.flush();
-        bufferedOut.close();
-        in.close();
     }
 
     /**
