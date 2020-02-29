@@ -37,7 +37,6 @@ import java.util.jar.JarFile;
 /**
  * Selfcontained main bootstrap class to launch the
  * webcontainer tjws and run the daemon web application.
- *
  */
 public final class Main
 {
@@ -87,7 +86,7 @@ public final class Main
 
     /**
      * Gets the daemon destination webapp directory.
-     *
+     * 
      * @param homeDirectory The daemon home directory.
      * @return the webapp directory.
      */
@@ -118,7 +117,7 @@ public final class Main
 
     /**
      * Deletes a directory recursively.
-     *
+     * 
      * @param file Path to directory to delete.
      * @throws IOException If io exception happens.
      */
@@ -140,7 +139,7 @@ public final class Main
 
     /**
      * Unpacks a jar.
-     *
+     * 
      * @param jarFile Jar file path.
      * @param destDir Destination directory.
      * @throws IOException If io exception happens.
@@ -181,7 +180,7 @@ public final class Main
 
     /**
      * Updates the last-modified timestamp of the webapp directory to that of the daemon war.
-     *
+     * 
      * @param destDir The webapp directory.
      * @param warFilePath The war filepath.
      */
@@ -194,7 +193,7 @@ public final class Main
 
     /**
      * Checks if unpacking is needed.
-     *
+     * 
      * @param webAppDirectory The webapp directory.
      * @param webServerDirectory The server directory.
      * @param warFilePath The daemon war filepath.
@@ -214,7 +213,7 @@ public final class Main
 
     /**
      * Main entrypoint.
-     *
+     * 
      * @param bootstrapArguments The bootstrap arguments.
      * @throws Exception If exception happens.
      */

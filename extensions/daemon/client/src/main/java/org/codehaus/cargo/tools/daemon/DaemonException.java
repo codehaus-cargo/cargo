@@ -21,7 +21,6 @@ package org.codehaus.cargo.tools.daemon;
 
 /**
  * Indicates an error received from Cargo manager.
- *
  */
 public class DaemonException extends Exception
 {
@@ -44,7 +43,7 @@ public class DaemonException extends Exception
 
     /**
      * Creates a new <code>ManagerException</code> with the specified message and no cause.
-     *
+     * 
      * @param message the message for this exception
      */
     public DaemonException(String message)
@@ -54,7 +53,7 @@ public class DaemonException extends Exception
 
     /**
      * Creates a new <code>ManagerException</code> with no message and the specified cause.
-     *
+     * 
      * @param cause the cause of this exception
      */
     public DaemonException(Throwable cause)
@@ -64,7 +63,7 @@ public class DaemonException extends Exception
 
     /**
      * Creates a new <code>ManagerException</code> with the specified message and cause.
-     *
+     * 
      * @param message the message for this exception
      * @param cause the cause of this exception
      */

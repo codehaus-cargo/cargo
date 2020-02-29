@@ -118,7 +118,7 @@ public class MissingXmlElementAppenderTest extends TestCase
 
     /**
      * Parse XML string
-     *
+     * 
      * @param xml string representation
      * @return DOM document
      * @throws Exception if anything goes wrong
@@ -131,7 +131,7 @@ public class MissingXmlElementAppenderTest extends TestCase
 
     /**
      * Convert the DOM document to its String representation.
-     *
+     * 
      * @param document DOM that is to be converted
      * @return String representation of the document
      * @throws TransformerException if anything goes wrong

@@ -40,7 +40,7 @@ public class Jonas4xContainerMonitor extends AbstractContainerMonitor
 
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      * @param jonasAdmin The JOnAS admin.
      * @param waitForStarting Whether to wait for container start or stop.

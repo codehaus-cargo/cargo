@@ -918,7 +918,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param timeout in milliseconds; max is Integer.MAX_VALUE
      */
-    public void setTimeout(int timeout) 
+    public void setTimeout(int timeout)
     {
         this.timeout = timeout;
     }

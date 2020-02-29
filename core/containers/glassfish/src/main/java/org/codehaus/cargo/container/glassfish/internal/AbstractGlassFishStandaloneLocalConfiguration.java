@@ -76,7 +76,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         // ServletPropertySet.PORT default set to 8080 by the super class
     }
 
-    @Override 
+    @Override
     public void verify()
     {
         // If portBase is specified we override settings for various ports accordingly.
@@ -113,7 +113,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
 
     /**
      * Creates a new domain and set up the workspace by invoking the "asadmin" command.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override

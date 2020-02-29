@@ -80,7 +80,7 @@ public class XmlReplacement
 
     /**
      * Saves the attributes for this XML replacement.
-     *
+     * 
      * @param file File name.
      * @param xpathExpression XPath expression.
      * @param attributeName XML attribute name.

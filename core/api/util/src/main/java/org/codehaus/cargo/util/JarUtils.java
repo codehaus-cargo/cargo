@@ -105,7 +105,7 @@ public final class JarUtils
 
     /**
      * Search through JAR file to check if it contains specified class.
-     *
+     * 
      * @param jarFile JAR file to be searched.
      * @param classToBeFound Class which we look for (including package).
      * @return True if JAR file contains specified class.

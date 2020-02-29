@@ -21,12 +21,10 @@ package org.codehaus.cargo.daemon;
 
 /**
  * Cargo servlet exception.
- *
  */
 public class CargoDaemonException extends RuntimeException
 {
     /**
-     *
      */
     private static final long serialVersionUID = 6416322683984202099L;
 
@@ -40,7 +38,7 @@ public class CargoDaemonException extends RuntimeException
 
     /**
      * Constructor
-     *
+     * 
      * @param message the message
      */
     public CargoDaemonException(String message)
@@ -50,7 +48,7 @@ public class CargoDaemonException extends RuntimeException
 
     /**
      * Constructor.
-     *
+     * 
      * @param message the message
      * @param cause the cause
      */
@@ -61,7 +59,7 @@ public class CargoDaemonException extends RuntimeException
 
     /**
      * Constructor.
-     *
+     * 
      * @param cause the cause
      */
     public CargoDaemonException(Throwable cause)

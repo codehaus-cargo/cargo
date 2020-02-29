@@ -1,16 +1,16 @@
-/* 
+/*
 * Copyright 2016 IBM Corp.
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -49,7 +49,7 @@ public class LibertyInstall
 
     /**
      * Create the LibertyInstall for this local container
-     *
+     * 
      * @param container the container to create it for
      */
     public LibertyInstall(InstalledLocalContainer container)
@@ -60,7 +60,7 @@ public class LibertyInstall
 
     /**
      * Work out the appropriate script to use based on platform
-     *
+     * 
      * @param name the name of the script
      * @return the script to invoke as a file
      */
@@ -85,7 +85,7 @@ public class LibertyInstall
 
     /**
      * Locates the <code>server.config.dir</code> for the specified Liberty server
-     *
+     * 
      * @param server the name of the server. If null 'defaultServer' is used
      * @return The <code>server.config.dir</code>
      */
@@ -98,7 +98,7 @@ public class LibertyInstall
 
     /**
      * Run the specified server command.
-     *
+     * 
      * @param command The command to run
      * @return The process object wrapping the invoked process
      * @throws Exception if something goes wrong.
@@ -110,7 +110,7 @@ public class LibertyInstall
 
     /**
      * Run the specified server command.
-     *
+     * 
      * @param command The command to run
      * @param inEnv the envrionment to use
      * @return The process object wrapping the invoked process

@@ -33,7 +33,7 @@ public class WebSphereResourceComparator implements Comparator<Resource>
 {
 
     /**
-     * Contains order in which resources should be ordered. 
+     * Contains order in which resources should be ordered.
      */
     private List<String> orderList = Arrays.asList(
             WebSphereConfigurationEntryType.JMS_SIBUS,

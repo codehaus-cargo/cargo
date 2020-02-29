@@ -170,7 +170,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
     /**
      * Writes CLI configuration script.
-     *
+     * 
      * @param configurationScript Script containing CLI configuration to be executed.
      */
     @Override
@@ -206,7 +206,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
     /**
      * Executes CLI scripts.
-     *
+     * 
      * @param scriptFilePaths List of file paths containing CLI scripts.
      */
     @Override
@@ -241,7 +241,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
     /**
      * Adding WildFLy CLI dependencies and setting main class.
-     *
+     * 
      * @param java Launcher.
      */
     private void addCliArguments(JvmLauncher java)
@@ -262,7 +262,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
 
     /**
      * Parse installed WildFly version.
-     *
+     * 
      * @param defaultVersion the default version used if the exact JBoss version can't be determined
      * @return the WildFly version, or <code>defaultVersion</code> if the version number could not
      * be determined.

@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2003 The Apache Software Foundation. Code from this file 
+ * Copyright 2003 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.

@@ -54,7 +54,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * XPath expression for identifying the "Connector" element in the server.xml file.
      */
-    protected static final String CONNECTOR_XPATH = 
+    protected static final String CONNECTOR_XPATH =
         "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
             + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
             + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
@@ -316,7 +316,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             this.getClass().getName());
         return "";
     }
-    
+
     /**
      * Configures the specified context element with the extra classpath (if any) of the given WAR.
      * @param deployable Deployable to create extra classpath XML token for.

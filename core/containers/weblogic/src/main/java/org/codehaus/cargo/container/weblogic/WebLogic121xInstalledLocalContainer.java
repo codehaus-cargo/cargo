@@ -171,7 +171,7 @@ public class WebLogic121xInstalledLocalContainer extends
 
     /**
      * Writes configuration script using WLST.
-     *
+     * 
      * @param configurationScript Script containing WLST configuration to be executed.
      */
     @Override
@@ -208,7 +208,7 @@ public class WebLogic121xInstalledLocalContainer extends
 
     /**
      * Executes scripts using WLST.
-     *
+     * 
      * @param scriptFilePaths List of file paths containing jython scripts.
      */
     @Override
@@ -249,7 +249,7 @@ public class WebLogic121xInstalledLocalContainer extends
 
     /**
      * Adding WLST dependencies and setting main class.
-     *
+     * 
      * @param java Launcher.
      */
     private void addWlstArguments(JvmLauncher java)

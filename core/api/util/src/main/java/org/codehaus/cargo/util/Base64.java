@@ -26,23 +26,18 @@ package org.codehaus.cargo.util;
  */
 public final class Base64
 {
-    // constants --------------------------------------------------------------
-
     /**
      * The Base64 character set look-up table. This consists of the following ordered alphanumerics:
      * A-Z, a-z, 0-9, + and /.
      */
-    private static final char[] ENCODE = 
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-            .toCharArray();
+    private static final char[] ENCODE =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 
 
     /**
      * The character to pad the output with if not a multiple of 24-bits.
      */
     private static final char PAD_CHAR = '=';
-
-    // constructors -----------------------------------------------------------
 
     /**
      * Private to prevent unnecessary instantation.
@@ -51,8 +46,6 @@ public final class Base64
     {
         // Private to prevent unnecessary instantation
     }
-
-    // public methods ---------------------------------------------------------
 
     /**
      * Base64 encodes the specified bytes. This method is provided for signature compatibility with
@@ -98,7 +91,7 @@ public final class Base64
     {
         final int length = bytes.length;
         final StringBuilder buffer = new StringBuilder(length * 3);
-        for (int i = 0; i < length; i += 3) 
+        for (int i = 0; i < length; i += 3)
         {
             // p's are the segments for each byte. For every three bytes there are 6
             // segments
@@ -109,47 +102,47 @@ public final class Base64
 
             int p2;
             int p3;
-            if (i + 1 < length) 
+            if (i + 1 < length)
             {
                 p2 = bytes[i + 1] & 0xF0;
                 p2 >>= 4;
                 p3 = bytes[i + 1] & 0x0F;
                 p3 <<= 2;
-            } 
-            else 
+            }
+            else
             {
                 p2 = 0;
                 p3 = 0;
             }
             int p4;
             int p5;
-            if (i + 2 < length) 
+            if (i + 2 < length)
             {
                 p4 = bytes[i + 2] & 0xC0;
                 p4 >>= 6;
                 p5 = bytes[i + 2] & 0x3F;
-            } 
-            else 
+            }
+            else
             {
                 p4 = 0;
                 p5 = 0;
             }
 
-            if (i + 2 < length) 
+            if (i + 2 < length)
             {
                 buffer.append(ENCODE[p0]);
                 buffer.append(ENCODE[p1 | p2]);
                 buffer.append(ENCODE[p3 | p4]);
                 buffer.append(ENCODE[p5]);
             }
-            else if (i + 1 < length) 
+            else if (i + 1 < length)
             {
                 buffer.append(ENCODE[p0]);
                 buffer.append(ENCODE[p1 | p2]);
                 buffer.append(ENCODE[p3]);
                 buffer.append(PAD_CHAR);
-            } 
-            else 
+            }
+            else
             {
                 buffer.append(ENCODE[p0]);
                 buffer.append(ENCODE[p1 | p2]);

@@ -56,7 +56,7 @@ public class Dependency extends AbstractDependency
     /**
      * @param classpath the Dependency target classpath.
      */
-    public void setClasspath(String classpath) 
+    public void setClasspath(String classpath)
     {
         this.classpath = classpath;
     }

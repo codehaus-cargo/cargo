@@ -32,7 +32,6 @@ import org.apache.maven.artifact.resolver.ArtifactResolver;
 /**
  * An ArtifactInstaller encapsulates the resolving of an artifact from a local
  * or remote Maven repository.
- *
  */
 public class ArtifactInstaller
 {

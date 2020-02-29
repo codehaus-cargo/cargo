@@ -117,7 +117,6 @@ public class WebLogic8xExistingLocalConfiguration extends
 
     /**
      * {@inheritDoc}
-     * 
      */
     @Override
     public String getDomainHome()

@@ -3,7 +3,7 @@
         <attribute name="DatasourceName">java:/DefaultDS</attribute>
         <attribute name="Dialect">org.hibernate.dialect.HSQLDialect</attribute>
         <attribute name="SessionFactoryName">java:/hibernate/CaveatEmptorSessionFactory</attribute>
-        
+
         <attribute name="Hbm2ddlAuto">create-drop</attribute>
         <attribute name="ShowSqlEnabled">true</attribute>
     </mbean>

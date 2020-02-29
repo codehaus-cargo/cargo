@@ -50,7 +50,7 @@ public class AddModuleScriptCommand extends AbstractWildFlyScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
      * @param moduleName Module name.

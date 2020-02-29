@@ -21,7 +21,6 @@ package org.codehaus.cargo.tools.daemon;
 
 /**
  * Represents the content type for an url encoded form.
- *
  */
 public class UrlEncodedFormContentType implements FormContentType
 {

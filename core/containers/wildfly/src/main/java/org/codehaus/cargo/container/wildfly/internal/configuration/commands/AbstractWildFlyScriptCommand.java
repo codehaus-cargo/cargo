@@ -35,7 +35,7 @@ public abstract class AbstractWildFlyScriptCommand extends AbstractScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
      */
@@ -84,7 +84,7 @@ public abstract class AbstractWildFlyScriptCommand extends AbstractScriptCommand
     /**
      * Create WildFly CLI parameter string from properties map.
      * WildFly CLI properties usually have format " --name=value"
-     *
+     * 
      * @param resourceProperties Properties for WildFly Resource.
      * @return Mapped properties.
      */

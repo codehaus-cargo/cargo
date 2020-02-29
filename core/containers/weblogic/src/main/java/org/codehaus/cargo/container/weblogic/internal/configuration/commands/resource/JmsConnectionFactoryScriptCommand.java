@@ -39,10 +39,10 @@ public class JmsConnectionFactoryScriptCommand extends AbstractScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
-     * @param resource Resource. 
+     * @param resource Resource.
      */
     public JmsConnectionFactoryScriptCommand(Configuration configuration, String resourcePath,
             Resource resource)

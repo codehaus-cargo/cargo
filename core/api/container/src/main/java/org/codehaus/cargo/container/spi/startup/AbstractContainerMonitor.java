@@ -48,7 +48,7 @@ public abstract class AbstractContainerMonitor implements ContainerMonitor
 
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      */
     public AbstractContainerMonitor(Container container)

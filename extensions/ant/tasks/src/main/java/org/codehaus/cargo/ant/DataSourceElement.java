@@ -36,16 +36,16 @@ public class DataSourceElement
     private String jndiName;
 
     /**
-     * Type of this DataSource, for example 
+     * Type of this DataSource, for example
      * <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
-     *
+     * 
      * @see org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
      */
     private String connectionType;
 
     /**
      * Transaction support of the datasource ex. <code>XA_TRANSACTION</code>
-     *
+     * 
      * @see org.codehaus.cargo.container.property.TransactionSupport
      */
     private String transactionSupport;
@@ -98,7 +98,7 @@ public class DataSourceElement
     }
 
     /**
-     * @return Type of this DataSource, for example 
+     * @return Type of this DataSource, for example
      * <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
      */
     public String getConnectionType()
@@ -107,7 +107,7 @@ public class DataSourceElement
     }
 
     /**
-     * @param connectionType Type of this DataSource, for example 
+     * @param connectionType Type of this DataSource, for example
      * <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
      */
     public void setConnectionType(String connectionType)

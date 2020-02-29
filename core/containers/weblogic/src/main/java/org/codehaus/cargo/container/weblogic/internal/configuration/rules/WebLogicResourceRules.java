@@ -41,7 +41,7 @@ public final class WebLogicResourceRules
     /**
      * Method used for adding resources needed by WebLogic JMS in case they weren't defined in Cargo
      * properties.
-     *
+     * 
      * @param configuration WebLogic configuration containing all we need to add resources.
      */
     public static void addMissingJmsResources(LocalConfiguration configuration)

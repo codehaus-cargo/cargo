@@ -228,7 +228,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 {
                     deployer.deployResource(resource);
                 }
-                
+
                 // CARGO-1246: Create file users
                 List<User> servletUsers = getConfiguration().getUsers();
                 if (!servletUsers.isEmpty())

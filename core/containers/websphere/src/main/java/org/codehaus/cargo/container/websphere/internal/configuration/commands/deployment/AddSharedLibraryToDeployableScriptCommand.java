@@ -45,7 +45,7 @@ public class AddSharedLibraryToDeployableScriptCommand extends AbstractScriptCom
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
      * @param deployable Deployable using shared library.

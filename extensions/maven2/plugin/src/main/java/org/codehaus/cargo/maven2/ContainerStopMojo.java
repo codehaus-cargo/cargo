@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * Stop a running container using Cargo.
- * 
+ *
  * @goal stop
  * @requiresDependencyResolution test
  */

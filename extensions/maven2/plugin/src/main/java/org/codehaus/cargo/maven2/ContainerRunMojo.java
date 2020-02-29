@@ -31,7 +31,7 @@ import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
 
 /**
  * Start a container using Cargo and wait until user pressed CTRL + C to stop.
- * 
+ *
  * @goal run
  * @requiresDependencyResolution test
  */
@@ -70,7 +70,7 @@ public class ContainerRunMojo extends ContainerStartMojo
             @Override
             public void run()
             {
-                try 
+                try
                 {
                     if (ContainerRunMojo.this.localContainer != null
                         && (org.codehaus.cargo.container.State.STARTED

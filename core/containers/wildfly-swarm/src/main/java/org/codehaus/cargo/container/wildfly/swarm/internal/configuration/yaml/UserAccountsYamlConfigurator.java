@@ -43,7 +43,7 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
 
     /**
      * Constructor.
-     *
+     * 
      * @param configurationContext configuration context.
      * @param yamlGenerator          yaml generator instance.
      */

@@ -92,7 +92,7 @@ public class GlassFishDeploymentPlanTest extends AbstractCargoTestCase
     public void testDataSourceClass() throws Exception
     {
         Configuration configuration = createConfiguration(ConfigurationType.STANDALONE);
-        configuration.setProperty("cargo.datasource.datasource.derby", 
+        configuration.setProperty("cargo.datasource.datasource.derby",
             "cargo.datasource.type=javax.sql.DataSource|"
             + "cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDataSource|"
             + "cargo.datasource.jndi=jdbc/cargoembedded|"

@@ -79,7 +79,7 @@ public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLoca
                 AbstractGlassFishInstalledLocalDeployer deployer = getLocalDeployer();
 
                 DataSource firstDS = this.getConfiguration().getDataSources().get(0);
-                DataSource dataSource = new DataSource("jdbc/__default", 
+                DataSource dataSource = new DataSource("jdbc/__default",
                     firstDS.getConnectionType(), firstDS.getTransactionSupport(),
                         firstDS.getDriverClass(), firstDS.getUrl(), firstDS.getUsername(),
                             firstDS.getPassword(), "DummyCargoDefaultDS-" + firstDS.getId(),

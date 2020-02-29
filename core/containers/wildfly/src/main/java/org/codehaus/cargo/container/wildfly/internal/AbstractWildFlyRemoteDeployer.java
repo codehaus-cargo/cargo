@@ -1,4 +1,4 @@
-/* 
+/*
  * ========================================================================
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
@@ -83,7 +83,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
 
     /**
      * Upload deployable to remote server.
-     *
+     * 
      * @param deployable Deployable to be uploaded.
      * @return Value of BYTES_VALUE field in response.
      */
@@ -111,7 +111,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
 
     /**
      * Deploy deployable, which is uploaded on remote server.
-     *
+     * 
      * @param deployable Deployable to be deployed.
      * @param bytesValue BYTES_VALUE marking uploaded content.
      */
@@ -134,7 +134,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
 
     /**
      * Undeploy deployable on server.
-     *
+     * 
      * @param deployable Deployable to be undeployed.
      */
     private void undeployDeployable(Deployable deployable)
@@ -156,7 +156,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
 
     /**
      * Remove deployable from server.
-     *
+     * 
      * @param deployable Deployable to be removed.
      */
     private void removeDeployable(Deployable deployable)
@@ -218,7 +218,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
 
     /**
      * Verify HTTP response.
-     *
+     * 
      * @param response Response to be verified.
      */
     private void verifyResponse(HttpResult response)

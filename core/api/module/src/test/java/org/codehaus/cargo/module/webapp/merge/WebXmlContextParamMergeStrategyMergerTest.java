@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2003 The Apache Software Foundation. Code from this file 
+ * Copyright 2003 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
@@ -48,11 +48,11 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      */
     private WebXml getWebXml(String name, String value) throws Exception
     {
-        String xml = "<web-app>" 
-            + "  <context-param>" 
-            + "    <param-name>" + name + "</param-name>" 
-            + "    <param-value>" + value + "</param-value>" 
-            + "  </context-param>" 
+        String xml = "<web-app>"
+            + "  <context-param>"
+            + "    <param-name>" + name + "</param-name>"
+            + "    <param-value>" + value + "</param-value>"
+            + "  </context-param>"
             + "</web-app>";
         return WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
     }
@@ -67,9 +67,9 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      */
     private Element getContextParamElement(String name, String value) throws Exception
     {
-        String xml = "<context-param>" 
+        String xml = "<context-param>"
             + "  <param-name>" + name + "</param-name>"
-            + "  <param-value>" + value + "</param-value>" 
+            + "  <param-value>" + value + "</param-value>"
             + "</context-param>";
         return WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null)
                 .getRootElement();

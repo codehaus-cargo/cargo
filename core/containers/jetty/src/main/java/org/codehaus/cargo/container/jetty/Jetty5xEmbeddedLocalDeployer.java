@@ -63,7 +63,7 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
 
                 webapp.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
                     webapp,
-                    new File(container.getConfiguration().getHome(), 
+                    new File(container.getConfiguration().getHome(),
                         "etc/webdefault.xml").toURI().toString());
 
                 // set up virtual hosts

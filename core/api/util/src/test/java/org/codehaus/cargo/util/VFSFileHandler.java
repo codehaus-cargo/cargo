@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.VFS;
  * Note: This class should be moved to the main core API once if we decide to use VFS in our
  * runtime.
  * </p>
- * 
+ *
  * TODO: This class shouldn't extend DefaultFileHandler. I have cheated because I was just
  * prototyping this. We really need to implement all methods using the VFS API.
  */

@@ -32,7 +32,7 @@ public interface AntTaskFactory
 {
     /**
      * Returns the task that is mapped to the specified name.
-     * 
+     *
      * Implementations of this interface should correctly initialize the task by setting the name,
      * the project and optionally the owning target.
      * 

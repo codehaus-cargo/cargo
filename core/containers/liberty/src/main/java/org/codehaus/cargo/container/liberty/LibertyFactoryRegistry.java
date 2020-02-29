@@ -1,16 +1,16 @@
-/* 
+/*
 * Copyright 2016 IBM Corp.
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -38,7 +38,7 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 /**
  * Registers WebSphere Liberty support
  */
-public class LibertyFactoryRegistry extends AbstractFactoryRegistry 
+public class LibertyFactoryRegistry extends AbstractFactoryRegistry
 {
 
     /**
@@ -47,7 +47,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param deployableFactory Factory on which to register.
      */
     @Override
-    protected void register(DeployableFactory deployableFactory) 
+    protected void register(DeployableFactory deployableFactory)
     {
     }
 
@@ -57,7 +57,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param configurationCapabilityFactory Factory on which to register.
      */
     @Override
-    protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory) 
+    protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory)
     {
         configurationCapabilityFactory.registerConfigurationCapability("liberty",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -70,7 +70,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param configurationFactory Factory on which to register.
      */
     @Override
-    protected void register(ConfigurationFactory configurationFactory) 
+    protected void register(ConfigurationFactory configurationFactory)
     {
         configurationFactory.registerConfiguration("liberty",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -83,7 +83,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param deployerFactory Factory on which to register.
      */
     @Override
-    protected void register(DeployerFactory deployerFactory) 
+    protected void register(DeployerFactory deployerFactory)
     {
         deployerFactory.registerDeployer("liberty", DeployerType.INSTALLED,
             LibertyInstalledLocalDeployer.class);
@@ -95,7 +95,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param packagerFactory Factory on which to register.
      */
     @Override
-    protected void register(PackagerFactory packagerFactory) 
+    protected void register(PackagerFactory packagerFactory)
     {
     }
 
@@ -106,7 +106,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param containerFactory the factory to register with
      */
     @Override
-    protected void register(ContainerFactory containerFactory) 
+    protected void register(ContainerFactory containerFactory)
     {
         containerFactory.registerContainer("liberty", ContainerType.INSTALLED,
             LibertyInstalledLocalContainer.class);
@@ -118,7 +118,7 @@ public class LibertyFactoryRegistry extends AbstractFactoryRegistry
      * @param containerCapabilityFactory Factory on which to register.
      */
     @Override
-    protected void register(ContainerCapabilityFactory containerCapabilityFactory) 
+    protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
         containerCapabilityFactory.registerContainerCapability("liberty",
             J2EEContainerCapability.class);

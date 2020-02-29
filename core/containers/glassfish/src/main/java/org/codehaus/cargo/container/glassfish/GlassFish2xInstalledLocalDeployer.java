@@ -156,7 +156,7 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
     public void createFileUser(User user)
     {
         // nothing
-        
+
     }
 
     /**

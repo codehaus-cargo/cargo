@@ -86,7 +86,7 @@ public class XmlUtils
 
     /**
      * default constructor will assign no namespaces and use a default file handler.
-     *
+     * 
      * @param namespaceAware true if XmlUtils should be namespace aware.
      */
     public XmlUtils(boolean namespaceAware)
@@ -106,7 +106,7 @@ public class XmlUtils
 
     /**
      * constructor will assign no namespaces.
-     *
+     * 
      * @param fileHandler used to read and write xml files.
      * @param namespaceAware true if XmlUtils should be namespace aware.
      */

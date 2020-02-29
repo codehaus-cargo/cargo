@@ -21,7 +21,7 @@ package org.codehaus.cargo.maven2;
 
 /**
  * Redeploy a deployable (i.e. undeploy and deploy it again) in a container.
- * 
+ *
  * @goal deployer-redeploy
  * @requiresDependencyResolution test
  */

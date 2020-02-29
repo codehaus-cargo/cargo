@@ -96,7 +96,7 @@ public class PingUtils extends Assert
 
     /**
      * Ping a container and check the result.
-     *
+     * 
      * @param httpUtils HTTP utils.
      * @param pingUrl Ping URL.
      * @param requestProperties Properties for the request.

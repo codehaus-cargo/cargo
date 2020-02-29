@@ -26,7 +26,6 @@ import java.io.PrintWriter;
 
 /**
  * Redirects the output of a process into an OutputStream by periodically pumping data.
- *
  */
 class DaemonJvmLauncherStreamRedirector implements Runnable
 {
@@ -47,7 +46,7 @@ class DaemonJvmLauncherStreamRedirector implements Runnable
 
     /**
      * Creates a new redirector.
-     *
+     * 
      * @param is the input stream
      * @param os the output stream
      */

@@ -33,7 +33,7 @@ public class LoggingScriptCommand extends AbstractScriptCommand
 {
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
      */
@@ -57,7 +57,7 @@ public class LoggingScriptCommand extends AbstractScriptCommand
 
     /**
      * Translate Cargo logging levels into WebSphere logging levels.
-     *
+     * 
      * @param cargoLogLevel Cargo logging level
      * @return the corresponding WebLogic logging level
      */

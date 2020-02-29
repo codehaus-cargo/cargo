@@ -1,16 +1,16 @@
-/* 
+/*
 * Copyright 2016 IBM Corp.
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -58,7 +58,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Configures Liberty at the specified install
-     *
+     * 
      * @param dir the directory where Liberty is installed.
      */
     public LibertyStandaloneLocalConfiguration(String dir)
@@ -77,7 +77,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Configure the WebSphere Liberty server
-     *
+     * 
      * @param container configure the capability
      * @throws Exception if something goes wrong
      */
@@ -140,7 +140,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Write a library for the extra classpath.
-     *
+     * 
      * @param container the container
      * @param configOverrides the config dir
      * @throws IOException if an error occurs writing.
@@ -159,7 +159,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Write any datasources.
-     *
+     * 
      * @param configOverrides the directory to write into.
      * @throws IOException if something goes wrong.
      */
@@ -182,7 +182,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Processes the users property and writes the server xml
-     *
+     * 
      * @param container the container
      * @param configOverrides the directory to write to
      * @throws IOException if an error occurs
@@ -214,7 +214,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * This method writes a user registry xml
-     *
+     * 
      * @param container the container
      * @param configDir the config dir to write into
      * @param users the list of users
@@ -255,7 +255,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * This method writes the <code>jvm.options</code> file for the server
-     *
+     * 
      * @param container the container
      * @param install the liberty install
      */
@@ -292,7 +292,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Write the <code>httpEndpoint</code> to set the port
-     *
+     * 
      * @param container the container to get the port from
      * @param configOverrides the config overrides dir
      * @throws IOException if an error occurs
@@ -334,7 +334,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
      * Write the keystore password so the server will correctly start if the server is configured to
      * enable ssl. This writes to the defaults directory so other definitions of the password
      * override.
-     *
+     * 
      * @param configDefaults the defaults dir.
      * @throws IOException if an error occurs
      */
@@ -352,7 +352,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
     /**
      * Generates a unique 8 char password
-     *
+     * 
      * @return the unique password
      */
     private static String genPassword()

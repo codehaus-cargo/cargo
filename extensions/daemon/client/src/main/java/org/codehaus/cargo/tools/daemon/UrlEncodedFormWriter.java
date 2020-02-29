@@ -26,7 +26,6 @@ import java.net.URLEncoder;
 
 /**
  * Represents a form writer that allows writing form fields that are url encoded.
- *
  */
 public class UrlEncodedFormWriter
 {
@@ -47,7 +46,6 @@ public class UrlEncodedFormWriter
 
     /**
      * Constructs an UrlEncodedFormWriter.
-     *
      */
     public UrlEncodedFormWriter()
     {
@@ -55,7 +53,7 @@ public class UrlEncodedFormWriter
 
     /**
      * Writes a string field value.
-     *
+     * 
      * @param name the field name (required)
      * @param value the field value
      * @throws IOException on input/output errors
@@ -81,7 +79,7 @@ public class UrlEncodedFormWriter
 
     /**
      * Writes the form data to the output stream.
-     *
+     * 
      * @param os The output stream
      * @throws IOException on input/output errors
      */

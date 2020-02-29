@@ -21,7 +21,6 @@ package org.codehaus.cargo.tools.daemon;
 
 /**
  * Represents the content type for a multipart form.
- *
  */
 public class MultipartFormContentType implements FormContentType
 {
@@ -40,7 +39,7 @@ public class MultipartFormContentType implements FormContentType
 
     /**
      * Creates a boundary string that is highly probable not to be found inside the form data.
-     *
+     * 
      * @return a multipart boundary string
      */
     private String createBoundary()
@@ -50,7 +49,7 @@ public class MultipartFormContentType implements FormContentType
 
     /**
      * Gets the content type for this writer.
-     *
+     * 
      * @return the content type string
      */
     @Override

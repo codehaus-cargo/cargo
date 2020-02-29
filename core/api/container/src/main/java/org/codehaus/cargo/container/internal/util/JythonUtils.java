@@ -34,7 +34,7 @@ public final class JythonUtils
 
     /**
      * Escape special characters for Jython scripts.
-     *
+     * 
      * @param plainText Text to be escaped.
      * @return Escaped text.
      */

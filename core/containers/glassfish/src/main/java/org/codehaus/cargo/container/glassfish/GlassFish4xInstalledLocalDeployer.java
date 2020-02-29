@@ -51,7 +51,7 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
     {
         super(localContainer);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -97,7 +97,7 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
         {
             throw new RuntimeException("Unable to create password file", e);
         }
-        
+
     }
 
     /**
@@ -120,7 +120,7 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
             passwordProperties.load(existing);
         }
         passwordProperties.setProperty("AS_ADMIN_USERPASSWORD", password);
-        
+
         File tempFile = File.createTempFile("password", ".properties");
         try (OutputStream tempFileStream = new FileOutputStream(tempFile))
         {
@@ -128,7 +128,7 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
         }
         return tempFile;
     }
-    
+
     /**
      * {@inheritDoc}
      */

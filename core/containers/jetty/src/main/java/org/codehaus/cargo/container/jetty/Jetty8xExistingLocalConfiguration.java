@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.jetty;
 
 /**
  * Configuration for existing local Jetty 8.x
- *
  */
 public class Jetty8xExistingLocalConfiguration extends Jetty7xExistingLocalConfiguration
 {

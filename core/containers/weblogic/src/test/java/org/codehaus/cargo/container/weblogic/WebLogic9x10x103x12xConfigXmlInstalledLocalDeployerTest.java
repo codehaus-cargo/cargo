@@ -180,7 +180,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         deployer.addDeployableToDomain(war, this.domain);
         String xml = this.xmlUtil.toString(domain);
         try
-        { 
+        {
             XMLAssert.assertXpathEvaluatesTo("cargo",
                 "//weblogic:app-deployment/weblogic:name", xml);
             XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),

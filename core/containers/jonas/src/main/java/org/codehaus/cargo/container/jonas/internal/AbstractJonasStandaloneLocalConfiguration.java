@@ -238,7 +238,7 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
     /**
      * Returns the configurator setter name based on the property name.
-     *
+     * 
      * @param propertyName Property name.
      * @return Configurator setter name for <code>propertyName</code>.
      */

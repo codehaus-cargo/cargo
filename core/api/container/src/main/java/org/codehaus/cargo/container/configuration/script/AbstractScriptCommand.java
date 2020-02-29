@@ -64,7 +64,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
      */
@@ -110,13 +110,13 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     }
 
     /**
-     * @return Relative path to resource being read. 
+     * @return Relative path to resource being read.
      */
     protected abstract String getScriptRelativePath();
 
     /**
-     * Add custom properties needed for configuration script filtering. 
-     *
+     * Add custom properties needed for configuration script filtering.
+     * 
      * @param propertiesMap Map of additional custom properties.
      */
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)

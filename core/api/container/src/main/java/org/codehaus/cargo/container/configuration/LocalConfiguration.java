@@ -100,7 +100,7 @@ public interface LocalConfiguration extends Configuration
 
     /**
      * Add user to container.
-     *
+     * 
      * @param user the {@link User} to add.
      */
     void addUser(User user);

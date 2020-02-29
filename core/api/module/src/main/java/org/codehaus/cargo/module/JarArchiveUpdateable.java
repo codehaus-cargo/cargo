@@ -23,7 +23,6 @@ import java.io.File;
 
 /**
  * Marker interface for a Jar archive that can be updated in-place.
- * 
  */
 public interface JarArchiveUpdateable extends JarArchive
 {

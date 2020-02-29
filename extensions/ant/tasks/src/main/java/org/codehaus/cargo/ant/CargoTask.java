@@ -479,7 +479,7 @@ public class CargoTask extends Task
     /**
      * Adds a set of properties that will be used as system properties in the executing container
      * VM.
-     * 
+     *
      * Note: When we switch to Ant 1.6 we will be able to replace this by Ant 1.6 PropertySet
      * 
      * @param propertySet Ant element defining the property set
@@ -707,7 +707,7 @@ public class CargoTask extends Task
                     @Override
                     public void run()
                     {
-                        try 
+                        try
                         {
                             if (org.codehaus.cargo.container.State.STARTED
                                 == localContainer.getState()

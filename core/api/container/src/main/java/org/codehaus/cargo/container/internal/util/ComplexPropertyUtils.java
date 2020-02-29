@@ -112,7 +112,7 @@ public final class ComplexPropertyUtils
 
     /**
      * Convert list of properties to a string representation, based on the specified delimiter.
-     *
+     * 
      * @param toJoin object to serialize as a string
      * @param delimiter how to separate entries from each other
      * @return the properties as a string, delimited by the above

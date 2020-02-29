@@ -98,7 +98,6 @@ public class CargoTestSuite extends TestSuite
     }
 
     /**
-     * 
      * Add a given test suite.
      * @param testClass Test class.
      * @param validators List of validators, to check if tests should be run on a given container.

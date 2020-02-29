@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Cargo daemon error handler servlet.
- *
  */
 public class CargoDaemonErrorServlet extends HttpServlet
 {

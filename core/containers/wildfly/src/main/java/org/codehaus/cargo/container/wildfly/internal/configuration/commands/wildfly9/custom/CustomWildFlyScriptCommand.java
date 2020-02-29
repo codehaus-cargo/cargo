@@ -36,7 +36,7 @@ public class CustomWildFlyScriptCommand implements ScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param resourcePath Path to configuration script resource.
      */
     public CustomWildFlyScriptCommand(String resourcePath)

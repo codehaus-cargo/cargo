@@ -35,7 +35,7 @@ public class ConsoleUrlWebSphereMonitor extends AbstractPingContainerMonitor
 {
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      */
     public ConsoleUrlWebSphereMonitor(Container container)

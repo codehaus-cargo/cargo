@@ -93,7 +93,7 @@ public class WebSphereJythonConfigurationFactory
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      */
     public WebSphereJythonConfigurationFactory(Configuration configuration)

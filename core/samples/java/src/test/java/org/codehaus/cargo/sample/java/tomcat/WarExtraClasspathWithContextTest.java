@@ -89,13 +89,13 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");
         suite.addTestSuite(WarExtraClasspathWithContextTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat", "tomee"), 
+            new StartsWithContainerValidator("tomcat", "tomee"),
             new HasWarSupportValidator(), new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator()},
             excludedContainerIds);
         return suite;
     }
-    
+
     /**
      * Tests that a servlet has access to a class in added to the extraclasspath
      * with WAR with a <code>context.xml</code> file.
@@ -110,7 +110,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         copyTask.setTofile(new File(artifactDir, "tomcat-context.war"));
         copyTask.setFile(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
         copyTask.execute();
-        
+
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
         if (simpleJar == null)
         {
@@ -134,7 +134,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         getLocalContainer().stop();
         PingUtils.assertPingFalse("tomcat context war not stopped", warPingURL, getLogger());
     }
-    
+
     /**
      * Tests that a servlet has access to a class in added to the extraclasspath
      * with expanded WAR with a <code>context.xml</code> file.
@@ -149,7 +149,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war-link-simple"
                 + "-jar")));
         expandTask.execute();
-        
+
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
         if (simpleJar == null)
         {

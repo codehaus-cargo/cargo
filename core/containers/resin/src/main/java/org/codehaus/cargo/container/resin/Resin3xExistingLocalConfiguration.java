@@ -53,5 +53,5 @@ public class Resin3xExistingLocalConfiguration extends Resin2xExistingLocalConfi
     public ConfigurationCapability getCapability()
     {
         return capability;
-    } 
+    }
 }

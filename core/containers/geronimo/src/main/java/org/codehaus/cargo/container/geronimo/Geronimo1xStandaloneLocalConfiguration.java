@@ -100,7 +100,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends
             + "/server-log4j.properties",
             new File(logDir, "server-log4j.properties"), filterChain, "ISO-8859-1");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
-            + "/client-log4j.properties", new File(logDir, "client-log4j.properties"), filterChain, 
+            + "/client-log4j.properties", new File(logDir, "client-log4j.properties"), filterChain,
             "ISO-8859-1");
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId()
             + "/deployer-log4j.properties",

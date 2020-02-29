@@ -88,7 +88,7 @@ public class DataSource
 
     /**
      * Constructor containing default DataSource construction rules.
-     *
+     * 
      * @param jndiLocation Where to bind this DataSource (typically <code>java:comp/env</code>).
      * @param connectionType What to use to get a connection from the database.
      *      <code>javax.sql.XADataSource</code> or <code>javax.sql.Driver</code>.
@@ -299,7 +299,7 @@ public class DataSource
 
     /**
      * Create valid connection type based on input value.
-     *
+     * 
      * @param connectionType Connection type value to be converted.
      * @return Valid connection type.
      */
@@ -321,7 +321,7 @@ public class DataSource
 
     /**
      * Create valid transaction support value based on input values.
-     *
+     * 
      * @param transactionSupport Configured transaction support.
      * @param connectionType Valid connection type.
      * @return Valid transaction support.
@@ -348,7 +348,7 @@ public class DataSource
      * Get a string name for the configuration of this datasource. This should be XML and filesystem
      * friendly. For example, the String returned will have no slashes or punctuation, and be as
      * short as possible.
-     *
+     * 
      * @param jndiLocation used to construct the id
      * @return a string that can be used to name this configuration
      */

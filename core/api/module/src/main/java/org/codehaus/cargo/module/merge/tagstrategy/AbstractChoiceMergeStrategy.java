@@ -25,7 +25,7 @@ import org.codehaus.cargo.module.DescriptorElement;
 /**
  * A merging strategy that can make a decision between various differing merge strategies, depending
  * upon the state that it is passed.
- * 
+ *
  * Child classes implement the getApplicableStrategy based on whatever information is neccessary to
  * make that decision
  */

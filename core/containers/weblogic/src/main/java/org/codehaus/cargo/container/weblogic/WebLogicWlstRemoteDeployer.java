@@ -50,7 +50,7 @@ public class WebLogicWlstRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc} deploys files by sending WLST script to WebLogic server.
-     *
+     * 
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#deploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override
@@ -75,7 +75,7 @@ public class WebLogicWlstRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc} undeploys files by sending WLST script to WebLogic server.
-     *
+     * 
      * @see org.codehaus.cargo.container.spi.deployer.AbstractDeployer#undeploy(org.codehaus.cargo.container.deployable.Deployable)
      */
     @Override

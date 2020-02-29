@@ -30,14 +30,13 @@ import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import java.io.File;
 
 /** Abstract configuration for existing local Jetty
- *
  */
 public abstract class AbstractJettyExistingLocalConfiguration
         extends AbstractExistingLocalConfiguration
 {
     /**
      * Capability of the Jetty Existing local configuration.
-     */ 
+     */
     private static ConfigurationCapability capability =
             new JettyExistingLocalConfigurationCapability();
 
@@ -54,7 +53,7 @@ public abstract class AbstractJettyExistingLocalConfiguration
     }
 
     /** Creation of deployer according to the container
-     *
+     * 
      * @param container reference for current container
      * @return new instance of deployer for the container
      */

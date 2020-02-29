@@ -70,7 +70,7 @@ public class WildFly9xCliConfigurationFactory extends WildFly8xCliConfigurationF
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      */
     public WildFly9xCliConfigurationFactory(Configuration configuration)

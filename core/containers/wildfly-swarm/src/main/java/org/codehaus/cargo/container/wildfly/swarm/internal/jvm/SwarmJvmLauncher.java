@@ -129,7 +129,7 @@ public class SwarmJvmLauncher implements JvmLauncher
 
     /**
      * Build the complete command line.
-     *
+     * 
      * @return the array representing the tokens of the command line
      */
     private List<String> buildCommandLine()
@@ -164,7 +164,7 @@ public class SwarmJvmLauncher implements JvmLauncher
 
     /**
      * Add a path to the classpath.
-     *
+     * 
      * @param path the path to add to the classpath
      */
     private void addClasspath(String path)
@@ -266,7 +266,7 @@ public class SwarmJvmLauncher implements JvmLauncher
 
     /**
      * Adds additional classpath entries.
-     *
+     * 
      * @param paths The additional classpath entries.
      */
     public void addClasspathEntries(List<String> paths)

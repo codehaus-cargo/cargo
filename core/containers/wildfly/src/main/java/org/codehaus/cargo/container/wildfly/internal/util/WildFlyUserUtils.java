@@ -31,7 +31,7 @@ import org.codehaus.cargo.util.CargoException;
  */
 public final class WildFlyUserUtils
 {
-    
+
     /**
      * Cannot instantiate this class.
      */

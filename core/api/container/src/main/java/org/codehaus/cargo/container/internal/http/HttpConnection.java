@@ -75,7 +75,7 @@ public class HttpConnection extends LoggedObject
 
     /**
      * Constructor.
-     *
+     * 
      * @param url URL to be called.
      */
     public HttpConnection(URL url)
@@ -85,7 +85,7 @@ public class HttpConnection extends LoggedObject
 
     /**
      * Constructor.
-     *
+     * 
      * @param url URL to be called.
      * @param timeout Request timeout.
      */
@@ -123,7 +123,7 @@ public class HttpConnection extends LoggedObject
 
     /**
      * Set HTTP authentication.
-     *
+     * 
      * @param username User name.
      * @param password Password.
      */
@@ -172,7 +172,7 @@ public class HttpConnection extends LoggedObject
 
     /**
      * Connect to server and execute defined HTTP method call.
-     *
+     * 
      * @param httpMethod HTTP method to be called.
      * @return the HTTP(S) result containing -1 as response code if no connection could be
      * established

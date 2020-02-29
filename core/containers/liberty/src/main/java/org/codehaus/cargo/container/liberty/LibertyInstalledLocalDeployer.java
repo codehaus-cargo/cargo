@@ -1,16 +1,16 @@
-/* 
+/*
 * Copyright 2016 IBM Corp.
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -48,7 +48,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Creates the local deployer.
-     *
+     * 
      * @param container the container to deploy to
      */
     public LibertyInstalledLocalDeployer(LocalContainer container)
@@ -58,7 +58,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Get the directory to deploy the application to
-     *
+     * 
      * @param deployable the thing to deploy
      * @return the path to the director to deploy to
      */
@@ -128,7 +128,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Write the role to group mapping as group - role 1-1
-     *
+     * 
      * @param writer the writer
      * @throws IOException if an something goes wrong.
      */
@@ -165,7 +165,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Write a library for any extra classpath entries
-     *
+     * 
      * @param writer the write to write the xml to.
      * @param app the application being deployed
      * @throws IOException if something goes wrong.
@@ -227,7 +227,7 @@ public class LibertyInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
     /**
      * Get the context root for the deployer if possible.
-     *
+     * 
      * @param deployable the deployable to get the context root for
      * @return the context root if there is one, or null if there isn't.
      */

@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 
 /**
  * A JVM launcher that launches a new Process, that can be forcibly killed if needed.
- *
  */
 class DaemonJvmLauncher implements JvmLauncher
 {
@@ -117,7 +116,7 @@ class DaemonJvmLauncher implements JvmLauncher
 
     /**
      * Build the complete command line.
-     *
+     * 
      * @return the array representing the tokens of the command line
      */
     private List<String> buildCommandLine()
@@ -152,7 +151,7 @@ class DaemonJvmLauncher implements JvmLauncher
 
     /**
      * Add a path to the classpath.
-     *
+     * 
      * @param path the path to add to the classpath
      */
     private void addClasspath(String path)
@@ -547,7 +546,7 @@ class DaemonJvmLauncher implements JvmLauncher
             throw new JvmLauncherException("Failed waiting for process to end", e);
         }
     }
- 
+
     /**
      * Forcefully kill the launched process using platform specific methods.
      */

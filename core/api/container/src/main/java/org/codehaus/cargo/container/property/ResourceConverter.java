@@ -159,7 +159,7 @@ public class ResourceConverter
     /**
      * return a string that can be used to name this configuration or null, if jndiLocation was not
      * specified.
-     *
+     * 
      * @param jndiLocation used to construct the id
      * @return a string that can be used to name this configuration or null, if jndiLocation was not
      * specified.
@@ -179,7 +179,7 @@ public class ResourceConverter
      * Get a string name for the configuration of this resource. This should be XML and filesystem
      * friendly. For example, the String returned will have no slashes or punctuation, and be as
      * short as possible.
-     *
+     * 
      * @param jndiLocation used to construct the id
      * @return a string that can be used to name this configuration
      */

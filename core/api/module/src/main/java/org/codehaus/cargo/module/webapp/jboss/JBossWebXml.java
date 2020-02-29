@@ -28,7 +28,6 @@ import org.jdom.Element;
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>jboss-web.xml</code> to
  * provide convenience methods for easy access and manipulation.
- *
  */
 public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
 {

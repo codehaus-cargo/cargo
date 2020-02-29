@@ -52,7 +52,7 @@ public class MissingXmlElementAppender
     private final LinkedList<String> expressionNodes = new LinkedList<String>();
 
     /**
-     *
+     * 
      * @param document Document that may have missing nodes
      * @param xPathString XPath that needs to be present in the document
      */
@@ -75,7 +75,7 @@ public class MissingXmlElementAppender
 
     /**
      * Appends the missing nodes.
-     *
+     * 
      * @return the common node of document and XPath
      * @throws XPathExpressionException if anything goes wrong
      */
@@ -95,7 +95,7 @@ public class MissingXmlElementAppender
     /**
      * Find the common node of the given document and the XPath.
      * Based on this node the hierarchy will be appended.
-     *
+     * 
      * @param missingNodes as a side effect the node elements are collected
      * @return common node of the given document and the XPath
      * @throws XPathExpressionException if anything goes wrong

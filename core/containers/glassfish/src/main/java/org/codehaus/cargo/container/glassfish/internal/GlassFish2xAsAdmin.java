@@ -43,7 +43,7 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
     public GlassFish2xAsAdmin(String home)
     {
         super();
-        
+
         if (home == null)
         {
             throw new CargoException("GlassFish home directory is not set");

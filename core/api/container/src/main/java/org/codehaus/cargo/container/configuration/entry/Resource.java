@@ -108,7 +108,6 @@ public class Resource
 
     /**
      * @return A <code>Set</code> with all parameters.
-     * 
      */
     public Set<String> getParameterNames()
     {
@@ -162,7 +161,7 @@ public class Resource
 
     /**
      * The String used to identify this resource in configuration files.
-     *
+     * 
      * @return the resource id
      */
     public String getId()

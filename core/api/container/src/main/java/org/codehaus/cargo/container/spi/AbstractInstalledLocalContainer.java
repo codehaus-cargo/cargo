@@ -286,7 +286,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         jvmStartLauncher = createJvmLauncher(true);
         // Due to defect in org.apache.tools.ant.taskdefs.Java#setAppend we
-        // can't call setAppendOutput if we want to spawn the process. If the 
+        // can't call setAppendOutput if we want to spawn the process. If the
         // output isn't null we will have already disabled process spawning
         if (getOutput() != null)
         {
@@ -441,7 +441,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         // Add JVM args if defined
         addJvmArgs(java);
-        
+
         if (server)
         {
             addStartJvmArgs(java);

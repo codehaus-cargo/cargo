@@ -42,7 +42,6 @@ public class JBossXmlType extends AbstractDescriptorType
 
     /**
      * Protected constructor.
-     * 
      */
     protected JBossXmlType()
     {

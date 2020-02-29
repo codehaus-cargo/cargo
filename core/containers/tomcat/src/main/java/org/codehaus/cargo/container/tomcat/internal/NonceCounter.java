@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * NonceCounter provides a 1,000 item LRU cache counting
  * the number of times a nonce has been seen.
- */    
+ */
 public class NonceCounter
 {
 
@@ -61,7 +61,7 @@ public class NonceCounter
      * Count returns a hexadecimal string counting the number
      * of times nonce has been seen.  The first value returned
      * for a nonce is 00000001.
-     *
+     * 
      * @param nonce the nonce value to count
      * @return formatted nonce value
      */

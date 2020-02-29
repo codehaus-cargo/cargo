@@ -96,7 +96,7 @@ public class WebLogicWlstConfigurationFactory
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      */
     public WebLogicWlstConfigurationFactory(Configuration configuration)

@@ -3581,7 +3581,7 @@ def isApplicationReady(appname):
     """Returns True when app deployment is complete and ready to start.
        Returns False when the app is not ready or is not recognized.
        This method indicates when background processing is complete
-       following an install, save, and sync.   
+       following an install, save, and sync.
        This method is useful when installing really large EARs."""
     m = "isApplicationReady:"
     rc = False
@@ -4893,7 +4893,7 @@ def hostAliasExists( virtualhostname, aliashostname, port ):
 
 def getHostAliasID( virtualhostname, aliashostname, port ):
     """Returns the ID string for the specified host alias, if it exists.
-    Returns None if it does not exist.      
+    Returns None if it does not exist.
     Parms:  virtualhostname: "default_host", or "proxy_host", or etc.
             aliashostname:  "*", "fred", "fred.raleigh.ibm.com", etc
             port:  either a string or int: 5060, "5061", etc. """
@@ -6307,7 +6307,7 @@ def getOrbCustomProperty( nodename, servername, propname ):
     return propvalue
 
 def setOrbCustomProperty( nodename, servername, propname, propvalue ):
-    """Sets the specified custom property 
+    """Sets the specified custom property
     in the orb of the specified server or proxy."""
     m = "setOrbCustomProperty:"
     sop(m,"Entry. nodename=%s servername=%s propname=%s propvalue=%s" % ( nodename, servername, propname, propvalue ))
@@ -6321,7 +6321,7 @@ def setOrbCustomProperty( nodename, servername, propname, propvalue ):
     sop(m,"Exit. Successfully set %s=%s" % ( propname, propvalue ))
 
 def deleteOrbCustomProperty( nodename, servername, propname ):
-    """Deletes the specified custom property from 
+    """Deletes the specified custom property from
     the orb of the specified server or proxy."""
     m = "deleteOrbCustomProperty:"
     sop(m,"Entry. nodename=%s servername=%s propname=%s" % ( nodename, servername, propname ))
@@ -9240,7 +9240,7 @@ def createMailProvider ( scope, nodeName, serverName, clusterName, providerName,
         sop (m, "Caught Exception creating Mail Provider "+provider)
         return 99
 
-    sop (m, "Created "+providerName+" successfully.") 
+    sop (m, "Created "+providerName+" successfully.")
     return provider
 
 #endDef
@@ -9279,22 +9279,22 @@ def createProtocolProvider( scope, nodeName, serverName, clusterName, provName, 
     return pProvider
 
 def createMailSession( scope, nodeName, serverName, clusterName, provName, name, jndiName, desc, category, mailTransHost, mailTransProto, mailTransUserId, mailTransPasswd, enableParse, mailFrom, mailStoreHost, mailStoreProto, mailStoreUserId, mailStorePasswd, enableDebug ):
-    """ 
-    
-    This function creates a JavaMail MailSession under the specified Provider Name. 
+    """
+
+    This function creates a JavaMail MailSession under the specified Provider Name.
 
         Input parameters:
 
         scope               - The scope of the MailProvider. Valid values are (in order of preecendence): 'cell', 'node', 'cluster' and 'server'.
-                              Note: The scope of 'cell' is not valid for the createMailSession function. 
+                              Note: The scope of 'cell' is not valid for the createMailSession function.
         nodeName            - The name of the node of the MailProvider. Required if scope = 'node' or 'server'.
         serverName          - The name of the server of the MailProvider. Required if scope = 'server'.
         clusterName         - The name of the cluster of the MailProvider. Required if scope = 'cluster'.
         provName            - The name of the MailProvider. Typical value: "Built-in Mail Provider".
         name                - The required display name of the MailSession to be created.
-        jndiName            - The required JNDI of the MailSession to be created. 
+        jndiName            - The required JNDI of the MailSession to be created.
         desc                - An optional description of this MailSession.
-        category            - An optional category string to use when classifying or grouping the MailSession to be created. 
+        category            - An optional category string to use when classifying or grouping the MailSession to be created.
         mailTransHost       - Specifies the server to connect to when sending mail.
         mailTransProto      - Specifies the transport protocol to use when sending mail. Actual protocol values are defined in the protocol
                               providers that you configured for the current mail provider.
@@ -9302,7 +9302,7 @@ def createMailSession( scope, nodeName, serverName, clusterName, provName, name,
         mailTransUserId     - Specifies the user id to use when the mail transport host requires authentication.
         mailTransPasswd     - Specifies the password to use when the mail transport host requires authentication.
         enableParse         - Enable strict internet address parsing. Set to "true" to enforce the RFC 822 syntax rules for parsing Internet addresses when sending mail.
-                              Valid values: "true" or "false". 
+                              Valid values: "true" or "false".
         mailFrom            - Specifies the Internet e-mail address that is displayed in messages as the mail originator. Typical value: "".
         mailStoreHost       - Specifies the mail account host, or domain name. Typical value: "".
         mailStoreProto      - Specifies the protocol to use when receiving mail. Actual protocol values are defined in the protocol providers
@@ -9311,8 +9311,8 @@ def createMailSession( scope, nodeName, serverName, clusterName, provName, name,
         mailStoreUserId     - Specifies the user ID of the mail account. Typical value: "".
         mailStorePasswd     - Specifies the password of the mail account. Typical value: "".
         enableDebug         - Enable debug information which shows interaction between the mail application and the mail servers,
-                              as well as the properties of this mail session. to be sent to the SystemOut.log file. 
-                              Valid values: "true" or "false". 
+                              as well as the properties of this mail session. to be sent to the SystemOut.log file.
+                              Valid values: "true" or "false".
 
         Return Value:
             The newly created MailSession.  If an error occurs, an exception will be thrown.
@@ -9368,7 +9368,7 @@ def createMailSession( scope, nodeName, serverName, clusterName, provName, name,
     attrs.append(["mailStorePassword", mailStorePasswd])
     attrs.append(["debug", enableDebug])
 
-    sop (m, "Creating mail session: " + repr(name) + " as a child of: " + repr(mailProvider) + " using attributes: " + repr(attrs)) 
+    sop (m, "Creating mail session: " + repr(name) + " as a child of: " + repr(mailProvider) + " using attributes: " + repr(attrs))
     mSession = AdminConfig.create("MailSession", mailProvider, attrs)
 
     sop (m, "Creation of mail session " + name + " was successful! session = " + repr(mSession) )
@@ -9423,7 +9423,7 @@ def removeWebSphereVariable ( name, nodeName=None, serverName=None, clusterName=
     findAndRemove('VariableSubstitutionEntry', [['symbolicName', name]], map)
 
 def expandWebSphereVariables ( variableString, nodeName=None, serverName=None, clusterName=None ):
-    """ This function expands all WAS variable references 
+    """ This function expands all WAS variable references
         such as ${WAS_INSTALL_ROOT} in variableString with their
         values at the specified scope."""
     while variableString.find("${") != -1:

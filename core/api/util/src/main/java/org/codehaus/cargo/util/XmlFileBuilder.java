@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 
 /**
  * This interface intends to remove hard-bindings to a specific xml api.
- * 
+ *
  * Implementations of this interface will: 1. optionally load a file 2. insert some elements into
  * the current document 3. write the file to disk
  */
@@ -69,7 +69,7 @@ public interface XmlFileBuilder
 
     /**
      * This will take element from elementToInsert and insert it under the xpath.
-     *
+     * 
      * @param elementToInsert Element to insert
      * @param xpath where to place the above element.
      */

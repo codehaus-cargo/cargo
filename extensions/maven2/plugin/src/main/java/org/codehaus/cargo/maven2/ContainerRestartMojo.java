@@ -21,7 +21,7 @@ package org.codehaus.cargo.maven2;
 
 /**
  * Restart a container using Cargo.
- * 
+ *
  * @goal restart
  * @requiresDependencyResolution test
  */

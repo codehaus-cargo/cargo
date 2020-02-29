@@ -24,7 +24,6 @@ import java.util.Map;
 
 /**
  * Represents the daemon parameters to be sent to the listening daemon.
- *
  */
 public class DaemonParameters
 {
@@ -40,7 +39,7 @@ public class DaemonParameters
 
     /**
      * Sets a daemon parameter.
-     *
+     * 
      * @param key The key name
      * @param value The value string for the specified key
      */
@@ -51,7 +50,7 @@ public class DaemonParameters
 
     /**
      * Sets a daemon file.
-     *
+     * 
      * @param key The key name
      * @param file The path to a file
      */

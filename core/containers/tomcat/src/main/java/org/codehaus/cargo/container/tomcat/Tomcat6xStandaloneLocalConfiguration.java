@@ -65,7 +65,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * the path to find the manager application is different between v5 and v6.
      */
     @Override
@@ -122,7 +122,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             return "";
         }
     }
-    
+
     @Override
     protected void configureExtraClasspathToken(WAR deployable, Element context)
     {

@@ -24,7 +24,6 @@ import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
 /**
  * Wraps a file that will be deployed into the container. The file type can be used to deploy an
  * generic file or directory to the containers deploy directory.
- * 
  */
 public class File extends AbstractDeployable
 {

@@ -699,18 +699,18 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * This method should only be called once all the properties has been set. {@inheritDoc}
      */
     @Override
-    public void applyPortOffset() 
+    public void applyPortOffset()
     {
-        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null 
-            && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0")) 
+        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
+            && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0"))
         {
-            // Since the properties hashmap is impacted by the revert we must 
+            // Since the properties hashmap is impacted by the revert we must
             // use a copy of the keys
             Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
-            for (String key : keysCopy) 
+            for (String key : keysCopy)
             {
                 // CARGO-1438: Only update numbers for properties prefixed with "cargo."
-                if (key.startsWith("cargo.") && key.endsWith(".port")) 
+                if (key.startsWith("cargo.") && key.endsWith(".port"))
                 {
                     this.applyPortOffset(key);
                 }
@@ -720,24 +720,24 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * This method should only be called once all the properties has been set.
      */
     @Override
-    public void revertPortOffset() 
+    public void revertPortOffset()
     {
-        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null 
-            && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0")) 
+        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
+            && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0"))
         {
             // We need to shift the ports
 
-            // Since the properties hashmap is impacted by the revert we must 
+            // Since the properties hashmap is impacted by the revert we must
             // use a copy of the keys
             Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
-            for (String key : keysCopy) 
+            for (String key : keysCopy)
             {
                 // CARGO-1438: Only update numbers for properties prefixed with "cargo."
-                if (key.startsWith("cargo.") && key.endsWith(".port")) 
+                if (key.startsWith("cargo.") && key.endsWith(".port"))
                 {
                     this.revertPortOffset(key);
                 }
@@ -749,13 +749,13 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * Apply the port offset on the specified property
      * @param name the property name
      */
-    protected void applyPortOffset(String name) 
+    protected void applyPortOffset(String name)
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
-            && this.getPropertyValue(name) != null 
-            && !isOffsetApplied(name)) 
+            && this.getPropertyValue(name) != null
+            && !isOffsetApplied(name))
         {
-            try 
+            try
             {
                 int portOffset = Integer.parseInt(this.getPropertyValue(
                     GeneralPropertySet.PORT_OFFSET));
@@ -763,7 +763,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 this.setProperty(name, Integer.toString(value + portOffset));
                 flagOffestApplied(name, true);
             }
-            catch (NumberFormatException e) 
+            catch (NumberFormatException e)
             {
                 // We do nothing
             }
@@ -775,13 +775,13 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * 
      * @param name the property name
      */
-    protected void revertPortOffset(String name) 
+    protected void revertPortOffset(String name)
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
                 && this.getPropertyValue(name) != null
-                && isOffsetApplied(name)) 
+                && isOffsetApplied(name))
         {
-            try 
+            try
             {
                 int portOffset = Integer.parseInt(this.getPropertyValue(
                     GeneralPropertySet.PORT_OFFSET));
@@ -789,7 +789,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 this.setProperty(name, Integer.toString(value - portOffset));
                 flagOffestApplied(name, false);
             }
-            catch (NumberFormatException e) 
+            catch (NumberFormatException e)
             {
                 // We do nothing
             }
@@ -808,7 +808,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * Checks whether the offset is already applied or not 
+     * Checks whether the offset is already applied or not
      * @param name the name of the property to be checked
      * @return <code>true</code> if the offset is already applied
      */
@@ -818,7 +818,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * Flags the 
+     * Flags the
      * @param name the name of the property to be flagged.
      * @param offsetApplied <code>true</code> if the offset is applied, else <code>false</code>.
      */

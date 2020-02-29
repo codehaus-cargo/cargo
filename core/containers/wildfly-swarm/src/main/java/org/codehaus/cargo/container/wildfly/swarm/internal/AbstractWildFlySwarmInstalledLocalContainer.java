@@ -53,7 +53,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(LocalConfiguration)
      */
     protected AbstractWildFlySwarmInstalledLocalContainer(LocalConfiguration configuration)
@@ -73,7 +73,7 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
 
     /**
      * Container version.
-     *
+     * 
      * @return version string.
      */
     protected abstract String getVersion();

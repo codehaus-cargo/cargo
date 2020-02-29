@@ -5,7 +5,7 @@
       <role-hint>uberwar</role-hint>
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
-        <phases>              
+        <phases>
           <package>
             org.codehaus.cargo:cargo-maven2-plugin:uberwar
           </package>
@@ -19,10 +19,10 @@
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
       <role-hint>uberwar</role-hint>
       <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
-      <configuration>        
-        <type>uberwar</type>  
+      <configuration>
+        <type>uberwar</type>
         <extension>war</extension>
-        <packaging>uberwar</packaging>       
+        <packaging>uberwar</packaging>
       </configuration>
     </component>
 

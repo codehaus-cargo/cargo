@@ -61,7 +61,7 @@ public class WebLogicResourceRulesTest extends TestCase
 
     /**
      * Creates the test file system manager and the container. {@inheritDoc}
-     *
+     * 
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -78,7 +78,7 @@ public class WebLogicResourceRulesTest extends TestCase
     /**
      * Test for adding missing JMS resources. If no JMS resource is created then nothing will be
      * added - we don't need JMS server, module or subdeployment.
-     *
+     * 
      * @throws Exception If anything goes wrong.
      */
     public void testAddMissingJmsResourcesNoJmsResources() throws Exception
@@ -100,7 +100,7 @@ public class WebLogicResourceRulesTest extends TestCase
     /**
      * Test for adding missing JMS resources. When there is defined at least one JMS resource then
      * we need to create also JMS server, JMS module and JMS subdeployment.
-     *
+     * 
      * @throws Exception If anything goes wrong.
      */
     public void testAddMissingJmsResourcesAllJmsResources() throws Exception
@@ -148,7 +148,7 @@ public class WebLogicResourceRulesTest extends TestCase
 
     /**
      * Test for adding missing JMS module resource.
-     *
+     * 
      * @throws Exception If anything goes wrong.
      */
     public void testAddMissingJmsResourcesJmsModule() throws Exception

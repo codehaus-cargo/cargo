@@ -53,12 +53,12 @@ public class DefaultDeployableMonitorFactory implements DeployableMonitorFactory
         }
 
         return deployableMonitor;
-        
+
     }
 
     /**
      * @param deployable Deployable.
-     * @return Initialized URLDeployableMonitor. 
+     * @return Initialized URLDeployableMonitor.
      */
     private URLDeployableMonitor createUrlDeployableMonitor(Deployable deployable)
     {
@@ -77,7 +77,7 @@ public class DefaultDeployableMonitorFactory implements DeployableMonitorFactory
     /**
      * @param configuration Container configuration.
      * @param deployable Deployable.
-     * @return Initialized UrlPathDeployableMonitor. 
+     * @return Initialized UrlPathDeployableMonitor.
      */
     private UrlPathDeployableMonitor createUrlPathDeployableMonitor(Configuration configuration,
             Deployable deployable)

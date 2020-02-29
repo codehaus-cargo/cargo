@@ -27,7 +27,6 @@ import org.apache.tools.ant.taskdefs.Java;
 
 /**
  * Executor that executes an Ant's {@link Java} command in a separate thread.
- *
  */
 public class AntContainerExecutorThread extends Thread
 {
@@ -63,7 +62,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Returns a build exception.
-     *
+     * 
      * @return the build exception
      */
     public BuildException getBuildException()
@@ -73,7 +72,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Set the build exception.
-     *
+     * 
      * @param ex The build exception
      */
     private void setBuildException(BuildException ex)
@@ -83,7 +82,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Determine if its finished or not
-     *
+     * 
      * @return If its finished or not
      */
     public boolean isFinished()
@@ -93,7 +92,7 @@ public class AntContainerExecutorThread extends Thread
 
     /**
      * Set if the its finished or not
-     *
+     * 
      * @param b sets finish state
      */
     public void setFinished(boolean b)

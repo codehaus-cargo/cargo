@@ -1,16 +1,16 @@
-/* 
+/*
 * Copyright 2016 IBM Corp.
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,7 +43,7 @@ public final class ServerConfigUtils
 
     /**
      * Opens a new <code>server.xml</code> for writing and writes the opening server element
-     *
+     * 
      * @param xmlFile the file to write into
      * @return a print stream for writing into
      * @throws IOException if an exception occurred
@@ -57,7 +57,7 @@ public final class ServerConfigUtils
 
     /**
      * Closes a <code>server.xml</code> and writes the closing <code>server</code> element.
-     *
+     * 
      * @param writer the print stream to close
      */
     public static void close(PrintStream writer)
@@ -68,7 +68,7 @@ public final class ServerConfigUtils
 
     /**
      * Write a library.
-     *
+     * 
      * @param writer the writer to write the library to
      * @param id the id for the library, if null no id is written.
      * @param cp the classpath, must be non null
@@ -104,7 +104,7 @@ public final class ServerConfigUtils
 
     /**
      * Writes a datasource to the write.
-     *
+     * 
      * @param writer the writer.
      * @param ds the datasource.
      */
@@ -146,7 +146,7 @@ public final class ServerConfigUtils
 
     /**
      * Write a map as a set of xml attributes.
-     *
+     * 
      * @param writer the writer to write to
      * @param props the properties to write.
      */

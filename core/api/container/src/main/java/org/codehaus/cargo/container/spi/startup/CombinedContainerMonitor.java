@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.startup.ContainerMonitor;
 /**
  * Monitor which gathers information from multiple monitors.
  */
-public class CombinedContainerMonitor extends AbstractContainerMonitor 
+public class CombinedContainerMonitor extends AbstractContainerMonitor
 {
 
     /**
@@ -38,14 +38,14 @@ public class CombinedContainerMonitor extends AbstractContainerMonitor
 
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      * @param monitors Underlying monitors
      */
     public CombinedContainerMonitor(Container container, ContainerMonitor... monitors)
     {
         super(container);
-        if (monitors == null || monitors.length == 0) 
+        if (monitors == null || monitors.length == 0)
         {
             throw new IllegalArgumentException("Specify at least one monitor");
         }
@@ -56,11 +56,11 @@ public class CombinedContainerMonitor extends AbstractContainerMonitor
      * {@inheritDoc}
      */
     @Override
-    public boolean isRunning() 
+    public boolean isRunning()
     {
         for (ContainerMonitor monitor : monitors)
         {
-            if (!monitor.isRunning()) 
+            if (!monitor.isRunning())
             {
                 return false;
             }

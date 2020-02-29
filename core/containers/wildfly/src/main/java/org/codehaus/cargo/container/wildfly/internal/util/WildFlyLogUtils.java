@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.property.LoggingLevel;
  */
 public final class WildFlyLogUtils
 {
-    
+
     /**
      * Cannot instantiate this class.
      */

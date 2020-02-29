@@ -58,7 +58,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
                     "javax.jms.ConnectionFactory",
                     "javax.jms.TopicConnectionFactory",
                     "javax.jms.QueueConnectionFactory")));
-    
+
     /**
      * Calls parent constructor, which saves the container.
      * 
@@ -265,7 +265,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             }
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
-        }        
+        }
         else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType()))
         {
             List<String> args = new ArrayList<String>();
@@ -344,7 +344,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
     /**
      * Does not do anything since GlassFish 3.x support was not tested.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override

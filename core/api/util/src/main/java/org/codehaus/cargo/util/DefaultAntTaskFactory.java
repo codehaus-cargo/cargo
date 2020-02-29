@@ -101,7 +101,6 @@ public class DefaultAntTaskFactory implements AntTaskFactory
     }
 
     /**
-     * 
      * Checks to ensure the ssh task is present before proceeding.
      * 
      * @param taskName name of the task

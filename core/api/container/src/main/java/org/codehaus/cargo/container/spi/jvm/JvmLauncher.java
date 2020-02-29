@@ -92,7 +92,7 @@ public interface JvmLauncher
 
     /**
      * Sets an environment variable for the JVM.
-     *
+     * 
      * @param name The variable name, may be {@code null}.
      * @param value The property value, may be {@code null}.
      */
@@ -103,7 +103,7 @@ public interface JvmLauncher
      * existing variable, instead of replacing it (eg: when adding an additional directory to PATH)
      * it is recommended to retrieve the value using this method instead of using
      * {@link java.lang.System#getenv(java.lang.String)}.
-     *
+     * 
      * @param name The variable name, may be {@code null}.
      * @return Either the previously set value, the system value or null.
      */
@@ -183,7 +183,7 @@ public interface JvmLauncher
 
     /**
      *  Sets whether the JVM should be launched in spawn mode
-     *
+     * 
      * @param spawn {@code true} to launch JVM in spawn, {@code false} to launch normal JVM.
      */
     void setSpawn(boolean spawn);

@@ -121,7 +121,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      * {@inheritDoc}
      */
     @Override
-    protected void performXmlReplacements(LocalContainer container) 
+    protected void performXmlReplacements(LocalContainer container)
     {
         // JBoss 7.x actually supports port offset
         this.revertPortOffset();
@@ -403,7 +403,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
         if (altDeployDir != null && !altDeployDir.equals(""))
         {
-            container.getLogger().info("Using non-default deployment target directory " 
+            container.getLogger().info("Using non-default deployment target directory "
                 + altDeployDir, this.getClass().getName());
             deployments = getFileHandler().append(getHome(), altDeployDir);
         }
@@ -411,7 +411,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         {
             deployments = getFileHandler().append(getHome(), "deployments");
         }
- 
+
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
             new File(deployments, "cargocpc.war"));
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);

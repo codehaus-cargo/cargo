@@ -118,7 +118,7 @@ public class CargoProject
             project.getBuild().getDirectory(),
             project.getBuild().getFinalName(),
             project.getArtifact(),
-            project.getAttachedArtifacts(), 
+            project.getAttachedArtifacts(),
             project.getArtifacts(),
             log);
     }

@@ -65,7 +65,7 @@ public interface StandaloneLocalConfiguration extends LocalConfiguration
 
     /**
      * Adds an XML replacement.
-     *
+     * 
      * @param filename File in which to replace.
      * @param xpathExpression XPath expression to look for.
      * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents

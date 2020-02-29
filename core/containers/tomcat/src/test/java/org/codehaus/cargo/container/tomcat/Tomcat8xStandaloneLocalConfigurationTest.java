@@ -82,7 +82,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the attribute 'sslImplementationName' isn't added if the property isn't set.
-     *
+     * 
      * @throws Exception If anything does wrong.
      */
     public void testConfigureWithoutSslImplementationName() throws Exception
@@ -97,7 +97,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the attribute 'sslImplementationName' is overidden with the property's value.
-     *
+     * 
      * @throws Exception If anything does wrong.
      */
     public void testConfigureSetsSslImplementationName() throws Exception
@@ -116,7 +116,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the element 'UpgradeProtocol' isn't present if the property isn't set.
-     *
+     * 
      * @throws Exception If anything does wrong.
      */
     public void testConfigureWithoutHttpUpgradeProtocol() throws Exception
@@ -132,7 +132,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the element 'UpgradeProtocol' is added if the property is set.
-     *
+     * 
      * @throws Exception If anything does wrong.
      */
     public void testConfigureAddsHttpUpgradeProtocol() throws Exception

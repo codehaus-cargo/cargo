@@ -43,7 +43,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
  * Client for the Cargo daemon manager
- *
  */
 public class DaemonClient extends LoggedObject
 {

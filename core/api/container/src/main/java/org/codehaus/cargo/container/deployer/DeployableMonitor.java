@@ -49,7 +49,6 @@ public interface DeployableMonitor extends Loggable
     /**
      * @return the timeout after which we stop monitoring the
      * {@link org.codehaus.cargo.container.deployable.Deployable}
-     * 
      */
     long getTimeout();
 }

@@ -75,7 +75,6 @@ import org.json.simple.JSONValue;
 
 /**
  * Cargo daemon servlet.
- *
  */
 public class CargoDaemonServlet extends HttpServlet implements Runnable
 {
@@ -347,7 +346,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 String logFilePath = null;
                 long pos = 0;
 
-                
+
                 if (handle == null)
                 {
                     throw new CargoDaemonException("Handle id " + handleId + " not found.");
@@ -361,7 +360,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 {
                     logFilePath = handle.getContainerLogPath();
                 }
-                
+
                 long filesize = fileManager.getFileSize(logFilePath);
 
                 response.setContentType("text/html");
@@ -373,7 +372,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 // For some browsers, there needs to be atleast 1024 bytes sent before something is
                 // displayed.
                 // So, we respond with a nice log header to make sure we reach this limit.
-                if (offset == null) 
+                if (offset == null)
                 {
                     outputLogPageHeader(outputStream);
                     fileManager.copyHeader(
@@ -392,9 +391,9 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 }
                 else
                 {
-                    if (offset == null) 
+                    if (offset == null)
                     {
-                        // For logs larger than 1MB, only start at the last 1MB 
+                        // For logs larger than 1MB, only start at the last 1MB
                         // if no offset is specified
                         if (filesize > 1048576)
                         {
@@ -405,11 +404,11 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     {
                         pos = offset;
                     }
-                    
+
                     fileManager.copy(logFilePath, outputStream, pos, filesize - pos);
                 }
-                
-                if (offset == null) 
+
+                if (offset == null)
                 {
                     outputLogPageFooter(outputStream, handleId, servletPath, filesize);
                 }
@@ -664,8 +663,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 try
                 {
                     previousContainer.stop();
-                    
-                    // Wait 5 seconds to allow sockets to close after forced kill 
+
+                    // Wait 5 seconds to allow sockets to close after forced kill
                     Thread.sleep(5000);
                 }
                 catch (Throwable ignored)
@@ -989,7 +988,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         }
         return result;
     }
-    
+
     /**
      * Converts text to long if possible, otherwise returns 0
      * 
@@ -1005,7 +1004,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         catch (Throwable e)
         {
             return null;
-        }            
+        }
     }
 
     /**
@@ -1023,7 +1022,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 continue;
             }
 
-            synchronized (handle) 
+            synchronized (handle)
             {
                 if (handle.isAutostart() && handle.getContainerStatus() == State.STOPPED
                     && !handle.isForceStop())
@@ -1043,7 +1042,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             }
         }
     }
-    
+
 
     /**
      * Prints the log page header to the servlet output stream.
@@ -1051,7 +1050,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param outputStream The output stream
      * @throws Exception in case of error
      */
-    private void outputLogPageHeader(ServletOutputStream outputStream) throws Exception 
+    private void outputLogPageHeader(ServletOutputStream outputStream) throws Exception
     {
         outputStream.print(""
                 + "<!doctype html>\n"
@@ -1059,8 +1058,8 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "  <head>\n"
                 + "     <meta charset=\"utf-8\">\n"
                 + "     <style>\n"
-                + "       pre {\n" 
-                + "         margin: 0px;\n" 
+                + "       pre {\n"
+                + "         margin: 0px;\n"
                 + "       }\n"
                 + "     </style>\n"
                 + "    <title>Cargo Live Log Viewer</title>"
@@ -1068,7 +1067,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "  <body>\n"
                 + "  <div id=\"logText\"><pre>");
     }
-    
+
     /**
      * Prints the log page footer to the servlet output stream.
      * 
@@ -1078,7 +1077,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param pos The last offset in the log file
      * @throws Exception in case of error
      */
-    private void outputLogPageFooter(ServletOutputStream outputStream, String handleId, 
+    private void outputLogPageFooter(ServletOutputStream outputStream, String handleId,
             String pageId, long pos) throws Exception
     {
         outputStream.print("</pre></div>\n"
@@ -1090,47 +1089,47 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "      var logText = document.getElementById('logText')\n"
                 + "      var offset = " + pos + ";\n"
                 + "      var handleId = \"" + handleId + "\";\n"
-                + "      // See http://www.howtocreate.co.uk/tutorials/javascript/browserwindow\n" 
-                + "      function getViewportHeight() {\n" 
-                + "        if (typeof( window.innerWidth ) == 'number') {\n" 
-                + "          //Non-IE\n" 
-                + "          return window.innerHeight;\n" 
+                + "      // See http://www.howtocreate.co.uk/tutorials/javascript/browserwindow\n"
+                + "      function getViewportHeight() {\n"
+                + "        if (typeof( window.innerWidth ) == 'number') {\n"
+                + "          //Non-IE\n"
+                + "          return window.innerHeight;\n"
                 + "        } else if (document.documentElement && ( "
                 + "document.documentElement.clientWidth "
-                + "|| document.documentElement.clientHeight )) {\n" 
-                + "          //IE 6+ in 'standards compliant mode'\n" 
-                + "          return document.documentElement.clientHeight;\n" 
+                + "|| document.documentElement.clientHeight )) {\n"
+                + "          //IE 6+ in 'standards compliant mode'\n"
+                + "          return document.documentElement.clientHeight;\n"
                 + "        } else if (document.body && ( document.body.clientWidth "
-                + "|| document.body.clientHeight )) {\n" 
-                + "          //IE 4 compatible\n" 
-                + "          return document.body.clientHeight;\n" 
-                + "        }\n" 
-                + "        return null;\n" 
-                + "      }\n" 
-                + "      function getCurrentHeight(scrollDiv) {\n" 
-                + "        if (scrollDiv.scrollHeight > 0)\n" 
-                + "           return scrollDiv.scrollHeight;\n" 
-                + "        else if (scrollDiv.offsetHeight > 0)\n" 
-                + "           return scrollDiv.offsetHeight;\n" 
-                + "        return null;\n" 
+                + "|| document.body.clientHeight )) {\n"
+                + "          //IE 4 compatible\n"
+                + "          return document.body.clientHeight;\n"
+                + "        }\n"
+                + "        return null;\n"
                 + "      }\n"
-                + "      function shouldAutoscroll(scrollDiv) {\n" 
+                + "      function getCurrentHeight(scrollDiv) {\n"
+                + "        if (scrollDiv.scrollHeight > 0)\n"
+                + "           return scrollDiv.scrollHeight;\n"
+                + "        else if (scrollDiv.offsetHeight > 0)\n"
+                + "           return scrollDiv.offsetHeight;\n"
+                + "        return null;\n"
+                + "      }\n"
+                + "      function shouldAutoscroll(scrollDiv) {\n"
                 + "         var bottomThreshold = 25;\n"
-                + "         var currentHeight = getCurrentHeight(scrollDiv);\n" 
-                + "         var height = getViewportHeight();\n" 
+                + "         var currentHeight = getCurrentHeight(scrollDiv);\n"
+                + "         var height = getViewportHeight();\n"
                 + "         var scrollPos = Math.max(scrollDiv.scrollTop, "
                 + "document.documentElement.scrollTop, "
-                + "document.body.scrollTop);\n" 
-                + "         var diff = currentHeight - scrollPos - height;\n" 
+                + "document.body.scrollTop);\n"
+                + "         var diff = currentHeight - scrollPos - height;\n"
                 + "         return diff < bottomThreshold;\n"
                 + "      }\n"
                 + "      function scrollToBottom(scrollDiv) {\n"
-                + "         var currentHeight = getCurrentHeight(scrollDiv);\n" 
-                + "         if (document.documentElement)\n" 
-                + "            document.documentElement.scrollTop = currentHeight;\n" 
-                + "         if (document.body)\n" 
-                + "            document.body.scrollTop = currentHeight;\n" 
-                + "         scrollDiv.scrollTop = currentHeight;\n" 
+                + "         var currentHeight = getCurrentHeight(scrollDiv);\n"
+                + "         if (document.documentElement)\n"
+                + "            document.documentElement.scrollTop = currentHeight;\n"
+                + "         if (document.body)\n"
+                + "            document.body.scrollTop = currentHeight;\n"
+                + "         scrollDiv.scrollTop = currentHeight;\n"
                 + "      }\n"
                 + "      var xmlHttpRequest = 0;\n"
                 + "      if (window.XMLHttpRequest) {\n"
@@ -1161,7 +1160,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "        setInterval(function()\n"
                 + "        {\n"
                 + "          if (isNaN(offset)) return;\n"
-                + "          xmlHttpRequest.open(\"GET\", \"./" + pageId 
+                + "          xmlHttpRequest.open(\"GET\", \"./" + pageId
                 + "?handleId=\" + handleId "
                 + "+ \"&offset=\" + offset, true);\n"
                 + "\n"

@@ -32,7 +32,7 @@ import org.codehaus.cargo.util.JarUtils;
  */
 public final class WildFlyModuleUtils
 {
-    
+
     /**
      * Cannot instantiate this class.
      */

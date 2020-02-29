@@ -24,10 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 
  * Utility IO class for constructing Jar Archives. Use this class in preference to the concrete
  * implementations of JarArchive.
- * 
  */
 public class JarArchiveIo
 {

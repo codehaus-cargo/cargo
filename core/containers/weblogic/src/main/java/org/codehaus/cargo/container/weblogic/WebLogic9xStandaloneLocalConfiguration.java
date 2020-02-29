@@ -130,7 +130,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
-            getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain, 
+            getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain,
             "UTF-8");
 
         WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer deployer =

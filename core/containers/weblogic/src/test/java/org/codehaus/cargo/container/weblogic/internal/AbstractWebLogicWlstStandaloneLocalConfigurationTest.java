@@ -41,7 +41,7 @@ public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCa
 
     /**
      * Creates the test file system manager and the container. {@inheritDoc}
-     *
+     * 
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -58,7 +58,7 @@ public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCa
     /**
      * Test sorting of resources. Resources should be sorted according to their priority set in
      * properties.
-     *
+     * 
      * @throws Exception If anything goes wrong.
      */
     public void testSortResources() throws Exception

@@ -45,7 +45,7 @@ public class WildFly8xCliConfigurationFactory implements WildFlyCliConfiguration
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      */
     public WildFly8xCliConfigurationFactory(Configuration configuration)

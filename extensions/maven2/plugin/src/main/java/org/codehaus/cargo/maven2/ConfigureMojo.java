@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
  * Mojo to create a local container standalone configuration at a specified directory.
- * 
+ *
  * @goal configure
  * @requiresDependencyResolution test
  * @description Create a local container standalone configuration at a specified directory

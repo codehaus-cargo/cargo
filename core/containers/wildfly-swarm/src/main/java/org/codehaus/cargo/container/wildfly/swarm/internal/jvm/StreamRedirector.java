@@ -25,7 +25,6 @@ import java.io.OutputStream;
 
 /**
  * Redirects the output of a process into an OutputStream by periodically pumping data.
- *
  */
 class StreamRedirector implements Runnable
 {
@@ -51,7 +50,7 @@ class StreamRedirector implements Runnable
 
     /**
      * Creates a new redirector.
-     *
+     * 
      * @param is the input stream
      * @param os the output stream
      */

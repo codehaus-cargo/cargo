@@ -25,18 +25,16 @@ import org.codehaus.cargo.daemon.CargoDaemonException;
 
 /**
  * Properties container.
- *
  */
 public class PropertyTable extends HashMap<String, String>
 {
     /**
-     *
      */
     private static final long serialVersionUID = 363523668224756869L;
 
     /**
      * Gets a boolean value of a property with key {@code name}.
-     *
+     * 
      * @param name The key name
      * @return the boolean value
      */

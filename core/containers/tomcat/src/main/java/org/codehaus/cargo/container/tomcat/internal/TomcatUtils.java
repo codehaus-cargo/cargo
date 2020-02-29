@@ -85,7 +85,7 @@ public final class TomcatUtils
         }
         return result;
     }
-    
+
     /**
      * Gets the extra classpath for the WAR as a string array
      * 

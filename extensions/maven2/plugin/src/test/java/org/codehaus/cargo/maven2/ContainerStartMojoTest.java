@@ -213,7 +213,7 @@ public class ContainerStartMojoTest extends MockObjectTestCase
 
     /**
      * Retrieve containers from the context - filter out classloaders.
-     *
+     * 
      * @param context Context with containers and classloaders.
      * @return List of containers.
      */

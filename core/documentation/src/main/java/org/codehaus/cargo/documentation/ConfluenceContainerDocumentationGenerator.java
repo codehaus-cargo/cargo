@@ -426,7 +426,7 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         System.setProperty("cargo.target.dir", targetDir);
                     }
-                } 
+                }
             }
             else
             {

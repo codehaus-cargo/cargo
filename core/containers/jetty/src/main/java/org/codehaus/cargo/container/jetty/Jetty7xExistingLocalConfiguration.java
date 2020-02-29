@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
 /**
  * Configuration for existing local Jetty 7.x
- *
  */
 public class Jetty7xExistingLocalConfiguration extends AbstractJettyExistingLocalConfiguration
 {

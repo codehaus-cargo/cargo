@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2006 The Apache Software Foundation. Code from this file 
+ * Copyright 2003-2006 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
@@ -256,7 +256,7 @@ public final class ResourceUtils extends LoggedObject
     /**
      * Reads a container resource from the JAR, applies the specified filters and returns content
      * as String.
-     *
+     * 
      * @param resourceName The name of the resource, relative to the
      * org.codehaus.cargo.container.internal.util package
      * @param filterChain The ordered list of filter readers that should be applied while reading

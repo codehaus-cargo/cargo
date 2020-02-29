@@ -32,7 +32,7 @@ public interface ScriptCommand
     /**
      * Method used for checking if script command can be applied - if it has
      * all needed parameters set.
-     *
+     * 
      * @return True if script command can be applied with existing parameters.
      */
     boolean isApplicable();

@@ -29,7 +29,7 @@ import org.apache.tools.ant.BuildException;
 
 /**
  * Ant element used to tell the Cargo task to load a properties file containing system properties.
- * 
+ *
  * Note: When we switch to Ant 1.6 we will be able to replace this by Ant 1.6 PropertySet
  */
 public class PropertySet

@@ -44,7 +44,7 @@ public class DataSourceScriptCommand extends AbstractScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
      * @param dataSource DataSource.

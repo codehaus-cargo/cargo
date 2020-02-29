@@ -232,7 +232,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Doesn't do anything. {@inheritDoc}
      */
     @Override
-    public void applyPortOffset() 
+    public void applyPortOffset()
     {
         // TODO Auto-generated method stub
     }
@@ -241,7 +241,7 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Doesn't do anything. {@inheritDoc}
      */
     @Override
-    public void revertPortOffset() 
+    public void revertPortOffset()
     {
         // TODO Auto-generated method stub
     }

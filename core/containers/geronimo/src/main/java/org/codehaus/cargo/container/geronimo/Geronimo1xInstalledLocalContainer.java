@@ -133,7 +133,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
 
     /**
      * Replace default CPC progress monitor by a log progress monitor.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override

@@ -214,7 +214,7 @@
   <!--   xpoweredBy          Determines whether X-Powered-By response       -->
   <!--                       header is added by generated servlet  [false]  -->
   <!--                                                                      -->
-  <!--   compilerTargetVM    Compiler target VM                             -->  
+  <!--   compilerTargetVM    Compiler target VM                             -->
   <!--                       default is System.properties                   -->
   <!--                        java.specification.version > 1.4              -->
   <!--                        [1.5] else [1.4]                              -->
@@ -714,7 +714,7 @@
     </mime-mapping>
     <mime-mapping>
         <extension>mathml</extension>
-        <mime-type>application/mathml+xml</mime-type> 
+        <mime-type>application/mathml+xml</mime-type>
     </mime-mapping>
     <mime-mapping>
         <extension>me</extension>

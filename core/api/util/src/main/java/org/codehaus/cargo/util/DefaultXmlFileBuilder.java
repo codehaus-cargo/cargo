@@ -61,7 +61,7 @@ public class DefaultXmlFileBuilder implements XmlFileBuilder
     /**
      * creates the instance, which will use the specified @{link FileHandler fileHandler} to read or
      * write the xml file.
-     *
+     * 
      * @param fileHandler used for file i/o.
      * @param namespaceAware true if builder should be namespace aware.
      */

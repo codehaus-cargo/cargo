@@ -35,7 +35,6 @@ import org.w3c.dom.Element;
 
 /**
  * JBoss 7.5.x (EAP 6.4.x) standalone local configuration.
- *
  */
 public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLocalConfiguration
 {

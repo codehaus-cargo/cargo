@@ -293,12 +293,12 @@ public class LocalConfigurationTest extends TestCase
     /**
      * Test the apply port offset.
      */
-    public void testApplyPortOffset() 
+    public void testApplyPortOffset()
     {
         AbstractLocalConfiguration configuration =
             new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
-                GeneralPropertySet.PORT_OFFSET, 
-                GeneralPropertySet.RMI_PORT, 
+                GeneralPropertySet.PORT_OFFSET,
+                GeneralPropertySet.RMI_PORT,
                 ServletPropertySet.PORT}));
 
         configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "100");
@@ -325,12 +325,12 @@ public class LocalConfigurationTest extends TestCase
     /**
      * Test the revert port offset.
      */
-    public void testRevertPortOffset() 
+    public void testRevertPortOffset()
     {
         AbstractLocalConfiguration configuration =
                 new LocalConfigurationThatSupportsProperty(Arrays.asList(new String[] {
-                    GeneralPropertySet.PORT_OFFSET, 
-                    GeneralPropertySet.RMI_PORT, 
+                    GeneralPropertySet.PORT_OFFSET,
+                    GeneralPropertySet.RMI_PORT,
                     ServletPropertySet.PORT}));
 
         configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "100");

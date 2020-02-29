@@ -216,7 +216,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                                         + "different port in the container configuration.");
                         }
                     }
-                    catch (NumberFormatException e) 
+                    catch (NumberFormatException e)
                     {
                         // We do nothing
                     }
@@ -255,7 +255,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 + (getOutput() == null ? "" : " Check the [" + getOutput() + "] file "
                     + "containing the container logs for more details."), t);
         }
-        finally 
+        finally
         {
             this.getConfiguration().revertPortOffset();
         }

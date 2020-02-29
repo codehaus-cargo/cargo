@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2003-2004 The Apache Software Foundation. Code from this file 
+ * Copyright 2003-2004 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
@@ -94,7 +94,7 @@ public final class JdkUtils
 
     /**
      * Is the user running on a Windows system?
-     *
+     * 
      * @return true if the user's system is determined to be Windows.
      */
     public static boolean isWindows()

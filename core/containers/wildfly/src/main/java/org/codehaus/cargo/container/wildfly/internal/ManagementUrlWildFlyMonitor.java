@@ -35,7 +35,7 @@ public class ManagementUrlWildFlyMonitor extends AbstractPingContainerMonitor
 {
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      */
     public ManagementUrlWildFlyMonitor(Container container)

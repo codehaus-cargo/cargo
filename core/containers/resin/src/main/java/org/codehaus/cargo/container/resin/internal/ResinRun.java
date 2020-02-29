@@ -1,7 +1,7 @@
 /*
  * ========================================================================
  *
- * Copyright 2001-2004 The Apache Software Foundation. Code from this file 
+ * Copyright 2001-2004 The Apache Software Foundation. Code from this file
  * was originally imported from the Jakarta Cactus project.
  *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
@@ -80,7 +80,7 @@ public class ResinRun extends DefaultServerRun
     /**
      * Start the Resin server. We use reflection so that the Resin jars do not need to be in the
      * classpath to compile this class.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
@@ -235,7 +235,7 @@ public class ResinRun extends DefaultServerRun
     /**
      * Stops the Resin server. We use reflection so that the Resin jars do not need to be in the
      * classpath to compile this class.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override

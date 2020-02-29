@@ -42,7 +42,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
     public GlassFish3xRuntimeConfiguration()
     {
         super();
-        
+
         // default properties
         this.setProperty(RemotePropertySet.USERNAME, "admin");
         this.setProperty(RemotePropertySet.PASSWORD, "adminadmin");

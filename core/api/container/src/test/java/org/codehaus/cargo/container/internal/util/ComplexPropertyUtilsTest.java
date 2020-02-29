@@ -56,7 +56,7 @@ public final class ComplexPropertyUtilsTest extends TestCase
         String toBeParsed = "com.ibm.ssl.rootCertValidDays%1234#"
                 + "   com.ibm.websphere.security.krb.canonical_host%false";
 
-        List<List<String>> parsedProperty = 
+        List<List<String>> parsedProperty =
                 ComplexPropertyUtils.parseProperty(toBeParsed, "#", "%");
         assertEquals(2, parsedProperty.size());
         assertEquals(2, parsedProperty.get(0).size());

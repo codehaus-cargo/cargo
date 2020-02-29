@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.weblogic;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
 
 /**
- * All WebLogic WLST configuration implementations must implement this interface which provides 
+ * All WebLogic WLST configuration implementations must implement this interface which provides
  * method to retrieve configuration factory for WLST script.
  */
 public interface WebLogicWlstConfiguration extends WebLogicConfiguration

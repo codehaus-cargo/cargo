@@ -392,7 +392,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Writes CLI configuration script.
-     *
+     * 
      * @param configurationScript Script containing CLI configuration to be executed.
      */
     @Override
@@ -428,7 +428,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Executes CLI scripts.
-     *
+     * 
      * @param scriptFilePaths List of file paths containing CLI scripts.
      */
     @Override
@@ -463,7 +463,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Adding JBoss CLI dependencies and setting main class.
-     *
+     * 
      * @param java Launcher.
      */
     private void addCliArguments(JvmLauncher java)

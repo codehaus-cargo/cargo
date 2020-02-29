@@ -44,10 +44,10 @@ public class DataSourceConnectionPropertyScriptCommand extends AbstractScriptCom
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
-     * @param dataSource DataSource. 
+     * @param dataSource DataSource.
      * @param driverProperty DataSource driver property.
      */
     public DataSourceConnectionPropertyScriptCommand(Configuration configuration,

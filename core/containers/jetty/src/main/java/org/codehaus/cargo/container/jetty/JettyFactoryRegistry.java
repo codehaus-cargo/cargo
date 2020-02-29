@@ -42,14 +42,13 @@ import org.codehaus.cargo.generic.packager.PackagerFactory;
 
 /**
  * Registers Jetty support into default factories.
- *
  */
 public class JettyFactoryRegistry extends AbstractFactoryRegistry
 {
 
     /**
      * Register deployable factory. Doesn't register anything.
-     *
+     * 
      * @param deployableFactory Factory on which to register.
      */
     @Override
@@ -59,7 +58,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration capabilities.
-     *
+     * 
      * @param configurationCapabilityFactory Factory on which to register.
      */
     @Override
@@ -128,7 +127,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register configuration factories.
-     *
+     * 
      * @param configurationFactory Factory on which to register.
      */
     @Override
@@ -197,7 +196,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register deployer.
-     *
+     * 
      * @param deployerFactory Factory on which to register.
      */
     @Override
@@ -240,7 +239,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register packager. Doesn't register anything.
-     *
+     * 
      * @param packagerFactory Factory on which to register.
      */
     @Override
@@ -258,7 +257,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container.
-     *
+     * 
      * @param containerFactory Factory on which to register.
      */
     @Override
@@ -301,7 +300,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
     /**
      * Register container capabilities.
-     *
+     * 
      * @param containerCapabilityFactory Factory on which to register.
      */
     @Override

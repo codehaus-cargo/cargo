@@ -424,20 +424,20 @@ public class FileManager
             out.write(buf, 0, bytesRead);
         }
     }
-    
+
     /**
      * Get the size of a file.
      * 
      * @param filePath The file
      * @return The size
      */
-    public long getFileSize(String filePath) 
+    public long getFileSize(String filePath)
     {
         if (filePath == null || filePath.isEmpty())
         {
             return 0;
         }
-        
+
         return fileHandler.getSize(filePath);
     }
 
@@ -456,11 +456,11 @@ public class FileManager
     public long copy(String filename, OutputStream out, long offset, long size) throws IOException,
         InterruptedException
     {
-        if (size < 0) 
+        if (size < 0)
         {
             return 0;
         }
-        
+
         byte[] buf = new byte[64 * 1024];
         int bytesRead;
         long pos = 0;
@@ -472,7 +472,7 @@ public class FileManager
                 is.skip(offset);
                 pos += offset;
             }
-            
+
             while (remaining != 0)
             {
                 int max = buf.length;
@@ -480,13 +480,13 @@ public class FileManager
                 {
                     max = (int) remaining;
                 }
-                
+
                 bytesRead = is.read(buf, 0, max);
                 if (bytesRead == -1)
                 {
                     break;
                 }
-                
+
                 out.write(buf, 0, bytesRead);
                 pos += bytesRead;
                 remaining -= bytesRead;
@@ -494,12 +494,12 @@ public class FileManager
 
             out.flush();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             // Ignore
             out.flush();
         }
-        
+
         return pos;
     }
 

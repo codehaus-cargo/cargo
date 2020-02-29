@@ -67,7 +67,6 @@ public interface WebSpherePropertySet
      * and only after that from the deployable (PARENT_FIRST) or the
      * other way around - first from the deployable and then from the
      * container (PARENT_LAST).
-     *
      */
     String CLASSLOADER_MODE = "cargo.websphere.classloader.mode";
 
@@ -77,7 +76,6 @@ public interface WebSpherePropertySet
      *
      * Specifies whether there is one classloader for all war files
      * in the application or separate classloader for each war.
-     *
      */
     String WAR_CLASSLOADER_POLICY = "cargo.websphere.war.classloader.policy";
 
@@ -96,7 +94,6 @@ public interface WebSpherePropertySet
      *     <li>NONE: Existing profile stays unchanged. Provided system properties and JVM arguments
      *     get ignored.</li>
      * </ul>
-     *
      */
     String OVERWRITE_EXISTING_CONFIGURATION = "cargo.websphere.overwriteExistingConfiguration";
 

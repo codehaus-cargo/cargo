@@ -74,7 +74,7 @@ public class JvmLauncherRequest
 
     /**
      * Creates a new JVM launch request with the specified properties.
-     *
+     * 
      * @param server {@code true} to launch a server process, {@code false} to launch a
      * client/utility process.
      * @param loggable The object to forward all logging to, must not be {@code null}.
@@ -128,7 +128,7 @@ public class JvmLauncherRequest
 
     /**
      * Indicates whether the JVM should be launched as spawned process.
-     *
+     * 
      * @return {@code true} if JVM should be spawned - outlive parent process.
      */
     public boolean isSpawned()

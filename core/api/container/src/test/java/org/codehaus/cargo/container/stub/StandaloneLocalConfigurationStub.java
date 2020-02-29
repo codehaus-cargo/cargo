@@ -95,7 +95,7 @@ public class StandaloneLocalConfigurationStub extends AbstractLocalConfiguration
 
     /**
      * Doesn't do anything. {@inheritDoc}
-     *
+     * 
      * @param filename File in which to replace.
      * @param xpathExpression XPath expression to look for.
      * @param attributeName Attribute name to modify. If <code>null</code>, the node's contents

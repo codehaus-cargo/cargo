@@ -29,7 +29,7 @@ public interface HttpRequestBodyWriter
 {
     /**
      * Write custom request body to output stream.
-     *
+     * 
      * @param outputStream Output stream.
      * @throws IOException If anything goes wrong.
      */

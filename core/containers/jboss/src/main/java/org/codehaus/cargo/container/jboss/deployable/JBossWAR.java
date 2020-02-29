@@ -29,7 +29,6 @@ import org.codehaus.cargo.module.webapp.jboss.JBossWarArchive;
  * Extension that supports custom JBoss descriptor files such as the <code>jboss-web.xml</code> one.
  * For example, this allows returning the right web context even if it has been defined in the
  * <code>jboss-web.xml</code> file.
- *
  */
 public class JBossWAR extends WAR
 {

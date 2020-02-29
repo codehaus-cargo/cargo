@@ -99,7 +99,7 @@ public interface Deployer extends Loggable
     /**
      * Starts a {@link Deployable} that is already deployed in the running container but that is not
      * servicing requests.
-     *
+     * 
      * @param deployable the {@link Deployable} to start
      * @param monitor the monitor that checks for start status
      */
@@ -116,7 +116,7 @@ public interface Deployer extends Loggable
     /**
      * Stop a {@link Deployable} that is already deployed in the running container in order to
      * prevent it from servicing requests.
-     *
+     * 
      * @param deployable the {@link Deployable} to stop
      * @param monitor the monitor that checks for stop status
      */

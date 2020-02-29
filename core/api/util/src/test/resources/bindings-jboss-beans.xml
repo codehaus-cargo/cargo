@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
-   
+
    <!-- The actual SBM from which services obtain binding information -->
    <bean name="ServiceBindingManager" class="org.jboss.services.binding.ServiceBindingManager">
 
       <annotation>@org.jboss.aop.microcontainer.aspects.jmx.JMX(name="jboss.system:service=ServiceBindingManager", exposedInterface=org.jboss.services.binding.ServiceBindingManagerMBean.class, registerDirectly=true)</annotation>
-      
+
       <!-- Here we use the ServiceBindingManagementObject as a factory to create the SBM -->
-      <constructor factoryMethod="getServiceBindingManager">     
+      <constructor factoryMethod="getServiceBindingManager">
          <factory bean="ServiceBindingManagementObject"/>
       </constructor>
 
    </bean>
 
-   <!-- Provides management tools with a ProfileService ManagementView 
+   <!-- Provides management tools with a ProfileService ManagementView
         interface to the SBM and its components -->
-   <bean name="ServiceBindingManagementObject" 
+   <bean name="ServiceBindingManagementObject"
          class="org.jboss.services.binding.managed.ServiceBindingManagementObject">
-         
+
       <constructor>
          <!-- The name of the set of bindings to use for this server -->
          <parameter>${jboss.service.binding.set:ports-default}</parameter>
-          
+
          <!--  The binding sets -->
          <parameter>
             <set>
@@ -32,14 +32,14 @@
                <inject bean="Ports03Bindings"/>
             </set>
          </parameter>
-         
+
          <!-- Base binding metadata that is used to create bindings for each set -->
          <parameter><inject bean="StandardBindings"/></parameter>
-         
+
       </constructor>
    </bean>
-   
-   
+
+
    <!-- The ports-default bindings are obtained by taking the base bindings and adding 0 to each port value  -->
    <bean name="PortsDefaultBindings"  class="org.jboss.services.binding.impl.ServiceBindingSet">
       <constructor>
@@ -131,7 +131,7 @@
                <property name="port">@cargo.jboss.remoting.transport.port@</property>
                <property name="description">Socket for JBoss Remoting Connector used by UnifiedInvoker</property>
             </bean>
-            
+
             <!-- Used to create a multihome Remoting server.   See -->
             <!-- deploy/remoting-jboss-beans.xml for more details. -->
             <!--bean class="org.jboss.services.binding.ServiceBindingMetadata">
@@ -140,7 +140,7 @@
                <property name="port">7777</property>
                <property name="description">Socket for JBoss Remoting Connector used by UnifiedInvoker on a multihome server</property>
             </bean-->
-            
+
             <!-- Used to create a multihome Remoting server.   See -->
             <!-- deploy/remoting-jboss-beans.xml for more details. -->
             <!--bean class="org.jboss.services.binding.ServiceBindingMetadata">
@@ -181,11 +181,11 @@
                <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
                <property name="port">1102</property>
                <property name="description">Multicast socket on which HA-JNDI listens for auto-discovery requests from clients</property>
-               <!-- This address should not be changed between different 
-                    binding sets; all nodes need to listen on the same 
+               <!-- This address should not be changed between different
+                    binding sets; all nodes need to listen on the same
                     multicast address -->
                <property name="fixedHostName">true</property>
-               <!-- This port should not be changed between different 
+               <!-- This port should not be changed between different
                     binding sets; all nodes need to listen on the same port -->
                <property name="fixedPort">true</property>
             </bean>
@@ -370,18 +370,18 @@
             </bean>
 
             <!-- ********************* deploy/mod_cluster.sar/META-INF/mod_cluster-jboss-beans.xml **************** -->
-            
+
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                 <property name="serviceName">ModClusterService</property>
                 <property name="bindingName">AdvertiseGroup</property>
                 <property name="hostName">${jboss.mod_cluster.advertise.address,jboss.partition.udpGroup:224.0.1.105}</property>
                 <property name="port">${jboss.mod_cluster.advertise.port:23364}</property>
                 <property name="description">Multicast address/port on which to listen for mod_cluster proxy advertisements</property>
-                <!-- This address should not be changed between different 
-                     binding sets; all nodes need to listen on the same 
+                <!-- This address should not be changed between different
+                     binding sets; all nodes need to listen on the same
                      multicast address -->
                 <property name="fixedHostName">true</property>
-                <!-- This port should not be changed between different 
+                <!-- This port should not be changed between different
                      binding sets; all nodes need to listen on the same port -->
                 <property name="fixedPort">true</property>
             </bean>
@@ -421,7 +421,7 @@
                <property name="hostName">${jboss.bind.address}</property>
                <property name="description">The port used for SSL (encrypted) Remoting connections</property>
             </bean>
-            
+
             <!-- ******** deploy/cluster/jgroups-channelfactory.sar ******** -->
 
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
@@ -438,11 +438,11 @@
                <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
                <property name="port">45688</property>
                <property name="description">Multicast socket on which JGroups 'udp' stack communicates</property>
-               <!-- This address should not be changed between different 
-                    binding sets; all nodes need to listen on the same 
+               <!-- This address should not be changed between different
+                    binding sets; all nodes need to listen on the same
                     multicast address -->
                <property name="fixedHostName">true</property>
-               <!-- This port should not be changed between different 
+               <!-- This port should not be changed between different
                     binding sets; all nodes need to listen on the same port -->
                <property name="fixedPort">true</property>
             </bean>
@@ -469,11 +469,11 @@
                <property name="hostName">${jboss.partition.udpGroup:230.0.0.4}</property>
                <property name="port">45700</property>
                <property name="description">Multicast socket on which JGroups 'tcp' stack performs discovery</property>
-               <!-- This address should not be changed between different 
-                    binding sets; all nodes need to listen on the same 
+               <!-- This address should not be changed between different
+                    binding sets; all nodes need to listen on the same
                     multicast address -->
                <property name="fixedHostName">true</property>
-               <!-- This port should not be changed between different 
+               <!-- This port should not be changed between different
                     binding sets; all nodes need to listen on the same port -->
                <property name="fixedPort">true</property>
             </bean>
@@ -492,15 +492,15 @@
                <property name="hostName">224.0.75.75</property>
                <property name="port">7500</property>
                <property name="description">Multicast socket on which JGroups listens for diagnostic requests from its Probe utility</property>
-               <!-- This address should not be changed between different 
-                    binding sets; all nodes need to listen on the same 
+               <!-- This address should not be changed between different
+                    binding sets; all nodes need to listen on the same
                     multicast address -->
                <property name="fixedHostName">true</property>
-               <!-- This port should not be changed between different 
+               <!-- This port should not be changed between different
                     binding sets; all nodes need to listen on the same port -->
                <property name="fixedPort">true</property>
             </bean>
-<!-- 
+<!--
             <bean class="org.jboss.services.binding.ServiceBindingMetadata">
                <property name="serviceName">JGroups</property>
                <property name="bindingName">udp_async-bind_port</property>
@@ -578,7 +578,7 @@
                <property name="fixedHostName">true</property>
                <property name="fixedPort">true</property>
             </bean>
--->            
+-->
          </set>
          </parameter>
       </constructor>
@@ -672,7 +672,7 @@
                      </parameter>
                   </constructor>
                </bean>
-               
+
                <!-- JGroups -->
                <bean class="org.jboss.services.binding.SystemPropertyBinding">
                   <constructor>
@@ -922,8 +922,8 @@
                      </parameter>
                   </constructor>
                </bean>
--->               
-               
+-->
+
             </set>
          </parameter>
       </constructor>

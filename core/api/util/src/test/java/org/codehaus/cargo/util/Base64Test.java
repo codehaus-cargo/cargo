@@ -35,7 +35,7 @@ public class Base64Test extends TestCase
     {
         assertEquals("SGVsbG8gV29ybGQ=", Base64.encode("Hello World"));
     }
-    
+
     /**
      * Test encoding a byte array derived from a SHA-256 calculation.
      * 

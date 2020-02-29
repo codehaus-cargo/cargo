@@ -28,7 +28,6 @@ import org.codehaus.cargo.daemon.properties.PropertyTable;
 
 /**
  * A handle keeps track of deployed containers.
- *
  */
 public class Handle
 {
@@ -84,7 +83,7 @@ public class Handle
 
     /**
      * Sets the handle identifier.
-     *
+     * 
      * @param id The handle identifier.
      */
     public void setId(String id)
@@ -102,7 +101,7 @@ public class Handle
 
     /**
      * Sets the container.
-     *
+     * 
      * @param container The container.
      */
     public void setContainer(InstalledLocalContainer container)
@@ -120,7 +119,7 @@ public class Handle
 
     /**
      * Sets the configuration.
-     *
+     * 
      * @param configuration The configuration
      */
     public void setConfiguration(LocalConfiguration configuration)
@@ -138,7 +137,7 @@ public class Handle
 
     /**
      * Sets the properties.
-     *
+     * 
      * @param properties The properties
      */
     public void setProperties(PropertyTable properties)
@@ -163,7 +162,7 @@ public class Handle
 
     /**
      * Sets if the container should autostart
-     *
+     * 
      * @param autostart The autostart flag
      */
     public void setAutostart(boolean autostart)
@@ -181,7 +180,7 @@ public class Handle
 
     /**
      * Set the Cargo log file path of the container
-     *
+     * 
      * @param logpath The log file path
      */
     public void setContainerLogPath(String logpath)
@@ -199,7 +198,7 @@ public class Handle
 
     /**
      * Set the container output log file path
-     *
+     * 
      * @param logpath The log file path
      */
     public void setContainerOutputPath(String logpath)

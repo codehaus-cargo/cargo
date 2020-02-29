@@ -41,9 +41,9 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 /**
  * Code snippets referenced from the Cargo website using the Confluence <code>{snippet}</code> marco
  * (see http://confluence.atlassian.com/display/CONFEXT/Snippet+Macro+Library).
- * 
+ *
  * WARNING1: the snippet id must NOT contain the words "start" or "end".
- * 
+ *
  * WARNING2: nested snippet ids must not contain parent's id. For example a nested
  * "configuration-typed-resin3x" is invalid if the parent has an id of "resin3x" or "configuration"
  * or "typed-resin3x".

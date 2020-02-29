@@ -28,7 +28,6 @@ import java.io.OutputStream;
 
 /**
  * Represents a form writer capable of sending files and form data as multipart chunks.
- *
  */
 public class MultipartFormWriter
 {
@@ -54,7 +53,7 @@ public class MultipartFormWriter
 
     /**
      * Attaches to the outputstream and allows writing form data or files to it.
-     *
+     * 
      * @param contentType The form content type
      * @param os the output stream
      */
@@ -70,7 +69,7 @@ public class MultipartFormWriter
 
     /**
      * Writes a string field value.
-     *
+     * 
      * @param name the field name (required)
      * @param value the field value
      * @throws IOException on input/output errors
@@ -101,7 +100,7 @@ public class MultipartFormWriter
 
     /**
      * Writes a file's contents.
-     *
+     * 
      * @param name the field name
      * @param mimeType the file content type (optional, recommended)
      * @param file the file (the file must exist)
@@ -126,7 +125,7 @@ public class MultipartFormWriter
 
     /**
      * Writes a input stream's contents.
-     *
+     * 
      * @param name The field name
      * @param mimeType The file content type (optional, recommended)
      * @param fileName The file name (required)
@@ -173,7 +172,7 @@ public class MultipartFormWriter
 
     /**
      * Writes the given bytes.
-     *
+     * 
      * @param name the field name
      * @param mimeType the file content type (optional, recommended)
      * @param fileName the file name (required)
@@ -219,7 +218,7 @@ public class MultipartFormWriter
      * Closes the writer.
      *
      * This method must be called.
-     *
+     * 
      * @throws IOException on input/output errors
      */
     public void close() throws IOException

@@ -60,7 +60,7 @@ public final class TransactionSupport
 
     /**
      * Convert string representation of transaction support to appropriate value.
-     *
+     * 
      * @param transactionSupport String representation of transaction support.
      * @return Appropriate TransactionSupport instance.
      */

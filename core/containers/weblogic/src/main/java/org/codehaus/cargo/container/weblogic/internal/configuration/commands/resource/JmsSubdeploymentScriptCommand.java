@@ -39,10 +39,10 @@ public class JmsSubdeploymentScriptCommand extends AbstractScriptCommand
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
-     *
+     * 
      * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resources.
-     * @param resource Resource. 
+     * @param resource Resource.
      */
     public JmsSubdeploymentScriptCommand(Configuration configuration, String resourcePath,
             Resource resource)

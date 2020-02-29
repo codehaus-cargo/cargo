@@ -36,10 +36,10 @@ public class CLIWildFlyMonitor extends AbstractContainerMonitor
 
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      */
-    public CLIWildFlyMonitor(ScriptingCapableContainer container) 
+    public CLIWildFlyMonitor(ScriptingCapableContainer container)
     {
         super(container);
     }
@@ -48,18 +48,18 @@ public class CLIWildFlyMonitor extends AbstractContainerMonitor
      * {@inheritDoc}
      */
     @Override
-    public boolean isRunning() 
+    public boolean isRunning()
     {
         WildFlyConfiguration configuration = (WildFlyConfiguration) getConfiguration();
         WildFlyCliConfigurationFactory factory = configuration.getConfigurationFactory();
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
         configurationScript.add(factory.connectToServerScript());
-        try 
+        try
         {
             ((ScriptingCapableContainer) getContainer()).executeScript(configurationScript);
             return true;
-        } 
-        catch (ContainerException ex) 
+        }
+        catch (ContainerException ex)
         {
             return false;
         }

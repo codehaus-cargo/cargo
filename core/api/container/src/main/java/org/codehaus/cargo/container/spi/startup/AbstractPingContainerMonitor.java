@@ -37,7 +37,7 @@ public abstract class AbstractPingContainerMonitor extends AbstractContainerMoni
 
     /**
      * Constructor.
-     *
+     * 
      * @param container Container to be monitored.
      */
     public AbstractPingContainerMonitor(Container container)
@@ -64,7 +64,7 @@ public abstract class AbstractPingContainerMonitor extends AbstractContainerMoni
 
     /**
      * Returns port with offset.
-     *
+     * 
      * @param portProperty Port property.
      * @return Port value with offset.
      */

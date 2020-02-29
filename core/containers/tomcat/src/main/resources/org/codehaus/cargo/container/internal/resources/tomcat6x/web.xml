@@ -165,7 +165,7 @@
   <!--                                                                      -->
   <!--   compilerSourceVM    Compiler source VM. [1.5]                      -->
   <!--                                                                      -->
-  <!--   compilerTargetVM    Compiler target VM. [1.5]                      -->  
+  <!--   compilerTargetVM    Compiler target VM. [1.5]                      -->
   <!--                                                                      -->
   <!--   development         Is Jasper used in development mode? If true,   -->
   <!--                       the frequency at which JSPs are checked for    -->

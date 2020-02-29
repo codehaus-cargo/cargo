@@ -28,7 +28,7 @@ import org.codehaus.cargo.maven2.configuration.Packager;
 /**
  * Package a container distribution, a Configuration and deployed deployables. See
  * {@link org.codehaus.cargo.container.packager.Packager}.
- * 
+ *
  * @goal package
  * @requiresDependencyResolution test
  * @since Maven2 Cargo Plugin v0.3

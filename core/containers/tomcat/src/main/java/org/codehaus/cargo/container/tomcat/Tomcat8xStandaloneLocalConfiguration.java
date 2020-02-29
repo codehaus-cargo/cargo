@@ -48,7 +48,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     protected static final String JAR_RESOURCE_SET =
         "org.apache.catalina.webresources.JarResourceSet";
-    
+
     /**
      * For further details, see
      * <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">Apache Tomcat 8

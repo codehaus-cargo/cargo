@@ -1,16 +1,16 @@
-/* 
+/*
 * Copyright 2016 IBM Corp.
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be included in
 * all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -55,7 +55,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Creates an installed local connector for WebSphere Liberty.
-     *
+     * 
      * @param configuration the configuration
      */
     public LibertyInstalledLocalContainer(LocalConfiguration configuration)
@@ -92,7 +92,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Start the container.
-     *
+     * 
      * @param java the java configuration. This is ignored by WebSphere Liberty.
      * @throws Exception if something goes wrong
      */
@@ -113,7 +113,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Create a man of environment variables using the passed in jvmArgs.
-     *
+     * 
      * @param inJvmArgs the <code>jvmargs</code> to use, or <code>null</code> if the configured
      * JVM arguments are to be used.
      * @return the map of environment variables to use.
@@ -147,7 +147,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Stop the container
-     *
+     * 
      * @param java the java configuration. This is ignored by WebSphere Liberty.
      * @throws Exception if something goes wrong
      */
@@ -159,7 +159,7 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Run the specified server command on WebSphere Liberty waiting for it to complete.
-     *
+     * 
      * @param install The liberty install.
      * @param command The server command to invoke.
      * @param env environment variables
