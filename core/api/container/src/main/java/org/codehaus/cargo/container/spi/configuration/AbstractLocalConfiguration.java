@@ -761,7 +761,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     GeneralPropertySet.PORT_OFFSET));
                 int value = Integer.parseInt(this.getPropertyValue(name));
                 this.setProperty(name, Integer.toString(value + portOffset));
-                flagOffestApplied(name, true);
+                flagOffsetApplied(name, true);
             }
             catch (NumberFormatException e)
             {
@@ -787,7 +787,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     GeneralPropertySet.PORT_OFFSET));
                 int value = Integer.parseInt(this.getPropertyValue(name));
                 this.setProperty(name, Integer.toString(value - portOffset));
-                flagOffestApplied(name, false);
+                flagOffsetApplied(name, false);
             }
             catch (NumberFormatException e)
             {
@@ -818,11 +818,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * Flags the
-     * @param name the name of the property to be flagged.
+     * Flags whether offset has been applied to a given property or not.
+     * @param name name of the property to be flagged.
      * @param offsetApplied <code>true</code> if the offset is applied, else <code>false</code>.
      */
-    protected void flagOffestApplied(String name, boolean offsetApplied)
+    protected void flagOffsetApplied(String name, boolean offsetApplied)
     {
         this.setProperty(PORT_OFFSET_APPLIED_PREFIX + name,
             offsetApplied ? String.valueOf(offsetApplied) : null);

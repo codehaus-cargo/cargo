@@ -337,8 +337,8 @@ public class LocalConfigurationTest extends TestCase
         configuration.setProperty(GeneralPropertySet.RMI_PORT, "1199");
         configuration.setProperty(ServletPropertySet.PORT, "8180");
 
-        configuration.flagOffestApplied(GeneralPropertySet.RMI_PORT, true);
-        configuration.flagOffestApplied(ServletPropertySet.PORT, true);
+        configuration.flagOffsetApplied(GeneralPropertySet.RMI_PORT, true);
+        configuration.flagOffsetApplied(ServletPropertySet.PORT, true);
 
         configuration.revertPortOffset();
 
