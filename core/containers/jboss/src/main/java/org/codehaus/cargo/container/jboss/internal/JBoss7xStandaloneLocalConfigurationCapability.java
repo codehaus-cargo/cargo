@@ -49,14 +49,12 @@ public class JBoss7xStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTPS_PORT, Boolean.FALSE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR,
-            Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
-            Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.CLI_ONLINE_SCRIPT,
-            Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CLI_ONLINE_SCRIPT, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }

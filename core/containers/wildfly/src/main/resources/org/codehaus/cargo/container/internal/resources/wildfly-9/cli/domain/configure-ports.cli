@@ -17,14 +17,17 @@
 # Set AJP port
 /socket-binding-group=standard-sockets/socket-binding=ajp:write-attribute(name=port,value=${jboss.ajp.port:@cargo.jboss.ajp.port@})
 
+# Set HTTP port
+/socket-binding-group=standard-sockets/socket-binding=http:write-attribute(name=port,value=${jboss.http.port:@cargo.servlet.port@})
+
 # Set HTTPS port
 /socket-binding-group=standard-sockets/socket-binding=https:write-attribute(name=port,value=${jboss.https.port:@cargo.jboss.https.port@})
 
 # Set Management HTTP port
 /socket-binding-group=standard-sockets/socket-binding=management-http:write-attribute(name=port,value=${jboss.management.http.port:@cargo.jboss.management-http.port@})
 
-# Set HTTP port
-/socket-binding-group=standard-sockets/socket-binding=http:write-attribute(name=port,value=${jboss.http.port:@cargo.servlet.port@})
+# Set Management HTTPS port
+/socket-binding-group=standard-sockets/socket-binding=management-https:write-attribute(name=port,value=${jboss.management.https.port:@cargo.jboss.management-https.port@})
 
 # Set offset
 /socket-binding-group=standard-sockets:write-attribute(name=port-offset,value=${jboss.socket.binding.port-offset:@cargo.port.offset@})

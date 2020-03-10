@@ -42,6 +42,7 @@ public class WildFly8xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTPS_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_HTTPS_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR,

@@ -70,9 +70,14 @@ public interface JBossPropertySet
     String JBOSS_MANAGEMENT_NATIVE_PORT = "cargo.jboss.management-native.port";
 
     /**
-     * The port used for the remote native management interface.
+     * The port used for the remote native management interface using the HTTP protocol.
      */
     String JBOSS_MANAGEMENT_HTTP_PORT = "cargo.jboss.management-http.port";
+
+    /**
+     * The port used for the remote native management interface using the HTTPS protocol.
+     */
+    String JBOSS_MANAGEMENT_HTTPS_PORT = "cargo.jboss.management-https.port";
 
     /**
      * The port used for the OSGi HTTP server.

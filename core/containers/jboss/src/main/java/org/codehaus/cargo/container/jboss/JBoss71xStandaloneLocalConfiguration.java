@@ -46,6 +46,7 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
         super(dir);
 
         setProperty(JBossPropertySet.JBOSS_AJP_PORT, "8009");
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_HTTPS_PORT, "9993");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
 
@@ -133,6 +134,10 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='management-http']",
             "port", JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+        addXmlReplacement(
+            configurationXmlFile,
+            "//server/socket-binding-group/socket-binding[@name='management-https']",
+            "port", JBossPropertySet.JBOSS_MANAGEMENT_HTTPS_PORT);
         addXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='txn-recovery-environment']",

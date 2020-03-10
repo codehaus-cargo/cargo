@@ -189,6 +189,10 @@
                 <value>${cargo.samples.jboss.management-http.port}</value>
               </property>
               <property>
+                <name>cargo.jboss.management-https.port</name>
+                <value>${cargo.samples.jboss.management-https.port}</value>
+              </property>
+              <property>
                 <name>cargo.jboss.osgi.http.port</name>
                 <value>${cargo.samples.jboss.osgi.http.port}</value>
               </property>
@@ -1582,6 +1586,7 @@
                 <portName>cargo.samples.jboss.jmx.port</portName>
                 <portName>cargo.samples.jboss.management-native.port</portName>
                 <portName>cargo.samples.jboss.management-http.port</portName>
+                <portName>cargo.samples.jboss.management-https.port</portName>
                 <portName>cargo.samples.jboss.osgi.http.port</portName>
                 <portName>cargo.samples.resin.socketwait.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>

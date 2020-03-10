@@ -40,6 +40,7 @@ public class JBoss71xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
 
         this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTPS_PORT, Boolean.TRUE);
 
         this.propertySupportMap.remove(GeneralPropertySet.RMI_PORT);
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_JRMP_PORT);
