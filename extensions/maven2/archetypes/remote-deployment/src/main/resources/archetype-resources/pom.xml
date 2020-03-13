@@ -322,30 +322,13 @@
                 <dependency>
                   <groupId>org.glassfish.deployment</groupId>
                   <artifactId>deployment-client</artifactId>
-                  <version>3.1.2.2</version>
+                  <version>3.1.1</version>
                 </dependency>
               </dependencies>
             </plugin>
           </plugins>
         </pluginManagement>
       </build>
-
-      <!--
-        The org.glassfish.deployment dependencies are currently only available on the GlassFish
-        repository.
-        -->
-      <pluginRepositories>
-        <pluginRepository>
-          <id>glassfish</id>
-          <url>https://download.java.net/maven/glassfish/</url>
-        </pluginRepository>
-      </pluginRepositories>
-      <repositories>
-        <repository>
-          <id>glassfish</id>
-          <url>https://download.java.net/maven/glassfish</url>
-        </repository>
-      </repositories>
     </profile>
   </profiles>
 </project>
