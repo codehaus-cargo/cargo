@@ -56,8 +56,8 @@
         <!--
           Tomcat 7.x has introduced a weird class called TomcatURLStreamHandlerFactory where the
           singleton has a static "instance" field and a final attribute "registered" which are not
-          always in sync and cause unexpected exceptions. Due to this, we can't execute Tomcat 7.x,
-          Tomcat 8.x and Tomcat 9.x embedded in the same JVM. As a result, we use the
+          always in sync and cause unexpected exceptions. Due to this, we can't execute different
+          versions of Tomcat after version 7.x embedded in the same JVM. As a result, we use the
           maven-invoker-plugin and execute the Tomcat 9.x embedded tests via Maven in a separate
           JVM.
           -->
