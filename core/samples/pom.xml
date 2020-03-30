@@ -1244,7 +1244,7 @@
 
               <property>
                 <name>cargo.wildfly19x.url</name>
-                <value>https://download.jboss.org/wildfly/19.0.0.Beta2/wildfly-19.0.0.Beta2.zip</value>
+                <value>https://download.jboss.org/wildfly/19.0.0.Final/wildfly-19.0.0.Final.zip</value>
               </property>
               <property>
                 <name>cargo.wildfly19x.java.home</name>
