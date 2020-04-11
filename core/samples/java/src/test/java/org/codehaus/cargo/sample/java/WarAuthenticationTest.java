@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -65,11 +67,17 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite("Tests that run on local containers supporting "
             + "WAR deployments and which support authentication");
 
+        // Tomcat 10.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("tomcat10x");
+
         suite.addTestSuite(WarAuthenticationTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator(),
-            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)});
+            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 

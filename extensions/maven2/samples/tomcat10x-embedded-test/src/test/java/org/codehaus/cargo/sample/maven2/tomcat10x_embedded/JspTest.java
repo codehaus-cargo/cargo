@@ -17,29 +17,38 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat;
+package org.codehaus.cargo.sample.maven2.tomcat10x_embedded;
+
+import java.net.URL;
+
+import junit.framework.TestCase;
+
+import org.codehaus.cargo.sample.java.PingUtils;
+import org.codehaus.cargo.util.log.Logger;
+import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * Test deployment of JSPs with the embedded Tomcat container.
  */
-public class Tomcat9xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocalConfiguration
+public class JspTest extends TestCase
 {
-    /**
-     * {@inheritDoc}
-     * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
-     */
-    public Tomcat9xStandaloneLocalConfiguration(String dir)
-    {
-        super(dir);
-    }
 
     /**
-     * {@inheritDoc}
+     * Logger.
      */
-    @Override
-    public String toString()
+    private Logger logger = new SimpleLogger();
+
+    /**
+     * Test deployment of JSPs with the embedded Tomcat container
+     * @throws Exception If anything fails.
+     */
+    public void testJsp() throws Exception
     {
-        return "Tomcat 9.x Standalone Configuration";
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/simple-war/index.jsp");
+        final String expected = "Sample page for testing";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
+
 }

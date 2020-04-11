@@ -1,6 +1,9 @@
 /*
  * ========================================================================
  *
+ * Copyright 2003-2008 The Apache Software Foundation. Code from this file
+ * was originally imported from the Jakarta Cactus project.
+ *
  * Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,27 +22,42 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * Special container support for the Apache Tomcat 10.x servlet container.
  */
-public class Tomcat9xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocalConfiguration
+public class Tomcat10xInstalledLocalContainer extends Tomcat9xInstalledLocalContainer
 {
     /**
-     * {@inheritDoc}
-     * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
+     * Unique container id.
      */
-    public Tomcat9xStandaloneLocalConfiguration(String dir)
+    public static final String ID = "tomcat10x";
+
+    /**
+     * {@inheritDoc}
+     * @see Tomcat9xInstalledLocalContainer#Tomcat9xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     */
+    public Tomcat10xInstalledLocalContainer(LocalConfiguration configuration)
     {
-        super(dir);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String toString()
+    public String getId()
     {
-        return "Tomcat 9.x Standalone Configuration";
+        return ID;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
+    {
+        return "Tomcat " + getVersion("10.x");
     }
 }

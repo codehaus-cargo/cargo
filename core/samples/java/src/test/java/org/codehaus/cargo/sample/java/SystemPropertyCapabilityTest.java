@@ -21,6 +21,8 @@ package org.codehaus.cargo.sample.java;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import junit.framework.Test;
@@ -73,9 +75,15 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on local containers supporting system properties");
 
+        // Tomcat 10.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("tomcat10x");
+
         suite.addTestSuite(SystemPropertyCapabilityTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
-            new HasWarSupportValidator()});
+            new HasWarSupportValidator()},
+            excludedContainerIds);
         return suite;
     }
 

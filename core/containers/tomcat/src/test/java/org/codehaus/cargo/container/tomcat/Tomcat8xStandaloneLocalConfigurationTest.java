@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationChecker;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9x10xConfigurationChecker;
 import org.custommonkey.xmlunit.XMLAssert;
 
 /**
@@ -72,12 +72,12 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * @return {@link Tomcat8x9xConfigurationChecker}.
+     * @return {@link Tomcat8x9x10xConfigurationChecker}.
      */
     @Override
     protected ConfigurationChecker createConfigurationChecker()
     {
-        return new Tomcat8x9xConfigurationChecker();
+        return new Tomcat8x9x10xConfigurationChecker();
     }
 
     /**

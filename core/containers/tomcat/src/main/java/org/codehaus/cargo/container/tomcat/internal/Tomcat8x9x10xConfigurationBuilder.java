@@ -17,29 +17,27 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat;
+package org.codehaus.cargo.container.tomcat.internal;
+
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * Constructs xml elements needed to configure DataSource for Tomcat 8.x onwards. Note that this
+ * implementation converts DataSources into Resources and then uses an appropriate
+ * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
+ * configuration.
  */
-public class Tomcat9xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocalConfiguration
+public class Tomcat8x9x10xConfigurationBuilder extends Tomcat5x6x7xConfigurationBuilder
 {
-    /**
-     * {@inheritDoc}
-     * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
-     */
-    public Tomcat9xStandaloneLocalConfiguration(String dir)
-    {
-        super(dir);
-    }
 
     /**
-     * {@inheritDoc}
+     * generates {@link #typeToFactory}
      */
-    @Override
-    public String toString()
+    public Tomcat8x9x10xConfigurationBuilder()
     {
-        return "Tomcat 9.x Standalone Configuration";
+        super();
+        typeToFactory.put(ConfigurationEntryType.DATASOURCE,
+            "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory");
     }
+
 }

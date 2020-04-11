@@ -17,31 +17,45 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat.internal;
+package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer;
 
 /**
- * {@inheritDoc}
+ * Special container support for wrapping a running instance of Apache Tomcat.
  */
-public class Tomcat8x9xConfigurationBuilderTest extends Tomcat5x6x7xConfigurationBuilderTest
+public class Tomcat10xRemoteContainer extends AbstractTomcatRemoteContainer
 {
     /**
-     * @return {@link Tomcat8x9xConfigurationBuilder}.
+     * Unique container id.
      */
-    @Override
-    protected ConfigurationBuilder createConfigurationBuilder()
+    public static final String ID = "tomcat10x";
+
+    /**
+     * {@inheritDoc}
+     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
+     */
+    public Tomcat10xRemoteContainer(RuntimeConfiguration configuration)
     {
-        return new Tomcat8x9xConfigurationBuilder();
+        super(configuration);
     }
 
     /**
-     * @return {@link Tomcat8x9xConfigurationChecker}.
+     * {@inheritDoc}
      */
     @Override
-    protected ConfigurationChecker createConfigurationChecker()
+    public String getName()
     {
-        return new Tomcat8x9xConfigurationChecker();
+        return "Tomcat 10.x Remote";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getId()
+    {
+        return ID;
     }
 }

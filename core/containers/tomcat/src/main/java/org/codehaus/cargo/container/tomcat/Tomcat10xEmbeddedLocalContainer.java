@@ -19,27 +19,39 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * Embedded Tomcat 10.x container.
  */
-public class Tomcat9xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocalConfiguration
+public class Tomcat10xEmbeddedLocalContainer extends Tomcat9xEmbeddedLocalContainer
 {
     /**
-     * {@inheritDoc}
-     * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
+     * Creates a Tomcat 10.x {@link org.codehaus.cargo.container.EmbeddedLocalContainer}.
+     * 
+     * @param configuration the configuration of the newly created container.
      */
-    public Tomcat9xStandaloneLocalConfiguration(String dir)
+    public Tomcat10xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
-        super(dir);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String toString()
+    public String getId()
     {
-        return "Tomcat 9.x Standalone Configuration";
+        return "tomcat10x";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
+    {
+        return "Tomcat 10.x Embedded";
     }
 }

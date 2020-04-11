@@ -19,27 +19,19 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.RemoteContainer;
+
 /**
- * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * A special Tomcat 10.x manager-based deployer to perform deployment to a remote container.
  */
-public class Tomcat9xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocalConfiguration
+public class Tomcat10xRemoteDeployer extends Tomcat9xRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
+     * @see Tomcat9xRemoteDeployer#Tomcat9xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
-    public Tomcat9xStandaloneLocalConfiguration(String dir)
+    public Tomcat10xRemoteDeployer(RemoteContainer container)
     {
-        super(dir);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString()
-    {
-        return "Tomcat 9.x Standalone Configuration";
+        super(container);
     }
 }

@@ -71,6 +71,10 @@ public class DataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("liberty");
 
+        // Tomcat 10.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        excludedContainerIds.add("tomcat10x");
+
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),

@@ -81,6 +81,11 @@ public class ExtraClasspathOnStandaloneConfigurationTest extends
         // We exclude geronimo1x as it doesn't support extra classpath
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo1x");
+
+        // Tomcat 10.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        excludedContainerIds.add("tomcat10x");
+
         suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator()}, excludedContainerIds);

@@ -17,22 +17,29 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat.internal;
+package org.codehaus.cargo.container.tomcat;
 
 /**
- * Contains XML logic used to validate the XML output of a Tomcat 8.x DataSource
- * configuration.
+ * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
+ * implementation.
  */
-public class Tomcat8x9xConfigurationChecker extends Tomcat5x6x7xConfigurationChecker
+public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
-     * @return Datasource factory class:
-     * <code>org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory</code>
+     * @see Tomcat9xStandaloneLocalConfiguration#Tomcat9xStandaloneLocalConfiguration(String)
+     */
+    public Tomcat10xStandaloneLocalConfiguration(String dir)
+    {
+        super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
-    protected String getDataSourceFactory()
+    public String toString()
     {
-        return "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory";
+        return "Tomcat 10.x Standalone Configuration";
     }
 }

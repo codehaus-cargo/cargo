@@ -72,6 +72,10 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
 
+        // Tomcat 10.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        excludedContainerIds.add("tomcat10x");
+
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
         // TomcatTLSTest doesn't work in Java 6 and earlier due to expired certificates

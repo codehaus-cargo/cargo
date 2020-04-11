@@ -92,6 +92,7 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat7x");
         excludedContainerIds.add("tomcat8x");
         excludedContainerIds.add("tomcat9x");
+        excludedContainerIds.add("tomcat10x");
         excludedContainerIds.add("weblogic121x");
         excludedContainerIds.add("weblogic122x");
 

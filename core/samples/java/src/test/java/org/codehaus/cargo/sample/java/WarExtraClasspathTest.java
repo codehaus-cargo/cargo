@@ -81,6 +81,11 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
         excludedContainerIds.add("jetty5x");
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");
+
+        // Tomcat 10.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        excludedContainerIds.add("tomcat10x");
+
         suite.addTestSuite(WarExtraClasspathTest.class, new Validator[] {
             new StartsWithContainerValidator("jetty", "tomcat", "liberty"),
             new HasWarSupportValidator(),

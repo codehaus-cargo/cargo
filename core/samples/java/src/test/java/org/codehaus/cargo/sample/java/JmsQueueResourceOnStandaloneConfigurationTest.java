@@ -91,6 +91,7 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat7x");
         excludedContainerIds.add("tomcat8x");
         excludedContainerIds.add("tomcat9x");
+        excludedContainerIds.add("tomcat10x");
 
         suite.addTestSuite(JmsQueueResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
