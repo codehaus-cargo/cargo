@@ -19,28 +19,23 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
- * Capabilities of the WebLogic's
- * {@link org.codehaus.cargo.container.weblogic.WebLogic9xStandaloneLocalConfiguration}
- * configuration.
+ * Capabilities of WebLogic 14.x.
  */
-public class WebLogic9x10x103x12xStandaloneLocalConfigurationCapability extends
-    WebLogic8xStandaloneLocalConfigurationCapability
+public class WebLogic14xStandaloneLocalConfigurationCapability extends
+    WebLogicWlstStandaloneLocalConfigurationCapability
 {
     /**
-     * WebLogic 9.x onwards supports additional features not available in 8.x.
+     * WLST implementation allows easy support of resources.
      */
-    public WebLogic9x10x103x12xStandaloneLocalConfigurationCapability()
+    public WebLogic14xStandaloneLocalConfigurationCapability()
     {
         super();
 
-        // it is possible to set server logging thresholds in WLS 9+
-        this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
-
-        this.propertySupportMap.put(WebLogicPropertySet.CONFIGURATION_VERSION, Boolean.TRUE);
-        this.propertySupportMap.put(WebLogicPropertySet.DOMAIN_VERSION, Boolean.TRUE);
+        // password configuration not available on WebLogic 14.x anymore
+        this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_LENGTH_MIN, Boolean.TRUE);
+        this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_SPNUM_MIN, Boolean.TRUE);
     }
 }

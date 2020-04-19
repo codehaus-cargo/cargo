@@ -78,7 +78,7 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // JBoss 7.5.x, Resin, Tomcat and WebLogic 12.1.x / 12.2.x
+        // JBoss 7.5.x, Resin, Tomcat and WebLogic 12.1.x, 12.2.x and 14.x
         // containers cannot deploy JMS topic resources
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
@@ -95,6 +95,7 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat10x");
         excludedContainerIds.add("weblogic121x");
         excludedContainerIds.add("weblogic122x");
+        excludedContainerIds.add("weblogic14x");
 
         suite.addTestSuite(JmsTopicResourceOnStandaloneConfigurationTest.class,
             new Validator[] {

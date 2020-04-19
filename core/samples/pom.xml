@@ -1073,6 +1073,34 @@
               </property>
 
               <!--
+                WebLogic 14.x
+
+                Notes:
+
+                WebLogic 14 runs on JDK 8
+
+                There is no non-interactive download link for WL 14.x.  Here is is a link that requires license agreement:
+                   * http://oracle.com/technetwork/middleware/ias/downloads/wls-main-097127.html
+
+                Once you install this, set the cargo.weblogic14x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.weblogic14x.home</name>
+                    <value>C:/Oracle/wls_14.1.1.0.0/wlserver</value>
+                  </property>
+                -->
+              <property>
+                <name>cargo.weblogic14x.home</name>
+                <value>${cargo.weblogic14x.home}</value>
+              </property>
+              <property>
+                <name>cargo.weblogic14x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <!--
                 WebSphere 8.5.x
 
                 Notes:
@@ -1985,6 +2013,12 @@
       <id>weblogic122x</id>
       <properties>
         <cargo.containers>weblogic122x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>weblogic14x</id>
+      <properties>
+        <cargo.containers>weblogic14x</cargo.containers>
       </properties>
     </profile>
 

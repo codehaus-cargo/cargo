@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.configuration.script;
 
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.tools.ant.types.FilterChain;
@@ -85,7 +85,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand
         FilterChain filterChain = new FilterChain();
         antUtils.addTokensToFilterChain(filterChain, configuration.getProperties());
 
-        Map<String, String> propertiesMap = new Hashtable<String, String>();
+        Map<String, String> propertiesMap = new HashMap<String, String>();
         addConfigurationScriptProperties(propertiesMap);
         antUtils.addTokensToFilterChain(filterChain, propertiesMap);
 

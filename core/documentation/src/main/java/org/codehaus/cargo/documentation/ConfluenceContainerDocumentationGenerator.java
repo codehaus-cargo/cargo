@@ -169,6 +169,7 @@ public class ConfluenceContainerDocumentationGenerator
         "tomcat10x",
         "tomee8x",
         "weblogic122x",
+        "weblogic14x",
         "websphere9x",
         "wildfly10x",
         "wildfly11x",

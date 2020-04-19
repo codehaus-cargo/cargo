@@ -19,54 +19,45 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.spi.deployer.AbstractSwitchableLocalDeployer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic14xStandaloneLocalConfigurationCapability;
 
 /**
- * Changes config.xml if the server is down. Otherwise, adds applications to the config directory.
+ * WebLogic 14.x standalone
+ * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
+ * WebLogic 14.x uses WLST for container configuration.
  */
-public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDeployer
+public class WebLogic14xStandaloneLocalConfiguration extends
+    WebLogic122xStandaloneLocalConfiguration
 {
 
     /**
-     * deployer used when server is up.
-     */
-    private Deployer hotDeployer;
-
-    /**
-     * deployer used when server is down.
-     */
-    private Deployer coldDeployer;
-
-    /**
      * {@inheritDoc}
-     * 
-     * @param container container to configure
+     * @see WebLogic122xStandaloneLocalConfiguration#WebLogic122xStandaloneLocalConfiguration(String)
      */
-    public WebLogic8xSwitchableLocalDeployer(InstalledLocalContainer container)
+    public WebLogic14xStandaloneLocalConfiguration(String dir)
     {
-        super(container);
-        hotDeployer = new WebLogic9x10x12x14xCopyingInstalledLocalDeployer(container);
-        coldDeployer = new WebLogic8xConfigXmlInstalledLocalDeployer(container);
+        super(dir);
+
+        getProperties().remove(WebLogicPropertySet.PASSWORD_LENGTH_MIN);
+        getProperties().remove(WebLogicPropertySet.PASSWORD_SPNUM_MIN);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Deployer getColdDeployer()
+    public ConfigurationCapability getCapability()
     {
-        return coldDeployer;
+        return new WebLogic14xStandaloneLocalConfigurationCapability();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Deployer getHotDeployer()
+    public String toString()
     {
-        return hotDeployer;
+        return "WebLogic 14.x Standalone Configuration";
     }
-
 }

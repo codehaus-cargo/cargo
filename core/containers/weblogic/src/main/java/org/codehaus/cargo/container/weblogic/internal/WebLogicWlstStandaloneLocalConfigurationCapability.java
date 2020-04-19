@@ -33,6 +33,8 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
      */
     public WebLogicWlstStandaloneLocalConfigurationCapability()
     {
+        super();
+
         // support resources
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
 

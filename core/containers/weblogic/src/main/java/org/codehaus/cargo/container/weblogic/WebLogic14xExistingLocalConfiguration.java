@@ -19,21 +19,30 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstRuntimeConfiguration;
-
 /**
- * WebLogic 12.2.x runtime
+ * WebLogic 14.x existing
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * WebLogic 12.2.x uses WLST for container deployments.
+ * WebLogic 14.x uses WLST for container configuration.
  */
-public class WebLogic122xRuntimeConfiguration extends AbstractWebLogicWlstRuntimeConfiguration
+public class WebLogic14xExistingLocalConfiguration extends
+    WebLogic122xExistingLocalConfiguration
 {
+
+    /**
+     * {@inheritDoc}
+     * @see WebLogic122xExistingLocalConfiguration#WebLogic122xExistingLocalConfiguration(String)
+     */
+    public WebLogic14xExistingLocalConfiguration(String dir)
+    {
+        super(dir);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String toString()
     {
-        return "WebLogic 12.2.x Runtime Configuration";
+        return "WebLogic 14.x Existing Configuration";
     }
 }

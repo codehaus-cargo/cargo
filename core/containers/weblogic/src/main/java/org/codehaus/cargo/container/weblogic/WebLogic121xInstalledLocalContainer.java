@@ -257,10 +257,21 @@ public class WebLogic121xInstalledLocalContainer extends
         File serverDir = new File(this.getHome(), "server");
         java.addClasspathEntries(new File(serverDir, "lib/weblogic.jar"));
         // CARGO-1452: WebLogic 12.2.1.3.0's weblogic.jar file somehow has the below file missing
-        // in its classpath, making the﻿readTemplate command return a WLSTException with
-        //﻿com.oracle.cie.domain.xml.configxb.AuthenticatorType
-        java.addClasspathEntries(new File(new File(this.getHome()).getParentFile(),
-            "oracle_common/modules/com.oracle.cie.config-wls-schema_8.6.0.0.jar"));
+        // in its classpath, making the readTemplate command return a WLSTException with
+        // com.oracle.cie.domain.xml.configxb.AuthenticatorType
+        File[] oracleCommon = new File(new File(this.getHome()).getParentFile(),
+            "oracle_common/modules").listFiles();
+        if (oracleCommon != null)
+        {
+            for (File oracleCommonFile : oracleCommon)
+            {
+                if (oracleCommonFile.getName().startsWith("com.oracle.cie.config-wls-schema"))
+                {
+                    java.addClasspathEntries(oracleCommonFile);
+                    break;
+                }
+            }
+        }
         java.setMainClass("weblogic.WLST");
     }
 

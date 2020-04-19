@@ -90,7 +90,7 @@ public class WebLogic121xStandaloneLocalConfiguration extends
 
         // create new domain
         configurationScript.add(getConfigurationFactory().createDomainScript(
-                weblogicContainer.getWeblogicHome()));
+            weblogicContainer.getWeblogicHome()));
 
         // configure logging
         configurationScript.add(getConfigurationFactory().loggingScript());
@@ -105,7 +105,12 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         }
 
         // configure password validator
-        configurationScript.add(getConfigurationFactory().passwordValidatorScript());
+        // CARGO-1515: this is not available on WebLogic 14.x onwards
+        if (getCapability().supportsProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN)
+            && getCapability().supportsProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN))
+        {
+            configurationScript.add(getConfigurationFactory().passwordValidatorScript());
+        }
 
         // add datasources to script
         for (DataSource dataSource : getDataSources())

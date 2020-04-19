@@ -26,8 +26,7 @@ import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstRuntim
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  * WebLogic 12.1.x uses WLST for container deployments.
  */
-public class WebLogic121xRuntimeConfiguration extends
-    AbstractWebLogicWlstRuntimeConfiguration
+public class WebLogic121xRuntimeConfiguration extends AbstractWebLogicWlstRuntimeConfiguration
 {
     /**
      * {@inheritDoc}

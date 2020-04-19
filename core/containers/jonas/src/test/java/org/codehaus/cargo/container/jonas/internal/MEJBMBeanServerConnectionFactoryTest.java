@@ -67,9 +67,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
@@ -92,7 +92,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY), "foo");
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
@@ -114,7 +114,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL), "foo");
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
@@ -137,9 +137,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
@@ -161,9 +161,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
@@ -186,9 +186,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertEquals(connectionOptions.get(Context.SECURITY_PRINCIPAL), "foo");
         assertEquals(connectionOptions.get(Context.SECURITY_CREDENTIALS), "bar");
 
@@ -228,9 +228,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
@@ -253,9 +253,9 @@ public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
         assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
-                MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
+            MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
         assertEquals(connectionOptions.get(Context.PROVIDER_URL),
-                MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
+            MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
         assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
         assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 

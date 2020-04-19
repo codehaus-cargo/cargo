@@ -40,7 +40,7 @@ import org.w3c.dom.NodeList;
  * Static deployer that manages deployment configuration by manipulating the WebLogic config.xml
  * file.
  */
-public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
+public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer extends
     AbstractInstalledLocalDeployer
 {
     /**
@@ -58,7 +58,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer extends
      * 
      * @param container container to configure
      */
-    public WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
+    public WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
 

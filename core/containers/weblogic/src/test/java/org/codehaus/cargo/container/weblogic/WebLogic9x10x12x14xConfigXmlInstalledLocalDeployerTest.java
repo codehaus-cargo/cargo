@@ -48,7 +48,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Unit tests for {@link WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer}.
+ * Unit tests for {@link WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer}.
  * <p>
  * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
  * href="http://jakarta.apache.org/commons/vfs/filesystems.html#ram">RAM file system</a> so that
@@ -56,7 +56,7 @@ import org.w3c.dom.Element;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends TestCase
+public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends TestCase
 {
     /**
      * BEA_HOME
@@ -81,7 +81,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
     /**
      * Deployer.
      */
-    private WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer deployer;
+    private WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer deployer;
 
     /**
      * File system manager.
@@ -140,7 +140,7 @@ public class WebLogic9x10x103x12xConfigXmlInstalledLocalDeployerTest extends Tes
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
-        this.deployer = new WebLogic9x10x103x12xConfigXmlInstalledLocalDeployer(container);
+        this.deployer = new WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer(container);
         this.resourceUtils = new ResourceUtils();
         this.document = xmlUtil.createDocument();
         this.domain = document.createElement("domain");

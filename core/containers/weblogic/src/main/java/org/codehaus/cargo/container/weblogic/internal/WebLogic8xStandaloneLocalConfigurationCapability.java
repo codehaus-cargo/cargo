@@ -36,6 +36,8 @@ public class WebLogic8xStandaloneLocalConfigurationCapability extends
      */
     public WebLogic8xStandaloneLocalConfigurationCapability()
     {
+        super();
+
         // changing this would require generating hashes for the default
         // authenticator ldift files
         this.propertySupportMap.put(WebLogicPropertySet.ADMIN_USER, Boolean.FALSE);
