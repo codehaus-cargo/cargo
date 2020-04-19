@@ -98,104 +98,13 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>${project.version}</version>
             <configuration>
+              <skip>false</skip>
               <container>
                 <containerId>weblogic122x</containerId>
-                <type>installed</type>
                 <home>${cargo.weblogic122x.home}</home>
-                <dependencies>
-                  <dependency>
-                    <groupId>org.codehaus.cargo</groupId>
-                    <artifactId>simple-jar</artifactId>
-                  </dependency>
-                  <dependency>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                  </dependency>
-                </dependencies>
-                <systemProperties>
-                  <cargo.system.property>CargoSystemProp</cargo.system.property>
-                </systemProperties>
               </container>
-              <configuration>
-                <type>standalone</type>
-                <properties>
-                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-                  <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
-                  <cargo.datasource.datasource.derby>
-                    cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
-                    cargo.datasource.url=jdbc:derby:derbyDB;create=true|
-                    cargo.datasource.jndi=jdbc/CargoDS|
-                    cargo.datasource.username=sa|
-                    cargo.datasource.password=
-                  </cargo.datasource.datasource.derby>
-                  <cargo.resource.resource.jms.cf>
-                    cargo.resource.name=jms/cf/MyCf|
-                    cargo.resource.type=javax.jms.ConnectionFactory|
-                    cargo.resource.id=MyCf
-                  </cargo.resource.resource.jms.cf>
-                  <cargo.resource.resource.jms.queue>
-                    cargo.resource.name=jms/MyQueue|
-                    cargo.resource.type=javax.jms.Queue|
-                    cargo.resource.id=MyQueue
-                  </cargo.resource.resource.jms.queue>
-                </properties>
-              </configuration>
-              <deployables>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>classpath-war</artifactId>
-                  <type>war</type>
-                </deployable>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>simple-ear</artifactId>
-                  <type>ear</type>
-                </deployable>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>simple-war</artifactId>
-                  <type>war</type>
-                </deployable>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>datasource-war</artifactId>
-                  <type>war</type>
-                </deployable>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>jms-war</artifactId>
-                  <type>war</type>
-                </deployable>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>authentication-war</artifactId>
-                  <type>war</type>
-                </deployable>
-                <deployable>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>systemproperty-war</artifactId>
-                  <type>war</type>
-                </deployable>
-              </deployables>
             </configuration>
-            <executions>
-              <execution>
-                <id>start</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>stop</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -209,16 +118,47 @@
                 </goals>
                 <configuration>
                   <skip>false</skip>
-                  <systemProperties>
-                    <property>
-                      <name>http.port</name>
-                      <value>${cargo.samples.servlet.port}</value>
-                    </property>
-                    <property>
-                      <name>project.version</name>
-                      <value>${project.version}</value>
-                    </property>
-                  </systemProperties>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- WebLogic 14.x -->
+    <profile>
+      <id>weblogic14x</id>
+      <activation>
+        <property>
+          <name>cargo.weblogic14x.home</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <configuration>
+              <skip>false</skip>
+              <container>
+                <containerId>weblogic14x</containerId>
+                <home>${cargo.weblogic14x.home}</home>
+              </container>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>false</skip>
                 </configuration>
               </execution>
             </executions>
@@ -235,7 +175,118 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
+          <systemProperties>
+            <property>
+              <name>http.port</name>
+              <value>${cargo.samples.servlet.port}</value>
+            </property>
+            <property>
+              <name>project.version</name>
+              <value>${project.version}</value>
+            </property>
+          </systemProperties>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>${project.version}</version>
+        <configuration>
+          <skip>true</skip>
+          <container>
+            <type>installed</type>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>simple-jar</artifactId>
+              </dependency>
+              <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+              </dependency>
+            </dependencies>
+            <systemProperties>
+              <cargo.system.property>CargoSystemProp</cargo.system.property>
+            </systemProperties>
+          </container>
+          <configuration>
+            <type>standalone</type>
+            <properties>
+              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
+              <cargo.datasource.datasource.derby>
+                cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
+                cargo.datasource.url=jdbc:derby:derbyDB;create=true|
+                cargo.datasource.jndi=jdbc/CargoDS|
+                cargo.datasource.username=sa|
+                cargo.datasource.password=
+              </cargo.datasource.datasource.derby>
+              <cargo.resource.resource.jms.cf>
+                cargo.resource.name=jms/cf/MyCf|
+                cargo.resource.type=javax.jms.ConnectionFactory|
+                cargo.resource.id=MyCf
+              </cargo.resource.resource.jms.cf>
+              <cargo.resource.resource.jms.queue>
+                cargo.resource.name=jms/MyQueue|
+                cargo.resource.type=javax.jms.Queue|
+                cargo.resource.id=MyQueue
+              </cargo.resource.resource.jms.queue>
+            </properties>
+          </configuration>
+          <deployables>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>classpath-war</artifactId>
+              <type>war</type>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-ear</artifactId>
+              <type>ear</type>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>simple-war</artifactId>
+              <type>war</type>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>datasource-war</artifactId>
+              <type>war</type>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>jms-war</artifactId>
+              <type>war</type>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>authentication-war</artifactId>
+              <type>war</type>
+            </deployable>
+            <deployable>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>systemproperty-war</artifactId>
+              <type>war</type>
+            </deployable>
+          </deployables>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

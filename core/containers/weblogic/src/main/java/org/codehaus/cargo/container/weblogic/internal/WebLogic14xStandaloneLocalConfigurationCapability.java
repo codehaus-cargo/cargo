@@ -35,7 +35,7 @@ public class WebLogic14xStandaloneLocalConfigurationCapability extends
         super();
 
         // password configuration not available on WebLogic 14.x anymore
-        this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_LENGTH_MIN, Boolean.TRUE);
-        this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_SPNUM_MIN, Boolean.TRUE);
+        this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_LENGTH_MIN);
+        this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_SPNUM_MIN);
     }
 }
