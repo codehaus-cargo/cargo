@@ -158,7 +158,16 @@ public class AntUtils
         ReplaceTokens.Token token = new ReplaceTokens.Token();
         token.setKey(key);
         token.setValue(value);
-        replaceToken.addConfiguredToken(token);
+        try
+        {
+            replaceToken.addConfiguredToken(token);
+        }
+        catch (NullPointerException e)
+        {
+            // ANT uses a Hashtable, which means null values are not allowed
+            token.setValue("");
+            replaceToken.addConfiguredToken(token);
+        }
         filterChain.addReplaceTokens(replaceToken);
     }
 
