@@ -132,7 +132,7 @@ public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLoca
     @Override
     public String getName()
     {
-        return "GlassFish 5.x";
+        return "GlassFish " + getVersion("5.x");
     }
 
 }

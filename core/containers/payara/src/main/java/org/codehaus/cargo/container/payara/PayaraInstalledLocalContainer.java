@@ -79,7 +79,12 @@ public class PayaraInstalledLocalContainer extends GlassFish5xInstalledLocalCont
     @Override
     public String getName()
     {
-        return "Payara";
+        String version = getVersion("");
+        if (version.length() > 0)
+        {
+            version = " " + version;
+        }
+        return "Payara" + version;
     }
 
 }

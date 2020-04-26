@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
+import java.io.File;
+import java.util.jar.JarFile;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
@@ -37,6 +39,11 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
      * Container capability instance.
      */
     private static final ContainerCapability CAPABILITY = new GlassFish3xContainerCapability();
+
+    /**
+     * GlassFish version.
+     */
+    private String version;
 
     /**
      * Calls parent constructor, which saves the configuration.
@@ -90,7 +97,52 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
     @Override
     public String getName()
     {
-        return "GlassFish 3.x";
+        return "GlassFish " + getVersion("3.x");
+    }
+
+    /**
+     * Parse installed GlassFish version.
+     * 
+     * @param defaultVersion the version used if the exact GlassFish version can't be determined
+     * @return the GlassFish version, or <code>defaultVersion</code> if the version number could
+     * not be determined.
+     */
+    protected synchronized String getVersion(String defaultVersion)
+    {
+        String version = this.version;
+
+        if (version == null)
+        {
+            try
+            {
+                File adminCli = new File(getHome(), "glassfish/modules/admin-cli.jar");
+                if (adminCli.isFile())
+                {
+                    try (JarFile jarFile = new JarFile(adminCli))
+                    {
+                        version = jarFile.getManifest().getMainAttributes().getValue(
+                            "Bundle-Version");
+                    }
+                }
+
+                getLogger().info("Parsed GlassFish version = [" + version + "]",
+                    this.getClass().getName());
+            }
+            catch (Exception e)
+            {
+                getLogger().debug(
+                    "Failed to find GlassFish version, base error [" + e.getMessage() + "]",
+                    this.getClass().getName());
+            }
+
+            if (version == null)
+            {
+                version = defaultVersion;
+            }
+            this.version = version;
+        }
+
+        return version;
     }
 
 }

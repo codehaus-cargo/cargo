@@ -216,7 +216,18 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 if (Boolean.parseBoolean(this.getConfiguration().getPropertyValue(
                     GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE)))
                 {
-                    deployer.undeployDatasource("DerbyPool", "jdbc/__default");
+                    try
+                    {
+                        deployer.undeployDatasource("DerbyPool", "jdbc/__default");
+                    }
+                    catch (CargoException e)
+                    {
+                        // Payara 5.201 onwards doesn't have that datasource anymore, ignore
+                        this.getLogger().debug("Failed removing default datasource",
+                            this.getClass().getName());
+                        this.getConfiguration().setProperty(
+                            GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE, "false");
+                    }
                 }
 
                 for (DataSource dataSource : this.getConfiguration().getDataSources())
