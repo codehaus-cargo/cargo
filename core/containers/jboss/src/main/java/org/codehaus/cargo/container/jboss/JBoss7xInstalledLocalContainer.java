@@ -111,7 +111,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
      * determined
      * @param defaultVersion the default version used if the exact JBoss version can't be determined
      */
-    public String getVersion(String defaultVersion)
+    protected synchronized String getVersion(String defaultVersion)
     {
         String version = this.version;
 
@@ -150,32 +150,38 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
                         + " is not a directory.");
                 }
 
-                JarFile jarFile = new JarFile(configAdminFile);
-                version = jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
-                if (version == null)
+                try (JarFile jarFile = new JarFile(configAdminFile))
                 {
-                    version = jarFile.getManifest().getMainAttributes().getValue(
-                        "Implementation-Version");
+                    version = jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+                    if (version == null)
+                    {
+                        version = jarFile.getManifest().getMainAttributes().getValue(
+                            "Implementation-Version");
+                    }
                 }
 
                 if (version == null)
                 {
-                    version = defaultVersion;
                     getLogger().debug("Couldn't find Bundle-Version in the MANIFEST of "
                         + configAdminFile, this.getClass().getName());
+                }
+                else
+                {
+                    getLogger().info("Parsed JBoss version = [" + version + "]",
+                        this.getClass().getName());
                 }
             }
             catch (Exception e)
             {
-                version = defaultVersion;
                 getLogger().debug(
                     "Failed to find JBoss version, base error [" + e.getMessage() + "]",
                     this.getClass().getName());
             }
 
-            getLogger().info("Parsed JBoss version = [" + version + "]",
-                this.getClass().getName());
-
+            if (version == null)
+            {
+                version = defaultVersion;
+            }
             this.version = version;
         }
 

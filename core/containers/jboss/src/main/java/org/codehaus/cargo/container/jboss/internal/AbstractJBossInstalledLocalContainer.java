@@ -184,27 +184,30 @@ public abstract class AbstractJBossInstalledLocalContainer extends
                     buffer.append(".");
                     buffer.append(properties.getProperty("version.revision"));
                     version = buffer.toString();
+
+                    getLogger().info("Parsed JBoss version = [" + version + "]",
+                        this.getClass().getName());
                 }
                 else
                 {
-                    version = defaultVersion;
                     getLogger().debug("Couldn't find version.properties in " + jarFile.getName(),
                         this.getClass().getName());
                 }
             }
             catch (Exception e)
             {
-                version = defaultVersion;
                 getLogger().debug(
                     "Failed to find JBoss version, base error [" + e.getMessage() + "]",
                     this.getClass().getName());
             }
 
-            getLogger().info("Parsed JBoss version = [" + version + "]",
-                this.getClass().getName());
-
+            if (version == null)
+            {
+                version = defaultVersion;
+            }
             this.version = version;
         }
+
         return version;
     }
 
