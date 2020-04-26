@@ -102,9 +102,8 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
     {
         if (this.version == null)
         {
-            try
+            try (JarFile startJar = new JarFile(new File(getHome(), "start.jar")))
             {
-                JarFile startJar = new JarFile(new File(getHome(), "start.jar"));
                 ZipEntry manifestFile = startJar.getEntry("META-INF/MANIFEST.MF");
                 Properties manifest = new Properties();
                 manifest.load(startJar.getInputStream(manifestFile));
