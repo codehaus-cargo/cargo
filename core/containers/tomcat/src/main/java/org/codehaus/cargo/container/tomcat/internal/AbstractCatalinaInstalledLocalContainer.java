@@ -71,7 +71,7 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
         if (version == null)
         {
-            try
+            try (JarFile catalinaJar = new JarFile(new File(getHome(), "server/lib/catalina.jar")))
             {
                 // Unfortunately, there's no safe way to find out the version of a Catalina
                 // installation, so we need to try multiple paths here
@@ -79,7 +79,6 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
                 // Tomcat 4.1.0 and later includes a ServerInfo.properties
                 // resource in catalina.jar that contains the version number. If
                 // that resource doesn't exist, we're on Tomcat 4.0.x
-                JarFile catalinaJar = new JarFile(new File(getHome(), "server/lib/catalina.jar"));
                 ZipEntry entry =
                     catalinaJar.getEntry("org/apache/catalina/util/ServerInfo.properties");
                 if (entry != null)
