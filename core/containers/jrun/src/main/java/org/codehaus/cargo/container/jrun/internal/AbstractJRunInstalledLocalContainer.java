@@ -144,9 +144,8 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
         if (version == null)
         {
-            try
+            try (JarFile jRunJar = new JarFile(new File(getHome(), "/lib/jrun.jar")))
             {
-                JarFile jRunJar = new JarFile(new File(getHome(), "/lib/jrun.jar"));
                 ZipEntry entry = jRunJar.getEntry("jrunx/kernel/resource.properties");
                 if (entry != null)
                 {
