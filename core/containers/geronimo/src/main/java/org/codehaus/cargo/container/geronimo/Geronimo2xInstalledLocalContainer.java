@@ -63,7 +63,7 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     @Override
     public String getName()
     {
-        return "Geronimo " + getVersion("2.x");
+        return "Geronimo 2.x";
     }
 
     /**
@@ -141,15 +141,5 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
         java.addAppArguments(getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT));
 
         java.start();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String getVersion(String defaultVersion)
-    {
-        // TODO get actual version of installed Geronimo server
-        return defaultVersion;
     }
 }

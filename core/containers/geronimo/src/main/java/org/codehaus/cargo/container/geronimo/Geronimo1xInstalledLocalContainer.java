@@ -78,7 +78,7 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     @Override
     public String getName()
     {
-        return "Geronimo " + getVersion("1.x");
+        return "Geronimo 1.x";
     }
 
     /**
@@ -181,19 +181,5 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
     public ContainerCapability getCapability()
     {
         return this.capability;
-    }
-
-    /**
-     * Parse installed Geronimo version.
-     * 
-     * @return the Geronimo version, or <code>defaultVersion</code> if the version number could not
-     * be determined
-     * @param defaultVersion the default version used if the exact Geronimo version can't be
-     * determined
-     */
-    protected String getVersion(String defaultVersion)
-    {
-        // TODO get actual version of installed Geronimo server
-        return defaultVersion;
     }
 }

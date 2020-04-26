@@ -70,7 +70,7 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
     @Override
     public String getName()
     {
-        return "Geronimo " + getVersion("3.x");
+        return "Geronimo 3.x";
     }
 
     /**
@@ -173,15 +173,5 @@ public class Geronimo3xInstalledLocalContainer extends Geronimo1xInstalledLocalC
             "org.apache.xbean.osgi.bundle.util.BundleResourceHelper.searchWiredBundles", "false");
         java.setSystemProperty("karaf.startLocalConsole", "false");
         java.setSystemProperty("karaf.startRemoteShell", "false");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String getVersion(String defaultVersion)
-    {
-        // TODO get actual version of installed Geronimo server
-        return defaultVersion;
     }
 }
