@@ -222,7 +222,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                     }
                     catch (CargoException e)
                     {
-                        // Payara 5.201 onwards doesn't have that datasource anymore, ignore
+                        // CARGO-1516: Payara 5.201 onwards doesn't have the DerbyPool anymore
                         this.getLogger().debug("Failed removing default datasource",
                             this.getClass().getName());
                         this.getConfiguration().setProperty(
