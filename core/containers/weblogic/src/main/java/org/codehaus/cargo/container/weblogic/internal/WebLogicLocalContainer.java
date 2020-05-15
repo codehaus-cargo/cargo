@@ -55,4 +55,13 @@ public interface WebLogicLocalContainer extends LocalContainer
      * @return The auto-deploy directory
      */
     String getAutoDeployDirectory();
+
+    /**
+     * Parse installed WebLogic version.
+     * 
+     * @param defaultVersion the version used if the exact WebLogic version can't be determined
+     * @return the WebLogic version, or <code>defaultVersion</code> if the version number could not
+     * be determined.
+     */
+    String getVersion(String defaultVersion);
 }

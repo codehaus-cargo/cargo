@@ -49,7 +49,7 @@ public class WebLogic9xInstalledLocalContainer
     @Override
     public String getName()
     {
-        return "WebLogic 9.x";
+        return "WebLogic " + getVersion("9.x");
     }
 
     /**

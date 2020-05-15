@@ -47,7 +47,7 @@ public class WebLogic14xInstalledLocalContainer extends WebLogic122xInstalledLoc
     @Override
     public String getName()
     {
-        return "WebLogic 14.x";
+        return "WebLogic " + getVersion("14.x");
     }
 
     /**

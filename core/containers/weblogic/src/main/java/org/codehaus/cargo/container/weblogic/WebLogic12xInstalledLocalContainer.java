@@ -52,7 +52,7 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
     @Override
     public String getName()
     {
-        return "WebLogic 12.x";
+        return "WebLogic " + getVersion("12.x");
     }
 
     /**

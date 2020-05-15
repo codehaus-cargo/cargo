@@ -139,13 +139,17 @@ public interface WebLogicPropertySet
 
     /**
      * Minimal length of user password - number.
-     * Used when configuring new users.
+     * Used when configuring new users.<br>
+     * <b>Note</b>: Please be aware that WebLogic 1.2.1.4 onwards doesn't have a configurable
+     * password validator.
      */
     String PASSWORD_LENGTH_MIN = "cargo.weblogic.password.length.min";
 
     /**
      * Minimal number of numeric or special characters in password - number.
-     * Used when configuring new users.
+     * Used when configuring new users.<br>
+     * <b>Note</b>: Please be aware that WebLogic 1.2.1.4 onwards doesn't have a configurable
+     * password validator.
      */
     String PASSWORD_SPNUM_MIN = "cargo.weblogic.password.spnum.min";
 }

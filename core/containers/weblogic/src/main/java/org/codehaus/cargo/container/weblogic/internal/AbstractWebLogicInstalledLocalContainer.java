@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.jar.JarFile;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
@@ -55,6 +56,11 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * Capability of the WebLogic container.
      */
     private ContainerCapability capability = new J2EEContainerCapability();
+
+    /**
+     * WebLogic version.
+     */
+    private String version;
 
     /**
      * {@inheritDoc}
@@ -432,5 +438,41 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
     public String getWeblogicHome()
     {
         return getHome();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized String getVersion(String defaultVersion)
+    {
+        String version = this.version;
+
+        if (version == null)
+        {
+            try
+            {
+                try (JarFile weblogicJar = new JarFile(
+                    new File(this.getHome(), "server/lib/weblogic.jar")))
+                {
+                    version = weblogicJar.getManifest().getMainAttributes().getValue(
+                        "Implementation-Version");
+                }
+            }
+            catch (Exception e)
+            {
+                getLogger().debug(
+                    "Failed to find WebLogic version, base error [" + e.getMessage() + "]",
+                    this.getClass().getName());
+            }
+
+            if (version == null)
+            {
+                version = defaultVersion;
+            }
+            this.version = version;
+        }
+
+        return version;
     }
 }

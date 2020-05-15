@@ -109,7 +109,17 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         if (getCapability().supportsProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN)
             && getCapability().supportsProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN))
         {
-            configurationScript.add(getConfigurationFactory().passwordValidatorScript());
+            String version = weblogicContainer.getVersion(null);
+            if (version != null && !version.contains(".x") && version.compareTo("12.2.1.4") >= 0)
+            {
+                getLogger().debug("WebLogic 1.2.1.4 onwards doesn't have a configurable password "
+                    + "validator, ignoring associated Codehaus Cargo configuration options.",
+                        this.getClass().getName());
+            }
+            else
+            {
+                configurationScript.add(getConfigurationFactory().passwordValidatorScript());
+            }
         }
 
         // add datasources to script

@@ -50,7 +50,7 @@ public class WebLogic10xInstalledLocalContainer extends
     @Override
     public String getName()
     {
-        return "WebLogic 10.x";
+        return "WebLogic " + getVersion("10.x");
     }
 
     /**

@@ -49,7 +49,7 @@ public class WebLogic103xInstalledLocalContainer extends AbstractWebLogicInstall
     @Override
     public String getName()
     {
-        return "WebLogic 10.3.x";
+        return "WebLogic " + getVersion("10.3.x");
     }
 
     /**

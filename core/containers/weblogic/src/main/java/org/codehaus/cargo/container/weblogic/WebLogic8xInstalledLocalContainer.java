@@ -47,7 +47,7 @@ public class WebLogic8xInstalledLocalContainer extends AbstractWebLogicInstalled
     @Override
     public String getName()
     {
-        return "WebLogic 8.x";
+        return "WebLogic " + getVersion("8.x");
     }
 
     /**
