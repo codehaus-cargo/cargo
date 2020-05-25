@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.glassfish;
 
 import java.io.File;
 import java.util.jar.JarFile;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
