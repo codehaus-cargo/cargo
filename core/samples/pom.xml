@@ -506,7 +506,7 @@
 
               <property>
                 <name>cargo.jo1x.url</name>
-                <value>http://www.tagtraum.com/download/jo1.1beta1.zip</value>
+                <value>https://www.tagtraum.com/download/jo1.1beta1.zip</value>
               </property>
               <property>
                 <name>cargo.jo1x.java.home</name>
