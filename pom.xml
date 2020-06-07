@@ -28,8 +28,9 @@
   <url>https://codehaus-cargo.github.io/</url>
   <inceptionYear>2004</inceptionYear>
   <organization>
-    <name>Github</name>
-    <url>https://github.com/</url>
+    <name>Codehaus Cargo</name>
+    <url>https://codehaus-cargo.github.io/</url>
+    <logo>https://codehaus-cargo.github.io/cargo/attachments/cargo-logo-vertical.png</logo>
   </organization>
   <licenses>
     <license>
@@ -299,7 +300,6 @@
     <contributor>
       <name>Jose Pereira (II,IP)</name>
     </contributor>
-
   </contributors>
 
   <prerequisites>
@@ -307,8 +307,10 @@
       The multiple-containers archetype relies on multiple profile activation conditions,
       which only works starting from Maven 3.2.2.
       (see https://issues.apache.org/jira/browse/MNG-4565 for details).
+
+      Require Maven 3.2.3 so access to Maven Central is done via HTTPS, avoiding security issues.
       -->
-    <maven>3.2.2</maven>
+    <maven>3.2.3</maven>
   </prerequisites>
 
   <scm>
