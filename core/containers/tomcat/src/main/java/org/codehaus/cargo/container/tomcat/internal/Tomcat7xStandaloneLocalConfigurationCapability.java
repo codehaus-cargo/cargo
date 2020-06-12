@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
 public class Tomcat7xStandaloneLocalConfigurationCapability extends
-    Tomcat5xStandaloneLocalConfigurationCapability
+    Tomcat6xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
