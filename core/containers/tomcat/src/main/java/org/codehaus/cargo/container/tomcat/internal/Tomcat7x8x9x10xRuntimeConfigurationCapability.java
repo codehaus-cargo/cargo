@@ -17,21 +17,24 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomee;
+package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Configuration to use when deploying to TomEE remotely.
+ * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
+ * configuration.
  */
-public class TomeeRuntimeConfiguration extends TomcatRuntimeConfiguration
+public class Tomcat7x8x9x10xRuntimeConfigurationCapability extends
+    Tomcat4x5x6xRuntimeConfigurationCapability
 {
     /**
-     * {@inheritDoc}
+     * Initialize the configuration-specific supports Map.
      */
-    @Override
-    public String toString()
+    public Tomcat7x8x9x10xRuntimeConfigurationCapability()
     {
-        return "TomEE Runtime Configuration";
+        super();
+
+        this.propertySupportMap.put(TomcatPropertySet.UNDEPLOY_ALL_VERSIONS, Boolean.TRUE);
     }
 }

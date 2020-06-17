@@ -29,12 +29,13 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
  * configuration.
  */
-public class TomcatRuntimeConfigurationCapability extends AbstractRuntimeConfigurationCapability
+public class Tomcat4x5x6xRuntimeConfigurationCapability extends
+    AbstractRuntimeConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public TomcatRuntimeConfigurationCapability()
+    public Tomcat4x5x6xRuntimeConfigurationCapability()
     {
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);

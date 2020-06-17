@@ -17,44 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomee;
+package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.LocalContainer;
 
 /**
- * Special container support for wrapping a running instance of Apache TomEE 8.x.
+ * A Tomcat manager-based deployer to perform deployment to a local Tomcat 7.x to 10.x containers.
  */
-public class Tomee8xRemoteContainer extends Tomee7xRemoteContainer
+public class TomcatManager7x8x9x10xInstalledLocalDeployer extends
+    TomcatManager4x5x6xInstalledLocalDeployer
 {
     /**
-     * Unique container id.
-     */
-    public static final String ID = "tomee8x";
-
-    /**
      * {@inheritDoc}
-     * @see Tomee7xRemoteContainer#Tomee7xRemoteContainer(RuntimeConfiguration)
+     * @see TomcatManager4x5x6xInstalledLocalDeployer#TomcatManagerInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Tomee8xRemoteContainer(RuntimeConfiguration configuration)
+    public TomcatManager7x8x9x10xInstalledLocalDeployer(LocalContainer container)
     {
-        super(configuration);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "TomEE 8.x Remote";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getId()
-    {
-        return ID;
+        super(container);
+        this.managerContext += "/text";
     }
 }

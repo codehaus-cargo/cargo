@@ -19,42 +19,19 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.Tomcat4xRuntimeConfiguration;
 
 /**
- * Special container support for wrapping a running instance of Apache TomEE 8.x.
+ * Configuration to use when deploying to TomEE 1.x remotely.
  */
-public class Tomee8xRemoteContainer extends Tomee7xRemoteContainer
+public class Tomee1xRuntimeConfiguration extends Tomcat4xRuntimeConfiguration
 {
     /**
-     * Unique container id.
-     */
-    public static final String ID = "tomee8x";
-
-    /**
-     * {@inheritDoc}
-     * @see Tomee7xRemoteContainer#Tomee7xRemoteContainer(RuntimeConfiguration)
-     */
-    public Tomee8xRemoteContainer(RuntimeConfiguration configuration)
-    {
-        super(configuration);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    public String getName()
+    public String toString()
     {
-        return "TomEE 8.x Remote";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getId()
-    {
-        return ID;
+        return "TomEE 1.x Runtime Configuration";
     }
 }

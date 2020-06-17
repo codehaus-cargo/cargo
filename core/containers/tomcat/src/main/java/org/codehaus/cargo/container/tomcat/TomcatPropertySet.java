@@ -161,4 +161,10 @@ public interface TomcatPropertySet
      * Setting to true allows deploy without doing an explicit undeploy of existing web-app first.
      */
     String DEPLOY_UPDATE = "cargo.tomcat.deploy.update";
+
+    /**
+     * Tomcat Manager update parameter when doing an undeploy.
+     * Setting to true removes all versions when undeploying.
+     */
+    String UNDEPLOY_ALL_VERSIONS = "cargo.tomcat.undeploy.allVersions";
 }

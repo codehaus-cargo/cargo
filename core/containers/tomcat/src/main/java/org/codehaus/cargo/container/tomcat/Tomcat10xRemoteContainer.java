@@ -20,12 +20,11 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer;
 
 /**
  * Special container support for wrapping a running instance of Apache Tomcat.
  */
-public class Tomcat10xRemoteContainer extends AbstractTomcatRemoteContainer
+public class Tomcat10xRemoteContainer extends Tomcat9xRemoteContainer
 {
     /**
      * Unique container id.
@@ -34,7 +33,7 @@ public class Tomcat10xRemoteContainer extends AbstractTomcatRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer#AbstractTomcatRemoteContainer(RuntimeConfiguration)
+     * @see org.codehaus.cargo.container.tomcat.internal.Tomcat9xRemoteContainer#Tomcat9xRemoteContainer(RuntimeConfiguration)
      */
     public Tomcat10xRemoteContainer(RuntimeConfiguration configuration)
     {

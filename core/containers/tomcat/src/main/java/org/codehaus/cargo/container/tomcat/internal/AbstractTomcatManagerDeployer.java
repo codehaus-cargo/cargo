@@ -119,7 +119,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
         try
         {
-            TomcatDeployableStatus status = getTomcatManager().getStatus(getPath(deployable));
+            TomcatDeployableStatus status = getTomcatManager().getStatus(getPath(deployable),
+                getVersion(deployable));
             if (!status.equals(TomcatDeployableStatus.NOT_FOUND))
             {
                 performUndeploy(deployable);
@@ -161,7 +162,8 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
 
         try
         {
-            TomcatDeployableStatus status = getTomcatManager().getStatus(getPath(deployable));
+            TomcatDeployableStatus status = getTomcatManager().getStatus(getPath(deployable),
+                getVersion(deployable));
             if (!status.equals(TomcatDeployableStatus.NOT_FOUND))
             {
                 getLogger().info("Redeploying [" + file + "]", this.getClass().getName());

@@ -19,20 +19,18 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.codehaus.cargo.container.LocalContainer;
-
 /**
- * A Tomcat manager-based deployer to perform deployment to a local Tomcat 7.x and 8.x container.
+ * Configuration to use when using a
+ * {@link org.codehaus.cargo.container.tomcat.Tomcat5xRemoteContainer}.
  */
-public class TomcatManager7x8xInstalledLocalDeployer extends TomcatManagerInstalledLocalDeployer
+public class Tomcat5xRuntimeConfiguration extends Tomcat4xRuntimeConfiguration
 {
     /**
      * {@inheritDoc}
-     * @see TomcatManagerInstalledLocalDeployer#TomcatManagerInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public TomcatManager7x8xInstalledLocalDeployer(LocalContainer container)
+    @Override
+    public String toString()
     {
-        super(container);
-        this.managerContext += "/text";
+        return "Tomcat 5.x Runtime Configuration";
     }
 }

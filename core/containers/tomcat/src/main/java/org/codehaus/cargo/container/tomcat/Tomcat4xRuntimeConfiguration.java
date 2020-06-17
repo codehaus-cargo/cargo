@@ -22,13 +22,13 @@ package org.codehaus.cargo.container.tomcat;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
-import org.codehaus.cargo.container.tomcat.internal.TomcatRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat4x5x6xRuntimeConfigurationCapability;
 
 /**
  * Configuration to use when using a
- * {@link org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteContainer}.
+ * {@link org.codehaus.cargo.container.tomcat.Tomcat4xRemoteContainer}.
  */
-public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
+public class Tomcat4xRuntimeConfiguration extends AbstractRuntimeConfiguration
 {
     /**
      * Default timeout for Tomcat (in milliseconds).
@@ -39,13 +39,13 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
      * Capability of the Tomcat runtime configuration.
      */
     private static ConfigurationCapability capability =
-        new TomcatRuntimeConfigurationCapability();
+        new Tomcat4x5x6xRuntimeConfigurationCapability();
 
     /**
      * {@inheritDoc}
      * @see AbstractRuntimeConfiguration#AbstractRuntimeConfiguration()
      */
-    public TomcatRuntimeConfiguration()
+    public Tomcat4xRuntimeConfiguration()
     {
         super();
 
@@ -68,6 +68,6 @@ public class TomcatRuntimeConfiguration extends AbstractRuntimeConfiguration
     @Override
     public String toString()
     {
-        return "Tomcat Runtime Configuration";
+        return "Tomcat 4.x Runtime Configuration";
     }
 }

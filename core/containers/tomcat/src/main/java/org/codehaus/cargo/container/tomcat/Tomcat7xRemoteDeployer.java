@@ -55,15 +55,15 @@ public class Tomcat7xRemoteDeployer extends Tomcat6xRemoteDeployer
     protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
             IOException
     {
-        try
+        boolean undeployAllVersions = Boolean.parseBoolean(
+                getConfiguration().getPropertyValue(TomcatPropertySet.UNDEPLOY_ALL_VERSIONS));
+        if (undeployAllVersions)
+        {
+            getTomcatManager().undeploy(getPath(deployable));
+        }
+        else
         {
             getTomcatManager().undeploy(getPath(deployable), getVersion(deployable));
-        }
-        catch (TomcatManagerException e)
-        {
-            getLogger().info("Cannot undeploy specific version: " + e.toString()
-                + ". Attempting undeploy of the Web application path", this.getClass().getName());
-            super.performUndeploy(deployable);
         }
     }
 

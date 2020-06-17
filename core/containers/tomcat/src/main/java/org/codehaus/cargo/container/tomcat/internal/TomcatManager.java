@@ -30,6 +30,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import org.codehaus.cargo.util.Base64;
@@ -895,6 +896,21 @@ public class TomcatManager extends LoggedObject
      */
     public TomcatDeployableStatus getStatus(String path) throws IOException, TomcatManagerException
     {
+        return getStatus(path, null);
+    }
+
+    /**
+     * Return the status of the webapp at the specified context path and version.
+     * 
+     * @param path the webapp context path to get status
+     * @param version the version of the webapp context path to get status
+     * @return the current status of the webapp in the running container
+     * @throws TomcatManagerException if the Tomcat manager request fails
+     * @throws IOException if an i/o error occurs
+     */
+    public TomcatDeployableStatus getStatus(String path, String version) throws IOException,
+        TomcatManagerException
+    {
         StringTokenizer records = new StringTokenizer(list(), "\n");
         while (records.hasMoreTokens())
         {
@@ -905,8 +921,30 @@ public class TomcatManager extends LoggedObject
                 String str = words.nextToken();
                 if (path.equals(str))
                 {
-                    String token = words.nextToken();
-                    return TomcatDeployableStatus.toStatus(token);
+                    String status = words.nextToken();
+                    if (version != null)
+                    {
+                        // Number of active sessions (ignored)
+                        str = words.nextToken();
+                        try
+                        {
+                            str = words.nextToken();
+                            if (str.endsWith("##" + version))
+                            {
+                                return TomcatDeployableStatus.toStatus(status);
+                            }
+                        }
+                        catch (NoSuchElementException ignored)
+                        {
+                            // Tomcat Manager 6.x and earlier didn't have versions,
+                            // ignore version matches and return best match
+                            return TomcatDeployableStatus.toStatus(status);
+                        }
+                    }
+                    else
+                    {
+                        return TomcatDeployableStatus.toStatus(status);
+                    }
                 }
             }
         }
