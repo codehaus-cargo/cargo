@@ -46,7 +46,7 @@ public class Tomcat4xRemoteDeployer extends AbstractTomcatRemoteDeployer
      * <p>
      * This is a special implementation of undeploy command for Tomcat 4.x due the
      * http://issues.apache.org/bugzilla/show_bug.cgi?id=28851 issue. The issue has been fixed in
-     * Tomcat 5.x and performUndeploy implementation for Tomcat5x differs from Tomcat4.x.
+     * Tomcat 5.x and performUndeploy implementation for Tomcat 5.x differs from Tomcat 4.x.
      * </p>
      */
     @Override

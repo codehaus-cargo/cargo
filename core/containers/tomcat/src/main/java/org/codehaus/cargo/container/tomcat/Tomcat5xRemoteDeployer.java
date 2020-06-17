@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteDeployer
 import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
 
 /**
- * A special Tomcat 5.x manager-based deployer to perform deployment to a remote container.
+ * The Tomcat 5.x onwards manager-based deployer to perform deployment to a remote container.
  */
 public class Tomcat5xRemoteDeployer extends AbstractTomcatRemoteDeployer
 {
@@ -41,10 +41,7 @@ public class Tomcat5xRemoteDeployer extends AbstractTomcatRemoteDeployer
     }
 
     /**
-     * {@inheritDoc} This is a special implementation of undeploy command for Tomcat 5.x.
-     * 
-     * @see Tomcat4xRemoteDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
-     * @see org.codehaus.cargo.container.tomcat.internal.AbstractTomcatManagerDeployer#performUndeploy(org.codehaus.cargo.container.deployable.Deployable)
+     * {@inheritDoc}
      */
     @Override
     protected void performUndeploy(Deployable deployable) throws TomcatManagerException,

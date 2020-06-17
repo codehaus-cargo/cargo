@@ -19,38 +19,19 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.io.IOException;
-
 import org.codehaus.cargo.container.RemoteContainer;
-import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteDeployer;
-import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
 
 /**
  * A special Tomcat 6.x manager-based deployer to perform deployment to a remote container.
  */
-public class Tomcat6xRemoteDeployer extends AbstractTomcatRemoteDeployer
+public class Tomcat6xRemoteDeployer extends Tomcat5xRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see AbstractTomcatRemoteDeployer#AbstractTomcatRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
+     * @see Tomcat5xRemoteDeployer#Tomcat5xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
     public Tomcat6xRemoteDeployer(RemoteContainer container)
     {
         super(container);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * This is a special implementation of undeploy command for Tomcat 6.x
-     * </p>
-     */
-    @Override
-    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
-            IOException
-    {
-        getTomcatManager().undeploy(getPath(deployable));
     }
 }

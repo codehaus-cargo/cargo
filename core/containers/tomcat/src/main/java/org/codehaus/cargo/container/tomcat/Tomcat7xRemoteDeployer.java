@@ -26,17 +26,16 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteDeployer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
 
 /**
  * A special Tomcat 7.x manager-based deployer to perform deployment to a remote container.
  */
-public class Tomcat7xRemoteDeployer extends AbstractTomcatRemoteDeployer
+public class Tomcat7xRemoteDeployer extends Tomcat6xRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see AbstractTomcatRemoteDeployer#AbstractTomcatRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
+     * @see Tomcat6xRemoteDeployer#Tomcat6xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
     public Tomcat7xRemoteDeployer(RemoteContainer container)
     {
@@ -48,14 +47,24 @@ public class Tomcat7xRemoteDeployer extends AbstractTomcatRemoteDeployer
      * {@inheritDoc}
      * 
      * <p>
-     * This is a special implementation of undeploy command for Tomcat 7.x
+     * This is a special implementation of undeploy command for Tomcat 7.x onwards, which supports
+     * deployable versions.
      * </p>
      */
     @Override
     protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
             IOException
     {
-        getTomcatManager().undeploy(getPath(deployable), getVersion(deployable));
+        try
+        {
+            getTomcatManager().undeploy(getPath(deployable), getVersion(deployable));
+        }
+        catch (TomcatManagerException e)
+        {
+            getLogger().info("Cannot undeploy specific version: " + e.toString()
+                + ". Attempting undeploy of the Web application path", this.getClass().getName());
+            super.performUndeploy(deployable);
+        }
     }
 
     /**
