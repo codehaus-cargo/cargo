@@ -911,6 +911,16 @@ public class TomcatManager extends LoggedObject
     public TomcatDeployableStatus getStatus(String path, String version) throws IOException,
         TomcatManagerException
     {
+        String versionIdentifier;
+        if (version != null)
+        {
+            versionIdentifier = "##" + version;
+        }
+        else
+        {
+            versionIdentifier = null;
+        }
+
         StringTokenizer records = new StringTokenizer(list(), "\n");
         while (records.hasMoreTokens())
         {
@@ -922,14 +932,14 @@ public class TomcatManager extends LoggedObject
                 if (path.equals(str))
                 {
                     String status = words.nextToken();
-                    if (version != null)
+                    if (versionIdentifier != null)
                     {
                         // Number of active sessions (ignored)
                         str = words.nextToken();
                         try
                         {
                             str = words.nextToken();
-                            if (str.endsWith("##" + version))
+                            if (str.endsWith(versionIdentifier))
                             {
                                 return TomcatDeployableStatus.toStatus(status);
                             }

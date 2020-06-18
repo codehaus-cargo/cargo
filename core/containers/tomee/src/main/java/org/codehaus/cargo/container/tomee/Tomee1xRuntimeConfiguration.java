@@ -19,12 +19,12 @@
  */
 package org.codehaus.cargo.container.tomee;
 
-import org.codehaus.cargo.container.tomcat.Tomcat4xRuntimeConfiguration;
+import org.codehaus.cargo.container.tomcat.Tomcat7xRuntimeConfiguration;
 
 /**
  * Configuration to use when deploying to TomEE 1.x remotely.
  */
-public class Tomee1xRuntimeConfiguration extends Tomcat4xRuntimeConfiguration
+public class Tomee1xRuntimeConfiguration extends Tomcat7xRuntimeConfiguration
 {
     /**
      * {@inheritDoc}

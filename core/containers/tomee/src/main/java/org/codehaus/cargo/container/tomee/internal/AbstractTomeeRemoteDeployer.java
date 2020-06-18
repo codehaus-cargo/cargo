@@ -19,43 +19,25 @@
  */
 package org.codehaus.cargo.container.tomee.internal;
 
-import java.io.IOException;
 import org.codehaus.cargo.container.ContainerException;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.tomcat.internal.AbstractTomcatRemoteDeployer;
-import org.codehaus.cargo.container.tomcat.internal.TomcatManagerException;
+import org.codehaus.cargo.container.tomcat.Tomcat7xRemoteDeployer;
 
 /**
  * A special TomEE manager-based deployer to perform deployment to a remote container.
  */
-public class AbstractTomeeRemoteDeployer extends AbstractTomcatRemoteDeployer
+public class AbstractTomeeRemoteDeployer extends Tomcat7xRemoteDeployer
 {
     /**
      * {@inheritDoc}
-     * @see AbstractTomcatRemoteDeployer#AbstractTomcatRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
+     * @see Tomcat7xRemoteDeployer#Tomcat7xRemoteDeployer(org.codehaus.cargo.container.RemoteContainer)
      */
     public AbstractTomeeRemoteDeployer(RemoteContainer container)
     {
         super(container);
-        this.managerContext += "/text";
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * <p>
-     * This is a special implementation of undeploy command for TomEE.
-     * </p>
-     */
-    @Override
-    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
-            IOException
-    {
-        getTomcatManager().undeploy(getPath(deployable), getVersion(deployable));
     }
 
     /**
@@ -74,14 +56,7 @@ public class AbstractTomeeRemoteDeployer extends AbstractTomcatRemoteDeployer
                 + "in TomEE. Got [" + deployable.getFile() + "]");
         }
 
-        String path = "/" + ((WAR) deployable).getContext();
-        int doubleHash = path.indexOf("##");
-        if (doubleHash > 0)
-        {
-            path = path.substring(0, doubleHash);
-        }
-
-        return path;
+        return super.getPath(deployable);
     }
 
     /**
@@ -100,16 +75,6 @@ public class AbstractTomeeRemoteDeployer extends AbstractTomcatRemoteDeployer
                 + "in TomEE. Got [" + deployable.getFile() + "]");
         }
 
-        String path = "/" + ((WAR) deployable).getContext();
-        int doubleHash = path.indexOf("##");
-        if (doubleHash > 0)
-        {
-            String version = path.substring(doubleHash + 2);
-            return version;
-        }
-        else
-        {
-            return null;
-        }
+        return super.getVersion(deployable);
     }
 }
