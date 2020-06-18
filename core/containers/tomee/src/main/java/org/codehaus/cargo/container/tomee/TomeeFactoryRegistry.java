@@ -27,7 +27,6 @@ import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat4x5x6xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8x9x10xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.tomee.internal.TomeeContainerCapability;
 import org.codehaus.cargo.container.tomee.internal.TomeeStandaloneLocalConfigurationCapability;
@@ -75,7 +74,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee1x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            Tomcat4x5x6xRuntimeConfigurationCapability.class);
+            Tomcat7x8x9x10xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
