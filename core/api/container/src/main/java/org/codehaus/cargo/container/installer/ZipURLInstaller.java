@@ -29,6 +29,7 @@ import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Untar;
 import org.apache.tools.ant.taskdefs.Untar.UntarCompressionMethod;
+import org.apache.tools.ant.taskdefs.email.Header;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.AntTaskFactory;
 import org.codehaus.cargo.util.AntUtils;
@@ -478,6 +479,12 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         Get getTask = (Get) this.antUtils.createAntTask("get");
         getTask.setUseTimestamp(true);
         getTask.setSrc(this.remoteLocation);
+
+		Header acceptHeader = new Header();
+		acceptHeader.setName("Accept");
+		acceptHeader.setValue("*/*");
+		getTask.addConfiguredHeader(acceptHeader);
+		
         String userInfo = this.remoteLocation.getUserInfo();
         if (userInfo != null)
         {
