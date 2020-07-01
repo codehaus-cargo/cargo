@@ -480,11 +480,11 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         getTask.setUseTimestamp(true);
         getTask.setSrc(this.remoteLocation);
 
-		Header acceptHeader = new Header();
-		acceptHeader.setName("Accept");
-		acceptHeader.setValue("*/*");
-		getTask.addConfiguredHeader(acceptHeader);
-		
+        Header acceptHeader = new Header();
+        acceptHeader.setName("Accept");
+        acceptHeader.setValue("*/*");
+        getTask.addConfiguredHeader(acceptHeader);
+
         String userInfo = this.remoteLocation.getUserInfo();
         if (userInfo != null)
         {
