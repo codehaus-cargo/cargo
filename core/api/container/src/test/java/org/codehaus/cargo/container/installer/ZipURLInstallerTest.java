@@ -24,11 +24,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Get;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.AntTaskFactory;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -51,38 +47,6 @@ public class ZipURLInstallerTest extends TestCase
      * File handler.
      */
     private FileHandler fileHandler;
-
-    /**
-     * Dummy {@link Get} implementation that doesn't do anything.
-     */
-    private class HarmlessGet extends Get
-    {
-        /**
-         * Doesn't do anything. {@inheritDoc}
-         * @throws BuildException Never thrown.
-         */
-        @Override
-        public void execute() throws BuildException
-        {
-            // Do nothing
-        }
-    }
-
-    /**
-     * Dummy {@link Get} implementation that always fails.
-     */
-    private class FailingGet extends Get
-    {
-        /**
-         * Fails. {@inheritDoc}
-         * @throws BuildException Always thrown.
-         */
-        @Override
-        public void execute() throws BuildException
-        {
-            throw new BuildException("Failed to download file...");
-        }
-    }
 
     /**
      * Creates the test ZIP URL installer and its fils system manager. {@inheritDoc}
@@ -132,89 +96,6 @@ public class ZipURLInstallerTest extends TestCase
     {
         assertTrue(this.installer.getExtractDir() + " does not end with " + "resin-3.0.18",
             this.installer.getExtractDir().endsWith("resin-3.0.18"));
-    }
-
-    /**
-     * Test {@link ZipURLInstaller#install()} successful with a proxy.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testSuccessfulDownloadWhenProxySet() throws Exception
-    {
-        this.installer.setAntTaskFactory(
-            new AntTaskFactory()
-            {
-                @Override
-                public Task createTask(String taskName)
-                {
-                    return new HarmlessGet();
-                }
-            });
-        Proxy proxy = new Proxy();
-        proxy.setHost("proxyhost");
-        this.installer.setProxy(proxy);
-
-        this.installer.download();
-
-        assertEquals(System.getProperty("http.proxyHost"), proxy.getHost());
-    }
-
-    /**
-     * Test {@link ZipURLInstaller#install()} successful with no proxy.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testSuccessfulDownloadWhenNoProxySet() throws Exception
-    {
-        // Clear any proxy setting
-        new Proxy().clear();
-
-        this.installer.setAntTaskFactory(
-            new AntTaskFactory()
-            {
-                @Override
-                public Task createTask(String taskName)
-                {
-                    return new HarmlessGet();
-                }
-            });
-
-        this.installer.download();
-
-        assertNull("Proxy host should not have been set", System.getProperty("http.proxyHost"));
-    }
-
-    /**
-     * Test {@link ZipURLInstaller#install()} failed with proxy and then successful without proxy.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testFailureWithProxySetButSuccessOnSecondTryWithoutProxy() throws Exception
-    {
-        this.installer.setAntTaskFactory(
-            new AntTaskFactory()
-            {
-                private int count = 0;
-
-                @Override
-                public Task createTask(String taskName)
-                {
-                    Task result;
-                    if (this.count++ == 0)
-                    {
-                        result = new FailingGet();
-                    }
-                    else
-                    {
-                        result = new HarmlessGet();
-                    }
-                    return result;
-                }
-            });
-        Proxy proxy = new Proxy();
-        proxy.setHost("proxyhost");
-        this.installer.setProxy(proxy);
-
-        this.installer.download();
-
-        assertNull("Proxy host should have been unset", System.getProperty("http.proxyHost"));
     }
 
     /**

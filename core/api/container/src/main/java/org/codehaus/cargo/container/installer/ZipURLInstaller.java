@@ -21,18 +21,21 @@ package org.codehaus.cargo.container.installer;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.tools.ant.taskdefs.Expand;
-import org.apache.tools.ant.taskdefs.Get;
 import org.apache.tools.ant.taskdefs.Untar;
 import org.apache.tools.ant.taskdefs.Untar.UntarCompressionMethod;
-import org.apache.tools.ant.taskdefs.email.Header;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.AntTaskFactory;
 import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
@@ -52,6 +55,11 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         ".bz2",
         ".tar.gz",
     };
+
+    /**
+     * Size of the buffers / chunks used when downloading files.
+     */
+    private static final int BUFFER_CHUNK_SIZE = 256 * 1024;
 
     /**
      * URL where the zipped container is located.
@@ -175,17 +183,6 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         }
 
         return getFileHandler().append(extractDir, name);
-    }
-
-    /**
-     * Convenience method used for testing in isolation. Test cases can use it for introducing a
-     * custom {@link AntTaskFactory} that returns a custom test-made Ant task.
-     * 
-     * @param antTaskFactory the test-provided {@link AntTaskFactory}
-     */
-    protected void setAntTaskFactory(AntTaskFactory antTaskFactory)
-    {
-        this.antUtils = new AntUtils(antTaskFactory);
     }
 
     /**
@@ -459,12 +456,19 @@ public class ZipURLInstaller extends LoggedObject implements Installer
                     "Failed to download [" + this.remoteLocation + "]", e);
             }
         }
+        finally
+        {
+            if (this.proxy != null)
+            {
+                this.proxy.clear();
+            }
+        }
     }
 
     /**
      * Perform the actual HTTP download.
      */
-    private void doDownload()
+    private void doDownload() throws IOException
     {
         String downloadDir = getDownloadDir();
         if (!getFileHandler().exists(downloadDir))
@@ -476,34 +480,39 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         getLogger().info("Downloading container from [" + this.remoteLocation + "] to ["
             + targetFile + "]", getClass().getName());
 
-        Get getTask = (Get) this.antUtils.createAntTask("get");
-        getTask.setUseTimestamp(true);
-        getTask.setSrc(this.remoteLocation);
+        final URLConnection connection = this.remoteLocation.openConnection();
+        connection.addRequestProperty("Accept", "*/*");
+        connection.addRequestProperty("Accept-Encoding", "identity");
 
-        Header acceptHeader = new Header();
-        acceptHeader.setName("Accept");
-        acceptHeader.setValue("*/*");
-        getTask.addConfiguredHeader(acceptHeader);
+        connection.setUseCaches(false);
+        if (connection instanceof HttpURLConnection) {
+            HttpURLConnection httpConnection = (HttpURLConnection) connection;
+            httpConnection.setInstanceFollowRedirects(true);
 
-        String userInfo = this.remoteLocation.getUserInfo();
-        if (userInfo != null)
-        {
-            int separator = userInfo.indexOf(":");
-            if (separator > 0)
+            String userInfo = this.remoteLocation.getUserInfo();
+            if (userInfo != null)
             {
-                String username = userInfo.substring(0, separator);
-                getTask.setUsername(username);
-                String password = userInfo.substring(separator + 1);
-                getTask.setPassword(password);
-            }
-            else
-            {
-                getTask.setUsername(userInfo);
+                connection.setRequestProperty("Authorization",
+                    "Basic " + new String(Base64.encodeBase64(userInfo.getBytes("UTF-8"))));
             }
         }
 
-        getTask.setDest(targetFile);
-        getTask.execute();
+        try (InputStream httpStream = connection.getInputStream();
+            OutputStream fileStream = new FileOutputStream(targetFile))
+        {
+            int n;
+            byte[] bytes = new byte[BUFFER_CHUNK_SIZE];
+            while ((n = httpStream.read(bytes)) != -1)
+            {
+                fileStream.write(bytes, 0, n);
+            }
+        }
+
+        final long remoteTimestamp = connection.getLastModified();
+        if (remoteTimestamp != 0)
+        {
+            targetFile.setLastModified(remoteTimestamp);
+        }
     }
 
     /**
