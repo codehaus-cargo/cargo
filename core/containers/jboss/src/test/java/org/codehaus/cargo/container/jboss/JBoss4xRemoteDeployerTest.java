@@ -83,7 +83,9 @@ public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
         mockHttpFileServer.stubs().method("stop").after("start");
 
         Mock mockConnection = mock(HttpURLConnection.class);
-        String expectedURLPortion = URLEncoder.encode(mockURL, StandardCharsets.UTF_8);
+        // TODO: URLEncoder.encode(String, Charset) was introduced in Java 10,
+        //       simplify the below code when Codehaus Cargo is on Java 10+
+        String expectedURLPortion = URLEncoder.encode(mockURL, StandardCharsets.UTF_8.name());
         mockConnection.expects(once()).method("connect").with(stringContains(expectedURLPortion),
             eq("john"), eq("doe"));
         mockConnection.stubs().method("setTimeout");

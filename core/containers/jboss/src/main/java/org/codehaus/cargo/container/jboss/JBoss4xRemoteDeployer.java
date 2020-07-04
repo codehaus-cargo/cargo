@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketTimeoutException;
@@ -310,6 +311,15 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
      */
     private String encodeURLLocation(URL url)
     {
-        return URLEncoder.encode(url.toExternalForm(), StandardCharsets.UTF_8);
+        // TODO: URLEncoder.encode(String, Charset) was introduced in Java 10,
+        //       simplify the below code when Codehaus Cargo is on Java 10+
+        try
+        {
+            return URLEncoder.encode(url.toExternalForm(), StandardCharsets.UTF_8.name());
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new IllegalStateException("UTF-8 encoding is missing", e);
+        }
     }
 }
