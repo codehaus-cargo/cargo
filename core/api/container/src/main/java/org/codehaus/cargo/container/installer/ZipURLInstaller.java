@@ -467,6 +467,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
 
     /**
      * Perform the actual HTTP download.
+     * @throws IOException if any I/O exception occurs (with the URL connection or file streams)
      */
     private void doDownload() throws IOException
     {
@@ -485,7 +486,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         connection.addRequestProperty("Accept-Encoding", "identity");
 
         connection.setUseCaches(false);
-        if (connection instanceof HttpURLConnection) {
+        if (connection instanceof HttpURLConnection)
+        {
             HttpURLConnection httpConnection = (HttpURLConnection) connection;
             httpConnection.setInstanceFollowRedirects(true);
 
