@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.installer;
 
+import java.io.IOException;
 import java.net.URL;
 
 import junit.framework.TestCase;
@@ -37,6 +38,16 @@ public class ZipURLInstallerTest extends TestCase
      * Installer.
      */
     private ZipURLInstaller installer;
+
+    /**
+     * Whether to make the {@link ZipURLInstaller#doDownload()} method fail.
+     */
+    private boolean doDownloadFail;
+
+    /**
+     * Proxy set when {@link ZipURLInstaller#doDownload()} was called.
+     */
+    private String doDownloadProxyHost;
 
     /**
      * File system manager.
@@ -61,7 +72,20 @@ public class ZipURLInstallerTest extends TestCase
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
 
-        this.installer = new ZipURLInstaller(new URL("http://some/url/resin-3.0.18.zip"));
+        this.installer = new ZipURLInstaller(new URL("http://some/url/resin-3.0.18.zip"))
+        {
+            @Override
+            protected void doDownload() throws IOException
+            {
+                ZipURLInstallerTest.this.doDownloadProxyHost =
+                    System.getProperty("http.proxyHost");
+                if (ZipURLInstallerTest.this.doDownloadFail)
+                {
+                    ZipURLInstallerTest.this.doDownloadFail = false;
+                    throw new IOException();
+                }
+            }
+        };
         this.installer.setFileHandler(this.fileHandler);
     }
 
@@ -96,6 +120,61 @@ public class ZipURLInstallerTest extends TestCase
     {
         assertTrue(this.installer.getExtractDir() + " does not end with " + "resin-3.0.18",
             this.installer.getExtractDir().endsWith("resin-3.0.18"));
+    }
+
+    /**
+     * Test {@link ZipURLInstaller#install()} successful with a proxy.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testSuccessfulDownloadWhenProxySet() throws Exception
+    {
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+
+        Proxy proxy = new Proxy();
+        proxy.setHost("proxyhost");
+        this.installer.setProxy(proxy);
+
+        this.doDownloadFail = false;
+        this.installer.download();
+
+        assertEquals(this.doDownloadProxyHost, proxy.getHost());
+        assertNull("System proxy host should be unset", System.getProperty("http.proxyHost"));
+    }
+
+    /**
+     * Test {@link ZipURLInstaller#install()} successful with no proxy.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testSuccessfulDownloadWhenNoProxySet() throws Exception
+    {
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+
+        this.doDownloadFail = false;
+        this.installer.download();
+
+        assertNull(this.doDownloadProxyHost);
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+    }
+
+    /**
+     * Test {@link ZipURLInstaller#install()} failed with proxy and then successful without proxy.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testFailureWithProxySetButSuccessOnSecondTryWithoutProxy() throws Exception
+    {
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+
+        Proxy proxy = new Proxy();
+        proxy.setHost("proxyhost");
+        this.installer.setProxy(proxy);
+
+        this.doDownloadFail = true;
+        this.installer.download();
+
+        assertNull(
+            "First failure should have resulted in the proxy being unset before second attempt",
+                this.doDownloadProxyHost);
+        assertNull("System proxy host should be unset", System.getProperty("http.proxyHost"));
     }
 
     /**

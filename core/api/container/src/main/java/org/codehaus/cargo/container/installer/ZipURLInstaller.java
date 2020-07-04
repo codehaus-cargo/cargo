@@ -469,7 +469,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      * Perform the actual HTTP download.
      * @throws IOException if any I/O exception occurs (with the URL connection or file streams)
      */
-    private void doDownload() throws IOException
+    protected void doDownload() throws IOException
     {
         String downloadDir = getDownloadDir();
         if (!getFileHandler().exists(downloadDir))
@@ -495,7 +495,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             if (userInfo != null)
             {
                 connection.setRequestProperty("Authorization",
-                    "Basic " + new String(Base64.encodeBase64(userInfo.getBytes("UTF-8"))));
+                    "Basic " + new String(Base64.encode(userInfo)));
             }
         }
 
