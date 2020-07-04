@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,7 +75,8 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
         {
             Map<String, String> httpIniReplacements = new HashMap<String, String>(1);
             httpIniReplacements.put("8080", getPropertyValue(ServletPropertySet.PORT));
-            getFileHandler().replaceInFile(httpIni, httpIniReplacements, "UTF-8", false);
+            getFileHandler().replaceInFile(
+                httpIni, httpIniReplacements, StandardCharsets.ISO_8859_1, false);
         }
 
         String libExt = getHome() + "/lib/ext";

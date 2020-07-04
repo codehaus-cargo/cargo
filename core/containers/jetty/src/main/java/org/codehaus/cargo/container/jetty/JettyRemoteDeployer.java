@@ -30,6 +30,8 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.RemoteContainer;
@@ -269,13 +271,12 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
             if (code >= 400)
             {
                 // we got an error, try and get the error message
-                response = streamToString(connection.getInputStream(), "UTF-8");
+                response = streamToString(connection.getInputStream(), StandardCharsets.UTF_8);
             }
             else
             {
-                // no error was reported so try and get the message from the
-                // input stream
-                response = streamToString(connection.getInputStream(), "UTF-8");
+                // no error was reported so try and get the message from the input stream
+                response = streamToString(connection.getInputStream(), StandardCharsets.UTF_8);
             }
         }
         catch (Exception e)
@@ -321,7 +322,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      * @return a string representation of the data read from the input stream
      * @throws IOException if an i/o error occurs
      */
-    protected String streamToString(InputStream in, String charset) throws IOException
+    protected String streamToString(InputStream in, Charset charset) throws IOException
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 
@@ -354,7 +355,7 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         {
             buffer.append(password);
         }
-        return "Basic " + new String(Base64.encodeBase64(buffer.toString().getBytes()));
+        return "Basic " + Base64.encode(buffer.toString());
     }
 
     /**

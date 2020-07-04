@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
@@ -26,6 +27,21 @@ import org.codehaus.cargo.util.AbstractResourceTest;
  */
 public class TomcatManagerTest extends AbstractResourceTest
 {
+    /**
+     * Test character set extraction.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testExtractCharset() throws Exception
+    {
+        assertEquals(StandardCharsets.UTF_8, TomcatManager.extractCharset(null));
+        assertEquals(StandardCharsets.UTF_8,
+            TomcatManager.extractCharset("text/html; charset=utf-8"));
+        assertEquals(StandardCharsets.UTF_8,
+            TomcatManager.extractCharset("application/json; charset=utf-8"));
+        assertEquals(StandardCharsets.US_ASCII,
+            TomcatManager.extractCharset("text/plain; charset=us-ascii"));
+    }
+
     /**
      * Test header component extraction.
      * @throws Exception If anything goes wrong.

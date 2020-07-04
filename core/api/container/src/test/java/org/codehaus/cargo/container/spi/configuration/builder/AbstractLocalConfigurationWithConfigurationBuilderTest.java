@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.configuration.builder;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.LocalConfigurationWithConfigurationBuilderTests;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
@@ -104,7 +105,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         DataSource ds = fixture.buildDataSource();
         ((DataSourceSupport) configuration).configure(ds, container);
         return configuration.getFileHandler().readTextFile(
-            getDataSourceConfigurationFile(fixture), "UTF-8");
+            getDataSourceConfigurationFile(fixture), StandardCharsets.UTF_8);
     }
 
     /**
@@ -122,7 +123,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             .parsePropertiesForPendingConfiguration();
         ((DataSourceSupport) configuration).configureDataSources(container);
         return configuration.getFileHandler().readTextFile(
-            getDataSourceConfigurationFile(fixture), "UTF-8");
+            getDataSourceConfigurationFile(fixture), StandardCharsets.UTF_8);
     }
 
     /**
@@ -137,7 +138,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
         Resource resource = fixture.buildResource();
         ((ResourceSupport) configuration).configure(resource, container);
         return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture),
-            "UTF-8");
+            StandardCharsets.UTF_8);
     }
 
     /**
@@ -155,7 +156,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
             .parsePropertiesForPendingConfiguration();
         ((ResourceSupport) configuration).configureResources(container);
         return configuration.getFileHandler().readTextFile(getResourceConfigurationFile(fixture),
-            "UTF-8");
+            StandardCharsets.UTF_8);
     }
 
     /**

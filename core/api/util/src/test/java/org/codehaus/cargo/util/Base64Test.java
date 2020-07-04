@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.util;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 import junit.framework.TestCase;
@@ -39,12 +40,12 @@ public class Base64Test extends TestCase
     /**
      * Test encoding a byte array derived from a SHA-256 calculation.
      * 
-     * @throws Exception
-     *             should not happen
+     * @throws Exception should not happen
      */
     public void testSHA256Encoding() throws Exception
     {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        Base64.encode(digest.digest("password".getBytes()));
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] digest = messageDigest.digest("password".getBytes(StandardCharsets.UTF_8));
+        assertEquals("XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=", Base64.encode(digest));
     }
 }

@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +138,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
             getFileHandler().append(getHome(),
                 this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config/domain.xml");
 
-        String domainXml = getFileHandler().readTextFile(domainXmlPath, "UTF-8");
+        String domainXml = getFileHandler().readTextFile(domainXmlPath, StandardCharsets.UTF_8);
 
         Map<String, String> domainXmlReplacements = new HashMap<String, String>();
 
@@ -208,7 +209,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         domainXmlReplacements.put("</java-config>", jvmOptions.toString());
 
         this.replaceInFile(this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-            + "/config/domain.xml", domainXmlReplacements, "UTF-8");
+            + "/config/domain.xml", domainXmlReplacements, StandardCharsets.UTF_8);
 
         // schedule cargocpc for deployment
         String cpcWar = this.getFileHandler().append(this.getHome(), "cargocpc.war");

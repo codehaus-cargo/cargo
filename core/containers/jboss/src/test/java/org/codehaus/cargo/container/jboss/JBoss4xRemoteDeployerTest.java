@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jboss;
 
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
@@ -82,7 +83,7 @@ public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
         mockHttpFileServer.stubs().method("stop").after("start");
 
         Mock mockConnection = mock(HttpURLConnection.class);
-        String expectedURLPortion = URLEncoder.encode(mockURL, "UTF-8");
+        String expectedURLPortion = URLEncoder.encode(mockURL, StandardCharsets.UTF_8);
         mockConnection.expects(once()).method("connect").with(stringContains(expectedURLPortion),
             eq("john"), eq("doe"));
         mockConnection.stubs().method("setTimeout");

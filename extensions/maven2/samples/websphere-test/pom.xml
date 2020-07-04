@@ -89,11 +89,6 @@
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
     </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <profiles>

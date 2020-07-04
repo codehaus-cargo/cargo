@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
@@ -44,16 +45,16 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneServletIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -73,16 +74,16 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s2</servlet-name>"
             + "    <servlet-class>sclass2</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -103,16 +104,16 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -132,8 +133,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -144,8 +145,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -177,16 +178,16 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s4</servlet-name>"
             + "    <servlet-class>sclass4</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
@@ -212,8 +213,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <load-on-startup>1</load-on-startup>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>".trim()
             + "    <servlet-name>s1</servlet-name>".trim()
@@ -224,8 +225,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    </init-param>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         Element servletElement = WebXmlUtils.getServlet(srcWebXml, "s1");
@@ -243,8 +244,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
     public void testMergeMultipleServletsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -259,8 +260,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
@@ -279,8 +280,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneServletWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -291,8 +292,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping1</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -310,8 +311,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
     public void testMergeOneServletWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -330,8 +331,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping3</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
@@ -359,8 +360,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <servlet>"
             + "    <servlet-name>s1</servlet-name>"
@@ -371,8 +372,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));

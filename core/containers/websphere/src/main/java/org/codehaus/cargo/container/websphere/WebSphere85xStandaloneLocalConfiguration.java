@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.websphere;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -238,7 +239,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         // portdef.props is taken from websphere85x container resources
         // as it seems to be compatible with later releases
         getResourceUtils().copyResource(RESOURCE_PATH + "websphere85x/portdef.props",
-            portsFile, createFilterChain(), "ISO-8859-1");
+            portsFile, createFilterChain(), StandardCharsets.ISO_8859_1);
 
         try
         {

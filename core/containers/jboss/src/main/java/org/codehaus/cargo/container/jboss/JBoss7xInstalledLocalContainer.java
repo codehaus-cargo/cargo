@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jboss;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -392,7 +393,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             getResourceUtils().copyResource(
                 AbstractLocalConfiguration.RESOURCE_PATH + "jboss-module/jboss-module.xml",
                     getFileHandler().append(folder, "module.xml"),
-                        getFileHandler(), filterChain, "UTF-8");
+                        getFileHandler(), filterChain, StandardCharsets.UTF_8);
         }
     }
 

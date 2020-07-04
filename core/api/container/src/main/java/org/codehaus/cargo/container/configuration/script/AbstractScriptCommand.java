@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.configuration.script;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +93,8 @@ public abstract class AbstractScriptCommand implements ScriptCommand
         String resourceName = resourcePath + getScriptRelativePath();
         try
         {
-            return resourceUtils.readResource(resourceName, filterChain, "UTF-8") + NEW_LINE;
+            return resourceUtils.readResource(
+                resourceName, filterChain, StandardCharsets.UTF_8) + NEW_LINE;
         }
         catch (IOException e)
         {

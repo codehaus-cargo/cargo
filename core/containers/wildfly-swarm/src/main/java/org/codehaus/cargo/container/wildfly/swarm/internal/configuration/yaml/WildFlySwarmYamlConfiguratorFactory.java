@@ -26,6 +26,7 @@ import java.io.Writer;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.ConfigurationContext;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.UserAccountsConfigurator;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.WildFlySwarmConfiguratorFactory;
@@ -93,8 +94,7 @@ public final class WildFlySwarmYamlConfiguratorFactory implements
             {
                 configurationContext.getFileHandler().writeTextFile(
                     configurationContext.getProjectDescriptor().getAbsolutePath(),
-                        yamlContent, "UTF-8"
-                );
+                        yamlContent, StandardCharsets.UTF_8);
             }
             else
             {

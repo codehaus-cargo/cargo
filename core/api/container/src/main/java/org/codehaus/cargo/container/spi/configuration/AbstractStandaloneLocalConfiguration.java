@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.spi.configuration;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -350,7 +351,7 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * @throws CargoException If anything fails, most notably if one of the replacements does not
      * exist in the file.
      */
-    protected void replaceInFile(String file, Map<String, String> replacements, String encoding)
+    protected void replaceInFile(String file, Map<String, String> replacements, Charset encoding)
         throws CargoException
     {
         boolean ignoreNonExistingProperties = Boolean.parseBoolean(

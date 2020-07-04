@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.testdata.bundle;
 
 import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -38,7 +39,7 @@ public class TestBundle implements BundleActivator
     {
         try (FileOutputStream fos = new FileOutputStream("bundle-output.txt", false))
         {
-            fos.write("Hello, World".getBytes("UTF-8"));
+            fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
             fos.flush();
         }
     }
@@ -52,7 +53,7 @@ public class TestBundle implements BundleActivator
     {
         try (FileOutputStream fos = new FileOutputStream("bundle-output.txt", false))
         {
-            fos.write("Goodbye, World".getBytes("UTF-8"));
+            fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));
             fos.flush();
         }
     }

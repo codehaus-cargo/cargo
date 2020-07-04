@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -101,9 +102,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
         configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml",
-                "UTF-8");
+        String config = configuration.getFileHandler().readTextFile(
+            configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
             "//Server/@ListenPort", config);
     }
@@ -116,9 +116,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     {
         configuration.setProperty(ServletPropertySet.PORT, "123");
         configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml",
-                "UTF-8");
+        String config = configuration.getFileHandler().readTextFile(
+            configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("123", "//Server/@ListenPort", config);
     }
 
@@ -130,9 +129,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     {
         configuration.addDeployable(new WAR("my.war"));
         configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml",
-                "UTF-8");
+        String config = configuration.getFileHandler().readTextFile(
+            configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("my.war", "//WebAppComponent/@URI", config);
     }
 
@@ -143,9 +141,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml",
-                "UTF-8");
+        String config = configuration.getFileHandler().readTextFile(
+            configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(GeneralPropertySet.HOSTNAME), "//Server/@ListenAddress", config);
     }
@@ -158,9 +155,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
     {
         configuration.setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         configuration.configure(container);
-        String config =
-            configuration.getFileHandler().readTextFile(configuration.getHome() + "/config.xml",
-                "UTF-8");
+        String config = configuration.getFileHandler().readTextFile(
+            configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("localhost", "//Server/@ListenAddress", config);
     }
 

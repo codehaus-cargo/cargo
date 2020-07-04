@@ -28,7 +28,6 @@ import java.util.TreeSet;
 
 import junit.framework.Test;
 
-import org.apache.commons.codec.binary.Base64;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -39,6 +38,7 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
+import org.codehaus.cargo.util.Base64;
 
 /**
  * Validates WAR archives with authentication.
@@ -104,8 +104,7 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         getLocalContainer().start();
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic "
-            + new String(Base64.encodeBase64("someone:p@ssw0rd".getBytes())));
+        requestProperties.put("Authorization", "Basic " + Base64.encode("someone:p@ssw0rd"));
 
         PingUtils.assertPingTrue("Failed authentication", "Principal name [someone], "
             + "Is user in \"cargo\" role [true]", warPingURL, requestProperties, getLogger());

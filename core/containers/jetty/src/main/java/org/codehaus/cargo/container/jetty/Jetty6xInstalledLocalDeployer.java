@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -100,8 +101,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
 
             try (OutputStream out = getFileHandler().getOutputStream(contextFile))
             {
-                out.write(createContextXml(war).getBytes("UTF-8"));
-                out.close();
+                out.write(createContextXml(war).getBytes(StandardCharsets.UTF_8));
             }
             catch (IOException e)
             {

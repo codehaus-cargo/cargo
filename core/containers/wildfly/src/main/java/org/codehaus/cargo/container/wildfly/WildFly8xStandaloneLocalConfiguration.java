@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.wildfly;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -224,9 +225,11 @@ public class WildFly8xStandaloneLocalConfiguration
                     String temporaryDriver = getFileHandler().append(tmpDir, "driver.xml");
                     getResourceUtils().copyResource(
                         RESOURCE_PATH + "wildfly-8/datasource/jboss-driver" + xa + ".xml",
-                            temporaryDriver, getFileHandler(), filterChain, "UTF-8");
+                            temporaryDriver, getFileHandler(), filterChain,
+                                StandardCharsets.UTF_8);
                     drivers.append("\n");
-                    temporaryDriver = getFileHandler().readTextFile(temporaryDriver, "UTF-8");
+                    temporaryDriver = getFileHandler().readTextFile(
+                        temporaryDriver, StandardCharsets.UTF_8);
                     int stripTemporaryDriver =
                         temporaryDriver.indexOf("<!-- Appended section starts here -->");
                     if (stripTemporaryDriver > 0)
@@ -241,9 +244,11 @@ public class WildFly8xStandaloneLocalConfiguration
                 String temporaryDatasource = getFileHandler().append(tmpDir, "datasource.xml");
                 getResourceUtils().copyResource(
                     RESOURCE_PATH + "wildfly-8/datasource/jboss-datasource.xml",
-                        temporaryDatasource, getFileHandler(), filterChain, "UTF-8");
+                        temporaryDatasource, getFileHandler(), filterChain,
+                            StandardCharsets.UTF_8);
                 datasources.append("\n");
-                temporaryDatasource = getFileHandler().readTextFile(temporaryDatasource, "UTF-8");
+                temporaryDatasource = getFileHandler().readTextFile(
+                    temporaryDatasource, StandardCharsets.UTF_8);
                 int stripTemporaryDatasource =
                     temporaryDatasource.indexOf("<!-- Appended section starts here -->");
                 if (stripTemporaryDatasource > 0)
@@ -258,7 +263,7 @@ public class WildFly8xStandaloneLocalConfiguration
 
             Map<String, String> replacements = new HashMap<String, String>(1);
             replacements.put("<drivers>", datasources + "\n                <drivers>" + drivers);
-            getFileHandler().replaceInFile(configurationXml, replacements, "UTF-8");
+            getFileHandler().replaceInFile(configurationXml, replacements, StandardCharsets.UTF_8);
         }
         finally
         {

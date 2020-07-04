@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +77,8 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
             Map<String, String> replacements = new HashMap<String, String>(1);
             replacements.put("</web-app>", sessionContextParam + "</web-app>");
             String webdefault = getFileHandler().append(getHome(), "etc/webdefault.xml");
-            getFileHandler().replaceInFile(webdefault, replacements, "UTF-8", false);
+            getFileHandler().replaceInFile(
+                webdefault, replacements, StandardCharsets.UTF_8, false);
         }
     }
 

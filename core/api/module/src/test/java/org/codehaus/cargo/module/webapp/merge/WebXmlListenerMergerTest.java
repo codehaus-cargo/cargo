@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
@@ -89,10 +90,10 @@ public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
             + "</web-app>\r\n"
             + "";
 
-        WebXml file1WebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(file1.getBytes("UTF-8")), null);
-        WebXml file2WebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(file2.getBytes("UTF-8")), null);
+        WebXml file1WebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(file1.getBytes(StandardCharsets.UTF_8)), null);
+        WebXml file2WebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(file2.getBytes(StandardCharsets.UTF_8)), null);
 
         WebXmlMerger merger = new WebXmlMerger(file1WebXml);
         merger.merge(file2WebXml);
@@ -159,10 +160,10 @@ public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
             + "</web-app>\r\n"
             + "";
 
-        WebXml file1WebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(file1.getBytes("UTF-8")), null);
-        WebXml file2WebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(file2.getBytes("UTF-8")), null);
+        WebXml file1WebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(file1.getBytes(StandardCharsets.UTF_8)), null);
+        WebXml file2WebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(file2.getBytes(StandardCharsets.UTF_8)), null);
 
         WebXmlMerger merger = new WebXmlMerger(file1WebXml);
         merger.merge(file2WebXml);

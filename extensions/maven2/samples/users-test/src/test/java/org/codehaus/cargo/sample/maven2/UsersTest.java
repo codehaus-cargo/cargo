@@ -25,8 +25,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.codec.binary.Base64;
 import org.codehaus.cargo.sample.java.PingUtils;
+import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
@@ -52,8 +52,7 @@ public class UsersTest extends TestCase
         final String expected = "Principal name [someone], Is user in \"cargo\" role [true]";
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic "
-            + new String(Base64.encodeBase64("someone:passw0rd".getBytes())));
+        requestProperties.put("Authorization", "Basic " + Base64.encode("someone:passw0rd"));
 
         PingUtils.assertPingTrue("Failed authentication", expected, url,
                 requestProperties, logger);
@@ -70,8 +69,7 @@ public class UsersTest extends TestCase
         final String expected = "Principal name [elementUser], Is user in \"cargo\" role [true]";
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic "
-            + new String(Base64.encodeBase64("elementUser:pass".getBytes())));
+        requestProperties.put("Authorization", "Basic " + Base64.encode("elementUser:pass"));
 
         PingUtils.assertPingTrue("Failed authentication", expected, url,
                 requestProperties, logger);

@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.util;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -64,16 +64,7 @@ public final class WildFlySwarmUserUtils
         }
 
         String toHash = user.getName() + ":" + realm + ":" + user.getPassword();
-        byte[] hash;
-        try
-        {
-            hash = md5.digest(toHash.getBytes("UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new CargoException("Cannot encode one line for the "
-                + "application-users.properties file", e);
-        }
+        byte[] hash = md5.digest(toHash.getBytes(StandardCharsets.UTF_8));
 
         StringBuilder sb = new StringBuilder();
         sb.append(user.getName());

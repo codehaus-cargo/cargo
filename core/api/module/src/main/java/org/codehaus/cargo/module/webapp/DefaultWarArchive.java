@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -158,13 +159,13 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
 
         JarEntry webXmlEntry = new JarEntry("WEB-INF/" + getWebXml().getFileName());
         out.putNextEntry(webXmlEntry);
-        AbstractDescriptorIo.writeDescriptor(getWebXml(), out, "UTF-8", true);
+        AbstractDescriptorIo.writeDescriptor(getWebXml(), out, StandardCharsets.UTF_8, true);
 
         for (Descriptor descriptor : getWebXml().getVendorDescriptors())
         {
             JarEntry descriptorEntry = new JarEntry("WEB-INF/" + descriptor.getFileName());
             out.putNextEntry(descriptorEntry);
-            AbstractDescriptorIo.writeDescriptor(descriptor, out, "UTF-8", true);
+            AbstractDescriptorIo.writeDescriptor(descriptor, out, StandardCharsets.UTF_8, true);
         }
 
         out.close();

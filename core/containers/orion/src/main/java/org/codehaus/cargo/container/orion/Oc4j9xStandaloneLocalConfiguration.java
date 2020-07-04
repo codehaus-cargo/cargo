@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.orion;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 
@@ -44,7 +45,7 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
     {
         getResourceUtils().copyResource(RESOURCE_PATH + "oc4j9x" + "/global-web-application.xml",
             getFileHandler().append(confDir, "global-web-application.xml"), getFileHandler(),
-            filterChain, "UTF-8");
+                filterChain, StandardCharsets.UTF_8);
     }
 
     /**

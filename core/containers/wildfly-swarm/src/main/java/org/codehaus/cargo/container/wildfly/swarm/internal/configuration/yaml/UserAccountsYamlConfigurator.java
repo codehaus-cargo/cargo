@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.AbstractConfigurator;
 import org.codehaus.cargo.container.wildfly.swarm.internal.configuration.ConfigurationContext;
@@ -159,18 +160,15 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
         for (User user : users)
         {
             usersToken.append(WildFlySwarmUserUtils.generateUserPasswordLine(
-                    user, "ApplicationRealm"));
+                user, "ApplicationRealm"));
         }
 
         ConfigurationContext context = getConfigurationContext();
-        File applicationUsers =
-                new File(context.getConfigurationHome(), "/application-users.properties");
+        File applicationUsers = new File(
+            context.getConfigurationHome(), "/application-users.properties");
 
-        context.getFileHandler().writeTextFile(
-                applicationUsers.getAbsolutePath(),
-                usersToken.toString(),
-                "UTF-8"
-        );
+        context.getFileHandler().writeTextFile(applicationUsers.getAbsolutePath(),
+            usersToken.toString(), StandardCharsets.ISO_8859_1);
 
         return applicationUsers;
 
@@ -199,13 +197,10 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
         }
 
         ConfigurationContext context = getConfigurationContext();
-        File applicationRoles =
-                new File(context.getConfigurationHome(), "/application-roles.properties");
-        context.getFileHandler().writeTextFile(
-                applicationRoles.getAbsolutePath(),
-                rolesToken.toString(),
-                "UTF-8"
-        );
+        File applicationRoles = new File(
+            context.getConfigurationHome(), "/application-roles.properties");
+        context.getFileHandler().writeTextFile(applicationRoles.getAbsolutePath(),
+            rolesToken.toString(), StandardCharsets.ISO_8859_1);
 
         return applicationRoles;
     }

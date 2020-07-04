@@ -362,7 +362,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     if (fileConfig.getConfigfile())
                     {
                         getFileHandler().copyDirectory(fileConfig.getFile(), destDir, filterChain,
-                            fileConfig.getEncoding());
+                            fileConfig.getEncodingAsCharset());
                     }
                     else
                     {
@@ -374,7 +374,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     if (fileConfig.getConfigfile())
                     {
                         getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain,
-                            fileConfig.getEncoding());
+                            fileConfig.getEncodingAsCharset());
                     }
                     else
                     {

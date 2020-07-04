@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.ejb.jboss;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
@@ -46,7 +47,8 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
             + "</enterprise-beans>"
             + "</jboss>";
 
-        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+        JBossXml descr = JBossXmlIo.parseJBossXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         assertEquals("test/Tester", descr.getJndiName(new EjbDef("BeanOne")));
     }
 
@@ -67,7 +69,8 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
             + "</enterprise-beans>"
             + "</jboss>";
 
-        JBossXml descr = JBossXmlIo.parseJBossXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+        JBossXml descr = JBossXmlIo.parseJBossXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         assertNull(descr.getJndiName(new EjbDef("BeanOn")));
     }
 }

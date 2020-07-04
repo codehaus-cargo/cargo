@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
@@ -82,7 +83,7 @@ public class WebLogic8xStandaloneLocalConfiguration extends
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
             getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
-            getFilterChain(), "UTF-8");
+            getFilterChain(), StandardCharsets.UTF_8);
 
         WebLogic8xConfigXmlInstalledLocalDeployer deployer =
             new WebLogic8xConfigXmlInstalledLocalDeployer(container);
@@ -91,7 +92,7 @@ public class WebLogic8xStandaloneLocalConfiguration extends
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
             getFileHandler().append(getDomainHome(), "DefaultAuthenticatorInit.ldift"),
-            getFileHandler(), getFilterChain(), "UTF-8");
+            getFileHandler(), getFilterChain(), StandardCharsets.UTF_8);
 
         deployCargoPing((WebLogicLocalContainer) container);
     }

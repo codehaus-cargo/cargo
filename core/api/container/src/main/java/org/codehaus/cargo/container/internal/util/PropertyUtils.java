@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.internal.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -107,7 +108,8 @@ public final class PropertyUtils
 
         try
         {
-            properties.load(new ByteArrayInputStream(newLineSeparated.getBytes("ISO-8859-1")));
+            properties.load(
+                new ByteArrayInputStream(newLineSeparated.getBytes(StandardCharsets.ISO_8859_1)));
             return properties;
         }
         catch (IOException e)

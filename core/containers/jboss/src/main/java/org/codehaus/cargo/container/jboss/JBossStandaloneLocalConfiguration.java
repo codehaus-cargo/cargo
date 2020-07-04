@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,7 +138,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoFile,
-                new File(confDir, cargoFile), filterChain, "UTF-8");
+                    new File(confDir, cargoFile), filterChain, StandardCharsets.UTF_8);
         }
 
         // Copy resources from jboss installation folder and exclude files
@@ -155,7 +156,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         replacements.put(
             "<param name=\"Append\" value=\"true\"/>",
             "<param name=\"Append\" value=\"" + Boolean.toString(container.isAppend()) + "\"/>");
-        getFileHandler().replaceInFile(jbossLog4jXml, replacements, "UTF-8", true);
+        getFileHandler().replaceInFile(jbossLog4jXml, replacements, StandardCharsets.UTF_8, true);
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(
@@ -210,7 +211,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
             getResourceUtils().copyResource(sourceFile, new File(
                 getFileHandler().append(deployDir, "cargo-" + ds.getId() + "-ds.xml")),
-                filterChain, "UTF-8");
+                filterChain, StandardCharsets.UTF_8);
         }
     }
 

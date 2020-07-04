@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.jdom.JDOMException;
@@ -148,7 +149,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param encoding The character encoding to use
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml, File file, String encoding)
+    public static void writeApplicationXml(ApplicationXml appXml, File file, Charset encoding)
         throws IOException
     {
         writeApplicationXml(appXml, file, encoding, false);
@@ -163,7 +164,7 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @param isIndent Whether the written XML should be indented
      * @throws IOException If an I/O error occurs
      */
-    public static void writeApplicationXml(ApplicationXml appXml, File file, String encoding,
+    public static void writeApplicationXml(ApplicationXml appXml, File file, Charset encoding,
         boolean isIndent) throws IOException
     {
         try (OutputStream out = new FileOutputStream(file))
@@ -182,12 +183,12 @@ public final class ApplicationXmlIo extends AbstractDescriptorIo
      * @throws IOException If an I/O error occurs
      */
     public static void writeApplicationXml(ApplicationXml appXml, OutputStream output,
-        String encoding, boolean isIndent) throws IOException
+        Charset encoding, boolean isIndent) throws IOException
     {
         Format format = Format.getPrettyFormat();
         if (encoding != null)
         {
-            format.setEncoding(encoding);
+            format.setEncoding(encoding.name());
         }
 
         XMLOutputter serializer = new XMLOutputter(format);

@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.geronimo.internal;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -207,7 +208,7 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
             File target = new File(getHome(),
                 "var/temp/cargo-datasource-" + datasource.getId() + ".xml");
             getResourceUtils().copyResource(RESOURCE_PATH + "geronimo/DataSourceTemplate.xml",
-                target, filterChain, "UTF-8");
+                target, filterChain, StandardCharsets.UTF_8);
 
             deployer.deployRar(
                 "org.codehaus.cargo.datasource/" + datasource.getId() + "/1.0/car", target);

@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jrun;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -175,27 +176,27 @@ public class JRun4xStandaloneLocalConfiguration extends
 
         // filter server name in servers.xml
         getResourceUtils().copyResource(resourcePath + "/servers.xml",
-            new File(libDir, "/servers.xml"), chain, "UTF-8");
+            new File(libDir, "/servers.xml"), chain, StandardCharsets.UTF_8);
 
         // filter VM config in jvm.config
         getFileHandler().createDirectory(to, "bin");
         getResourceUtils().copyResource(resourcePath + "/jvm.config",
-            new File(to + "/bin/jvm.config"), chain, "UTF-8");
+            new File(to + "/bin/jvm.config"), chain, StandardCharsets.UTF_8);
 
         String serverInf = "servers/" + getServerName() + "/SERVER-INF";
         String serverInfDir = getFileHandler().createDirectory(getHome(), serverInf);
 
         // filter port and logging level in jrun.xml
         getResourceUtils().copyResource(resourcePath + "/jrun.xml",
-            new File(serverInfDir, "/jrun.xml"), chain, "UTF-8");
+            new File(serverInfDir, "/jrun.xml"), chain, StandardCharsets.UTF_8);
 
         // filter users in jrun-users.xml
         getResourceUtils().copyResource(resourcePath + "/jrun-users.xml",
-            new File(serverInfDir, "/jrun-users.xml"), chain, "UTF-8");
+            new File(serverInfDir, "/jrun-users.xml"), chain, StandardCharsets.UTF_8);
 
         // filter rmi port in jndi.propertiess
         getResourceUtils().copyResource(resourcePath + "/jndi.properties",
-            new File(serverInfDir, "/jndi.properties"), chain, "ISO-8859-1");
+            new File(serverInfDir, "/jndi.properties"), chain, StandardCharsets.ISO_8859_1);
     }
 
     /**

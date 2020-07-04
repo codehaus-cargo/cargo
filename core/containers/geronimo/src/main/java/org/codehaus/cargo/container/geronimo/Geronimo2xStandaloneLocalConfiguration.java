@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -82,10 +83,12 @@ public class Geronimo2xStandaloneLocalConfiguration extends
             String securityDir = getFileHandler().createDirectory(getHome(), "/var/security");
             getResourceUtils().copyResource(
                 RESOURCE_PATH + container.getId() + "/users.properties",
-                new File(securityDir, "users.properties"), filterChain, "ISO-8859-1");
+                    new File(securityDir, "users.properties"), filterChain,
+                        StandardCharsets.ISO_8859_1);
             getResourceUtils().copyResource(
                 RESOURCE_PATH + container.getId() + "/groups.properties",
-                new File(securityDir, "groups.properties"), filterChain, "ISO-8859-1");
+                    new File(securityDir, "groups.properties"), filterChain,
+                        StandardCharsets.ISO_8859_1);
 
             getFileHandler().createDirectory(getHome(), "/var/deploy");
             getFileHandler().createDirectory(getHome(), "/var/temp");

@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
@@ -54,7 +55,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
             + "    <param-value>" + value + "</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        return WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null);
+        return WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
     }
 
     /**
@@ -71,8 +73,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
             + "  <param-name>" + name + "</param-name>"
             + "  <param-value>" + value + "</param-value>"
             + "</context-param>";
-        return WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")), null)
-                .getRootElement();
+        return WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null).getRootElement();
     }
 
     /**

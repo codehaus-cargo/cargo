@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
@@ -43,16 +44,16 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
     {
         String srcXml = "<web-app></web-app>";
 
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <context-param>"
             + "    <param-name>param</param-name>"
             + "    <param-value>value</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
@@ -72,16 +73,16 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
             + "    <param-value>value1</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <context-param>"
             + "    <param-name>param2</param-name>"
             + "    <param-value>value2</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param1"));
@@ -102,10 +103,10 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
             + "    <param-value>value</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));

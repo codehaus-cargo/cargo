@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -155,7 +156,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         StringBuilder indexPageBuilder = new StringBuilder();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-            this.getServletContext().getResourceAsStream("/index.html"), "UTF-8")))
+            this.getServletContext().getResourceAsStream("/index.html"), StandardCharsets.UTF_8)))
         {
             for (String line = reader.readLine(); line != null; line = reader.readLine())
             {

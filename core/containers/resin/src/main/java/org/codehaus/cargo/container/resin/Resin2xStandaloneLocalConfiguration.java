@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.resin;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
@@ -135,7 +136,7 @@ public class Resin2xStandaloneLocalConfiguration extends
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/resin.conf",
             getFileHandler().append(confDir, "resin.conf"), getFileHandler(), getFilterChain(),
-            "UTF-8");
+                StandardCharsets.UTF_8);
     }
 
 }

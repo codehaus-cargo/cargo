@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.websphere;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
@@ -44,7 +45,7 @@ public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
             + "xmi:id=\"WebAppBinding_1082390762531\">"
             + "</com.ibm.ejs.models.base.bindings.webappbnd:WebAppBinding>";
         IbmWebBndXmi descr = IbmWebBndXmiIo.parseIbmWebBndXmi(
-            new ByteArrayInputStream(xml.getBytes("UTF-8")));
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");

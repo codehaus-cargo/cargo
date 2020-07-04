@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.jboss;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
@@ -40,7 +41,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
         String xml = "<jboss-web></jboss-web>";
 
         JBossWebXml descr = JBossWebXmlIo
-            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");
@@ -67,7 +68,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = "<jboss-web></jboss-web>";
         JBossWebXml descr = JBossWebXmlIo
-            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");
@@ -98,7 +99,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
             + "</jboss-web>";
 
         JBossWebXml descr = JBossWebXmlIo
-            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+            .parseJBossWebXml(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");

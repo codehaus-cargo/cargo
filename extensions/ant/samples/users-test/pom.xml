@@ -28,14 +28,6 @@
   <packaging>jar</packaging>
   <description>Sample application that exercises the Cargo ANT tasks with a container and users defined</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>

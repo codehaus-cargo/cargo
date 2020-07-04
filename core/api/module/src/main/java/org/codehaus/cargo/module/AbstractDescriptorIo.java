@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,7 +143,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      */
     public static void writeDescriptor(Descriptor descriptor, File file) throws IOException
     {
-        writeDescriptor(descriptor, file, "UTF-8", false);
+        writeDescriptor(descriptor, file, StandardCharsets.UTF_8, false);
     }
 
     /**
@@ -152,7 +154,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * @param encoding The character encoding to use
      * @throws IOException If an I/O error occurs
      */
-    public static void writeDescriptor(Descriptor descriptor, File file, String encoding)
+    public static void writeDescriptor(Descriptor descriptor, File file, Charset encoding)
         throws IOException
     {
         writeDescriptor(descriptor, file, encoding, false);
@@ -167,7 +169,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * @param isIndent Whether the written XML should be indented
      * @throws IOException If an I/O error occurs
      */
-    public static void writeDescriptor(Descriptor descriptor, File file, String encoding,
+    public static void writeDescriptor(Descriptor descriptor, File file, Charset encoding,
         boolean isIndent) throws IOException
     {
         try (OutputStream out = new FileOutputStream(file))
@@ -186,7 +188,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
      * 
      * @throws IOException If an I/O error occurs
      */
-    public static void writeDescriptor(Descriptor descriptor, OutputStream out, String encoding,
+    public static void writeDescriptor(Descriptor descriptor, OutputStream out, Charset encoding,
         boolean isIndent) throws IOException
     {
         if (encoding == null)
@@ -196,7 +198,7 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
 
         XMLOutputter serializer = new XMLOutputter();
         Format format = Format.getPrettyFormat();
-        format.setEncoding(encoding);
+        format.setEncoding(encoding.name());
 
         // First, output as a String so we can fix some known issues with output
         serializer.setFormat(format);
@@ -234,12 +236,12 @@ public abstract class AbstractDescriptorIo implements DescriptorIo
     {
         List<File> files = new ArrayList<File>();
         File webXmlFile = new File(dir, "web.xml");
-        writeDescriptor(descriptor, webXmlFile, "UTF-8", true);
+        writeDescriptor(descriptor, webXmlFile, StandardCharsets.UTF_8, true);
         files.add(webXmlFile);
         for (Descriptor descr : descriptor.getVendorDescriptors())
         {
             File file = new File(dir, descr.getFileName());
-            AbstractDescriptorIo.writeDescriptor(descr, file, "UTF-8", true);
+            AbstractDescriptorIo.writeDescriptor(descr, file, StandardCharsets.UTF_8, true);
             files.add(file);
         }
 

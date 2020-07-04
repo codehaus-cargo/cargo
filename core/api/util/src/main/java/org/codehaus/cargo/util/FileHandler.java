@@ -21,6 +21,7 @@ package org.codehaus.cargo.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -167,7 +168,7 @@ public interface FileHandler extends Loggable
      * @param encoding The character encoding to use, may be {@code null} or empty to use the
      *            platform's default encoding.
      */
-    void copyFile(String source, String target, FilterChain filterChain, String encoding);
+    void copyFile(String source, String target, FilterChain filterChain, Charset encoding);
 
     /**
      * Copy a directory from a source to a destination.
@@ -197,7 +198,7 @@ public interface FileHandler extends Loggable
      * @param encoding The character encoding to use, may be {@code null} or empty to use the
      *            platform's default encoding.
      */
-    void copyDirectory(String source, String target, FilterChain filterChain, String encoding);
+    void copyDirectory(String source, String target, FilterChain filterChain, Charset encoding);
 
     /**
      * Extracts a war file into a directory.
@@ -244,7 +245,7 @@ public interface FileHandler extends Loggable
      * @throws CargoException If anything fails, most notably if one of the replacements does not
      * exist in the file.
      */
-    void replaceInFile(String file, Map<String, String> replacements, String encoding)
+    void replaceInFile(String file, Map<String, String> replacements, Charset encoding)
         throws CargoException;
 
     /**
@@ -258,7 +259,7 @@ public interface FileHandler extends Loggable
      * @throws CargoException If anything fails, most notably if one of the replacements does not
      * exist in the file.
      */
-    void replaceInFile(String file, Map<String, String> replacements, String encoding,
+    void replaceInFile(String file, Map<String, String> replacements, Charset encoding,
         boolean ignoreNonExistingProperties) throws CargoException;
 
     /**
@@ -390,7 +391,7 @@ public interface FileHandler extends Loggable
      *            platform's default encoding.
      * @return a String with the file's contents.
      */
-    String readTextFile(String file, String encoding);
+    String readTextFile(String file, Charset encoding);
 
     /**
      * @param file the file in which to write the String object.
@@ -398,5 +399,5 @@ public interface FileHandler extends Loggable
      * @param encoding The character encoding to use, may be {@code null} or empty to use the
      *            platform's default encoding.
      */
-    void writeTextFile(String file, String content, String encoding);
+    void writeTextFile(String file, String content, Charset encoding);
 }

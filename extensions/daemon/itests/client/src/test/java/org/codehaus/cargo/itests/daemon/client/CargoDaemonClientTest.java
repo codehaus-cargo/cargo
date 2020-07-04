@@ -23,6 +23,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -293,7 +294,8 @@ public class CargoDaemonClientTest extends TestCase
 
         // Check if the XML replacements worked properly
         String webdefaultXml = new DefaultFileHandler().readTextFile(
-            configurationDirectory.getAbsolutePath() + "/etc/webdefault.xml", "UTF-8");
+            configurationDirectory.getAbsolutePath() + "/etc/webdefault.xml",
+                StandardCharsets.UTF_8);
         assertTrue(webdefaultXml.contains("Testing XML replacements via the CARGO Daemon"));
     }
 

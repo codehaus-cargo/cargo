@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -90,7 +91,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists(
                 "//Server/Service/Connector[@port='8080']/@sslImplementationName", config);
     }
@@ -108,7 +109,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("org.apache.tomcat.util.net.openssl.OpenSSLImplementation",
                 Tomcat5xStandaloneLocalConfiguration.CONNECTOR_XPATH + "/@sslImplementationName",
                 config);
@@ -124,7 +125,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists(
                 "//Server/Service/Connector[@port='8080']/UpgradeProtocol",
                 config);
@@ -142,7 +143,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathExists(
                 "//Server/Service/Connector[@port='8080']"
                         + "/UpgradeProtocol[@className='org.apache.coyote.http2.Http2Protocol']",

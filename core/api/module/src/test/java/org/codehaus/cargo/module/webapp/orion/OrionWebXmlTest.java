@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.orion;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
@@ -40,8 +41,8 @@ public class OrionWebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = "<orion-web-app></orion-web-app>";
 
-        OrionWebXml descr =
-            OrionWebXmlIo.parseOrionXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+        OrionWebXml descr = OrionWebXmlIo.parseOrionXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");

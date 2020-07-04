@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.jetty;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,8 +104,8 @@ public class Jetty7xStandaloneLocalConfiguration extends
             configureDatasource(container, etcDir);
         }
 
-        getFileHandler().replaceInFile(
-            getFileHandler().append(etcDir, "jetty.xml"), jettyXmlReplacements, "UTF-8");
+        getFileHandler().replaceInFile(getFileHandler().append(etcDir, "jetty.xml"),
+            jettyXmlReplacements, StandardCharsets.UTF_8);
     }
 
     /**
@@ -147,8 +148,8 @@ public class Jetty7xStandaloneLocalConfiguration extends
 
         Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
         jettyXmlReplacements.put("</Configure>", sb.toString() + "</Configure>");
-        getFileHandler().replaceInFile(
-            getFileHandler().append(etcDir, "jetty.xml"), jettyXmlReplacements, "UTF-8");
+        getFileHandler().replaceInFile(getFileHandler().append(etcDir, "jetty.xml"),
+            jettyXmlReplacements, StandardCharsets.UTF_8);
     }
 
     /**

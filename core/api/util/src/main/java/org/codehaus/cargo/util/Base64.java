@@ -19,10 +19,11 @@
  */
 package org.codehaus.cargo.util;
 
+import java.nio.charset.StandardCharsets;
 
 /**
  * Provides utility methods to Base64 encode data. This class uses the Base64 encoding as specified
- * in RFC 2045, 6.8. Base64 Content-Transfer-Encoding.
+ * in RFC 2045, 6.8. Base64 Content-Transfer-Encoding. All strings are considered UTF-8.
  */
 public final class Base64
 {
@@ -33,30 +34,17 @@ public final class Base64
     private static final char[] ENCODE =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 
-
     /**
      * The character to pad the output with if not a multiple of 24-bits.
      */
     private static final char PAD_CHAR = '=';
 
     /**
-     * Private to prevent unnecessary instantation.
+     * Private to prevent unnecessary instantiation.
      */
     private Base64()
     {
         // Private to prevent unnecessary instantation
-    }
-
-    /**
-     * Base64 encodes the specified bytes. This method is provided for signature compatibility with
-     * commons-codec.
-     * 
-     * @param bytes the bytes to encode
-     * @return the encoded bytes
-     */
-    public static byte[] encodeBase64(byte[] bytes)
-    {
-        return encode(bytes);
     }
 
     /**
@@ -67,18 +55,7 @@ public final class Base64
      */
     public static String encode(String string)
     {
-        return new String(encode(string.getBytes()));
-    }
-
-    /**
-     * Base64 encodes the specified bytes.
-     * 
-     * @param bytes the bytes to encode
-     * @return the encoded bytes
-     */
-    public static byte[] encode(byte[] bytes)
-    {
-        return encodeToString(bytes).getBytes();
+        return encode(string.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -87,14 +64,13 @@ public final class Base64
      * @param bytes the bytes to encode
      * @return the encoded bytes as a string
      */
-    public static String encodeToString(final byte[] bytes)
+    public static String encode(final byte[] bytes)
     {
         final int length = bytes.length;
         final StringBuilder buffer = new StringBuilder(length * 3);
         for (int i = 0; i < length; i += 3)
         {
-            // p's are the segments for each byte. For every three bytes there are 6
-            // segments
+            // p's are the segments for each byte. For every three bytes there are 6 segments
             int p0 = bytes[i] & 0xFC;
             p0 >>= 2;
             int p1 = bytes[i] & 0x03;

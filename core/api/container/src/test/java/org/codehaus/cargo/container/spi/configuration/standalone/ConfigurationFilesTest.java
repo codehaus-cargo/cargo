@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.spi.configuration.standalone;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
@@ -413,7 +414,7 @@ public class ConfigurationFilesTest extends TestCase
         file.deleteOnExit();
 
         FileOutputStream outputStream = new FileOutputStream(file);
-        outputStream.write(fileContents.getBytes("UTF-8"));
+        outputStream.write(fileContents.getBytes(StandardCharsets.UTF_8));
         outputStream.close();
 
         return file;
@@ -426,7 +427,8 @@ public class ConfigurationFilesTest extends TestCase
      */
     protected String readFile(File file)
     {
-        return configuration.getFileHandler().readTextFile(getAbsolutePath(file), "UTF-8");
+        return configuration.getFileHandler().readTextFile(
+            getAbsolutePath(file), StandardCharsets.UTF_8);
     }
 
     /**

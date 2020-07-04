@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -131,7 +132,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
             getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain,
-            "UTF-8");
+                StandardCharsets.UTF_8);
 
         WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer deployer =
             new WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer(
@@ -140,12 +141,12 @@ public class WebLogic9xStandaloneLocalConfiguration extends
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
-            getFileHandler().append(securityDir, "DefaultAuthenticatorInit.ldift"),
-            getFileHandler(), filterChain, "UTF-8");
+              getFileHandler().append(securityDir, "DefaultAuthenticatorInit.ldift"),
+                    getFileHandler(), filterChain, StandardCharsets.UTF_8);
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/SerializedSystemIni.dat",
-            getFileHandler().append(securityDir, "SerializedSystemIni.dat"), getFileHandler());
+               getFileHandler().append(securityDir, "SerializedSystemIni.dat"), getFileHandler());
 
         deployCargoPing((WebLogicLocalContainer) container);
     }
@@ -352,7 +353,8 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     protected void createBlankDataSourceFile(String path)
     {
         getFileHandler().writeTextFile(path,
-            "<jdbc-data-source xmlns=\"http://www.bea.com/ns/weblogic/90\"/>", "UTF-8");
+            "<jdbc-data-source xmlns=\"http://www.bea.com/ns/weblogic/90\"/>",
+                StandardCharsets.UTF_8);
     }
 
     /**

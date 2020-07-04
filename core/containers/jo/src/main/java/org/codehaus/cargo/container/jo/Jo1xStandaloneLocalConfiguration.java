@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jo;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.tools.ant.filters.ReplaceTokens;
 import org.apache.tools.ant.types.FilterChain;
@@ -117,26 +118,27 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
         String resourcePath = RESOURCE_PATH + container.getId();
 
         getResourceUtils().copyResource(resourcePath + "/factory.properties",
-                new File(confDir, "factory.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "factory.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/groups.properties",
-                new File(confDir, "groups.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "groups.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/hosts.properties",
-                new File(confDir, "hosts.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "hosts.properties"), filterChain, StandardCharsets.ISO_8859_1);
 
         getResourceUtils().copyResource(resourcePath + "/listener.properties",
-                new File(confDir, "listener.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "listener.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/mime.properties",
-                new File(confDir, "mime.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "mime.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/roles.properties",
-                new File(confDir, "roles.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "roles.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/server.properties",
-                new File(confDir, "server.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "server.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/users.properties",
-                new File(confDir, "users.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "users.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/metaserver.properties",
-                new File(confDir, "metaserver.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "metaserver.properties"), filterChain, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/metalistener.properties",
-                new File(confDir, "metalistener.properties"), filterChain, "ISO-8859-1");
+            new File(confDir, "metalistener.properties"), filterChain,
+                StandardCharsets.ISO_8859_1);
 
         // jo! log directory
         getFileHandler().createDirectory(getHome(), "log");
@@ -146,7 +148,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
 
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                new File(getHome(), "webapp/host/cargocpc.war"));
+            new File(getHome(), "webapp/host/cargocpc.war"));
     }
 
     /**

@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.ejb.websphere;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
@@ -45,8 +46,8 @@ public class IbmEjbJarBndXmiTest extends AbstractDocumentBuilderTest
             + "  </ejbBindings>"
             + "</ejbbnd:EJBJarBinding>";
 
-        IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(new ByteArrayInputStream(xml
-            .getBytes("UTF-8")));
+        IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb", "ejbId")));
     }
 

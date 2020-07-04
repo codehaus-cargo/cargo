@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -67,12 +68,12 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     {
         String file = configuration.getHome() + "/conf/server.xml";
         getFileHandler().writeTextFile(file,
-                "<Server><Service>"
-                        + "<Connector/>"
-                        + "<Engine><Host>"
-                        + "<Valve className='org.apache.catalina.valves.AccessLogValve'/>"
-                        + "</Host></Engine>"
-                        + "</Service></Server>", "UTF-8");
+            "<Server><Service>"
+                + "<Connector/>"
+                + "<Engine><Host>"
+                + "<Valve className='org.apache.catalina.valves.AccessLogValve'/>"
+                + "</Host></Engine>"
+                + "</Service></Server>", StandardCharsets.UTF_8);
     }
 
     /**
@@ -114,7 +115,8 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
     protected void setUpResourceFile() throws Exception
     {
         String file = getResourceConfigurationFile(null);
-        getFileHandler().writeTextFile(file, "<Engine><Context/></Engine>", "UTF-8");
+        getFileHandler().writeTextFile(
+            file, "<Engine><Context/></Engine>", StandardCharsets.UTF_8);
     }
 
     /**
@@ -167,7 +169,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
     }
 }

@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
@@ -125,7 +126,7 @@ public class DefaultXmlFileBuilderTest extends TestCase
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//Application");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE, "UTF-8");
+        String xml = fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8);
 
         XMLAssert.assertXpathEvaluatesTo("hello", "//Application/subnode/@property", xml);
     }
@@ -151,7 +152,7 @@ public class DefaultXmlFileBuilderTest extends TestCase
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//Application/foo/bar");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE, "UTF-8");
+        String xml = fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8);
 
         XMLAssert.assertXpathEvaluatesTo("hello", "//Application/foo/bar/subnode/@property", xml);
     }
@@ -177,7 +178,7 @@ public class DefaultXmlFileBuilderTest extends TestCase
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//weblogic:domain");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE, "UTF-8");
+        String xml = fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8);
 
         XMLAssert.assertXpathEvaluatesTo("hello", "//weblogic:domain/weblogic:subnode/@property",
             xml);

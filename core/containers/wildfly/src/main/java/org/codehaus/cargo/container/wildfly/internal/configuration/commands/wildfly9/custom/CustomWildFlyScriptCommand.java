@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.internal.configuration.commands.wildfly9.custom;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -51,7 +52,7 @@ public class CustomWildFlyScriptCommand implements ScriptCommand
     public String readScript()
     {
         FileHandler fileHandler = new DefaultFileHandler();
-        String customScript = fileHandler.readTextFile(resourcePath, "UTF-8");
+        String customScript = fileHandler.readTextFile(resourcePath, StandardCharsets.UTF_8);
         return customScript;
     }
 

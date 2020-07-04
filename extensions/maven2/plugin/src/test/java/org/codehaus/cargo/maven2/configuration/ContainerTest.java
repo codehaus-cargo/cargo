@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -158,7 +159,7 @@ public class ContainerTest extends MockObjectTestCase
 
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
         zip.putNextEntry(new ZipEntry(resourceName));
-        zip.write(resourceValue.getBytes("UTF-8"));
+        zip.write(resourceValue.getBytes(StandardCharsets.UTF_8));
         zip.close();
 
         // 2) Create a Maven2 Artifact linked to the JAR file just created
@@ -206,7 +207,7 @@ public class ContainerTest extends MockObjectTestCase
         String resourceLocation = resourceFile.getParent();
 
         FileOutputStream os = new FileOutputStream(resourceFile);
-        os.write(resourceValue.getBytes("UTF-8"));
+        os.write(resourceValue.getBytes(StandardCharsets.UTF_8));
         os.close();
 
         Dependency dependencyElement = new Dependency();
@@ -416,8 +417,8 @@ public class ContainerTest extends MockObjectTestCase
      */
     public String getResource(ClassLoader classLoader, String resourceName) throws IOException
     {
-        InputStreamReader reader =
-            new InputStreamReader(classLoader.getResourceAsStream(resourceName), "UTF-8");
+        InputStreamReader reader = new InputStreamReader(
+            classLoader.getResourceAsStream(resourceName), StandardCharsets.UTF_8);
         return new BufferedReader(reader).readLine();
     }
 }

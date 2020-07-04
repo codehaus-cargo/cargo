@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -149,8 +150,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_22_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals(WebXmlVersion.V2_2, webXml.getVersion());
     }
 
@@ -163,8 +164,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_23_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals(WebXmlVersion.V2_3, webXml.getVersion());
     }
 
@@ -177,8 +178,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_24_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals(WebXmlVersion.V2_4, webXml.getVersion());
     }
 
@@ -191,8 +192,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_25_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals(WebXmlVersion.V2_5, webXml.getVersion());
     }
 
@@ -205,8 +206,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_30_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals(WebXmlVersion.V3_0, webXml.getVersion());
     }
 
@@ -225,8 +226,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
 
         try
         {
-            WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-                getEntityResolver());
+            WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(
+                xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
             // fail("expected web.xml parsing exception but got: " + webXml);
             assertNull(webXml.getVersion());
         }
@@ -245,8 +246,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testGetVersionWithoutDoctype() throws Exception
     {
         String xml = "<web-app></web-app>";
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertNull(webXml.getVersion());
     }
 
@@ -259,8 +260,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testHasFilterWithNullName() throws Exception
     {
         String xml = "<web-app></web-app>";
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         try
         {
             webXml.getTag((String) null);
@@ -287,8 +288,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f1"));
         assertNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f2"));
     }
@@ -315,8 +316,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass3</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f1"));
         assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f2"));
         assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f3"));
@@ -337,8 +338,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>".trim()
             + "  </filter>".trim()
             + "</web-app>";
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
 
         Element servletElement = webXml.getTagByIdentifier(WebXmlType.FILTER, "f1");
         assertNotNull(servletElement);
@@ -375,8 +376,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </filter>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
 
         List<Element> filterNames = webXml.getElements("filter");
         assertEquals(3, filterNames.size());
@@ -399,9 +400,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>f1class</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
         assertEquals(1, filterNames.size());
         assertEquals("f1", filterNames.get(0));
@@ -429,9 +430,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>f1class</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
         assertEquals(2, filterNames.size());
         assertEquals("f1", filterNames.get(0));
@@ -451,9 +452,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
         assertEquals(1, filterMappings.size());
         assertEquals("/f1mapping", filterMappings.get(0));
@@ -480,9 +481,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping3</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
         assertEquals(3, filterMappings.size());
         assertEquals("/f1mapping1", filterMappings.get(0));
@@ -507,9 +508,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/f1mapping</url-pattern>"
             + "  </filter-mapping>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
         assertEquals(1, filterMappings.size());
         assertEquals("/f1mapping", filterMappings.get(0));
@@ -523,9 +524,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testAddContextParamToEmptyDocument() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlElement contextParamElement =
             createContextParamElement(webXml.getDescriptorType(), "param", "value");
         webXml.addTag(contextParamElement);
@@ -540,9 +541,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testAddFilterToEmptyDocument() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlElement filterElement = createFilterElement(webXml.getDescriptorType(), "f1",
             "f1class");
         webXml.addTag(filterElement);
@@ -563,9 +564,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <param-value>value1</param-value>"
             + "  </context-param>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlElement contextParamElement =
             createContextParamElement(webXml.getDescriptorType(), "param2", "value2");
         webXml.addTag(contextParamElement);
@@ -587,9 +588,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlElement filterElement = createFilterElement(webXml.getDescriptorType(), "f2",
             "f2class");
         webXml.addTag(filterElement);
@@ -612,8 +613,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </context-param>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         ContextParam contextParamElement =
             new ContextParam((WebXmlTag) webXml.getDescriptorType().getTagByName("context-param"),
                 "param", "value");
@@ -642,9 +643,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlElement filterElement = createFilterElement(webXml.getDescriptorType(), "f1",
             "f1class");
         try
@@ -671,9 +672,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
 
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param1", "f1param1value");
         List<String> initParams = WebXmlUtils.getFilterInitParamNames(webXml, "f1");
@@ -694,9 +695,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>fclass1</filter-class>"
             + "  </filter>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param1", "f1param1value");
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param2", "f1param2value");
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param3", "f1param3value");
@@ -717,9 +718,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServlet(webXml, "f1", "f1class");
         assertTrue(WebXmlUtils.hasServlet(webXml, "f1"));
     }
@@ -734,8 +735,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         try
         {
             WebXmlUtils.hasServlet(webXml, null);
@@ -762,9 +763,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
         assertTrue(!WebXmlUtils.hasServlet(webXml, "s2"));
     }
@@ -791,9 +792,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
         assertTrue(WebXmlUtils.hasServlet(webXml, "s2"));
         assertTrue(WebXmlUtils.hasServlet(webXml, "s3"));
@@ -815,8 +816,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </servlet>".trim()
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         Element servletElement = webXml.getTagByIdentifier(WebXmlType.SERVLET, "s1");
         assertNotNull(servletElement);
         assertEquals("servlet", servletElement.getName());
@@ -852,9 +853,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass3</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNames(webXml);
         assertEquals(3, servletNames.size());
         assertEquals("s1", servletNames.get(0));
@@ -876,9 +877,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>s1class</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForClass(webXml, "s1class");
         assertEquals(1, servletNames.size());
         assertEquals("s1", servletNames.get(0));
@@ -906,9 +907,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForClass(webXml, "sclass1");
         assertEquals(2, servletNames.size());
         assertEquals("s1", servletNames.get(0));
@@ -930,8 +931,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </servlet>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s1.jsp");
         assertEquals(1, servletNames.size());
         assertEquals("s1", servletNames.get(0));
@@ -960,8 +961,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </servlet>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s3.jsp");
         assertEquals(1, servletNames.size());
         assertEquals("s3", servletNames.get(0));
@@ -980,9 +981,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletMappings = WebXmlUtils.getServletMappings(webXml, "s1");
         assertEquals(1, servletMappings.size());
         assertEquals("/s1mapping", servletMappings.get(0));
@@ -1009,9 +1010,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <url-pattern>/s1mapping3</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletMappings = WebXmlUtils.getServletMappings(webXml, "s1");
         assertEquals(3, servletMappings.size());
         assertEquals("/s1mapping1", servletMappings.get(0));
@@ -1027,9 +1028,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testAddServletToEmptyDocument() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServlet(webXml,
             createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
         assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
@@ -1049,9 +1050,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s2", "s2class"));
         assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
         assertTrue(WebXmlUtils.hasServlet(webXml, "s2"));
@@ -1071,9 +1072,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         try
         {
             webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
@@ -1099,9 +1100,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param1", "s1param1value");
         List<String> initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
         assertEquals(1, initParams.size());
@@ -1122,9 +1123,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>sclass1</servlet-class>"
             + "  </servlet>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param1", "s1param1value");
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param2", "s1param2value");
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param3", "s1param3value");
@@ -1145,9 +1146,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + ""
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServlet(webXml, "s1", "s1class");
         assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
     }
@@ -1163,8 +1164,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         String xml = WEBAPP_TEST_HEADER + ""
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addJspFile(webXml, "s1", "s1.jsp");
         assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
     }
@@ -1179,8 +1180,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addSecurityConstraint(webXml, "wrn", "/url", Collections.EMPTY_LIST);
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url"));
     }
@@ -1194,9 +1195,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testAddSecurityConstraintWithRoles() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> roles = new ArrayList<String>();
         roles.add("role1");
         roles.add("role2");
@@ -1226,8 +1227,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(!WebXmlUtils.hasLoginConfig(webXml));
     }
 
@@ -1244,9 +1245,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <auth-method>BASIC</auth-method>"
             + "  </login-config>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasLoginConfig(webXml));
     }
 
@@ -1263,8 +1264,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </login-config>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
     }
 
@@ -1277,8 +1278,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.setLoginConfig(webXml, "BASIC", "Test Realm");
         assertTrue(WebXmlUtils.hasLoginConfig(webXml));
         assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
@@ -1297,8 +1298,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </login-config>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.setLoginConfig(webXml, "BASIC", "Test Realm");
         assertTrue(WebXmlUtils.hasLoginConfig(webXml));
         assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
@@ -1313,9 +1314,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testHasSecurityConstraintEmpty() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(!WebXmlUtils.hasSecurityConstraint(webXml, "/TestUrl"));
     }
 
@@ -1334,9 +1335,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    </web-resource-collection>"
             + "  </security-constraint>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url1"));
         Element securityConstraintElement =
             WebXmlUtils.getSecurityConstraint(webXml, "/url1");
@@ -1370,9 +1371,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    </web-resource-collection>"
             + "  </security-constraint>"
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url1"));
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url2"));
         assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url3"));
@@ -1388,9 +1389,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testGetLoginConfigEmpty() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(webXml.getTags(WebXmlType.LOGIN_CONFIG).isEmpty());
     }
 
@@ -1402,9 +1403,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     public void testGetLoginConfig() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "<login-config/></web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertEquals(1, webXml.getTags(WebXmlType.LOGIN_CONFIG).size());
     }
 
@@ -1418,8 +1419,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(!WebXmlUtils.hasSecurityRole(webXml, "someRole"));
         assertTrue(WebXmlUtils.getSecurityRoleNames(webXml).isEmpty());
     }
@@ -1436,9 +1437,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <role-name>r1</role-name>".trim()
             + "  </security-role>".trim()
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r1"));
         Element securityRoleElement = WebXmlUtils.getSecurityRole(webXml, "r1");
         assertNotNull(securityRoleElement);
@@ -1470,9 +1471,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <role-name>r3</role-name>".trim()
             + "  </security-role>".trim()
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r1"));
         Element securityRoleElement1 = WebXmlUtils.getSecurityRole(webXml, "r1");
         assertNotNull(securityRoleElement1);
@@ -1520,9 +1521,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>s1class</servlet-class>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createFilterElement(webXml.getDescriptorType(), "f1", "f1class"));
         List<Content> order = webXml.getRootElement().getChildren();
         assertEquals("filter", ((Element) order.get(0)).getName());
@@ -1543,9 +1544,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <servlet-class>s1class</servlet-class>".trim()
             + "  </servlet>".trim()
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createFilterElement(webXml.getDescriptorType(), "f1", "f1class"));
 
         List<Content> order = webXml.getRootElement().getContent();
@@ -1567,9 +1568,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>f1class</filter-class>".trim()
             + "  </filter>".trim()
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
         List<Element> order = webXml.getRootElement().getContent();
         assertEquals("filter", order.get(0).getName());
@@ -1590,9 +1591,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "    <filter-class>f1class</filter-class>".trim()
             + "  </filter>".trim()
             + "</web-app>";
-        this.builder.build(new ByteArrayInputStream(xml.getBytes("UTF-8")));
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
 
         List<Content> order = webXml.getRootElement().getContent();
@@ -1618,8 +1619,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </servlet>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         String roleName = WebXmlUtils.getServletRunAsRoleName(webXml, "s1");
         assertEquals("r1", roleName);
     }
@@ -1638,8 +1639,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "  </servlet>"
             + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServletRunAsRoleName(webXml, "s1", "r1");
         String roleName = WebXmlUtils.getServletRunAsRoleName(webXml, "s1");
         assertEquals("r1", roleName);
@@ -1654,8 +1655,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         EjbRef ejbRef = new EjbRef("MyEjb", "com.wombat.MyEjb", "com.wombat.MyEjbHome");
         ejbRef.setJndiName("foo");
         WebXmlUtils.addEjbRef(webXml, ejbRef);
@@ -1686,8 +1687,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
-        WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(xml.getBytes("UTF-8")),
-            getEntityResolver());
+        WebXml webXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         EjbRef ejbRef = new EjbRef("MyEjb", "com.wombat.MyEjb", "com.wombat.MyEjbHome");
         ejbRef.setEjbName("MyEjb");
         WebXmlUtils.addEjbRef(webXml, ejbRef);

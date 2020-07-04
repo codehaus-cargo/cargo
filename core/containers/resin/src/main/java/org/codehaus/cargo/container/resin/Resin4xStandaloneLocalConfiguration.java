@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.resin;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.cargo.container.Container;
@@ -69,7 +70,7 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
             "<host id=\"\" root-directory=\".\">\n"
             + createExpandedWarTokenValue("document-directory"));
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.xml"),
-                replacements, "UTF-8");
+            replacements, StandardCharsets.UTF_8);
         replacements.clear();
         replacements.put("<allow-servlet-el/>",
             "<allow-servlet-el/>\n"
@@ -82,11 +83,11 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
                 + "</init>\n"
             + "</authenticator>");
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "cluster-default.xml"),
-                replacements, "UTF-8");
+            replacements, StandardCharsets.UTF_8);
         replacements.clear();
         replacements.put("8080", getPropertyValue(ServletPropertySet.PORT));
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.properties"),
-                replacements, "UTF-8");
+            replacements, StandardCharsets.UTF_8);
 
         addXmlReplacement("conf/resin.xml", "//resin/log-handler[@name='']", "level",
             getResinLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));

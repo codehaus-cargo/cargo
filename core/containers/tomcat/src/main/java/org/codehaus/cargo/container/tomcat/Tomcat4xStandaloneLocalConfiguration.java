@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterChain;
@@ -171,7 +172,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         getAntUtils().addTokenToFilterChain(filterChain, "tomcat.webapps",
             createTomcatWebappsToken());
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/server.xml",
-            serverXml, getFileHandler(), filterChain, "UTF-8");
+            serverXml, getFileHandler(), filterChain, StandardCharsets.UTF_8);
     }
 
     /**

@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -190,7 +191,7 @@ public final class JarArchiveTest extends AbstractResourceTest
         ZipOutputStream zos = new ZipOutputStream(testJar.getContent().getOutputStream());
         ZipEntry zipEntry = new ZipEntry("rootResource.txt");
         zos.putNextEntry(zipEntry);
-        zos.write("Some content".getBytes("UTF-8"));
+        zos.write("Some content".getBytes(StandardCharsets.UTF_8));
         zos.closeEntry();
         zos.close();
 

@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -164,7 +164,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
             getFileHandler().writeTextFile(
                 getFileHandler().append(getHome(), "/configuration/mgmt-users.properties"),
-                    managementToken.toString(), "UTF-8");
+                    managementToken.toString(), StandardCharsets.ISO_8859_1);
         }
     }
 
@@ -356,9 +356,11 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                     String temporaryDriver = getFileHandler().append(tmpDir, "driver.xml");
                     getResourceUtils().copyResource(
                         RESOURCE_PATH + "jboss-ds/jboss-driver" + xa + ".xml",
-                            temporaryDriver, getFileHandler(), filterChain, "UTF-8");
+                            temporaryDriver, getFileHandler(), filterChain,
+                                StandardCharsets.UTF_8);
                     drivers.append("\n");
-                    temporaryDriver = getFileHandler().readTextFile(temporaryDriver, "UTF-8");
+                    temporaryDriver =
+                        getFileHandler().readTextFile(temporaryDriver, StandardCharsets.UTF_8);
                     int stripTemporaryDriver =
                         temporaryDriver.indexOf("<!-- Appended section starts here -->");
                     if (stripTemporaryDriver > 0)
@@ -373,9 +375,11 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
                 String temporaryDatasource = getFileHandler().append(tmpDir, "datasource.xml");
                 getResourceUtils().copyResource(
                     RESOURCE_PATH + "jboss-ds/jboss-datasource.xml",
-                        temporaryDatasource, getFileHandler(), filterChain, "UTF-8");
+                        temporaryDatasource, getFileHandler(), filterChain,
+                            StandardCharsets.UTF_8);
                 datasources.append("\n");
-                temporaryDatasource = getFileHandler().readTextFile(temporaryDatasource, "UTF-8");
+                temporaryDatasource =
+                    getFileHandler().readTextFile(temporaryDatasource, StandardCharsets.UTF_8);
                 int stripTemporaryDatasource =
                     temporaryDatasource.indexOf("<!-- Appended section starts here -->");
                 if (stripTemporaryDatasource > 0)
@@ -390,7 +394,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
             Map<String, String> replacements = new HashMap<String, String>(1);
             replacements.put("<drivers>", datasources + "\n                <drivers>" + drivers);
-            getFileHandler().replaceInFile(configurationXML, replacements, "UTF-8");
+            getFileHandler().replaceInFile(configurationXML, replacements, StandardCharsets.UTF_8);
         }
         finally
         {
@@ -427,16 +431,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
     protected String generateUserPasswordLine(User user, String realm)
     {
         String toHash = user.getName() + ":" + realm + ":" + user.getPassword();
-        byte[] hash;
-        try
-        {
-            hash = md5.digest(toHash.getBytes("UTF-8"));
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new CargoException("Cannot encode one line for the "
-                + "application-users.properties file", e);
-        }
+        byte[] hash = md5.digest(toHash.getBytes(StandardCharsets.UTF_8));
 
         StringBuilder sb = new StringBuilder();
         sb.append(user.getName());

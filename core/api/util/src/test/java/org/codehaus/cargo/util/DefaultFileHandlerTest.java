@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import junit.framework.TestCase;
@@ -76,7 +77,7 @@ public class DefaultFileHandlerTest extends TestCase
             this.fileHandler.isDirectory("target/" + random));
         this.fileHandler.createFile("target/random.txt");
         this.fileHandler.copyFile("target/random.txt", "target/" + random + "/random.txt",
-            new FilterChain(), "UTF-8");
+            new FilterChain(), StandardCharsets.UTF_8);
         assertTrue("Subdirectory " + random + " does not exist after copy",
             this.fileHandler.isDirectory("target/" + random));
         assertTrue("File in subdirectory " + random + " missing after copy",
@@ -95,21 +96,21 @@ public class DefaultFileHandlerTest extends TestCase
 
         this.fileHandler.copyFile("src/test/resources/jboss-standalone.xml", file, true);
 
-        String read = this.fileHandler.readTextFile(file, "UTF-8");
+        String read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
         assertTrue("File " + file + " does not contain: " + old, read.contains(old));
 
         XmlReplacement xmlReplacement = new XmlReplacement(file,
             "//server/socket-binding-group/socket-binding[@name='http']", "port",
                 XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
-        read = this.fileHandler.readTextFile(file, "UTF-8");
+        read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
         assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
 
         xmlReplacement.setAttributeName(null);
         xmlReplacement.setValue("test2");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
-        read = this.fileHandler.readTextFile(file, "UTF-8");
+        read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
         assertFalse("File " + file + " still contains: " + new1, read.contains(new1));
         assertTrue("File " + file + " does not contain: " + new2, read.contains(new2));
@@ -127,7 +128,7 @@ public class DefaultFileHandlerTest extends TestCase
 
         this.fileHandler.copyFile("src/test/resources/bindings-jboss-beans.xml", file, true);
 
-        String read = this.fileHandler.readTextFile(file, "UTF-8");
+        String read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
         assertTrue("File " + file + " does not contain: " + old, read.contains(old));
         assertTrue("File " + file + " does not contain: " + permanent, read.contains(permanent));
 
@@ -138,7 +139,7 @@ public class DefaultFileHandlerTest extends TestCase
                 + "/property[@name='port']", null,
                 XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
-        read = this.fileHandler.readTextFile(file, "UTF-8");
+        read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
         assertFalse("File " + file + " still contains: " + old, read.contains(old));
         assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
         assertTrue("File " + file + " does not contain anymore: " + permanent,
@@ -189,7 +190,7 @@ public class DefaultFileHandlerTest extends TestCase
                 XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test");
 
         this.fileHandler.replaceInXmlFile(xmlReplacement);
-        String read = this.fileHandler.readTextFile(file, "UTF-8");
+        String read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
         assertTrue("File " + file + " does not contain: " + test, read.contains(test));
     }
 

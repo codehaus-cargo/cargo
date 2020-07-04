@@ -86,6 +86,6 @@ public class JdkHttpURLConnection implements HttpURLConnection
     {
         StringBuilder buffer = new StringBuilder();
         buffer.append(username).append(':').append(password);
-        return "Basic " + new String(Base64.encodeBase64(buffer.toString().getBytes()));
+        return "Basic " + Base64.encode(buffer.toString());
     }
 }

@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
@@ -96,10 +97,10 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
 
             getFileHandler().writeTextFile(
                 getFileHandler().append(getHome(), "/configuration/application-users.properties"),
-                    usersToken.toString(), "UTF-8");
+                    usersToken.toString(), StandardCharsets.UTF_8);
             getFileHandler().writeTextFile(
                 getFileHandler().append(getHome(), "/configuration/application-roles.properties"),
-                    rolesToken.toString(), "UTF-8");
+                    rolesToken.toString(), StandardCharsets.UTF_8);
         }
     }
 

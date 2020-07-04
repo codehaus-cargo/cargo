@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -171,7 +172,7 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
 
             getFileHandler().writeTextFile(
                 getFileHandler().append(getHome(), "/configuration/mgmt-users.properties"),
-                    managementToken.toString(), "UTF-8");
+                    managementToken.toString(), StandardCharsets.ISO_8859_1);
         }
     }
 
@@ -195,7 +196,7 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
             getFileHandler().writeTextFile(
                 getFileHandler().append(
                     getHome(), "/configuration/application-users.properties"),
-                        usersToken.toString(), "UTF-8");
+                        usersToken.toString(), StandardCharsets.ISO_8859_1);
         }
     }
 
@@ -230,7 +231,7 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
             getFileHandler().writeTextFile(
                 getFileHandler().append(
                     getHome(), "/configuration/application-roles.properties"),
-                        rolesToken.toString(), "UTF-8");
+                        rolesToken.toString(), StandardCharsets.ISO_8859_1);
         }
     }
 }

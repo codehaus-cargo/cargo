@@ -36,6 +36,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -171,7 +173,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void copyFile(String source, String target, FilterChain filterChain, String encoding)
+    public void copyFile(String source, String target, FilterChain filterChain, Charset encoding)
     {
         try (InputStream fileIS = new FileInputStream(source))
         {
@@ -255,7 +257,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      */
     @Override
     public void copyDirectory(String source, String target, FilterChain filterChain,
-        String encoding)
+        Charset encoding)
     {
         File sourceDirectory = new File(source);
         if (!sourceDirectory.isDirectory())
@@ -390,7 +392,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void replaceInFile(String file, Map<String, String> replacements, String encoding)
+    public void replaceInFile(String file, Map<String, String> replacements, Charset encoding)
         throws CargoException
     {
         replaceInFile(file, replacements, encoding, false);
@@ -400,7 +402,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void replaceInFile(String file, Map<String, String> replacements, String encoding,
+    public void replaceInFile(String file, Map<String, String> replacements, Charset encoding,
         boolean ignoreNonExistingProperties) throws CargoException
     {
         String fileContents = readTextFile(file, encoding);
@@ -821,7 +823,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public String readTextFile(String file, String encoding)
+    public String readTextFile(String file, Charset encoding)
     {
         try (BufferedReader in = new BufferedReader(newReader(getInputStream(file), encoding)))
         {
@@ -847,7 +849,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void writeTextFile(String file, String content, String encoding)
+    public void writeTextFile(String file, String content, Charset encoding)
     {
         try (Writer writer = newWriter(file, encoding))
         {
@@ -865,11 +867,11 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * @return The reader, never {@code null}.
      * @throws IOException If the reader could not be opened.
      */
-    private Reader newReader(InputStream is, String encoding) throws IOException
+    private Reader newReader(InputStream is, Charset encoding) throws IOException
     {
-        if (encoding == null || encoding.isEmpty())
+        if (encoding == null)
         {
-            return new InputStreamReader(is);
+            return new InputStreamReader(is, StandardCharsets.UTF_8);
         }
         else
         {
@@ -883,7 +885,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * @return The writer, never {@code null}.
      * @throws IOException If the writer could not be opened.
      */
-    private Writer newWriter(String file, String encoding) throws IOException
+    private Writer newWriter(String file, Charset encoding) throws IOException
     {
         String parent = getParent(file);
         if (!isDirectory(parent))
@@ -891,9 +893,9 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             mkdirs(parent);
         }
 
-        if (encoding == null || encoding.isEmpty())
+        if (encoding == null)
         {
-            return new OutputStreamWriter(getOutputStream(file));
+            return new OutputStreamWriter(getOutputStream(file), StandardCharsets.UTF_8);
         }
         else
         {

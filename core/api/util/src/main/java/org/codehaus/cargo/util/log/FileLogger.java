@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,7 +92,7 @@ public class FileLogger extends AbstractLogger
             + "[" + level.getLevel() + "][" + formattedCategory + "] " + message + "\n";
         try
         {
-            this.output.write(msg.getBytes());
+            this.output.write(msg.getBytes(StandardCharsets.UTF_8));
             this.output.flush();
         }
         catch (IOException e)

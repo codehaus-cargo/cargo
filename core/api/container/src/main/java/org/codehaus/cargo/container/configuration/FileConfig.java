@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.configuration;
 
+import java.nio.charset.Charset;
+
 /**
  * Contains data about configuration files that should be used for the container. This option only
  * works with standalone local containers.
@@ -202,6 +204,24 @@ public class FileConfig
     public String getEncoding()
     {
         return encoding;
+    }
+
+    /**
+     * Gets the character encoding to use when token filtering is performed, as a Charset.
+     * 
+     * @return The character encoding to use when token filtering is performed or {@code null}/empty
+     *         if the platform's default encoding should be used.
+     */
+    public Charset getEncodingAsCharset()
+    {
+        if (encoding == null)
+        {
+            return null;
+        }
+        else
+        {
+            return Charset.forName(encoding);
+        }
     }
 
     /**

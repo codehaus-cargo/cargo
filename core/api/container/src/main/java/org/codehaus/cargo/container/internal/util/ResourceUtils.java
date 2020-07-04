@@ -33,6 +33,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.Vector;
 
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
@@ -133,7 +134,7 @@ public final class ResourceUtils extends LoggedObject
      * @throws IOException If an I/O error occurs while copying the resource
      */
     public void copyResource(String resourceName, File destFile, FilterChain filterChain,
-        String encoding) throws IOException
+        Charset encoding) throws IOException
     {
         copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain, encoding);
     }
@@ -152,7 +153,7 @@ public final class ResourceUtils extends LoggedObject
      * @throws IOException If an I/O error occurs while copying the resource
      */
     public void copyResource(String resourceName, String destFile, FileHandler handler,
-        FilterChain filterChain, String encoding) throws IOException
+        FilterChain filterChain, Charset encoding) throws IOException
     {
         InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
         if (resource == null)
@@ -196,7 +197,7 @@ public final class ResourceUtils extends LoggedObject
      * @return a new reader for provided stream and encoding
      * @throws UnsupportedEncodingException If the named charset is not supported
      */
-    private InputStreamReader createReader(InputStream is, String encoding)
+    private InputStreamReader createReader(InputStream is, Charset encoding)
         throws UnsupportedEncodingException
     {
         InputStreamReader r;
@@ -265,7 +266,7 @@ public final class ResourceUtils extends LoggedObject
      * @return Content of resource as String.
      * @throws IOException If an I/O error occurs while reading the resource
      */
-    public String readResource(String resourceName, FilterChain filterChain, String encoding)
+    public String readResource(String resourceName, FilterChain filterChain, Charset encoding)
         throws IOException
     {
         String newLine = System.getProperty("line.separator");

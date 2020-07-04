@@ -21,6 +21,7 @@ package org.codehaus.cargo.module;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -158,7 +159,8 @@ public class Dtd implements Grammar
             }
 
             String xml = "<!DOCTYPE dummy SYSTEM \"" + dtdPath + "\"><dummy/>";
-            reader.parse(new InputSource(new ByteArrayInputStream(xml.getBytes("UTF-8"))));
+            reader.parse(
+                new InputSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));
             this.elementOrders = dtdHandler.getElementOrders();
         }
         catch (IOException|ParserConfigurationException|SAXException e)

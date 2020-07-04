@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,7 +82,7 @@ public abstract class AbstractJBoss5xStandaloneLocalConfiguration
             "<classpath codebase=\"${jboss.common.lib.url}\" archives=\"*\"/>",
             "<classpath codebase=\"${jboss.common.lib.url}\" archives=\"*\"/>\n    "
                 + this.getSharedClasspathXml(jbossContainer));
-        getFileHandler().replaceInFile(jbossServiceXml, replacements, "UTF-8");
+        getFileHandler().replaceInFile(jbossServiceXml, replacements, StandardCharsets.UTF_8);
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
         copyExternalResources(new File(jbossContainer.getDeployDir(getPropertyValue(

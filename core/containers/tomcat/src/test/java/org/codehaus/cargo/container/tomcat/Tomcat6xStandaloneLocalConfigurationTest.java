@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -98,7 +99,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists(
                 "//Server/Service/Connector[@port='8080']/@protocol", config);
     }
@@ -115,7 +116,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11NioProtocol",
                 "//Server/Service/Connector[@port='8080']/@protocol", config);
     }

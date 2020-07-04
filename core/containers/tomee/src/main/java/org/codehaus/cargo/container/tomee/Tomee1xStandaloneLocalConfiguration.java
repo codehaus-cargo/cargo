@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomee;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,7 +111,7 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
             resourceReplacements.append("</tomee>");
             replacements.put("</tomee>", resourceReplacements.toString());
         }
-        getFileHandler().replaceInFile(tomeeXml, replacements, "UTF-8");
+        getFileHandler().replaceInFile(tomeeXml, replacements, StandardCharsets.UTF_8);
     }
 
     /**

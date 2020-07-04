@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -90,7 +91,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     protected void setUpResourceFile() throws Exception
     {
         String file = getResourceConfigurationFile(null);
-        getFileHandler().writeTextFile(file, "<Engine><DefaultContext/></Engine>", "UTF-8");
+        getFileHandler().writeTextFile(
+            file, "<Engine><DefaultContext/></Engine>", StandardCharsets.UTF_8);
     }
 
     /**
@@ -151,7 +153,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo(configuration
             .getPropertyValue(TomcatPropertySet.AJP_PORT),
             "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
@@ -167,7 +169,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo(AJP_PORT,
             "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
     }
@@ -219,9 +221,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         conf.addResource(resource2);
 
         conf.configureResources(container);
-        String xml =
-            configuration.getFileHandler().readTextFile(getDataSourceConfigurationFile(null),
-                "UTF-8");
+        String xml = configuration.getFileHandler().readTextFile(
+            getDataSourceConfigurationFile(null), StandardCharsets.UTF_8);
 
         XMLAssert.assertXpathEvaluatesTo("javax.sql.DataSource",
             "//Resource[@name='myDataSource']/@type", xml);
@@ -253,7 +254,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("webapps", "//Host/@appBase", config);
     }
 
@@ -267,7 +268,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("some_directory", "//Host/@appBase", config);
     }
 
@@ -281,7 +282,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", "UTF-8");
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
     }
 }

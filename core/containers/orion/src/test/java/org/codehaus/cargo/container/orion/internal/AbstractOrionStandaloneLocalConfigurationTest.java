@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -136,7 +137,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     protected void setUpDataSourceFile() throws Exception
     {
         String file = configuration.getHome() + "/conf/data-sources.xml";
-        getFileHandler().writeTextFile(file, "<data-sources/>", "UTF-8");
+        getFileHandler().writeTextFile(file, "<data-sources/>", StandardCharsets.UTF_8);
     }
 
     /**

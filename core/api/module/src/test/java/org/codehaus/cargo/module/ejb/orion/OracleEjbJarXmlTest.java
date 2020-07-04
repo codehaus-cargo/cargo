@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.ejb.orion;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
@@ -43,8 +44,8 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes("UTF-8")));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
@@ -63,8 +64,8 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes("UTF-8")));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         assertNull(descr.getJndiName(new EjbDef("foo")));
     }
@@ -82,8 +83,8 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes("UTF-8")));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
@@ -102,8 +103,8 @@ public class OracleEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "  </enterprise-beans>"
             + "</orion-ejb-jar>";
 
-        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(new ByteArrayInputStream(xml
-            .getBytes("UTF-8")));
+        OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         EjbDef def = new EjbDef("MyEjb");
         def.setLocal("sdf");

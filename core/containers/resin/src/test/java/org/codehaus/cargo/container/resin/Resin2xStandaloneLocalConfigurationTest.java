@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.resin;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -70,7 +71,7 @@ public class Resin2xStandaloneLocalConfigurationTest extends
     protected void setUpDataSourceFile() throws Exception
     {
         String file = configuration.getHome() + "/conf/resin.conf";
-        getFileHandler().writeTextFile(file, "<caucho.com/>", "UTF-8");
+        getFileHandler().writeTextFile(file, "<caucho.com/>", StandardCharsets.ISO_8859_1);
     }
 
     /**

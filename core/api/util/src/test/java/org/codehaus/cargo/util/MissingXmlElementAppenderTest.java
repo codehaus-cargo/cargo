@@ -32,6 +32,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test for MissingXmlElementAppender.
@@ -126,7 +127,8 @@ public class MissingXmlElementAppenderTest extends TestCase
     private Document parse(String xml) throws Exception
     {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        return documentBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
+        return documentBuilder.parse(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**

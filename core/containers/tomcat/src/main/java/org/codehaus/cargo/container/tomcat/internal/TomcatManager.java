@@ -28,6 +28,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.NoSuchElementException;
@@ -45,11 +47,6 @@ public class TomcatManager extends LoggedObject
      * cache of nonce values seen
      */
     private static final NonceCounter NONCE_COUNTER = new NonceCounter();
-
-    /**
-     * The charset to use when decoding Tomcat manager responses.
-     */
-    private static final String MANAGER_CHARSET = "UTF-8";
 
     /**
      * Size of the buffers / chunks used when sending files to Tomcat.
@@ -590,7 +587,8 @@ public class TomcatManager extends LoggedObject
                 }
             }
 
-            response = toString(connection.getInputStream(), MANAGER_CHARSET);
+            Charset charset = extractCharset(connection.getContentType());
+            response = toString(connection.getInputStream(), charset);
         }
         catch (IOException e)
         {
@@ -643,7 +641,7 @@ public class TomcatManager extends LoggedObject
                         }
 
                         String ha1 = this.username + ":" + realm + ":" + this.password;
-                        byte[] hash = digest.digest(ha1.getBytes("UTF-8"));
+                        byte[] hash = digest.digest(ha1.getBytes(StandardCharsets.UTF_8));
                         StringBuilder sb = new StringBuilder();
                         for (byte hashByte : hash)
                         {
@@ -673,7 +671,7 @@ public class TomcatManager extends LoggedObject
                             ha2 = "PUT";
                         }
                         ha2 += ":" + uri;
-                        hash = digest.digest(ha2.getBytes("UTF-8"));
+                        hash = digest.digest(ha2.getBytes(StandardCharsets.UTF_8));
                         sb = new StringBuilder();
                         for (byte hashByte : hash)
                         {
@@ -697,7 +695,7 @@ public class TomcatManager extends LoggedObject
                         {
                             ha3 = ha1 + ":" + nonce + ":" + ha2;
                         }
-                        hash = digest.digest(ha3.getBytes("UTF-8"));
+                        hash = digest.digest(ha3.getBytes(StandardCharsets.UTF_8));
                         sb = new StringBuilder();
                         for (byte hashByte : hash)
                         {
@@ -794,6 +792,33 @@ public class TomcatManager extends LoggedObject
     }
 
     /**
+     * Extract charset from <code>Content-Type</code> header.
+     * 
+     * @param contentType <code>Content-Type</code> header.
+     * @return Character set extracted, UTF-8 if no valid charset found.
+     */
+    protected static Charset extractCharset(String contentType)
+    {
+        Charset charset = StandardCharsets.UTF_8;
+        if (contentType != null)
+        {
+            int charsetStart = contentType.indexOf("; charset=");
+            if (charsetStart > 0)
+            {
+                try
+                {
+                    charset = Charset.forName(contentType.substring(charsetStart + 10));
+                }
+                catch (Exception ignored)
+                {
+                    // Ignore parsing charset
+                }
+            }
+        }
+        return charset;
+    }
+
+    /**
      * Extract a component of a header.
      * 
      * @param header header to extract from
@@ -832,7 +857,7 @@ public class TomcatManager extends LoggedObject
         {
             buffer.append(password);
         }
-        return "Basic " + new String(Base64.encodeBase64(buffer.toString().getBytes()));
+        return "Basic " + Base64.encode(buffer.toString());
     }
 
     /**
@@ -843,7 +868,7 @@ public class TomcatManager extends LoggedObject
      * @return a string representation of the data read from the input stream
      * @throws IOException if an i/o error occurs
      */
-    private String toString(InputStream in, String charset) throws IOException
+    private String toString(InputStream in, Charset charset) throws IOException
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 

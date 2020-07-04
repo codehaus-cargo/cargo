@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.resin;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -102,7 +103,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     {
         String file = configuration.getHome() + "/conf/resin.conf";
         getFileHandler().writeTextFile(file, "<resin xmlns=\"http://caucho.com/ns/resin\" "
-            + "xmlns:resin=\"http://caucho.com/ns/resin/core\" />", "UTF-8");
+            + "xmlns:resin=\"http://caucho.com/ns/resin/core\" />", StandardCharsets.UTF_8);
     }
 
     /**

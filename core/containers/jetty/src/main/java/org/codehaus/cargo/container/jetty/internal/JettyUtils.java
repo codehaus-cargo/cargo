@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.container.deployable.WAR;
@@ -93,8 +94,8 @@ public final class JettyUtils
             }
             sb.append("\n");
         }
-        fileHandler.writeTextFile(
-            fileHandler.append(etcDir, "cargo-realm.properties"), sb.toString(), "UTF-8");
+        fileHandler.writeTextFile(fileHandler.append(etcDir, "cargo-realm.properties"),
+            sb.toString(), StandardCharsets.ISO_8859_1);
     }
 
 }

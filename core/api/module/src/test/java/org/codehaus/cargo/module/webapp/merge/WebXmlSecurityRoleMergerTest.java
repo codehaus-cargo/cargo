@@ -23,6 +23,7 @@
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
@@ -43,15 +44,15 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
     public void testMergeSecurityRoleIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <security-role>"
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
@@ -73,15 +74,15 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml srcWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(srcXml.getBytes("UTF-8")), null);
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         String mergeXml = "<web-app>"
             + "  <security-role>"
             + "    <role-name>role1</role-name>"
             + "  </security-role>"
             + "</web-app>";
-        WebXml mergeWebXml =
-            WebXmlIo.parseWebXml(new ByteArrayInputStream(mergeXml.getBytes("UTF-8")), null);
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);

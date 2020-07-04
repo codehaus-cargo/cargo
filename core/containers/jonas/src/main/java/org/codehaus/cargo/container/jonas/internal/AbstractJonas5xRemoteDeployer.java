@@ -24,6 +24,7 @@ package org.codehaus.cargo.container.jonas.internal;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.management.Attribute;
@@ -444,7 +445,8 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                         {
                             // Bug JONAS-713: The DeploymentPlan MBean returns file names with
                             // unescaped URL forms, for example: /C:/Documents%20and%20Settings/...
-                            deploymentPlan = URLDecoder.decode(deploymentPlan, "UTF-8");
+                            deploymentPlan =
+                                URLDecoder.decode(deploymentPlan, StandardCharsets.UTF_8);
                             remoteFiles.add(deploymentPlan);
                         }
                     }

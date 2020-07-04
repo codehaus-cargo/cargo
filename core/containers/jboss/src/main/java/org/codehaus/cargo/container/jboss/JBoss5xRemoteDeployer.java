@@ -59,45 +59,40 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         String deployerJarName = "org/codehaus/cargo/container/jboss/deployer/"
             + getJBossRemoteDeployerJarName() + ".jar";
 
-        InputStream deployerJarInputStream =
-            this.getClass().getClassLoader().getResourceAsStream(deployerJarName);
-        if (deployerJarInputStream == null)
-        {
-            throw new CargoException("Cannot locate the JBoss deployer helper JAR, "
-                + "is the CARGO JBoss container JAR broken?");
-        }
         URL deployerJarURL;
-        try
+        try (InputStream deployerJarInputStream =
+                this.getClass().getClassLoader().getResourceAsStream(deployerJarName))
         {
-            File deployerJarFile = File.createTempFile("cargo-jboss-deployer-", ".jar");
-            try (FileOutputStream deployerJarOutputStream = new FileOutputStream(deployerJarFile))
+            if (deployerJarInputStream == null)
             {
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = deployerJarInputStream.read(buf)) > 0)
+                throw new CargoException("Cannot locate the JBoss deployer helper JAR, "
+                    + "is the CARGO JBoss container JAR broken?");
+            }
+            try
+            {
+                File deployerJarFile = File.createTempFile("cargo-jboss-deployer-", ".jar");
+                try (FileOutputStream deployerJarOutputStream =
+                        new FileOutputStream(deployerJarFile))
                 {
-                    deployerJarOutputStream.write(buf, 0, len);
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = deployerJarInputStream.read(buf)) > 0)
+                    {
+                        deployerJarOutputStream.write(buf, 0, len);
+                    }
+                    deployerJarURL = deployerJarFile.toURI().toURL();
                 }
-                deployerJarURL = deployerJarFile.toURI().toURL();
+            }
+            catch (IOException e)
+            {
+                throw new CargoException("Cannot create the JBoss remote deployer: "
+                    + e.getMessage(), e);
             }
         }
         catch (IOException e)
         {
             throw new CargoException("Cannot create the JBoss remote deployer: "
                 + e.getMessage(), e);
-        }
-        finally
-        {
-            try
-            {
-                deployerJarInputStream.close();
-            }
-            catch (IOException e)
-            {
-                // Ignored
-            }
-            deployerJarInputStream = null;
-            System.gc();
         }
 
         ClassLoader jBossConnectorClassLoader = null;

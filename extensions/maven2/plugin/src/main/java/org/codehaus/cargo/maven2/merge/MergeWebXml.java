@@ -22,6 +22,7 @@ package org.codehaus.cargo.maven2.merge;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.maven2.Merge;
 import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
@@ -162,7 +163,7 @@ public class MergeWebXml implements MergeProcessorFactory
                 {
                     String theXml = config.getChild(0).toString();
                     WebXml webXml = WebXmlIo.parseWebXml(
-                        new ByteArrayInputStream(theXml.getBytes("UTF-8")), null);
+                        new ByteArrayInputStream(theXml.getBytes(StandardCharsets.UTF_8)), null);
                     return new NodeMergeStrategy(webXml.getDescriptorType(),
                         webXml.getRootElement());
                 }

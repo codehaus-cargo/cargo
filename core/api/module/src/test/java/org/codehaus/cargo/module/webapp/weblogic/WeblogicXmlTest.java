@@ -20,6 +20,7 @@
 package org.codehaus.cargo.module.webapp.weblogic;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "  </reference-descriptor>"
             + "</weblogic-web-app>";
 
-        WeblogicXml descr = WeblogicXmlIo
-            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+        WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");
@@ -77,9 +78,8 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "  <run-as-role-assignment/>"
             + "  <session-descriptor/>"
             + "</weblogic-web-app>";
-        //
-        WeblogicXml descr = WeblogicXmlIo
-            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+        WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
         EjbRef ref = new EjbRef();
         ref.setName("foo");
@@ -117,8 +117,8 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
             + "    <resource-env-description/>"
             + "  </reference-descriptor>"
             + "</weblogic-web-app>";
-        WeblogicXml descr = WeblogicXmlIo
-            .parseWeblogicXml(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+        WeblogicXml descr = WeblogicXmlIo.parseWeblogicXml(
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         EjbRef ref = new EjbRef();
         ref.setName("foo");
         ref.setJndiName("fee");

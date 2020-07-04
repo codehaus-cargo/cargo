@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -277,7 +278,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     {
         Map<String, String> replacements = getCatalinaPropertertiesReplacements();
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "catalina.properties"),
-            replacements, "UTF-8");
+            replacements, StandardCharsets.UTF_8);
 
         replacements.clear();
         replacements.put("</Host>", this.createTomcatWebappsToken()
@@ -289,7 +290,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             + "\n               resolveHosts=\"false\"/>"
             + "\n      </Host>");
         getFileHandler().replaceInFile(getFileHandler().append(confDir, "server.xml"),
-            replacements, "UTF-8");
+            replacements, StandardCharsets.UTF_8);
     }
 
     /**

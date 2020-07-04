@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +79,8 @@ public abstract class AbstractJettyStandaloneLocalConfiguration extends
         {
             if (!getFileHandler().isDirectory(etcChild))
             {
-                getFileHandler().replaceInFile(etcChild, replaceJettyHome, "UTF-8", true);
+                getFileHandler().replaceInFile(
+                    etcChild, replaceJettyHome, StandardCharsets.UTF_8, true);
             }
         }
 
