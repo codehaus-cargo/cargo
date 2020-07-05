@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerException;
@@ -36,6 +38,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
+import org.codehaus.cargo.container.tomcat.Tomcat8xRuntimeConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
@@ -307,7 +310,18 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         {
             timeout = Integer.parseInt(timeoutStr);
         }
-        manager = new TomcatManager(managerURL, username, password);
+        Charset charset;
+        // Before Tomcat 8.x, the default URIEncoding was ISO-8859-1, Tomcat 8.x onwards changed
+        // to UTF-8 except if org.apache.catalina.STRICT_SERVLET_COMPLIANCE system property is set.
+        if (configuration instanceof Tomcat8xRuntimeConfiguration)
+        {
+            charset = StandardCharsets.UTF_8;
+        }
+        else
+        {
+            charset = StandardCharsets.ISO_8859_1;
+        }
+        manager = new TomcatManager(managerURL, username, password, charset);
         manager.setLogger(getLogger());
         manager.setUserAgent(userAgent.toString());
         manager.setTimeout(timeout);

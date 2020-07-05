@@ -620,20 +620,7 @@ public class CargoTask extends Task
                     throw new BuildException("Missing daemon handle id property.");
                 }
 
-                DaemonClient daemon;
-                if (daemonUsername != null && !daemonUsername.isEmpty()
-                    && daemonPassword != null && !daemonPassword.isEmpty())
-                {
-                    daemon = new DaemonClient(daemonURL, daemonUsername, daemonPassword);
-                }
-                else if (daemonUsername != null && !daemonUsername.isEmpty())
-                {
-                    daemon = new DaemonClient(daemonURL, daemonUsername);
-                }
-                else
-                {
-                    daemon = new DaemonClient(daemonURL);
-                }
+                DaemonClient daemon = new DaemonClient(daemonURL, daemonUsername, daemonPassword);
 
                 if (ACTION_DAEMON_START.equalsIgnoreCase(getAction()))
                 {

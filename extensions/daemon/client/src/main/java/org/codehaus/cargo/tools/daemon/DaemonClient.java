@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,34 +44,38 @@ import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
- * Client for the Cargo daemon manager
+ * Client for the Cargo daemon
  */
 public class DaemonClient extends LoggedObject
 {
     /**
-     * The charset to use when decoding Cargo daemon manager responses.
+     * The charset to use when decoding Cargo daemon responses.
      */
-    private static final String MANAGER_CHARSET = "UTF-8";
+    private static final String DAEMON_CLIENT_CHARSET = StandardCharsets.UTF_8.name();
 
     /**
-     * The full URL of the Cargo daemon manager instance to use.
+     * The full URL of the Cargo daemon instance to use.
      */
     private final URL url;
 
     /**
-     * The username to use when authenticating with Cargo daemon manager.
+     * The username to use when authenticating with Cargo daemon.
      */
     private final String username;
 
     /**
-     * The password to use when authenticating with Cargo daemon manager.
+     * The password to use when authenticating with Cargo daemon.
      */
     private final String password;
 
     /**
-     * The URL encoding charset to use when communicating with Cargo daemon manager.
+     * The URL encoding charset to use when communicating with Cargo daemon.<br>
+     * <br>
+     * <b>TODO</b>: {@link URLEncoder#encode(java.lang.String, java.nio.charset.Charset)}
+     * was introduced in Java 10, switch the below type to {@link Charset} when Codehaus Cargo is
+     * on Java 10+.
      */
-    private final String charset;
+    private String charset;
 
     /**
      * The file handler.
@@ -77,67 +83,55 @@ public class DaemonClient extends LoggedObject
     private final FileHandler fileHandler = new DefaultFileHandler();
 
     /**
-     * The user agent name to use when communicating with Cargo daemon manager.
+     * The user agent name to use when communicating with Cargo daemon.
      */
     private String userAgent;
 
     /**
-     * Creates a Cargo daemon manager wrapper for the specified URL that uses a username of
-     * <code>admin</code>, an empty password and ISO-8859-1 URL encoding.
+     * Creates a Cargo daemon wrapper for the specified URL which has public access (no username
+     * nor password required).
      * 
-     * @param url the full URL of the Cargo daemon manager instance to use
+     * @param url the full URL of the Cargo daemon instance to use
      */
     public DaemonClient(URL url)
     {
-        this(url, "admin");
+        this(url, null, null, StandardCharsets.UTF_8);
     }
 
     /**
-     * Creates a Cargo daemon manager wrapper for the specified URL and username that uses an empty
-     * password and ISO-8859-1 URL encoding.
+     * Creates a Cargo daemon wrapper for the specified URL, username and password that uses
+     * UTF-8 URL encoding.
      * 
-     * @param url the full URL of the Cargo daemon manager instance to use
-     * @param username the username to use when authenticating with Cargo daemon manager
-     */
-    public DaemonClient(URL url, String username)
-    {
-        this(url, username, "");
-    }
-
-    /**
-     * Creates a Cargo daemon manager wrapper for the specified URL, username and password that uses
-     * ISO-8859-1 URL encoding.
-     * 
-     * @param url the full URL of the Cargo daemon manager instance to use
-     * @param username the username to use when authenticating with Cargo daemon manager
-     * @param password the password to use when authenticating with Cargo daemon manager
+     * @param url the full URL of the Cargo daemon instance to use
+     * @param username the username to use when authenticating with Cargo daemon
+     * @param password the password to use when authenticating with Cargo daemon
      */
     public DaemonClient(URL url, String username, String password)
     {
-        this(url, username, password, "ISO-8859-1");
+        this(url, username, password, StandardCharsets.UTF_8);
     }
 
     /**
-     * Creates a Cargo daemon manager wrapper for the specified URL, username, password and URL
+     * Creates a Cargo daemon wrapper for the specified URL, username, password and URL
      * encoding.
      * 
-     * @param url the full URL of the Cargo daemon manager instance to use
-     * @param username the username to use when authenticating with Cargo daemon manager
-     * @param password the password to use when authenticating with Cargo daemon manager
-     * @param charset the URL encoding charset to use when communicating with Cargo daemon manager
+     * @param url the full URL of the Cargo daemon instance to use
+     * @param username the username to use when authenticating with Cargo daemon
+     * @param password the password to use when authenticating with Cargo daemon
+     * @param charset the URL encoding charset to use when communicating with Cargo daemon
      */
-    public DaemonClient(URL url, String username, String password, String charset)
+    public DaemonClient(URL url, String username, String password, Charset charset)
     {
         this.url = url;
         this.username = username;
         this.password = password;
-        this.charset = charset;
+        this.charset = charset.name();
     }
 
     /**
-     * Gets the full URL of the Cargo daemon manager instance.
+     * Gets the full URL of the Cargo daemon instance.
      * 
-     * @return the full URL of the Cargo daemon manager instance
+     * @return the full URL of the Cargo daemon instance
      */
     public URL getURL()
     {
@@ -145,9 +139,9 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
-     * Gets the username to use when authenticating with Cargo daemon manager.
+     * Gets the username to use when authenticating with Cargo daemon.
      * 
-     * @return the username to use when authenticating with Cargo daemon manager
+     * @return the username to use when authenticating with Cargo daemon
      */
     public String getUserName()
     {
@@ -155,9 +149,9 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
-     * Gets the password to use when authenticating with Cargo daemon manager.
+     * Gets the password to use when authenticating with Cargo daemon.
      * 
-     * @return the password to use when authenticating with Cargo daemon manager
+     * @return the password to use when authenticating with Cargo daemon
      */
     public String getPassword()
     {
@@ -165,19 +159,19 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
-     * Gets the URL encoding charset to use when communicating with Cargo daemon manager.
+     * Gets the URL encoding charset to use when communicating with Cargo daemon.
      * 
-     * @return the URL encoding charset to use when communicating with Cargo daemon manager
+     * @return the URL encoding charset to use when communicating with Cargo daemon
      */
-    public String getCharset()
+    public Charset getCharset()
     {
-        return this.charset;
+        return Charset.forName(this.charset);
     }
 
     /**
-     * Gets the user agent name to use when communicating with Cargo daemon manager.
+     * Gets the user agent name to use when communicating with Cargo daemon.
      * 
-     * @return the user agent name to use when communicating with Cargo daemon manager
+     * @return the user agent name to use when communicating with Cargo daemon
      */
     public String getUserAgent()
     {
@@ -185,9 +179,9 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
-     * Sets the user agent name to use when communicating with Cargo daemon manager.
+     * Sets the user agent name to use when communicating with Cargo daemon.
      * 
-     * @param userAgent the user agent name to use when communicating with Cargo daemon manager
+     * @param userAgent the user agent name to use when communicating with Cargo daemon
      */
     public void setUserAgent(String userAgent)
     {
@@ -198,7 +192,7 @@ public class DaemonClient extends LoggedObject
      * Starts a container specified by the start request.
      * 
      * @param start The unique identifier of the container
-     * @throws DaemonException if the Cargo daemon manager request fails
+     * @throws DaemonException if the Cargo daemon request fails
      * @throws IOException if an i/o error occurs
      */
     public void start(DaemonStart start) throws DaemonException, IOException
@@ -775,7 +769,7 @@ public class DaemonClient extends LoggedObject
      * Stops the container with the specified handle identifier.
      * 
      * @param handleId The unique identifier of the container
-     * @throws DaemonException if the Cargo daemon manager request fails
+     * @throws DaemonException if the Cargo daemon request fails
      * @throws IOException if an i/o error occurs
      */
     public void stop(String handleId) throws DaemonException, IOException
@@ -788,13 +782,13 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
-     * Invokes Cargo daemon manager with a specified command and content data.
+     * Invokes Cargo daemon with a specified command and content data.
      * 
-     * @param path the Cargo daemon manager command to invoke
+     * @param path the Cargo daemon command to invoke
      * @param parameters an input stream to the content data
-     * @return the result of the invoking command, as returned by the Cargo daemon manager
+     * @return the result of the invoking command, as returned by the Cargo daemon
      *         application
-     * @throws DaemonException if the Cargo daemon manager request fails
+     * @throws DaemonException if the Cargo daemon request fails
      * @throws IOException if an i/o error occurs
      */
     protected String invoke(String path, DaemonParameters parameters) throws DaemonException,
@@ -863,7 +857,7 @@ public class DaemonClient extends LoggedObject
             connection.setRequestProperty("User-Agent", this.userAgent);
         }
 
-        if (this.username != null)
+        if (this.username != null && !this.username.isEmpty())
         {
             String authorization = toAuthorization(this.username, this.password);
             connection.setRequestProperty("Authorization", authorization);
@@ -899,7 +893,7 @@ public class DaemonClient extends LoggedObject
         try
         {
             getLogger().info("Trying to read input data", this.getClass().getName());
-            response = toString(connection.getInputStream(), MANAGER_CHARSET);
+            response = toString(connection.getInputStream(), DAEMON_CLIENT_CHARSET);
         }
         catch (IOException e)
         {
@@ -911,7 +905,7 @@ public class DaemonClient extends LoggedObject
             else if (connection.getResponseCode() == 403)
             {
                 throw new DaemonException("The username you provided is not allowed to "
-                    + "use the text-based Cargo daemon manager (error 403)", e);
+                    + "use the text-based Cargo daemon (error 403)", e);
             }
             else
             {

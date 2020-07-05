@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9x10xConfigurationBuilder;
@@ -64,6 +65,8 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     public Tomcat8xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(TomcatPropertySet.URI_ENCODING, StandardCharsets.UTF_8.name());
 
         configurationBuilder = new Tomcat8x9x10xConfigurationBuilder();
     }

@@ -23,17 +23,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Represents a form writer that allows writing form fields that are url encoded.
+ * Represents a form writer that allows writing form fields that are URL encoded.
  */
 public class UrlEncodedFormWriter
 {
-    /**
-     * The default url encoding charset.
-     */
-    private final String charset = "ISO-8859-1";
-
     /**
      * The buffer that will contain the url encoded form data.
      */
@@ -73,7 +69,9 @@ public class UrlEncodedFormWriter
         formData.append(name + "=");
         if (value != null)
         {
-            formData.append(URLEncoder.encode(value, charset));
+            // TODO: URLEncoder.encode(String, Charset) was introduced in Java 10,
+            //       simplify the below code when Codehaus Cargo is on Java 10+
+            formData.append(URLEncoder.encode(value, StandardCharsets.UTF_8.name()));
         }
     }
 

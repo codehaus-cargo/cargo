@@ -69,7 +69,11 @@ public class TomcatManager extends LoggedObject
     private String password;
 
     /**
-     * The URL encoding charset to use when communicating with Tomcat manager.
+     * The URL encoding charset to use when communicating with Tomcat manager.<br>
+     * <br>
+     * <b>TODO</b>: {@link URLEncoder#encode(java.lang.String, java.nio.charset.Charset)}
+     * was introduced in Java 10, switch the below type to {@link Charset} when Codehaus Cargo is
+     * on Java 10+.
      */
     private String charset;
 
@@ -84,31 +88,8 @@ public class TomcatManager extends LoggedObject
     private int timeout = 0;
 
     /**
-     * Creates a Tomcat manager wrapper for the specified URL that uses a username of
-     * <code>admin</code>, an empty password and ISO-8859-1 URL encoding.
-     * 
-     * @param url the full URL of the Tomcat manager instance to use
-     */
-    public TomcatManager(URL url)
-    {
-        this(url, "admin");
-    }
-
-    /**
-     * Creates a Tomcat manager wrapper for the specified URL and username that uses an empty
-     * password and ISO-8859-1 URL encoding.
-     * 
-     * @param url the full URL of the Tomcat manager instance to use
-     * @param username the username to use when authenticating with Tomcat manager
-     */
-    public TomcatManager(URL url, String username)
-    {
-        this(url, username, "");
-    }
-
-    /**
      * Creates a Tomcat manager wrapper for the specified URL, username and password that uses
-     * ISO-8859-1 URL encoding.
+     * UTF-8 URL encoding.
      * 
      * @param url the full URL of the Tomcat manager instance to use
      * @param username the username to use when authenticating with Tomcat manager
@@ -116,7 +97,7 @@ public class TomcatManager extends LoggedObject
      */
     public TomcatManager(URL url, String username, String password)
     {
-        this(url, username, password, "ISO-8859-1");
+        this(url, username, password, StandardCharsets.UTF_8);
     }
 
     /**
@@ -127,12 +108,12 @@ public class TomcatManager extends LoggedObject
      * @param password the password to use when authenticating with Tomcat manager
      * @param charset the URL encoding charset to use when communicating with Tomcat manager
      */
-    public TomcatManager(URL url, String username, String password, String charset)
+    public TomcatManager(URL url, String username, String password, Charset charset)
     {
         this.url = url;
         this.username = username;
         this.password = password;
-        this.charset = charset;
+        this.charset = charset.name();
     }
 
     /**
@@ -170,9 +151,9 @@ public class TomcatManager extends LoggedObject
      * 
      * @return the URL encoding charset to use when communicating with Tomcat manager
      */
-    public String getCharset()
+    public Charset getCharset()
     {
-        return this.charset;
+        return Charset.forName(this.charset);
     }
 
     /**
@@ -560,7 +541,7 @@ public class TomcatManager extends LoggedObject
         {
             connection.setRequestProperty("Authorization", digestData);
         }
-        else if (this.username != null)
+        else if (this.username != null && !this.username.isEmpty())
         {
             String authorization = toAuthorization(this.username, this.password);
             connection.setRequestProperty("Authorization", authorization);

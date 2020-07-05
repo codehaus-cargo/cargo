@@ -102,20 +102,8 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
 
         try
         {
-            if (daemonUsername != null && !daemonUsername.isEmpty()
-                && daemonPassword != null && !daemonPassword.isEmpty())
-            {
-                this.daemonClient =
-                    new DaemonClient(new URL(daemonURL), daemonUsername, daemonPassword);
-            }
-            else if (daemonUsername != null && !daemonUsername.isEmpty())
-            {
-                this.daemonClient = new DaemonClient(new URL(daemonURL), daemonUsername);
-            }
-            else
-            {
-                this.daemonClient = new DaemonClient(new URL(daemonURL));
-            }
+            this.daemonClient =
+                new DaemonClient(new URL(daemonURL), daemonUsername, daemonPassword);
         }
         catch (MalformedURLException e)
         {

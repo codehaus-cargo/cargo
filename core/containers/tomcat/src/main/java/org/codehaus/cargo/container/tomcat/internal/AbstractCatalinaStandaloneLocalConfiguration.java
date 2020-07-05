@@ -70,7 +70,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setProperty(TomcatPropertySet.AJP_PORT, "8009");
         setProperty(TomcatPropertySet.CONTEXT_RELOADABLE, "false");
         setProperty(TomcatPropertySet.COPY_WARS, "true");
-        setProperty(TomcatPropertySet.URI_ENCODING, "ISO-8859-1");
+        setProperty(TomcatPropertySet.URI_ENCODING, StandardCharsets.ISO_8859_1.name());
         setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "webapps");
     }
 
