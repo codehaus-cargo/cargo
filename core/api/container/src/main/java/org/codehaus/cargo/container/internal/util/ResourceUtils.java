@@ -34,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
@@ -48,6 +49,11 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public final class ResourceUtils extends LoggedObject
 {
+    /**
+     * Size of the buffers / chunks used when copying resources.
+     */
+    private static final int BUFFER_CHUNK_SIZE = 256 * 1024;
+
     /**
      * Default file handler for the @link{ResourceUtils#copyResource(String, File)} and
      * @link{ResourceUtils#copyResource(String, File, FilterChain)} methods.
@@ -163,7 +169,7 @@ public final class ResourceUtils extends LoggedObject
         }
 
         ChainReaderHelper helper = new ChainReaderHelper();
-        helper.setBufferSize(8192);
+        helper.setBufferSize(ResourceUtils.BUFFER_CHUNK_SIZE);
         helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
         Vector filterChains = new Vector();
         filterChains.add(filterChain);
@@ -191,6 +197,7 @@ public final class ResourceUtils extends LoggedObject
 
     /**
      * Creates a new InputStreamReader with provide encoding
+     * 
      * @param is the stream used to create the reader
      * @param encoding the encoding used to create the reader. If it is <code>null</code> then the
      * default system encoding will be used.
@@ -215,11 +222,6 @@ public final class ResourceUtils extends LoggedObject
     /**
      * Search for the given resource and return the directory or archive that contains it.
      * 
-     * <p>
-     * Doesn't work for archives in JDK 1.1 as the URL returned by getResource doesn't contain the
-     * name of the archive.
-     * </p>
-     * 
      * @param where Class where to look for the resource (its class loader and parent class loaders
      * are used recursively for the lookup).
      * @param resourceName The name of the resource
@@ -239,13 +241,31 @@ public final class ResourceUtils extends LoggedObject
         {
             int pling = urlString.indexOf("!");
             String jar = urlString.substring(9, pling);
-            file = new File(URLDecoder.decode(jar));
+            // TODO: URLDecoder.decode(String, Charset) was introduced in Java 10,
+            //       simplify the below code when Codehaus Cargo is on Java 10+
+            try
+            {
+                file = new File(URLDecoder.decode(jar, StandardCharsets.UTF_8.name()));
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                throw new IllegalStateException("UTF-8 encoding is missing", e);
+            }
         }
         else if (urlString.startsWith("file:"))
         {
             int tail = urlString.indexOf(resourceName);
             String dir = urlString.substring(5, tail);
-            file = new File(URLDecoder.decode(dir));
+            // TODO: URLDecoder.decode(String, Charset) was introduced in Java 10,
+            //       simplify the below code when Codehaus Cargo is on Java 10+
+            try
+            {
+                file = new File(URLDecoder.decode(dir, StandardCharsets.UTF_8.name()));
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                throw new IllegalStateException("UTF-8 encoding is missing", e);
+            }
         }
 
         getLogger().debug("Location for [" + resourceName + "] is [" + file + "]",
@@ -259,7 +279,7 @@ public final class ResourceUtils extends LoggedObject
      * as String.
      * 
      * @param resourceName The name of the resource, relative to the
-     * org.codehaus.cargo.container.internal.util package
+     * <code>org.codehaus.cargo.container.internal.util</code> package
      * @param filterChain The ordered list of filter readers that should be applied while reading
      * @param encoding The encoding that should be used when reading the resource. Use null for
      * system default encoding

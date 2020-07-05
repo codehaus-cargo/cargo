@@ -445,8 +445,11 @@ public abstract class AbstractJonas5xRemoteDeployer extends AbstractJonasRemoteD
                         {
                             // Bug JONAS-713: The DeploymentPlan MBean returns file names with
                             // unescaped URL forms, for example: /C:/Documents%20and%20Settings/...
+                            //
+                            // TODO: URLDecoder.decode(String, Charset) was introduced in Java 10,
+                            //       simplify the below code when Codehaus Cargo is on Java 10+
                             deploymentPlan =
-                                URLDecoder.decode(deploymentPlan, StandardCharsets.UTF_8);
+                                URLDecoder.decode(deploymentPlan, StandardCharsets.UTF_8.name());
                             remoteFiles.add(deploymentPlan);
                         }
                     }
