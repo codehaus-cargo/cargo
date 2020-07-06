@@ -1477,6 +1477,8 @@ public class ConfluenceContainerDocumentationGenerator
                 else if ("jonas5x".equals(containerId))
                 {
                     javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
+                    extra = "Due to a bug parsing the Java version in the OW2 utilities, "
+                        + "JOnAS 5.x doesn't run on Java 8 and above";
                 }
                 else if ("liberty".equals(containerId))
                 {
@@ -1494,17 +1496,21 @@ public class ConfluenceContainerDocumentationGenerator
 
                 if ("resin3x".equals(containerId))
                 {
-                    extra = LINE_SEPARATOR + "{_}Due to incompabilities between "
-                        + "{{com.caucho.log.EnvironmentLogger}} and the behaviour described in "
+                    extra = "Due to incompabilities between {{com.caucho.log.EnvironmentLogger}} "
+                        + "and the behaviour described in "
                             + "[JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
-                                + "Resin 3.x doesn't run on Java 7 and above{_}";
+                                + "Resin 3.x doesn't run on Java 7 and above";
                 }
                 else if (containerId.startsWith("websphere"))
                 {
-                    extra = LINE_SEPARATOR + "{_}By default, CARGO will use the JVM from the "
-                        + "WebSphere installation directory{_}";
+                    extra = "By default, CARGO will use the JVM from the "
+                        + "WebSphere installation directory";
                 }
 
+                if (extra.length() > 0)
+                {
+                    extra = LINE_SEPARATOR + "{_}" + extra + "{_}";
+                }
                 output.append(
                     " | {_}JAVA_HOME version " + javaVersion + " or newer{_}" + extra + " |");
             }
