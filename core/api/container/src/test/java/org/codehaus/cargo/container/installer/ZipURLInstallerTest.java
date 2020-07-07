@@ -19,16 +19,13 @@
  */
 package org.codehaus.cargo.container.installer;
 
+import java.io.IOException;
 import java.net.URL;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Get;
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.AntTaskFactory;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -43,6 +40,16 @@ public class ZipURLInstallerTest extends TestCase
     private ZipURLInstaller installer;
 
     /**
+     * Whether to make the {@link ZipURLInstaller#doDownload()} method fail.
+     */
+    private boolean doDownloadFail;
+
+    /**
+     * Proxy set when {@link ZipURLInstaller#doDownload()} was called.
+     */
+    private String doDownloadProxyHost;
+
+    /**
      * File system manager.
      */
     private StandardFileSystemManager fsManager;
@@ -51,38 +58,6 @@ public class ZipURLInstallerTest extends TestCase
      * File handler.
      */
     private FileHandler fileHandler;
-
-    /**
-     * Dummy {@link Get} implementation that doesn't do anything.
-     */
-    private class HarmlessGet extends Get
-    {
-        /**
-         * Doesn't do anything. {@inheritDoc}
-         * @throws BuildException Never thrown.
-         */
-        @Override
-        public void execute() throws BuildException
-        {
-            // Do nothing
-        }
-    }
-
-    /**
-     * Dummy {@link Get} implementation that always fails.
-     */
-    private class FailingGet extends Get
-    {
-        /**
-         * Fails. {@inheritDoc}
-         * @throws BuildException Always thrown.
-         */
-        @Override
-        public void execute() throws BuildException
-        {
-            throw new BuildException("Failed to download file...");
-        }
-    }
 
     /**
      * Creates the test ZIP URL installer and its fils system manager. {@inheritDoc}
@@ -97,7 +72,20 @@ public class ZipURLInstallerTest extends TestCase
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
 
-        this.installer = new ZipURLInstaller(new URL("http://some/url/resin-3.0.18.zip"));
+        this.installer = new ZipURLInstaller(new URL("http://some/url/resin-3.0.18.zip"))
+        {
+            @Override
+            protected void doDownload() throws IOException
+            {
+                ZipURLInstallerTest.this.doDownloadProxyHost =
+                    System.getProperty("http.proxyHost");
+                if (ZipURLInstallerTest.this.doDownloadFail)
+                {
+                    ZipURLInstallerTest.this.doDownloadFail = false;
+                    throw new IOException();
+                }
+            }
+        };
         this.installer.setFileHandler(this.fileHandler);
     }
 
@@ -140,22 +128,17 @@ public class ZipURLInstallerTest extends TestCase
      */
     public void testSuccessfulDownloadWhenProxySet() throws Exception
     {
-        this.installer.setAntTaskFactory(
-            new AntTaskFactory()
-            {
-                @Override
-                public Task createTask(String taskName)
-                {
-                    return new HarmlessGet();
-                }
-            });
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+
         Proxy proxy = new Proxy();
         proxy.setHost("proxyhost");
         this.installer.setProxy(proxy);
 
+        this.doDownloadFail = false;
         this.installer.download();
 
-        assertEquals(System.getProperty("http.proxyHost"), proxy.getHost());
+        assertEquals(this.doDownloadProxyHost, proxy.getHost());
+        assertNull("System proxy host should be unset", System.getProperty("http.proxyHost"));
     }
 
     /**
@@ -164,22 +147,13 @@ public class ZipURLInstallerTest extends TestCase
      */
     public void testSuccessfulDownloadWhenNoProxySet() throws Exception
     {
-        // Clear any proxy setting
-        new Proxy().clear();
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
 
-        this.installer.setAntTaskFactory(
-            new AntTaskFactory()
-            {
-                @Override
-                public Task createTask(String taskName)
-                {
-                    return new HarmlessGet();
-                }
-            });
-
+        this.doDownloadFail = false;
         this.installer.download();
 
-        assertNull("Proxy host should not have been set", System.getProperty("http.proxyHost"));
+        assertNull(this.doDownloadProxyHost);
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
     }
 
     /**
@@ -188,33 +162,19 @@ public class ZipURLInstallerTest extends TestCase
      */
     public void testFailureWithProxySetButSuccessOnSecondTryWithoutProxy() throws Exception
     {
-        this.installer.setAntTaskFactory(
-            new AntTaskFactory()
-            {
-                private int count = 0;
+        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
 
-                @Override
-                public Task createTask(String taskName)
-                {
-                    Task result;
-                    if (this.count++ == 0)
-                    {
-                        result = new FailingGet();
-                    }
-                    else
-                    {
-                        result = new HarmlessGet();
-                    }
-                    return result;
-                }
-            });
         Proxy proxy = new Proxy();
         proxy.setHost("proxyhost");
         this.installer.setProxy(proxy);
 
+        this.doDownloadFail = true;
         this.installer.download();
 
-        assertNull("Proxy host should have been unset", System.getProperty("http.proxyHost"));
+        assertNull(
+            "First failure should have resulted in the proxy being unset before second attempt",
+                this.doDownloadProxyHost);
+        assertNull("System proxy host should be unset", System.getProperty("http.proxyHost"));
     }
 
     /**

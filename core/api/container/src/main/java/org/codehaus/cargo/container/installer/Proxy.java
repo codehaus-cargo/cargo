@@ -192,7 +192,7 @@ public class Proxy extends LoggedObject
         sysprops.remove("https.proxyPort");
         sysprops.remove("ftp.proxyHost");
         sysprops.remove("ftp.proxyPort");
-        Authenticator.setDefault(new ProxyAuthenticator("", ""));
+        Authenticator.setDefault(null);
     }
 
     /**
