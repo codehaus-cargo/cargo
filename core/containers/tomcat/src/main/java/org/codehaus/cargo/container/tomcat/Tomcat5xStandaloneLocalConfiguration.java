@@ -53,12 +53,23 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 {
 
     /**
-     * XPath expression for identifying the "Connector" element in the server.xml file.
+     * Default xpath expression for identifying the HTTP "Connector" element in the server.xml
+     * file.
      */
-    protected static final String CONNECTOR_XPATH =
+    static final String CONNECTOR_XPATH =
         "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
             + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
             + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
+
+    /**
+     * Xpath expression template for identifying the HTTP "Connector" element in the server.xml
+     * file, when a custom protocol class is in use.
+     */
+    private static final String CONNECTOR_XPATH_TEMPLATE =
+            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+                    + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
+                    + "or @protocol='org.apache.coyote.http11.Http11NioProtocol' "
+                    + "or @protocol='%s']";
 
     /**
      * {@inheritDoc}
@@ -84,6 +95,23 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         configurationBuilder = new Tomcat5x6x7xConfigurationBuilder();
 
         addXmlReplacements();
+    }
+
+    /**
+     * XPath expression for identifying the "Connector" element in the server.xml file.
+     * <p>
+     * Handles the fact that this connector protocol value might have changed.
+     *
+     * @return the xpath expression for a http connector
+     */
+    protected String connectorXpath()
+    {
+        String protocolClass = getPropertyValue(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
+        if (protocolClass == null)
+        {
+            return CONNECTOR_XPATH;
+        }
+        return String.format(CONNECTOR_XPATH_TEMPLATE, protocolClass);
     }
 
     /**
@@ -131,6 +159,18 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     @Override
     protected void performXmlReplacements(LocalContainer container)
     {
+        addXmlReplacement("conf/server.xml", connectorXpath(), "port", ServletPropertySet.PORT);
+        addXmlReplacement("conf/server.xml", connectorXpath(), "scheme",
+                GeneralPropertySet.PROTOCOL);
+        addXmlReplacement("conf/server.xml", connectorXpath(), "secure",
+                TomcatPropertySet.HTTP_SECURE);
+        addXmlReplacement("conf/server.xml", connectorXpath(), "emptySessionPath",
+                TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        addXmlReplacement("conf/server.xml",
+                connectorXpath(),
+                "URIEncoding", TomcatPropertySet.URI_ENCODING);
+        addXmlReplacement("conf/server.xml", connectorXpath(), "port", ServletPropertySet.PORT);
+
         if (container instanceof EmbeddedLocalContainer)
         {
             // when running in the embedded mode, there's no need to replace files.
@@ -335,17 +375,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     private void addXmlReplacements()
     {
         addXmlReplacement("conf/server.xml", "//Server", "port", GeneralPropertySet.RMI_PORT);
-        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "port", ServletPropertySet.PORT);
-        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "scheme",
-            GeneralPropertySet.PROTOCOL);
-        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "secure",
-            TomcatPropertySet.HTTP_SECURE);
-        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "emptySessionPath",
-            TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
-        addXmlReplacement("conf/server.xml",
-            CONNECTOR_XPATH,
-                    "URIEncoding", TomcatPropertySet.URI_ENCODING);
-        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml",
             "//Server/Service/Connector[@protocol='AJP/1.3']", "port", TomcatPropertySet.AJP_PORT,
             XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
@@ -360,7 +389,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     /**
      * Adds optional XML replacements that can only be determined with the
      * actual configuration being used to perform the replacements.
-     * 
+     *
      * @param container
      *            the container, with configuration properties, used to
      *            determine if the optional replacements are needed

@@ -83,7 +83,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the attribute 'sslImplementationName' isn't added if the property isn't set.
-     * 
+     *
      * @throws Exception If anything does wrong.
      */
     public void testConfigureWithoutSslImplementationName() throws Exception
@@ -98,7 +98,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the attribute 'sslImplementationName' is overidden with the property's value.
-     * 
+     *
      * @throws Exception If anything does wrong.
      */
     public void testConfigureSetsSslImplementationName() throws Exception
@@ -117,7 +117,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the element 'UpgradeProtocol' isn't present if the property isn't set.
-     * 
+     *
      * @throws Exception If anything does wrong.
      */
     public void testConfigureWithoutHttpUpgradeProtocol() throws Exception
@@ -133,8 +133,8 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
     /**
      * Assert that the element 'UpgradeProtocol' is added if the property is set.
-     * 
-     * @throws Exception If anything does wrong.
+     *
+     * @throws Exception If anything goes wrong.
      */
     public void testConfigureAddsHttpUpgradeProtocol() throws Exception
     {
@@ -144,6 +144,30 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
+        XMLAssert.assertXpathExists(
+                "//Server/Service/Connector[@port='8080']"
+                        + "/UpgradeProtocol[@className='org.apache.coyote.http2.Http2Protocol']",
+                config);
+    }
+
+    /**
+     * Tests that combining changing the connector protocol class with adding the http upgrade
+     * element works correctly.
+     *
+     * @throws Exception If anything goes wrong.
+     */
+    public void testConfigureAddHttpUpgradeToNio2Protocol() throws Exception
+    {
+        configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
+                "org.apache.coyote.http11.Http11Nio2Protocol");
+        configuration.setProperty(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, "true");
+
+        configuration.configure(container);
+
+        String config = configuration.getFileHandler().readTextFile(
+                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
+        XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11Nio2Protocol",
+                "//Server/Service/Connector[@port='8080']/@protocol", config);
         XMLAssert.assertXpathExists(
                 "//Server/Service/Connector[@port='8080']"
                         + "/UpgradeProtocol[@className='org.apache.coyote.http2.Http2Protocol']",
