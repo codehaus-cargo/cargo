@@ -67,7 +67,6 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
         getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
-        removeXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "emptySessionPath");
     }
 
     /**
@@ -154,6 +153,8 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     protected void performXmlReplacements(LocalContainer container)
     {
         String serverXmlFileName = "conf/server.xml";
+
+        removeXmlReplacement(serverXmlFileName, connectorXpath(), "emptySessionPath");
 
         String startStopThreads = getPropertyValue(TomcatPropertySet.HOST_STARTSTOPTHREADS);
         if (startStopThreads != null)

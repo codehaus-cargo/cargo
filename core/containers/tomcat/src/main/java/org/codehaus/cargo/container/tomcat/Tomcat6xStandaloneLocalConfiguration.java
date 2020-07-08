@@ -44,9 +44,6 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
     public Tomcat6xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "SSLEnabled",
-            TomcatPropertySet.HTTP_SECURE);
     }
 
     /**
@@ -65,7 +62,7 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * the path to find the manager application is different between v5 and v6.
      */
     @Override
@@ -170,11 +167,13 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
     @Override
     protected void performXmlReplacements(LocalContainer container)
     {
+        addXmlReplacement("conf/server.xml", connectorXpath(), "SSLEnabled",
+                TomcatPropertySet.HTTP_SECURE);
         String connectorProtocolClass = getPropertyValue(
                 TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
         if (connectorProtocolClass != null)
         {
-            addXmlReplacement("conf/server.xml", CONNECTOR_XPATH, "protocol",
+            addXmlReplacement("conf/server.xml", connectorXpath(), "protocol",
                 connectorProtocolClass);
         }
 

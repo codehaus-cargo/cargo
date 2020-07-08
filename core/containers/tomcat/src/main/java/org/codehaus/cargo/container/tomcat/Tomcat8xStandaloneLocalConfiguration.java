@@ -127,7 +127,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write post Resources using with a StringBuilder
-     * 
+     *
      * @param path will be in the post resource
      * @param sb the StringBuilder we fill
      */
@@ -149,7 +149,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write post Resources using with a PostResources xml element
-     * 
+     *
      * @param path will be in the post resource
      * @param postResourceEl the xml element we fill
      */
@@ -171,7 +171,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write directory post resource
-     * 
+     *
      * @param path will be in the post resource
      * @param sb the StringBuilder we fill
      */
@@ -184,7 +184,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write directory post resource
-     * 
+     *
      * @param path will be in the post resource
      * @param postResourceEl the xml element we fill
      */
@@ -197,7 +197,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write jar post resource
-     * 
+     *
      * @param path will be in the post resource
      * @param sb the StringBuilder we fill
      */
@@ -211,7 +211,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write jar post resource
-     * 
+     *
      * @param path will be in the post resource
      * @param postResourceEl the xml element we fill
      */
@@ -225,7 +225,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write file post resource
-     * 
+     *
      * @param path will be in the post resource
      * @param sb the StringBuilder we fill
      */
@@ -240,7 +240,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * Write file post resource
-     * 
+     *
      * @param path will be in the post resource
      * @param postResourceEl the xml element we fill
      */
@@ -266,14 +266,14 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
             TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME);
         if (sslImplementationName != null)
         {
-            addXmlReplacement(serverXmlFileName, CONNECTOR_XPATH, "sslImplementationName",
+            addXmlReplacement(serverXmlFileName, connectorXpath(), "sslImplementationName",
                 sslImplementationName);
         }
 
         if ("true".equalsIgnoreCase(
                 getPropertyValue(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL)))
         {
-            addXmlReplacement(serverXmlFileName, CONNECTOR_XPATH + "/UpgradeProtocol", "className",
+            addXmlReplacement(serverXmlFileName, connectorXpath() + "/UpgradeProtocol", "className",
                 "org.apache.coyote.http2.Http2Protocol",
                     XmlReplacement.ReplacementBehavior.ADD_MISSING_NODES);
         }
