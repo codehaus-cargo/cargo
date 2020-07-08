@@ -41,6 +41,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
+              <skip>${skipTests}</skip>
               <target>
                 <!-- Avoid CARGO-827: Cannot build on Windows -->
                 <replace file="${cargo-ant-buildfiles.directory}/build.xml">
