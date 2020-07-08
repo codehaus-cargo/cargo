@@ -44,6 +44,12 @@
         -->
       <version>5.1.0.SP1</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>sun-jaxb</groupId>
+          <artifactId>jaxb-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
