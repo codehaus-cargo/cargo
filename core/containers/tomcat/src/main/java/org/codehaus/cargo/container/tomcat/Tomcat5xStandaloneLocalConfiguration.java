@@ -56,7 +56,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
      * Default xpath expression for identifying the HTTP "Connector" element in the server.xml
      * file.
      */
-    static final String CONNECTOR_XPATH =
+    private static final String CONNECTOR_XPATH =
         "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
             + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
             + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
