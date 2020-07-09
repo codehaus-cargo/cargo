@@ -26,8 +26,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
- * configuration.
+ * Capabilities of Tomcat's runtime configuration (versions 4.x to 6.x).
  */
 public class Tomcat4x5x6xRuntimeConfigurationCapability extends
     AbstractRuntimeConfigurationCapability

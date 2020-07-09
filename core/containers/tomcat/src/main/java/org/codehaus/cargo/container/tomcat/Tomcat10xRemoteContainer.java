@@ -33,7 +33,7 @@ public class Tomcat10xRemoteContainer extends Tomcat9xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see org.codehaus.cargo.container.tomcat.internal.Tomcat9xRemoteContainer#Tomcat9xRemoteContainer(RuntimeConfiguration)
+     * @see org.codehaus.cargo.container.tomcat.Tomcat9xRemoteContainer#Tomcat9xRemoteContainer(RuntimeConfiguration)
      */
     public Tomcat10xRemoteContainer(RuntimeConfiguration configuration)
     {

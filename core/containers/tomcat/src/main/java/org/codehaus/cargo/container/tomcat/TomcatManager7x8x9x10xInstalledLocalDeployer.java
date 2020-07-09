@@ -29,7 +29,7 @@ public class TomcatManager7x8x9x10xInstalledLocalDeployer extends
 {
     /**
      * {@inheritDoc}
-     * @see TomcatManager4x5x6xInstalledLocalDeployer#TomcatManagerInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see TomcatManager4x5x6xInstalledLocalDeployer#TomcatManager4x5x6xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public TomcatManager7x8x9x10xInstalledLocalDeployer(LocalContainer container)
     {

@@ -22,8 +22,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Capabilities of Tomcat's {@link org.codehaus.cargo.container.tomcat.TomcatRuntimeConfiguration}
- * configuration.
+ * Capabilities of Tomcat's runtime configuration (versions 7.x onwards).
  */
 public class Tomcat7x8x9x10xRuntimeConfigurationCapability extends
     Tomcat4x5x6xRuntimeConfigurationCapability
