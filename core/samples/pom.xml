@@ -807,7 +807,7 @@
 
               <property>
                 <name>cargo.tomcat7x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.104/tomcat-7.0.104.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.105/tomcat-7.0.105.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat7x.java.home</name>
