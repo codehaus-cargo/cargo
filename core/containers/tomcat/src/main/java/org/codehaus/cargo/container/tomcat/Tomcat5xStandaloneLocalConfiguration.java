@@ -19,6 +19,12 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -36,12 +42,6 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat5xStandaloneLocalConfi
 import org.codehaus.cargo.util.XmlReplacement;
 import org.w3c.dom.Element;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
 /**
  * StandAloneLocalConfiguration that is appropriate for Tomcat 5.x containers.
  * <p>
@@ -51,25 +51,6 @@ import java.util.Properties;
 public class Tomcat5xStandaloneLocalConfiguration extends
     AbstractCatalinaStandaloneLocalConfiguration
 {
-
-    /**
-     * Default xpath expression for identifying the HTTP "Connector" element in the server.xml
-     * file.
-     */
-    private static final String CONNECTOR_XPATH =
-        "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
-            + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
-            + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
-
-    /**
-     * Xpath expression template for identifying the HTTP "Connector" element in the server.xml
-     * file, when a custom protocol class is in use.
-     */
-    private static final String CONNECTOR_XPATH_TEMPLATE =
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
-                    + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
-                    + "or @protocol='org.apache.coyote.http11.Http11NioProtocol' "
-                    + "or @protocol='%s']";
 
     /**
      * {@inheritDoc}
@@ -95,23 +76,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         configurationBuilder = new Tomcat5x6x7xConfigurationBuilder();
 
         addXmlReplacements();
-    }
-
-    /**
-     * XPath expression for identifying the "Connector" element in the server.xml file.
-     * <p>
-     * Handles the fact that this connector protocol value might have changed.
-     *
-     * @return the xpath expression for a http connector
-     */
-    protected String connectorXpath()
-    {
-        String protocolClass = getPropertyValue(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
-        if (protocolClass == null)
-        {
-            return CONNECTOR_XPATH;
-        }
-        return String.format(CONNECTOR_XPATH_TEMPLATE, protocolClass);
     }
 
     /**
