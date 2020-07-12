@@ -67,11 +67,12 @@
             <forkedProcessTimeoutInSeconds>1800</forkedProcessTimeoutInSeconds>
 
             <systemProperties>
-
               <!--
-                Surefire 2.4.3 requires you to pass properties explicitly.
+                As we run the tests in their separately forked JVMs, the associated properties must
+                be passed explicitly. If you're behind a proxy, set this here.
 
-                If you're behind a proxy, set this here
+                Alternatively, you can set the cargo.proxy.* variables in your settings.xml.
+                Scroll further down in this file to learn how!
 
               <property>
                 <name>http.proxyHost</name>
