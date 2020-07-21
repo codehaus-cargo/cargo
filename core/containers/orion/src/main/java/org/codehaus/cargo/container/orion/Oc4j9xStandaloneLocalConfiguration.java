@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.orion;
 
 import java.nio.charset.StandardCharsets;
+
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 
