@@ -22,12 +22,10 @@ package org.codehaus.cargo.sample.java;
 import java.io.File;
 import java.util.Map.Entry;
 import java.util.Properties;
-import javax.net.ssl.SSLHandshakeException;
 
 import junit.framework.TestCase;
 
 import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -453,27 +451,7 @@ public abstract class AbstractCargoTestCase extends TestCase
             installer.setProxy(userProxy);
         }
 
-        try
-        {
-            installer.install();
-        }
-        catch (ContainerException e)
-        {
-            if (e.getCause() instanceof SSLHandshakeException)
-            {
-                String httpsProtocols = System.getProperty("https.protocols");
-                System.setProperty("https.protocols", "TLSv1.2");
-                try
-                {
-                    installer.install();
-                }
-                finally
-                {
-                    System.setProperty("https.protocols", httpsProtocols);
-                }
-            }
-        }
-
+        installer.install();
         return installer.getHome();
     }
 }
