@@ -151,6 +151,7 @@ public class ConfluenceContainerDocumentationGenerator
         "glassfish4x",
         "jboss74x",
         "jboss75x",
+        "resin4x",
         "tomcat8x",
         "weblogic12x",
         "weblogic121x",
@@ -164,7 +165,6 @@ public class ConfluenceContainerDocumentationGenerator
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
         "glassfish5x",
         "payara",
-        "resin4x",
         "tomcat9x",
         "tomcat10x",
         "tomee8x",
@@ -1500,6 +1500,11 @@ public class ConfluenceContainerDocumentationGenerator
                         + "and the behaviour described in "
                             + "[JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
                                 + "Resin 3.x doesn't run on Java 7 and above";
+                }
+                else if ("resin4x".equals(containerId))
+                {
+                    extra = "Due to a bug in the Resin EventManager, Resin versions 4.0.64 and "
+                        + "below require Java 8 or above";
                 }
                 else if (containerId.startsWith("websphere"))
                 {
