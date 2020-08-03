@@ -31,6 +31,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -307,7 +308,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     answer.append("\r\n");
                     answer.append("\r\n");
 
-                    out.write(answer.toString().getBytes("US-ASCII"));
+                    out.write(answer.toString().getBytes(StandardCharsets.US_ASCII));
                     out.flush();
                 }
                 else
@@ -324,7 +325,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     answer.append("\r\n");
                     answer.append("\r\n");
 
-                    out.write(answer.toString().getBytes("US-ASCII"));
+                    out.write(answer.toString().getBytes(StandardCharsets.US_ASCII));
                     out.flush();
 
                     byte[] fileBytes = new byte[socket.getSendBufferSize()];
