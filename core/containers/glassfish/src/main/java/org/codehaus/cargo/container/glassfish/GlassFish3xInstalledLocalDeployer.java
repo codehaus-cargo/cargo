@@ -36,6 +36,7 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.property.User;
@@ -61,7 +62,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
     /**
      * Calls parent constructor, which saves the container.
-     * 
+     *
      * @param localContainer Container.
      */
     public GlassFish3xInstalledLocalDeployer(InstalledLocalContainer localContainer)
@@ -97,6 +98,10 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             {
                 args.add(((WAR) deployable).getContext());
             }
+        }
+        else if (deployable instanceof EAR)
+        {
+            args.add("--name=" + deployable.getName());
         }
         else if (deployable instanceof Bundle)
         {
@@ -344,7 +349,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
     /**
      * Does not do anything since GlassFish 3.x support was not tested.
-     * 
+     *
      * {@inheritDoc}
      */
     @Override
