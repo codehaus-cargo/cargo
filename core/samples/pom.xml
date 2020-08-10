@@ -875,6 +875,15 @@
                 <value>${cargo.java.home.1_8}</value>
               </property>
 
+              <property>
+                <name>cargo.tomee9x.url</name>
+                <value>https://downloads.apache.org/tomee/tomee-9.0.0-M2/apache-tomee-9.0.0-M2-plus.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomee9x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
               <!--
                 WebLogic 8.x
 
@@ -1980,6 +1989,12 @@
       <id>tomee8x</id>
       <properties>
         <cargo.containers>tomee8x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomee9x</id>
+      <properties>
+        <cargo.containers>tomee9x</cargo.containers>
       </properties>
     </profile>
 

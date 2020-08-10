@@ -95,6 +95,10 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat10x");
         excludedContainerIds.add("wildfly20x");
 
+        // TomEE 9.x is excluded for now as it cannot load anything with javax.* inheritance.
+        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        excludedContainerIds.add("tomee9x");
+
         suite.addTestSuite(JmsQueueResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
