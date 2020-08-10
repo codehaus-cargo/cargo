@@ -33,7 +33,6 @@
     <module>configurationFiles-xmlReplacements-test</module>
     <module>implementationClasses-test</module>
     <module>inPlaceDevelopment-test</module>
-    <module>jetty4x-embedded-test</module>
     <module>jetty5x-embedded-test</module>
     <module>jetty6x-embedded-test</module>
     <module>jetty7x-embedded-test</module>
