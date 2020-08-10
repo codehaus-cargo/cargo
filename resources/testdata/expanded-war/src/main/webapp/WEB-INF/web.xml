@@ -1,12 +1,5 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE web-app
-    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-    "http://java.sun.com/dtd/web-app_2_3.dtd">
-
-<<<<<<< HEAD
-<web-app>
-=======
 <!--
   Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
 
@@ -28,6 +21,5 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_3.xsd"
          version="2.3">
 
->>>>>>> 798376fb3... CARGO-1526: Modify the sample WARs and the Cargo Ping Component so it support both the oldest (servlet 2.3) containers all the way to the latest Jakarta EE containers
   <description>Simple Expanded WAR for testing</description>
 </web-app>
