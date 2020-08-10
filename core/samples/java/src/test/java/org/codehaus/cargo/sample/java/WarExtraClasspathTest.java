@@ -77,7 +77,6 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
             new CargoTestSuite("Tests that run on local containers to test extra classpath");
 
         Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jetty4x");
         excludedContainerIds.add("jetty5x");
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");

@@ -95,7 +95,6 @@ public class ConfluenceContainerDocumentationGenerator
         "geronimo1x",
         "jboss3x",
         "jboss4x",
-        "jetty4x",
         "jetty5x",
         "jo1x",
         "jonas4x",

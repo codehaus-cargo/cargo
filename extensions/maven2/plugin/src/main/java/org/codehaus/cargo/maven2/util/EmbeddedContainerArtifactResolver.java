@@ -114,15 +114,6 @@ public class EmbeddedContainerArtifactResolver
         this.repositories = repositories;
         this.artifactFactory = artifactFactory;
 
-        List<Dependency> jetty4xDependencies = new ArrayList<Dependency>();
-        jetty4xDependencies.add(new Dependency("ant", "ant", "1.6.4"));
-        jetty4xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "4.2.27"));
-        jetty4xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.4"));
-        jetty4xDependencies.add(new Dependency("javax.servlet", "jsp-api", "2.0"));
-        jetty4xDependencies.add(new Dependency("tomcat", "jasper-compiler", "4.1.30"));
-        jetty4xDependencies.add(new Dependency("tomcat", "jasper-runtime", "4.1.30"));
-        this.containerDependencies.put("jetty4x", jetty4xDependencies);
-
         List<Dependency> jetty5xDependencies = new ArrayList<Dependency>();
         jetty5xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "5.1.12"));
         jetty5xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.4"));

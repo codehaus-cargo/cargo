@@ -62,17 +62,22 @@ public class UberwarTest extends AbstractDocumentBuilderTest
             // Check that the security constraints are in the uberwar
             List<Element> securityConstraints = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);
             assertEquals(1, securityConstraints.size());
-            List<Element> authConstraints =
-                securityConstraints.get(0).getChildren(WebXmlType.AUTH_CONSTRAINT);
+            Element securityConstraint = securityConstraints.get(0);
+            List<Element> authConstraints = securityConstraint.getChildren(
+                WebXmlType.AUTH_CONSTRAINT, securityConstraint.getNamespace());
             assertEquals(1, authConstraints.size());
-            List<Element> roleNames = authConstraints.get(0).getChildren(WebXmlType.ROLE_NAME);
+            Element authConstraint = authConstraints.get(0);
+            List<Element> roleNames = authConstraint.getChildren(
+                WebXmlType.ROLE_NAME, authConstraint.getNamespace());
             assertEquals(1, roleNames.size());
             assertEquals("cargo", roleNames.get(0).getText());
 
             // Check that the datasource definitions are in the uberwar
             List<Element> resourceRefs = webXml.getTags(WebXmlType.RESOURCE_REF);
             assertEquals(1, resourceRefs.size());
-            List<Element> resRefNames = resourceRefs.get(0).getChildren("res-ref-name");
+            Element resourceRef = resourceRefs.get(0);
+            List<Element> resRefNames = resourceRef.getChildren(
+                "res-ref-name", resourceRef.getNamespace());
             assertEquals(1, resRefNames.size());
             assertEquals("jdbc/CargoDS", resRefNames.get(0).getText());
         }

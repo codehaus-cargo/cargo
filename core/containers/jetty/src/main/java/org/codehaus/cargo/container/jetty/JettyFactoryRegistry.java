@@ -64,10 +64,6 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory)
     {
-        configurationCapabilityFactory.registerConfigurationCapability("jetty4x",
-            ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty4xEmbeddedStandaloneLocalConfigurationCapability.class);
-
         configurationCapabilityFactory.registerConfigurationCapability("jetty5x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
             Jetty4xEmbeddedStandaloneLocalConfigurationCapability.class);
@@ -133,10 +129,6 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationFactory configurationFactory)
     {
-        configurationFactory.registerConfiguration("jetty4x",
-            ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty4xEmbeddedStandaloneLocalConfiguration.class);
-
         configurationFactory.registerConfiguration("jetty5x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
             Jetty5xEmbeddedStandaloneLocalConfiguration.class);
@@ -202,9 +194,6 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(DeployerFactory deployerFactory)
     {
-        deployerFactory.registerDeployer("jetty4x", DeployerType.EMBEDDED,
-            Jetty4xEmbeddedLocalDeployer.class);
-
         deployerFactory.registerDeployer("jetty5x", DeployerType.EMBEDDED,
             Jetty5xEmbeddedLocalDeployer.class);
 
@@ -263,9 +252,6 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerFactory containerFactory)
     {
-        containerFactory.registerContainer("jetty4x", ContainerType.EMBEDDED,
-            Jetty4xEmbeddedLocalContainer.class);
-
         containerFactory.registerContainer("jetty5x", ContainerType.EMBEDDED,
             Jetty5xEmbeddedLocalContainer.class);
 
@@ -306,9 +292,6 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
-        containerCapabilityFactory.registerContainerCapability("jetty4x",
-            ServletContainerCapability.class);
-
         containerCapabilityFactory.registerContainerCapability("jetty5x",
             ServletContainerCapability.class);
 

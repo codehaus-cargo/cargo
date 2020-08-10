@@ -416,15 +416,6 @@
               </property>
 
               <property>
-                <name>cargo.jetty4x.url</name>
-                <value>http://web.archive.org/web/20150506141956if_/http://dist.codehaus.org/jetty/jetty-4.2.x/jetty-4.2.27.zip</value>
-              </property>
-              <property>
-                <name>cargo.jetty4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
                 <name>cargo.jetty5x.url</name>
                 <value>http://web.archive.org/web/20150506142403if_/http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.15.tgz</value>
               </property>
@@ -1767,12 +1758,6 @@
        </properties>
     </profile>
 
-    <profile>
-      <id>jetty4x</id>
-      <properties>
-        <cargo.containers>jetty4x</cargo.containers>
-      </properties>
-    </profile>
     <profile>
       <id>jetty5x</id>
       <properties>

@@ -46,10 +46,6 @@ public class EmbeddedContainerClasspathResolver
 
     static
     {
-        List<String> jetty4xDependencies = new ArrayList<String>();
-        jetty4xDependencies.add("lib/*.jar");
-        jetty4xDependencies.add("ext/*.jar");
-
         List<String> jetty5xDependencies = new ArrayList<String>();
         jetty5xDependencies.add("lib/*.jar");
         jetty5xDependencies.add("ext/*.jar");
@@ -81,7 +77,6 @@ public class EmbeddedContainerClasspathResolver
         tomcat6x7x8x9x10xDependencies.add("bin/*.jar");
         tomcat6x7x8x9x10xDependencies.add("lib/*.jar");
 
-        DEPENDENCIES.put("jetty4x", jetty4xDependencies);
         DEPENDENCIES.put("jetty5x", jetty5xDependencies);
         DEPENDENCIES.put("jetty6x", jetty6xDependencies);
         DEPENDENCIES.put("jetty7x", jetty7xDependencies);
