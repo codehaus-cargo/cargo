@@ -52,6 +52,30 @@
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-ping-component</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/classes/org/codehaus/cargo/container/internal/resources</outputDirectory>
+                  <destFileName>cargocpc.war</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <!--
         We create an attached artifact containing reusable test classes which we're reusing in
         other modules' unit tests. We need to only include some classes but there seems to be no
