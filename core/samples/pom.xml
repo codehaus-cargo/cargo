@@ -1638,6 +1638,8 @@
                 <portName>cargo.samples.resin.socketwait.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
+              <!-- Leave enough space for the port offset tests -->
+              <maxPortNumber>64535</maxPortNumber>
             </configuration>
           </execution>
         </executions>

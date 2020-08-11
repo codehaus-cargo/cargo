@@ -36,7 +36,7 @@ import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for EAR support.
+ * Test for port offset support.
  */
 public class PortOffsetContainerTest extends AbstractCargoTestCase
 {
