@@ -24,15 +24,15 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
- * Configuration capability for a Jetty 4.x Embedded container.
+ * Configuration capability for a Jetty 5.x Embedded container.
  */
-public class Jetty4xEmbeddedStandaloneLocalConfigurationCapability extends
+public class Jetty5xEmbeddedStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Jetty4xEmbeddedStandaloneLocalConfigurationCapability()
+    public Jetty5xEmbeddedStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);

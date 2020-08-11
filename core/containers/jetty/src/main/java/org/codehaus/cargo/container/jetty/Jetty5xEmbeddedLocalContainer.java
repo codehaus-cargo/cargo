@@ -50,7 +50,7 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * @see AbstractJetty4x5xEmbeddedLocalContainer#AbstractJetty4x5xEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+     * @see AbstractJettyEmbeddedLocalContainer#AbstractJettyEmbeddedLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
     public Jetty5xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
@@ -59,7 +59,7 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
     /**
      * {@inheritDoc}
-     * @see AbstractJetty4x5xEmbeddedLocalContainer#doStart()
+     * @see AbstractJettyEmbeddedLocalContainer#doStart()
      */
     @Override
     protected void doStart() throws Exception
