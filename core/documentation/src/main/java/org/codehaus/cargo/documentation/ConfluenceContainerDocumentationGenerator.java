@@ -1494,12 +1494,7 @@ public class ConfluenceContainerDocumentationGenerator
                         "Java version for " + containerId + " is not defined");
                 }
 
-                if ("jonas5x".equals(containerId))
-                {
-                    extra = "JOnAS 5.x is not able of parsing Java versions 8 and above, as a "
-                        + "result cannot run on these Java versions";
-                }
-                else if ("resin3x".equals(containerId))
+                if ("resin3x".equals(containerId))
                 {
                     extra = "Due to incompabilities between {{com.caucho.log.EnvironmentLogger}} "
                         + "and the behaviour described in "
@@ -1708,9 +1703,10 @@ public class ConfluenceContainerDocumentationGenerator
 
             if ("jonas5x".equals(containerId))
             {
-                output.append("JOnAS 5.x is not able of parsing Java versions 8 and above, as a ");
-                output.append("result cannot be tested on our Continous Integration system ");
-                output.append("(which has Java 8 as the lowest JDK version).");
+                output.append("Due to a bug parsing the Java version in the OW2 utilities, JOnAS ");
+                output.append("5.x doesn't run on Java 8 and above and hence cannot be tested ");
+                output.append("on our Continous Integration system (which has Java 8 as the ");
+                output.append("lowest JDK version).");
             }
             else if ("resin3x".equals(containerId))
             {
