@@ -187,7 +187,8 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Classes that are used to get the property names.
      */
-    private static final Class[] PROPERTY_SET_CLASSES = {
+    private static final Class[] PROPERTY_SET_CLASSES =
+    {
         DatasourcePropertySet.class,
         GeneralPropertySet.class,
         RemotePropertySet.class,
@@ -1493,7 +1494,12 @@ public class ConfluenceContainerDocumentationGenerator
                         "Java version for " + containerId + " is not defined");
                 }
 
-                if ("resin3x".equals(containerId))
+                if ("jonas5x".equals(containerId))
+                {
+                    extra = "JOnAS 5.x is not able of parsing Java versions 8 and above, as a "
+                        + "result cannot run on these Java versions";
+                }
+                else if ("resin3x".equals(containerId))
                 {
                     extra = "Due to incompabilities between {{com.caucho.log.EnvironmentLogger}} "
                         + "and the behaviour described in "
@@ -1700,15 +1706,20 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            if ("resin3x".equals(containerId))
+            if ("jonas5x".equals(containerId))
+            {
+                output.append("JOnAS 5.x is not able of parsing Java versions 8 and above, as a ");
+                output.append("result cannot be tested on our Continous Integration system ");
+                output.append("(which has Java 8 as the lowest JDK version).");
+            }
+            else if ("resin3x".equals(containerId))
             {
                 output.append("Due to incompabilities between ");
                 output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
                 output.append("in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098]");
                 output.append(", Resin 3.x doesn't run on Java 7 and above and hence cannot be ");
-                output.append("tested on our Continous Integration system (which [has Java 7 as ");
-                output.append("the lowest JDK version");
-                output.append("|https://codehaus-cargo.atlassian.net/browse/CARGO-1466]).");
+                output.append("tested on our Continous Integration system (which has Java 8 as ");
+                output.append("the lowest JDK version).");
             }
             else
             {

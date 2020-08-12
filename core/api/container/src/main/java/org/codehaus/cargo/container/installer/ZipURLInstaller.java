@@ -48,7 +48,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     /**
      * Archive types supported.
      */
-    private static final String[] ARCHIVE_ENDINGS = {
+    private static final String[] ARCHIVE_ENDINGS =
+    {
         ".zip",
         ".tgz",
         ".tar",

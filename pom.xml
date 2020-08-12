@@ -340,7 +340,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cargo.derby.version>10.12.1.1</cargo.derby.version>
+    <cargo.derby.version>10.14.2.0</cargo.derby.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
     <jmock.version>1.2.0</jmock.version>
   </properties>
@@ -896,7 +896,7 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
+        <version>2.4</version>
       </dependency>
       <dependency>
         <groupId>jaxen</groupId>
@@ -930,7 +930,7 @@
       <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
         <artifactId>htmlunit</artifactId>
-        <version>2.24</version>
+        <version>2.43.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.ant</groupId>
@@ -1014,11 +1014,6 @@
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
         <version>2.0.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.glassfish</groupId>
-        <artifactId>javax.servlet</artifactId>
-        <version>3.0.1</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.rmi</groupId>
@@ -1107,8 +1102,8 @@
           <version>3.1</version>
           <configuration>
             <!-- When you change the below, remember to also update the Javadoc plugin configuration -->
-            <source>1.7</source>
-            <target>1.7</target>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
         </plugin>
         <plugin>
@@ -1161,7 +1156,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>2.10.3</version>
           <configuration>
-            <source>1.7</source>
+            <source>1.8</source>
             <!--
               Workaround for a bug which appends the /undefined/ string in search in the apidocs, see
               https://stackoverflow.com/questions/52326318/maven-javadoc-search-redirects-to-undefined-url for details
