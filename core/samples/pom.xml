@@ -1627,6 +1627,7 @@
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>
               <!-- Leave enough space for the port offset tests -->
+              <minPortNumber>10000</minPortNumber>
               <maxPortNumber>64535</maxPortNumber>
             </configuration>
           </execution>
