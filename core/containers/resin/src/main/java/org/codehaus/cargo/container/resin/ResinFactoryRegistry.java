@@ -23,8 +23,6 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
-import org.codehaus.cargo.container.resin.internal.Resin2xExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.resin.internal.Resin2xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.resin.internal.Resin3xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.resin.internal.Resin3xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -60,13 +58,6 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationCapabilityFactory configurationCapabilityFactory)
     {
-        configurationCapabilityFactory.registerConfigurationCapability("resin2x",
-            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Resin2xStandaloneLocalConfigurationCapability.class);
-        configurationCapabilityFactory.registerConfigurationCapability("resin2x",
-            ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            Resin2xExistingLocalConfigurationCapability.class);
-
         configurationCapabilityFactory.registerConfigurationCapability("resin3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Resin3xStandaloneLocalConfigurationCapability.class);
@@ -97,13 +88,6 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ConfigurationFactory configurationFactory)
     {
-        configurationFactory.registerConfiguration("resin2x",
-            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Resin2xStandaloneLocalConfiguration.class);
-        configurationFactory.registerConfiguration("resin2x",
-            ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            Resin2xExistingLocalConfiguration.class);
-
         configurationFactory.registerConfiguration("resin3x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Resin3xStandaloneLocalConfiguration.class);
@@ -134,9 +118,6 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(DeployerFactory deployerFactory)
     {
-        deployerFactory.registerDeployer("resin2x", DeployerType.INSTALLED,
-            ResinInstalledLocalDeployer.class);
-
         deployerFactory.registerDeployer("resin3x", DeployerType.INSTALLED,
             ResinInstalledLocalDeployer.class);
 
@@ -165,9 +146,6 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerFactory containerFactory)
     {
-        containerFactory.registerContainer("resin2x", ContainerType.INSTALLED,
-            Resin2xInstalledLocalContainer.class);
-
         containerFactory.registerContainer("resin3x", ContainerType.INSTALLED,
             Resin3xInstalledLocalContainer.class);
 
@@ -186,9 +164,6 @@ public class ResinFactoryRegistry extends AbstractFactoryRegistry
     @Override
     protected void register(ContainerCapabilityFactory containerCapabilityFactory)
     {
-        containerCapabilityFactory.registerContainerCapability("resin2x",
-            ServletContainerCapability.class);
-
         containerCapabilityFactory.registerContainerCapability("resin3x",
             ServletContainerCapability.class);
 

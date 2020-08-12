@@ -99,7 +99,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jo1x",
         "jonas4x",
         "oc4j9x",
-        "resin2x",
         "tomcat4x",
         "tomcat5x",
         "weblogic8x"

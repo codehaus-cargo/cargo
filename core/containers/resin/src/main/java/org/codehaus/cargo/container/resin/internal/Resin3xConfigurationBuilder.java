@@ -22,22 +22,27 @@ package org.codehaus.cargo.container.resin.internal;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilder;
 
 /**
  * Constructs xml elements needed to configure a normal or XA compliant DataSource for Resin 3.x.
  */
-public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
+public class Resin3xConfigurationBuilder extends AbstractConfigurationBuilder
 {
+    /**
+     * Exception message when trying to configure Transactions when not using an appropriate driver.
+     */
+    public static final String TRANSACTIONS_WITH_XA_OR_JCA_ONLY =
+        "Resin only supports transactions with an XADataSource or ManagedConnectionFactory object";
+
     /**
      * In Resin 3.x DataSources are proper types
      * 
      * @param ds datasource to configure
      * @return String representing the &lt;datasource/&gt; entry.
      */
-    @Override
     protected String toResinConfigurationEntry(DataSource ds)
     {
-
         StringBuilder dataSourceString = new StringBuilder();
         dataSourceString.append("<database>\n");
         dataSourceString.append("  <jndi-name>").append(ds.getJndiLocation()).append(
@@ -70,7 +75,6 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
         dataSourceString.append("  </driver>\n");
         dataSourceString.append("</database>");
         return dataSourceString.toString();
-
     }
 
     /**
@@ -101,5 +105,42 @@ public class Resin3xConfigurationBuilder extends Resin2xConfigurationBuilder
 
         resourceString.append("</resource>");
         return resourceString.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
+    {
+        return toResinConfigurationEntry(ds);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
+    {
+        throw new UnsupportedOperationException(TRANSACTIONS_WITH_XA_OR_JCA_ONLY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
+    {
+        throw new UnsupportedOperationException(TRANSACTIONS_WITH_XA_OR_JCA_ONLY);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
+    {
+        return toResinConfigurationEntry(ds);
     }
 }

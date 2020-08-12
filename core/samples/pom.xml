@@ -723,15 +723,6 @@
               </property>
 
               <property>
-                <name>cargo.resin2x.url</name>
-                <value>https://www.caucho.com/download/resin-2.1.17.zip</value>
-              </property>
-              <property>
-                <name>cargo.resin2x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-
-              <property>
                 <name>cargo.resin3x.url</name>
                 <value>https://www.caucho.com/download/resin-3.0.27.zip</value>
               </property>
@@ -1886,12 +1877,6 @@
       </properties>
     </profile>
 
-    <profile>
-      <id>resin2x</id>
-      <properties>
-        <cargo.containers>resin2x</cargo.containers>
-      </properties>
-    </profile>
     <profile>
       <id>resin3x</id>
       <properties>

@@ -19,7 +19,11 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.resin.ResinPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
 
 /**
  * Capabilities of the Resin's
@@ -27,13 +31,18 @@ import org.codehaus.cargo.container.resin.ResinPropertySet;
  * configuration.
  */
 public class Resin3xStandaloneLocalConfigurationCapability
-    extends Resin2xStandaloneLocalConfigurationCapability
+    extends AbstractStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Resin3xStandaloneLocalConfigurationCapability()
     {
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
+
         this.propertySupportMap.put(ResinPropertySet.SOCKETWAIT_PORT, Boolean.TRUE);
     }
 }

@@ -21,11 +21,12 @@ package org.codehaus.cargo.container.resin.internal;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
 
 /**
  * Unit tests for {@link Resin3xConfigurationBuilder}.
  */
-public class Resin3xConfigurationBuilderTest extends Resin2xConfigurationBuilderTest
+public class Resin3xConfigurationBuilderTest extends AbstractConfigurationBuilderTest
 {
 
     /**
@@ -44,6 +45,50 @@ public class Resin3xConfigurationBuilderTest extends Resin2xConfigurationBuilder
     protected ConfigurationChecker createConfigurationChecker()
     {
         return new Resin3xConfigurationChecker();
+    }
+
+    /**
+     * Checks that creating datasource configuration entries with local transaction support
+     * throws an exception with message
+     * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
+        throws Exception
+    {
+        try
+        {
+            super
+                .testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport();
+        }
+        catch (UnsupportedOperationException e)
+        {
+            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+                e.getMessage());
+        }
+    }
+
+    /**
+     * Checks that creating datasource configuration entries with driver-configured XA transaction
+     * support throws an exception with message
+     * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
+     * @throws Exception If anything goes wrong.
+     */
+    @Override
+    public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
+        throws Exception
+    {
+        try
+        {
+            super
+                .testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport();
+        }
+        catch (UnsupportedOperationException e)
+        {
+            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+                e.getMessage());
+        }
     }
 
 }

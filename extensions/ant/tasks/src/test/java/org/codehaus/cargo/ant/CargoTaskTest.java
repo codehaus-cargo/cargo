@@ -31,7 +31,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.resin.Resin2xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.resin.Resin3xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 
@@ -75,7 +75,7 @@ public class CargoTaskTest extends TestCase
     public void testMakeContainerWithOneDeployable()
     {
         CargoTask task = new CargoTask();
-        task.setContainerId("resin2x");
+        task.setContainerId("resin3x");
         task.setType(ContainerType.INSTALLED);
 
         ConfigurationElement configurationElement = task.createConfiguration();
@@ -88,7 +88,7 @@ public class CargoTaskTest extends TestCase
 
         LocalContainer container = (LocalContainer) task.makeContainer();
 
-        assertEquals(Resin2xStandaloneLocalConfiguration.class.getName(),
+        assertEquals(Resin3xStandaloneLocalConfiguration.class.getName(),
             container.getConfiguration().getClass().getName());
         assertEquals(1, container.getConfiguration().getDeployables().size());
 

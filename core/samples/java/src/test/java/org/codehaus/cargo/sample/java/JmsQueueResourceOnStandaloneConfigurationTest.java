@@ -82,7 +82,6 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         // queue resources
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("resin2x");
         excludedContainerIds.add("resin3x");
         excludedContainerIds.add("resin31x");
         excludedContainerIds.add("resin4x");

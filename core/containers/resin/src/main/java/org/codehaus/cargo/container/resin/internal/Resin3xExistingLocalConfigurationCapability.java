@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.resin.ResinPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the Resin's
@@ -27,13 +29,16 @@ import org.codehaus.cargo.container.resin.ResinPropertySet;
  * configuration.
  */
 public class Resin3xExistingLocalConfigurationCapability
-    extends Resin2xExistingLocalConfigurationCapability
+    extends AbstractExistingLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Resin3xExistingLocalConfigurationCapability()
     {
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.FALSE);
+
         this.propertySupportMap.put(ResinPropertySet.SOCKETWAIT_PORT, Boolean.TRUE);
     }
 }

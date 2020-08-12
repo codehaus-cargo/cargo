@@ -103,7 +103,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     /**
      * Checks that creating datasource configuration entries with local transaction support
      * throws an exception with message
-     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
+     * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -119,7 +119,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(Resin2xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
                 e.getMessage());
         }
     }
@@ -127,7 +127,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
     /**
      * Checks that creating datasource configuration entries with driver-configured XA transaction
      * support throws an exception with message
-     * {@link Resin2xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
+     * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -143,7 +143,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(Resin2xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
                 e.getMessage());
         }
     }
