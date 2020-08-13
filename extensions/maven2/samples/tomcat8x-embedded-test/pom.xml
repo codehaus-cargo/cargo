@@ -43,10 +43,8 @@
 
   <profiles>
     <profile>
-      <!-- JDK 7 -->
-      <id>java7+</id>
+      <id>run-its</id>
       <activation>
-        <jdk>[1.7,)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>
