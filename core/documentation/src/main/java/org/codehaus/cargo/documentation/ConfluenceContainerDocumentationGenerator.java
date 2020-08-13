@@ -1755,7 +1755,16 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            if ("resin3x".equals(containerId))
+            if ("geronimo2x".equals(containerId))
+            {
+                output.append("Due to incompatibilities between the way Geronimo 2.x handles ");
+                output.append("JAVA_HOME and the multi-version setup in our Continous ");
+                output.append("Integration system (which has Java 7 as the lowest JDK version ");
+                output.append("for testing samples and Java 8 for compiling and packaging ");
+                output.append("Codehaus Cargo), the Geronimo 2.x container is not tested ");
+                output.append("automatically.");
+            }
+            else if ("resin3x".equals(containerId))
             {
                 output.append("Due to incompatibilities between ");
                 output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
