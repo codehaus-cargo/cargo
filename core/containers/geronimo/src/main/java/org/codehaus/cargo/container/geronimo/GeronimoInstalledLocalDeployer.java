@@ -35,6 +35,7 @@ import org.codehaus.cargo.container.geronimo.deployable.GeronimoDeployable;
 import org.codehaus.cargo.container.geronimo.internal.GeronimoUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -79,9 +80,9 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     /**
      * @return the same value as {@link #getContainer()} but more type-safe.
      */
-    protected InstalledLocalContainer getInstalledContainer()
+    protected AbstractInstalledLocalContainer getInstalledContainer()
     {
-        return (InstalledLocalContainer) super.getContainer();
+        return (AbstractInstalledLocalContainer) super.getContainer();
     }
 
     /**
@@ -366,6 +367,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         JvmLauncherRequest request = new JvmLauncherRequest(false, this);
         JvmLauncher java =
             getInstalledContainer().getJvmLauncherFactory().createJvmLauncher(request);
+        getInstalledContainer().setJvmToLaunchContainerIn(java);
 
         return java;
     }
@@ -463,7 +465,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         {
             GeronimoDeployable geronimoDeployable = (GeronimoDeployable) deployable;
             String plan =
-                geronimoDeployable.getPlan((InstalledLocalContainer) this.getContainer());
+                geronimoDeployable.getPlan(getInstalledContainer());
             if (plan != null)
             {
                 File toFile = new File(getContainer().getConfiguration().getHome(), "var/temp/"

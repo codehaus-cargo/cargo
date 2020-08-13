@@ -510,7 +510,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      * 
      * @param java the java command that will start the container
      */
-    protected void setJvmToLaunchContainerIn(JvmLauncher java)
+    public void setJvmToLaunchContainerIn(JvmLauncher java)
     {
         String javaHome = getJavaHome();
         if (javaHome != null)
