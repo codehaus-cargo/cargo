@@ -91,7 +91,8 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Containers that work on Java 4.
      */
-    private static final List<String> JAVA4_CONTAINERS = Arrays.asList(new String[] {
+    private static final List<String> JAVA4_CONTAINERS = Arrays.asList(new String[]
+    {
         "geronimo1x",
         "jboss3x",
         "jboss4x",
@@ -107,7 +108,8 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Containers that work on Java 5.
      */
-    private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[] {
+    private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[]
+    {
         "geronimo2x",
         "glassfish2x",
         "jboss42x",
@@ -126,7 +128,8 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Containers that work on Java 6.
      */
-    private static final List<String> JAVA6_CONTAINERS = Arrays.asList(new String[] {
+    private static final List<String> JAVA6_CONTAINERS = Arrays.asList(new String[]
+    {
         "geronimo3x",
         "glassfish3x",
         "jboss6x",
@@ -145,7 +148,8 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Containers that work on Java 7.
      */
-    private static final List<String> JAVA7_CONTAINERS = Arrays.asList(new String[] {
+    private static final List<String> JAVA7_CONTAINERS = Arrays.asList(new String[]
+    {
         "glassfish4x",
         "jboss74x",
         "jboss75x",
@@ -159,7 +163,8 @@ public class ConfluenceContainerDocumentationGenerator
     /**
      * Containers that work on Java 8.
      */
-    private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[] {
+    private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[]
+    {
         "glassfish5x",
         "payara",
         "resin4x",
@@ -182,6 +187,33 @@ public class ConfluenceContainerDocumentationGenerator
         "wildfly19x",
         "wildfly20x",
         "wildfly-swarm2017x"
+    });
+
+    /**
+     * Containers that only work with Java up to version 7 due to JSP issues.
+     */
+    private static final List<String> JAVA7_MAX_CONTAINERS_JSP = Arrays.asList(new String[]
+    {
+        "geronimo2x",
+        "jboss5x",
+        "jboss51x",
+        "jboss6x",
+        "jboss61x",
+        "jonas4x",
+        "tomcat5x"
+    });
+
+    /**
+     * Containers that only work with Java up to version 7 due to OSGi issues.
+     */
+    private static final List<String> JAVA7_MAX_CONTAINERS_OSGI = Arrays.asList(new String[]
+    {
+        "geronimo3x",
+        "glassfish3x",
+        "jboss7x",
+        "jboss71x",
+        "jboss72x",
+        "jboss73x"
     });
 
     /**
@@ -1494,77 +1526,27 @@ public class ConfluenceContainerDocumentationGenerator
                         "Java version for " + containerId + " is not defined");
                 }
 
-                if ("geronimo2x".equals(containerId))
+                if (JAVA7_MAX_CONTAINERS_JSP.contains(containerId))
                 {
-                    extra = "Due to security changes in Java 8 update 91 and the Tomcat 6.x "
-                        + "version included in Geronimo 2.x handles JSP, only Geronimo 2.x with "
-                            + "Jetty runs on Java 8 update 91 and above";
-                }
-                else if ("geronimo3x".equals(containerId))
-                {
-                    extra = "Due to incompatibilities with its OSGi environment, Geronimo 3.x "
-                        + "doesn't run on Java 8 and above";
-                }
-                else if ("glassfish3x".equals(containerId))
-                {
-                    extra = "Due to incompatibilities with its OSGi environment, GlassFish 3.x "
-                        + "doesn't run on Java 8 and above";
-                }
-                else if ("jboss5x".equals(containerId) || "jboss51x".equals(containerId)
-                    || "jboss6x".equals(containerId) || "jboss61x".equals(containerId))
-                {
-                    String jbossVersion;
-                    if ("jboss5x".equals(containerId))
-                    {
-                        jbossVersion = "5";
-                    }
-                    else if ("jboss51x".equals(containerId))
-                    {
-                        jbossVersion = "5.1";
-                    }
-                    else if ("jboss6x".equals(containerId))
-                    {
-                        jbossVersion = "6";
-                    }
-                    else
-                    {
-                        jbossVersion = "6.1";
-                    }
+                    Configuration configuration = this.configurationFactory.createConfiguration(
+                        containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                    InstalledLocalContainer container = (InstalledLocalContainer)
+                        this.containerFactory.createContainer(
+                            containerId, ContainerType.INSTALLED, configuration);
 
-                    extra = "Due to incompatibilities between the way the Tomcat version included "
-                        + "in JBoss " + jbossVersion + " and the way the security manager works "
-                            + "in Java versions 8 and above, JBoss " + jbossVersion + ".x doesn't "
-                                + "run on Java 8 and above";
+                    extra = "Due to incompatibilities with its JSP environment, "
+                        + container.getName() + " doesn't run on Java 8 and above";
                 }
-                else if (containerId.equals("jboss7x") || containerId.equals("jboss71x")
-                    || containerId.equals("jboss72x") || containerId.equals("jboss73x"))
+                else if (JAVA7_MAX_CONTAINERS_OSGI.contains(containerId))
                 {
-                    String jbossVersion;
-                    if ("jboss7x".equals(containerId))
-                    {
-                        jbossVersion = "7";
-                    }
-                    else if ("jboss71x".equals(containerId))
-                    {
-                        jbossVersion = "7.1";
-                    }
-                    else if ("jboss72x".equals(containerId))
-                    {
-                        jbossVersion = "EAP 6.1";
-                    }
-                    else
-                    {
-                        jbossVersion = "EAP 6.2";
-                    }
+                    Configuration configuration = this.configurationFactory.createConfiguration(
+                        containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                    InstalledLocalContainer container = (InstalledLocalContainer)
+                        this.containerFactory.createContainer(
+                            containerId, ContainerType.INSTALLED, configuration);
 
-                    extra = "Due to incompatibilities with its OSGi environment, JBoss "
-                        + jbossVersion + ".x doesn't run on Java 8 and above";
-                }
-                else if ("jonas4x".equals(containerId))
-                {
-                    extra = "Due to incompatibilities between the way Tomcat 5 handles JSP and "
-                        + "the way the security manager works in Java versions 8 and above, only "
-                            + "JOnAS 4.x with Jetty runs on Java 8 and above";
+                    extra = "Due to incompatibilities with its OSGi environment, "
+                        + container.getName() + " doesn't run on Java 8 and above";
                 }
                 else if ("resin3x".equals(containerId))
                 {
@@ -1577,12 +1559,6 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     extra = "As opposed to what the Resin documentation indicates, all Resin 4.x "
                         + "versions require Java 8 or above";
-                }
-                else if ("tomcat5x".equals(containerId))
-                {
-                    extra = "Due to incompatibilities between the way Tomcat 5 handles JSP and "
-                        + "the way the security manager works in Java versions 8 and above, "
-                            + "Tomcat 5.x doesn't run on Java 8 and above";
                 }
                 else if (containerId.startsWith("websphere"))
                 {
@@ -1779,20 +1755,33 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            output.append("This container is automatically tested by the "
-                + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
-                + "every time there is a code change.");
-            output.append(LINE_SEPARATOR);
-            if ("wildfly-swarm2017x".equals(containerId))
+            if ("resin3x".equals(containerId))
             {
-                output.append("The WildFly Swarm version used during tests is: {{");
-                output.append(url);
-                output.append("}}");
+                output.append("Due to incompatibilities between ");
+                output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
+                output.append("in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098]");
+                output.append(", Resin 3.x doesn't run on Java 7 and above and hence cannot be ");
+                output.append("tested on our Continous Integration system (which has Java 7 as ");
+                output.append("the lowest JDK version for testing samples and Java 8 for ");
+                output.append("compiling and packaging Codehaus Cargo).");
             }
             else
             {
-                output.append("The server used for tests is downloaded from: ");
-                output.append(url);
+                output.append("This container is automatically tested by the "
+                    + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
+                    + "every time there is a code change.");
+                output.append(LINE_SEPARATOR);
+                if ("wildfly-swarm2017x".equals(containerId))
+                {
+                    output.append("The WildFly Swarm version used during tests is: {{");
+                    output.append(url);
+                    output.append("}}");
+                }
+                else
+                {
+                    output.append("The server used for tests is downloaded from: ");
+                    output.append(url);
+                }
             }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
