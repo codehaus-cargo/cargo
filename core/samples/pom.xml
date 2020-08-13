@@ -507,7 +507,7 @@
 
               <property>
                 <name>cargo.jonas4x.url</name>
-                <value>https://download.forge.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
+                <value>https://download.forge.ow2.org/jonas/jonas4.10.9-jetty5.1.10.tgz</value>
               </property>
               <property>
                 <name>cargo.jonas4x.java.home</name>
@@ -570,7 +570,7 @@
                   DO NOT try to use version 2.2.1 because of Geronimo issue
                   https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-jetty6-javaee5/2.1.8/geronimo-jetty6-javaee5-2.1.8-bin.zip</value>
               </property>
               <property>
                 <name>cargo.geronimo2x.java.home</name>

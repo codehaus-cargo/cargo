@@ -507,7 +507,7 @@ public class ConfluenceContainerDocumentationGenerator
             || containerId.startsWith("wildfly13"))
         {
             output.append("{info}With the opening of the JBoss EAP to the public and the split ");
-            output.append("between JBoss and WildFly, the below naming correspondance should be ");
+            output.append("between JBoss and WildFly, the below naming correspondence should be ");
             output.append("used with JBoss EAP containers:");
             output.append(LINE_SEPARATOR);
             output.append("* What Cargo calls [JBoss 6.1.x] is what JBoss refers to as JBoss ");
@@ -1494,10 +1494,82 @@ public class ConfluenceContainerDocumentationGenerator
                         "Java version for " + containerId + " is not defined");
                 }
 
-                if ("resin3x".equals(containerId))
+                if ("geronimo2x".equals(containerId))
                 {
-                    extra = "Due to incompabilities between {{com.caucho.log.EnvironmentLogger}} "
-                        + "and the behaviour described in "
+                    extra = "Due to security changes in Java 8 update 91 and the Tomcat 6.x "
+                        + "version included in Geronimo 2.x handles JSP, only Geronimo 2.x with "
+                            + "Jetty runs on Java 8 update 91 and above";
+                }
+                else if ("geronimo3x".equals(containerId))
+                {
+                    extra = "Due to incompatibilities with its OSGi environment, Geronimo 3.x "
+                        + "doesn't run on Java 8 and above";
+                }
+                else if ("glassfish3x".equals(containerId))
+                {
+                    extra = "Due to incompatibilities with its OSGi environment, GlassFish 3.x "
+                        + "doesn't run on Java 8 and above";
+                }
+                else if ("jboss5x".equals(containerId) || "jboss51x".equals(containerId)
+                    || "jboss6x".equals(containerId) || "jboss61x".equals(containerId))
+                {
+                    String jbossVersion;
+                    if ("jboss5x".equals(containerId))
+                    {
+                        jbossVersion = "5";
+                    }
+                    else if ("jboss51x".equals(containerId))
+                    {
+                        jbossVersion = "5.1";
+                    }
+                    else if ("jboss6x".equals(containerId))
+                    {
+                        jbossVersion = "6";
+                    }
+                    else
+                    {
+                        jbossVersion = "6.1";
+                    }
+
+                    extra = "Due to incompatibilities between the way the Tomcat version included "
+                        + "in JBoss " + jbossVersion + " and the way the security manager works "
+                            + "in Java versions 8 and above, JBoss " + jbossVersion + ".x doesn't "
+                                + "run on Java 8 and above";
+                }
+                else if (containerId.equals("jboss7x") || containerId.equals("jboss71x")
+                    || containerId.equals("jboss72x") || containerId.equals("jboss73x"))
+                {
+                    String jbossVersion;
+                    if ("jboss7x".equals(containerId))
+                    {
+                        jbossVersion = "7";
+                    }
+                    else if ("jboss71x".equals(containerId))
+                    {
+                        jbossVersion = "7.1";
+                    }
+                    else if ("jboss72x".equals(containerId))
+                    {
+                        jbossVersion = "EAP 6.1";
+                    }
+                    else
+                    {
+                        jbossVersion = "EAP 6.2";
+                    }
+
+                    extra = "Due to incompatibilities with its OSGi environment, JBoss "
+                        + jbossVersion + ".x doesn't run on Java 8 and above";
+                }
+                else if ("jonas4x".equals(containerId))
+                {
+                    extra = "Due to incompatibilities between the way Tomcat 5 handles JSP and "
+                        + "the way the security manager works in Java versions 8 and above, only "
+                            + "JOnAS 4.x with Jetty runs on Java 8 and above";
+                }
+                else if ("resin3x".equals(containerId))
+                {
+                    extra = "Due to incompatibilities between "
+                        + "{{com.caucho.log.EnvironmentLogger}} and the behaviour described in "
                             + "[JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
                                 + "Resin 3.x doesn't run on Java 7 and above";
                 }
@@ -1505,6 +1577,12 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     extra = "As opposed to what the Resin documentation indicates, all Resin 4.x "
                         + "versions require Java 8 or above";
+                }
+                else if ("tomcat5x".equals(containerId))
+                {
+                    extra = "Due to incompatibilities between the way Tomcat 5 handles JSP and "
+                        + "the way the security manager works in Java versions 8 and above, "
+                            + "Tomcat 5.x doesn't run on Java 8 and above";
                 }
                 else if (containerId.startsWith("websphere"))
                 {
@@ -1701,7 +1779,62 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            if ("jonas5x".equals(containerId))
+            if ("geronimo3x".equals(containerId))
+            {
+                output.append("Due to incompatibilities with its OSGi environment, Geronimo 3.x ");
+                output.append("doesn't run on Java 8 and above and hence cannot be tested on ");
+                output.append("our Continous Integration system (which has Java 8 as the lowest ");
+                output.append("JDK version).");
+            }
+            else if ("glassfish3x".equals(containerId))
+            {
+                output.append("Due to incompatibilities with its OSGi environment, GlassFish 3.x ");
+                output.append("doesn't run on Java 8 and above and hence cannot be tested on ");
+                output.append("our Continous Integration system (which has Java 8 as the lowest ");
+                output.append("JDK version).");
+            }
+            else if ("jboss5x".equals(containerId) || "jboss51x".equals(containerId)
+                || "jboss6x".equals(containerId) || "jboss61x".equals(containerId))
+            {
+                String jbossVersion;
+                if ("jboss5x".equals(containerId))
+                {
+                    jbossVersion = "5";
+                }
+                else if ("jboss51x".equals(containerId))
+                {
+                    jbossVersion = "5.1";
+                }
+                else if ("jboss6x".equals(containerId))
+                {
+                    jbossVersion = "6";
+                }
+                else
+                {
+                    jbossVersion = "6.1";
+                }
+
+                output.append("Due to incompatibilities between the way the Tomcat version ");
+                output.append("in JBoss " + jbossVersion + " and the way the security manager ");
+                output.append("works in Java versions 8 and above, JBoss " + jbossVersion + ".x ");
+                output.append("doesn't run on Java 8 and above and hence cannot be tested on ");
+                output.append("our Continous Integration system (which has Java 8 as the lowest ");
+                output.append("JDK version).");
+            }
+            else if (containerId.equals("jboss7x") || containerId.equals("jboss71x"))
+            {
+                String jboss7SubVersion = "";
+                if ("jboss71x".equals(containerId))
+                {
+                    jboss7SubVersion = ".1";
+                }
+
+                output.append("Due to incompatibilities with its OSGi environment, JBoss 7");
+                output.append(jboss7SubVersion + ".x doesn't run on Java 8 and above and hence ");
+                output.append("cannot be tested on our Continous Integration system (which has ");
+                output.append("Java 8 as the lowest JDK version).");
+            }
+            else if ("jonas5x".equals(containerId))
             {
                 output.append("Due to a bug parsing the Java version in the OW2 utilities, JOnAS ");
                 output.append("5.x doesn't run on Java 8 and above and hence cannot be tested ");
@@ -1710,12 +1843,20 @@ public class ConfluenceContainerDocumentationGenerator
             }
             else if ("resin3x".equals(containerId))
             {
-                output.append("Due to incompabilities between ");
+                output.append("Due to incompatibilities between ");
                 output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
                 output.append("in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098]");
                 output.append(", Resin 3.x doesn't run on Java 7 and above and hence cannot be ");
                 output.append("tested on our Continous Integration system (which has Java 8 as ");
                 output.append("the lowest JDK version).");
+            }
+            else if ("tomcat5x".equals(containerId))
+            {
+                output.append("Due to incompatibilities between the way Tomcat 5 handles JSP ");
+                output.append("and the way the security manager works in Java versions 8 and ");
+                output.append("above, Tomcat 5.x doesn't run on Java 8 and above and hence ");
+                output.append("cannot be tested on our Continous Integration system (which has ");
+                output.append("Java 8 as the lowest JDK version).");
             }
             else
             {
