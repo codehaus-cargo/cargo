@@ -127,6 +127,18 @@ public class CargoTestSuite extends TestSuite
 
             for (ContainerType type : registeredTypes)
             {
+                if (type.equals(ContainerType.EMBEDDED))
+                {
+                    // If the JAVA_HOME has been set, we cannot run embedded container tests
+                    // as the current Java environment is the one used by the build process
+                    // (and not the one set as JAVA_HOME for that specific container)
+                    String javaHome = System.getProperty("cargo." + containerId + ".java.home");
+                    if (javaHome != null && javaHome.length() > 0)
+                    {
+                        break;
+                    }
+                }
+
                 // Verify that the test passes all validators
                 boolean shouldAddTest = true;
                 for (int i = 0; i < validators.length; i++)
