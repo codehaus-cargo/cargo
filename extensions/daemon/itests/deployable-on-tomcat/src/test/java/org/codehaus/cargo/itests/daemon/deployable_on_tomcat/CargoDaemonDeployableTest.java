@@ -90,8 +90,8 @@ public class CargoDaemonDeployableTest extends TestCase
      */
     public void testCargoDaemonWelcomePage() throws Exception
     {
-        PingUtils.assertPingTrue("Cargo Daemon not started", "Welcome to Cargo Daemon Web site",
-            CargoDaemonDeployableTest.daemonUrl, logger);
+        PingUtils.assertPingTrue("Cargo Daemon not started",
+            "Welcome to the Cargo Daemon Web site", CargoDaemonDeployableTest.daemonUrl, logger);
     }
 
     /**
