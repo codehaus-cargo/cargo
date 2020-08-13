@@ -1779,102 +1779,20 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(LINE_SEPARATOR);
 
-            if ("geronimo3x".equals(containerId))
+            output.append("This container is automatically tested by the "
+                + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
+                + "every time there is a code change.");
+            output.append(LINE_SEPARATOR);
+            if ("wildfly-swarm2017x".equals(containerId))
             {
-                output.append("Due to incompatibilities with its OSGi environment, Geronimo 3.x ");
-                output.append("doesn't run on Java 8 and above and hence cannot be tested on ");
-                output.append("our Continous Integration system (which has Java 8 as the lowest ");
-                output.append("JDK version).");
-            }
-            else if ("glassfish3x".equals(containerId))
-            {
-                output.append("Due to incompatibilities with its OSGi environment, GlassFish 3.x ");
-                output.append("doesn't run on Java 8 and above and hence cannot be tested on ");
-                output.append("our Continous Integration system (which has Java 8 as the lowest ");
-                output.append("JDK version).");
-            }
-            else if ("jboss5x".equals(containerId) || "jboss51x".equals(containerId)
-                || "jboss6x".equals(containerId) || "jboss61x".equals(containerId))
-            {
-                String jbossVersion;
-                if ("jboss5x".equals(containerId))
-                {
-                    jbossVersion = "5";
-                }
-                else if ("jboss51x".equals(containerId))
-                {
-                    jbossVersion = "5.1";
-                }
-                else if ("jboss6x".equals(containerId))
-                {
-                    jbossVersion = "6";
-                }
-                else
-                {
-                    jbossVersion = "6.1";
-                }
-
-                output.append("Due to incompatibilities between the way the Tomcat version ");
-                output.append("in JBoss " + jbossVersion + " and the way the security manager ");
-                output.append("works in Java versions 8 and above, JBoss " + jbossVersion + ".x ");
-                output.append("doesn't run on Java 8 and above and hence cannot be tested on ");
-                output.append("our Continous Integration system (which has Java 8 as the lowest ");
-                output.append("JDK version).");
-            }
-            else if (containerId.equals("jboss7x") || containerId.equals("jboss71x"))
-            {
-                String jboss7SubVersion = "";
-                if ("jboss71x".equals(containerId))
-                {
-                    jboss7SubVersion = ".1";
-                }
-
-                output.append("Due to incompatibilities with its OSGi environment, JBoss 7");
-                output.append(jboss7SubVersion + ".x doesn't run on Java 8 and above and hence ");
-                output.append("cannot be tested on our Continous Integration system (which has ");
-                output.append("Java 8 as the lowest JDK version).");
-            }
-            else if ("jonas5x".equals(containerId))
-            {
-                output.append("Due to a bug parsing the Java version in the OW2 utilities, JOnAS ");
-                output.append("5.x doesn't run on Java 8 and above and hence cannot be tested ");
-                output.append("on our Continous Integration system (which has Java 8 as the ");
-                output.append("lowest JDK version).");
-            }
-            else if ("resin3x".equals(containerId))
-            {
-                output.append("Due to incompatibilities between ");
-                output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
-                output.append("in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098]");
-                output.append(", Resin 3.x doesn't run on Java 7 and above and hence cannot be ");
-                output.append("tested on our Continous Integration system (which has Java 8 as ");
-                output.append("the lowest JDK version).");
-            }
-            else if ("tomcat5x".equals(containerId))
-            {
-                output.append("Due to incompatibilities between the way Tomcat 5 handles JSP ");
-                output.append("and the way the security manager works in Java versions 8 and ");
-                output.append("above, Tomcat 5.x doesn't run on Java 8 and above and hence ");
-                output.append("cannot be tested on our Continous Integration system (which has ");
-                output.append("Java 8 as the lowest JDK version).");
+                output.append("The WildFly Swarm version used during tests is: {{");
+                output.append(url);
+                output.append("}}");
             }
             else
             {
-                output.append("This container is automatically tested by the "
-                    + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
-                    + "every time there is a code change.");
-                output.append(LINE_SEPARATOR);
-                if ("wildfly-swarm2017x".equals(containerId))
-                {
-                    output.append("The WildFly Swarm version used during tests is: {{");
-                    output.append(url);
-                    output.append("}}");
-                }
-                else
-                {
-                    output.append("The server used for tests is downloaded from: ");
-                    output.append(url);
-                }
+                output.append("The server used for tests is downloaded from: ");
+                output.append(url);
             }
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
