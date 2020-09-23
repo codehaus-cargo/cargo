@@ -67,7 +67,7 @@ public final class Base64
     public static String encode(final byte[] bytes)
     {
         final int length = bytes.length;
-        final StringBuilder buffer = new StringBuilder(length * 3);
+        final StringBuilder sb = new StringBuilder(length * 3);
         for (int i = 0; i < length; i += 3)
         {
             // p's are the segments for each byte. For every three bytes there are 6 segments
@@ -106,26 +106,26 @@ public final class Base64
 
             if (i + 2 < length)
             {
-                buffer.append(ENCODE[p0]);
-                buffer.append(ENCODE[p1 | p2]);
-                buffer.append(ENCODE[p3 | p4]);
-                buffer.append(ENCODE[p5]);
+                sb.append(ENCODE[p0]);
+                sb.append(ENCODE[p1 | p2]);
+                sb.append(ENCODE[p3 | p4]);
+                sb.append(ENCODE[p5]);
             }
             else if (i + 1 < length)
             {
-                buffer.append(ENCODE[p0]);
-                buffer.append(ENCODE[p1 | p2]);
-                buffer.append(ENCODE[p3]);
-                buffer.append(PAD_CHAR);
+                sb.append(ENCODE[p0]);
+                sb.append(ENCODE[p1 | p2]);
+                sb.append(ENCODE[p3]);
+                sb.append(PAD_CHAR);
             }
             else
             {
-                buffer.append(ENCODE[p0]);
-                buffer.append(ENCODE[p1 | p2]);
-                buffer.append(PAD_CHAR);
-                buffer.append(PAD_CHAR);
+                sb.append(ENCODE[p0]);
+                sb.append(ENCODE[p1 | p2]);
+                sb.append(PAD_CHAR);
+                sb.append(PAD_CHAR);
             }
         }
-        return buffer.toString();
+        return sb.toString();
     }
 }

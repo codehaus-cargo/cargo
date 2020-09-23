@@ -224,9 +224,7 @@ public class ResinRun extends DefaultServerRun
 
             try
             {
-                Method mainMethod = resinClass.getMethod("main",
-                    new Class[] {String[].class});
-
+                Method mainMethod = resinClass.getMethod("main", String[].class);
                 mainMethod.invoke(null, new Object[] {args});
             }
             catch (Exception e)

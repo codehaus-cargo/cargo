@@ -137,7 +137,7 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
             }
             for (String propertyName : resource.getParameters().keySet())
             {
-                XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName).toString(),
+                XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName),
                     pathToResource + "/" + NS_PREFIX + "init/@" + propertyName, configuration);
             }
         }

@@ -76,31 +76,28 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                 String[] virtualHosts = getVirtualHosts();
                 for (int i = 0; virtualHosts != null && i < virtualHosts.length; i++)
                 {
-                    webAppContextClass.getMethod("setVirtualHosts",
-                        new Class[] {virtualHosts.getClass()}).invoke(webAppContext,
-                            new Object[] {virtualHosts[i]});
+                    webAppContextClass.getMethod("setVirtualHosts", virtualHosts.getClass())
+                        .invoke(webAppContext, virtualHosts[i]);
                 }
 
                 // check if extracting the war is wanted
                 if (getExtractWar() != null)
                 {
-                    webAppContextClass.getMethod("setExtractWAR", new Class[] {Boolean.TYPE})
-                        .invoke(webAppContext, new Object[] {getExtractWar()});
+                    webAppContextClass.getMethod("setExtractWAR", Boolean.TYPE)
+                        .invoke(webAppContext, getExtractWar());
                 }
 
                 if (getCopyWebApp() != null)
                 {
-                    webAppContextClass.getMethod("setCopyDir", new Class[] {Boolean.TYPE})
-                        .invoke(webAppContext, new Object[] {getCopyWebApp()});
+                    webAppContextClass.getMethod("setCopyDir", Boolean.TYPE)
+                        .invoke(webAppContext, getCopyWebApp());
                 }
 
                 if (getParentLoaderPriority() != null)
                 {
-                    // check if user wants to invert the class loading
-                    // hierarchy
-                    webAppContextClass.getMethod("setParentLoaderPriority",
-                        new Class[] {Boolean.TYPE}).invoke(webAppContext,
-                            new Object[] {getParentLoaderPriority()});
+                    // check if user wants to invert the class loading hierarchy
+                    webAppContextClass.getMethod("setParentLoaderPriority", Boolean.TYPE)
+                        .invoke(webAppContext, getParentLoaderPriority());
                 }
 
                 return webAppContext;
@@ -144,7 +141,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
         try
         {
             Object deployedWebAppContext = getDeployedWebAppContext(deployable);
-            webAppContextClass.getMethod("start", null).invoke(deployedWebAppContext, null);
+            webAppContextClass.getMethod("start").invoke(deployedWebAppContext);
         }
         catch (Exception e)
         {
@@ -161,7 +158,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
         try
         {
             Object deployedWebAppContext = getDeployedWebAppContext(deployable);
-            webAppContextClass.getMethod("stop", null).invoke(deployedWebAppContext, null);
+            webAppContextClass.getMethod("stop").invoke(deployedWebAppContext);
         }
         catch (Exception e)
         {

@@ -70,19 +70,17 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
         // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
         Class selectConnectorClass =
             getClassLoader().loadClass("org.eclipse.jetty.server.ServerConnector");
-        Object connector = selectConnectorClass.getConstructor(
-            new Class[] {this.server.getClass()}).newInstance(new Object[] {this.server});
-        selectConnectorClass.getMethod("setPort", new Class[] {int.class}).invoke(
-            connector,
-            new Object[] {new Integer(getConfiguration()
-                .getPropertyValue(ServletPropertySet.PORT))});
+        Object connector = selectConnectorClass.getConstructor(this.server.getClass())
+            .newInstance(this.server);
+        selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
+            new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.eclipse.jetty.server.Connector");
         Object connectorArray = Array.newInstance(connectorClass, 1);
         Array.set(connectorArray, 0, connector);
-        getServer().getClass().getMethod("addConnector", new Class[] {connectorClass})
-            .invoke(getServer(), new Object[] {connector});
+        getServer().getClass().getMethod("addConnector", connectorClass)
+            .invoke(getServer(), connector);
     }
 
     /**
@@ -115,9 +113,8 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
                 dftServerClassesList.addAll(Arrays.asList(dftServerClasses));
                 dftServerClasses = new String[dftServerClassesList.size()];
                 dftServerClasses = dftServerClassesList.toArray(dftServerClasses);
-                server.getClass().getMethod("setAttribute",
-                    new Class[] {String.class, Object.class}).invoke(server, new Object[] {
-                        "org.eclipse.jetty.webapp.serverClasses", dftServerClasses});
+                server.getClass().getMethod("setAttribute", String.class, Object.class)
+                    .invoke(server, "org.eclipse.jetty.webapp.serverClasses", dftServerClasses);
 
                 String[] dftSystemClasses = (String[])
                     webAppContextClass.getDeclaredField("__dftSystemClasses").get(null);
@@ -128,9 +125,8 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
                 dftSystemClassesList.add("org.eclipse.jetty.cdi.websocket.");
                 dftSystemClasses = new String[dftSystemClassesList.size()];
                 dftSystemClasses = dftSystemClassesList.toArray(dftSystemClasses);
-                server.getClass().getMethod("setAttribute",
-                    new Class[] {String.class, Object.class}).invoke(server, new Object[] {
-                        "org.eclipse.jetty.webapp.systemClasses", dftSystemClasses});
+                server.getClass().getMethod("setAttribute", String.class, Object.class)
+                    .invoke(server, "org.eclipse.jetty.webapp.systemClasses", dftSystemClasses);
             }
         }
     }

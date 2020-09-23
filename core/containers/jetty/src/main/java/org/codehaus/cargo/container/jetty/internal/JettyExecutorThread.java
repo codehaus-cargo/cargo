@@ -64,15 +64,13 @@ public class JettyExecutorThread extends Thread implements Loggable
         {
             if (this.isForStart)
             {
-                this.server.getClass().getMethod("start", null).invoke(this.server, null);
+                this.server.getClass().getMethod("start").invoke(this.server);
 
                 try
                 {
-                    Object threadPool = this.server.getClass().getMethod(
-                        "getThreadPool", new Class[] {}).invoke(this.server,
-                            new Object[] {});
-                    threadPool.getClass().getMethod("join", new Class[] {})
-                        .invoke(threadPool, new Object[] {});
+                    Object threadPool =
+                        this.server.getClass().getMethod("getThreadPool").invoke(this.server);
+                    threadPool.getClass().getMethod("join").invoke(threadPool);
                 }
                 catch (NoSuchMethodException e)
                 {
@@ -82,11 +80,11 @@ public class JettyExecutorThread extends Thread implements Loggable
             }
             else
             {
-                this.server.getClass().getMethod("stop", null).invoke(this.server, null);
+                this.server.getClass().getMethod("stop").invoke(this.server);
 
                 try
                 {
-                    this.server.getClass().getMethod("destroy", null).invoke(this.server, null);
+                    this.server.getClass().getMethod("destroy").invoke(this.server);
                 }
                 catch (NoSuchMethodException e)
                 {

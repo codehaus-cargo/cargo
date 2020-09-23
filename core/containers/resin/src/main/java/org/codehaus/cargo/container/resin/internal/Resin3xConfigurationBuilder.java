@@ -59,7 +59,7 @@ public class Resin3xConfigurationBuilder extends AbstractConfigurationBuilder
         }
         dataSourceString.append("    <user>" + ds.getUsername() + "</user>\n");
         dataSourceString.append("    <password>" + ds.getPassword() + "</password>\n");
-        if (ds.getConnectionProperties() != null && ds.getConnectionProperties().size() != 0)
+        if (ds.getConnectionProperties() != null && !ds.getConnectionProperties().isEmpty())
         {
             for (Object parameter : ds.getConnectionProperties().keySet())
             {

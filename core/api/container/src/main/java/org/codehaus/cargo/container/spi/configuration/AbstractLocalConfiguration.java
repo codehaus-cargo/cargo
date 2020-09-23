@@ -493,7 +493,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                     "This configuration does not support Resource configuration! JndiName: "
                         + resource.getName();
                 getLogger().warn(message, getClass().getName());
-                if (!errorMessage.toString().equals(""))
+                if (!errorMessage.toString().isEmpty())
                 {
                     errorMessage.append("\n");
                 }
@@ -518,15 +518,13 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
             {
                 reason = "This configuration does not support DataSource configuration! ";
             }
-            else if (ConfigurationEntryType.XA_DATASOURCE.toString().equals(
-                dataSource.getConnectionType())
+            else if (ConfigurationEntryType.XA_DATASOURCE.equals(dataSource.getConnectionType())
                 && !this.getCapability().supportsProperty(DatasourcePropertySet.CONNECTION_TYPE))
             {
                 reason =
                     "This configuration does not support XADataSource configured DataSources! ";
             }
-            else if (!ConfigurationEntryType.XA_DATASOURCE.toString()
-                .equals(dataSource.getConnectionType())
+            else if (!ConfigurationEntryType.XA_DATASOURCE.equals(dataSource.getConnectionType())
                 && !TransactionSupport.NO_TRANSACTION.equals(dataSource.getTransactionSupport())
                 && !this.getCapability().supportsProperty(
                     DatasourcePropertySet.TRANSACTION_SUPPORT))
@@ -538,7 +536,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
             if (reason != null)
             {
                 String message = reason + "JndiName: " + dataSource.getJndiLocation();
-                if (!errorMessage.toString().equals(""))
+                if (errorMessage.length() > 0)
                 {
                     errorMessage.append("\n");
                 }
@@ -546,7 +544,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 getLogger().warn(message, getClass().getName());
             }
         }
-        if (!errorMessage.toString().equals(""))
+        if (errorMessage.length() > 0)
         {
             throw new CargoException(errorMessage.toString());
         }

@@ -51,7 +51,7 @@ public final class JettyUtils
      */
     public static String getExtraClasspath(WAR war, boolean xml)
     {
-        StringBuilder buffer = new StringBuilder(1024);
+        StringBuilder sb = new StringBuilder();
         String[] extraClasspath = war.getExtraClasspath();
         if (extraClasspath == null || extraClasspath.length <= 0)
         {
@@ -59,13 +59,13 @@ public final class JettyUtils
         }
         for (String path : extraClasspath)
         {
-            if (buffer.length() > 0)
+            if (sb.length() > 0)
             {
-                buffer.append(';');
+                sb.append(';');
             }
-            buffer.append(path);
+            sb.append(path);
         }
-        String result = buffer.toString();
+        String result = sb.toString();
         if (xml)
         {
             result = result.replace("&", "&amp;");

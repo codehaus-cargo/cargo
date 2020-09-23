@@ -178,16 +178,16 @@ public class WebLogic121xInstalledLocalContainer extends
     public void executeScript(List<ScriptCommand> configurationScript)
     {
         String newLine = System.getProperty("line.separator");
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (ScriptCommand configuration : configurationScript)
         {
-            buffer.append(configuration.readScript());
-            buffer.append(newLine);
+            sb.append(configuration.readScript());
+            sb.append(newLine);
         }
 
-        buffer.append("dumpStack()");
+        sb.append("dumpStack()");
 
-        getLogger().debug("Sending WLST script: " + newLine + buffer.toString(),
+        getLogger().debug("Sending WLST script: " + newLine + sb.toString(),
             this.getClass().getName());
 
         try
@@ -196,7 +196,7 @@ public class WebLogic121xInstalledLocalContainer extends
             // configuration class
             File tempFile = File.createTempFile("wlst", ".py");
             tempFile.deleteOnExit();
-            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), buffer.toString(), null);
+            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
         }

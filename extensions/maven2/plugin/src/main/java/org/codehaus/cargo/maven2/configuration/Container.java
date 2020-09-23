@@ -634,7 +634,7 @@ public class Container
         if (getTimeout() != null)
         {
             project.getLog().debug("Setting container timeout to [" + getTimeout() + "]");
-            container.setTimeout(getTimeout().longValue());
+            container.setTimeout(getTimeout());
         }
     }
 

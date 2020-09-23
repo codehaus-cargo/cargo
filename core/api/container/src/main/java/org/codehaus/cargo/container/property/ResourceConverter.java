@@ -90,7 +90,7 @@ public class ResourceConverter
      */
     private Properties getParametersFromString(String property)
     {
-        if (property != null && !property.trim().equals(""))
+        if (property != null && !property.trim().isEmpty())
         {
             return PropertyUtils.splitPropertiesOnSemicolon(property);
         }

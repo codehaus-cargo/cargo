@@ -197,7 +197,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void addNestedDriverPropertyTags()
     {
-        if (ds.getConnectionProperties() != null && ds.getConnectionProperties().size() != 0)
+        if (ds.getConnectionProperties() != null && !ds.getConnectionProperties().isEmpty())
         {
             Iterator<Object> i = ds.getConnectionProperties().keySet().iterator();
             while (i.hasNext())

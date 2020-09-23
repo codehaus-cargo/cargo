@@ -71,22 +71,20 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         if (this.defaultRealm != null)
         {
             Object securityHandler =
-                webapp.getClass().getMethod("getSecurityHandler", new Class[] {}).invoke(webapp,
-                    new Object[] {});
+                webapp.getClass().getMethod("getSecurityHandler").invoke(webapp);
 
             Class userRealmClass = getClassLoader()
                 .loadClass("org.eclipse.jetty.security.LoginService");
-            securityHandler.getClass().getMethod("setLoginService", new Class[] {userRealmClass})
-                .invoke(securityHandler, new Object[] {this.defaultRealm});
+            securityHandler.getClass().getMethod("setLoginService", userRealmClass)
+                .invoke(securityHandler, this.defaultRealm);
 
             Class authenticatorClass = getClassLoader()
                 .loadClass("org.eclipse.jetty.security.Authenticator");
             Object basicAuthenticator = getClassLoader()
                 .loadClass("org.eclipse.jetty.security.authentication.BasicAuthenticator")
                     .getDeclaredConstructor().newInstance();
-            securityHandler.getClass().getMethod("setAuthenticator",
-                new Class[] {authenticatorClass})
-                    .invoke(securityHandler, new Object[] {basicAuthenticator});
+            securityHandler.getClass().getMethod("setAuthenticator", authenticatorClass)
+                    .invoke(securityHandler, basicAuthenticator);
         }
     }
 
@@ -104,17 +102,15 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         Class selectConnectorClass =
             getClassLoader().loadClass("org.eclipse.jetty.server.nio.SelectChannelConnector");
         Object connector = selectConnectorClass.newInstance();
-        selectConnectorClass.getMethod("setPort", new Class[] {int.class}).invoke(
-            connector,
-            new Object[] {new Integer(getConfiguration()
-                .getPropertyValue(ServletPropertySet.PORT))});
+        selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
+            new Integer(getConfiguration() .getPropertyValue(ServletPropertySet.PORT)));
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.eclipse.jetty.server.Connector");
         Object connectorArray = Array.newInstance(connectorClass, 1);
         Array.set(connectorArray, 0, connector);
-        getServer().getClass().getMethod("addConnector", new Class[] {connectorClass})
-            .invoke(getServer(), new Object[] {connector});
+        getServer().getClass().getMethod("addConnector", connectorClass)
+            .invoke(getServer(), connector);
     }
 
     /**
@@ -143,18 +139,18 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         Object handlerArray = Array.newInstance(handlerClass, 2);
         Array.set(handlerArray, 0, contextHandlers);
         Array.set(handlerArray, 1, defaultHandler);
-        handlers.getClass().getMethod("setHandlers", new Class[] {handlerArray.getClass()})
-            .invoke(handlers, new Object[] {handlerArray});
-        getServer().getClass().getMethod("setHandler", new Class[] {handlerClass})
-            .invoke(getServer(), new Object[] {handlers});
+        handlers.getClass().getMethod("setHandlers", handlerArray.getClass())
+            .invoke(handlers, handlerArray);
+        getServer().getClass().getMethod("setHandler", handlerClass)
+            .invoke(getServer(), handlers);
 
         // Method to add a webappcontext to jetty
         addHandlerMethod =
-            contextHandlers.getClass().getMethod("addHandler", new Class[] {handlerClass});
+            contextHandlers.getClass().getMethod("addHandler", handlerClass);
 
         // Method to remove a webappcontext from jetty
         removeHandlerMethod =
-            contextHandlers.getClass().getMethod("removeHandler", new Class[] {handlerClass});
+            contextHandlers.getClass().getMethod("removeHandler", handlerClass);
     }
 
     /**
@@ -166,10 +162,9 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         Object handler =
             getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext").newInstance();
 
-        handler.getClass().getMethod("setContextPath", new Class[] {String.class}).invoke(
-            handler, new Object[] {"/" + ((WAR) deployable).getContext()});
-        handler.getClass().getMethod("setWar", new Class[] {String.class}).invoke(handler,
-            new Object[] {deployable.getFile()});
+        handler.getClass().getMethod("setContextPath", String.class)
+            .invoke(handler, "/" + ((WAR) deployable).getContext());
+        handler.getClass().getMethod("setWar", String.class).invoke(handler, deployable.getFile());
         handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
             getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
         handler.getClass().getMethod("setExtraClasspath", String.class)
@@ -188,10 +183,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     {
         Object handler =
             getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext").newInstance();
-        handler.getClass().getMethod("setContextPath", new Class[] {String.class}).invoke(
-            handler, new Object[] {contextPath});
-        handler.getClass().getMethod("setWar", new Class[] {String.class}).invoke(handler,
-            new Object[] {war});
+        handler.getClass().getMethod("setContextPath", String.class).invoke(handler, contextPath);
+        handler.getClass().getMethod("setWar", String.class).invoke(handler, war);
 
         setDefaultRealm(handler);
 
@@ -225,13 +218,10 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
             try
             {
                 this.defaultRealm =
-                    realmClass.getConstructor(new Class[] {String.class}).newInstance(
-                        new Object[] {
-                            getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME)});
-                Method putUser =
-                    realmClass.getMethod("putUser",
-                        new Class[] {java.lang.String.class,
-                            credentialClass, java.lang.String[].class});
+                    realmClass.getConstructor(String.class).newInstance(
+                        getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME));
+                Method putUser = realmClass.getMethod(
+                    "putUser", java.lang.String.class, credentialClass, java.lang.String[].class);
                 for (User user : getConfiguration().getUsers())
                 {
                     String userName = user.getName();
@@ -239,8 +229,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
                         .invoke(credentialClass, user.getPassword());
                     String[] roles = user.getRoles().toArray(new String[user.getRoles().size()]);
 
-                    putUser.invoke(this.defaultRealm,
-                        new Object[] {userName, credential, roles});
+                    putUser.invoke(this.defaultRealm, userName, credential, roles);
                 }
             }
             catch (NoSuchMethodException e)
@@ -250,10 +239,9 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
                 JettyUtils.createRealmFile(
                     getConfiguration().getUsers(), etcDir, getFileHandler());
                 this.defaultRealm =
-                    realmClass.getConstructor(new Class[] {String.class, String.class})
-                        .newInstance(new Object[] {
-                            getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME),
-                                getFileHandler().append(etcDir, "cargo-realm.properties")});
+                    realmClass.getConstructor(String.class, String.class).newInstance(
+                        getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME),
+                            getFileHandler().append(etcDir, "cargo-realm.properties"));
             }
 
             Object userRealmsArray =
@@ -281,8 +269,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
                 throw new ContainerException("Failed to create Jetty Server instance", e);
             }
 
-            this.server.getClass().getMethod("setStopAtShutdown", new Class[] {boolean.class})
-                .invoke(this.server, new Object[] {Boolean.TRUE});
+            this.server.getClass().getMethod("setStopAtShutdown", boolean.class)
+                .invoke(this.server, Boolean.TRUE);
         }
     }
 }

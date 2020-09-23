@@ -247,7 +247,7 @@ public abstract class AbstractCargoTestCase extends TestCase
                 }
             }
         }
-        if (getTestData().javaHome != null && !getTestData().javaHome.equals(""))
+        if (getTestData().javaHome != null && !getTestData().javaHome.isEmpty())
         {
             configuration.setProperty(GeneralPropertySet.JAVA_HOME, getTestData().javaHome);
         }

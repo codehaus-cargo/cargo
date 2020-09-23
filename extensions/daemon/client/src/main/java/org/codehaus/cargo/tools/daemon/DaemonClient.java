@@ -939,13 +939,13 @@ public class DaemonClient extends LoggedObject
      */
     private static String toAuthorization(String username, String password)
     {
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(username).append(':');
+        StringBuilder sb = new StringBuilder();
+        sb.append(username).append(':');
         if (password != null)
         {
-            buffer.append(password);
+            sb.append(password);
         }
-        return "Basic " + Base64.encode(buffer.toString());
+        return "Basic " + Base64.encode(sb.toString());
     }
 
     /**
@@ -960,15 +960,15 @@ public class DaemonClient extends LoggedObject
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         char[] chars = new char[1024];
         int n;
         while ((n = reader.read(chars, 0, chars.length)) != -1)
         {
-            buffer.append(chars, 0, n);
+            sb.append(chars, 0, n);
         }
 
-        return buffer.toString();
+        return sb.toString();
     }
 
 }

@@ -185,15 +185,15 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4212479
         try
         {
-            connection.getClass().getMethod("setChunkedStreamingMode",
-                new Class[] {Integer.TYPE}).invoke(connection, new Object[] {new Integer(0)});
+            connection.getClass().getMethod("setChunkedStreamingMode", Integer.TYPE)
+                .invoke(connection, 0);
         }
         catch (Exception e)
         {
             // We assume we're on an older JDK version, do nothing.
             getLogger().debug("Not calling setChunkedStreamingMode() method as JVM ["
                 + System.getProperty("java.version") + "] doesn't support it.",
-                getClass().getName());
+                    getClass().getName());
         }
 
         if (this.username != null)
@@ -326,15 +326,15 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         char[] chars = new char[1024];
         int n;
         while ((n = reader.read(chars, 0, chars.length)) != -1)
         {
-            buffer.append(chars, 0, n);
+            sb.append(chars, 0, n);
         }
 
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -349,13 +349,13 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     protected static String toAuthorization(String username, String password)
     {
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(username).append(':');
+        StringBuilder sb = new StringBuilder();
+        sb.append(username).append(':');
         if (password != null)
         {
-            buffer.append(password);
+            sb.append(password);
         }
-        return "Basic " + Base64.encode(buffer.toString());
+        return "Basic " + Base64.encode(sb.toString());
     }
 
     /**

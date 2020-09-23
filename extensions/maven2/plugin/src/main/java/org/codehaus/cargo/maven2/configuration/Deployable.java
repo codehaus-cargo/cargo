@@ -440,7 +440,7 @@ public class Deployable extends AbstractDependency
 
         try
         {
-            method = deployable.getClass().getMethod(setterMethodName, new Class[] {String.class});
+            method = deployable.getClass().getMethod(setterMethodName, String.class);
             argument = value;
         }
         catch (NoSuchMethodException e)
@@ -448,8 +448,7 @@ public class Deployable extends AbstractDependency
             // If we reach this line, it means there is no String setter for the given property
             // name with a String argument. Check if there is a setter with String[] argument; if
             // there is one split the value at each line and call the setter.
-            method = deployable.getClass().getMethod(setterMethodName,
-                new Class[] {String[].class});
+            method = deployable.getClass().getMethod(setterMethodName, String[].class);
 
             List<String> valueList = new ArrayList<String>();
             StringTokenizer commaSeparatedValue = new StringTokenizer(value, ",");
@@ -469,7 +468,7 @@ public class Deployable extends AbstractDependency
         project.getLog().debug("Invoking setter method " + method + " for deployable "
             + deployable + " with argument " + argument);
 
-        method.invoke(deployable, new Object[] {argument});
+        method.invoke(deployable, argument);
     }
 
     /**

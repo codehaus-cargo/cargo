@@ -69,7 +69,7 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
         File deployDir;
         String altDeployDir = container.getConfiguration().
             getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
-        if (altDeployDir != null && !altDeployDir.equals(""))
+        if (altDeployDir != null && !altDeployDir.isEmpty())
         {
             container.getLogger().info("Using non-default deployment target directory "
                 + altDeployDir, this.getClass().getName());

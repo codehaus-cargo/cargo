@@ -300,7 +300,7 @@ public final class Main
             // The WarRoller requires newer Java versions; hence check that one
             serverClassloader.loadClass("rogatkin.web.WarRoller");
             Class<?> mainClass = serverClassloader.loadClass("Acme.Serve.Main");
-            Method main = mainClass.getMethod("main", new Class[] {new String[0].getClass()});
+            Method main = mainClass.getMethod("main", new String[0].getClass());
             main.invoke(null, new Object[] {serverArguments.toArray(new String[0])});
         }
         catch (NullPointerException e)

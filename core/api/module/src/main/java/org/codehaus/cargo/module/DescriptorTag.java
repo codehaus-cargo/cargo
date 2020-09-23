@@ -211,8 +211,7 @@ public class DescriptorTag
                     {
                         if (cons.getParameterTypes()[0].isAssignableFrom(this.getClass()))
                         {
-                            returnValue = (DescriptorElement) cons
-                                .newInstance(new Object[] {this});
+                            returnValue = (DescriptorElement) cons.newInstance(this);
                             break;
                         }
                     }

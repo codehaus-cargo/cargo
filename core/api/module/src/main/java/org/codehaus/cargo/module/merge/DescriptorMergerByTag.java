@@ -249,9 +249,9 @@ public class DescriptorMergerByTag implements DescriptorMerger
                     // so either it can exist singly, or not at all.
                     MergeStrategy strategy = getMergeStrategy(tag.getTagName());
 
-                    DescriptorElement leftElement = itemsL.size() == 0 ? null
+                    DescriptorElement leftElement = itemsL.isEmpty() ? null
                             : (DescriptorElement) itemsL.get(0);
-                    DescriptorElement rightElement = itemsR.size() == 0 ? null
+                    DescriptorElement rightElement = itemsR.isEmpty() ? null
                             : (DescriptorElement) itemsR.get(0);
 
                     try

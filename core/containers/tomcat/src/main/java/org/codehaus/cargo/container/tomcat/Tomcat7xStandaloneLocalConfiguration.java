@@ -112,7 +112,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
             String propertyName = property.getKey();
             if (propertyName.startsWith(TomcatPropertySet.CUSTOM_VALVE))
             {
-                StringBuffer replacement = new StringBuffer("  <Valve ");
+                StringBuilder replacement = new StringBuilder("  <Valve ");
                 String customValve = property.getValue();
                 Properties valveProps = PropertyUtils.splitPropertiesOnPipe(customValve);
 

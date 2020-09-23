@@ -133,7 +133,7 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
 
         if (type == PackagerType.DIRECTORY)
         {
-            constructor = deployerClass.getConstructor(new Class[] {String.class});
+            constructor = deployerClass.getConstructor(String.class);
         }
         else
         {
@@ -151,7 +151,6 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
         GenericParameters parameters) throws Exception
     {
         String outputLocation = ((PackagerFactoryParameters) parameters).outputLocation;
-
-        return constructor.newInstance(new Object[] {outputLocation});
+        return constructor.newInstance(outputLocation);
     }
 }

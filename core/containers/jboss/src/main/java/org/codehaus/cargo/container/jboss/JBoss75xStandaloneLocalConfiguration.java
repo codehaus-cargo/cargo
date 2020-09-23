@@ -85,7 +85,7 @@ public class JBoss75xStandaloneLocalConfiguration extends JBoss73xStandaloneLoca
         getLogger().debug("Parsing micro version for version: " + version,
             this.getClass().getName());
         String microVersion =
-            version.substring(version.indexOf(".", 2) + 1, version.indexOf(".", 4));
+            version.substring(version.indexOf('.', 2) + 1, version.indexOf('.', 4));
         int microVersionValue = Integer.parseInt(microVersion);
 
         String configurationXmlFile = "configuration/"

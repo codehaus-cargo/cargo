@@ -112,7 +112,7 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         ObjectName objectName = ObjectName.getInstance(JBOSSAOP_ASPECTMANAGER_OBJECT_NAME);
         String pointcuts =
             (String) server.invoke(objectName, "pointcuts", new Object[] {}, new String[] {});
-        getLogger().debug("Registered aop pointcuts: " + pointcuts.toString(),
+        getLogger().debug("Registered aop pointcuts: " + pointcuts,
             this.getClass().getName());
         assertTrue("Dummy cargo aop pointcut not found",
             pointcuts.contains("cargoTestDataSimpleAop"));

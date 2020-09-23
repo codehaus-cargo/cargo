@@ -496,7 +496,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             if (userInfo != null)
             {
                 connection.setRequestProperty("Authorization",
-                    "Basic " + new String(Base64.encode(userInfo)));
+                    "Basic " + Base64.encode(userInfo));
             }
         }
 

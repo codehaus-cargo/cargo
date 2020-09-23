@@ -1432,8 +1432,8 @@ public class ConfluenceContainerDocumentationGenerator
         Configuration slc;
         if (type != ConfigurationType.RUNTIME)
         {
-            slc = (LocalConfiguration) configurationClass.getConstructor(
-                new Class[] {String.class}).newInstance(new Object[] {"whatever"});
+            slc = (LocalConfiguration)
+                configurationClass.getConstructor(String.class).newInstance("whatever");
         }
         else
         {
@@ -1690,7 +1690,7 @@ public class ConfluenceContainerDocumentationGenerator
     protected String computedFQCN(String className)
     {
         return "o.c.c.c" + className.substring(
-            className.substring(0, className.lastIndexOf(".")).lastIndexOf("."));
+            className.substring(0, className.lastIndexOf('.')).lastIndexOf('.'));
     }
 
     /**

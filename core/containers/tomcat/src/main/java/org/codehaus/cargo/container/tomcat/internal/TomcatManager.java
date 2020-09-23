@@ -406,13 +406,13 @@ public class TomcatManager extends LoggedObject
      */
     public void undeploy(String path, String version) throws TomcatManagerException, IOException
     {
-        StringBuilder buffer = new StringBuilder("/undeploy");
-        buffer.append("?path=").append(URLEncoder.encode(path, this.charset));
+        StringBuilder sb = new StringBuilder("/undeploy");
+        sb.append("?path=").append(URLEncoder.encode(path, this.charset));
         if (version != null)
         {
-            buffer.append("&version=").append(URLEncoder.encode(version, this.charset));
+            sb.append("&version=").append(URLEncoder.encode(version, this.charset));
         }
-        invoke(buffer.toString());
+        invoke(sb.toString());
     }
 
     /**
@@ -746,30 +746,30 @@ public class TomcatManager extends LoggedObject
     private void deployImpl(String path, String version, URL config, URL war, File file,
         boolean update, String tag) throws TomcatManagerException, IOException
     {
-        StringBuilder buffer = new StringBuilder("/deploy");
-        buffer.append("?path=").append(URLEncoder.encode(path, this.charset));
+        StringBuilder sb = new StringBuilder("/deploy");
+        sb.append("?path=").append(URLEncoder.encode(path, this.charset));
         if (version != null)
         {
-            buffer.append("&version=").append(URLEncoder.encode(version, this.charset));
+            sb.append("&version=").append(URLEncoder.encode(version, this.charset));
         }
         if (config != null)
         {
-            buffer.append("&config=").append(URLEncoder.encode(config.toString(), this.charset));
+            sb.append("&config=").append(URLEncoder.encode(config.toString(), this.charset));
         }
         if (war != null)
         {
-            buffer.append("&war=").append(URLEncoder.encode(war.toString(), this.charset));
+            sb.append("&war=").append(URLEncoder.encode(war.toString(), this.charset));
         }
         if (update)
         {
-            buffer.append("&update=true");
+            sb.append("&update=true");
         }
         if (tag != null)
         {
-            buffer.append("&tag=").append(URLEncoder.encode(tag, this.charset));
+            sb.append("&tag=").append(URLEncoder.encode(tag, this.charset));
         }
 
-        invoke(buffer.toString(), file, null);
+        invoke(sb.toString(), file, null);
     }
 
     /**
@@ -815,7 +815,7 @@ public class TomcatManager extends LoggedObject
         {
             return null;
         }
-        int index2 = header.indexOf("\"", index1 + fullComponentLength);
+        int index2 = header.indexOf('"', index1 + fullComponentLength);
         if (index2 == -1)
         {
             return null;
@@ -832,13 +832,13 @@ public class TomcatManager extends LoggedObject
      */
     private static String toAuthorization(String username, String password)
     {
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(username).append(':');
+        StringBuilder sb = new StringBuilder();
+        sb.append(username).append(':');
         if (password != null)
         {
-            buffer.append(password);
+            sb.append(password);
         }
-        return "Basic " + Base64.encode(buffer.toString());
+        return "Basic " + Base64.encode(sb.toString());
     }
 
     /**
@@ -853,23 +853,23 @@ public class TomcatManager extends LoggedObject
     {
         InputStreamReader reader = new InputStreamReader(in, charset);
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         char[] chars = new char[1024];
         int n;
         while ((n = reader.read(chars, 0, chars.length)) != -1)
         {
-            buffer.append(chars, 0, n);
+            sb.append(chars, 0, n);
         }
 
         // See: https://codehaus-cargo.atlassian.net/browse/CARGO-1342
-        String response = buffer.toString().replaceAll("\\r\\n?", "\n");
+        String response = sb.toString().replaceAll("\\r\\n?", "\n");
         if (response.startsWith("HTTP/"))
         {
             int httpHeaderBodySeparation = response.indexOf("\n\n");
             if (httpHeaderBodySeparation != -1)
             {
                 String splitResponse = response.substring(httpHeaderBodySeparation + 2);
-                httpHeaderBodySeparation = splitResponse.indexOf("\n");
+                httpHeaderBodySeparation = splitResponse.indexOf('\n');
                 if (httpHeaderBodySeparation != -1)
                 {
                     response = splitResponse.substring(httpHeaderBodySeparation + 1);

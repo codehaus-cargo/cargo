@@ -177,15 +177,15 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     public void executeScript(List<ScriptCommand> configurationScript)
     {
         String newLine = System.getProperty("line.separator");
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (ScriptCommand configuration : configurationScript)
         {
-            buffer.append(configuration.readScript());
-            buffer.append(newLine);
+            sb.append(configuration.readScript());
+            sb.append(newLine);
         }
 
-        getLogger().debug("Sending CLI script: " + newLine + buffer.toString(),
+        getLogger().debug("Sending CLI script: " + newLine + sb.toString(),
             this.getClass().getName());
 
         try
@@ -194,7 +194,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
             // executor
             File tempFile = File.createTempFile("wildfly-", ".cli");
             tempFile.deleteOnExit();
-            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), buffer.toString(), null);
+            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
         }

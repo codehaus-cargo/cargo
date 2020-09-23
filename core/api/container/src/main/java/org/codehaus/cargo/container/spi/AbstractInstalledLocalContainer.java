@@ -211,7 +211,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     @Override
     public String[] getExtraClasspath()
     {
-        return this.extraClasspath.toArray(new String[0]);
+        return this.extraClasspath.toArray(new String[this.extraClasspath.size()]);
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     @Override
     public String[] getSharedClasspath()
     {
-        return this.sharedClasspath.toArray(new String[0]);
+        return this.sharedClasspath.toArray(new String[this.sharedClasspath.size()]);
     }
 
     /**

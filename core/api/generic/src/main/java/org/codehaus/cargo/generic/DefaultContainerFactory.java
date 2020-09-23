@@ -150,11 +150,11 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         if (type.isLocal())
         {
-            constructor = containerClass.getConstructor(new Class[] {LocalConfiguration.class});
+            constructor = containerClass.getConstructor(LocalConfiguration.class);
         }
         else if (type.isRemote())
         {
-            constructor = containerClass.getConstructor(new Class[] {RuntimeConfiguration.class});
+            constructor = containerClass.getConstructor(RuntimeConfiguration.class);
         }
         else
         {
@@ -175,7 +175,7 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
 
         try
         {
-            return constructor.newInstance(new Object[] {configuration});
+            return constructor.newInstance(configuration);
         }
         catch (Throwable t)
         {

@@ -210,7 +210,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
             // Add the war files
             WarArchiveMerger wam = new WarArchiveMerger();
             List<String> wars = root.getWars();
-            if (wars.size() == 0)
+            if (wars.isEmpty())
             {
                 addAllWars(wam);
             }

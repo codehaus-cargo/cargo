@@ -81,7 +81,7 @@ public class DataSourceScriptCommand extends AbstractScriptCommand
      */
     private String getDataSourceClasspath()
     {
-        StringBuffer classpath = new StringBuffer();
+        StringBuilder classpath = new StringBuilder();
 
         for (String sharedLibrary : sharedLibraries)
         {

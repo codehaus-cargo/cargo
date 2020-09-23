@@ -139,16 +139,16 @@ public class JvmLauncherStub implements JvmLauncher
     @Override
     public String getClasspath()
     {
-        StringBuilder buffer = new StringBuilder(1024);
+        StringBuilder sb = new StringBuilder(1024);
         for (String entry : this.classpathEntries)
         {
-            if (buffer.length() > 0)
+            if (sb.length() > 0)
             {
-                buffer.append(File.pathSeparatorChar);
+                sb.append(File.pathSeparatorChar);
             }
-            buffer.append(entry);
+            sb.append(entry);
         }
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -264,10 +264,10 @@ public class JvmLauncherStub implements JvmLauncher
     @Override
     public String getCommandLine()
     {
-        StringBuilder buffer = new StringBuilder(1024);
-        buffer.append(this.jvm);
-        buffer.append(" -classpath").append(getClasspath());
-        return buffer.toString();
+        StringBuilder sb = new StringBuilder(1024);
+        sb.append(this.jvm);
+        sb.append(" -classpath").append(getClasspath());
+        return sb.toString();
     }
 
     /**

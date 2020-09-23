@@ -225,7 +225,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
         GenericParameters parameters) throws Exception
     {
         Container container = ((DeployerFactoryParameters) parameters).container;
-
-        return constructor.newInstance(new Object[] {container});
+        return constructor.newInstance(container);
     }
 }

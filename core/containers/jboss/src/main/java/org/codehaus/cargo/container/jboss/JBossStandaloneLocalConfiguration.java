@@ -350,9 +350,9 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         }
         String revisionVersion = version[1].substring(4, 5);
 
-        if (!(Integer.valueOf(majorVersion).intValue() <= 3
-            && Integer.valueOf(minorVersion).intValue() <= 2
-            && Integer.valueOf(revisionVersion).intValue() <= 7))
+        if (!(Integer.valueOf(majorVersion) <= 3
+            && Integer.parseInt(minorVersion) <= 2
+            && Integer.valueOf(revisionVersion) <= 7))
         {
             getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.server.mode.attr",
                 "<attribute name=\"ServerMode\">true</attribute>");
@@ -407,15 +407,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             new File(container.getLibDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
         getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.lib.url",
             libDir.toURI().toURL().toString());
-
-        // String representation of scanned folder and archive
-        StringBuilder buffer = new StringBuilder();
-
-        // Initiate the value of scanned folder or archive with cargo deploy
-        // directory and existing jboss deploy directory
-        File deployDir =
-            new File(container.getDeployDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
-        buffer.append("deploy/, ").append(deployDir.toURI().toURL().toString());
 
         // just use the original deploy directory and copy all the deployables from the server
         // deploy directory to the cargo one. This is due to JBoss having deployers and sars in

@@ -140,7 +140,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             if (deployable instanceof WAR)
             {
                 WAR war = (WAR) deployable;
-                if (war.getContext() == null || war.getContext().equals("")
+                if (war.getContext() == null || war.getContext().isEmpty()
                     || war.getContext().equals("/") || war.getContext().equalsIgnoreCase("ROOT"))
                 {
                     disableWelcomeRoot();
@@ -405,7 +405,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         String deployments;
         String altDeployDir = container.getConfiguration().
             getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
-        if (altDeployDir != null && !altDeployDir.equals(""))
+        if (altDeployDir != null && !altDeployDir.isEmpty())
         {
             container.getLogger().info("Using non-default deployment target directory "
                 + altDeployDir, this.getClass().getName());

@@ -90,7 +90,7 @@ public abstract class AbstractWildFlyScriptCommand extends AbstractScriptCommand
      */
     protected String mapResourceProperties(Map<String, String> resourceProperties)
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (Entry<String, String> element : resourceProperties.entrySet())
         {
             if (element.getValue() != null && !element.getValue().isEmpty())

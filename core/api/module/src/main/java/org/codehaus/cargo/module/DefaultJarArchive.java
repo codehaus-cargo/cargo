@@ -171,7 +171,7 @@ public class DefaultJarArchive implements JarArchive
     public List<String> getResources(String path) throws IOException
     {
         String normalizedPath = path;
-        if (!path.endsWith("/") && !path.equals(""))
+        if (!path.endsWith("/") && !path.isEmpty())
         {
             normalizedPath = path + "/";
         }

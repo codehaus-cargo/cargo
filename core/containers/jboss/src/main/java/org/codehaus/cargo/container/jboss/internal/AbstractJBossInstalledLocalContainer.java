@@ -177,13 +177,13 @@ public abstract class AbstractJBossInstalledLocalContainer extends
                 {
                     Properties properties = new Properties();
                     properties.load(jarFile.getInputStream(entry));
-                    StringBuilder buffer = new StringBuilder();
-                    buffer.append(properties.getProperty("version.major"));
-                    buffer.append(".");
-                    buffer.append(properties.getProperty("version.minor"));
-                    buffer.append(".");
-                    buffer.append(properties.getProperty("version.revision"));
-                    version = buffer.toString();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(properties.getProperty("version.major"));
+                    sb.append(".");
+                    sb.append(properties.getProperty("version.minor"));
+                    sb.append(".");
+                    sb.append(properties.getProperty("version.revision"));
+                    version = sb.toString();
 
                     getLogger().info("Parsed JBoss version = [" + version + "]",
                         this.getClass().getName());

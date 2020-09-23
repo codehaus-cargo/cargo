@@ -202,7 +202,7 @@ public class DeployableElement
             }
             else
             {
-                monitor = new URLDeployableMonitor(pingURL, pingTimeout.longValue());
+                monitor = new URLDeployableMonitor(pingURL, pingTimeout);
             }
             return monitor;
         }
@@ -225,7 +225,7 @@ public class DeployableElement
 
         try
         {
-            method = deployable.getClass().getMethod(setterMethodName, new Class[] {String.class});
+            method = deployable.getClass().getMethod(setterMethodName, String.class);
             argument = property.getValue();
         }
         catch (NoSuchMethodException e)
@@ -233,8 +233,7 @@ public class DeployableElement
             // If we reach this line, it means there is no String setter for the given property
             // name with a String argument. Check if there is a setter with String[] argument; if
             // there is one split the value at each line and call the setter.
-            method = deployable.getClass().getMethod(setterMethodName,
-                new Class[] {String[].class});
+            method = deployable.getClass().getMethod(setterMethodName, String[].class);
 
             List<String> valueList = new ArrayList<String>();
             StringTokenizer commaSeparatedValue = new StringTokenizer(property.getValue(), ",");
@@ -251,7 +250,7 @@ public class DeployableElement
             argument = valueArray;
         }
 
-        method.invoke(deployable, new Object[] {argument});
+        method.invoke(deployable, argument);
     }
 
     /**

@@ -200,7 +200,7 @@ public class CargoTestSuite extends TestSuite
         Class<? extends Test> testClass) throws Exception
     {
         String testClassName =
-            testClass.getName().substring(testClass.getName().lastIndexOf(".") + 1);
+            testClass.getName().substring(testClass.getName().lastIndexOf('.') + 1);
 
         // Compute a unique directory for the test data based on the container id, the container
         // type and the test name.
@@ -209,9 +209,9 @@ public class CargoTestSuite extends TestSuite
 
         EnvironmentTestData testData = new EnvironmentTestData(containerId, type, targetDir);
 
-        Constructor<? extends Test> constructor = testClass.getConstructor(
-            new Class[] {String.class, EnvironmentTestData.class});
-        Test test = constructor.newInstance(new Object[] {testName, testData});
+        Constructor<? extends Test> constructor =
+            testClass.getConstructor(String.class, EnvironmentTestData.class);
+        Test test = constructor.newInstance(testName, testData);
         addTest(test);
     }
 }

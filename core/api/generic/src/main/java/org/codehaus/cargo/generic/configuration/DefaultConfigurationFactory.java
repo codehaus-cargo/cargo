@@ -165,12 +165,12 @@ public class DefaultConfigurationFactory extends
         // Runtime configurations have constructors that do not take any parameter.
         if (ConfigurationType.toType(hint) == ConfigurationType.RUNTIME)
         {
-            constructor = configurationClass.getConstructor(new Class[] {});
+            constructor = configurationClass.getConstructor();
         }
         else if (ConfigurationType.toType(hint) == ConfigurationType.EXISTING
             || ConfigurationType.toType(hint) == ConfigurationType.STANDALONE)
         {
-            constructor = configurationClass.getConstructor(new Class[] {String.class});
+            constructor = configurationClass.getConstructor(String.class);
         }
         else
         {
@@ -200,7 +200,7 @@ public class DefaultConfigurationFactory extends
                     + "specified for runtime configurations");
             }
 
-            instance = constructor.newInstance(new Object[] {});
+            instance = constructor.newInstance();
         }
         else if (ConfigurationType.toType(hint) == ConfigurationType.EXISTING
             || ConfigurationType.toType(hint) == ConfigurationType.STANDALONE)
@@ -220,7 +220,7 @@ public class DefaultConfigurationFactory extends
                 }
             }
 
-            instance = constructor.newInstance(new Object[] {home});
+            instance = constructor.newInstance(home);
         }
         else
         {

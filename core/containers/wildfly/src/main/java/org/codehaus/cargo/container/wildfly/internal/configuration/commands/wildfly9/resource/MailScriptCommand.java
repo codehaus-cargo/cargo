@@ -62,7 +62,7 @@ public class MailScriptCommand extends AbstractWildFlyScriptCommand
         propertiesMap.put("cargo.resource.id", resource.getId());
         propertiesMap.put("cargo.resource.name", getResourceJndi(resource));
 
-        StringBuffer sessionParameters = new StringBuffer();
+        StringBuilder sessionParameters = new StringBuilder();
         if (resource.getParameter("mail.smtp.from") != null)
         {
             sessionParameters.append("from=");

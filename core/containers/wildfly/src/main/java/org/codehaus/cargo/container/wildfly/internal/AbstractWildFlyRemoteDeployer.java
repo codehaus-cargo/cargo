@@ -98,7 +98,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         HttpFormRequest formRequest = new HttpFormRequest(addContentUrl);
         formRequest.setAuthentication(username, password);
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("Content-Disposition: form-data; ");
         sb.append("name=\"file\"; ");
         sb.append("filename=\"" + deploymentName + "\"");

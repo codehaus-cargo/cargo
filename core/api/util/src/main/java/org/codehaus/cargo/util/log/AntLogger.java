@@ -94,9 +94,9 @@ public class AntLogger extends AbstractLogger
     private void initialize()
     {
         this.levelMapper = new HashMap<LogLevel, Integer>();
-        this.levelMapper.put(LogLevel.DEBUG, new Integer(Project.MSG_DEBUG));
-        this.levelMapper.put(LogLevel.WARN, new Integer(Project.MSG_WARN));
-        this.levelMapper.put(LogLevel.INFO, new Integer(Project.MSG_INFO));
+        this.levelMapper.put(LogLevel.DEBUG, Project.MSG_DEBUG);
+        this.levelMapper.put(LogLevel.WARN, Project.MSG_WARN);
+        this.levelMapper.put(LogLevel.INFO, Project.MSG_INFO);
     }
 
     /**

@@ -84,7 +84,7 @@ public abstract class AbstractJettyEmbeddedLocalContainer
                 Method isStarted;
                 try
                 {
-                    isStarted = getServer().getClass().getMethod("isStarted", null);
+                    isStarted = getServer().getClass().getMethod("isStarted");
                 }
                 catch (NoSuchMethodException e)
                 {
@@ -93,7 +93,7 @@ public abstract class AbstractJettyEmbeddedLocalContainer
                 Boolean started;
                 try
                 {
-                    started = (Boolean) isStarted.invoke(getServer(), null);
+                    started = (Boolean) isStarted.invoke(getServer());
                 }
                 catch (IllegalAccessException|InvocationTargetException e)
                 {

@@ -82,20 +82,20 @@ public class AbstractResourceTest extends TestCase
         // TODO: this method should perform the same full encoding as per
         // sun.net.www.ParseUtil.encodePath(String)
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < path.length(); i++)
         {
             char c = path.charAt(i);
             if (c == ' ')
             {
-                buffer.append("%20");
+                sb.append("%20");
             }
             else
             {
-                buffer.append(c);
+                sb.append(c);
             }
         }
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**

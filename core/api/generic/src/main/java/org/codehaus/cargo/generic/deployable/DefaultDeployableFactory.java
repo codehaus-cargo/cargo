@@ -171,7 +171,7 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         Class<? extends Deployable> deployableClass, String hint, GenericParameters parameters)
         throws NoSuchMethodException
     {
-        return deployableClass.getConstructor(new Class[] {String.class});
+        return deployableClass.getConstructor(String.class);
     }
 
     /**
@@ -182,6 +182,6 @@ public class DefaultDeployableFactory extends AbstractIntrospectionGenericHintFa
         String hint, GenericParameters parameters) throws Exception
     {
         String deployable = ((DeployableFactoryParameters) parameters).deployable;
-        return constructor.newInstance(new Object[] {deployable});
+        return constructor.newInstance(deployable);
     }
 }

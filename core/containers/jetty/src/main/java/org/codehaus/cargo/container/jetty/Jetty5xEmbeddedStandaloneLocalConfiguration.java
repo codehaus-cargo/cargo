@@ -33,16 +33,6 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
     AbstractJettyEmbeddedStandaloneLocalConfiguration
 {
     /**
-     * convenience field for empty Class argument list to reflection methods.
-     */
-    private static final Class[] EMPTY_CLASS_LIST = new Class[] {};
-
-    /**
-     * convenience field for empty Object argument list to reflection methods.
-     */
-    private static final Object[] EMPTY_ARGS_LIST = new Object[] {};
-
-    /**
      * Capability set for this type of config.
      */
     private static ConfigurationCapability capability =
@@ -92,8 +82,7 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
         Class outputStreamLogSinkClass = cl.loadClass("org.mortbay.log.OutputStreamLogSink");
         Class sinkClass = cl.loadClass("org.mortbay.log.LogSink");
 
-        Object logFactory = logFactoryClass.getMethod("getFactory", EMPTY_CLASS_LIST)
-            .invoke(null, null);
+        Object logFactory = logFactoryClass.getMethod("getFactory").invoke(null, null);
 
         // Jetty5x logging can either be used with the Java Commons Logging discovery mechanism, or
         // it can use it's own internal logging mechanism. For simplicity, with the canned
@@ -102,18 +91,16 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
         if (container.getOutput() != null)
         {
             Object logInstance = logFactory.getClass().getMethod("getInstance",
-                new Class[] {String.class}).invoke(logFactory, new Object[] {null});
+                String.class).invoke(logFactory, new Object[] {null});
 
-            logInstance.getClass().getMethod("reset", EMPTY_CLASS_LIST).invoke(logInstance,
-                EMPTY_ARGS_LIST);
+            logInstance.getClass().getMethod("reset").invoke(logInstance);
 
-            Object sink = outputStreamLogSinkClass.getConstructor(new Class[] {String.class})
-                .newInstance(new Object[] {container.getOutput()});
-            logInstance.getClass().getMethod("add", new Class[] {sinkClass}).invoke(logInstance,
-                new Object[] {sink});
+            Object sink = outputStreamLogSinkClass.getConstructor(String.class)
+                .newInstance(container.getOutput());
+            logInstance.getClass().getMethod("add", sinkClass).invoke(logInstance, sink);
 
-            outputStreamLogSinkClass.getMethod("setAppend", new Class[] {boolean.class}).invoke(
-                sink, new Object[] {Boolean.valueOf(container.isAppend())});
+            outputStreamLogSinkClass.getMethod("setAppend", boolean.class)
+                .invoke(sink, container.isAppend());
         }
         else
         {

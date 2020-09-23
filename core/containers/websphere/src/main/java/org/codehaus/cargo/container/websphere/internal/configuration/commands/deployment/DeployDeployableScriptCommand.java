@@ -304,7 +304,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
      */
     private String convertListToString(List<String> list, String separator)
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (String item : list)
         {

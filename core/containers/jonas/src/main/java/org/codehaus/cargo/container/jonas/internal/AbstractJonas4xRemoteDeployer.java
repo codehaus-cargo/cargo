@@ -105,7 +105,7 @@ public abstract class AbstractJonas4xRemoteDeployer extends AbstractJonasRemoteD
 
         if (deployableId != null && !deployableId.trim().isEmpty())
         {
-            int identifierExtIndex = deployableId.lastIndexOf(".");
+            int identifierExtIndex = deployableId.lastIndexOf('.');
             if (identifierExtIndex != -1)
             {
                 deployableId = deployableId.substring(0, identifierExtIndex);

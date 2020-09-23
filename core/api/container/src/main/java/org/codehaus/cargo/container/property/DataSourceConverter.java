@@ -85,7 +85,7 @@ public class DataSourceConverter
      */
     private Properties getDriverPropertiesFromString(String property)
     {
-        if (property != null && !property.trim().equals(""))
+        if (property != null && !property.trim().isEmpty())
         {
             return PropertyUtils.splitPropertiesOnSemicolon(property);
         }
@@ -147,7 +147,7 @@ public class DataSourceConverter
      */
     public String getConnectionPropertiesAsASemicolonDelimitedString(DataSource data)
     {
-        if (data.getConnectionProperties() != null && data.getConnectionProperties().size() != 0)
+        if (data.getConnectionProperties() != null && !data.getConnectionProperties().isEmpty())
         {
             return PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(
                 data.getConnectionProperties()));

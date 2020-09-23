@@ -53,7 +53,7 @@ public final class JvmArguments
     {
         JvmArguments jvmArguments = new JvmArguments();
 
-        StringBuffer genericArgs = new StringBuffer();
+        StringBuilder genericArgs = new StringBuilder();
         if (arguments != null)
         {
             for (String arg : arguments.split(" "))

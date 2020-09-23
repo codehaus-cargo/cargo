@@ -325,7 +325,7 @@ class DefaultJvmLauncher implements JvmLauncher
     {
         if (millis > 0)
         {
-            this.java.setTimeout(Long.valueOf(millis));
+            this.java.setTimeout(millis);
         }
         else
         {

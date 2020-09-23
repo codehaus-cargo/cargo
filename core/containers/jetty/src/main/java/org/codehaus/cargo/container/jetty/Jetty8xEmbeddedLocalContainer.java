@@ -68,14 +68,14 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
     {
         setAttributeMethod().invoke(
             getServer(),
-            new Object[] {"org.eclipse.jetty.webapp.configuration",
+            "org.eclipse.jetty.webapp.configuration",
                 new String[] {
                     "org.eclipse.jetty.webapp.WebInfConfiguration",
                     "org.eclipse.jetty.webapp.WebXmlConfiguration",
                     "org.eclipse.jetty.webapp.MetaInfConfiguration",
                     "org.eclipse.jetty.webapp.FragmentConfiguration",
                     "org.eclipse.jetty.annotations.AnnotationConfiguration",
-                    "org.eclipse.jetty.webapp.JettyWebXmlConfiguration"}});
+                    "org.eclipse.jetty.webapp.JettyWebXmlConfiguration"});
     }
 
     /**
@@ -86,8 +86,7 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
      */
     private Method setAttributeMethod() throws NoSuchMethodException
     {
-        return getServer().getClass().getMethod("setAttribute",
-            new Class[] {String.class, Object.class});
+        return getServer().getClass().getMethod("setAttribute", String.class, Object.class);
     }
 
     /**

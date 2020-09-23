@@ -273,19 +273,19 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
 
             // build jython script
             String newLine = System.getProperty("line.separator");
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (ScriptCommand configuration : configurationScript)
             {
-                buffer.append(configuration.readScript());
+                sb.append(configuration.readScript());
             }
 
-            getLogger().debug("Sending jython script: " + newLine + buffer.toString(),
+            getLogger().debug("Sending jython script: " + newLine + sb.toString(),
                 this.getClass().getName());
 
             // script is stored to *.py file
             File tempFile = File.createTempFile("jython", ".py");
             tempFile.deleteOnExit();
-            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), buffer.toString(), null);
+            getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
         }
@@ -385,7 +385,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
      */
     private void runWebSphereCommand(String wsCommand, String... arguments)
     {
-        StringBuffer command = new StringBuffer();
+        StringBuilder command = new StringBuilder();
         command.append(getHome());
         command.append(File.separator);
         command.append("bin");

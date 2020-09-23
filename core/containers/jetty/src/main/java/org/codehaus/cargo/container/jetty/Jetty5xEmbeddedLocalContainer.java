@@ -70,13 +70,12 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         Class listenerClass = getClassLoader().loadClass("org.mortbay.http.SocketListener");
         Object listener = listenerClass.newInstance();
 
-        listenerClass.getMethod("setPort", new Class[] {int.class}).invoke(listener,
-            new Object[] {new Integer(getConfiguration().getPropertyValue(
-                ServletPropertySet.PORT))});
+        listenerClass.getMethod("setPort", int.class).invoke(listener,
+            new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
         getServer().getClass().getMethod("addListener",
-            new Class[] {getClassLoader().loadClass("org.mortbay.http.HttpListener")})
-            .invoke(getServer(), new Object[] {listener});
+            getClassLoader().loadClass("org.mortbay.http.HttpListener"))
+                .invoke(getServer(), listener);
 
         // Set up security realm
         setSecurityRealm();
@@ -91,8 +90,8 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             if (deployable.getType() == DeployableType.WAR)
             {
                 Object webapp = getServer().getClass().getMethod("addWebApplication",
-                    new Class[] {String.class, String.class}).invoke(getServer(),
-                        new Object[] {"/" + ((WAR) deployable).getContext(), deployable.getFile()});
+                    String.class, String.class).invoke(getServer(),
+                        "/" + ((WAR) deployable).getContext(), deployable.getFile());
                 webapp.getClass().getMethod("setDefaultsDescriptor", String.class)
                     .invoke(webapp, webdefault);
                 setDefaultRealm(webapp);
@@ -107,9 +106,8 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         // Deploy CPC. Note: The Jetty Server class offers a isStarted() method but there is no
         // isStopped() so until we find a better way, we need a CPC.
         getServer().getClass().getMethod("addWebApplication",
-            new Class[] {String.class, String.class}).invoke(getServer(),
-                new Object[] {"/cargocpc", new File(getConfiguration().getHome(),
-                    "cargocpc.war").getPath()});
+            String.class, String.class).invoke(getServer(),
+                "/cargocpc", new File(getConfiguration().getHome(), "cargocpc.war").getPath());
 
         JettyExecutorThread jettyRunner = new JettyExecutorThread(getServer(), true);
         jettyRunner.setLogger(getLogger());
@@ -131,28 +129,25 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         if (!getConfiguration().getUsers().isEmpty())
         {
             Class realmClass = getClassLoader().loadClass("org.mortbay.http.HashUserRealm");
-            Object defaultRealm = realmClass.getConstructor(
-                new Class[] {String.class}).newInstance(new Object[] {
-                    getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME)});
+            Object defaultRealm = realmClass.getConstructor(String.class).newInstance(
+                    getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME));
 
             for (User user : getConfiguration().getUsers())
             {
-                defaultRealm.getClass().getMethod("put",
-                    new Class[] {Object.class, Object.class}).invoke(defaultRealm,
-                        new Object[] {user.getName(), user.getPassword()});
+                defaultRealm.getClass().getMethod("put", Object.class, Object.class).invoke(
+                    defaultRealm, user.getName(), user.getPassword());
 
                 for (String role : user.getRoles())
                 {
-                    defaultRealm.getClass().getMethod("addUserToRole",
-                        new Class[] {String.class, String.class}).invoke(
-                            defaultRealm, new Object[] {user.getName(), role});
+                    defaultRealm.getClass().getMethod("addUserToRole", String.class, String.class)
+                        .invoke(defaultRealm, user.getName(), role);
                 }
             }
 
             // Add newly created realm to server
             getServer().getClass().getMethod("addRealm",
-                new Class[] {getClassLoader().loadClass("org.mortbay.http.UserRealm")})
-                    .invoke(getServer(), new Object[] {defaultRealm});
+                getClassLoader().loadClass("org.mortbay.http.UserRealm"))
+                    .invoke(getServer(), defaultRealm);
         }
     }
 
@@ -164,9 +159,8 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     {
         if (this.defaultRealm != null)
         {
-            webapp.getClass().getMethod("setRealm",
-                new Class[] {this.defaultRealm.getClass()}).invoke(webapp,
-                    new Object[] {this.defaultRealm});
+            webapp.getClass().getMethod("setRealm", this.defaultRealm.getClass())
+                .invoke(webapp, this.defaultRealm);
         }
     }
 

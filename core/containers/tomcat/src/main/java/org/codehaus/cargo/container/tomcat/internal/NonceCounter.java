@@ -70,15 +70,15 @@ public class NonceCounter
         Integer count = nonces.get(nonce);
         if (count == null)
         {
-            count = Integer.valueOf(1);
+            count = 1;
         }
         else
         {
-            count = Integer.valueOf(count.intValue() + 1);
+            count = count + 1;
         }
 
         nonces.put(nonce, count);
 
-        return String.format("%08x", count.intValue());
+        return String.format("%08x", count);
     }
 }

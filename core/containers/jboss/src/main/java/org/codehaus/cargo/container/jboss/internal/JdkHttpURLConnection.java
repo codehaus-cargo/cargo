@@ -84,8 +84,8 @@ public class JdkHttpURLConnection implements HttpURLConnection
      */
     private String getBasicAuthorizationHeader(String username, String password)
     {
-        StringBuilder buffer = new StringBuilder();
-        buffer.append(username).append(':').append(password);
-        return "Basic " + Base64.encode(buffer.toString());
+        StringBuilder sb = new StringBuilder();
+        sb.append(username).append(':').append(password);
+        return "Basic " + Base64.encode(sb.toString());
     }
 }

@@ -239,7 +239,7 @@ public final class ResourceUtils extends LoggedObject
         String urlString = url.toString();
         if (urlString.startsWith("jar:file:"))
         {
-            int pling = urlString.indexOf("!");
+            int pling = urlString.indexOf('!');
             String jar = urlString.substring(9, pling);
             // TODO: URLDecoder.decode(String, Charset) was introduced in Java 10,
             //       simplify the below code when Codehaus Cargo is on Java 10+

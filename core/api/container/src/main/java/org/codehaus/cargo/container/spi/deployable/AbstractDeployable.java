@@ -109,7 +109,7 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     public String getName()
     {
         String name = getFileHandler().getName(getFile());
-        int nameIndex = name.toLowerCase().lastIndexOf(".");
+        int nameIndex = name.toLowerCase().lastIndexOf('.');
         if (nameIndex >= 0)
         {
             name = name.substring(0, nameIndex);

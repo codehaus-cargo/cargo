@@ -215,10 +215,8 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFa
             try
             {
                 Constructor constructor =
-                    this.descriptorClass.getConstructor(new Class[] {Element.class,
-                        DescriptorType.class});
-                Document doc =
-                    (Document) constructor.newInstance(new Object[] {rootElement, this});
+                    this.descriptorClass.getConstructor(Element.class, DescriptorType.class);
+                Document doc = (Document) constructor.newInstance(rootElement, this);
                 return doc;
             }
             catch (Exception ex)

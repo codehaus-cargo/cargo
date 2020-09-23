@@ -123,28 +123,28 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     protected String createContextXml(WAR war)
     {
-        StringBuilder buffer = new StringBuilder();
-        buffer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-        buffer.append("<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        sb.append("<!DOCTYPE Configure PUBLIC \"-//Mort Bay Consulting//DTD Configure//EN\" "
             + "\"http://jetty.mortbay.org/configure.dtd\">\n");
-        buffer.append("<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n");
-        buffer.append("  <Array id=\"plusConfig\" type=\"java.lang.String\">\n");
-        buffer.append("    <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>\n");
-        buffer.append("    <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>\n");
-        buffer.append("    <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>\n");
-        buffer.append("    <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>\n");
-        buffer.append("    <Item>org.mortbay.jetty.webapp.TagLibConfiguration</Item>\n");
-        buffer.append("  </Array>\n");
-        buffer.append("  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n");
-        buffer.append("  <Set name=\"war\">" + war.getFile() + "</Set>\n");
-        buffer.append("  <Set name=\"extractWAR\">true</Set>\n");
-        buffer.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
+        sb.append("<Configure class=\"org.mortbay.jetty.webapp.WebAppContext\">\n");
+        sb.append("  <Array id=\"plusConfig\" type=\"java.lang.String\">\n");
+        sb.append("    <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>\n");
+        sb.append("    <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>\n");
+        sb.append("    <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>\n");
+        sb.append("    <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>\n");
+        sb.append("    <Item>org.mortbay.jetty.webapp.TagLibConfiguration</Item>\n");
+        sb.append("  </Array>\n");
+        sb.append("  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n");
+        sb.append("  <Set name=\"war\">" + war.getFile() + "</Set>\n");
+        sb.append("  <Set name=\"extractWAR\">true</Set>\n");
+        sb.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault.xml</Set>\n");
-        buffer.append("  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n");
-        buffer.append(getExtraClasspathXmlFragment(war));
-        buffer.append(getSharedClasspathXmlFragment());
-        buffer.append("</Configure>\n");
-        return buffer.toString();
+        sb.append("  <Set name=\"ConfigurationClasses\"><Ref id=\"plusConfig\"/></Set>\n");
+        sb.append(getExtraClasspathXmlFragment(war));
+        sb.append(getSharedClasspathXmlFragment());
+        sb.append("</Configure>\n");
+        return sb.toString();
     }
 
     /**
@@ -152,7 +152,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     protected String getSharedClasspathXmlFragment()
     {
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
         if (getContainer() instanceof InstalledLocalContainer)
         {
@@ -162,16 +162,16 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             String[] sharedClasspath = installedLocalContainer.getSharedClasspath();
             if (sharedClasspath != null && sharedClasspath.length > 0)
             {
-                buffer.append("  <Set name=\"extraClasspath\">\n");
+                sb.append("  <Set name=\"extraClasspath\">\n");
                 for (String sharedClasspathElement : sharedClasspath)
                 {
-                    buffer.append("    " + sharedClasspathElement + ";\n");
+                    sb.append("    " + sharedClasspathElement + ";\n");
                 }
-                buffer.append("  </Set>\n");
+                sb.append("  </Set>\n");
             }
         }
 
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -180,12 +180,12 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      */
     protected String getExtraClasspathXmlFragment(WAR war)
     {
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         String extraClasspath = JettyUtils.getExtraClasspath(war, true);
         if (extraClasspath != null)
         {
-            buffer.append("  <Set name=\"extraClasspath\">" + extraClasspath + "</Set>\n");
+            sb.append("  <Set name=\"extraClasspath\">" + extraClasspath + "</Set>\n");
         }
-        return buffer.toString();
+        return sb.toString();
     }
 }

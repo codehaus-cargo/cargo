@@ -199,21 +199,19 @@ public final class TomcatEmbedded
         Class engine = Class.forName("org.apache.catalina.Engine", true, classLoader);
         Class container = Class.forName("org.apache.catalina.Container", true, classLoader);
 
-        engineSetName = engine.getMethod("setName", new Class[] {String.class});
-        engineAddChild = engine.getMethod("addChild", new Class[] {container});
-        engineSetDefaultHost = engine.getMethod("setDefaultHost", new Class[] {String.class});
-        engineSetParentClassLoader = engine.getMethod("setParentClassLoader",
-            new Class[] {ClassLoader.class});
+        engineSetName = engine.getMethod("setName", String.class);
+        engineAddChild = engine.getMethod("addChild", container);
+        engineSetDefaultHost = engine.getMethod("setDefaultHost", String.class);
+        engineSetParentClassLoader = engine.getMethod("setParentClassLoader", ClassLoader.class);
 
         Class service = Class.forName("org.apache.catalina.Service", true, classLoader);
-        engineSetService = engine.getMethod("setService", new Class[] {service});
+        engineSetService = engine.getMethod("setService", service);
 
         Class standardEngine =
             Class.forName("org.apache.catalina.core.StandardEngine", true, classLoader);
         try
         {
-            standardEngineSetBaseDir =
-                standardEngine.getMethod("setBaseDir", new Class[] {String.class});
+            standardEngineSetBaseDir = standardEngine.getMethod("setBaseDir", String.class);
         }
         catch (NoSuchMethodException ignored)
         {
@@ -232,8 +230,8 @@ public final class TomcatEmbedded
     {
         Class memoryRealm =
             Class.forName("org.apache.catalina.realm.MemoryRealm", true, classLoader);
-        memoryRealmNew = memoryRealm.getConstructor(new Class[0]);
-        memoryRealmSetPathname = memoryRealm.getMethod("setPathname", new Class[] {String.class});
+        memoryRealmNew = memoryRealm.getConstructor();
+        memoryRealmSetPathname = memoryRealm.getMethod("setPathname", String.class);
     }
 
     /**
@@ -247,25 +245,25 @@ public final class TomcatEmbedded
         contextClass = Class.forName("org.apache.catalina.Context", true, classLoader);
         try
         {
-            contextDestroy = contextClass.getMethod("destroy", new Class[0]);
+            contextDestroy = contextClass.getMethod("destroy");
         }
         catch (NoSuchMethodException ignored)
         {
             // Context.destroy only exists since Tomcat 7.x
         }
-        contextReload = contextClass.getMethod("reload", new Class[0]);
+        contextReload = contextClass.getMethod("reload");
         try
         {
             contextSetAvailable =
-                contextClass.getMethod("setAvailable", new Class[] {boolean.class});
+                contextClass.getMethod("setAvailable", boolean.class);
         }
         catch (NoSuchMethodException e)
         {
-            contextStart = contextClass.getMethod("start", new Class[0]);
-            contextStop = contextClass.getMethod("stop", new Class[0]);
+            contextStart = contextClass.getMethod("start");
+            contextStop = contextClass.getMethod("stop");
         }
         contextAddParameter =
-            contextClass.getMethod("addParameter", new Class[] {String.class, String.class});
+            contextClass.getMethod("addParameter", String.class, String.class);
     }
 
     /**
@@ -279,12 +277,12 @@ public final class TomcatEmbedded
         Class container = Class.forName("org.apache.catalina.Container", true, classLoader);
 
         Class host = Class.forName("org.apache.catalina.Host", true, classLoader);
-        hostSetAutoDeploy = host.getMethod("setAutoDeploy", new Class[] {boolean.class});
-        hostGetName = host.getMethod("getName", new Class[0]);
-        hostAddChild = host.getMethod("addChild", new Class[] {container});
-        hostFindChild = host.getMethod("findChild", new Class[] {String.class});
-        hostFindChildren = host.getMethod("findChildren", new Class[0]);
-        hostRemoveChild = host.getMethod("removeChild", new Class[] {container});
+        hostSetAutoDeploy = host.getMethod("setAutoDeploy", boolean.class);
+        hostGetName = host.getMethod("getName");
+        hostAddChild = host.getMethod("addChild", container);
+        hostFindChild = host.getMethod("findChild", String.class);
+        hostFindChildren = host.getMethod("findChildren");
+        hostRemoveChild = host.getMethod("removeChild", container);
     }
 
     /**
@@ -314,48 +312,47 @@ public final class TomcatEmbedded
         try
         {
             embedded = Class.forName("org.apache.catalina.startup.Embedded", true, classLoader);
-            embeddedCreateEngine = embedded.getMethod("createEngine", new Class[0]);
+            embeddedCreateEngine = embedded.getMethod("createEngine");
             embeddedCreateHost =
-                embedded.getMethod("createHost", new Class[] {String.class, String.class});
-            embeddedAddEngine = embedded.getMethod("addEngine", new Class[] {engine});
+                embedded.getMethod("createHost", String.class, String.class);
+            embeddedAddEngine = embedded.getMethod("addEngine", engine);
             embeddedCreateConnector = embedded
-                .getMethod("createConnector",
-                    new Class[] {InetAddress.class, int.class, boolean.class});
-            embeddedAddConnector = embedded.getMethod("addConnector", new Class[] {connector});
+                .getMethod("createConnector", InetAddress.class, int.class, boolean.class);
+            embeddedAddConnector = embedded.getMethod("addConnector", connector);
             embeddedCreateContext =
-                embedded.getMethod("createContext", new Class[] {String.class, String.class});
-            embeddedSetRealm = embedded.getMethod("setRealm", new Class[] {realm});
+                embedded.getMethod("createContext", String.class, String.class);
+            embeddedSetRealm = embedded.getMethod("setRealm", realm);
             embeddedSetCatalinaBase =
-                embedded.getMethod("setCatalinaBase", new Class[] {String.class});
+                embedded.getMethod("setCatalinaBase", String.class);
             embeddedSetCatalinaHome =
-                embedded.getMethod("setCatalinaHome", new Class[] {String.class});
+                embedded.getMethod("setCatalinaHome", String.class);
         }
         catch (ClassNotFoundException e)
         {
             // Tomcat 8.x and newer don't have org.apache.catalina.startup.Embedded anymore
             embedded = Class.forName("org.apache.catalina.startup.Tomcat", true, classLoader);
-            embeddedSetCatalinaBase = embedded.getMethod("setBaseDir", new Class[] {String.class});
-            embeddedSetPort = embedded.getMethod("setPort", new Class[] {int.class});
-            embeddedEnableNaming = embedded.getMethod("enableNaming", new Class[0]);
-            embeddedGetConnector = embedded.getMethod("getConnector", new Class[0]);
-            embeddedGetEngine = embedded.getMethod("getEngine", new Class[0]);
-            embeddedGetHost = embedded.getMethod("getHost", new Class[0]);
-            engineSetRealm = engine.getMethod("setRealm", new Class[] {realm});
+            embeddedSetCatalinaBase = embedded.getMethod("setBaseDir", String.class);
+            embeddedSetPort = embedded.getMethod("setPort", int.class);
+            embeddedEnableNaming = embedded.getMethod("enableNaming");
+            embeddedGetConnector = embedded.getMethod("getConnector");
+            embeddedGetEngine = embedded.getMethod("getEngine");
+            embeddedGetHost = embedded.getMethod("getHost");
+            engineSetRealm = engine.getMethod("setRealm", realm);
             embeddedCreateContext =
-                embedded.getMethod("addWebapp", new Class[] {String.class, String.class});
+                embedded.getMethod("addWebapp", String.class, String.class);
 
             // See Tomcat8xEmbeddedLocalContainer#getClassLoader() to understand why we do this
             Class tomcatURLStreamHandlerFactory =
                 Class.forName("org.apache.catalina.webresources.TomcatURLStreamHandlerFactory",
                     true, classLoader);
             Method getInstance =
-                tomcatURLStreamHandlerFactory.getMethod("getInstance", new Class[0]);
+                tomcatURLStreamHandlerFactory.getMethod("getInstance");
             getInstance.invoke(null);
         }
-        embeddedNew = embedded.getConstructor(new Class[0]);
-        embeddedStart = embedded.getMethod("start", new Class[0]);
-        embeddedStop = embedded.getMethod("stop", new Class[0]);
-        connectorDestroy = connector.getMethod("destroy", new Class[0]);
+        embeddedNew = embedded.getConstructor();
+        embeddedStart = embedded.getMethod("start");
+        embeddedStop = embedded.getMethod("stop");
+        connectorDestroy = connector.getMethod("destroy");
     }
 
     /**
@@ -507,7 +504,7 @@ public final class TomcatEmbedded
         {
             if (contextSetAvailable != null)
             {
-                invoke(contextSetAvailable, Boolean.valueOf(b));
+                invoke(contextSetAvailable, b);
             }
             else if (b)
             {
@@ -553,7 +550,7 @@ public final class TomcatEmbedded
          */
         public void setAutoDeploy(boolean b)
         {
-            invoke(hostSetAutoDeploy, Boolean.valueOf(b));
+            invoke(hostSetAutoDeploy, b);
         }
 
         /**
@@ -690,8 +687,7 @@ public final class TomcatEmbedded
          */
         public Connector createConnector(InetAddress inetAddress, int port, boolean secure)
         {
-            return new Connector(invoke(embeddedCreateConnector, inetAddress,
-                new Integer(port), Boolean.valueOf(secure)));
+            return new Connector(invoke(embeddedCreateConnector, inetAddress, port, secure));
         }
 
         /**

@@ -57,9 +57,8 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                     (Jetty5xEmbeddedLocalContainer) getContainer();
 
                 Object webapp = container.getServer().getClass().getMethod(
-                    "addWebApplication", new Class[] {String.class, String.class}).invoke(
-                        container.getServer(),
-                        new Object[] {getContext(deployable), deployable.getFile()});
+                    "addWebApplication", String.class, String.class).invoke(
+                        container.getServer(), getContext(deployable), deployable.getFile());
 
                 webapp.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(
                     webapp,
@@ -70,23 +69,23 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                 String[] virtualHosts = getVirtualHosts();
                 for (int i = 0; virtualHosts != null && i < virtualHosts.length; i++)
                 {
-                    webapp.getClass().getMethod("addVirtualHost", new Class[] {String.class})
-                        .invoke(webapp, new Object[] {virtualHosts[i]});
+                    webapp.getClass().getMethod("addVirtualHost", String.class)
+                        .invoke(webapp, virtualHosts[i]);
                 }
 
                 // check if extracting the war is wanted
                 if (getExtractWar() != null)
                 {
-                    webapp.getClass().getMethod("setExtractWAR", new Class[] {Boolean.TYPE})
-                        .invoke(webapp, new Object[] {getExtractWar()});
+                    webapp.getClass().getMethod("setExtractWAR", Boolean.TYPE)
+                        .invoke(webapp, getExtractWar());
                 }
 
                 if (getParentLoaderPriority() != null)
                 {
                     // check if user wants to invert the class loading hierarchy
                     webapp.getClass()
-                        .getMethod("setClassLoaderJava2Compliant", new Class[] {Boolean.TYPE})
-                        .invoke(webapp, new Object[] {getParentLoaderPriority()});
+                        .getMethod("setClassLoaderJava2Compliant", Boolean.TYPE)
+                        .invoke(webapp, getParentLoaderPriority());
                 }
 
                 // check if a default realm has been set for the server, if so, use it
