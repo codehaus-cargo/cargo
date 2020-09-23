@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -129,13 +130,23 @@ public class CargoTestSuite extends TestSuite
             {
                 if (type.equals(ContainerType.EMBEDDED))
                 {
-                    // If the JAVA_HOME has been set, we cannot run embedded container tests
-                    // as the current Java environment is the one used by the build process
-                    // (and not the one set as JAVA_HOME for that specific container)
-                    String javaHome = System.getProperty("cargo." + containerId + ".java.home");
-                    if (javaHome != null && !javaHome.isEmpty())
+                    String containerJavaHome =
+                        System.getProperty("cargo." + containerId + ".java.home");
+                    String currentJavaHome = System.getProperty("java.home");
+                    if (containerJavaHome != null && !containerJavaHome.isEmpty()
+                        && currentJavaHome != null && !currentJavaHome.isEmpty())
                     {
-                        break;
+                        File containerJavaHomeDirectory =
+                            new File(containerJavaHome).getAbsoluteFile();
+                        File currentJavaHomeDirectory =
+                            new File(currentJavaHome).getAbsoluteFile();
+                        if (!currentJavaHomeDirectory.equals(containerJavaHomeDirectory))
+                        {
+                            // Container JAVA_HOME has been set to a different folder than the
+                            // JAVA_HOME used by the build / testing process.
+                            // Do not run embedded tests.
+                            break;
+                        }
                     }
                 }
 
