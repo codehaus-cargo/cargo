@@ -1764,16 +1764,6 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("Codehaus Cargo), the Geronimo 2.x container is not tested ");
                 output.append("automatically.");
             }
-            else if ("resin3x".equals(containerId))
-            {
-                output.append("Due to incompatibilities between ");
-                output.append("{{com.caucho.log.EnvironmentLogger}} and the behaviour described ");
-                output.append("in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098]");
-                output.append(", Resin 3.x doesn't run on Java 7 and above and hence cannot be ");
-                output.append("tested on our Continous Integration system (which has Java 7 as ");
-                output.append("the lowest JDK version for testing samples and Java 8 for ");
-                output.append("compiling and packaging Codehaus Cargo).");
-            }
             else
             {
                 output.append("This container is automatically tested by the "
