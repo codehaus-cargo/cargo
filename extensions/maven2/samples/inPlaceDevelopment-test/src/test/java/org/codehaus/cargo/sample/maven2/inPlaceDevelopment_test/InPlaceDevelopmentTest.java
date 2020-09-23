@@ -55,9 +55,10 @@ public class InPlaceDevelopmentTest extends TestCase
         final String modifiedExpected = "Modified page for testing";
         File index = new File(System.getProperty("expandedWebapp.directory"), "index.html");
         assertTrue(index + " does not exist", index.isFile());
-        FileWriter writer = new FileWriter(index);
-        writer.write(modifiedExpected);
-        writer.close();
+        try (FileWriter writer = new FileWriter(index))
+        {
+            writer.write(modifiedExpected);
+        }
         PingUtils.assertPingTrue(url.getPath() + " not modified", modifiedExpected, url, logger);
     }
 

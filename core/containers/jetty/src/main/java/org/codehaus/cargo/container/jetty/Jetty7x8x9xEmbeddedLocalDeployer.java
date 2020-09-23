@@ -26,9 +26,9 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDeployer;
 
 /**
- * A deployer for webapps that deploys to a Jetty 7.x instance running embedded.
+ * A deployer for webapps that deploys to a Jetty 7.x, 8.x or 9.x instance running embedded.
  */
-public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
+public class Jetty7x8x9xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
 {
     /**
      * The class representing org.eclipse.jetty.webapp.WebAppContext.
@@ -39,7 +39,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
      * {@inheritDoc}
      * @see AbstractJettyEmbeddedLocalDeployer#AbstractJettyEmbeddedLocalDeployer(EmbeddedLocalContainer)
      */
-    public Jetty7xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
+    public Jetty7x8x9xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
     {
         super(container);
         try
@@ -50,7 +50,7 @@ public class Jetty7xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
         }
         catch (Exception e)
         {
-            throw new ContainerException("Failed to create Jetty7xEmbeddedLocalDeployer", e);
+            throw new ContainerException("Failed to create Jetty7x8x9xEmbeddedLocalDeployer", e);
         }
     }
 

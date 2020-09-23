@@ -69,15 +69,15 @@ public class Resin3xStandaloneLocalConfigurationTest extends
 
         getFileHandler().delete(container.getHome() + "/conf/resin.conf");
         getFileHandler().createFile(container.getHome() + "/conf/resin.conf");
-        OutputStream resinConf =
-            getFileHandler().getOutputStream(container.getHome() + "/conf/resin.conf");
-        InputStream originalResinConf = getResinConfiguration();
-        assertNotNull("Cannot load Resin configuration file for tests", originalResinConf);
-        getFileHandler().copy(originalResinConf, resinConf);
-        originalResinConf.close();
-        originalResinConf = null;
-        resinConf.close();
-        resinConf = null;
+        try (OutputStream resinConf =
+            getFileHandler().getOutputStream(container.getHome() + "/conf/resin.conf"))
+        {
+            InputStream originalResinConf = getResinConfiguration();
+            assertNotNull("Cannot load Resin configuration file for tests", originalResinConf);
+            getFileHandler().copy(originalResinConf, resinConf);
+            originalResinConf.close();
+            originalResinConf = null;
+        }
         System.gc();
 
         super.testConfigure();

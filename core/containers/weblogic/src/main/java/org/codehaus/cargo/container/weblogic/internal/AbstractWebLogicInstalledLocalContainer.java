@@ -296,8 +296,8 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
         if (getConfiguration() instanceof StandaloneLocalConfiguration
             && !getConfiguration().getUsers().isEmpty())
         {
-            getLogger().info(
-                "WebLogic startup complete, now creating users." , this.getClass().getName());
+            getLogger().info("WebLogic startup complete, now creating users.",
+                this.getClass().getName());
 
             Set<String> roles = new TreeSet<String>();
 
@@ -463,7 +463,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
             {
                 getLogger().debug(
                     "Failed to find WebLogic version, base error [" + e.getMessage() + "]",
-                    this.getClass().getName());
+                        this.getClass().getName());
             }
 
             if (version == null)

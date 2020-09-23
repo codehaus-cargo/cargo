@@ -151,7 +151,8 @@ public class Dtd implements Grammar
             DtdHandler dtdHandler = new DtdHandler();
             try
             {
-                reader.setProperty("http://xml.org/sax/properties/declaration-handler", dtdHandler);
+                reader.setProperty(
+                    "http://xml.org/sax/properties/declaration-handler", dtdHandler);
             }
             catch (SAXNotRecognizedException e)
             {
@@ -163,7 +164,7 @@ public class Dtd implements Grammar
                 new InputSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));
             this.elementOrders = dtdHandler.getElementOrders();
         }
-        catch (IOException|ParserConfigurationException|SAXException e)
+        catch (IOException | ParserConfigurationException | SAXException e)
         {
             throw new DtdParseException("Failed to read dtd", e);
         }

@@ -59,22 +59,19 @@ public abstract class AbstractAsAdmin
             password = "";
         }
 
-        try
+        File f = new File(configuration.getHome(), "password.properties");
+        if (!f.exists())
         {
-            File f = new File(configuration.getHome(), "password.properties");
-            if (!f.exists())
+            configuration.getFileHandler().mkdirs(configuration.getHome());
+            try (FileWriter w = new FileWriter(f))
             {
-                configuration.getFileHandler().mkdirs(configuration.getHome());
-                FileWriter w = new FileWriter(f);
                 w.write("AS_ADMIN_PASSWORD=" + password + "\n");
-                w.close();
             }
-            return f;
+            catch (IOException e)
+            {
+                throw new CargoException("Failed to create a password file", e);
+            }
         }
-        catch (IOException e)
-        {
-            throw new CargoException("Failed to create a password file", e);
-        }
+        return f;
     }
-
 }

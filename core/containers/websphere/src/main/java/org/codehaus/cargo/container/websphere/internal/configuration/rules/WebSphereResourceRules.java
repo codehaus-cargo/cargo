@@ -55,22 +55,25 @@ public final class WebSphereResourceRules
         List<Resource> websphereResources = configuration.getResources();
         for (Resource resource : websphereResources)
         {
-            if (WebSphereConfigurationEntryType.JMS_SIBUS.equals(resource.getType()))
+            if (null != resource.getType())
             {
-                containsJmsSiBus = true;
-            }
-            else if (WebSphereConfigurationEntryType.JMS_SIBUS_MEMBER.equals(resource.getType()))
-            {
-                containsJmsSiBusMember = true;
-            }
-            else if (WebSphereConfigurationEntryType.JMS_CONNECTION_FACTORY.equals(resource
-                .getType()))
-            {
-                containsJmsConnectionFactory = true;
-            }
-            else if (WebSphereConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
-            {
-                containsJmsQueue = true;
+                switch (resource.getType())
+                {
+                    case WebSphereConfigurationEntryType.JMS_SIBUS:
+                        containsJmsSiBus = true;
+                        break;
+                    case WebSphereConfigurationEntryType.JMS_SIBUS_MEMBER:
+                        containsJmsSiBusMember = true;
+                        break;
+                    case WebSphereConfigurationEntryType.JMS_CONNECTION_FACTORY:
+                        containsJmsConnectionFactory = true;
+                        break;
+                    case WebSphereConfigurationEntryType.JMS_QUEUE:
+                        containsJmsQueue = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

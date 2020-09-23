@@ -453,7 +453,7 @@ public final class TomcatEmbedded
             {
                 return method.invoke(core, args);
             }
-            catch (IllegalAccessException|InvocationTargetException e)
+            catch (IllegalAccessException | InvocationTargetException e)
             {
                 throw new ContainerException("Tomcat reported an error: " + e.getMessage(), e);
             }
@@ -940,7 +940,7 @@ public final class TomcatEmbedded
         {
             return c.newInstance(new Object[0]);
         }
-        catch (InstantiationException|InvocationTargetException|IllegalAccessException e)
+        catch (InstantiationException | InvocationTargetException | IllegalAccessException e)
         {
             throw new ContainerException("Tomcat reported an error: " + e.getMessage(), e);
         }

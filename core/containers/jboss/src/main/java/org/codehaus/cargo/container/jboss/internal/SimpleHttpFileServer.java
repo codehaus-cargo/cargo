@@ -279,78 +279,76 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                     this.getClass().getName());
 
                 boolean error = false;
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                    socket.getInputStream()));
-
-                String line = in.readLine();
-                if (line == null)
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(
+                    socket.getInputStream())))
                 {
-                    line = "";
-                }
-                if (!line.startsWith(expectedGetRequest))
-                {
-                    error = true;
-                }
-                while (!"".equals(line))
-                {
-                    line = in.readLine();
-                }
-
-                this.logger.debug("Got HTTP request line " + line, this.getClass().getName());
-
-                OutputStream out = socket.getOutputStream();
-                if (error)
-                {
-                    StringBuilder answer = new StringBuilder();
-                    answer.append("HTTP/1.0 404 NOTFOUND");
-                    answer.append("\r\n");
-                    answer.append("Connection: close");
-                    answer.append("\r\n");
-                    answer.append("\r\n");
-
-                    out.write(answer.toString().getBytes(StandardCharsets.US_ASCII));
-                    out.flush();
-                }
-                else
-                {
-                    StringBuilder answer = new StringBuilder();
-                    answer.append("HTTP/1.0 200 OK");
-                    answer.append("\r\n");
-                    answer.append("Connection: close");
-                    answer.append("\r\n");
-                    answer.append("Content-Type: application/octet-stream");
-                    answer.append("\r\n");
-                    answer.append("Content-Length: ");
-                    answer.append(Long.toString(this.fileHandler.getSize(this.filePath)));
-                    answer.append("\r\n");
-                    answer.append("\r\n");
-
-                    out.write(answer.toString().getBytes(StandardCharsets.US_ASCII));
-                    out.flush();
-
-                    byte[] fileBytes = new byte[socket.getSendBufferSize()];
-
-                    try (InputStream file = this.fileHandler.getInputStream(this.filePath))
+                    String line = in.readLine();
+                    if (line == null)
                     {
-                        int read;
-                        while ((read = file.read(fileBytes)) > 0)
-                        {
-                            out.write(fileBytes, 0, read);
-                            out.flush();
-                        }
+                        line = "";
+                    }
+                    if (!line.startsWith(expectedGetRequest))
+                    {
+                        error = true;
+                    }
+                    while (!"".equals(line))
+                    {
+                        line = in.readLine();
                     }
 
-                    this.callCount++;
+                    this.logger.debug("Got HTTP request line " + line, this.getClass().getName());
+
+                    OutputStream out = socket.getOutputStream();
+                    if (error)
+                    {
+                        StringBuilder answer = new StringBuilder();
+                        answer.append("HTTP/1.0 404 NOTFOUND");
+                        answer.append("\r\n");
+                        answer.append("Connection: close");
+                        answer.append("\r\n");
+                        answer.append("\r\n");
+
+                        out.write(answer.toString().getBytes(StandardCharsets.US_ASCII));
+                        out.flush();
+                    }
+                    else
+                    {
+                        StringBuilder answer = new StringBuilder();
+                        answer.append("HTTP/1.0 200 OK");
+                        answer.append("\r\n");
+                        answer.append("Connection: close");
+                        answer.append("\r\n");
+                        answer.append("Content-Type: application/octet-stream");
+                        answer.append("\r\n");
+                        answer.append("Content-Length: ");
+                        answer.append(Long.toString(this.fileHandler.getSize(this.filePath)));
+                        answer.append("\r\n");
+                        answer.append("\r\n");
+
+                        out.write(answer.toString().getBytes(StandardCharsets.US_ASCII));
+                        out.flush();
+
+                        byte[] fileBytes = new byte[socket.getSendBufferSize()];
+
+                        try (InputStream file = this.fileHandler.getInputStream(this.filePath))
+                        {
+                            int read;
+                            while ((read = file.read(fileBytes)) > 0)
+                            {
+                                out.write(fileBytes, 0, read);
+                                out.flush();
+                            }
+                        }
+
+                        this.callCount++;
+                    }
+
+                    this.logger.debug("Finished responding to HTTP request line " + line,
+                        this.getClass().getName());
+
+                    out.flush();
+                    out.close();
                 }
-
-                this.logger.debug("Finished responding to HTTP request line " + line,
-                    this.getClass().getName());
-
-                out.flush();
-                out.close();
-                out = null;
-                in.close();
-                in = null;
             }
             catch (SocketException ignored)
             {

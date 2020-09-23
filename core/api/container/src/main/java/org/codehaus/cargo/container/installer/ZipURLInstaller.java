@@ -269,17 +269,15 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     public void registerInstallation()
     {
-        try
+        File timestampFile = new File(getExtractDir(), ".cargo");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(timestampFile)))
         {
-            File timestampFile = new File(getExtractDir(), ".cargo");
-            BufferedWriter bw = new BufferedWriter(new FileWriter(timestampFile));
             bw.write("Do not remove this file");
-            bw.close();
         }
         catch (Exception e)
         {
-            // Failed to write timestamp. Too bad. The application will be installed again next
-            // time.
+            // Failed to write timestamp. Too bad.
+            // The application will be installed again next time.
         }
     }
 

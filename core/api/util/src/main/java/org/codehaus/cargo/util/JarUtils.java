@@ -117,12 +117,13 @@ public final class JarUtils
 
         String dataSourceClass = classToBeFound.replace('.', '/') + ".class";
 
-        ZipFile zip = new ZipFile(jarFile);
-        if (zip.getEntry(dataSourceClass) != null)
+        try (ZipFile zip = new ZipFile(jarFile))
         {
-            result = true;
+            if (zip.getEntry(dataSourceClass) != null)
+            {
+                result = true;
+            }
         }
-        zip.close();
 
         return result;
     }

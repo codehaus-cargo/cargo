@@ -470,11 +470,9 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
             {
                 File toFile = new File(getContainer().getConfiguration().getHome(), "var/temp/"
                     + new File(deployableFile).getName() + ".xml");
-                try
+                try (FileWriter writer = new FileWriter(toFile))
                 {
-                    FileWriter writer = new FileWriter(toFile);
                     writer.write(plan);
-                    writer.close();
                 }
                 catch (IOException e)
                 {

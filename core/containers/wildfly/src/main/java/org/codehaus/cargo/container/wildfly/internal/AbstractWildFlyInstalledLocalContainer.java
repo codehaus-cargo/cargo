@@ -131,7 +131,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
         }
         catch (MalformedURLException e)
         {
-            throw new CargoException("Cannot create logging file URL." , e);
+            throw new CargoException("Cannot create logging file URL.", e);
         }
         java.setEnvironmentVariable("JBOSS_HOME", getHome());
         java.setSystemProperty("jboss.home.dir", getHome());

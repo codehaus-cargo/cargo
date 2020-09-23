@@ -52,9 +52,10 @@ public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCa
     {
         File projectStructureMarkup = new File(System.getProperty("basedir")
             + "/target/project-structure.log");
-        Writer writer = new FileWriter(projectStructureMarkup);
-        writer.write(this.generator.generateDocumentation());
-        writer.close();
+        try (Writer writer = new FileWriter(projectStructureMarkup))
+        {
+            writer.write(this.generator.generateDocumentation());
+        }
 
         assertTrue(projectStructureMarkup.exists());
     }

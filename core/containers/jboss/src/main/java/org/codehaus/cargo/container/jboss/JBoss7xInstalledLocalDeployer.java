@@ -53,7 +53,7 @@ public class JBoss7xInstalledLocalDeployer extends JBossInstalledLocalDeployer
     public String getDeployableDir(Deployable deployable)
     {
         String altDeployDir = getContainer().getConfiguration().
-        getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
+            getPropertyValue(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR);
         if (altDeployDir != null && !"".equals(altDeployDir))
         {
             getContainer().getLogger().info("Using non-default deployment target directory "

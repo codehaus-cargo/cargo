@@ -105,7 +105,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             getTomcatManager().deploy(getPath(deployable), getVersion(deployable),
                 new File(file), update, null);
         }
-        catch (IOException|TomcatManagerException exception)
+        catch (IOException | TomcatManagerException exception)
         {
             throw new ContainerException("Failed to deploy [" + file + "]", exception);
         }
@@ -134,7 +134,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                     "Deployable [" + getPath(deployable) + "] is not deployed");
             }
         }
-        catch (IOException|TomcatManagerException exception)
+        catch (IOException | TomcatManagerException exception)
         {
             throw new ContainerException("Failed to undeploy [" + file + "]", exception);
         }
@@ -179,7 +179,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
             }
             deploy(deployable);
         }
-        catch (IOException|TomcatManagerException exception)
+        catch (IOException | TomcatManagerException exception)
         {
             throw new ContainerException("Failed to redeploy [" + file + "]", exception);
         }
@@ -221,7 +221,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                     + "] already started or doesn't exist", this.getClass().getName());
             }
         }
-        catch (IOException|TomcatManagerException exception)
+        catch (IOException | TomcatManagerException exception)
         {
             throw new ContainerException("Failed to start [" + file + "]", exception);
         }
@@ -249,7 +249,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                     + "] already stopped or doesn't exist", this.getClass().getName());
             }
         }
-        catch (IOException|TomcatManagerException exception)
+        catch (IOException | TomcatManagerException exception)
         {
             throw new ContainerException("Failed to stop [" + file + "]", exception);
         }
@@ -266,7 +266,7 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
         {
             return getTomcatManager().list();
         }
-        catch (IOException|TomcatManagerException exception)
+        catch (IOException | TomcatManagerException exception)
         {
             throw new ContainerException("Failed to get the list of applications", exception);
         }

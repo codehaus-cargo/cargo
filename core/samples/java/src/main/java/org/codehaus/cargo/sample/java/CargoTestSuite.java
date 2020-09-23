@@ -133,7 +133,7 @@ public class CargoTestSuite extends TestSuite
                     // as the current Java environment is the one used by the build process
                     // (and not the one set as JAVA_HOME for that specific container)
                     String javaHome = System.getProperty("cargo." + containerId + ".java.home");
-                    if (javaHome != null && javaHome.length() > 0)
+                    if (javaHome != null && !javaHome.isEmpty())
                     {
                         break;
                     }
@@ -141,9 +141,9 @@ public class CargoTestSuite extends TestSuite
 
                 // Verify that the test passes all validators
                 boolean shouldAddTest = true;
-                for (int i = 0; i < validators.length; i++)
+                for (Validator validator : validators)
                 {
-                    if (!validators[i].validate(containerId, type))
+                    if (!validator.validate(containerId, type))
                     {
                         shouldAddTest = false;
                         break;

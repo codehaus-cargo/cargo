@@ -387,9 +387,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 + tmpDir + "\"");
         }
         File htmlFile = new File(tmpDir, "some.html");
-        FileWriter fw = new FileWriter(htmlFile);
-        fw.write("It works...");
-        fw.close();
+        try (FileWriter fw = new FileWriter(htmlFile))
+        {
+            fw.write("It works...");
+        }
 
         // Copy and update the WAR to add the HTML file
         File originalWar = new File(originalDeployable.getFile());

@@ -222,11 +222,11 @@ public class MergedWarArchive implements WarArchive
             File f = new File(assembleDir);
             File webInfLib = new File(f, "WEB-INF/lib");
             File[] files = webInfLib.listFiles();
-            for (int i = 0; i < files.length; i++)
+            for (File file : files)
             {
-                if (!files[i].isDirectory() && files[i].getName().toLowerCase().endsWith(".jar"))
+                if (!file.isDirectory() && file.getName().toLowerCase().endsWith(".jar"))
                 {
-                    fileHandler.delete(files[i].getAbsolutePath());
+                    fileHandler.delete(file.getAbsolutePath());
                 }
             }
         }

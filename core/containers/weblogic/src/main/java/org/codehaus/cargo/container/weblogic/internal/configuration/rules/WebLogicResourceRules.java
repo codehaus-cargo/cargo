@@ -56,26 +56,28 @@ public final class WebLogicResourceRules
         List<Resource> weblogicResources = configuration.getResources();
         for (Resource resource : weblogicResources)
         {
-            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (null != resource.getType())
             {
-                containsJmsServer = true;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
-            {
-                containsJmsModule = true;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
-            {
-                containsJmsSubdeployment = true;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY.equals(resource
-                .getType()))
-            {
-                containsJmsConnectionFactory = true;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
-            {
-                containsJmsQueue = true;
+                switch (resource.getType())
+                {
+                    case WebLogicConfigurationEntryType.JMS_SERVER:
+                        containsJmsServer = true;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_MODULE:
+                        containsJmsModule = true;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT:
+                        containsJmsSubdeployment = true;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY:
+                        containsJmsConnectionFactory = true;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_QUEUE:
+                        containsJmsQueue = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

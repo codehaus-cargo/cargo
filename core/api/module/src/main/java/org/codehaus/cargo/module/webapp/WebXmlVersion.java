@@ -190,17 +190,26 @@ public final class WebXmlVersion implements Comparable
     {
         WebXmlVersion result = null;
         String value = rootElement.getAttributeValue("version");
-        if ("2.4".equals(value))
+        if (null != value)
         {
-            result = WebXmlVersion.V2_4;
-        }
-        else if ("2.5".equals(value))
-        {
-            result = WebXmlVersion.V2_5;
-        }
-        else if ("3.0".equals(value))
-        {
-            result = WebXmlVersion.V3_0;
+            switch (value)
+            {
+                case "2.4":
+                    result = WebXmlVersion.V2_4;
+                    break;
+
+                case "2.5":
+                    result = WebXmlVersion.V2_5;
+                    break;
+
+                case "3.0":
+                    result = WebXmlVersion.V3_0;
+                    break;
+
+                default:
+                    // result remains null
+                    break;
+            }
         }
         return result;
     }

@@ -123,21 +123,25 @@ public class WebLogicResourceRulesTest extends TestCase
         Resource jmsQueue = null;
         for (Resource resource : configuration.getResources())
         {
-            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (null != resource.getType())
             {
-                jmsServer = resource;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
-            {
-                jmsModule = resource;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
-            {
-                jmsSubdeployment = resource;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
-            {
-                jmsQueue = resource;
+                switch (resource.getType())
+                {
+                    case WebLogicConfigurationEntryType.JMS_SERVER:
+                        jmsServer = resource;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_MODULE:
+                        jmsModule = resource;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT:
+                        jmsSubdeployment = resource;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_QUEUE:
+                        jmsQueue = resource;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         assertNotNull(jmsServer);
@@ -179,21 +183,25 @@ public class WebLogicResourceRulesTest extends TestCase
         Resource jmsQueue = null;
         for (Resource resource : configuration.getResources())
         {
-            if (WebLogicConfigurationEntryType.JMS_SERVER.equals(resource.getType()))
+            if (null != resource.getType())
             {
-                jmsServer = resource;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_MODULE.equals(resource.getType()))
-            {
-                jmsModule = resource;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.equals(resource.getType()))
-            {
-                jmsSubdeployment = resource;
-            }
-            else if (WebLogicConfigurationEntryType.JMS_QUEUE.equals(resource.getType()))
-            {
-                jmsQueue = resource;
+                switch (resource.getType())
+                {
+                    case WebLogicConfigurationEntryType.JMS_SERVER:
+                        jmsServer = resource;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_MODULE:
+                        jmsModule = resource;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT:
+                        jmsSubdeployment = resource;
+                        break;
+                    case WebLogicConfigurationEntryType.JMS_QUEUE:
+                        jmsQueue = resource;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         assertNotNull(jmsServer);

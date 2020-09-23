@@ -151,23 +151,7 @@ public class DeployableElement
         // Set user-defined properties on the created deployable.
         for (Property property : getProperties())
         {
-            if ("pingURL".equals(property.getName()))
-            {
-                try
-                {
-                    this.setPingUrl(new URL(property.getValue()));
-                }
-                catch (MalformedURLException e)
-                {
-                    throw new BuildException("Invalid value [" + property.getValue()
-                        + "] for property [" + property.getName() + "]", e);
-                }
-            }
-            else if ("pingTimeout".equals(property.getName()))
-            {
-                this.setPingTimeout(Long.getLong(property.getValue()));
-            }
-            else
+            if (null == property.getName())
             {
                 try
                 {
@@ -177,6 +161,39 @@ public class DeployableElement
                 {
                     throw new BuildException("Invalid property [" + property.getName()
                         + "] for deployable type [" + deployable.getType() + "]", e);
+                }
+            }
+            else
+            {
+                switch (property.getName())
+                {
+                    case "pingURL":
+                        try
+                        {
+                            this.setPingUrl(new URL(property.getValue()));
+                        }
+                        catch (MalformedURLException e)
+                        {
+                            throw new BuildException("Invalid value [" + property.getValue()
+                                + "] for property [" + property.getName() + "]", e);
+                        }
+                        break;
+
+                    case "pingTimeout":
+                        this.setPingTimeout(Long.getLong(property.getValue()));
+                        break;
+
+                    default:
+                        try
+                        {
+                            callMethodForProperty(deployable, property);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new BuildException("Invalid property [" + property.getName()
+                                + "] for deployable type [" + deployable.getType() + "]", e);
+                        }
+                        break;
                 }
             }
         }

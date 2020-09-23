@@ -259,27 +259,26 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         File[] sourceFiles = sourceDir.listFiles();
         if (sourceFiles != null)
         {
-            for (int i = 0; i < sourceFiles.length; i++)
+            for (File sourceFile : sourceFiles)
             {
-                if (!isExcluded(cargoFiles, sourceFiles[i].getName()))
+                if (!isExcluded(cargoFiles, sourceFile.getName()))
                 {
-                    if (sourceFiles[i].isDirectory())
+                    if (sourceFile.isDirectory())
                     {
-                        getFileHandler().createDirectory(destDir.getPath(),
-                            sourceFiles[i].getName());
-                        copyExternalResources(sourceFiles[i], new File(destDir, sourceFiles[i]
-                            .getName()), cargoFiles);
+                        getFileHandler().createDirectory(destDir.getPath(), sourceFile.getName());
+                        copyExternalResources(sourceFile,
+                            new File(destDir, sourceFile.getName()), cargoFiles);
                     }
                     else
                     {
-                        FileOutputStream fops = new FileOutputStream(new File(destDir,
-                                sourceFiles[i].getName()));
-                        FileInputStream fips = new FileInputStream(sourceFiles[i]);
-                        getFileHandler().copy(fips, fops);
-                        fips.close();
-                        fops.close();
+                        try (FileOutputStream fops =
+                            new FileOutputStream(new File(destDir, sourceFile.getName())))
+                        {
+                            FileInputStream fips = new FileInputStream(sourceFile);
+                            getFileHandler().copy(fips, fops);
+                            fips.close();
+                        }
                     }
-
                 }
             }
         }

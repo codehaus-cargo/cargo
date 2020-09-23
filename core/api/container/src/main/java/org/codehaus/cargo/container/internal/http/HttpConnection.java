@@ -235,23 +235,20 @@ public class HttpConnection extends LoggedObject
             if (requestBody != null)
             {
                 connection.setDoOutput(true);
-                OutputStream outputStream = connection.getOutputStream();
-                BufferedWriter httpRequestBodyWriter =
-                        new BufferedWriter(new OutputStreamWriter(outputStream));
-
-                httpRequestBodyWriter.write(requestBody);
-
-                httpRequestBodyWriter.close();
-                outputStream.close();
+                try (OutputStream outputStream = connection.getOutputStream();
+                    BufferedWriter httpRequestBodyWriter =
+                        new BufferedWriter(new OutputStreamWriter(outputStream)))
+                {
+                    httpRequestBodyWriter.write(requestBody);
+                }
             }
             else if (requestBodyWriter != null)
             {
                 connection.setDoOutput(true);
-                OutputStream outputStream = connection.getOutputStream();
-
-                requestBodyWriter.writeToOutputStream(outputStream);
-
-                outputStream.close();
+                try (OutputStream outputStream = connection.getOutputStream())
+                {
+                    requestBodyWriter.writeToOutputStream(outputStream);
+                }
             }
 
             connection.connect();
@@ -261,7 +258,7 @@ public class HttpConnection extends LoggedObject
 
             connection.disconnect();
         }
-        catch (KeyManagementException|IOException|NoSuchAlgorithmException e)
+        catch (KeyManagementException | IOException | NoSuchAlgorithmException e)
         {
             result.setResponseCode(-1);
             result.setResponseMessage(e.toString());

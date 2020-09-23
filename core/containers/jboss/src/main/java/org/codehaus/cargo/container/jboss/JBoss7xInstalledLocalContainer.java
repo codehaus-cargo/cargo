@@ -318,7 +318,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
         }
         catch (MalformedURLException e)
         {
-            throw new CargoException("Cannot create logging file URL." , e);
+            throw new CargoException("Cannot create logging file URL.", e);
         }
         java.setSystemProperty("jboss.home.dir", getHome());
         java.setSystemProperty("jboss.server.base.dir", getConfiguration().getHome());

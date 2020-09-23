@@ -299,15 +299,16 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     protected void pipe(InputStream in, OutputStream out) throws IOException
     {
-        BufferedOutputStream bufferedOut = new BufferedOutputStream(out);
-        int n;
-        byte[] bytes = new byte[1024 * 4];
-        while ((n = in.read(bytes)) != -1)
+        try (BufferedOutputStream bufferedOut = new BufferedOutputStream(out))
         {
-            bufferedOut.write(bytes, 0, n);
+            int n;
+            byte[] bytes = new byte[1024 * 4];
+            while ((n = in.read(bytes)) != -1)
+            {
+                bufferedOut.write(bytes, 0, n);
+            }
+            bufferedOut.flush();
         }
-        bufferedOut.flush();
-        bufferedOut.close();
         in.close();
     }
 

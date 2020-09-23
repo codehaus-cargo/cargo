@@ -89,9 +89,9 @@ public class ResinRun extends DefaultServerRun
             // Add the Resin "-socketwait" argument to setup a keepalive socket that we will
             // use to stop Resin (this is a Resin feature)
             boolean socketwait = false;
-            for (int i = 0; i < args.length; i++)
+            for (String arg : args)
             {
-                if ("-socketwait".equals(args[i]))
+                if ("-socketwait".equals(arg))
                 {
                     socketwait = true;
                     break;

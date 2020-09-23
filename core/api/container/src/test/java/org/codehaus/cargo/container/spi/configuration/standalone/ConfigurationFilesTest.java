@@ -134,9 +134,8 @@ public class ConfigurationFilesTest extends TestCase
     {
         // set all the files to delete on exit
         File home = new File(configuration.getHome());
-        for (int i = 0; i < home.listFiles().length; i++)
+        for (File file : home.listFiles())
         {
-            File file = home.listFiles()[i];
             file.deleteOnExit();
         }
 
@@ -413,9 +412,10 @@ public class ConfigurationFilesTest extends TestCase
         File file = new File(parent, filename);
         file.deleteOnExit();
 
-        FileOutputStream outputStream = new FileOutputStream(file);
-        outputStream.write(fileContents.getBytes(StandardCharsets.UTF_8));
-        outputStream.close();
+        try (FileOutputStream outputStream = new FileOutputStream(file))
+        {
+            outputStream.write(fileContents.getBytes(StandardCharsets.UTF_8));
+        }
 
         return file;
     }

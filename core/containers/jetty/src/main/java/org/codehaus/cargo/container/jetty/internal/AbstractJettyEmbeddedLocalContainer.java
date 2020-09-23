@@ -95,7 +95,7 @@ public abstract class AbstractJettyEmbeddedLocalContainer
                 {
                     started = (Boolean) isStarted.invoke(getServer());
                 }
-                catch (IllegalAccessException|InvocationTargetException e)
+                catch (IllegalAccessException | InvocationTargetException e)
                 {
                     throw new ContainerException("Cannot execute method isStarted", e);
                 }

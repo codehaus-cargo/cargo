@@ -303,12 +303,13 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
 
                 for (String classpathElement : classpath)
                 {
-                    ZipFile zip = new ZipFile(classpathElement);
-                    if (zip.getEntry(dataSourceClass) != null)
+                    try (ZipFile zip = new ZipFile(classpathElement))
                     {
-                        dataSourceFile = classpathElement;
+                        if (zip.getEntry(dataSourceClass) != null)
+                        {
+                            dataSourceFile = classpathElement;
+                        }
                     }
-                    zip.close();
                 }
 
                 if (dataSourceFile == null)

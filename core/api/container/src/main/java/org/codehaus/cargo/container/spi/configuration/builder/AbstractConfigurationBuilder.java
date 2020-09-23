@@ -37,18 +37,17 @@ public abstract class AbstractConfigurationBuilder implements ConfigurationBuild
     public String toConfigurationEntry(DataSource ds)
     {
         String returnVal = " ";
-        if (ds.getConnectionType().equals(ConfigurationEntryType.JDBC_DRIVER))
+        switch (ds.getConnectionType())
         {
-            returnVal = buildEntryForDriverConfiguredDataSource(ds);
-        }
-        else if (ds.getConnectionType().equals(ConfigurationEntryType.XA_DATASOURCE))
-        {
-            returnVal = buildConfigurationEntryForXADataSourceConfiguredDataSource(ds);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Connection Type: " + ds.getConnectionType()
-                + " not supported");
+            case ConfigurationEntryType.JDBC_DRIVER:
+                returnVal = buildEntryForDriverConfiguredDataSource(ds);
+                break;
+            case ConfigurationEntryType.XA_DATASOURCE:
+                returnVal = buildConfigurationEntryForXADataSourceConfiguredDataSource(ds);
+                break;
+            default:
+                throw new IllegalArgumentException("Connection Type: " + ds.getConnectionType()
+                    + " not supported");
         }
 
         return returnVal;

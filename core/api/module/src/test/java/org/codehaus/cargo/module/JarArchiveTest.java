@@ -188,12 +188,13 @@ public final class JarArchiveTest extends AbstractResourceTest
     public void testExpandToPath() throws Exception
     {
         FileObject testJar = this.fsManager.resolveFile("ram:///test.jar");
-        ZipOutputStream zos = new ZipOutputStream(testJar.getContent().getOutputStream());
-        ZipEntry zipEntry = new ZipEntry("rootResource.txt");
-        zos.putNextEntry(zipEntry);
-        zos.write("Some content".getBytes(StandardCharsets.UTF_8));
-        zos.closeEntry();
-        zos.close();
+        try (ZipOutputStream zos = new ZipOutputStream(testJar.getContent().getOutputStream()))
+        {
+            ZipEntry zipEntry = new ZipEntry("rootResource.txt");
+            zos.putNextEntry(zipEntry);
+            zos.write("Some content".getBytes(StandardCharsets.UTF_8));
+            zos.closeEntry();
+        }
 
         DefaultJarArchive jarArchive = new DefaultJarArchive("ram:///test.jar");
         jarArchive.setFileHandler(new VFSFileHandler(this.fsManager));

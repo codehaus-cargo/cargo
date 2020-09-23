@@ -129,30 +129,32 @@ public class DefaultWarArchive extends DefaultJarArchive implements WarArchive
     public void store(File warFile) throws IOException, JDOMException
     {
         FileHandler fileHandler = new DefaultFileHandler();
-        JarInputStream in = getContentAsStream();
-        JarOutputStream out = new JarOutputStream(new FileOutputStream(warFile));
-
-        // Find all deployment descriptors that Cargo is handling for this WAR file.
-        List<String> descriptorNames = new ArrayList<String>();
-        descriptorNames.add("WEB-INF/" + getWebXml().getFileName());
-        for (Descriptor vendorDescriptor : getWebXml().getVendorDescriptors())
+        JarOutputStream out;
+        try (JarInputStream in = getContentAsStream())
         {
-            descriptorNames.add("WEB-INF/" + vendorDescriptor.getFileName());
-        }
+            out = new JarOutputStream(new FileOutputStream(warFile));
 
-        // Copy all entries from the original WAR file except for deployment descriptors. The
-        // reason we do not copy deployment descriptors is because they may have been modified
-        // since they were initially read from the original WAR file.
-        JarEntry entry;
-        while ((entry = in.getNextJarEntry()) != null)
-        {
-            if (!descriptorNames.contains(entry.getName()))
+            // Find all deployment descriptors that Cargo is handling for this WAR file.
+            List<String> descriptorNames = new ArrayList<String>();
+            descriptorNames.add("WEB-INF/" + getWebXml().getFileName());
+            for (Descriptor vendorDescriptor : getWebXml().getVendorDescriptors())
             {
-                out.putNextEntry(entry);
-                fileHandler.copy(in, out);
+                descriptorNames.add("WEB-INF/" + vendorDescriptor.getFileName());
+            }
+
+            // Copy all entries from the original WAR file except for deployment descriptors. The
+            // reason we do not copy deployment descriptors is because they may have been modified
+            // since they were initially read from the original WAR file.
+            JarEntry entry;
+            while ((entry = in.getNextJarEntry()) != null)
+            {
+                if (!descriptorNames.contains(entry.getName()))
+                {
+                    out.putNextEntry(entry);
+                    fileHandler.copy(in, out);
+                }
             }
         }
-        in.close();
 
         // Copy the deployment descriptors to the output file. Start by writing the web.xml file
         // and then the vendor descriptors.

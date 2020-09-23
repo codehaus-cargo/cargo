@@ -157,10 +157,11 @@ public class ContainerTest extends MockObjectTestCase
         File zipFile = File.createTempFile("maven2-plugin-test-dependency", ".zip");
         zipFile.deleteOnExit();
 
-        ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
-        zip.putNextEntry(new ZipEntry(resourceName));
-        zip.write(resourceValue.getBytes(StandardCharsets.UTF_8));
-        zip.close();
+        try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile)))
+        {
+            zip.putNextEntry(new ZipEntry(resourceName));
+            zip.write(resourceValue.getBytes(StandardCharsets.UTF_8));
+        }
 
         // 2) Create a Maven2 Artifact linked to the JAR file just created
         DefaultArtifact artifact = new DefaultArtifact("customGroupId", "customArtifactId",
@@ -206,9 +207,10 @@ public class ContainerTest extends MockObjectTestCase
         String resourceName = resourceFile.getName();
         String resourceLocation = resourceFile.getParent();
 
-        FileOutputStream os = new FileOutputStream(resourceFile);
-        os.write(resourceValue.getBytes(StandardCharsets.UTF_8));
-        os.close();
+        try (FileOutputStream os = new FileOutputStream(resourceFile))
+        {
+            os.write(resourceValue.getBytes(StandardCharsets.UTF_8));
+        }
 
         Dependency dependencyElement = new Dependency();
         dependencyElement.setLocation(resourceLocation);
@@ -356,7 +358,7 @@ public class ContainerTest extends MockObjectTestCase
                 new NullLogger(),
                 createTestCargoProject("whatever"));
 
-        String [] extraClasspath = container.getExtraClasspath();
+        String[] extraClasspath = container.getExtraClasspath();
         assertEquals("Extra classpath elements count", 2, extraClasspath.length);
         assertEquals("firstDependency.jar", extraClasspath[0]);
         assertEquals("secondDependency.jar", extraClasspath[1]);

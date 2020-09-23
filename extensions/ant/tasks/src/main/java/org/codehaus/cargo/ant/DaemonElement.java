@@ -20,7 +20,6 @@
 package org.codehaus.cargo.ant;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -86,9 +85,8 @@ public class DaemonElement
             return null;
         }
 
-        for (Iterator<Property> iterator = properties.iterator(); iterator.hasNext();)
+        for (Property property : properties)
         {
-            Property property = iterator.next();
             if (property.getName().equals(name))
             {
                 return property.getValue();

@@ -1473,115 +1473,116 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(" | ");
             boolean supported = properties.get(property);
             output.append(supported ? "(/)" : "(x)");
-            if (GeneralPropertySet.JAVA_HOME.equals(property))
+            switch (property)
             {
-                String javaVersion;
-                String extra = "";
+                case GeneralPropertySet.JAVA_HOME:
+                    String javaVersion;
+                    String extra = "";
+                    if (JAVA4_CONTAINERS.contains(containerId))
+                    {
+                        javaVersion = "4";
+                    }
+                    else if (JAVA5_CONTAINERS.contains(containerId))
+                    {
+                        javaVersion = "5";
+                    }
+                    else if (JAVA6_CONTAINERS.contains(containerId))
+                    {
+                        javaVersion = "6";
+                    }
+                    else if (JAVA7_CONTAINERS.contains(containerId))
+                    {
+                        javaVersion = "7";
+                    }
+                    else if (JAVA8_CONTAINERS.contains(containerId))
+                    {
+                        javaVersion = "8";
+                    }
+                    else if ("jetty7x".equals(containerId))
+                    {
+                        javaVersion = "5 if no datasources are to be deployed, 6 otherwise";
+                    }
+                    else if ("jetty9x".equals(containerId))
+                    {
+                        javaVersion =
+                            "7 (Jetty 9.0.x, 9.1.x and 9.2.x) or 8 (Jetty 9.3.x and 9.4.x)";
+                    }
+                    else if ("jonas5x".equals(containerId))
+                    {
+                        javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
+                        extra = "Due to a bug parsing the Java version in the OW2 utilities, "
+                            + "JOnAS 5.x doesn't run on Java 8 and above";
+                    }
+                    else if ("liberty".equals(containerId))
+                    {
+                        javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
+                    }
+                    else if ("tomee7x".equals(containerId))
+                    {
+                        javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
+                    }
+                    else
+                    {
+                        throw new IllegalArgumentException(
+                            "Java version for " + containerId + " is not defined");
+                    }
 
-                if (JAVA4_CONTAINERS.contains(containerId))
-                {
-                    javaVersion = "4";
-                }
-                else if (JAVA5_CONTAINERS.contains(containerId))
-                {
-                    javaVersion = "5";
-                }
-                else if (JAVA6_CONTAINERS.contains(containerId))
-                {
-                    javaVersion = "6";
-                }
-                else if (JAVA7_CONTAINERS.contains(containerId))
-                {
-                    javaVersion = "7";
-                }
-                else if (JAVA8_CONTAINERS.contains(containerId))
-                {
-                    javaVersion = "8";
-                }
-                else if ("jetty7x".equals(containerId))
-                {
-                    javaVersion = "5 if no datasources are to be deployed, 6 otherwise";
-                }
-                else if ("jetty9x".equals(containerId))
-                {
-                    javaVersion = "7 (Jetty 9.0.x, 9.1.x and 9.2.x) or 8 (Jetty 9.3.x and 9.4.x)";
-                }
-                else if ("jonas5x".equals(containerId))
-                {
-                    javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
-                    extra = "Due to a bug parsing the Java version in the OW2 utilities, "
-                        + "JOnAS 5.x doesn't run on Java 8 and above";
-                }
-                else if ("liberty".equals(containerId))
-                {
-                    javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
-                }
-                else if ("tomee7x".equals(containerId))
-                {
-                    javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
-                }
-                else
-                {
-                    throw new IllegalArgumentException(
-                        "Java version for " + containerId + " is not defined");
-                }
+                    if (JAVA7_MAX_CONTAINERS_JSP.contains(containerId))
+                    {
+                        Configuration configuration =
+                            this.configurationFactory.createConfiguration(containerId,
+                                ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                        InstalledLocalContainer container = (InstalledLocalContainer)
+                            this.containerFactory.createContainer(
+                                containerId, ContainerType.INSTALLED, configuration);
 
-                if (JAVA7_MAX_CONTAINERS_JSP.contains(containerId))
-                {
-                    Configuration configuration = this.configurationFactory.createConfiguration(
-                        containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-                    InstalledLocalContainer container = (InstalledLocalContainer)
-                        this.containerFactory.createContainer(
-                            containerId, ContainerType.INSTALLED, configuration);
+                        extra = "Due to incompatibilities with its JSP environment, "
+                            + container.getName() + " doesn't run on Java 8 and above";
+                    }
+                    else if (JAVA7_MAX_CONTAINERS_OSGI.contains(containerId))
+                    {
+                        Configuration configuration =
+                            this.configurationFactory.createConfiguration(containerId,
+                                ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                        InstalledLocalContainer container = (InstalledLocalContainer)
+                            this.containerFactory.createContainer(
+                                containerId, ContainerType.INSTALLED, configuration);
 
-                    extra = "Due to incompatibilities with its JSP environment, "
-                        + container.getName() + " doesn't run on Java 8 and above";
-                }
-                else if (JAVA7_MAX_CONTAINERS_OSGI.contains(containerId))
-                {
-                    Configuration configuration = this.configurationFactory.createConfiguration(
-                        containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-                    InstalledLocalContainer container = (InstalledLocalContainer)
-                        this.containerFactory.createContainer(
-                            containerId, ContainerType.INSTALLED, configuration);
-
-                    extra = "Due to incompatibilities with its OSGi environment, "
-                        + container.getName() + " doesn't run on Java 8 and above";
-                }
-                else if ("resin3x".equals(containerId))
-                {
-                    extra = "Due to incompatibilities between "
-                        + "{{com.caucho.log.EnvironmentLogger}} and the behaviour described in "
-                            + "[JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
-                                + "Resin 3.x doesn't run on Java 7 and above";
-                }
-                else if ("resin4x".equals(containerId))
-                {
-                    extra = "As opposed to what the Resin documentation indicates, all Resin 4.x "
-                        + "versions require Java 8 or above";
-                }
-                else if (containerId.startsWith("websphere"))
-                {
-                    extra = "By default, CARGO will use the JVM from the "
-                        + "WebSphere installation directory";
-                }
-
-                if (extra.length() > 0)
-                {
-                    extra = LINE_SEPARATOR + "{_}" + extra + "{_}";
-                }
-                output.append(
-                    " | {_}JAVA_HOME version " + javaVersion + " or newer{_}" + extra + " |");
-            }
-            else if (JonasPropertySet.JONAS_SERVICES_LIST.equals(property))
-            {
-                output.append(" | {_}Will be loaded from the{_} {{conf/jonas.properties}} {_}file "
-                    + "in the container home directory{_} |");
-            }
-            else
-            {
-                output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"
-                    : "{{" + slc.getPropertyValue(property) + "}}") + " |");
+                        extra = "Due to incompatibilities with its OSGi environment, "
+                            + container.getName() + " doesn't run on Java 8 and above";
+                    }
+                    else if ("resin3x".equals(containerId))
+                    {
+                        extra = "Due to incompatibilities between "
+                            + "{{com.caucho.log.EnvironmentLogger}} and the behaviour described "
+                            + "in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
+                            + "Resin 3.x doesn't run on Java 7 and above";
+                    }
+                    else if ("resin4x".equals(containerId))
+                    {
+                        extra = "As opposed to what the Resin documentation indicates, all "
+                            + "Resin 4.x versions require Java 8 or above";
+                    }
+                    else if (containerId.startsWith("websphere"))
+                    {
+                        extra = "By default, CARGO will use the JVM from the "
+                            + "WebSphere installation directory";
+                    }
+                    if (!extra.isEmpty())
+                    {
+                        extra = LINE_SEPARATOR + "{_}" + extra + "{_}";
+                    }
+                    output.append(
+                        " | {_}JAVA_HOME version " + javaVersion + " or newer{_}" + extra + " |");
+                    break;
+                case JonasPropertySet.JONAS_SERVICES_LIST:
+                    output.append(" | {_}Will be loaded from the{_} {{conf/jonas.properties}} "
+                        + "{_}file in the container home directory{_} |");
+                    break;
+                default:
+                    output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"
+                        : "{{" + slc.getPropertyValue(property) + "}}") + " |");
+                    break;
             }
             if (supported && propertySetField != null)
             {

@@ -24,9 +24,10 @@ public class DataSourceServlet extends HttpServlet
             DataSource ds =
                 (DataSource) new InitialContext().lookup("java:comp/env/jdbc/CargoDS");
             c = ds.getConnection();
-            PrintWriter out = response.getWriter();
-            out.print("Got connection!");
-            out.close();
+            try (PrintWriter out = response.getWriter())
+            {
+                out.print("Got connection!");
+            }
         }
         catch (NamingException|SQLException e)
         {

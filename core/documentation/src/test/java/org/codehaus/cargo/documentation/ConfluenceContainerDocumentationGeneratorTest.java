@@ -64,9 +64,11 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      */
     public void testGenerateDatasourceDocumentation() throws Exception
     {
-        Writer writer = new FileWriter(System.getProperty("basedir") + "/target/datasource.log");
-        writer.write(this.generator.generateDatasourceDocumentation());
-        writer.close();
+        try (Writer writer =
+            new FileWriter(System.getProperty("basedir") + "/target/datasource.log"))
+        {
+            writer.write(this.generator.generateDatasourceDocumentation());
+        }
     }
 
     /**
@@ -75,24 +77,22 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      */
     public void testGenerateDocumentationForAllContainers() throws Exception
     {
-        Writer writer = new FileWriter(System.getProperty("basedir")
-            + "/target/container-urls.properties");
-
-        ContainerFactory factory = new DefaultContainerFactory();
-
-        Map<String, Set<ContainerType>> containerIds = factory.getContainerIds();
-        for (String containerId : containerIds.keySet())
+        try (Writer writer =
+            new FileWriter(System.getProperty("basedir") + "/target/container-urls.properties"))
         {
-            generateDocumentationForContainer(containerId);
-            String url = this.generator.getContainerServerDownloadUrl(containerId);
-            if (url != null)
+            ContainerFactory factory = new DefaultContainerFactory();
+            Map<String, Set<ContainerType>> containerIds = factory.getContainerIds();
+            for (String containerId : containerIds.keySet())
             {
-                writer.write("cargo." + containerId + ".url=" + url
-                    + System.getProperty("line.separator"));
+                generateDocumentationForContainer(containerId);
+                String url = this.generator.getContainerServerDownloadUrl(containerId);
+                if (url != null)
+                {
+                    writer.write("cargo." + containerId + ".url=" + url
+                        + System.getProperty("line.separator"));
+                }
             }
         }
-
-        writer.close();
     }
 
     /**
@@ -102,9 +102,10 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      */
     private void generateDocumentationForContainer(String containerId) throws Exception
     {
-        Writer writer = new FileWriter(System.getProperty("basedir") + "/target/" + containerId
-            + ".log");
-        writer.write(this.generator.generateDocumentation(containerId));
-        writer.close();
+        try (Writer writer = new FileWriter(System.getProperty("basedir") + "/target/" + containerId
+            + ".log"))
+        {
+            writer.write(this.generator.generateDocumentation(containerId));
+        }
     }
 }

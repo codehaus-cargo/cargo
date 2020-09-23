@@ -491,10 +491,12 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         // Read file
         File file = new File(deployable.getFile());
         FileHandler fileHandler = new DefaultFileHandler();
-        FileInputStream in = new FileInputStream(file);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        fileHandler.copy(in, out);
-        in.close();
+        ByteArrayOutputStream out;
+        try (FileInputStream in = new FileInputStream(file))
+        {
+            out = new ByteArrayOutputStream();
+            fileHandler.copy(in, out);
+        }
 
         // Send file
         String remoteFileName = getRemoteFileName(deployable, config.getDeployableIdentifier(),

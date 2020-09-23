@@ -443,17 +443,15 @@ public class Configuration
 
             if (getConfigfiles() != null)
             {
-                for (int i = 0; i < getConfigfiles().length; i++)
+                for (FileConfig fileConfig : getConfigfiles())
                 {
-                    FileConfig fileConfig = getConfigfiles()[i];
                     localConfiguration.setConfigFileProperty(fileConfig);
                 }
             }
             if (getFiles() != null)
             {
-                for (int i = 0; i < getFiles().length; i++)
+                for (FileConfig fileConfig : getFiles())
                 {
-                    FileConfig fileConfig = getFiles()[i];
                     localConfiguration.setFileProperty(fileConfig);
                 }
             }
@@ -486,9 +484,9 @@ public class Configuration
     private void addResources(String containerId, LocalConfiguration configuration,
         CargoProject project) throws MojoExecutionException
     {
-        for (int i = 0; i < getResources().length; i++)
+        for (Resource resource : getResources())
         {
-            configuration.addResource(getResources()[i].createResource(containerId, project));
+            configuration.addResource(resource.createResource(containerId, project));
         }
     }
 

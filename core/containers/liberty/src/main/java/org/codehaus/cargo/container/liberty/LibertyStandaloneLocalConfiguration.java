@@ -269,9 +269,8 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
             {
                 File serverDir = install.getServerDir(null);
                 File jvmOptions = new File(serverDir, "jvm.options");
-                try
+                try (PrintStream out = new PrintStream(jvmOptions))
                 {
-                    PrintStream out = new PrintStream(jvmOptions);
                     for (Map.Entry<String, String> entry
                         : installedContainer.getSystemProperties().entrySet())
                     {
@@ -280,7 +279,6 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
                         out.print('=');
                         out.println(entry.getValue());
                     }
-                    out.close();
                 }
                 catch (IOException e)
                 {

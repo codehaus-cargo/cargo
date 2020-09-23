@@ -66,10 +66,11 @@ public class JdkHttpURLConnection implements HttpURLConnection
                 connection.setReadTimeout(timeout);
             }
 
-            BufferedReader reader =
-                new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            reader.readLine();
-            reader.close();
+            try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(connection.getInputStream())))
+            {
+                reader.readLine();
+            }
         }
         catch (Exception e)
         {

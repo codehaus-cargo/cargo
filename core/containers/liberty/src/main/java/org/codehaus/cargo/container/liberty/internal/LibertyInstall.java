@@ -22,7 +22,6 @@
 package org.codehaus.cargo.container.liberty.internal;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
@@ -149,16 +148,11 @@ public class LibertyInstall
                 = new StringBuilder("WebSphere Liberty is not installed into ");
             builder.append(installDir);
             builder.append("\r\nFile in dir:\r\n");
-            installDir.listFiles(new FileFilter()
+            installDir.listFiles((File pathname) ->
             {
-
-                @Override
-                public boolean accept(File pathname)
-                {
-                    builder.append(pathname.getName());
-                    builder.append("\r\n");
-                    return false;
-                }
+                builder.append(pathname.getName());
+                builder.append("\r\n");
+                return false;
             });
 
             throw new FileNotFoundException(builder.toString());

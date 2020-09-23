@@ -101,7 +101,9 @@
             </goals>
             <configuration>
               <version>1.0.0</version>
-              <models><model>src/main/mdo/mergeinfo.mdo</model></models>
+              <models>
+                <model>src/main/mdo/mergeinfo.mdo</model>
+              </models>
             </configuration>
           </execution>
         </executions>

@@ -21,7 +21,6 @@ package org.codehaus.cargo.sample.java;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -131,14 +130,8 @@ public class EmbeddedContainerClasspathResolver
                         }
                         File folder = new File(containerHome, dependencyRelativeSubPath
                             .substring(0, dependencyRelativeSubPath.length() - 5));
-                        File[] jars = folder.listFiles(new FilenameFilter()
-                        {
-                            @Override
-                            public boolean accept(File dir, String name)
-                            {
-                                return name.endsWith(".jar");
-                            }
-                        });
+                        File[] jars =
+                            folder.listFiles((File dir, String name) -> name.endsWith(".jar"));
                         if (jars != null)
                         {
                             found = true;

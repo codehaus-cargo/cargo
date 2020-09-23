@@ -231,7 +231,7 @@
 
     <!--module name="JavaNCSS"/-->
 
-    <module name="JUnitTestCase"/>
+    <!--module name="JUnitTestCase"/-->
 
     <module name="LeftCurly">
       <property name="option" value="nl"/>
@@ -315,11 +315,13 @@
 
     <module name="RedundantImport"/>
 
-    <module name="RedundantThrows">
+    <!--module name="RedundantThrows">
       <property name="allowUnchecked" value="true"/>
-    </module>
+    </module-->
 
-    <module name="RedundantModifier"/>
+    <module name="RedundantModifier">
+      <property name="tokens" value="METHOD_DEF, VARIABLE_DEF, ANNOTATION_FIELD_DEF, INTERFACE_DEF, CLASS_DEF, ENUM_DEF"/>
+    </module>
 
     <module name="ReturnCount">
       <property name="max" value="7"/>

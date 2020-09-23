@@ -223,47 +223,44 @@ public class DefaultJarArchive implements JarArchive
     @Override
     public void expandToPath(String path, FileFilter filter) throws IOException
     {
-        JarInputStream inputStream = getContentAsStream();
-
-        byte[] buffer = new byte[40960];
-
-        ZipEntry entry;
-        while ((entry = inputStream.getNextEntry()) != null)
+        try (JarInputStream inputStream = getContentAsStream())
         {
-            String entryName = entry.getName();
-
-            String outFile = getFileHandler().append(path, entryName);
-
-            if (filter == null || filter.accept(new File(entryName)))
+            byte[] buffer = new byte[40960];
+            ZipEntry entry;
+            while ((entry = inputStream.getNextEntry()) != null)
             {
-                if (outFile.endsWith("/"))
+                String entryName = entry.getName();
+                String outFile = getFileHandler().append(path, entryName);
+                if (filter == null || filter.accept(new File(entryName)))
                 {
-                    getFileHandler().mkdirs(outFile);
-                }
-                else
-                {
-                    if (!getFileHandler().exists(getFileHandler().getParent(outFile)))
+                    if (outFile.endsWith("/"))
                     {
-                        getFileHandler().mkdirs(getFileHandler().getParent(outFile));
+                        getFileHandler().mkdirs(outFile);
                     }
-
-                    if (!getFileHandler().exists(outFile))
+                    else
                     {
-                        getFileHandler().createFile(outFile);
-                    }
+                        if (!getFileHandler().exists(getFileHandler().getParent(outFile)))
+                        {
+                            getFileHandler().mkdirs(getFileHandler().getParent(outFile));
+                        }
 
-                    OutputStream out = getFileHandler().getOutputStream(outFile);
-                    int read;
-                    while ((read = inputStream.read(buffer)) > 0)
-                    {
-                        out.write(buffer, 0, read);
-                    }
+                        if (!getFileHandler().exists(outFile))
+                        {
+                            getFileHandler().createFile(outFile);
+                        }
 
-                    out.close();
+                        try (OutputStream out = getFileHandler().getOutputStream(outFile))
+                        {
+                            int read;
+                            while ((read = inputStream.read(buffer)) > 0)
+                            {
+                                out.write(buffer, 0, read);
+                            }
+                        }
+                    }
                 }
             }
         }
-        inputStream.close();
     }
 
     /**

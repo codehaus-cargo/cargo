@@ -109,8 +109,8 @@ public class DataSource
         // Can also be implemented as Builder pattern to avoid null parameters.
         this.jndiLocation = jndiLocation;
         this.connectionType = createConnectionType(connectionType);
-        this.transactionSupport = createTransactionSupport(transactionSupport,
-                this.connectionType);
+        this.transactionSupport =
+            createTransactionSupport(transactionSupport, this.connectionType);
         this.driverClass = driverClass;
         this.url = url;
         this.username = username;
@@ -305,17 +305,21 @@ public class DataSource
      */
     private String createConnectionType(String connectionType)
     {
-        if (ConfigurationEntryType.XA_DATASOURCE.equals(connectionType))
+        if (null == connectionType)
         {
-            return ConfigurationEntryType.XA_DATASOURCE;
-        }
-        else if (ConfigurationEntryType.DATASOURCE.equals(connectionType))
-        {
-            return ConfigurationEntryType.DATASOURCE;
+            return ConfigurationEntryType.JDBC_DRIVER;
         }
         else
         {
-            return ConfigurationEntryType.JDBC_DRIVER;
+            switch (connectionType)
+            {
+                case ConfigurationEntryType.XA_DATASOURCE:
+                    return ConfigurationEntryType.XA_DATASOURCE;
+                case ConfigurationEntryType.DATASOURCE:
+                    return ConfigurationEntryType.DATASOURCE;
+                default:
+                    return ConfigurationEntryType.JDBC_DRIVER;
+            }
         }
     }
 

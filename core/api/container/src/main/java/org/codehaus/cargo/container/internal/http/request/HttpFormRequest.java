@@ -30,7 +30,6 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 
 import org.codehaus.cargo.container.internal.http.HttpConnection;
-import org.codehaus.cargo.container.internal.http.HttpRequestBodyWriter;
 import org.codehaus.cargo.container.internal.http.HttpResult;
 
 /**
@@ -94,17 +93,15 @@ public class HttpFormRequest extends HttpConnection
     {
         addRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY_VALUE);
 
-        setRequestBody(new HttpRequestBodyWriter()
+        setRequestBody((OutputStream outputStream) ->
         {
-            public void writeToOutputStream(OutputStream outputStream) throws IOException
+            try (BufferedWriter httpRequestBodyWriter =
+                new BufferedWriter(new OutputStreamWriter(outputStream)))
             {
-                BufferedWriter httpRequestBodyWriter =
-                        new BufferedWriter(new OutputStreamWriter(outputStream));
-
                 httpRequestBodyWriter.write(CRLF + BOUNDARY_LEFT + CRLF);
                 httpRequestBodyWriter.write(formData);
                 httpRequestBodyWriter.write(CRLF + "Content-Type: application/octet-stream"
-                        + CRLF + CRLF);
+                    + CRLF + CRLF);
                 httpRequestBodyWriter.flush();
 
                 writeFileToOutputStream(file, outputStream);
@@ -112,9 +109,8 @@ public class HttpFormRequest extends HttpConnection
                 // Mark the end of the multipart http request
                 httpRequestBodyWriter.write(CRLF + BOUNDARY_BOTH + CRLF);
                 httpRequestBodyWriter.flush();
-                httpRequestBodyWriter.close();
-                outputStream.close();
             }
+            outputStream.close();
         });
 
         return post();
@@ -128,16 +124,15 @@ public class HttpFormRequest extends HttpConnection
     private void writeFileToOutputStream(String file, OutputStream outputStream) throws IOException
     {
         // Write the actual file contents
-        FileInputStream input = new FileInputStream(file);
-
-        int bytesRead;
-        byte[] dataBuffer = new byte[1024];
-        while ((bytesRead = input.read(dataBuffer)) != -1)
+        try (FileInputStream input = new FileInputStream(file))
         {
-            outputStream.write(dataBuffer, 0, bytesRead);
+            int bytesRead;
+            byte[] dataBuffer = new byte[1024];
+            while ((bytesRead = input.read(dataBuffer)) != -1)
+            {
+                outputStream.write(dataBuffer, 0, bytesRead);
+            }
+            outputStream.flush();
         }
-
-        outputStream.flush();
-        input.close();
     }
 }

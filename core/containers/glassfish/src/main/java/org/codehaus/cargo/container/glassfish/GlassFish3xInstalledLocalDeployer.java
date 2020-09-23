@@ -179,17 +179,26 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add("create-jdbc-connection-pool");
         args.add("--restype");
         args.add(dataSource.getConnectionType());
-        if ("javax.sql.XADataSource".equals(dataSource.getConnectionType()))
+        if (null == dataSource.getConnectionType())
         {
-            args.add("--datasourceclassname");
-        }
-        else if ("javax.sql.DataSource".equals(dataSource.getConnectionType()))
-        {
-            args.add("--datasourceclassname");
+            args.add("--driverclassname");
         }
         else
         {
-            args.add("--driverclassname");
+            switch (dataSource.getConnectionType())
+            {
+                case "javax.sql.XADataSource":
+                    args.add("--datasourceclassname");
+                    break;
+
+                case "javax.sql.DataSource":
+                    args.add("--datasourceclassname");
+                    break;
+
+                default:
+                    args.add("--driverclassname");
+                    break;
+            }
         }
         args.add(dataSource.getDriverClass());
         args.add("--property");

@@ -72,26 +72,20 @@ public class GeronimoUtils
      */
     public boolean isGeronimoStarted()
     {
-        boolean isStarted = false;
-
         try
         {
-            isStarted = isKernelFullyStarted();
+            return isKernelFullyStarted();
         }
-        catch (IOException|SecurityException e)
+        catch (IOException | SecurityException | InstanceNotFoundException e)
         {
-            // Connection or Security error, assume container not started
-        }
-        catch (InstanceNotFoundException e)
-        {
-            // happens when container is stopping
+            // Connection or Security error, happens when container is stopping
+            // Assume container not started
+            return false;
         }
         catch (Exception e)
         {
             throw new ContainerException("Internal error in the Geronimo container", e);
         }
-
-        return isStarted;
     }
 
     /**

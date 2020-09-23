@@ -83,14 +83,10 @@ public class RunMojoTest extends TestCase
                 final String[] options =
                     new String[] {portOption, "-o", "-X", "clean", "cargo:run"};
 
-                new Thread(new Runnable()
+                new Thread(() ->
                 {
-                    public void run()
-                    {
-                        MavenCli maven2 = new MavenCli();
-                        maven2.doMain(
-                            options , projectDirectory.getPath(), outputStream, outputStream);
-                    }
+                    MavenCli maven2 = new MavenCli();
+                    maven2.doMain(options, projectDirectory.getPath(), outputStream, outputStream);
                 }).start();
 
                 RunMojoTest.initialized = true;
