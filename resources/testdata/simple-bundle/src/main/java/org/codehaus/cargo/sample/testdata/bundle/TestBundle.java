@@ -37,7 +37,8 @@ public class TestBundle implements BundleActivator
      */
     public void start(BundleContext bundleContext) throws Exception
     {
-        FileOutputStream fos = new FileOutputStream("bundle-output.txt", false);
+        FileOutputStream fos =
+            new FileOutputStream(System.getProperty("cargo.samples.bundle.targetFile"), false);
         try
         {
             fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
@@ -56,7 +57,8 @@ public class TestBundle implements BundleActivator
      */
     public void stop(BundleContext bundleContext) throws Exception
     {
-        FileOutputStream fos = new FileOutputStream("bundle-output.txt", false);
+        FileOutputStream fos =
+            new FileOutputStream(System.getProperty("cargo.samples.bundle.targetFile"), false);
         try
         {
             fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));

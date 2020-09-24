@@ -230,6 +230,12 @@
                 <value>${cargo.samples.tomcat.ajp.port}</value>
               </property>
 
+              <!-- Use common file name for the bundle tests -->
+              <property>
+                <name>cargo.samples.bundle.targetFile</name>
+                <value>${project.build.directory}/bundle-test/output.log</value>
+              </property>
+
               <!-- Set default parser -->
               <property>
                 <name>javax.xml.parsers.SAXParserFactory</name>
