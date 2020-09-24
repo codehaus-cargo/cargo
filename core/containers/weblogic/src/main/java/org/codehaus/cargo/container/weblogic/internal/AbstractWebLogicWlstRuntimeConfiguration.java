@@ -24,6 +24,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
+import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicWlstConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
 
@@ -49,6 +50,7 @@ public abstract class AbstractWebLogicWlstRuntimeConfiguration extends
 
         setProperty(RemotePropertySet.USERNAME, "weblogic");
         setProperty(RemotePropertySet.PASSWORD, "weblogic1");
+        setProperty(WebLogicPropertySet.SERVER, "server");
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
     }

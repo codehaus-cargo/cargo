@@ -15,4 +15,4 @@
 """
 
 cd('/')
-undeploy('@cargo.deployable.id@')
+undeploy('@cargo.deployable.id@', targets = '@cargo.weblogic.server@')
