@@ -66,17 +66,6 @@ public class ResinRun extends Thread
     private boolean isStarted;
 
     /**
-     * The started Resin server class. We use <code>Object</code> instead of the Resin class so
-     * that we don't need the Resin jars in the classpath to compile this class.
-     */
-    private Object resinServer;
-
-    /**
-     * Reference to the Resin utility class.
-     */
-    private ResinUtil resinUtil = new ResinUtil();
-
-    /**
      * Resin keepalive socket used to stop Resin (when this socket is closed, Resin is stopped).
      */
     private ServerSocket resinKeepAliveSocket;

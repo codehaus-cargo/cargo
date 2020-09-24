@@ -24,6 +24,7 @@ package org.codehaus.cargo.container.resin.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -115,12 +116,10 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
         // stop Resin when it receives the signal to do so.
         java.setMainClass(ResinRun.class.getName());
 
-        // As the ResinRun class depends on other classes, include those jars in the container
-        // execution classpath.
+        // Add the JAR for the ResinRun class.
+        // Currently, the same JAR also contains all dependencies of ResinRun as well.
         java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
             "/" + ResinRun.class.getName().replace('.', '/') + ".class"));
-        java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
-            "/" + ResinException.class.getName().replace('.', '/') + ".class"));
 
         FileSet fileSet = new FileSet();
         fileSet.setProject(getAntUtils().createProject());
@@ -156,7 +155,16 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
             {
                 URLClassLoader classloader = new URLClassLoader(
                     new URL[] {new File(getHome(), "/lib/resin.jar").toURI().toURL()});
-                version = new ResinUtil().getResinVersion(classloader);
+
+                Class versionClass = classloader.loadClass("com.caucho.Version");
+                Field versionField = versionClass.getField("VERSION");
+                version = (String) versionField.get(null);
+
+                if (version.startsWith("resin-"))
+                {
+                    version = version.substring(6);
+                }
+
                 getLogger().info("Found Resin version [" + version + "]",
                     this.getClass().getName());
             }
