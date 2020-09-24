@@ -41,7 +41,6 @@ public class TestServlet extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         Connection c = null;
         Connection c2 = null;
         try
@@ -55,9 +54,12 @@ public class TestServlet extends HttpServlet
             PrintWriter out = response.getWriter();
             out.print("Got connections!");
             out.close();
-
         }
-        catch (NamingException|SQLException e)
+        catch (NamingException e)
+        {
+            throw new ServletException(e);
+        }
+        catch (SQLException e)
         {
             throw new ServletException(e);
         }

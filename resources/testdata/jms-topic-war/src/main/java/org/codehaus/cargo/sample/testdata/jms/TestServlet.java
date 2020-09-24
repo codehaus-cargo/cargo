@@ -54,7 +54,11 @@ public class TestServlet extends HttpServlet
         {
             throw new ServletException("Got " + o.getClass() + " instead of JMS Topic", e);
         }
-        catch (JMSException|NamingException e)
+        catch (JMSException e)
+        {
+            throw new ServletException(e);
+        }
+        catch (NamingException e)
         {
             throw new ServletException(e);
         }
