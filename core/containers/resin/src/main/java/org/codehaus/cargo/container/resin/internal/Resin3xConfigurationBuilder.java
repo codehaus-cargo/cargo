@@ -68,9 +68,7 @@ public class Resin3xConfigurationBuilder extends AbstractConfigurationBuilder
                 dataSourceString.append(">")
                     .append(ds.getConnectionProperties().getProperty(key));
                 dataSourceString.append("</").append(key).append(">\n");
-
             }
-
         }
         dataSourceString.append("  </driver>\n");
         dataSourceString.append("</database>");
@@ -132,7 +130,6 @@ public class Resin3xConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         throw new UnsupportedOperationException(TRANSACTIONS_WITH_XA_OR_JCA_ONLY);
-
     }
 
     /**

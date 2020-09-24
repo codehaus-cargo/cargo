@@ -27,4 +27,19 @@
   <name>Cargo Core Resin Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Resin containers</description>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <!-- ResinRun requires to be built with Java 6 -->
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
