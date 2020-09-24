@@ -33,8 +33,6 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
-import org.codehaus.cargo.container.spi.util.DefaultServerRun;
-import org.codehaus.cargo.util.CargoException;
 
 /**
  * Common support for all Resin container versions.
@@ -117,15 +115,12 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
         // stop Resin when it receives the signal to do so.
         java.setMainClass(ResinRun.class.getName());
 
-        // However this ResinRun class depends on classes found in other Cargo jars (namely, in
-        // Core Util and Core Container) so we also need to include those jars in the container
+        // As the ResinRun class depends on other classes, include those jars in the container
         // execution classpath.
         java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
             "/" + ResinRun.class.getName().replace('.', '/') + ".class"));
         java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
-            "/" + DefaultServerRun.class.getName().replace('.', '/') + ".class"));
-        java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
-            "/" + CargoException.class.getName().replace('.', '/') + ".class"));
+            "/" + ResinException.class.getName().replace('.', '/') + ".class"));
 
         FileSet fileSet = new FileSet();
         fileSet.setProject(getAntUtils().createProject());
