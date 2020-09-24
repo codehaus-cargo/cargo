@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.resin;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -69,16 +70,46 @@ public class Resin3xStandaloneLocalConfigurationTest extends
 
         getFileHandler().delete(container.getHome() + "/conf/resin.conf");
         getFileHandler().createFile(container.getHome() + "/conf/resin.conf");
-        try (OutputStream resinConf =
-            getFileHandler().getOutputStream(container.getHome() + "/conf/resin.conf"))
+        OutputStream resinConf = null;
+        InputStream originalResinConf = null;
+        try
         {
-            InputStream originalResinConf = getResinConfiguration();
+            resinConf =
+                getFileHandler().getOutputStream(container.getHome() + "/conf/resin.conf");
+            originalResinConf = getResinConfiguration();
             assertNotNull("Cannot load Resin configuration file for tests", originalResinConf);
             getFileHandler().copy(originalResinConf, resinConf);
-            originalResinConf.close();
-            originalResinConf = null;
         }
-        System.gc();
+        finally
+        {
+            if (resinConf != null)
+            {
+                try
+                {
+                    resinConf.close();
+                }
+                catch (IOException ignored)
+                {
+                    // Ignored
+                }
+                resinConf = null;
+            }
+
+            if (originalResinConf != null)
+            {
+                try
+                {
+                    originalResinConf.close();
+                }
+                catch (IOException ignored)
+                {
+                    // Ignored
+                }
+                originalResinConf = null;
+            }
+
+            System.gc();
+        }
 
         super.testConfigure();
 
