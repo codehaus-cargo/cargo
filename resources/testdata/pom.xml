@@ -59,9 +59,9 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <!-- Build the test artifacts with Java 7, so we can use them in the CI -->
-            <source>1.7</source>
-            <target>1.7</target>
+            <!-- Build the test artifacts with Java 6, so we can use them in the CI -->
+            <source>1.6</source>
+            <target>1.6</target>
           </configuration>
         </plugin>
       </plugins>
