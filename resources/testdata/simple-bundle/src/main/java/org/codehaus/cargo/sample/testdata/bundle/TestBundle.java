@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.sample.testdata.bundle;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -31,48 +32,60 @@ import org.osgi.framework.BundleContext;
 public class TestBundle implements BundleActivator
 {
     /**
-     * Starts the bundle.
+     * Starts the bundle, will write a <code>Hello, World</code> text.
      * 
      * @param bundleContext OSGi bundle context.
+     * @throws java.lang.Exception If anything goes wrong.
      */
+    @Override
     public void start(BundleContext bundleContext) throws Exception
     {
-        String targetFile = System.getProperty("cargo.samples.bundle.targetFile");
-        if (targetFile != null && !targetFile.isEmpty())
+        String target = System.getProperty("cargo.samples.bundle.targetFile");
+        if (target == null || target.isEmpty())
         {
-            FileOutputStream fos = new FileOutputStream(targetFile, false);
-            try
-            {
-                fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
-                fos.flush();
-            }
-            finally
-            {
-                fos.close();
-            }
+            throw new IllegalArgumentException("cargo.samples.bundle.targetFile not set!");
+        }
+
+        File targetFile = new File(target);
+        targetFile.getParentFile().mkdirs();
+        FileOutputStream fos = new FileOutputStream(targetFile, false);
+        try
+        {
+            fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
+            fos.flush();
+        }
+        finally
+        {
+            fos.close();
         }
     }
 
     /**
-     * Stops the bundle.
+     * Stops the bundle, will write a <code>Goodbye, World</code> text.
      * 
      * @param bundleContext OSGi bundle context.
+     * @throws java.lang.Exception If anything goes wrong.
      */
+    @Override
     public void stop(BundleContext bundleContext) throws Exception
     {
-        String targetFile = System.getProperty("cargo.samples.bundle.targetFile");
-        if (targetFile != null && !targetFile.isEmpty())
+        String target = System.getProperty("cargo.samples.bundle.targetFile");
+        if (target == null || target.isEmpty())
         {
-            FileOutputStream fos = new FileOutputStream(targetFile, false);
-            try
-            {
-                fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));
-                fos.flush();
-            }
-            finally
-            {
-                fos.close();
-            }
+            throw new IllegalArgumentException("cargo.samples.bundle.targetFile not set!");
+        }
+
+        File targetFile = new File(target);
+        targetFile.getParentFile().mkdirs();
+        FileOutputStream fos = new FileOutputStream(targetFile, false);
+        try
+        {
+            fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));
+            fos.flush();
+        }
+        finally
+        {
+            fos.close();
         }
     }
 }
