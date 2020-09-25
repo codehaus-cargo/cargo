@@ -29,11 +29,9 @@ import junit.framework.Test;
 
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasBundleSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
@@ -68,8 +66,7 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
             "Tests that run on containers supporting OSGi deployments");
 
         // We exclude JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x, JBoss 7.5.x and WildFly containers
-        // as the default standalone configuration XML for these servers has OSGi
-        // support disabled
+        // as the default standalone configuration XML for these servers has OSGi support disabled
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss72x");
         excludedContainerIds.add("jboss73x");
@@ -113,28 +110,20 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
      */
     public void testStartWithBundleDeployed() throws Exception
     {
-        BufferedReader reader;
-        File bundleOutput;
-        if (getContainer().getId().startsWith("glassfish")
-            || getContainer().getId().startsWith("payara"))
-        {
-            // In GlassFish and Payara, the server runs in the domain's "config" directory
-            LocalConfiguration configuration = getLocalContainer().getConfiguration();
-            bundleOutput = new File(configuration.getHome() + "/"
-                + configuration.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME) + "/config",
-                "bundle-output.txt");
-        }
-        else
-        {
-            bundleOutput = new File(getLocalContainer().getConfiguration().getHome(),
-                "bundle-output.txt");
-        }
+        String targetFile = System.getProperty("cargo.samples.bundle.targetFile");
+        assertTrue("cargo.samples.bundle.targetFile not set!",
+            targetFile != null && !targetFile.isEmpty());
+
+        File bundleOutput = new File(targetFile);
+
         assertFalse(bundleOutput + " already exists!", bundleOutput.isFile());
 
         Deployable bundle = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("simple-bundle"), DeployableType.BUNDLE);
 
         getLocalContainer().getConfiguration().addDeployable(bundle);
+        getInstalledLocalContainer().getSystemProperties().put(
+            "cargo.samples.bundle.targetFile", targetFile);
 
         getLocalContainer().start();
         assertEquals(State.STARTED, getContainer().getState());
@@ -145,7 +134,7 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
             Thread.sleep(1000);
         }
         assertTrue(bundleOutput + " does not exist!", bundleOutput.isFile());
-        reader = new BufferedReader(new FileReader(bundleOutput));
+        BufferedReader reader = new BufferedReader(new FileReader(bundleOutput));
         assertEquals("Hello, World", reader.readLine());
         reader.close();
         reader = null;

@@ -37,16 +37,19 @@ public class TestBundle implements BundleActivator
      */
     public void start(BundleContext bundleContext) throws Exception
     {
-        FileOutputStream fos =
-            new FileOutputStream(System.getProperty("cargo.samples.bundle.targetFile"), false);
-        try
+        String targetFile = System.getProperty("cargo.samples.bundle.targetFile");
+        if (targetFile != null && !targetFile.isEmpty())
         {
-            fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
-            fos.flush();
-        }
-        finally
-        {
-            fos.close();
+            FileOutputStream fos = new FileOutputStream(targetFile, false);
+            try
+            {
+                fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
+                fos.flush();
+            }
+            finally
+            {
+                fos.close();
+            }
         }
     }
 
@@ -57,16 +60,19 @@ public class TestBundle implements BundleActivator
      */
     public void stop(BundleContext bundleContext) throws Exception
     {
-        FileOutputStream fos =
-            new FileOutputStream(System.getProperty("cargo.samples.bundle.targetFile"), false);
-        try
+        String targetFile = System.getProperty("cargo.samples.bundle.targetFile");
+        if (targetFile != null && !targetFile.isEmpty())
         {
-            fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));
-            fos.flush();
-        }
-        finally
-        {
-            fos.close();
+            FileOutputStream fos = new FileOutputStream(targetFile, false);
+            try
+            {
+                fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));
+                fos.flush();
+            }
+            finally
+            {
+                fos.close();
+            }
         }
     }
 }
