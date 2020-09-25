@@ -24,6 +24,6 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>simple-jar</artifactId>
-  <name>Cargo Simple JAR test data for samples</name>
+  <name>Cargo test data for samples - Simple JAR</name>
   <packaging>jar</packaging>
 </project>

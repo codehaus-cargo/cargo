@@ -24,7 +24,7 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>jms-topic-war</artifactId>
-  <name>Cargo JMS Topic WAR test data for samples</name>
+  <name>Cargo test data for samples - JMS Topic WAR</name>
   <packaging>war</packaging>
   <dependencies>
     <dependency>

@@ -24,7 +24,7 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>simple-aop</artifactId>
-  <name>Cargo Simple AOP test data for samples</name>
+  <name>Cargo test data for samples - Simple AOP</name>
   <packaging>jboss-aop</packaging>
   <build>
     <plugins>

@@ -24,7 +24,7 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>systemproperty-war</artifactId>
-  <name>Cargo System Property test WAR data for samples</name>
+  <name>Cargo test data for samples - System Property test WAR data for samples</name>
   <packaging>war</packaging>
   <dependencies>
     <dependency>

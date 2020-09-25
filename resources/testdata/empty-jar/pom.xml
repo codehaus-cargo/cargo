@@ -24,6 +24,6 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>empty-jar</artifactId>
-  <name>Cargo Empty JAR test data for samples</name>
+  <name>Cargo test data for samples - Empty JAR</name>
   <packaging>jar</packaging>
 </project>

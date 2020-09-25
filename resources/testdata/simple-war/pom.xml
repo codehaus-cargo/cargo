@@ -24,6 +24,6 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>simple-war</artifactId>
-  <name>Cargo Simple WAR test data for samples</name>
+  <name>Cargo test data for samples - Simple WAR</name>
   <packaging>war</packaging>
 </project>

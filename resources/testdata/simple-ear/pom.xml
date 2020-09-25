@@ -24,7 +24,7 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>simple-ear</artifactId>
-  <name>Cargo Simple EAR test data for samples</name>
+  <name>Cargo test data for samples - Simple EAR</name>
   <packaging>ear</packaging>
   <dependencies>
     <dependency>

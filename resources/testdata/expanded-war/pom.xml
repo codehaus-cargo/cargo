@@ -24,6 +24,6 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>expanded-war</artifactId>
-  <name>Cargo Expanded WAR test data for samples</name>
+  <name>Cargo test data for samples - Expanded WAR</name>
   <packaging>war</packaging>
 </project>

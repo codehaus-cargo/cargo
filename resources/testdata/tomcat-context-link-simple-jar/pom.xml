@@ -24,7 +24,7 @@
     <version>1.8.2-SNAPSHOT</version>
   </parent>
   <artifactId>tomcatcontext-war-link-simple-jar</artifactId>
-  <name>Cargo Tomcat context WAR with link to simple jar test data for samples</name>
+  <name>Cargo test data for samples - Tomcat context WAR with link to simple jar</name>
   <packaging>war</packaging>
   <dependencies>
     <dependency>
