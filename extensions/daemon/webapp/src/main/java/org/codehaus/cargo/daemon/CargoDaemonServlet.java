@@ -250,218 +250,217 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         String servletPath = request.getServletPath();
         servletPath = servletPath.substring(servletPath.lastIndexOf('/') + 1);
 
-        if ("start".equals(servletPath))
+        switch (servletPath)
         {
-            // The "start" method is used to either:
-            //   1) Create a new handleId (i.e. a new container and configuration) and start it
-            //   2) Replace an existing handleId with the provided configuration and start it
-            //   3) Load an existing handleId with the existing configuration and start it
+            case "start":
+                // The "start" method is used to either:
+                //   1) Create a new handleId (i.e. a new container and configuration) and start it
+                //   2) Replace an existing handleId with the provided configuration and start it
+                //   3) Load an existing handleId with the existing configuration and start it
 
-            StartRequest startRequest = null;
-            boolean previouslyExistingStartRequest = false;
-
-            String handleId = request.getParameter("handleId");
-            String containerId = request.getParameter("containerId");
-
-            try
-            {
-                if (handleId != null && containerId == null)
+                StartRequest startRequest = null;
+                boolean previouslyExistingStartRequest = false;
+                try
                 {
+                    String handleId = request.getParameter("handleId");
+                    String containerId = request.getParameter("containerId");
+                    if (handleId != null && containerId == null)
+                    {
+                        Handle handle = handles.get(handleId);
+                        if (handle != null)
+                        {
+                            // Use case: Load existing handleId with the existing configuration
+                            previouslyExistingStartRequest = true;
+
+                            startRequest = new StartRequest();
+                            startRequest.setParameters(handle.getProperties());
+                        }
+                    }
+                    if (startRequest == null)
+                    {
+                        // Use case: Create / replace existing handleId with provided configuration
+                        startRequest = new StartRequest().parse(request);
+                        startRequest.setSave(true);
+                    }
+
+                    startContainer(startRequest);
+
+                    response.setContentType("text/plain");
+                    response.getWriter().println("OK - STARTED");
+                }
+                catch (Throwable e)
+                {
+                    getServletContext().log("Cannot start server", e);
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
+                }
+                finally
+                {
+                    if (!previouslyExistingStartRequest && startRequest != null)
+                    {
+                        startRequest.cleanup();
+                    }
+                }
+                break;
+
+            case "stop":
+                try
+                {
+                    boolean delete = Boolean.parseBoolean(request.getParameter("deleteContainer"));
+                    String handleId = request.getParameter("handleId");
+
                     Handle handle = handles.get(handleId);
+
                     if (handle != null)
                     {
-                        // Use case: Load existing handleId with the existing configuration
-                        previouslyExistingStartRequest = true;
+                        synchronized (handle)
+                        {
+                            InstalledLocalContainer container = handle.getContainer();
 
-                        startRequest = new StartRequest();
-                        startRequest.setParameters(handle.getProperties());
+                            if (delete)
+                            {
+                                handles.remove(handleId);
+                                fileManager.saveHandleDatabase(handles);
+                            }
+
+                            if (container != null)
+                            {
+                                container.stop();
+                            }
+
+                            handle.setForceStop(true);
+                        }
                     }
+
+                    response.setContentType("text/plain");
+                    response.getWriter().println("OK - STOPPED");
                 }
-                if (startRequest == null)
+                catch (Throwable e)
                 {
-                    // Use case: Create new / replace existing handleId with provided configuration
-                    startRequest = new StartRequest().parse(request);
-                    startRequest.setSave(true);
+                    getServletContext().log("Cannot stop server", e);
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
                 }
+                break;
 
-                startContainer(startRequest);
-
-                response.setContentType("text/plain");
-                response.getWriter().println("OK - STARTED");
-            }
-            catch (Throwable e)
-            {
-                getServletContext().log("Cannot start server", e);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
-            }
-            finally
-            {
-                if (!previouslyExistingStartRequest && startRequest != null)
+            case "viewlog":
+            case "viewcargolog":
+                try
                 {
-                    startRequest.cleanup();
-                }
-            }
-        }
-        else if ("stop".equals(servletPath))
-        {
-            try
-            {
-                boolean delete = Boolean.parseBoolean(request.getParameter("deleteContainer"));
-                String handleId = request.getParameter("handleId");
+                    String handleId = request.getParameter("handleId");
+                    Long offset = getLong(request.getParameter("offset"));
+                    Handle handle = handles.get(handleId);
+                    String logFilePath = null;
+                    long pos = 0;
 
-                Handle handle = handles.get(handleId);
 
-                if (handle != null)
-                {
-                    synchronized (handle)
+                    if (handle == null)
                     {
-                        InstalledLocalContainer container = handle.getContainer();
-
-                        if (delete)
-                        {
-                            handles.remove(handleId);
-                            fileManager.saveHandleDatabase(handles);
-                        }
-
-                        if (container != null)
-                        {
-                            container.stop();
-                        }
-
-                        handle.setForceStop(true);
+                        throw new CargoDaemonException("Handle id " + handleId + " not found.");
                     }
-                }
 
-                response.setContentType("text/plain");
-                response.getWriter().println("OK - STOPPED");
-            }
-            catch (Throwable e)
-            {
-                getServletContext().log("Cannot stop server", e);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
-            }
-        }
-        else if ("viewlog".equals(servletPath) || "viewcargolog".equals(servletPath))
-        {
-            try
-            {
-                String handleId = request.getParameter("handleId");
-                Long offset = getLong(request.getParameter("offset"));
-                Handle handle = handles.get(handleId);
-                String logFilePath = null;
-                long pos = 0;
+                    if ("viewlog".equals(servletPath))
+                    {
+                        logFilePath = handle.getContainerOutputPath();
+                    }
+                    else if ("viewcargolog".equals(servletPath))
+                    {
+                        logFilePath = handle.getContainerLogPath();
+                    }
 
+                    long filesize = fileManager.getFileSize(logFilePath);
 
-                if (handle == null)
-                {
-                    throw new CargoDaemonException("Handle id " + handleId + " not found.");
-                }
+                    response.setContentType("text/html");
+                    response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
+                    response.setHeader("X-Text-Size", String.valueOf(filesize));
 
-                if ("viewlog".equals(servletPath))
-                {
-                    logFilePath = handle.getContainerOutputPath();
-                }
-                else if ("viewcargolog".equals(servletPath))
-                {
-                    logFilePath = handle.getContainerLogPath();
-                }
+                    ServletOutputStream outputStream = response.getOutputStream();
 
-                long filesize = fileManager.getFileSize(logFilePath);
-
-                response.setContentType("text/html");
-                response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
-                response.setHeader("X-Text-Size", String.valueOf(filesize));
-
-                ServletOutputStream outputStream = response.getOutputStream();
-
-                // For some browsers, there needs to be atleast 1024 bytes sent before something is
-                // displayed.
-                // So, we respond with a nice log header to make sure we reach this limit.
-                if (offset == null)
-                {
-                    outputLogPageHeader(outputStream);
-                    fileManager.copyHeader(
-                        getClass().getClassLoader().getResourceAsStream(
-                            "org/codehaus/cargo/daemon/logheader.txt"), outputStream);
-
-                    outputStream.println("DATE " + new Date());
-                    outputStream.println("");
-
-                    outputStream.flush();
-                }
-
-                if (filesize == 0)
-                {
-                    outputStream.println("");
-                }
-                else
-                {
+                    // For some browsers, there needs to be at least 1024 bytes sent before
+                    // something is displayed.
+                    // So, we respond with a nice log header to make sure we reach this limit.
                     if (offset == null)
                     {
-                        // For logs larger than 1MB, only start at the last 1MB
-                        // if no offset is specified
-                        if (filesize > 1048576)
-                        {
-                            pos = filesize - 1048576;
-                        }
+                        outputLogPageHeader(outputStream);
+                        fileManager.copyHeader(
+                            getClass().getClassLoader().getResourceAsStream(
+                                "org/codehaus/cargo/daemon/logheader.txt"), outputStream);
+
+                        outputStream.println("DATE " + new Date());
+                        outputStream.println("");
+
+                        outputStream.flush();
+                    }
+
+                    if (filesize == 0)
+                    {
+                        outputStream.println("");
                     }
                     else
                     {
-                        pos = offset;
+                        if (offset == null)
+                        {
+                            // For logs larger than 1MB, only start at the last 1MB
+                            // if no offset is specified
+                            if (filesize > 1048576)
+                            {
+                                pos = filesize - 1048576;
+                            }
+                        }
+                        else
+                        {
+                            pos = offset;
+                        }
+
+                        fileManager.copy(logFilePath, outputStream, pos, filesize - pos);
                     }
 
-                    fileManager.copy(logFilePath, outputStream, pos, filesize - pos);
+                    if (offset == null)
+                    {
+                        outputLogPageFooter(outputStream, handleId, servletPath, filesize);
+                    }
                 }
-
-                if (offset == null)
+                catch (Throwable e)
                 {
-                    outputLogPageFooter(outputStream, handleId, servletPath, filesize);
+                    getServletContext().log("Cannot view log for server", e);
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
                 }
-            }
-            catch (Throwable e)
-            {
-                getServletContext().log("Cannot view log for server", e);
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.toString());
-            }
-        }
-        else if ("installed".equals(servletPath))
-        {
-            String file = request.getParameter("file");
+                break;
 
-            response.setContentType("text/plain");
-            if (fileManager.existsFile(file))
-            {
-                response.getWriter().println("OK - INSTALLED");
-            }
-            else
-            {
-                response.getWriter().println("OK - NOTEXIST");
-            }
-        }
-        else if ("getHandles".equals(servletPath))
-        {
-            response.setContentType("text/plain");
-            response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
-        }
-        else if ("index.html".equals(servletPath))
-        {
-            String indexPage;
-            try
-            {
-                indexPage = generateIndexPage();
-            }
-            catch (Exception e)
-            {
-                getServletContext().log("Cannot read index page", e);
-                throw new ServletException(e);
-            }
-            response.setContentType("text/html");
-            response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
-            response.getWriter().print(indexPage);
-        }
-        else
-        {
-            throw new ServletException("Unknown servlet path: " + servletPath);
+            case "installed":
+                String file = request.getParameter("file");
+                response.setContentType("text/plain");
+                if (fileManager.existsFile(file))
+                {
+                    response.getWriter().println("OK - INSTALLED");
+                }
+                else
+                {
+                    response.getWriter().println("OK - NOTEXIST");
+                }
+                break;
+
+            case "getHandles":
+                response.setContentType("text/plain");
+                response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
+                break;
+
+            case "index.html":
+                String indexPage;
+                try
+                {
+                    indexPage = generateIndexPage();
+                }
+                catch (Exception e)
+                {
+                    getServletContext().log("Cannot read index page", e);
+                    throw new ServletException(e);
+                }
+                response.setContentType("text/html");
+                response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
+                response.getWriter().print(indexPage);
+                break;
+
+            default:
+                throw new ServletException("Unknown servlet path: " + servletPath);
         }
     }
 
