@@ -47,30 +47,30 @@ public class Tomcat5x6x7xConfigurationBuilder extends AbstractTomcatConfiguratio
     @Override
     public String toConfigurationEntry(Resource resource)
     {
-        StringBuilder buff = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-        buff.append("<Resource name='").append(resource.getName()).append("'\n");
+        sb.append("<Resource name='").append(resource.getName()).append("'\n");
         if (resource.getClassName() != null)
         {
-            buff.append("          type='").append(resource.getClassName()).append("'\n");
+            sb.append("          type='").append(resource.getClassName()).append("'\n");
 
         }
         else
         {
-            buff.append("          type='").append(resource.getType()).append("'\n");
+            sb.append("          type='").append(resource.getType()).append("'\n");
         }
-        buff.append("          auth='").append("Container").append("'\n");
+        sb.append("          auth='").append("Container").append("'\n");
         if (resource.getParameter("factory") == null)
         {
             resource.setParameter("factory", getFactoryClassFor(resource.getType()));
         }
         for (String parameterName : resource.getParameterNames())
         {
-            buff.append("          ").append(parameterName).append("='");
-            buff.append(resource.getParameter(parameterName)).append("'\n");
+            sb.append("          ").append(parameterName).append("='")
+                .append(resource.getParameter(parameterName)).append("'\n");
         }
-        buff.append("/>\n");
-        return buff.toString();
+        sb.append("/>\n");
+        return sb.toString();
     }
 
 }

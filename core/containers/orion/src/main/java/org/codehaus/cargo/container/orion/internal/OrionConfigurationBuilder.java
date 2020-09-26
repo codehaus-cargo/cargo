@@ -44,9 +44,9 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     private DataSource ds;
 
     /**
-     * internal buffer used. recreated for each public method.
+     * internal string builder used. recreated for each public method.
      */
-    private StringBuffer buffer;
+    private StringBuilder sb;
 
     /**
      * create the default instance by passing control to the superclass.
@@ -99,7 +99,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void closeDataSourceTag()
     {
-        buffer.append("</data-source>\n");
+        sb.append("</data-source>\n");
     }
 
     /**
@@ -110,10 +110,13 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void setImplementationClassAndJndiContext(String className, String suffix)
     {
-        buffer.append("    name='").append(ds.getId()).append(suffix).append("' \n");
-        buffer.append("    connection-driver='" + className + "'\n");
-        buffer.append("    class='" + className + "'\n");
-        buffer.append("    location='").append(ds.getJndiLocation()).append(suffix)
+        sb.append("    name='")
+            .append(ds.getId())
+            .append(suffix)
+            .append("' \n")
+            .append("    connection-driver='" + className + "'\n")
+            .append("    class='" + className + "'\n")
+            .append("    location='").append(ds.getJndiLocation()).append(suffix)
             .append("' \n");
     }
 
@@ -122,7 +125,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void endDataSourceTag()
     {
-        buffer.append(" >\n");
+        sb.append(" >\n");
     }
 
     /**
@@ -130,7 +133,7 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void startDataSourceTag()
     {
-        buffer.append("<data-source \n");
+        sb.append("<data-source \n");
     }
 
     /**
@@ -138,8 +141,10 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void addCMTDataSourceAndLinkToXa()
     {
-        buffer.append("    class='com.evermind.sql.OrionCMTDataSource' \n ");
-        buffer.append("    xa-source-location='").append(ds.getJndiLocation()).append("Provided")
+        sb.append("    class='com.evermind.sql.OrionCMTDataSource' \n ")
+            .append("    xa-source-location='")
+            .append(ds.getJndiLocation())
+            .append("Provided")
             .append("' \n");
     }
 
@@ -148,8 +153,8 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void addDriverAttributes()
     {
-        buffer.append("    class='com.evermind.sql.DriverManagerDataSource' \n ");
-        buffer.append("    connection-driver='" + ds.getDriverClass() + "'\n");
+        sb.append("    class='com.evermind.sql.DriverManagerDataSource' \n ")
+            .append("    connection-driver='" + ds.getDriverClass() + "'\n");
     }
 
     /**
@@ -157,8 +162,8 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void addIdAndJndiLocationAttributes()
     {
-        buffer.append("    name='").append(ds.getId()).append("' \n");
-        buffer.append("    location='").append(ds.getJndiLocation()).append("' \n");
+        sb.append("    name='").append(ds.getId()).append("' \n")
+            .append("    location='").append(ds.getJndiLocation()).append("' \n");
     }
 
     /**
@@ -171,10 +176,10 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     private void addIdAndExtraLocationAttributes(String location, String ejbLocation,
         String xaLocation)
     {
-        buffer.append("    name='").append(ds.getId()).append("' \n");
-        buffer.append("    location='").append(location).append("' \n");
-        buffer.append("    ejb-location='").append(ejbLocation).append("' \n");
-        buffer.append("    xa-location='").append(xaLocation).append("' \n");
+        sb.append("    name='").append(ds.getId()).append("' \n")
+            .append("    location='").append(location).append("' \n")
+            .append("    ejb-location='").append(ejbLocation).append("' \n")
+            .append("    xa-location='").append(xaLocation).append("' \n");
     }
 
     /**
@@ -183,13 +188,17 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     private void addCommonConnectionAttributes()
     {
-        buffer.append("    username='").append(ds.getUsername()).append("' \n");
-        buffer.append("    password='").append(ds.getPassword()).append("' \n");
+        sb.append("    username='")
+            .append(ds.getUsername())
+            .append("' \n")
+            .append("    password='")
+            .append(ds.getPassword())
+            .append("' \n");
         if (ds.getUrl() != null)
         {
-            buffer.append("    url='" + ds.getUrl()).append("' \n");
+            sb.append("    url='" + ds.getUrl()).append("' \n");
         }
-        buffer.append("    inactivity-timeout='30'");
+        sb.append("    inactivity-timeout='30'");
     }
 
     /**
@@ -203,9 +212,10 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
             while (i.hasNext())
             {
                 String key = i.next().toString();
-                buffer.append("      <property name=\"").append(key);
-                buffer.append("\" value=\"")
-                    .append(ds.getConnectionProperties().getProperty(key)).append("\" />\n");
+                sb.append("      <property name=\"").append(key)
+                    .append("\" value=\"")
+                    .append(ds.getConnectionProperties().getProperty(key))
+                    .append("\" />\n");
             }
 
         }
@@ -218,14 +228,13 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds)
     {
         this.ds = ds;
-        this.buffer = new StringBuffer();
+        this.sb = new StringBuilder();
         startDataSourceTag();
         addDriverAttributes();
-        addIdAndExtraLocationAttributes(ds.getJndiLocation(), ds.getJndiLocation() + "local", ds
-            .getJndiLocation()
-            + "xa");
+        addIdAndExtraLocationAttributes(
+            ds.getJndiLocation(), ds.getJndiLocation() + "local", ds.getJndiLocation() + "xa");
         addVendorConnectionDataAndCloseTag();
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -235,14 +244,13 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds)
     {
         this.ds = ds;
-        this.buffer = new StringBuffer();
+        this.sb = new StringBuilder();
         startDataSourceTag();
         addDriverAttributes();
-        addIdAndExtraLocationAttributes(ds.getJndiLocation() + "notx", ds.getJndiLocation(), ds
-            .getJndiLocation()
-            + "xa");
+        addIdAndExtraLocationAttributes(
+            ds.getJndiLocation() + "notx", ds.getJndiLocation(), ds.getJndiLocation() + "xa");
         addVendorConnectionDataAndCloseTag();
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -252,13 +260,13 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds)
     {
         this.ds = ds;
-        this.buffer = new StringBuffer();
+        this.sb = new StringBuilder();
         startDataSourceTag();
         addDriverAttributes();
-        addIdAndExtraLocationAttributes(ds.getJndiLocation() + "notx", ds.getJndiLocation()
-            + "local", ds.getJndiLocation());
+        addIdAndExtraLocationAttributes(
+            ds.getJndiLocation() + "notx", ds.getJndiLocation() + "local", ds.getJndiLocation());
         addVendorConnectionDataAndCloseTag();
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -269,10 +277,10 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     public String buildConfigurationEntryForXADataSourceConfiguredDataSource(DataSource ds)
     {
         this.ds = ds;
-        this.buffer = new StringBuffer();
+        this.sb = new StringBuilder();
         addBackingDataSourceWithImplementationClass(ds.getDriverClass());
         addCMTDataSourceTag();
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**

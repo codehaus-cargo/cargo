@@ -139,11 +139,12 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     @Override
     protected String getExtraContextAttributes()
     {
-        return new StringBuilder(" ").append(CONTEXT_ALLOWMULTIPART_ATTR_NAME).append("=\"")
+        return new StringBuilder(" ")
+            .append(CONTEXT_ALLOWMULTIPART_ATTR_NAME).append("=\"")
             .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)).append("\" ")
             .append(CONTEXT_ALLOWWEBJARS_ATTR_NAME).append("=\"")
-            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWWEBJARS))
-            .append("\"").toString();
+            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWWEBJARS)).append("\"")
+            .toString();
     }
 
     /**

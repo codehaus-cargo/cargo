@@ -50,21 +50,21 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
     @Override
     public String toConfigurationEntry(Resource resource)
     {
-        StringBuilder buff = new StringBuilder();
-        buff.append("<Resource ").append("name=\"").append(resource.getName()).append("\"\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("<Resource ").append("name=\"").append(resource.getName()).append("\"\n");
         if (resource.getClassName() != null)
         {
-            buff.append("          ").append("type=\"").append(resource.getClassName()).append(
-                "\"\n");
+            sb.append("          ")
+                .append("type=\"").append(resource.getClassName()).append("\"\n");
 
         }
         else
         {
-            buff.append("          ").append("type=\"").append(resource.getType()).append("\"\n");
+            sb.append("          ").append("type=\"").append(resource.getType()).append("\"\n");
 
         }
-        buff.append("          ").append("auth=\"").append("Container").append("\"\n");
-        buff.append("          ").append("/>\n");
+        sb.append("          ").append("auth=\"").append("Container").append("\"\n")
+            .append("          ").append("/>\n");
         if (resource.getParameter("factory") == null)
         {
             resource.setParameter("factory", getFactoryClassFor(resource.getType()));
@@ -72,19 +72,18 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
         Set<String> parameterNames = resource.getParameterNames();
         if (!parameterNames.isEmpty())
         {
-            buff.append("<ResourceParams ").append("name=\"").append(resource.getName()).append(
+            sb.append("<ResourceParams ").append("name=\"").append(resource.getName()).append(
                 "\">\n");
             for (String parameterName : parameterNames)
             {
-                buff.append("  <parameter>\n  <name>");
-                buff.append(parameterName);
-                buff.append("</name>\n    <value>");
-                buff.append(resource.getParameter(parameterName));
-                buff.append("</value>\n  </parameter>\n");
+                sb.append("  <parameter>\n")
+                    .append("    <name>").append(parameterName).append("</name>\n")
+                    .append("    <value>").append(resource.getParameter(parameterName))
+                    .append("</value>\n  </parameter>\n");
             }
-            buff.append("</ResourceParams>\n");
+            sb.append("</ResourceParams>\n");
         }
-        return buff.toString();
+        return sb.toString();
     }
 
     /**

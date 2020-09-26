@@ -81,7 +81,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
             deployable.getFile().replace('\\', '/'));
         propertiesMap.put("cargo.deployable.id", deployable.getName());
 
-        StringBuffer additionalArguments = new StringBuffer();
+        StringBuilder additionalArguments = new StringBuilder();
         addApplicationName(additionalArguments);
         addContext(additionalArguments);
         addResourceReferenceMapping(additionalArguments);
@@ -93,7 +93,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
     /**
      * @param arguments Arguments passed to configuration script.
      */
-    private void addResourceReferenceMapping(StringBuffer arguments)
+    private void addResourceReferenceMapping(StringBuilder arguments)
     {
         List<String> resRefList = new ArrayList<String>();
         FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
@@ -178,7 +178,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
     /**
      * @param arguments Arguments passed to configuration script.
      */
-    private void addJndiForEjbMessageBindingMapping(StringBuffer arguments)
+    private void addJndiForEjbMessageBindingMapping(StringBuilder arguments)
     {
         List<String> resRefList = new ArrayList<String>();
 
@@ -235,7 +235,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
     /**
      * @param arguments Arguments passed to configuration script.
      */
-    private void addApplicationSecurityRolesMapping(StringBuffer arguments)
+    private void addApplicationSecurityRolesMapping(StringBuilder arguments)
     {
         List<String> resRefList = new ArrayList<String>();
 
@@ -276,7 +276,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
      * Adds application name.
      * @param arguments Arguments passed to configuration script.
      */
-    private void addApplicationName(StringBuffer arguments)
+    private void addApplicationName(StringBuilder arguments)
     {
         arguments.append("'-appname','");
         arguments.append(deployable.getName());
@@ -287,7 +287,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
      * Adds context parameter if deployable is WAR file.
      * @param arguments Arguments passed to configuration script.
      */
-    private void addContext(StringBuffer arguments)
+    private void addContext(StringBuilder arguments)
     {
         if (deployable instanceof WAR)
         {

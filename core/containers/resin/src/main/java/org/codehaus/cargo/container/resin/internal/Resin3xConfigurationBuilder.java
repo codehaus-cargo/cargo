@@ -45,33 +45,32 @@ public class Resin3xConfigurationBuilder extends AbstractConfigurationBuilder
     {
         StringBuilder dataSourceString = new StringBuilder();
         dataSourceString.append("<database>\n");
-        dataSourceString.append("  <jndi-name>").append(ds.getJndiLocation()).append(
-            "</jndi-name>\n");
+        dataSourceString
+            .append("  <jndi-name>").append(ds.getJndiLocation()).append("</jndi-name>\n");
         if (ds.getConnectionType().equals(ConfigurationEntryType.XA_DATASOURCE))
         {
             dataSourceString.append("  <xa>true</xa>\n");
         }
-        dataSourceString.append("  <driver>").append("\n");
-        dataSourceString.append("    <type>").append(ds.getDriverClass()).append("</type>\n");
+        dataSourceString.append("  <driver>").append("\n")
+            .append("    <type>").append(ds.getDriverClass()).append("</type>\n");
         if (ds.getUrl() != null)
         {
             dataSourceString.append("    <url>" + ds.getUrl() + "</url>\n");
         }
-        dataSourceString.append("    <user>" + ds.getUsername() + "</user>\n");
-        dataSourceString.append("    <password>" + ds.getPassword() + "</password>\n");
+        dataSourceString.append("    <user>").append(ds.getUsername()).append("</user>\n")
+            .append("    <password>").append(ds.getPassword()).append("</password>\n");
         if (ds.getConnectionProperties() != null && !ds.getConnectionProperties().isEmpty())
         {
             for (Object parameter : ds.getConnectionProperties().keySet())
             {
                 String key = parameter.toString();
-                dataSourceString.append("    <").append(key);
-                dataSourceString.append(">")
-                    .append(ds.getConnectionProperties().getProperty(key));
-                dataSourceString.append("</").append(key).append(">\n");
+                dataSourceString.append("    <").append(key).append(">")
+                    .append(ds.getConnectionProperties().getProperty(key))
+                    .append("</").append(key).append(">\n");
             }
         }
-        dataSourceString.append("  </driver>\n");
-        dataSourceString.append("</database>");
+        dataSourceString.append("  </driver>\n")
+            .append("</database>");
         return dataSourceString.toString();
     }
 
@@ -87,18 +86,18 @@ public class Resin3xConfigurationBuilder extends AbstractConfigurationBuilder
 
         if (resource.getClassName() != null)
         {
-            resourceString.append("      <type>" + resource.getClassName() + "</type>\n");
+            resourceString
+                .append("      <type>").append(resource.getClassName()).append("</type>\n");
         }
         else
         {
-            resourceString.append("      <type>" + resource.getType() + "</type>\n");
+            resourceString.append("      <type>").append(resource.getType()).append("</type>\n");
         }
 
         for (String key : resource.getParameterNames())
         {
-            resourceString.append("    <init ").append(key);
-            resourceString.append("=\"").append(resource.getParameter(key));
-            resourceString.append("\" />\n");
+            resourceString.append("    <init ").append(key)
+                .append("=\"").append(resource.getParameter(key)).append("\" />\n");
         }
 
         resourceString.append("</resource>");
