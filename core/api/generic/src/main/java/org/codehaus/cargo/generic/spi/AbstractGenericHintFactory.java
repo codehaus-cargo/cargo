@@ -125,8 +125,11 @@ public abstract class AbstractGenericHintFactory<T> extends LoggedObject
             }
             else
             {
-                message = message + "Valid types for this " + implementationConceptName + " are: "
-                    + String.join("\n  - ", hints);
+                message = message + "Valid types for this " + implementationConceptName + " are: ";
+                for (String hint : hints)
+                {
+                    message = message + "\n  - " + hint;
+                }
             }
 
             throw new ContainerException(message);
