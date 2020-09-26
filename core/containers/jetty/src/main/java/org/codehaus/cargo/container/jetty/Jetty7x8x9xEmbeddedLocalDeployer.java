@@ -74,11 +74,8 @@ public class Jetty7x8x9xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocal
 
                 // set up virtual hosts
                 String[] virtualHosts = getVirtualHosts();
-                for (int i = 0; virtualHosts != null && i < virtualHosts.length; i++)
-                {
-                    webAppContextClass.getMethod("setVirtualHosts", virtualHosts.getClass())
-                        .invoke(webAppContext, virtualHosts[i]);
-                }
+                webAppContextClass.getMethod("setVirtualHosts", virtualHosts.getClass())
+                    .invoke(webAppContext, virtualHosts);
 
                 // check if extracting the war is wanted
                 if (getExtractWar() != null)
