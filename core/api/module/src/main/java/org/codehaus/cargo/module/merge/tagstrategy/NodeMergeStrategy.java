@@ -135,7 +135,7 @@ public class NodeMergeStrategy implements MergeStrategy
 
             Text element = (Text) content;
             Matcher m = pat.matcher(element.getText());
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             while (m.find())
             {
                 String repl = replaceValue(m.group(), left, right).replaceAll("\\$", "\\\\\\$");
