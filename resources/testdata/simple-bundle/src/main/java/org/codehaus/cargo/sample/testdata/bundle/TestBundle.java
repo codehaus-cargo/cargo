@@ -21,7 +21,6 @@ package org.codehaus.cargo.sample.testdata.bundle;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -31,6 +30,12 @@ import org.osgi.framework.BundleContext;
  */
 public class TestBundle implements BundleActivator
 {
+    /**
+     * The test bundle will be used with containers running on Java 6, we hence cannot use
+     * <code>java.nio.charset.StandardCharsets</code> which was introduced in Java 7 only.
+     */
+    static private final String CHARSET_UTF_8 = "UTF-8";
+
     /**
      * Starts the bundle, will write a <code>Hello, World</code> text.
      * 
@@ -51,7 +56,7 @@ public class TestBundle implements BundleActivator
         FileOutputStream fos = new FileOutputStream(targetFile, false);
         try
         {
-            fos.write("Hello, World".getBytes(StandardCharsets.UTF_8));
+            fos.write("Hello, World".getBytes(TestBundle.CHARSET_UTF_8));
             fos.flush();
         }
         finally
@@ -80,7 +85,7 @@ public class TestBundle implements BundleActivator
         FileOutputStream fos = new FileOutputStream(targetFile, false);
         try
         {
-            fos.write("Goodbye, World".getBytes(StandardCharsets.UTF_8));
+            fos.write("Goodbye, World".getBytes(TestBundle.CHARSET_UTF_8));
             fos.flush();
         }
         finally
