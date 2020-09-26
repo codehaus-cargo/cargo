@@ -66,10 +66,14 @@ public class DataSourceOnStandaloneConfigurationTest extends
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
         // We exclude geronimo2x and liberty
-        // as they doen't support datasource setup the way CARGO tests it
+        // as they don't support datasource setup the way CARGO tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("liberty");
+
+        // We exclude wildfly10x because of WFCORE-1373
+        // which makes the container try to generate certain things twice
+        excludedContainerIds.add("wildfly10x");
 
         // Tomcat 10.x and TomEE 9.x are excluded for now as they cannot load anything with javax.*
         // inheritance. The Jakarta EE converter should fix this (see CARGO-1514 for details).
