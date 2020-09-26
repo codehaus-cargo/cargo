@@ -118,7 +118,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jetty6x",
         "jrun4x",
         "oc4j10x",
-        "resin3x",
         "resin31x",
         "tomcat6x",
         "weblogic9x",
@@ -336,8 +335,8 @@ public class ConfluenceContainerDocumentationGenerator
             try
             {
                 properties = this.configurationCapabilityFactory.
-                createConfigurationCapability(containerId, ContainerType.INSTALLED,
-                    ConfigurationType.STANDALONE).getProperties();
+                    createConfigurationCapability(containerId, ContainerType.INSTALLED,
+                        ConfigurationType.STANDALONE).getProperties();
             }
             catch (ContainerException e)
             {
@@ -351,7 +350,7 @@ public class ConfluenceContainerDocumentationGenerator
                     || ResourcePropertySet.RESOURCE.equals(property))
                 {
                     Configuration configuration = this.configurationFactory.createConfiguration(
-                        containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                            containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
                     InstalledLocalContainer container = (InstalledLocalContainer)
                         this.containerFactory.createContainer(
                             containerId, ContainerType.INSTALLED, configuration);
@@ -1513,6 +1512,12 @@ public class ConfluenceContainerDocumentationGenerator
                         extra = "Due to a bug parsing the Java version in the OW2 utilities, "
                             + "JOnAS 5.x doesn't run on Java 8 and above";
                     }
+                    else if ("resin3x".equals(containerId))
+                    {
+                        javaVersion = "6, as the Codehaus Cargo_ {{[ResinRun|"
+                            + "https://codehaus-cargo.github.io/apidocs/org/codehaus/cargo/"
+                            + "container/resin/internal/ResinRun.html]}} _class requires Java 6";
+                    }
                     else if ("liberty".equals(containerId))
                     {
                         javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
@@ -1553,8 +1558,8 @@ public class ConfluenceContainerDocumentationGenerator
                     }
                     else if ("resin3x".equals(containerId))
                     {
-                        extra = "Due to incompatibilities between "
-                            + "{{com.caucho.log.EnvironmentLogger}} and the behaviour described "
+                        extra = "Due to incompatibilities between_ "
+                            + "{{com.caucho.log.EnvironmentLogger}} _and the behaviour described "
                             + "in [JDK-8015098|https://bugs.openjdk.java.net/browse/JDK-8015098], "
                             + "Resin 3.x doesn't run on Java 7 and above";
                     }
