@@ -126,14 +126,13 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
                 usersToken.append(user.getPassword());
                 usersToken.append(System.getProperty("line.separator"));
 
-                List<String> roles = user.getRoles();
-                for (int i = 0; i < roles.size(); i++)
+                for (String role : user.getRoles())
                 {
-                    Set<String> groupUsers = groupUsersMapping.get(roles.get(i));
+                    Set<String> groupUsers = groupUsersMapping.get(role);
                     if (groupUsers == null)
                     {
                         groupUsers = new HashSet<String>();
-                        groupUsersMapping.put(roles.get(i), groupUsers);
+                        groupUsersMapping.put(role, groupUsers);
                     }
 
                     groupUsers.add(user.getName());

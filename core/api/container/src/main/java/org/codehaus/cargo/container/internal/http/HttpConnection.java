@@ -131,6 +131,7 @@ public class HttpConnection extends LoggedObject
     {
         Authenticator.setDefault(new Authenticator()
         {
+            @Override
             public PasswordAuthentication getPasswordAuthentication()
             {
                 return new PasswordAuthentication(username, password.toCharArray());

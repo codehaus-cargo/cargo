@@ -46,6 +46,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Prepares test environment - creates a new YAML generator.
      */
+    @Override
     public void setUp()
     {
         this.yamlGenerator = createYamlGenerator();
@@ -54,6 +55,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Closes the YAML generator used in tests.
      */
+    @Override
     public void tearDown()
     {
         closeGenerator();

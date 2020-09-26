@@ -87,10 +87,17 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
 
                 rolesToken.append(user.getName());
                 rolesToken.append("=");
+                boolean first = true;
                 for (String role : user.getRoles())
                 {
-                    rolesToken.append(role);
-                    rolesToken.append(",");
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        rolesToken.append(",");
+                    }
                 }
                 rolesToken.append('\n');
             }

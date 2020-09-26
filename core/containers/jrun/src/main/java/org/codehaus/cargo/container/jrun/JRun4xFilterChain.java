@@ -201,15 +201,11 @@ public class JRun4xFilterChain extends FilterChain
         sb.append(jrunContainer.getHome() + "/lib/webservices.jar");
         if (jrunContainer.getExtraClasspath().length > 0)
         {
-            sb.append(",");
             String[] extraPaths = jrunContainer.getExtraClasspath();
             for (int i = 0; i < extraPaths.length; i++)
             {
+                sb.append(",");
                 sb.append(extraPaths[i].replace('\\', '/'));
-                if (i < extraPaths.length - 1)
-                {
-                    sb.append(",");
-                }
             }
         }
         ReplaceTokens.Token tokenClasspath = new ReplaceTokens.Token();

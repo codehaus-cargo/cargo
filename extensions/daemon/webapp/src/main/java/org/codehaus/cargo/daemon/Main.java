@@ -125,12 +125,12 @@ public final class Main
     {
         if (file.isDirectory())
         {
-            File[] files = file.listFiles();
-            if (files != null)
+            File[] children = file.listFiles();
+            if (children != null)
             {
-                for (int i = 0; i < files.length; i++)
+                for (File child : children)
                 {
-                    deleteDirectory(files[i]);
+                    deleteDirectory(child);
                 }
             }
         }

@@ -280,7 +280,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
                 boolean error = false;
                 try (BufferedReader in = new BufferedReader(new InputStreamReader(
-                    socket.getInputStream())))
+                    socket.getInputStream())); OutputStream out = socket.getOutputStream())
                 {
                     String line = in.readLine();
                     if (line == null)
@@ -298,7 +298,6 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
 
                     this.logger.debug("Got HTTP request line " + line, this.getClass().getName());
 
-                    OutputStream out = socket.getOutputStream();
                     if (error)
                     {
                         StringBuilder answer = new StringBuilder();
@@ -347,7 +346,6 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                         this.getClass().getName());
 
                     out.flush();
-                    out.close();
                 }
             }
             catch (SocketException ignored)

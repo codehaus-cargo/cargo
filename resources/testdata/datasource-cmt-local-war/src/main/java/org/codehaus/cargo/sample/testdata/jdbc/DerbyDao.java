@@ -58,6 +58,7 @@ public class DerbyDao extends JdbcDaoSupport
     class PersonRowMapper implements RowMapper
     {
 
+        @Override
         public Object mapRow(ResultSet rs, int line) throws SQLException
         {
             PersonResultSetExtractor extractor = new PersonResultSetExtractor();
@@ -67,6 +68,7 @@ public class DerbyDao extends JdbcDaoSupport
         class PersonResultSetExtractor implements ResultSetExtractor
         {
 
+            @Override
             public Object extractData(ResultSet rs) throws SQLException
             {
                 Person person = new Person();

@@ -41,21 +41,25 @@ public class SampleBean implements SessionBean
         // Nothing to do here but this method is required by the spec.
     }
 
+    @Override
     public void ejbActivate() throws EJBException, RemoteException
     {
         // Nothing to do here but this method is required by the spec.
     }
 
+    @Override
     public void ejbPassivate() throws EJBException, RemoteException
     {
         // Nothing to do here but this method is required by the spec.
     }
 
+    @Override
     public void ejbRemove() throws EJBException, RemoteException
     {
         // Nothing to do here but this method is required by the spec.
     }
 
+    @Override
     public void setSessionContext(SessionContext arg0) throws EJBException, RemoteException
     {
         // Nothing to do here but this method is required by the spec.

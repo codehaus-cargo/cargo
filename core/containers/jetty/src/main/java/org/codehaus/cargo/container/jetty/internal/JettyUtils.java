@@ -87,10 +87,17 @@ public final class JettyUtils
             sb.append(user.getName());
             sb.append(": ");
             sb.append(user.getPassword().replace("\\", "\\\\"));
+            boolean first = true;
             for (String role : user.getRoles())
             {
-                sb.append(",");
-                sb.append(role);
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    sb.append(",");
+                }
             }
             sb.append("\n");
         }

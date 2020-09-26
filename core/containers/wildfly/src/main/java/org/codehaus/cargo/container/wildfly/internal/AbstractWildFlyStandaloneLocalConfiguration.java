@@ -215,10 +215,18 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
             {
                 rolesToken.append(user.getName());
                 rolesToken.append("=");
+                boolean first = true;
                 for (String role : user.getRoles())
                 {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        rolesToken.append(",");
+                    }
                     rolesToken.append(role);
-                    rolesToken.append(",");
                 }
                 final int lastCommaIndex = rolesToken.lastIndexOf(",");
                 if (lastCommaIndex != -1)

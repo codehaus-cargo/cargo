@@ -296,21 +296,22 @@ public class DaemonClient extends LoggedObject
 
         StringBuilder classpathJSON = new StringBuilder();
         classpathJSON.append("[");
-
-        for (int i = 0; i < additionalClasspathEntries.size(); i++)
+        boolean first = true;
+        for (String additionalClasspathEntry : additionalClasspathEntries)
         {
-            String additionalClasspath = additionalClasspathEntries.get(i);
-
-            if (i != 0)
+            if (first)
+            {
+                first = false;
+            }
+            else
             {
                 classpathJSON.append(",");
             }
 
             classpathJSON.append("\"");
-            classpathJSON.append(additionalClasspath);
+            classpathJSON.append(additionalClasspathEntry);
             classpathJSON.append("\"");
         }
-
         classpathJSON.append("]");
 
         parameters.setParameter("additionalClasspath", classpathJSON.toString());
@@ -398,8 +399,6 @@ public class DaemonClient extends LoggedObject
     private void addListParameter(DaemonParameters parameters, String parameterName,
         List<String> list)
     {
-        int i = 0;
-
         if (list == null || list.size() == 0)
         {
             return;
@@ -407,18 +406,20 @@ public class DaemonClient extends LoggedObject
 
         StringBuilder listJSON = new StringBuilder();
         listJSON.append("[");
-
+        boolean first = true;
         for (String item : list)
         {
-            if (i != 0)
+            if (first)
+            {
+                first = false;
+            }
+            else
             {
                 listJSON.append(",");
             }
 
             listJSON.append("\"" + item + "\"");
-            i++;
         }
-
         listJSON.append("]");
 
         parameters.setParameter(parameterName, listJSON.toString());
@@ -566,23 +567,25 @@ public class DaemonClient extends LoggedObject
         }
 
         Map<String, String> files = new HashMap<String, String>();
-        int i = 0;
 
         for (FileConfig fileConfig : fileConfigs)
         {
             String file = fileConfig.getFile();
-
             String relativePath = fileHandler.getName(file);
-
             resolveFile(files, file, relativePath);
         }
 
         StringBuilder propertiesJSON = new StringBuilder();
 
         propertiesJSON.append("[");
+        boolean first = true;
         for (FileConfig fileConfig : fileConfigs)
         {
-            if (i != 0)
+            if (first)
+            {
+                first = false;
+            }
+            else
             {
                 propertiesJSON.append(",");
             }
@@ -612,8 +615,6 @@ public class DaemonClient extends LoggedObject
             }
             propertiesJSON.append("\"file\":\"" + escapeJson(file) + "\"");
             propertiesJSON.append("}");
-
-            i++;
         }
         propertiesJSON.append("]");
 
@@ -631,20 +632,22 @@ public class DaemonClient extends LoggedObject
     {
         StringBuilder propertiesJSON = new StringBuilder();
         Map<String, String> properties = configuration.getProperties();
-        int i = 0;
 
         propertiesJSON.append("{");
+        boolean first = true;
         for (Map.Entry<String, String> entry : properties.entrySet())
         {
-            if (i != 0)
+            if (first)
+            {
+                first = false;
+            }
+            else
             {
                 propertiesJSON.append(",");
             }
 
             propertiesJSON.append("\"" + escapeJson(entry.getKey()) + "\":\""
                 + escapeJson(entry.getValue()) + "\"");
-
-            i++;
         }
         propertiesJSON.append("}");
 
@@ -661,20 +664,22 @@ public class DaemonClient extends LoggedObject
     {
         StringBuilder propertiesJSON = new StringBuilder();
         Map<String, String> properties = container.getSystemProperties();
-        int i = 0;
 
         propertiesJSON.append("{");
+        boolean first = true;
         for (Map.Entry<String, String> entry : properties.entrySet())
         {
-            if (i != 0)
+            if (first)
+            {
+                first = false;
+            }
+            else
             {
                 propertiesJSON.append(",");
             }
 
             propertiesJSON.append("\"" + escapeJson(entry.getKey()) + "\":\""
                 + escapeJson(entry.getValue()) + "\"");
-
-            i++;
         }
         propertiesJSON.append("}");
 
@@ -695,12 +700,16 @@ public class DaemonClient extends LoggedObject
         {
             StandaloneLocalConfiguration configuration =
                 (StandaloneLocalConfiguration) container.getConfiguration();
-            int i = 0;
 
             propertiesJSON.append("[");
+            boolean first = true;
             for (XmlReplacement xmlReplacement : configuration.getXmlReplacements())
             {
-                if (i != 0)
+                if (first)
+                {
+                    first = false;
+                }
+                else
                 {
                     propertiesJSON.append(",");
                 }
@@ -714,8 +723,6 @@ public class DaemonClient extends LoggedObject
                         + escapeJson(xmlReplacement.getXpathExpression()) + "\","
                     + "\"replacementBehavior\":\""
                         + xmlReplacement.getReplacementBehavior() + "\"}");
-
-                i++;
             }
             propertiesJSON.append("]");
         }

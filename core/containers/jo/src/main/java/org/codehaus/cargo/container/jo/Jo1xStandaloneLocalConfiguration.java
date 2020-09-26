@@ -194,10 +194,9 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
             if (deployable.getType() == DeployableType.WAR)
             {
                 WAR war = (WAR) deployable;
-                /*
-                 * // This is what we need to generate: <hostname>.webapp.<webapp-name>.mapping=
-                 * <hostname>.webapp.<webapp-name>.docbase=
-                 */
+                // This is what we need to generate:
+                // <hostname>.webapp.<webapp-name>.mapping=...
+                // <hostname>.webapp.<webapp-name>.docbase=...
                 final String webappName = war.getContext().replace('.', '_').replace('=', '_');
                 String mapping = war.getContext();
                 if (mapping == null)
