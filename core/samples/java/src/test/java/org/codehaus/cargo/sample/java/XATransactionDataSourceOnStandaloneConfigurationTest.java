@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
+import java.util.Set;
+import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -62,13 +64,19 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
 
+        // We exclude wildfly10x because of WFCORE-1373
+        // which makes the container try to generate certain things twice
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("wildfly10x");
+
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
                 new HasStandaloneConfigurationValidator(),
                 new HasWarSupportValidator(),
                 new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXASupportValidator(ConfigurationType.STANDALONE)});
+                new HasXASupportValidator(ConfigurationType.STANDALONE)},
+            excludedContainerIds);
         return suite;
     }
 
