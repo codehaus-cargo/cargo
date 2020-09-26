@@ -98,6 +98,7 @@ public final class JettyUtils
                 {
                     sb.append(",");
                 }
+                sb.append(role);
             }
             sb.append("\n");
         }

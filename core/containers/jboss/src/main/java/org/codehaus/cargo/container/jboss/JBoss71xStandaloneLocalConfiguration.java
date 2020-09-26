@@ -98,6 +98,7 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
                     {
                         rolesToken.append(",");
                     }
+                    rolesToken.append(role);
                 }
                 rolesToken.append('\n');
             }

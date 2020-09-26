@@ -199,6 +199,7 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
                 {
                     rolesToken.append(",");
                 }
+                rolesToken.append(role);
             }
             rolesToken.append('\n');
         }
