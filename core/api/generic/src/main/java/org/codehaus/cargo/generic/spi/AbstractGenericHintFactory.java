@@ -120,19 +120,13 @@ public abstract class AbstractGenericHintFactory<T> extends LoggedObject
             List<String> hints = getHints(key.getContainerIdentity());
             if (hints.isEmpty())
             {
-                message =
-                    message + "Actually there are no valid types registered for this "
-                        + implementationConceptName
-                        + ". Maybe you've made a mistake spelling it?";
+                message = message + "Actually there are no valid types registered for this "
+                    + implementationConceptName + ". Maybe you've made a mistake spelling it?";
             }
             else
             {
-                message =
-                    message + "Valid types for this " + implementationConceptName + " are: ";
-                for (String hint : hints)
-                {
-                    message = message + "\n  - " + hint;
-                }
+                message = message + "Valid types for this " + implementationConceptName + " are: "
+                    + String.join("\n  - ", hints);
             }
 
             throw new ContainerException(message);

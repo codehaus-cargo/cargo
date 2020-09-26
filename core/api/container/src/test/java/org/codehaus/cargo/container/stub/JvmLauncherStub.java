@@ -139,16 +139,7 @@ public class JvmLauncherStub implements JvmLauncher
     @Override
     public String getClasspath()
     {
-        StringBuilder sb = new StringBuilder(1024);
-        for (String entry : this.classpathEntries)
-        {
-            if (sb.length() > 0)
-            {
-                sb.append(File.pathSeparatorChar);
-            }
-            sb.append(entry);
-        }
-        return sb.toString();
+        return String.join(String.valueOf(File.pathSeparatorChar), this.classpathEntries);
     }
 
     /**

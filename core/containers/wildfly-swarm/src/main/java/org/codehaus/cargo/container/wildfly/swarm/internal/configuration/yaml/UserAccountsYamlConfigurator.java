@@ -188,19 +188,7 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
         {
             rolesToken.append(user.getName());
             rolesToken.append("=");
-            boolean first = true;
-            for (String role : user.getRoles())
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    rolesToken.append(",");
-                }
-                rolesToken.append(role);
-            }
+            rolesToken.append(String.join(",", user.getRoles()));
             rolesToken.append('\n');
         }
 

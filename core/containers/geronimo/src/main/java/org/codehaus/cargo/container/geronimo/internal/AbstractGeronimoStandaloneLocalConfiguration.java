@@ -24,7 +24,6 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -142,18 +141,9 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
             for (Map.Entry<String, Set<String>> groupUsers : groupUsersMapping.entrySet())
             {
                 String key = groupUsers.getKey();
-                Set<String> gUsers = groupUsers.getValue();
                 groupsToken.append(key);
                 groupsToken.append('=');
-                Iterator<String> iter2 = gUsers.iterator();
-                while (iter2.hasNext())
-                {
-                    groupsToken.append(iter2.next());
-                    if (iter2.hasNext())
-                    {
-                        groupsToken.append(',');
-                    }
-                }
+                groupsToken.append(String.join(",", groupUsers.getValue()));
                 groupsToken.append(System.getProperty("line.separator"));
             }
 

@@ -57,15 +57,7 @@ public final class JettyUtils
         {
             return null;
         }
-        for (String path : extraClasspath)
-        {
-            if (sb.length() > 0)
-            {
-                sb.append(';');
-            }
-            sb.append(path);
-        }
-        String result = sb.toString();
+        String result = String.join(";", extraClasspath);
         if (xml)
         {
             result = result.replace("&", "&amp;");
@@ -81,24 +73,17 @@ public final class JettyUtils
      */
     public static void createRealmFile(List<User> users, String etcDir, FileHandler fileHandler)
     {
+        // HashLoginService syntax is as follows:
+        // username: password[,rolename ...]
         StringBuilder sb = new StringBuilder();
         for (User user : users)
         {
             sb.append(user.getName());
             sb.append(": ");
             sb.append(user.getPassword().replace("\\", "\\\\"));
-            boolean first = true;
             for (String role : user.getRoles())
             {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    sb.append(",");
-                }
-                sb.append(role);
+                sb.append(',').append(role);
             }
             sb.append("\n");
         }

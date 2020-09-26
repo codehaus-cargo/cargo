@@ -165,7 +165,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
                 sb.append("  <Set name=\"extraClasspath\">\n");
                 for (String sharedClasspathElement : sharedClasspath)
                 {
-                    sb.append("    " + sharedClasspathElement + ";\n");
+                    sb.append("    ").append(sharedClasspathElement).append(";\n");
                 }
                 sb.append("  </Set>\n");
             }

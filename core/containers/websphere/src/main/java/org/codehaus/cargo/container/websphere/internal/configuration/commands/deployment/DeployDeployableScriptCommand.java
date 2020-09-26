@@ -306,14 +306,7 @@ public class DeployDeployableScriptCommand extends AbstractScriptCommand
     {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (String item : list)
-        {
-            if (sb.length() > 1)
-            {
-                sb.append(separator);
-            }
-            sb.append(item);
-        }
+        sb.append(String.join(separator, list));
         sb.append("]");
         return sb.toString();
     }

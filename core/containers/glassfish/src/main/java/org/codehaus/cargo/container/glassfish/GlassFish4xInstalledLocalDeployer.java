@@ -81,10 +81,12 @@ public class GlassFish4xInstalledLocalDeployer extends GlassFish3xInstalledLocal
             StringBuilder groups = new StringBuilder();
             for (String role : user.getRoles())
             {
+                if (groups.length() > 0)
+                {
+                    groups.append(':');
+                }
                 groups.append(role.trim());
-                groups.append(':');
             }
-            groups.deleteCharAt(groups.length() - 1);
             args.add("--groups");
             args.add(groups.toString());
             args.add(user.getName().trim());

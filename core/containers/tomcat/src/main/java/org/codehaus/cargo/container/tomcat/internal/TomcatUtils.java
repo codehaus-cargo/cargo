@@ -70,15 +70,7 @@ public final class TomcatUtils
         {
             return null;
         }
-        for (String path : extraClasspath)
-        {
-            if (sb.length() > 0)
-            {
-                sb.append(';');
-            }
-            sb.append(path);
-        }
-        String result = sb.toString();
+        String result = String.join(";", extraClasspath);
         if (xml)
         {
             result = result.replace("&", "&amp;");
