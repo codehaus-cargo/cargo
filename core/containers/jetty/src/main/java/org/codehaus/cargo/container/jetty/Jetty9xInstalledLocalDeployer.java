@@ -28,7 +28,7 @@ public class Jetty9xInstalledLocalDeployer extends Jetty7x8xInstalledLocalDeploy
 {
     /**
      * {@inheritDoc}
-     * @see Jetty7x8xInstalledLocalDeployer#Jetty7xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see Jetty7x8xInstalledLocalDeployer#Jetty7x8xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public Jetty9xInstalledLocalDeployer(LocalContainer container)
     {
