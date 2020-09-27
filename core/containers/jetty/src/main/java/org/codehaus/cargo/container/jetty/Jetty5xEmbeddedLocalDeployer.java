@@ -66,10 +66,14 @@ public class Jetty5xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                         "etc/webdefault.xml").toURI().toString());
 
                 // set up virtual hosts
-                for (String virtualHost : getVirtualHosts())
+                String[] virtualHosts = getVirtualHosts();
+                if (virtualHosts != null)
                 {
-                    webapp.getClass().getMethod("addVirtualHost", String.class)
-                        .invoke(webapp, virtualHost);
+                    for (String virtualHost : virtualHosts)
+                    {
+                        webapp.getClass().getMethod("addVirtualHost", String.class)
+                            .invoke(webapp, virtualHost);
+                    }
                 }
 
                 // check if extracting the war is wanted
