@@ -656,7 +656,7 @@
 
               <property>
                 <name>cargo.liberty.url</name>
-                <value>https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/20.0.0.9/wlp-javaee8-20.0.0.9.zip</value>
+                <value>https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/20.0.0.10/wlp-javaee8-20.0.0.10.zip</value>
               </property>
 
               <!--
