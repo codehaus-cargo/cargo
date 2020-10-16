@@ -78,8 +78,8 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // JBoss 7.5.x, Resin, Tomcat, WebLogic 12.1.x, 12.2.x and 14.x as well as WildFly 20.x
-        // containers cannot deploy JMS topic resources
+        // JBoss 7.5.x, Resin, Tomcat, WebLogic 12.1.x, 12.2.x and 14.x as well as
+        // WildFly 20.x and 21.x containers cannot deploy JMS topic resources
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("resin3x");
@@ -96,6 +96,7 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("weblogic122x");
         excludedContainerIds.add("weblogic14x");
         excludedContainerIds.add("wildfly20x");
+        excludedContainerIds.add("wildfly21x");
 
         // TomEE 9.x is excluded for now as it cannot load anything with javax.* inheritance.
         // The Jakarta EE converter should fix this (see CARGO-1514 for details).

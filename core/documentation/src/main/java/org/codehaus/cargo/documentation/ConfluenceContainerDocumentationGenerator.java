@@ -185,6 +185,7 @@ public class ConfluenceContainerDocumentationGenerator
         "wildfly18x",
         "wildfly19x",
         "wildfly20x",
+        "wildfly21x",
         "wildfly-swarm2017x"
     });
 
@@ -534,8 +535,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
         else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
-            || containerId.startsWith("wildfly10") || containerId.startsWith("wildfly11")
-            || containerId.startsWith("wildfly13"))
+            || containerId.equals("wildfly10x") || containerId.equals("wildfly11x")
+            || containerId.equals("wildfly13x") || containerId.equals("wildfly18x"))
         {
             output.append("{info}With the opening of the JBoss EAP to the public and the split ");
             output.append("between JBoss and WildFly, the below naming correspondence should be ");
@@ -575,6 +576,10 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("* The [WildFly 13.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7.2; i.e. the version released in ");
             output.append("January 2019");
+            output.append(LINE_SEPARATOR);
+            output.append("* The [WildFly 18.x] container can be used with the JBoss Enterprise ");
+            output.append("Application Platform (EAP) version 7.3; i.e. the version released in ");
+            output.append("March 2020");
             output.append("{info}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
