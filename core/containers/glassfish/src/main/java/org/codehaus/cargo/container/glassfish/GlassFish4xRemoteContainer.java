@@ -34,7 +34,7 @@ public class GlassFish4xRemoteContainer extends GlassFish3xRemoteContainer
     public static final String ID = "glassfish4x";
 
     /**
-     * the Capability of the JOnAS container.
+     * the Capability of the GlassFish container.
      */
     private ContainerCapability capability = new GlassFish4xContainerCapability();
 
