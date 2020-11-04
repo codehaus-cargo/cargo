@@ -165,6 +165,7 @@ public class ConfluenceContainerDocumentationGenerator
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[]
     {
         "glassfish5x",
+        "glassfish6x",
         "payara",
         "resin4x",
         "tomcat9x",
@@ -603,14 +604,29 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        if (containerId.startsWith("tomcat1"))
+        else if (containerId.equals("glassfish6x") || containerId.equals("tomcat10x")
+            || containerId.equals("tomee9x"))
         {
-            output.append("{note}Users of Tomcat 10.x onwards should be aware that, as a result ");
-            output.append("of the move from Java EE to Jakarta EE as part of the transfer of ");
-            output.append("Java EE to the Eclipse Foundation, the primary package for all ");
-            output.append("implemented APIs has changed from {{javax.\\*}} to {{jakarta.\\*}}. ");
-            output.append("This will almost certainly require code changes to enable ");
-            output.append("applications to migrate to Tomcat 10.x and later.{note}");
+            String containerName;
+            if (containerId.equals("glassfish6x"))
+            {
+                containerName = "GlassFish 6";
+            }
+            else if (containerId.equals("tomcat10x"))
+            {
+                containerName = "Tomcat 10";
+            }
+            else
+            {
+                containerName = "TomEE 9";
+            }
+            output.append("{note}Users of " + containerName + ".x onwards should be aware that, ");
+            output.append("as a result of the move from Java EE to Jakarta EE as part of the ");
+            output.append("transfer of Java EE to the Eclipse Foundation, the primary package ");
+            output.append("for all implemented APIs has changed from {{javax.\\*}} to ");
+            output.append("{{jakarta.\\*}}. This will almost certainly require code changes to ");
+            output.append("enable applications to migrate to " + containerName + ".x and later.");
+            output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
@@ -1560,6 +1576,11 @@ public class ConfluenceContainerDocumentationGenerator
 
                         extra = "Due to incompatibilities with its OSGi environment, "
                             + container.getName() + " doesn't run on Java 8 and above";
+                    }
+                    else if ("glassfish6x".equals(containerId))
+                    {
+                        extra = "Glassfish 6.0 [doesn't yet run on Java 11 and "
+                            + "above|https://github.com/eclipse-ee4j/glassfish/issues/23102]";
                     }
                     else if ("resin3x".equals(containerId))
                     {

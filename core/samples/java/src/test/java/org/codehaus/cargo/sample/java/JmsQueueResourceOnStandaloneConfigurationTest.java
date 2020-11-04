@@ -95,8 +95,9 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly20x");
         excludedContainerIds.add("wildfly21x");
 
-        // TomEE 9.x is excluded for now as it cannot load anything with javax.* inheritance.
-        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        // GlassFish 6.x and TomEE 9.x are excluded for now as it cannot load anything with javax.*
+        // inheritance. The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        excludedContainerIds.add("glassfish6x");
         excludedContainerIds.add("tomee9x");
 
         suite.addTestSuite(JmsQueueResourceOnStandaloneConfigurationTest.class,

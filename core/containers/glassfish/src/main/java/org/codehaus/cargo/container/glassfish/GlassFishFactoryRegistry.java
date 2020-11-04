@@ -33,6 +33,8 @@ import org.codehaus.cargo.container.glassfish.internal.GlassFish4xStandaloneLoca
 import org.codehaus.cargo.container.glassfish.internal.GlassFish5xContainerCapability;
 import org.codehaus.cargo.container.glassfish.internal.GlassFish5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.glassfish.internal.GlassFish5xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish6xContainerCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.glassfish.internal.GlassFishExistingLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
@@ -103,6 +105,13 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("glassfish5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             GlassFish5xRuntimeConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("glassfish6x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            GlassFish6xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("glassfish6x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            GlassFishExistingLocalConfigurationCapability.class);
     }
 
     /**
@@ -149,6 +158,13 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("glassfish5x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             GlassFish5xRuntimeConfiguration.class);
+
+        configurationFactory.registerConfiguration("glassfish6x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            GlassFish6xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("glassfish6x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            GlassFishExistingLocalConfiguration.class);
     }
 
     /**
@@ -176,6 +192,9 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
             GlassFish5xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("glassfish5x", DeployerType.REMOTE,
             GlassFish5xRemoteDeployer.class);
+
+        deployerFactory.registerDeployer("glassfish6x", DeployerType.INSTALLED,
+            GlassFish6xInstalledLocalDeployer.class);
     }
 
     /**
@@ -213,6 +232,9 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
             GlassFish5xInstalledLocalContainer.class);
         containerFactory.registerContainer("glassfish5x", ContainerType.REMOTE,
             GlassFish5xRemoteContainer.class);
+
+        containerFactory.registerContainer("glassfish6x", ContainerType.INSTALLED,
+            GlassFish6xInstalledLocalContainer.class);
     }
 
     /**
@@ -234,6 +256,9 @@ public class GlassFishFactoryRegistry extends AbstractFactoryRegistry
 
         containerCapabilityFactory.registerContainerCapability("glassfish5x",
             GlassFish5xContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("glassfish6x",
+            GlassFish6xContainerCapability.class);
     }
 
 }

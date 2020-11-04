@@ -655,6 +655,15 @@
               </property>
 
               <property>
+                <name>cargo.glassfish6x.url</name>
+                <value>https://download.eclipse.org/ee4j/glassfish/glassfish-6.0.0-RC2.zip</value>
+              </property>
+              <property>
+                <name>cargo.glassfish6x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.liberty.url</name>
                 <value>https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/20.0.0.11/wlp-javaee8-20.0.0.11.zip</value>
               </property>
@@ -1863,6 +1872,12 @@
       <id>glassfish5x</id>
       <properties>
         <cargo.containers>glassfish5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish6x</id>
+      <properties>
+        <cargo.containers>glassfish6x</cargo.containers>
       </properties>
     </profile>
 

@@ -75,8 +75,10 @@ public class DataSourceOnStandaloneConfigurationTest extends
         // which makes the container try to generate certain things twice
         excludedContainerIds.add("wildfly10x");
 
-        // Tomcat 10.x and TomEE 9.x are excluded for now as they cannot load anything with javax.*
-        // inheritance. The Jakarta EE converter should fix this (see CARGO-1514 for details).
+        // GlassFish 6.x, Tomcat 10.x and TomEE 9.x are excluded for now as they cannot load
+        // anything with javax.* inheritance. The Jakarta EE converter should fix this (see
+        // CARGO-1514 for details).
+        excludedContainerIds.add("glassfish6x");
         excludedContainerIds.add("tomcat10x");
         excludedContainerIds.add("tomee9x");
 
