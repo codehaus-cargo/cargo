@@ -19,10 +19,6 @@
  */
 package org.codehaus.cargo.maven2.configuration;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
-import java.util.Properties;
-
 /**
  * Holds configuration data for the <code>&lt;proxy&gt;</code> tag used to configure the plugin in
  * the <code>pom.xml</code> file.
@@ -139,83 +135,5 @@ public class Proxy
     public String getExcludeHosts()
     {
         return this.excludeHosts;
-    }
-
-    /**
-     * Set the Java system properties related to proxies.
-     */
-    public void configure()
-    {
-        if (getHost() != null && !getHost().trim().isEmpty())
-        {
-            Properties sysprops = System.getProperties();
-            String portString = Integer.toString(getPort());
-
-            sysprops.put("http.proxyHost", getHost());
-            sysprops.put("http.proxyPort", portString);
-            sysprops.put("https.proxyHost", getHost());
-            sysprops.put("https.proxyPort", portString);
-            sysprops.put("ftp.proxyHost", getHost());
-            sysprops.put("ftp.proxyPort", portString);
-
-            if (getExcludeHosts() != null)
-            {
-                sysprops.put("http.nonProxyHosts", getExcludeHosts());
-                sysprops.put("https.nonProxyHosts", getExcludeHosts());
-                sysprops.put("ftp.nonProxyHosts", getExcludeHosts());
-            }
-            if (getUser() != null)
-            {
-                sysprops.put("http.proxyUser", getUser());
-                sysprops.put("http.proxyPassword", getPassword());
-                Authenticator.setDefault(new ProxyAuthenticator(getUser(), getPassword()));
-            }
-        }
-    }
-
-    /**
-     * Clear all proxy settings.
-     */
-    public void clear()
-    {
-        Properties sysprops = System.getProperties();
-        sysprops.remove("http.proxyHost");
-        sysprops.remove("http.proxyPort");
-        sysprops.remove("http.proxyUser");
-        sysprops.remove("http.proxyPassword");
-        sysprops.remove("https.proxyHost");
-        sysprops.remove("https.proxyPort");
-        sysprops.remove("ftp.proxyHost");
-        sysprops.remove("ftp.proxyPort");
-        Authenticator.setDefault(new ProxyAuthenticator("", ""));
-    }
-
-    /**
-     * Authenticator for the Proxy.
-     */
-    private static final class ProxyAuthenticator extends Authenticator
-    {
-        /**
-         * Authentication using a username/password.
-         */
-        private PasswordAuthentication authentication;
-
-        /**
-         * @param user the username
-         * @param pass the password
-         */
-        private ProxyAuthenticator(String user, String pass)
-        {
-            this.authentication = new PasswordAuthentication(user, pass.toCharArray());
-        }
-
-        /**
-         * @return The {@link PasswordAuthentication} object associated with this authenticator.
-         */
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication()
-        {
-            return this.authentication;
-        }
     }
 }
