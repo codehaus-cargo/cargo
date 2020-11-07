@@ -1,14 +1,15 @@
 target
 
-# Eclipse, Netbeans and IntelliJ files
+# Eclipse, IntelliJ, NetBeans and Visual Studio Code files
 .project
 .classpath
 .settings
-nbproject
 .idea
 *.ipr
 *.iws
 *.iml
+nbproject
+.factorypath
 
 # Mac DS_Store files
 .DS_Store
