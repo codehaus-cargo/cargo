@@ -73,7 +73,7 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
         Object connector = selectConnectorClass.getConstructor(this.server.getClass())
             .newInstance(this.server);
         selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
-            new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+            Integer.parseInt(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.eclipse.jetty.server.Connector");
