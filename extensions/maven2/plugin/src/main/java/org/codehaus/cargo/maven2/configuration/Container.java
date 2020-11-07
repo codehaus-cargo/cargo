@@ -510,7 +510,7 @@ public class Container
 
                 try
                 {
-                    dependencyURLs[i] = pathFile.toURL();
+                    dependencyURLs[i] = pathFile.toURI().toURL();
                 }
                 catch (MalformedURLException e)
                 {
