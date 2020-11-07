@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
-import org.apache.tools.ant.util.StringUtils;
-
 /**
  * A class to convert properties to strings and back.
  */
@@ -199,7 +197,7 @@ public final class PropertyUtils
     {
         if (in != null)
         {
-            return StringUtils.replace(in, "\\", "\\\\");
+            return in.replace("\\", "\\\\");
         }
         else
         {
