@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.Untar;
@@ -424,13 +425,14 @@ public class ZipURLInstaller extends LoggedObject implements Installer
      */
     public void download()
     {
-        // Try once with the proxy settings on (if set up by the user) and if it doesn't work, try
-        // again with no proxy settings...
+        // Try once with the proxy settings on (if set up by the user) and if it doesn't work,
+        // try again with the previous proxy settings
+        Map<String, String> previousProperties = null;
         try
         {
             if (this.proxy != null)
             {
-                this.proxy.configure();
+                previousProperties = this.proxy.configure();
             }
             doDownload();
         }
@@ -440,7 +442,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             {
                 try
                 {
-                    this.proxy.clear();
+                    this.proxy.clear(previousProperties);
                     doDownload();
                 }
                 catch (Exception ee)
@@ -459,7 +461,7 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         {
             if (this.proxy != null)
             {
-                this.proxy.clear();
+                this.proxy.clear(previousProperties);
             }
         }
     }

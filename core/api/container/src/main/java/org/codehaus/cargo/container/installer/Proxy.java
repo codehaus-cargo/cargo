@@ -21,7 +21,8 @@ package org.codehaus.cargo.container.installer;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.codehaus.cargo.util.log.LoggedObject;
 
@@ -143,9 +144,13 @@ public class Proxy extends LoggedObject
 
     /**
      * Set the Java system properties related to proxies.
+     * 
+     * @return Previous proxy properties, to be used when {@link Proxy#clear()} is called.
      */
-    public void configure()
+    public Map<String, String> configure()
     {
+        Map<String, String> previousProperties = new HashMap<String, String>();
+
         if (getHost() != null && !getHost().trim().isEmpty())
         {
             getLogger().debug("host : " + getHost(), this.getClass().getName());
@@ -153,46 +158,118 @@ public class Proxy extends LoggedObject
             getLogger().debug("excludeHosts : " + getExcludeHosts(), this.getClass().getName());
             getLogger().debug("user : " + getUser(), this.getClass().getName());
 
-            Properties sysprops = System.getProperties();
-            String portString = Integer.toString(getPort());
+            String host = getHost().trim();
+            String port = Integer.toString(getPort());
 
-            sysprops.put("http.proxyHost", getHost());
-            sysprops.put("http.proxyPort", portString);
-            sysprops.put("https.proxyHost", getHost());
-            sysprops.put("https.proxyPort", portString);
-            sysprops.put("ftp.proxyHost", getHost());
-            sysprops.put("ftp.proxyPort", portString);
+            previousProperties.put("http.proxyHost", System.setProperty("http.proxyHost", host));
+            previousProperties.put("http.proxyPort", System.setProperty("http.proxyPort", port));
+            previousProperties.put("https.proxyHost", System.setProperty("https.proxyHost", host));
+            previousProperties.put("https.proxyPort", System.setProperty("https.proxyPort", port));
+            previousProperties.put("ftp.proxyHost", System.setProperty("ftp.proxyHost", host));
+            previousProperties.put("ftp.proxyPort", System.setProperty("ftp.proxyPort", port));
 
-            if (getExcludeHosts() != null)
+            if (getExcludeHosts() != null && !getExcludeHosts().trim().isEmpty())
             {
-                sysprops.put("http.nonProxyHosts", getExcludeHosts());
-                sysprops.put("https.nonProxyHosts", getExcludeHosts());
-                sysprops.put("ftp.nonProxyHosts", getExcludeHosts());
+                String excludedHosts = getExcludeHosts().trim();
+
+                previousProperties.put("http.nonProxyHosts",
+                    System.setProperty("http.nonProxyHosts", excludedHosts));
+                previousProperties.put("https.nonProxyHosts",
+                    System.setProperty("https.nonProxyHosts", excludedHosts));
+                previousProperties.put("ftp.nonProxyHosts",
+                    System.setProperty("ftp.nonProxyHosts", excludedHosts));
             }
-            if (getUser() != null)
+            else
             {
-                sysprops.put("http.proxyUser", getUser());
-                sysprops.put("http.proxyPassword", getPassword());
-                Authenticator.setDefault(new ProxyAuthenticator(getUser(), getPassword()));
+                previousProperties.put("http.nonProxyHosts",
+                    System.clearProperty("http.nonProxyHosts"));
+                previousProperties.put("https.nonProxyHosts",
+                    System.clearProperty("https.nonProxyHosts"));
+                previousProperties.put("ftp.nonProxyHosts",
+                    System.clearProperty("ftp.nonProxyHosts"));
+            }
+
+            if (getUser() != null && !getUser().trim().isEmpty())
+            {
+                String user = getUser().trim();
+
+                previousProperties.put("http.proxyUser",
+                    System.setProperty("http.proxyUser", user));
+                previousProperties.put("https.proxyUser",
+                    System.setProperty("https.proxyUser", user));
+                previousProperties.put("ftp.proxyUser",
+                    System.setProperty("ftp.proxyUser", user));
+
+                String password;
+                if (getPassword() != null && !getPassword().trim().isEmpty())
+                {
+                    password = getPassword().trim();
+
+                    previousProperties.put("http.proxyPassword",
+                        System.setProperty("http.proxyPassword", password));
+                    previousProperties.put("https.proxyPassword",
+                        System.setProperty("https.proxyPassword", password));
+                    previousProperties.put("ftp.proxyPassword",
+                        System.setProperty("ftp.proxyPassword", password));
+                }
+                else
+                {
+                    password = "";
+
+                    previousProperties.put("http.proxyPassword",
+                        System.clearProperty("http.proxyPassword"));
+                    previousProperties.put("https.proxyPassword",
+                        System.clearProperty("https.proxyPassword"));
+                    previousProperties.put("ftp.proxyPassword",
+                        System.clearProperty("ftp.proxyPassword"));
+                }
+
+                Authenticator.setDefault(new ProxyAuthenticator(user, password));
+            }
+            else
+            {
+                previousProperties.put("http.proxyUser",
+                    System.clearProperty("http.proxyUser"));
+                previousProperties.put("https.proxyUser",
+                    System.clearProperty("https.proxyUser"));
+                previousProperties.put("ftp.proxyUser",
+                    System.clearProperty("ftp.proxyUser"));
+
+                previousProperties.put("http.proxyPassword",
+                    System.clearProperty("http.proxyPassword"));
+                previousProperties.put("https.proxyPassword",
+                    System.clearProperty("https.proxyPassword"));
+                previousProperties.put("ftp.proxyPassword",
+                    System.clearProperty("ftp.proxyPassword"));
             }
         }
+
+        return previousProperties;
     }
 
     /**
      * Clear all proxy settings.
+     * 
+     * @param previousProperties Previous proxy properties, as returned by
+     * {@link Proxy#configure()}.
      */
-    public void clear()
+    public void clear(Map<String, String> previousProperties)
     {
-        Properties sysprops = System.getProperties();
-        sysprops.remove("http.proxyHost");
-        sysprops.remove("http.proxyPort");
-        sysprops.remove("http.proxyUser");
-        sysprops.remove("http.proxyPassword");
-        sysprops.remove("https.proxyHost");
-        sysprops.remove("https.proxyPort");
-        sysprops.remove("ftp.proxyHost");
-        sysprops.remove("ftp.proxyPort");
-        Authenticator.setDefault(null);
+        if (previousProperties != null)
+        {
+            for (Map.Entry<String, String> previousProperty : previousProperties.entrySet())
+            {
+                if (previousProperty.getValue() != null)
+                {
+                    System.setProperty(previousProperty.getKey(), previousProperty.getValue());
+                }
+                else
+                {
+                    System.clearProperty(previousProperty.getKey());
+                }
+            }
+            Authenticator.setDefault(null);
+        }
     }
 
     /**
