@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
@@ -145,7 +146,7 @@ public class RunMojoTest extends TestCase
         {
             try
             {
-                outputString = FileUtils.readFileToString(output);
+                outputString = FileUtils.readFileToString(output, StandardCharsets.UTF_8);
             }
             catch (FileNotFoundException e)
             {
