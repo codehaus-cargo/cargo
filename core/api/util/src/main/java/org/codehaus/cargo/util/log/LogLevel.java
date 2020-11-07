@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.CargoException;
  * Note: There's no ERROR log level as all errors result in an exception being raised.
  * </p>
  */
-public final class LogLevel implements Comparable
+public final class LogLevel implements Comparable<LogLevel>
 {
     /**
      * Represents a warning logging level.
@@ -132,17 +132,9 @@ public final class LogLevel implements Comparable
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Object object)
+    public int compareTo(LogLevel level)
     {
         int result;
-
-        if (!object.getClass().isAssignableFrom(LogLevel.class))
-        {
-            throw new CargoException("Invalid object type [" + object.getClass().getName()
-                + "]. Cannot compare a log level to it.");
-        }
-
-        LogLevel level = (LogLevel) object;
 
         if (this.logVolume == level.logVolume)
         {

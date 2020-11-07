@@ -29,7 +29,7 @@ import org.jdom.Namespace;
 /**
  * Enumerated type that represents the version of the web deployment descriptor.
  */
-public final class WebXmlVersion implements Comparable
+public final class WebXmlVersion implements Comparable<WebXmlVersion>
 {
     /**
      * Instance for version 2.2.
@@ -113,17 +113,10 @@ public final class WebXmlVersion implements Comparable
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Object other)
+    public int compareTo(WebXmlVersion other)
     {
-
-        if (other == this || !(other instanceof WebXmlVersion))
-        {
-            return 0;
-        }
-
         float thisVersion = Float.parseFloat(this.version);
-        float thatVersion = Float.parseFloat(((WebXmlVersion) other).version);
-
+        float thatVersion = Float.parseFloat(other.version);
         return Float.compare(thisVersion, thatVersion);
     }
 

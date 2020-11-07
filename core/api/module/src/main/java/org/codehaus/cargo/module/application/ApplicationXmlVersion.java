@@ -28,7 +28,7 @@ import org.jdom.DocType;
  * Enumerated type that represents the version of the deployment descriptor of a enterprise
  * application (application.xml).
  */
-public final class ApplicationXmlVersion implements Comparable
+public final class ApplicationXmlVersion implements Comparable<ApplicationXmlVersion>
 {
     /**
      * Instance for version 1.2.
@@ -79,41 +79,11 @@ public final class ApplicationXmlVersion implements Comparable
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Object other)
+    public int compareTo(ApplicationXmlVersion other)
     {
-        int result = 1;
-
-        if (other == this)
-        {
-            result = 0;
-        }
-        else
-        {
-            ApplicationXmlVersion otherVersion = (ApplicationXmlVersion) other;
-            if (otherVersion == V1_3)
-            {
-                result = -1;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object theOther)
-    {
-        return super.equals(theOther);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode()
-    {
-        return super.hashCode();
+        float thisVersion = Float.parseFloat(this.version);
+        float thatVersion = Float.parseFloat(other.version);
+        return Float.compare(thisVersion, thatVersion);
     }
 
     /**

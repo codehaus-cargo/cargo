@@ -25,7 +25,7 @@ import org.w3c.dom.DocumentType;
  * Enumerated type that represents the version of the deployment descriptor of a ejb descriptor
  * (ejb-jar.xml).
  */
-public final class EjbJarXmlVersion implements Comparable
+public final class EjbJarXmlVersion implements Comparable<EjbJarXmlVersion>
 {
     /**
      * Instance for version 2.0.
@@ -68,34 +68,11 @@ public final class EjbJarXmlVersion implements Comparable
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Object other)
+    public int compareTo(EjbJarXmlVersion other)
     {
-        int result = 1;
-
-        if (other == this)
-        {
-            result = 0;
-        }
-
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object other)
-    {
-        return super.equals(other);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode()
-    {
-        return super.hashCode();
+        float thisVersion = Float.parseFloat(this.version);
+        float thatVersion = Float.parseFloat(other.version);
+        return Float.compare(thisVersion, thatVersion);
     }
 
     /**
