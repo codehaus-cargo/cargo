@@ -155,7 +155,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
         Class selectConnectorClass =
             getClassLoader().loadClass("org.mortbay.jetty.nio.SelectChannelConnector");
-        Object connector = selectConnectorClass.newInstance();
+        Object connector = selectConnectorClass.getDeclaredConstructor().newInstance();
         selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
             new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
@@ -189,12 +189,13 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         handlerClass = getClassLoader().loadClass("org.mortbay.jetty.Handler");
         handlers =
             getClassLoader().loadClass("org.mortbay.jetty.handler.HandlerCollection")
-                .newInstance();
+                .getDeclaredConstructor().newInstance();
         contextHandlers =
             getClassLoader().loadClass("org.mortbay.jetty.handler.ContextHandlerCollection")
-                .newInstance();
+                .getDeclaredConstructor().newInstance();
         Object defaultHandler =
-            getClassLoader().loadClass("org.mortbay.jetty.handler.DefaultHandler").newInstance();
+            getClassLoader().loadClass("org.mortbay.jetty.handler.DefaultHandler")
+                .getDeclaredConstructor().newInstance();
         Object handlerArray = Array.newInstance(handlerClass, 2);
         Array.set(handlerArray, 0, contextHandlers);
         Array.set(handlerArray, 1, defaultHandler);
@@ -252,7 +253,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     public Object createHandler(Deployable deployable) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.mortbay.jetty.webapp.WebAppContext").newInstance();
+            getClassLoader().loadClass("org.mortbay.jetty.webapp.WebAppContext")
+                .getDeclaredConstructor().newInstance();
 
         handler.getClass().getMethod("setContextPath", String.class)
             .invoke(handler, "/" + ((WAR) deployable).getContext());
@@ -280,7 +282,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     public Object createHandler(String contextPath, String war) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.mortbay.jetty.webapp.WebAppContext").newInstance();
+            getClassLoader().loadClass("org.mortbay.jetty.webapp.WebAppContext")
+                .getDeclaredConstructor().newInstance();
         handler.getClass().getMethod("setContextPath", String.class).invoke(handler, contextPath);
         handler.getClass().getMethod("setWar", String.class).invoke(handler, war);
 

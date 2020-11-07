@@ -101,9 +101,9 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
         Class selectConnectorClass =
             getClassLoader().loadClass("org.eclipse.jetty.server.nio.SelectChannelConnector");
-        Object connector = selectConnectorClass.newInstance();
+        Object connector = selectConnectorClass.getDeclaredConstructor().newInstance();
         selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
-            new Integer(getConfiguration() .getPropertyValue(ServletPropertySet.PORT)));
+            new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.eclipse.jetty.server.Connector");
@@ -129,13 +129,14 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         handlerClass = getClassLoader().loadClass("org.eclipse.jetty.server.Handler");
         handlers =
             getClassLoader().loadClass("org.eclipse.jetty.server.handler.HandlerCollection")
-                .newInstance();
+                .getDeclaredConstructor().newInstance();
         contextHandlers =
             getClassLoader().loadClass(
-                "org.eclipse.jetty.server.handler.ContextHandlerCollection").newInstance();
+                "org.eclipse.jetty.server.handler.ContextHandlerCollection")
+                    .getDeclaredConstructor().newInstance();
         Object defaultHandler =
             getClassLoader().loadClass("org.eclipse.jetty.server.handler.DefaultHandler")
-                .newInstance();
+                .getDeclaredConstructor().newInstance();
         Object handlerArray = Array.newInstance(handlerClass, 2);
         Array.set(handlerArray, 0, contextHandlers);
         Array.set(handlerArray, 1, defaultHandler);
@@ -160,7 +161,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     public Object createHandler(Deployable deployable) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext").newInstance();
+            getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext")
+                .getDeclaredConstructor().newInstance();
 
         handler.getClass().getMethod("setContextPath", String.class)
             .invoke(handler, "/" + ((WAR) deployable).getContext());
@@ -182,7 +184,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     public Object createHandler(String contextPath, String war) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext").newInstance();
+            getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext")
+                .getDeclaredConstructor().newInstance();
         handler.getClass().getMethod("setContextPath", String.class).invoke(handler, contextPath);
         handler.getClass().getMethod("setWar", String.class).invoke(handler, war);
 
@@ -262,7 +265,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
             try
             {
                 this.server = getClassLoader().loadClass("org.eclipse.jetty.server.Server")
-                    .newInstance();
+                    .getDeclaredConstructor().newInstance();
             }
             catch (Exception e)
             {

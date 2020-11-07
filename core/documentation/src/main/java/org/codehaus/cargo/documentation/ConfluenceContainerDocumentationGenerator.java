@@ -1457,7 +1457,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
         else
         {
-            slc = (RuntimeConfiguration) configurationClass.newInstance();
+            slc = (RuntimeConfiguration) configurationClass.getDeclaredConstructor().newInstance();
         }
 
         boolean supportsDatasourceOrResource = false;

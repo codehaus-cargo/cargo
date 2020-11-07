@@ -124,7 +124,8 @@ public abstract class AbstractJettyEmbeddedLocalContainer
         {
             try
             {
-                this.server = getClassLoader().loadClass("org.mortbay.jetty.Server").newInstance();
+                this.server = getClassLoader().loadClass(
+                    "org.mortbay.jetty.Server").getDeclaredConstructor().newInstance();
             }
             catch (Exception e)
             {

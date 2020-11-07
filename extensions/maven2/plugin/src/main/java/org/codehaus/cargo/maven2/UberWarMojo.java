@@ -319,7 +319,8 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
             }
             else
             {
-                merger = (MergeProcessor) Class.forName(clazz).newInstance();
+                merger = (MergeProcessor)
+                    Class.forName(clazz).getDeclaredConstructor().newInstance();
             }
 
             if (merger != null)

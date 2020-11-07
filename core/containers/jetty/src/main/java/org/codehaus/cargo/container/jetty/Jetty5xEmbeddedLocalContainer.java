@@ -68,7 +68,7 @@ public class Jetty5xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
 
         // Configure a listener
         Class listenerClass = getClassLoader().loadClass("org.mortbay.http.SocketListener");
-        Object listener = listenerClass.newInstance();
+        Object listener = listenerClass.getDeclaredConstructor().newInstance();
 
         listenerClass.getMethod("setPort", int.class).invoke(listener,
             new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
