@@ -464,11 +464,10 @@ public class Container
             if (container.getType() == ContainerType.EMBEDDED)
             {
                 // Extra classpath and system properties are currently not set in Cargo core.
-                // TODO: Move this code logic in Cargo core
                 setupEmbeddedExtraClasspath((EmbeddedLocalContainer) container, project);
                 setupEmbeddedSystemProperties((EmbeddedLocalContainer) container);
-                ((EmbeddedLocalContainer) container).setClassLoader(project
-                        .getEmbeddedClassLoader());
+                ((EmbeddedLocalContainer) container).setClassLoader(
+                    project.getEmbeddedClassLoader());
 
                 // Embedded containers (at least Jetty) doesn't seem to use the classloader set
                 // for them, but they do excute out of our thread, so the following works fine.
