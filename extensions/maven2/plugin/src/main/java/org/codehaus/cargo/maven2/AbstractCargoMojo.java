@@ -423,25 +423,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             org.apache.maven.settings.Proxy activeProxy = settings.getActiveProxy();
             if (activeProxy != null)
             {
-                if (System.getProperty("http.proxyHost") != null
-                    || System.getProperty("https.proxyHost") != null)
-                {
-                    // CARGO-1042 and CARGO-1533: Do not override JVM-defined proxy settings
-                    getLog().info(
-                        "JVM properties http.proxyHost / https.proxyHost are set, Codehaus Cargo "
-                            + "will hence ignore the proxy from the Maven settings.");
-                }
-                else
-                {
-                    // CARGO-1119 and CARGO-1121: Use proxy definitions from the Maven settings
-                    getLog().debug("Using proxy definitions from the Maven settings");
-                    proxy = new Proxy();
-                    proxy.setHost(activeProxy.getHost());
-                    proxy.setPort(activeProxy.getPort());
-                    proxy.setExcludeHosts(activeProxy.getNonProxyHosts());
-                    proxy.setUser(activeProxy.getUsername());
-                    proxy.setPassword(activeProxy.getPassword());
-                }
+                // CARGO-1042, CARGO-1119, CARGO-1121 and CARGO-1533:
+                // Use proxy definitions from the Maven settings - Even if the JVM is executing
+                // with http.proxyHost / https.proxyHost properties
+                getLog().debug("Using proxy definitions from the Maven settings");
+                proxy = new Proxy();
+                proxy.setHost(activeProxy.getHost());
+                proxy.setPort(activeProxy.getPort());
+                proxy.setExcludeHosts(activeProxy.getNonProxyHosts());
+                proxy.setUser(activeProxy.getUsername());
+                proxy.setPassword(activeProxy.getPassword());
             }
         }
 
