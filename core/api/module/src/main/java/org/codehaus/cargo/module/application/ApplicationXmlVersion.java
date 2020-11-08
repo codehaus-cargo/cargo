@@ -81,9 +81,10 @@ public final class ApplicationXmlVersion implements Comparable<ApplicationXmlVer
     @Override
     public int compareTo(ApplicationXmlVersion other)
     {
-        float thisVersion = Float.parseFloat(this.version);
-        float thatVersion = Float.parseFloat(other.version);
-        return Float.compare(thisVersion, thatVersion);
+        double thisVersion = this.version == null ? 0 : Double.parseDouble(this.version);
+        double thatVersion =
+            (other == null || other.version == null) ? 0 : Double.parseDouble(other.version);
+        return Double.compare(thisVersion, thatVersion);
     }
 
     /**
