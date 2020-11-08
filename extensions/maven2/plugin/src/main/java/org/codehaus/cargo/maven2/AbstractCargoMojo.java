@@ -433,8 +433,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
                 else
                 {
-                    // CARGO-1119 and CARGO-1121: Use proxy definitions from the Maven proxy settings
-                    getLog().debug("Using the proxy definitions from the Maven settings");
+                    // CARGO-1119 and CARGO-1121: Use proxy definitions from the Maven settings
+                    getLog().debug("Using proxy definitions from the Maven settings");
                     proxy = new Proxy();
                     proxy.setHost(activeProxy.getHost());
                     proxy.setPort(activeProxy.getPort());
