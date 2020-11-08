@@ -103,7 +103,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
             getClassLoader().loadClass("org.eclipse.jetty.server.nio.SelectChannelConnector");
         Object connector = selectConnectorClass.getDeclaredConstructor().newInstance();
         selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
-            Integer.getInteger(getConfiguration() .getPropertyValue(ServletPropertySet.PORT)));
+            Integer.parseInt(getConfiguration() .getPropertyValue(ServletPropertySet.PORT)));
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.eclipse.jetty.server.Connector");

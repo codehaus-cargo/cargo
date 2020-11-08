@@ -157,7 +157,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             getClassLoader().loadClass("org.mortbay.jetty.nio.SelectChannelConnector");
         Object connector = selectConnectorClass.getDeclaredConstructor().newInstance();
         selectConnectorClass.getMethod("setPort", int.class).invoke(connector,
-            Integer.getInteger(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+            Integer.parseInt(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
 
         // server.addConnector(selectConnector);
         Class connectorClass = getClassLoader().loadClass("org.mortbay.jetty.Connector");
