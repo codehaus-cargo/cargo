@@ -423,18 +423,27 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             org.apache.maven.settings.Proxy activeProxy = settings.getActiveProxy();
             if (activeProxy != null)
             {
-                // CARGO-1119 and CARGO-1121: Use proxy settings from the Maven2 proxy settings
-                proxy = new Proxy();
-                proxy.setHost(activeProxy.getHost());
-                proxy.setPort(activeProxy.getPort());
-                proxy.setExcludeHosts(activeProxy.getNonProxyHosts());
-                proxy.setUser(activeProxy.getUsername());
-                proxy.setPassword(activeProxy.getPassword());
+                if (System.getProperty("http.proxyHost") != null ||
+                    System.getProperty("https.proxyHost") != null)
+                {
+                    // CARGO-1042 and CARGO-1533: Do not override JVM-defined proxy settings
+                    getLog().info(
+                        "JVM properties http.proxyHost / https.proxyHost are set, Codehaus " +
+                            "Cargo will hence ignore the proxy from the Maven settings.");
+                }
+                else
+                {
+                    // CARGO-1119 and CARGO-1121: Use proxy settings from the Maven2 proxy settings
+                    proxy = new Proxy();
+                    proxy.setHost(activeProxy.getHost());
+                    proxy.setPort(activeProxy.getPort());
+                    proxy.setExcludeHosts(activeProxy.getNonProxyHosts());
+                    proxy.setUser(activeProxy.getUsername());
+                    proxy.setPassword(activeProxy.getPassword());
+                }
             }
         }
 
-        // CARGO-1042 and CARGO-1533: Try once with the Maven proxy settings on (if set up by the
-        // user) and if it doesn't work, try again with the previous proxy settings
         Map<String, String> previousProperties = null;
         try
         {
@@ -442,22 +451,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             {
                 previousProperties = proxy.configure();
             }
-            try
-            {
-                doExecute();
-            }
-            catch (MojoExecutionException e)
-            {
-                if (proxy != null)
-                {
-                    proxy.clear(previousProperties);
-                    doExecute();
-                }
-                else
-                {
-                    throw e;
-                }
-            }
+            doExecute();
         }
         catch (MojoExecutionException e)
         {
