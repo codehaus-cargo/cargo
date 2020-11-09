@@ -28,14 +28,6 @@
   <packaging>war</packaging>
   <description>Sample application that exercises the Cargo Maven 2 / Maven 3 plugin's AutoDeployable capabilities</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-sample-java</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
   <profiles>
     <profile>
       <id>run-its</id>

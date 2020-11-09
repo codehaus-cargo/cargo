@@ -30,11 +30,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-sample-java</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
