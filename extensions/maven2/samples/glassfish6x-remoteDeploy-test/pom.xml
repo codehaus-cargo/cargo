@@ -91,7 +91,7 @@
             <configuration>
               <showErrors>true</showErrors>
               <streamLogs>true</streamLogs>
-              <pom>${project.build.directory}/classes/pom.xml</pom>
+              <pom>${project.build.directory}/test-classes/pom.xml</pom>
               <goals>
                 <goal>clean</goal>
                 <goal>cargo:deploy</goal>
