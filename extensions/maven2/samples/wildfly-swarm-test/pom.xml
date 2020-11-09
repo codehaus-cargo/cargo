@@ -88,8 +88,6 @@
     <profile>
       <id>wildfly-swarm</id>
       <activation>
-        <!-- WildFly Swarm works on JDK 8+ only. -->
-        <jdk>[1.8,)</jdk>
         <property>
           <name>cargo.wildfly-swarm2017x.home</name>
         </property>

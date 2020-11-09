@@ -43,10 +43,8 @@
 
   <profiles>
     <profile>
-      <!-- JDK 8 -->
-      <id>java8+</id>
+      <id>run-its</id>
       <activation>
-        <jdk>[1.8,)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>

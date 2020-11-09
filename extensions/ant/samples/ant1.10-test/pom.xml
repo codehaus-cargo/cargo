@@ -30,36 +30,8 @@
 
   <profiles>
     <profile>
-      <!--
-        Skip surefire tests on Java versions older than 8, as ANT 1.10.x requires Java 8.
-        -->
-      <id>java8-</id>
+      <id>run-its</id>
       <activation>
-        <jdk>(,1.8)</jdk>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>surefire-it</id>
-                <configuration>
-                  <skip>true</skip>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <!-- JDK 8 -->
-      <id>java8+</id>
-      <activation>
-        <jdk>[1.8,)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>
