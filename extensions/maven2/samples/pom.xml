@@ -31,6 +31,7 @@
     <module>artifactInstaller-test</module>
     <module>autoDeployable-test</module>
     <module>configurationFiles-xmlReplacements-test</module>
+    <module>glassfish6x-remoteDeploy-test</module>
     <module>implementationClasses-test</module>
     <module>inPlaceDevelopment-test</module>
     <module>jetty5x-embedded-test</module>
