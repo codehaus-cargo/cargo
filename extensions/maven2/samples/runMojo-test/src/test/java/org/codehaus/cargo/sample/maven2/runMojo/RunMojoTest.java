@@ -69,7 +69,7 @@ public class RunMojoTest extends TestCase
         super.setUp();
 
         File target = new File(System.getProperty("target"));
-        this.projectDirectory = new File(target, "classes").getAbsoluteFile();
+        this.projectDirectory = new File(target, "test-classes").getAbsoluteFile();
 
         this.output = new File(target, "output.log");
 
