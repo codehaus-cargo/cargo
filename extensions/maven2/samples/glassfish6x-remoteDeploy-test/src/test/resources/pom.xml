@@ -34,6 +34,14 @@
       <type>war</type>
     </dependency>
   </dependencies>
+
+  <properties>
+    <cargo.hostname>10.0.2.15</cargo.hostname>
+    <cargo.servlet.port>8080</cargo.servlet.port>
+    <cargo.glassfish.admin.port>4848</cargo.glassfish.admin.port>
+    <cargo.zipUrlInstaller.downloadDir>${project.build.directory}/../installs</cargo.zipUrlInstaller.downloadDir>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -45,15 +53,15 @@
             <containerId>glassfish6x</containerId>
             <zipUrlInstaller>
               <url>https://download.eclipse.org/ee4j/glassfish/glassfish-6.0.0-RC2.zip</url>
-              <downloadDir>../../../../../../core/samples/java/installs</downloadDir>
+              <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
             </zipUrlInstaller>
           </container>
           <configuration>
             <home>${project.build.directory}/glassfish6x-home</home>
             <properties>
-              <cargo.hostname>${cargo.samples.hostname}</cargo.hostname>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-              <cargo.glassfish.admin.port>${cargo.samples.glassfish.admin.port}</cargo.glassfish.admin.port>
+              <cargo.hostname>${cargo.hostname}</cargo.hostname>
+              <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
+              <cargo.glassfish.admin.port>${cargo.glassfish.admin.port}</cargo.glassfish.admin.port>
             </properties>
           </configuration>
           <deployables>

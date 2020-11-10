@@ -68,6 +68,20 @@
   </dependencies>
 
   <build>
+    <resources>
+      <!--
+        Some of the samples use the maven-invoker-plugin to run a Maven instance,
+        which needs its pom.xml file populated with the Codehaus Cargo version
+        -->
+      <resource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>pom.xml</include>
+        </includes>
+      </resource>
+    </resources>
+
     <plugins>
       <!--
         Make sure tests always use randomly assigned and available ports
