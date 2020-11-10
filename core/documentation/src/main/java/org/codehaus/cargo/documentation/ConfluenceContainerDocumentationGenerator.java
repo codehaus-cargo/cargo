@@ -1158,6 +1158,18 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
 
+        if (containerId.equals("glassfish6x"))
+        {
+            output.append(LINE_SEPARATOR);
+            output.append("{info}The GlassFish 6.x container doesn't have any remote deployers ");
+            output.append("yet, as GlassFish 6.0 lacks JSR-88 support and it is unclear whether ");
+            output.append("this will be included in a future release.");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+            output.append("Until then, please follow the [remote deployment instructions for ");
+            output.append("GlassFish 6.x|Remote deployments to GlassFish 6.x].{info}");
+        }
+
         return output.toString();
     }
 
