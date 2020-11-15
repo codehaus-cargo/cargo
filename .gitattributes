@@ -2,6 +2,7 @@
 * text=auto
 
 # Known text files
+*.AbstractFactoryRegistry text
 *.cli text
 *.conf text
 *.config text
@@ -32,3 +33,4 @@
 *.jpg binary
 *.png binary
 *.ppt binary
+*.war binary
