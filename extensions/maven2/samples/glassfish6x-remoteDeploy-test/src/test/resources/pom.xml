@@ -51,10 +51,11 @@
         <configuration>
           <container>
             <containerId>glassfish6x</containerId>
-            <zipUrlInstaller>
-              <url>https://download.eclipse.org/ee4j/glassfish/glassfish-6.0.0-RC2.zip</url>
-              <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
-            </zipUrlInstaller>
+            <artifactInstaller>
+              <groupId>org.glassfish.main.distributions</groupId>
+              <artifactId>glassfish</artifactId>
+              <version>6.0.0-RC2</version>
+            </artifactInstaller>
           </container>
           <configuration>
             <home>${project.build.directory}/glassfish6x-home</home>
