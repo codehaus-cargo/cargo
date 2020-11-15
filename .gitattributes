@@ -1,0 +1,34 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Known text files
+*.cli text
+*.conf text
+*.config text
+*.css text
+*.dtd text
+*.groovy text
+*.java text
+*.jsp text
+*.ldift text
+*.license text
+*.md text
+*.mdo text
+*.license text
+*.properties text
+*.props text
+*.py text
+*.tasks text
+*.txt text
+*.types text
+*.xml text
+*.xsd text
+
+# Known binary files
+*.dat binary
+*.gif binary
+*.jar binary
+*.jks binary
+*.jpg binary
+*.png binary
+*.ppt binary
