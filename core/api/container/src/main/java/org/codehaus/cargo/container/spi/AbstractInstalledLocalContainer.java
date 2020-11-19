@@ -440,7 +440,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         addRuntimeArgs(java);
 
         // Add JVM args if defined
-        addJvmArgs(java);
+        addJvmArgs(java, server);
 
         if (server)
         {
@@ -592,10 +592,17 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     /**
      * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
      * @param java The java command
+     * @param server Whether the command is for the server (as opposed to a JVM used for
+     * deployments or other non-server actions)
      */
-    private void addJvmArgs(JvmLauncher java)
+    private void addJvmArgs(JvmLauncher java, boolean server)
     {
         String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        String startJmvmargs = null;
+        if (server)
+        {
+            startJmvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
+        }
         if (jvmargs != null)
         {
             // Replace new lines and tabs, so that Maven or ANT plugins can
@@ -603,6 +610,49 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             jvmargs = jvmargs.replace('\n', ' ');
             jvmargs = jvmargs.replace('\r', ' ');
             jvmargs = jvmargs.replace('\t', ' ');
+            if (startJmvmargs != null)
+            {
+                // CARGO-1535: If in server mode and the START_JVMARGS has memory-related settings,
+                // then remove them from the JVMARGS
+                if (startJmvmargs.contains("-Xms"))
+                {
+                    jvmargs.replaceAll("\\s*-Xms\\d+\\w\\s*", " ");
+                }
+                if (startJmvmargs.contains("-Xmx"))
+                {
+                    jvmargs.replaceAll("\\s*-Xmx\\d+\\w\\s*", " ");
+                }
+                if (startJmvmargs.contains("-XX:PermSize"))
+                {
+                    jvmargs.replaceAll("\\s*-XX:PermSize\\d+\\w\\s*", " ");
+                }
+                if (startJmvmargs.contains("-XX:MaxPermSize"))
+                {
+                    jvmargs.replaceAll("\\s*-XX:MaxPermSize\\d+\\w\\s*", " ");
+                }
+            }
+
+            if (jvmargs == null || !jvmargs.contains("-Xms"))
+            {
+                java.addJvmArguments("-Xms128m");
+            }
+            if (jvmargs == null || !jvmargs.contains("-Xmx"))
+            {
+                java.addJvmArguments("-Xmx512m");
+            }
+
+            // CARGO-1294: Warning when starting containers on Java 8
+            if (jvmMajorVersion < 8)
+            {
+                if (jvmargs == null || !jvmargs.contains("-XX:PermSize"))
+                {
+                    java.addJvmArguments("-XX:PermSize=48m");
+                }
+                if (jvmargs == null || !jvmargs.contains("-XX:MaxPermSize"))
+                {
+                    java.addJvmArguments("-XX:MaxPermSize=128m");
+                }
+            }
             java.addJvmArgumentLine(jvmargs);
         }
     }
@@ -634,6 +684,19 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         // If the jvmArgs don't already contain memory settings add the default
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        String startJvmargs =
+            getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
+        if (startJvmargs != null)
+        {
+            if (jvmArgs == null)
+            {
+                jvmArgs = startJvmargs;
+            }
+            else
+            {
+                jvmArgs += " " + startJvmargs;
+            }
+        }
         if (jvmArgs == null || !jvmArgs.contains("-Xms"))
         {
             java.addJvmArguments("-Xms128m");

@@ -104,6 +104,19 @@ public class WebLogic12xInstalledLocalContainer extends AbstractWebLogicInstalle
     {
         // if the jvmArgs don't alread contain memory settings add the default
         String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
+        String startJvmargs =
+            getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
+        if (startJvmargs != null)
+        {
+            if (jvmArgs == null)
+            {
+                jvmArgs = startJvmargs;
+            }
+            else
+            {
+                jvmArgs += " " + startJvmargs;
+            }
+        }
         if (jvmArgs == null || !jvmArgs.contains("-XX:PermSize"))
         {
             java.addJvmArguments("-XX:PermSize=128m");
