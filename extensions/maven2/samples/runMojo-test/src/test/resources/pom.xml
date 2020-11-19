@@ -48,7 +48,7 @@
           <configuration>
             <home>${project.build.directory}/jetty-home</home>
             <properties>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.servlet.port>\${cargo.samples.servlet.port}</cargo.servlet.port>
             </properties>
           </configuration>
           <deployables>

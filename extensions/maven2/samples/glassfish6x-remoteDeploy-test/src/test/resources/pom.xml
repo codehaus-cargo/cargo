@@ -39,7 +39,6 @@
     <cargo.hostname>10.0.2.15</cargo.hostname>
     <cargo.servlet.port>8080</cargo.servlet.port>
     <cargo.glassfish.admin.port>4848</cargo.glassfish.admin.port>
-    <cargo.zipUrlInstaller.downloadDir>${project.build.directory}/../installs</cargo.zipUrlInstaller.downloadDir>
   </properties>
 
   <build>
@@ -60,9 +59,9 @@
           <configuration>
             <home>${project.build.directory}/glassfish6x-home</home>
             <properties>
-              <cargo.hostname>${cargo.hostname}</cargo.hostname>
-              <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
-              <cargo.glassfish.admin.port>${cargo.glassfish.admin.port}</cargo.glassfish.admin.port>
+              <cargo.hostname>\${cargo.hostname}</cargo.hostname>
+              <cargo.servlet.port>\${cargo.servlet.port}</cargo.servlet.port>
+              <cargo.glassfish.admin.port>\${cargo.glassfish.admin.port}</cargo.glassfish.admin.port>
             </properties>
           </configuration>
           <deployables>

@@ -63,8 +63,8 @@
 		  <configuration>
 			<home>${project.build.directory}/tomcat-home</home>
 			<properties>
-			  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-			  <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+			  <cargo.servlet.port>\${cargo.samples.servlet.port}</cargo.servlet.port>
+			  <cargo.rmi.port>\${cargo.samples.rmi.port}</cargo.rmi.port>
 			</properties>
 		  </configuration>
 		  <deployables>
@@ -108,7 +108,7 @@
 			  <systemProperties>
 				<property>
 				  <name>http.port</name>
-				  <value>${cargo.samples.servlet.port}</value>
+				  <value>\${cargo.samples.servlet.port}</value>
 				</property>
 			  </systemProperties>
 			</configuration>
@@ -132,7 +132,7 @@
               <systemProperties>
                 <property>
                   <name>http.port</name>
-                  <value>${cargo.samples.servlet.port}</value>
+                  <value>\${cargo.samples.servlet.port}</value>
                 </property>
               </systemProperties>
             </configuration>

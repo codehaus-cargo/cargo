@@ -48,7 +48,7 @@
           <configuration>
             <type>runtime</type>
             <properties>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.servlet.port>\${cargo.samples.servlet.port}</cargo.servlet.port>
               <cargo.remote.username>admin</cargo.remote.username>
               <cargo.remote.password></cargo.remote.password>
             </properties>
