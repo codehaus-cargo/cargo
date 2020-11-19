@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import java.io.IOException;
@@ -67,8 +66,8 @@ public class YamlGeneratorTest extends TestCase
      */
     public void testSimpleYamlGeneration() throws IOException
     {
-        Assert.assertFalse(yamlFactory.isEnabled(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
-        Assert.assertTrue(yamlFactory.isEnabled(YAMLGenerator.Feature.MINIMIZE_QUOTES));
+        assertFalse(yamlFactory.isEnabled(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+        assertTrue(yamlFactory.isEnabled(YAMLGenerator.Feature.MINIMIZE_QUOTES));
 
         yamlGenerator.writeStartObject();
         yamlGenerator.writeFieldName("swarm");
@@ -79,7 +78,7 @@ public class YamlGeneratorTest extends TestCase
 
         final String result = getYamlString();
 
-        Assert.assertEquals("swarm:\n  management: \"true\"", result);
+        assertEquals("swarm:\n  management: \"true\"", result);
     }
 
     /**

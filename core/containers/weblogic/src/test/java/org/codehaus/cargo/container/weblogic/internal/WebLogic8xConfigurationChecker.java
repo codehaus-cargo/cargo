@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
-import junit.framework.Assert;
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.Assert;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.DataSourceConverter;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Contains XML logic used to validate the XML output of a WebLogic 8.x DataSource configuration.

@@ -27,8 +27,6 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.custommonkey.xmlunit.XMLAssert;
 
-import junit.framework.Assert;
-
 /**
  * Tests for the Tomcat 7 implementation of StandaloneLocalConfigurationTest
  */
@@ -77,9 +75,9 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
      */
     public void testExtraContextAttributes()
     {
-        Assert.assertTrue(Boolean.parseBoolean(
+        assertTrue(Boolean.parseBoolean(
             configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)));
-        Assert.assertTrue(Boolean.parseBoolean(
+        assertTrue(Boolean.parseBoolean(
             configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWWEBJARS)));
     }
 

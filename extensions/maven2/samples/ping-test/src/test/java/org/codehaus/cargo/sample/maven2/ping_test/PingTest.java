@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -57,7 +56,7 @@ public class PingTest extends TestCase
         BufferedReader responseReader = new BufferedReader(new InputStreamReader(responseStream));
         String response = responseReader.readLine();
 
-        Assert.assertEquals("Servlet is now ready", response);
+        assertEquals("Servlet is now ready", response);
     }
 
 }
