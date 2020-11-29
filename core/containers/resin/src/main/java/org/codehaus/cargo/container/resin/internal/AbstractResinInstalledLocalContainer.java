@@ -151,9 +151,11 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
 
         if (version == null)
         {
+            // We cannot use try-with-resources here as Resin needs to be Java 6 compatible
+            URLClassLoader classloader = null;
             try
             {
-                URLClassLoader classloader = new URLClassLoader(
+                classloader = new URLClassLoader(
                     new URL[] {new File(getHome(), "/lib/resin.jar").toURI().toURL()});
 
                 Class versionClass = classloader.loadClass("com.caucho.Version");
@@ -174,6 +176,17 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
                     + "]. Using generic version [" + defaultVersion + "]",
                     this.getClass().getName());
                 version = defaultVersion;
+            }
+            finally
+            {
+                try
+                {
+                    classloader.close();
+                }
+                catch (Exception ignored)
+                {
+                    // Ignored
+                }
             }
         }
         this.version = version;

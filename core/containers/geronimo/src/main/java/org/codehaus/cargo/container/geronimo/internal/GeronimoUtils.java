@@ -106,49 +106,50 @@ public class GeronimoUtils
             for (String extraClasspathElement : container.getExtraClasspath())
             {
                 File extraClasspathElementFile = new File(extraClasspathElement);
-                JarFile jarFile = new JarFile(extraClasspathElementFile);
-
-                extraClasspathElement = extraClasspathElementFile.getName();
-
-                String extension = extraClasspathElement.substring(
-                    extraClasspathElement.lastIndexOf('.') + 1);
-                String artifact =
-                    jarFile.getManifest().getMainAttributes().getValue("Bundle-SymbolicName");
-                if (artifact == null)
+                try (JarFile jarFile = new JarFile(extraClasspathElementFile))
                 {
-                    artifact = extraClasspathElement.substring(
-                        0, extraClasspathElement.lastIndexOf('.'));
-                }
-                String version =
-                    jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
-                if (version == null)
-                {
-                    if (artifact.indexOf('-') == -1)
+                    extraClasspathElement = extraClasspathElementFile.getName();
+
+                    String extension = extraClasspathElement.substring(
+                        extraClasspathElement.lastIndexOf('.') + 1);
+                    String artifact =
+                        jarFile.getManifest().getMainAttributes().getValue("Bundle-SymbolicName");
+                    if (artifact == null)
                     {
-                        version = "1.0";
+                        artifact = extraClasspathElement.substring(
+                            0, extraClasspathElement.lastIndexOf('.'));
                     }
-                    else
+                    String version =
+                        jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+                    if (version == null)
                     {
-                        int versionStart;
-                        if (artifact.endsWith("-SNAPSHOT"))
+                        if (artifact.indexOf('-') == -1)
                         {
-                            versionStart = artifact.lastIndexOf('-', artifact.length() - 10);
+                            version = "1.0";
                         }
                         else
                         {
-                            versionStart = artifact.lastIndexOf('-');
+                            int versionStart;
+                            if (artifact.endsWith("-SNAPSHOT"))
+                            {
+                                versionStart = artifact.lastIndexOf('-', artifact.length() - 10);
+                            }
+                            else
+                            {
+                                versionStart = artifact.lastIndexOf('-');
+                            }
+                            version = artifact.substring(versionStart + 1);
+                            artifact = artifact.substring(0, versionStart);
                         }
-                        version = artifact.substring(versionStart + 1);
-                        artifact = artifact.substring(0, versionStart);
                     }
-                }
 
-                sb.append("      <dep:dependency>\n");
-                sb.append("        <dep:groupId>org.codehaus.cargo.classpath</dep:groupId>\n");
-                sb.append("        <dep:artifactId>" + artifact + "</dep:artifactId>\n");
-                sb.append("        <dep:version>" + version + "</dep:version>\n");
-                sb.append("        <dep:type>" + extension + "</dep:type>\n");
-                sb.append("      </dep:dependency>\n");
+                    sb.append("      <dep:dependency>\n");
+                    sb.append("        <dep:groupId>org.codehaus.cargo.classpath</dep:groupId>\n");
+                    sb.append("        <dep:artifactId>" + artifact + "</dep:artifactId>\n");
+                    sb.append("        <dep:version>" + version + "</dep:version>\n");
+                    sb.append("        <dep:type>" + extension + "</dep:type>\n");
+                    sb.append("      </dep:dependency>\n");
+                }
             }
             sb.append("    </dep:dependencies>");
         }

@@ -106,15 +106,14 @@ public class CargoDaemonBrowserTest extends TestCase
                 @Override
                 public void run()
                 {
-                    try
+                    File daemonFile =
+                        new File(System.getProperty("artifacts.dir"), "cargo-daemon-webapp.jar");
+                    try (JarFile daemonJar = new JarFile(daemonFile);
+                        URLClassLoader daemonClassLoader =
+                            new URLClassLoader(new URL[] {daemonFile.toURI().toURL()}))
                     {
-                        File daemonFile = new File(System.getProperty("artifacts.dir"),
-                            "cargo-daemon-webapp.jar");
-                        JarFile daemonJar = new JarFile(daemonFile);
                         CargoDaemonBrowserTest.daemonClassName =
                             daemonJar.getManifest().getMainAttributes().getValue("Main-Class");
-                        URL[] daemonURLs = new URL[] {daemonFile.toURI().toURL()};
-                        ClassLoader daemonClassLoader = new URLClassLoader(daemonURLs);
                         Class daemonClass = daemonClassLoader.loadClass(
                             CargoDaemonBrowserTest.daemonClassName);
                         Method daemonMain = daemonClass.getMethod("main", String[].class);

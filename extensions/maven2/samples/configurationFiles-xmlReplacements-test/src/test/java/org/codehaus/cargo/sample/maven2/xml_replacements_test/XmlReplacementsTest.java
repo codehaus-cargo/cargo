@@ -41,12 +41,14 @@ public class XmlReplacementsTest extends TestCase
         File serverXml = new File("target/jetty-base/etc/jetty.xml");
         assertTrue(serverXml + " is not a file", serverXml.isFile());
 
-        BufferedReader serverXmlReader = new BufferedReader(new FileReader(serverXml));
-        for (String read = ""; read != null; read = serverXmlReader.readLine())
+        try (BufferedReader serverXmlReader = new BufferedReader(new FileReader(serverXml)))
         {
-            if (read.contains(lookFor))
+            for (String read = ""; read != null; read = serverXmlReader.readLine())
             {
-                return;
+                if (read.contains(lookFor))
+                {
+                    return;
+                }
             }
         }
 

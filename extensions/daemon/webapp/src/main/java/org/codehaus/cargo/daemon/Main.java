@@ -151,28 +151,30 @@ public final class Main
         int length;
         destDir.mkdirs();
 
-        JarFile jar = new JarFile(jarFile);
-        Enumeration enumeration = jar.entries();
-        while (enumeration.hasMoreElements())
+        try (JarFile jar = new JarFile(jarFile))
         {
-            JarEntry jarEntry = (JarEntry) enumeration.nextElement();
-            File destFile = new File(destDir, jarEntry.getName());
-            if (jarEntry.isDirectory())
+            Enumeration enumeration = jar.entries();
+            while (enumeration.hasMoreElements())
             {
-                destFile.mkdirs();
-                continue;
-            }
-            else if (!destFile.getParentFile().isDirectory())
-            {
-                destFile.getParentFile().mkdirs();
-            }
-
-            try (InputStream is = jar.getInputStream(jarEntry);
-                FileOutputStream os = new FileOutputStream(destFile))
-            {
-                while ((length = is.read(buffer)) >= 0)
+                JarEntry jarEntry = (JarEntry) enumeration.nextElement();
+                File destFile = new File(destDir, jarEntry.getName());
+                if (jarEntry.isDirectory())
                 {
-                    os.write(buffer, 0, length);
+                    destFile.mkdirs();
+                    continue;
+                }
+                else if (!destFile.getParentFile().isDirectory())
+                {
+                    destFile.getParentFile().mkdirs();
+                }
+
+                try (InputStream is = jar.getInputStream(jarEntry);
+                    FileOutputStream os = new FileOutputStream(destFile))
+                {
+                    while ((length = is.read(buffer)) >= 0)
+                    {
+                        os.write(buffer, 0, length);
+                    }
                 }
             }
         }

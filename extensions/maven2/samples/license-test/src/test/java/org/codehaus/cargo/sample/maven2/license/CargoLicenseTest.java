@@ -43,18 +43,20 @@ public class CargoLicenseTest extends TestCase
         URL uberjar = new File(System.getProperty("cargo-uberjar.file")).toURI().toURL();
         URL[] uberjarUrl = new URL[1];
         uberjarUrl[0] = uberjar;
-        ClassLoader loader = new URLClassLoader(uberjarUrl);
-        loader.loadClass("org.codehaus.cargo.container.jonas.internal."
-            + "AbstractJonasStandaloneLocalConfiguration");
-        try
+        try (URLClassLoader loader = new URLClassLoader(uberjarUrl))
         {
-            loader.loadClass("org.ow2.jonas.tools.configurator.Jonas");
-            fail("The JOnAS Configurator (LGPL) is in the Uberjar classpath, "
-                + "this breaks the Codehaus Cargo license (Apache License)");
-        }
-        catch (ClassNotFoundException expected)
-        {
-            // Expected exception
+            loader.loadClass("org.codehaus.cargo.container.jonas.internal."
+                + "AbstractJonasStandaloneLocalConfiguration");
+            try
+            {
+                loader.loadClass("org.ow2.jonas.tools.configurator.Jonas");
+                fail("The JOnAS Configurator (LGPL) is in the Uberjar classpath, "
+                    + "this breaks the Codehaus Cargo license (Apache License)");
+            }
+            catch (ClassNotFoundException expected)
+            {
+                // Expected exception
+            }
         }
 
         // The Maven dependency for Uberjar should link to JOnAS classes
@@ -75,16 +77,18 @@ public class CargoLicenseTest extends TestCase
         URL uberjar = new File(System.getProperty("cargo-uberjar.file")).toURI().toURL();
         URL[] uberjarUrl = new URL[1];
         uberjarUrl[0] = uberjar;
-        ClassLoader loader = new URLClassLoader(uberjarUrl);
-        try (InputStream is = loader.getResourceAsStream(
-            "org/codehaus/cargo/module/internal/resource/web-app_3_0.xsd"))
+        try (URLClassLoader loader = new URLClassLoader(uberjarUrl))
         {
-            assertNull("The licensed DTDs are in the Uberjar classpath, "
-                + "this breaks the Codehaus Cargo license (Apache License)", is);
+            try (InputStream is = loader.getResourceAsStream(
+                "org/codehaus/cargo/module/internal/resource/web-app_3_0.xsd"))
+            {
+                assertNull("The licensed DTDs are in the Uberjar classpath, "
+                    + "this breaks the Codehaus Cargo license (Apache License)", is);
+            }
         }
 
         // The Maven dependency for Uberjar should contain the licensed DTDs
-        loader = this.getClass().getClassLoader();
+        ClassLoader loader = this.getClass().getClassLoader();
         try (InputStream is = loader.getResourceAsStream(
             "org/codehaus/cargo/module/internal/resource/web-app_3_0.xsd"))
         {

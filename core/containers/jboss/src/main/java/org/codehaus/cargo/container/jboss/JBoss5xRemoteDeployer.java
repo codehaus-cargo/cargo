@@ -141,10 +141,8 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
                 + "https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html", e);
         }
 
-        URL[] deployerJarURLArray = new URL[] {deployerJarURL};
-        ClassLoader deployerClassLoader =
-            new URLClassLoader(deployerJarURLArray, jBossConnectorClassLoader);
-        try
+        try (URLClassLoader deployerClassLoader =
+            new URLClassLoader(new URL[] {deployerJarURL}, jBossConnectorClassLoader))
         {
             final String classToLoad = "org.codehaus.cargo.tools.jboss.JBossDeployer";
             Class<?> jbossDeployerClass = deployerClassLoader.loadClass(classToLoad);

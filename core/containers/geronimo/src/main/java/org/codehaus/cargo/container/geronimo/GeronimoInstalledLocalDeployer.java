@@ -95,56 +95,57 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
         for (String extraClasspathElement : extraClasspath)
         {
             File extraClasspathElementFile = new File(extraClasspathElement);
-            JarFile jarFile = new JarFile(extraClasspathElementFile);
-
-            extraClasspathElement = extraClasspathElementFile.getName();
-
-            String extension = extraClasspathElement.substring(
-                extraClasspathElement.lastIndexOf('.') + 1);
-            String artifact =
-                jarFile.getManifest().getMainAttributes().getValue("Bundle-SymbolicName");
-            if (artifact == null)
+            try (JarFile jarFile = new JarFile(extraClasspathElementFile))
             {
-                artifact = extraClasspathElement.substring(
-                    0, extraClasspathElement.lastIndexOf('.'));
-            }
-            String version =
-                jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
-            if (version == null)
-            {
-                if (artifact.indexOf('-') == -1)
+                extraClasspathElement = extraClasspathElementFile.getName();
+
+                String extension = extraClasspathElement.substring(
+                    extraClasspathElement.lastIndexOf('.') + 1);
+                String artifact =
+                    jarFile.getManifest().getMainAttributes().getValue("Bundle-SymbolicName");
+                if (artifact == null)
                 {
-                    version = "1.0";
+                    artifact = extraClasspathElement.substring(
+                        0, extraClasspathElement.lastIndexOf('.'));
                 }
-                else
+                String version =
+                    jarFile.getManifest().getMainAttributes().getValue("Bundle-Version");
+                if (version == null)
                 {
-                    version = artifact.substring(artifact.lastIndexOf('-') + 1);
-                    artifact = artifact.substring(0, artifact.lastIndexOf('-'));
+                    if (artifact.indexOf('-') == -1)
+                    {
+                        version = "1.0";
+                    }
+                    else
+                    {
+                        version = artifact.substring(artifact.lastIndexOf('-') + 1);
+                        artifact = artifact.substring(0, artifact.lastIndexOf('-'));
+                    }
                 }
-            }
 
-            File target = new File(getInstalledContainer().getConfiguration().getHome(),
-                "var/temp/" + artifact + "-" + version + "." + extension);
-            getFileHandler().copyFile(
-                extraClasspathElementFile.getAbsolutePath(), target.getAbsolutePath());
+                File target = new File(getInstalledContainer().getConfiguration().getHome(),
+                    "var/temp/" + artifact + "-" + version + "." + extension);
+                getFileHandler().copyFile(
+                    extraClasspathElementFile.getAbsolutePath(), target.getAbsolutePath());
 
-            JvmLauncher java = createAdminDeployerJava("install-library");
-            java.addAppArguments("--groupId", "org.codehaus.cargo.classpath");
-            java.addAppArgument(target);
+                JvmLauncher java = createAdminDeployerJava("install-library");
+                java.addAppArguments("--groupId", "org.codehaus.cargo.classpath");
+                java.addAppArgument(target);
 
-            try
-            {
-                int retval = java.execute();
-                if (retval != 0)
+                try
                 {
-                    getLogger().warn("Failed to add extra classpath element ["
-                        + extraClasspathElement + "]", this.getClass().getName());
+                    int retval = java.execute();
+                    if (retval != 0)
+                    {
+                        getLogger().warn("Failed to add extra classpath element ["
+                            + extraClasspathElement + "]", this.getClass().getName());
+                    }
                 }
-            }
-            catch (JvmLauncherException e)
-            {
-                throw new ContainerException("Failed to add extra classpath element ["
-                    + extraClasspathElement + "]", e);
+                catch (JvmLauncherException e)
+                {
+                    throw new ContainerException("Failed to add extra classpath element ["
+                        + extraClasspathElement + "]", e);
+                }
             }
         }
     }
