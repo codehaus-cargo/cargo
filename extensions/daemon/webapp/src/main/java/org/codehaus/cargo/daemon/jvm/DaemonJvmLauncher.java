@@ -22,7 +22,6 @@ package org.codehaus.cargo.daemon.jvm;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,11 +85,6 @@ class DaemonJvmLauncher implements JvmLauncher
      * The application arguments.
      */
     private final List<String> applicationArguments = new ArrayList<String>();
-
-    /**
-     * out.
-     */
-    private final PrintStream out = System.out;
 
     /**
      * The running process.
