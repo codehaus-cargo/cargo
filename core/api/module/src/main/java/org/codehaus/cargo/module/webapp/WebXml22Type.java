@@ -44,7 +44,9 @@ public class WebXml22Type extends WebXmlType
     private static WebXml22Type instance = new WebXml22Type();
 
     /**
-     * Ensure all tags constructed.
+     * Ensure all tags constructed.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private WebXmlTag[] tags =
         new WebXmlTag[] {
@@ -53,14 +55,14 @@ public class WebXml22Type extends WebXmlType
             new WebXmlTag(this, "description", false),
             new WebXmlTag(this, "distributable", false),
             new WebXmlTag(this, "context-param", true, new Identifier("param-name"),
-                    ContextParam.class),
+                ContextParam.class),
             new WebXmlTag(this, "param-name"),
             new WebXmlTag(this, "param-value"),
             new WebXmlTag(this, "filter", true, new Identifier("filter-name"), Filter.class),
             new WebXmlTag(this, "filter-name"),
             new WebXmlTag(this, "filter-class"),
             new WebXmlTag(this, "filter-mapping", true, new Identifier("filter-name"),
-                    FilterMapping.class),
+                FilterMapping.class),
             new WebXmlTag(this, "init-param", true, new Identifier("param-name"), InitParam.class),
             new WebXmlTag(this, "listener", true, new Identifier("listener-class"), Listener.class),
             new WebXmlTag(this, "listener-class"),
@@ -76,7 +78,7 @@ public class WebXml22Type extends WebXmlType
             new WebXmlTag(this, "mime-mapping", false, null, MimeMapping.class),
             new WebXmlTag(this, "welcome-file-list", false),
             new WebXmlTag(this, "error-page", true, new Identifier(
-                    "concat(error-code,'>',exception-type)"), null), new WebXmlTag(this, "taglib"),
+                "concat(error-code,'>',exception-type)"), null), new WebXmlTag(this, "taglib"),
             new WebXmlTag(this, "resource-env-ref"), new WebXmlTag(this, "resource-ref"),
             new WebXmlTag(this, "security-constraint", true, null, SecurityConstraint.class),
             new WebXmlTag(this, "web-resource-collection"),

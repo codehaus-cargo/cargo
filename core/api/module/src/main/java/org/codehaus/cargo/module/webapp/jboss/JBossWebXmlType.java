@@ -32,7 +32,9 @@ public class JBossWebXmlType extends AbstractDescriptorType
     private static JBossWebXmlType instance = new JBossWebXmlType();
 
     /**
-     * All the tags in this type.
+     * All the tags in this type.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private JBossWebXmlTag[] tags =
         new JBossWebXmlTag[] {

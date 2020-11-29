@@ -35,7 +35,9 @@ public class EjbJarXmlType extends AbstractDescriptorType
     private static EjbJarXmlType instance = new EjbJarXmlType();
 
     /**
-     * All the tags in this type.
+     * All the tags in this type.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private EjbJarXmlTag[] tags = new EjbJarXmlTag[] {
         new EjbJarXmlTag(this, "session"),

@@ -151,7 +151,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
 
         if (version == null)
         {
-            // We cannot use try-with-resources here as Resin needs to be Java 6 compatible
+            // TODO: We cannot use try-with-resources here as Resin needs to be Java 6 compatible
             URLClassLoader classloader = null;
             try
             {

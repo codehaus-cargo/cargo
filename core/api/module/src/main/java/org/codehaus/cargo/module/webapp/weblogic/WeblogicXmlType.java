@@ -32,7 +32,9 @@ public class WeblogicXmlType extends AbstractDescriptorType
     private static WeblogicXmlType instance = new WeblogicXmlType();
 
     /**
-     * Tags for this document type.
+     * Tags for this document type.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private WeblogicXmlTag[] tags = new WeblogicXmlTag[] {
         new WeblogicXmlTag(this, "description"),

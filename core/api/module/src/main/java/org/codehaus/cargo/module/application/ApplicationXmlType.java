@@ -36,7 +36,9 @@ public class ApplicationXmlType extends AbstractDescriptorType
     private static ApplicationXmlType instance = new ApplicationXmlType();
 
     /**
-     * All the tags in this type.
+     * All the tags in this type.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private ApplicationXmlTag[] tags =
         new ApplicationXmlTag[] {

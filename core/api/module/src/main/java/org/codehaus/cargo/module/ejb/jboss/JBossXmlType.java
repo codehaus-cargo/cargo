@@ -32,7 +32,9 @@ public class JBossXmlType extends AbstractDescriptorType
     private static JBossXmlType instance = new JBossXmlType();
 
     /**
-     * All the tags in this type.
+     * All the tags in this type.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private JBossXmlTag[] tags = new JBossXmlTag[] {
         new JBossXmlTag(this, JBossXmlTag.EJB_NAME),

@@ -27,8 +27,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.cargo.simple.SimpleClass;
-
 /**
  * Sample test Servlet used to verify that parameters passed in Tomcat's <code>context.xml</code>
  * file are correctly passed to Tomcat when the WAR module is deployed.
@@ -39,8 +37,6 @@ public class TestServlet extends HttpServlet
     public void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException
     {
-        SimpleClass simpleClass = new SimpleClass();
-        String message = simpleClass.getMessage();
         String value = getServletContext().getInitParameter("testcontextxml");
         PrintWriter out = response.getWriter();
         out.print("Test value is [" + value + "]");

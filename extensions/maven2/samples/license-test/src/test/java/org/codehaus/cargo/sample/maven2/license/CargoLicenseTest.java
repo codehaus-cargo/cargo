@@ -60,7 +60,7 @@ public class CargoLicenseTest extends TestCase
         }
 
         // The Maven dependency for Uberjar should link to JOnAS classes
-        loader = this.getClass().getClassLoader();
+        ClassLoader loader = this.getClass().getClassLoader();
         loader.loadClass("org.codehaus.cargo.container.jonas.internal."
             + "AbstractJonasStandaloneLocalConfiguration");
         loader.loadClass("org.ow2.jonas.tools.configurator.Jonas");

@@ -32,7 +32,9 @@ public class TomcatContextXmlType extends AbstractDescriptorType
     private static TomcatContextXmlType instance = new TomcatContextXmlType();
 
     /**
-     * All the tags for the descriptor type.
+     * All the tags for the descriptor type.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private TomcatContextXmlTag[] tags =
         new TomcatContextXmlTag[] {

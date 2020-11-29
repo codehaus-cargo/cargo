@@ -31,7 +31,9 @@ public class ResinWebXmlType extends AbstractDescriptorType
     private static ResinWebXmlType instance = new ResinWebXmlType();
 
     /**
-     * List of tags in this descriptor.
+     * List of tags in this descriptor.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private ResinWebXmlTag[] tags =
         new ResinWebXmlTag[] {

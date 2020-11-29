@@ -49,7 +49,9 @@ public class WebXml24Type extends WebXmlType
     private static WebXml24Type instance = new WebXml24Type();
 
     /**
-     * Ensure all tags constructed.
+     * Ensure all tags constructed.<br>
+     * The warning <i>value of the field is not used</i> is irrelevant: the
+     * <code>DescriptorTag</code> constructor performs the registrations.
      */
     private WebXmlTag[] tags;
 
@@ -68,28 +70,22 @@ public class WebXml24Type extends WebXmlType
             new WebXmlTag(this, "display-name", false),
             new WebXmlTag(this, "description", false),
             new WebXmlTag(this, "distributable", false),
-            new WebXmlTag(this,
-                    "context-param",
-                    true,
-                    new Identifier(namespaceMap, "j2ee:param-name"),
-                    ContextParam.class),
+            new WebXmlTag(this, "context-param", true,
+                new Identifier(namespaceMap, "j2ee:param-name"), ContextParam.class),
             new WebXmlTag(this, "param-name"),
             new WebXmlTag(this, "param-value"),
             new WebXmlTag(this, "filter", true,
-                        new Identifier(namespaceMap, "j2ee:filter-name"), Filter.class),
+                new Identifier(namespaceMap, "j2ee:filter-name"), Filter.class),
             new WebXmlTag(this, "filter-name"),
             new WebXmlTag(this, "filter-class"),
-            new WebXmlTag(this,
-                    "filter-mapping",
-                    true,
-                    new Identifier(namespaceMap, "j2ee:filter-name"),
-                    FilterMapping.class),
-            new WebXmlTag(this, "init-param", true, new Identifier(namespaceMap,
-                        "j2ee:param-name"), InitParam.class),
-            new WebXmlTag(this, "listener", true, new Identifier(namespaceMap,
-                        "j2ee:listener-class"), Listener.class),
-            new WebXmlTag(this, "servlet", true, new Identifier(namespaceMap,
-                        "j2ee:servlet-name"), Servlet.class),
+            new WebXmlTag(this, "filter-mapping", true,
+                new Identifier(namespaceMap, "j2ee:filter-name"), FilterMapping.class),
+            new WebXmlTag(this, "init-param", true,
+                new Identifier(namespaceMap, "j2ee:param-name"), InitParam.class),
+            new WebXmlTag(this, "listener", true,
+                new Identifier(namespaceMap, "j2ee:listener-class"), Listener.class),
+            new WebXmlTag(this, "servlet", true,
+                new Identifier(namespaceMap, "j2ee:servlet-name"), Servlet.class),
             new WebXmlTag(this, "servlet-name"),
             new WebXmlTag(this, "jsp-file"),
             new WebXmlTag(this, "servlet-class"),
@@ -100,8 +96,8 @@ public class WebXml24Type extends WebXmlType
             new WebXmlTag(this, "session-config", false),
             new WebXmlTag(this, "mime-mapping", false, null, MimeMapping.class),
             new WebXmlTag(this, "welcome-file-list", false),
-            new WebXmlTag(this, "error-page", true, new Identifier(
-                        "concat(error-code,'>',exception-type)"), null),
+            new WebXmlTag(this, "error-page", true,
+                new Identifier("concat(error-code,'>',exception-type)"), null),
             new WebXmlTag(this, "taglib"),
             new WebXmlTag(this, "resource-env-ref"),
             new WebXmlTag(this, "resource-ref"),
@@ -112,15 +108,19 @@ public class WebXml24Type extends WebXmlType
             new WebXmlTag(this, "login-config", false),
             new WebXmlTag(this, "auth-method"),
             new WebXmlTag(this, "realm-name"),
-            new WebXmlTag(this, "security-role", true, new Identifier(namespaceMap,
-                        "j2ee:role-name"), null),
+            new WebXmlTag(this, "security-role", true,
+                new Identifier(namespaceMap, "j2ee:role-name"), null),
             new WebXmlTag(this, "role-name"),
             new WebXmlTag(this, "env-entry"),
-            new WebXmlTag(this, "ejb-ref", true, new Identifier(namespaceMap,
-                        "j2ee:ejb-ref-name"), null), new WebXmlTag(this, "ejb-local-ref"),
-            new WebXmlTag(this, "ejb-ref-name"), new WebXmlTag(this, "ejb-ref-type"),
-            new WebXmlTag(this, "local"), new WebXmlTag(this, "local-home"),
-            new WebXmlTag(this, "remote"), new WebXmlTag(this, "home"),
+            new WebXmlTag(this, "ejb-ref", true,
+                new Identifier(namespaceMap, "j2ee:ejb-ref-name"), null),
+            new WebXmlTag(this, "ejb-local-ref"),
+            new WebXmlTag(this, "ejb-ref-name"),
+            new WebXmlTag(this, "ejb-ref-type"),
+            new WebXmlTag(this, "local"),
+            new WebXmlTag(this, "local-home"),
+            new WebXmlTag(this, "remote"),
+            new WebXmlTag(this, "home"),
             new WebXmlTag(this, "ejb-link")};
         setDescriptorIo(new WebXmlIo(this));
     }
