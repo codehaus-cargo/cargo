@@ -65,7 +65,6 @@ public class StartRequest
      * @param request The servlet request.
      * @return the StartRequest
      */
-    @SuppressWarnings("unchecked")
     public StartRequest parse(HttpServletRequest request)
     {
         ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
