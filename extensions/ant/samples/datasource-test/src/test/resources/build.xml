@@ -28,9 +28,9 @@
 
   <property name="catalina.root" value="${project.build.directory}/catalina-root"/>
   <property name="catalina.base" value="${project.build.directory}/catalina-base"/>
-  <property name="http.port" value="${cargo.samples.servlet.port}"/>
-  <property name="ajp.port" value="${cargo.samples.tomcat.ajp.port}"/>
-  <property name="rmi.port" value="${cargo.samples.rmi.port}"/>
+  <property name="http.port" value="\${cargo.samples.servlet.port}"/>
+  <property name="ajp.port" value="\${cargo.samples.tomcat.ajp.port}"/>
+  <property name="rmi.port" value="\${cargo.samples.rmi.port}"/>
 
   <macrodef name="cargo-action">
     <attribute name="action"/>
@@ -39,8 +39,8 @@
       <cargo containerId="tomcat8x" action="@{action}">
         <zipUrlInstaller
           installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.60/tomcat-8.5.60.zip"
-          downloadDir="${basedir}/../../../../core/samples/java/installs"
-          extractDir="${catalina.root}">
+          downloadDir="\${basedir}/../../../../core/samples/java/installs"
+          extractDir="\${catalina.root}">
           <!--
             If required, enter your proxy server settings here.
 
@@ -56,10 +56,10 @@
           <pathelement location="${cargo-test-applications.directory}/derby-${cargo.derby.version}.jar"/>
         </extraClasspath>
         <sysproperty key="derby.system.home" value="${project.build.directory}/derby"/>
-        <configuration home="${catalina.base}">
-          <property name="cargo.servlet.port" value="${http.port}"/>
-          <property name="cargo.tomcat.ajp.port" value="${ajp.port}"/>
-          <property name="cargo.rmi.port" value="${rmi.port}"/>
+        <configuration home="\${catalina.base}">
+          <property name="cargo.servlet.port" value="\${http.port}"/>
+          <property name="cargo.tomcat.ajp.port" value="\${ajp.port}"/>
+          <property name="cargo.rmi.port" value="\${rmi.port}"/>
           <datasource driverClass="org.apache.derby.jdbc.EmbeddedDriver" url="jdbc:derby:derbyDB;create=true"
             jndiName="jdbc/CargoDS" username="APP" password="nonemptypassword" />
           <deployable type="war" file="${cargo-test-applications.directory}/datasource-war-${project.version}.war">
@@ -71,7 +71,7 @@
   </macrodef>
 
   <target name="start">
-    <delete dir="${catalina.base}"/>
+    <delete dir="\${catalina.base}"/>
     <cargo-action action="start"/>
   </target>
 
