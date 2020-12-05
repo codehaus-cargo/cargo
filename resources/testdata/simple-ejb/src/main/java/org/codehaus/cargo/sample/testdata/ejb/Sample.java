@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.sample.testdata.ejb;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import javax.ejb.EJBObject;
@@ -27,7 +26,7 @@ import javax.ejb.EJBObject;
 /**
  * Test EJB to verify Cargo can deploy EJB JAR to containers which supports it.
  */
-public interface Sample extends EJBObject, Remote
+public interface Sample extends EJBObject
 {
     boolean isWorking() throws RemoteException;
 }
