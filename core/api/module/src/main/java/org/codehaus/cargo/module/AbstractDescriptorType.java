@@ -28,13 +28,11 @@ import org.codehaus.cargo.util.CargoException;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMFactory;
 import org.jdom.Namespace;
 
 /**
  */
-public class AbstractDescriptorType extends DefaultJDOMFactory implements JDOMFactory,
-    DescriptorType
+public class AbstractDescriptorType extends DefaultJDOMFactory implements DescriptorType
 {
 
     /**
