@@ -28,6 +28,7 @@ import org.codehaus.cargo.util.CargoException;
 import org.jdom.DefaultJDOMFactory;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMFactory;
 import org.jdom.Namespace;
 
 /**
