@@ -154,6 +154,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     {
         setupConfigurationDir();
 
+        // TODO: Use FileUtils.getFileUtils() when our minimal ANT version is 1.6.3
         FileUtils fileUtils = FileUtils.newFileUtils();
         FilterChain filterChain = createOrionFilterChain();
 
