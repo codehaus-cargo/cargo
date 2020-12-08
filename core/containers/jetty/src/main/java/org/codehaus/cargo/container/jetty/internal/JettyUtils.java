@@ -51,7 +51,6 @@ public final class JettyUtils
      */
     public static String getExtraClasspath(WAR war, boolean xml)
     {
-        StringBuilder sb = new StringBuilder();
         String[] extraClasspath = war.getExtraClasspath();
         if (extraClasspath == null || extraClasspath.length <= 0)
         {
