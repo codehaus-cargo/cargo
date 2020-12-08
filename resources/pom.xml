@@ -32,8 +32,20 @@
     <module>cargo-ping-component</module>
     <module>jetty-6-and-earlier-deployer</module>
     <module>jetty-7-to-jetty-9-deployer</module>
-    <module>jetty-10-deployer</module>
     <module>licensed-dtds</module>
     <module>testdata</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <!-- JDK >= 11 -->
+      <id>java11+</id>
+      <activation>
+        <jdk>[11,)</jdk>
+      </activation>
+      <modules>
+        <module>jetty-10-deployer</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

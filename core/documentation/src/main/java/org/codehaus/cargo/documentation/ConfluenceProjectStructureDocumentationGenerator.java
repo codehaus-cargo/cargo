@@ -21,9 +21,13 @@ package org.codehaus.cargo.documentation;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.maven.model.Model;
+import org.apache.maven.model.Profile;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
 
@@ -160,7 +164,28 @@ public class ConfluenceProjectStructureDocumentationGenerator
     private String getModuleTree(MavenProject aProject, int treeIndex)
     {
         StringBuilder markup = new StringBuilder();
-        List<String> modules = aProject.getModules();
+        List<String> modules = new ArrayList<String>(aProject.getModules());
+        // TODO: Very ugly way of managing the java11+ profile
+        List<Profile> profiles = aProject.getModel().getProfiles();
+        if (profiles != null)
+        {
+            for (Profile profile : profiles)
+            {
+                List<String> profileModules = profile.getModules();
+                modules.addAll(profileModules);
+            }
+            if (treeIndex == 2 && "resources".equals(aProject.getFile().getParentFile().getName()))
+            {
+                SortedMap<String, String> sort = new TreeMap<String, String>();
+                for (String module : modules)
+                {
+                    sort.put(
+                        module.replace("jetty-6", "jetty-06").replace("jetty-7", "jetty-07"),
+                            module);
+                }
+                modules = new ArrayList<String>(sort.values());
+            }
+        }
         int newTreeIndex = modules.size() > 0 ? treeIndex + 1 : treeIndex;
         for (String moduleArtifactId : modules)
         {
