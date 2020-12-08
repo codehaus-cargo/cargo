@@ -22,23 +22,35 @@ package org.codehaus.cargo.container.jetty;
 import org.codehaus.cargo.container.LocalContainer;
 
 /**
- * A deployer for webapps that deploys to a Jetty 9.x installed instance.
+ * A mostly canned configuration for an embedded Jetty 10.x instance.
  */
-public class Jetty9xInstalledLocalDeployer extends Jetty7x8xInstalledLocalDeployer
+public class Jetty10xEmbeddedStandaloneLocalConfiguration extends
+    Jetty9xEmbeddedStandaloneLocalConfiguration
 {
     /**
      * {@inheritDoc}
-     * @see Jetty7x8xInstalledLocalDeployer#Jetty7x8xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see Jetty9xEmbeddedStandaloneLocalConfiguration#Jetty9xEmbeddedStandaloneLocalConfiguration(String)
      */
-    public Jetty9xInstalledLocalDeployer(LocalContainer container)
+    public Jetty10xEmbeddedStandaloneLocalConfiguration(String dir)
     {
-        super(container);
+        super(dir);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getContextsDir()
+    protected void activateLogging(LocalContainer container)
     {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
+        getLogger().info("Jetty 10.x log configuration not implemented", this.getClass().getName());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "Jetty 10.x Embedded Standalone Configuration";
+    }
 }

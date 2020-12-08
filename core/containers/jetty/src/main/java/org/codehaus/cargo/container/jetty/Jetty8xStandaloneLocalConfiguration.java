@@ -52,7 +52,7 @@ public class Jetty8xStandaloneLocalConfiguration extends Jetty7xStandaloneLocalC
 
         Map<String, String> jettyXmlReplacements = new HashMap<String, String>();
         jettyXmlReplacements.put("</Configure>", sb.toString() + "</Configure>");
-        getFileHandler().replaceInFile(getFileHandler().append(etcDir, "jetty-plus.xml"),
+        getFileHandler().replaceInFile(getFileHandler().append(etcDir, "jetty.xml"),
             jettyXmlReplacements, StandardCharsets.UTF_8);
     }
 

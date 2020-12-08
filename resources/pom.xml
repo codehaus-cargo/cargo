@@ -31,7 +31,8 @@
     <module>build-tools</module>
     <module>cargo-ping-component</module>
     <module>jetty-6-and-earlier-deployer</module>
-    <module>jetty-7-and-onwards-deployer</module>
+    <module>jetty-7-to-jetty-9-deployer</module>
+    <module>jetty-10-deployer</module>
     <module>licensed-dtds</module>
     <module>testdata</module>
   </modules>

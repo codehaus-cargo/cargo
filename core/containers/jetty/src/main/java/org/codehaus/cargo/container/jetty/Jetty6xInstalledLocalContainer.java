@@ -176,7 +176,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
             java.setSystemProperty("STOP.KEY", "secret");
 
             // Add listening port
-            java.setSystemProperty("jetty.port",
+            java.setSystemProperty(getJettyPortPropertyName(),
                 getConfiguration().getPropertyValue(ServletPropertySet.PORT));
 
             // Define the location of the configuration directory as a System property so that it
@@ -249,6 +249,14 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
     protected String[] getStopArguments()
     {
         return new String[0];
+    }
+
+    /**
+     * @return The Jetty property name for HTTP port.
+     */
+    protected String getJettyPortPropertyName()
+    {
+        return "jetty.port";
     }
 
     /**

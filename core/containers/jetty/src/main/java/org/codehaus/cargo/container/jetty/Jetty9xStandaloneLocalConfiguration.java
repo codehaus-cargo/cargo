@@ -94,7 +94,8 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
     protected AbstractCopyingInstalledLocalDeployer createDeployer(
         InstalledLocalContainer container)
     {
-        Jetty9xInstalledLocalDeployer deployer = new Jetty9xInstalledLocalDeployer(container);
+        Jetty9x10x11xInstalledLocalDeployer deployer
+            = new Jetty9x10x11xInstalledLocalDeployer(container);
         return deployer;
     }
 

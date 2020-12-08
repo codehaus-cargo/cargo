@@ -191,6 +191,14 @@ public class ConfluenceContainerDocumentationGenerator
     });
 
     /**
+     * Containers that work on Java 11.
+     */
+    private static final List<String> JAVA11_CONTAINERS = Arrays.asList(new String[]
+    {
+        "jetty10x"
+    });
+
+    /**
      * Containers that only work with Java up to version 7 due to JSP issues.
      */
     private static final List<String> JAVA7_MAX_CONTAINERS_JSP = Arrays.asList(new String[]
@@ -1530,6 +1538,10 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         javaVersion = "8";
                     }
+                    else if (JAVA11_CONTAINERS.contains(containerId))
+                    {
+                        javaVersion = "11";
+                    }
                     else if ("jetty7x".equals(containerId))
                     {
                         javaVersion = "5 if no datasources are to be deployed, 6 otherwise";
@@ -1653,11 +1665,13 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (ConfigurationType.STANDALONE.equals(type)
-            && !ContainerType.EMBEDDED.equals(containerType) && "jetty9x".equals(containerId))
+            && !ContainerType.EMBEDDED.equals(containerType) && ("jetty9x".equals(containerId)
+            || containerId.startsWith("jetty1")))
         {
             output.append("{info:title=How to run Jetty under a Java Security Manager}");
             output.append(LINE_SEPARATOR);
-            output.append("Jetty 9.x can be configured to run under a Java Security Manager.");
+            output.append(
+                "Jetty 9.x and above can be configured to run under a Java Security Manager.");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append("For further information on how to achieve this, please refer to the ");

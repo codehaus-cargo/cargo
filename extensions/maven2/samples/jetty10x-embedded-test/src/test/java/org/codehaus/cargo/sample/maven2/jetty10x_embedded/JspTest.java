@@ -17,36 +17,38 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jetty;
+package org.codehaus.cargo.sample.maven2.jetty10x_embedded;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
+import java.net.URL;
+
+import junit.framework.TestCase;
+
+import org.codehaus.cargo.sample.java.PingUtils;
+import org.codehaus.cargo.util.log.Logger;
+import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Configuration for existing local Jetty 9.x
+ * Test deployment of JSPs with the embedded Jetty container.
  */
-public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfiguration
+public class JspTest extends TestCase
 {
 
     /**
-     * {@inheritDoc}
-     * @see Jetty8xExistingLocalConfiguration#Jetty8xExistingLocalConfiguration(String)
+     * Logger.
      */
-    public Jetty9xExistingLocalConfiguration(String dir)
-    {
-        super(dir);
-    }
+    private Logger logger = new SimpleLogger();
 
     /**
-     * {@inheritDoc}
+     * Test deployment of JSPs with the embedded Jetty container
+     * @throws Exception If anything fails.
      */
-    @Override
-    public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
+    public void testJsp() throws Exception
     {
-        Jetty9x10x11xInstalledLocalDeployer deployer =
-            new Jetty9x10x11xInstalledLocalDeployer((InstalledLocalContainer) container);
-        return deployer;
+        final URL url = new URL("http://localhost:" + System.getProperty("http.port")
+            + "/simple-war/index.jsp");
+        final String expected = "Sample page for testing";
+
+        PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
 
 }

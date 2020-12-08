@@ -62,10 +62,11 @@ public class EmbeddedContainerClasspathResolver
         jetty7xDependencies.add("lib/jndi/*.jar");
         jetty7xDependencies.add("lib/jsp/*.jar");
 
-        List<String> jetty8x9xDependencies = new ArrayList<String>();
-        jetty8x9xDependencies.add("lib/*.jar|lib/jaspi/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
-        jetty8x9xDependencies.add("lib/annotations/*.jar");
-        jetty8x9xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
+        List<String> jetty8x9x10xDependencies = new ArrayList<String>();
+        jetty8x9x10xDependencies.add(
+            "lib/*.jar|lib/logging/*.jar|lib/jaspi/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
+        jetty8x9x10xDependencies.add("lib/annotations/*.jar");
+        jetty8x9x10xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
 
         List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");
@@ -79,8 +80,9 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty5x", jetty5xDependencies);
         DEPENDENCIES.put("jetty6x", jetty6xDependencies);
         DEPENDENCIES.put("jetty7x", jetty7xDependencies);
-        DEPENDENCIES.put("jetty8x", jetty8x9xDependencies);
-        DEPENDENCIES.put("jetty9x", jetty8x9xDependencies);
+        DEPENDENCIES.put("jetty8x", jetty8x9x10xDependencies);
+        DEPENDENCIES.put("jetty9x", jetty8x9x10xDependencies);
+        DEPENDENCIES.put("jetty10x", jetty8x9x10xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
         DEPENDENCIES.put("tomcat6x", tomcat6x7x8x9x10xDependencies);
         DEPENDENCIES.put("tomcat7x", tomcat6x7x8x9x10xDependencies);
@@ -134,10 +136,13 @@ public class EmbeddedContainerClasspathResolver
                             folder.listFiles((File dir, String name) -> name.endsWith(".jar"));
                         if (jars != null)
                         {
-                            found = true;
                             for (File jar : jars)
                             {
-                                urls.add(jar.toURI().toURL());
+                                if (!jar.getName().startsWith("demo-"))
+                                {
+                                    urls.add(jar.toURI().toURL());
+                                    found = true;
+                                }
                             }
                         }
                         if (!folders.isEmpty())

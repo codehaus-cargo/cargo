@@ -23,10 +23,10 @@
     <artifactId>cargo-resources</artifactId>
     <version>1.8.3-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
+  <artifactId>cargo-jetty-10-deployer</artifactId>
   <packaging>war</packaging>
-  <name>Cargo Remote Deployer for Jetty (version 7 and onwards)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (versions 7 and onwards)</description>
+  <name>Cargo Remote Deployer for Jetty (version 10 only)</name>
+  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (version 10 only)</description>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -36,12 +36,7 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-deploy</artifactId>
-      <!--
-        Version declaration needs to stay here as different jetty-deployer modules
-        depend on different versions of same artifact. codehaus-cargo can not simply
-        use single version in dependencyManagement.
-        -->
-      <version>7.6.21.v20160908</version>
+      <version>10.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -50,19 +45,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <!-- Build the Jetty deployers with Java 6 (oldest that the JDK 11 can do) -->
-            <source>1.6</source>
-            <target>1.6</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 </project>

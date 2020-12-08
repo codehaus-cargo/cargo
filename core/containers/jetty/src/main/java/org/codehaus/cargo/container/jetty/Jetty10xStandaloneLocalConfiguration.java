@@ -19,21 +19,17 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
-
 /**
- * Configuration for existing local Jetty 9.x
+ * Jetty 10.x standalone
+ * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  */
-public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfiguration
+public class Jetty10xStandaloneLocalConfiguration extends Jetty9xStandaloneLocalConfiguration
 {
-
     /**
      * {@inheritDoc}
-     * @see Jetty8xExistingLocalConfiguration#Jetty8xExistingLocalConfiguration(String)
+     * @see Jetty9xStandaloneLocalConfiguration#Jetty9xStandaloneLocalConfiguration(String)
      */
-    public Jetty9xExistingLocalConfiguration(String dir)
+    public Jetty10xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -42,11 +38,9 @@ public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfi
      * {@inheritDoc}
      */
     @Override
-    public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
+    public String toString()
     {
-        Jetty9x10x11xInstalledLocalDeployer deployer =
-            new Jetty9x10x11xInstalledLocalDeployer((InstalledLocalContainer) container);
-        return deployer;
+        return "Jetty 10.x Standalone Configuration";
     }
 
 }

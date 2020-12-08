@@ -104,6 +104,10 @@
                 <name>cargo.java.home.1_8</name>
                 <value>${cargo.java.home.1_8}</value>
               </property>
+              <property>
+                <name>cargo.java.home.1_11</name>
+                <value>${cargo.java.home.1_11}</value>
+              </property>
 
               <property>
                 <name>cargo.rmi.port</name>
@@ -500,6 +504,15 @@
               <property>
                 <name>cargo.jetty9x.java.home</name>
                 <value>${cargo.java.home.1_7}</value>
+              </property>
+
+              <property>
+                <name>cargo.jetty10x.url</name>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.0/jetty-home-10.0.0.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jetty10x.java.home</name>
+                <value>${cargo.java.home.1_11}</value>
               </property>
 
               <property>
@@ -1572,10 +1585,17 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-jetty-7-and-onwards-deployer</artifactId>
+                  <artifactId>cargo-jetty-7-to-jetty-9-deployer</artifactId>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
-                  <destFileName>cargo-jetty-7-and-onwards-deployer.war</destFileName>
+                  <destFileName>cargo-jetty-7-to-jetty-9-deployer.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-10-deployer</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>cargo-jetty-10-deployer.war</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
@@ -1801,6 +1821,12 @@
       <id>jetty9x</id>
       <properties>
         <cargo.containers>jetty9x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty10x</id>
+      <properties>
+        <cargo.containers>jetty10x</cargo.containers>
       </properties>
     </profile>
 

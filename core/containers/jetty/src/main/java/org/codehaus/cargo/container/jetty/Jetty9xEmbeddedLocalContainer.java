@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
