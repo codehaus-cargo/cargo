@@ -38,7 +38,7 @@
     <sequential>
       <cargo containerId="tomcat8x" action="@{action}">
         <zipUrlInstaller
-          installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.60/tomcat-8.5.60.zip"
+          installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.61/tomcat-8.5.61.zip"
           downloadDir="\${basedir}/../../../../core/samples/java/installs"
           extractDir="\${catalina.root}">
           <!--
