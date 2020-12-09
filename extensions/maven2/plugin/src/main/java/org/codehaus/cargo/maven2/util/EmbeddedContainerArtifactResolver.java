@@ -331,8 +331,8 @@ public class EmbeddedContainerArtifactResolver
         jetty11xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.21.0"));
         jetty11xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp",
             "11.0.0"));
-        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.0-M10"));
-        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.0-M10"));
+        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.0"));
+        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.0"));
         this.containerDependencies.put("jetty11x", jetty11xDependencies);
 
         List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();
@@ -420,25 +420,25 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat10xDependencies = new ArrayList<Dependency>();
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-servlet-api",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-annotations-api",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api",
-            "10.0.0-M10"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.0.0-M10"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "10.0.0-M10"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "10.0.0-M10"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "10.0.0-M10"));
+            "10.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "10.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "10.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util-scan",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
             "10.0.0-M10"));
         tomcat10xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
