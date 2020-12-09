@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty7xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
@@ -83,7 +83,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty7x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability.class);
+            Jetty7xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty7xStandaloneLocalConfigurationCapability.class);
@@ -96,7 +96,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability.class);
+            Jetty7xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty7xStandaloneLocalConfigurationCapability.class);
@@ -109,7 +109,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty9x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability.class);
+            Jetty7xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty9x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty7xStandaloneLocalConfigurationCapability.class);
@@ -122,7 +122,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty10x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability.class);
+            Jetty7xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty10x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty7xStandaloneLocalConfigurationCapability.class);
@@ -135,7 +135,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty11x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability.class);
+            Jetty7xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty11x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty7xStandaloneLocalConfigurationCapability.class);
@@ -257,35 +257,35 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             JettyRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jetty7x", DeployerType.EMBEDDED,
-            Jetty7x8x9xEmbeddedLocalDeployer.class);
+            Jetty7x8x9x10x11xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty7x", DeployerType.INSTALLED,
             Jetty7x8xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty7x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jetty8x", DeployerType.EMBEDDED,
-            Jetty7x8x9xEmbeddedLocalDeployer.class);
+            Jetty7x8x9x10x11xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty8x", DeployerType.INSTALLED,
             Jetty7x8xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty8x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jetty9x", DeployerType.EMBEDDED,
-            Jetty7x8x9xEmbeddedLocalDeployer.class);
+            Jetty7x8x9x10x11xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty9x", DeployerType.INSTALLED,
             Jetty9x10x11xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty9x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jetty10x", DeployerType.EMBEDDED,
-            Jetty7x8x9xEmbeddedLocalDeployer.class);
+            Jetty7x8x9x10x11xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty10x", DeployerType.INSTALLED,
             Jetty9x10x11xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty10x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
 
         deployerFactory.registerDeployer("jetty11x", DeployerType.EMBEDDED,
-            Jetty7x8x9xEmbeddedLocalDeployer.class);
+            Jetty7x8x9x10x11xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty11x", DeployerType.INSTALLED,
             Jetty9x10x11xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty11x", DeployerType.REMOTE,

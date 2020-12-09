@@ -22,15 +22,15 @@ package org.codehaus.cargo.container.jetty.internal;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 
 /**
- * Configuration capability for a Jetty 7.x, 8.x and 9.x Embedded container.
+ * Configuration capability for a Jetty 7.x onwards Embedded container.
  */
-public class Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability extends
+public class Jetty7xEmbeddedStandaloneLocalConfigurationCapability extends
     Jetty6xEmbeddedStandaloneLocalConfigurationCapability
 {
     /**
      * Constructor.
      */
-    public Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability()
+    public Jetty7xEmbeddedStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(JettyPropertySet.USE_FILE_MAPPED_BUFFER, Boolean.TRUE);
     }

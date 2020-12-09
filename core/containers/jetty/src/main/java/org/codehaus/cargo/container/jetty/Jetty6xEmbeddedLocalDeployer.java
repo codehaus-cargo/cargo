@@ -50,7 +50,8 @@ public class Jetty6xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
         }
         catch (Exception e)
         {
-            throw new ContainerException("Failed to create Jetty6xEmbeddedLocalDeployer", e);
+            throw new ContainerException(
+                "Failed to create Mortbay Jetty embedded local deployer", e);
         }
     }
 
