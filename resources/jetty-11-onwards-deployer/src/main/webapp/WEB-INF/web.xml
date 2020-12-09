@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2020 Ali Tokmen.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<web-app
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                      https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+  version="5.0">
+
+  <display-name>Jetty Remote Deployer for Cargo</display-name>
+
+  <servlet>
+    <servlet-name>DeployerServlet</servlet-name>
+    <servlet-class>
+      org.codehaus.cargo.deployer.jetty.DeployerServlet
+    </servlet-class>
+    <init-param>
+      <param-name>timeout</param-name>
+      <param-value>30000</param-value>
+      <description>Deployment timeout (in milliseconds)</description>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>DeployerServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!--
+    Uncomment in order to activate security
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Jetty Remote Deployer</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>manager</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>Test Realm</realm-name>
+  </login-config>
+   -->
+
+</web-app>

@@ -195,7 +195,8 @@ public class ConfluenceContainerDocumentationGenerator
      */
     private static final List<String> JAVA11_CONTAINERS = Arrays.asList(new String[]
     {
-        "jetty10x"
+        "jetty10x",
+        "jetty11x"
     });
 
     /**

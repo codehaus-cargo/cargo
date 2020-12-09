@@ -132,6 +132,19 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("jetty10x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("jetty11x",
+            ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
+            Jetty7x8x9xEmbeddedStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty11x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Jetty7xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty11x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            JettyExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty11x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            JettyRuntimeConfigurationCapability.class);
     }
 
     /**
@@ -210,6 +223,19 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("jetty10x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JettyRuntimeConfiguration.class);
+
+        configurationFactory.registerConfiguration("jetty11x",
+            ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
+            Jetty11xEmbeddedStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty11x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Jetty11xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty11x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            Jetty11xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty11x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            JettyRuntimeConfiguration.class);
     }
 
     /**
@@ -257,6 +283,13 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             Jetty9x10x11xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty10x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
+
+        deployerFactory.registerDeployer("jetty11x", DeployerType.EMBEDDED,
+            Jetty7x8x9xEmbeddedLocalDeployer.class);
+        deployerFactory.registerDeployer("jetty11x", DeployerType.INSTALLED,
+            Jetty9x10x11xInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("jetty11x", DeployerType.REMOTE,
+            JettyRemoteDeployer.class);
     }
 
     /**
@@ -276,6 +309,8 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         packagerFactory.registerPackager("jetty9x", PackagerType.DIRECTORY,
             JettyDirectoryPackager.class);
         packagerFactory.registerPackager("jetty10x", PackagerType.DIRECTORY,
+            JettyDirectoryPackager.class);
+        packagerFactory.registerPackager("jetty11x", PackagerType.DIRECTORY,
             JettyDirectoryPackager.class);
     }
 
@@ -324,6 +359,13 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             Jetty10xInstalledLocalContainer.class);
         containerFactory.registerContainer("jetty10x", ContainerType.REMOTE,
             Jetty10xRemoteContainer.class);
+
+        containerFactory.registerContainer("jetty11x", ContainerType.EMBEDDED,
+            Jetty11xEmbeddedLocalContainer.class);
+        containerFactory.registerContainer("jetty11x", ContainerType.INSTALLED,
+            Jetty11xInstalledLocalContainer.class);
+        containerFactory.registerContainer("jetty11x", ContainerType.REMOTE,
+            Jetty11xRemoteContainer.class);
     }
 
     /**
@@ -350,6 +392,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             ServletContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("jetty10x",
+            ServletContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("jetty11x",
             ServletContainerCapability.class);
     }
 

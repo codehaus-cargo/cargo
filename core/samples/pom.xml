@@ -516,6 +516,15 @@
               </property>
 
               <property>
+                <name>cargo.jetty11x.url</name>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/11.0.0/jetty-home-11.0.0.tar.gz</value>
+              </property>
+              <property>
+                <name>cargo.jetty11x.java.home</name>
+                <value>${cargo.java.home.1_11}</value>
+              </property>
+
+              <property>
                 <name>cargo.jo1x.url</name>
                 <value>https://www.tagtraum.com/download/jo1.1beta1.zip</value>
               </property>
@@ -1599,6 +1608,13 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-11-onwards-deployer</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/deployables</outputDirectory>
+                  <destFileName>cargo-jetty-11-onwards-deployer.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
                   <artifactId>simple-har</artifactId>
                   <type>har</type>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
@@ -1827,6 +1843,12 @@
       <id>jetty10x</id>
       <properties>
         <cargo.containers>jetty10x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>jetty11x</id>
+      <properties>
+        <cargo.containers>jetty11x</cargo.containers>
       </properties>
     </profile>
 

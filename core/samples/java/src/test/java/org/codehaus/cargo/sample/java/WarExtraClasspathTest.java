@@ -81,9 +81,10 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");
 
-        // GlassFish 6.x, Tomcat 10.x and TomEE 9.x are excluded for now as they cannot load
-        // anything with javax.* inheritance. The Jakarta EE converter should fix this (see
+        // Jetty 11.x, GlassFish 6.x, Tomcat 10.x and TomEE 9.x are excluded for now as they cannot
+        // load anything with javax.* inheritance. The Jakarta EE converter should fix this (see
         // CARGO-1514 for details).
+        excludedContainerIds.add("jetty11x");
         excludedContainerIds.add("glassfish6x");
         excludedContainerIds.add("tomcat10x");
         excludedContainerIds.add("tomee9x");
