@@ -31,8 +31,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.ServletConfig;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
