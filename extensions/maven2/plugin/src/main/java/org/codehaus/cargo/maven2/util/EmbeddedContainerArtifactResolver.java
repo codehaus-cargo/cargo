@@ -331,8 +331,8 @@ public class EmbeddedContainerArtifactResolver
         jetty11xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.21.0"));
         jetty11xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp",
             "11.0.0"));
-        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.0"));
-        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.0"));
+        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.0-M10"));
+        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.0-M10"));
         this.containerDependencies.put("jetty11x", jetty11xDependencies);
 
         List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();
@@ -440,7 +440,7 @@ public class EmbeddedContainerArtifactResolver
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper",
             "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
-            "10.0.0-M10"));
+            "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj",
             "4.6.1"));
         this.containerDependencies.put("tomcat10x", tomcat10xDependencies);
