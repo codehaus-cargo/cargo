@@ -145,7 +145,7 @@ public class Proxy extends LoggedObject
     /**
      * Set the Java system properties related to proxies.
      * 
-     * @return Previous proxy properties, to be used when {@link Proxy#clear(java.util.Map))} is called.
+     * @return Previous proxy properties, to be used when {@link Proxy#clear(java.util.Map)} is called.
      */
     public Map<String, String> configure()
     {
