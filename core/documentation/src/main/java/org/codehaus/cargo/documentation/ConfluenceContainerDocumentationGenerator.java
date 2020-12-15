@@ -187,6 +187,7 @@ public class ConfluenceContainerDocumentationGenerator
         "wildfly19x",
         "wildfly20x",
         "wildfly21x",
+        "wildfly22x",
         "wildfly-swarm2017x"
     });
 
@@ -635,6 +636,20 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("for all implemented APIs has changed from {{javax.\\*}} to ");
             output.append("{{jakarta.\\*}}. This will almost certainly require code changes to ");
             output.append("enable applications to migrate to " + containerName + ".x and later.");
+            output.append("{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
+        else if (containerId.equals("wildfly22x"))
+        {
+            output.append("{note}WildFly 22 comes with two versions: Jakarta EE 8 Full & Web ");
+            output.append("Distribution and the WildFly Preview EE 9 Distribution. Users of the ");
+            output.append("WildFly Preview EE 9 Distribution should be aware that, as a result ");
+            output.append("of the move from Java EE to Jakarta EE as part of the transfer of ");
+            output.append("Java EE to the Eclipse Foundation, the primary package for all ");
+            output.append("implemented APIs has changed from {{javax.\\*}} to {{jakarta.\\*}}. ");
+            output.append("This will almost certainly require code changes to enable ");
+            output.append("applications to migrate to EE 9 and later.");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);

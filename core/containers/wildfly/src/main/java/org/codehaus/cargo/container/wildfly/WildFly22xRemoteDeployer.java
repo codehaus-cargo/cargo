@@ -19,43 +19,20 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyRemoteDeployer;
 
 /**
- * WildFly 21.x series container implementation.
+ * Remote deployer that uses the remote API to deploy to WildFly 22.x.
  */
-public class WildFly21xInstalledLocalContainer extends WildFly20xInstalledLocalContainer
+public class WildFly22xRemoteDeployer extends AbstractWildFlyRemoteDeployer
 {
     /**
-     * WildFly 21.x series unique id.
+     * @param container the container containing the configuration to use to find the deployer
+     * properties such as url, user name and password to use to connect to the deployer
      */
-    public static final String ID = "wildfly21x";
-
-    /**
-     * {@inheritDoc}
-     * @see WildFly20xInstalledLocalContainer#WildFly20xInstalledLocalContainer(LocalConfiguration)
-     */
-    public WildFly21xInstalledLocalContainer(LocalConfiguration configuration)
+    public WildFly22xRemoteDeployer(RemoteContainer container)
     {
-        super(configuration);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getId()
-    {
-        return ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "WildFly " + getVersion("21.x");
+        super(container);
     }
 }

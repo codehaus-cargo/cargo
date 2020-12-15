@@ -19,26 +19,34 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * WildFly 21.x series container implementation.
+ * Special container support for wrapping a running instance of WildFly 22.x.
  */
-public class WildFly21xInstalledLocalContainer extends WildFly20xInstalledLocalContainer
+public class WildFly22xRemoteContainer extends WildFly21xRemoteContainer
 {
     /**
-     * WildFly 21.x series unique id.
+     * Unique container id.
      */
-    public static final String ID = "wildfly21x";
+    public static final String ID = "wildfly22x";
 
     /**
      * {@inheritDoc}
-     * @see WildFly20xInstalledLocalContainer#WildFly20xInstalledLocalContainer(LocalConfiguration)
+     * @see WildFly21xRemoteContainer#WildFly21xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
-    public WildFly21xInstalledLocalContainer(LocalConfiguration configuration)
+    public WildFly22xRemoteContainer(RuntimeConfiguration configuration)
     {
         super(configuration);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
+    {
+        return "WildFly 22.x Remote";
     }
 
     /**
@@ -48,14 +56,5 @@ public class WildFly21xInstalledLocalContainer extends WildFly20xInstalledLocalC
     public String getId()
     {
         return ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "WildFly " + getVersion("21.x");
     }
 }

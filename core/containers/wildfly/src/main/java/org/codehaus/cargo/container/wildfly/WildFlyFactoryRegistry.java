@@ -68,6 +68,7 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
         deployableFactory.registerDeployable("wildfly19x", DeployableType.WAR, JBossWAR.class);
         deployableFactory.registerDeployable("wildfly20x", DeployableType.WAR, JBossWAR.class);
         deployableFactory.registerDeployable("wildfly21x", DeployableType.WAR, JBossWAR.class);
+        deployableFactory.registerDeployable("wildfly22x", DeployableType.WAR, JBossWAR.class);
     }
 
     /**
@@ -217,6 +218,16 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("wildfly21x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WildFlyRuntimeConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("wildfly22x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            WildFly9xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("wildfly22x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            WildFlyExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("wildfly22x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            WildFlyRuntimeConfigurationCapability.class);
     }
 
     /**
@@ -324,6 +335,13 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
             ConfigurationType.EXISTING, WildFly21xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("wildfly21x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, WildFly21xRuntimeConfiguration.class);
+
+        configurationFactory.registerConfiguration("wildfly22x", ContainerType.INSTALLED,
+            ConfigurationType.STANDALONE, WildFly22xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("wildfly22x", ContainerType.INSTALLED,
+            ConfigurationType.EXISTING, WildFly22xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("wildfly22x", ContainerType.REMOTE,
+            ConfigurationType.RUNTIME, WildFly22xRuntimeConfiguration.class);
     }
 
     /**
@@ -403,6 +421,11 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
             WildFly21xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("wildfly21x", DeployerType.REMOTE,
             WildFly21xRemoteDeployer.class);
+
+        deployerFactory.registerDeployer("wildfly22x", DeployerType.INSTALLED,
+            WildFly22xInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("wildfly22x", DeployerType.REMOTE,
+            WildFly22xRemoteDeployer.class);
     }
 
     /**
@@ -492,6 +515,11 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
             WildFly21xInstalledLocalContainer.class);
         containerFactory.registerContainer("wildfly21x", ContainerType.REMOTE,
             WildFly21xRemoteContainer.class);
+
+        containerFactory.registerContainer("wildfly22x", ContainerType.INSTALLED,
+            WildFly22xInstalledLocalContainer.class);
+        containerFactory.registerContainer("wildfly22x", ContainerType.REMOTE,
+            WildFly22xRemoteContainer.class);
     }
 
     /**
@@ -529,6 +557,8 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
         containerCapabilityFactory.registerContainerCapability("wildfly20x",
             WildFlyContainerCapability.class);
         containerCapabilityFactory.registerContainerCapability("wildfly21x",
+            WildFlyContainerCapability.class);
+        containerCapabilityFactory.registerContainerCapability("wildfly22x",
             WildFlyContainerCapability.class);
     }
 

@@ -90,6 +90,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly19x");
         excludedContainerIds.add("wildfly20x");
         excludedContainerIds.add("wildfly21x");
+        excludedContainerIds.add("wildfly22x");
 
         // GlassFish 6.x, Tomcat 10.x and TomEE 9.x are excluded for now as they cannot load
         // anything with javax.* inheritance. The Jakarta EE converter should fix this (see

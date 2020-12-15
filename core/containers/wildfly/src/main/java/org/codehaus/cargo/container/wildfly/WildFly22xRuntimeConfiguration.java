@@ -19,43 +19,25 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
-
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-
 /**
- * WildFly 21.x series container implementation.
+ * Configuration to use when using a WildFly 22.x remote container.
  */
-public class WildFly21xInstalledLocalContainer extends WildFly20xInstalledLocalContainer
+public class WildFly22xRuntimeConfiguration extends WildFly21xRuntimeConfiguration
 {
     /**
-     * WildFly 21.x series unique id.
+     * Set the default values for various port numbers.
      */
-    public static final String ID = "wildfly21x";
-
-    /**
-     * {@inheritDoc}
-     * @see WildFly20xInstalledLocalContainer#WildFly20xInstalledLocalContainer(LocalConfiguration)
-     */
-    public WildFly21xInstalledLocalContainer(LocalConfiguration configuration)
+    public WildFly22xRuntimeConfiguration()
     {
-        super(configuration);
+        super();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getId()
+    public String toString()
     {
-        return ID;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getName()
-    {
-        return "WildFly " + getVersion("21.x");
+        return "WildFly 22.x Runtime Configuration";
     }
 }

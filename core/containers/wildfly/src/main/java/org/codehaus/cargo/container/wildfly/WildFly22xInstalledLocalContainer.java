@@ -23,20 +23,20 @@ package org.codehaus.cargo.container.wildfly;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * WildFly 21.x series container implementation.
+ * WildFly 22.x series container implementation.
  */
-public class WildFly21xInstalledLocalContainer extends WildFly20xInstalledLocalContainer
+public class WildFly22xInstalledLocalContainer extends WildFly21xInstalledLocalContainer
 {
     /**
-     * WildFly 21.x series unique id.
+     * WildFly 22.x series unique id.
      */
-    public static final String ID = "wildfly21x";
+    public static final String ID = "wildfly22x";
 
     /**
      * {@inheritDoc}
-     * @see WildFly20xInstalledLocalContainer#WildFly20xInstalledLocalContainer(LocalConfiguration)
+     * @see WildFly21xInstalledLocalContainer#WildFly21xInstalledLocalContainer(LocalConfiguration)
      */
-    public WildFly21xInstalledLocalContainer(LocalConfiguration configuration)
+    public WildFly22xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
@@ -56,6 +56,6 @@ public class WildFly21xInstalledLocalContainer extends WildFly20xInstalledLocalC
     @Override
     public String getName()
     {
-        return "WildFly " + getVersion("21.x");
+        return "WildFly " + getVersion("22.x");
     }
 }
