@@ -51,7 +51,7 @@
                 <artifactInstaller>
                   <groupId>org.glassfish.main.distributions</groupId>
                   <artifactId>glassfish</artifactId>
-                  <version>6.0.0-RC2</version>
+                  <version>6.0.0-RC3</version>
                 </artifactInstaller>
               </container>
               <configuration>
