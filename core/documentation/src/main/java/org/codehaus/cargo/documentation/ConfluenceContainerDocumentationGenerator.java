@@ -614,11 +614,15 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("glassfish6x") || containerId.equals("tomcat10x")
-            || containerId.equals("tomee9x"))
+        else if (containerId.equals("glassfish6x") || containerId.equals("jetty11x")
+            || containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
         {
             String containerName;
-            if (containerId.equals("glassfish6x"))
+            if (containerId.equals("jetty11x"))
+            {
+                containerName = "Jetty 11";
+            }
+            else if (containerId.equals("glassfish6x"))
             {
                 containerName = "GlassFish 6";
             }
