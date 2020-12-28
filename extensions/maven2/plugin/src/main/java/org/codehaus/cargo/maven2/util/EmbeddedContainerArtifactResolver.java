@@ -385,6 +385,10 @@ public class EmbeddedContainerArtifactResolver
             "8.5.61"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "8.5.61"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "8.5.61"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-websocket-api",
+            "8.5.61"));
+        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-websocket",
+            "8.5.61"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "8.5.61"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
             "8.5.61"));
@@ -411,6 +415,10 @@ public class EmbeddedContainerArtifactResolver
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina",
             "9.0.41"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.41"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-websocket-api",
+            "9.0.41"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-websocket",
+            "9.0.41"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.41"));
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper-el",
             "9.0.41"));
@@ -436,6 +444,10 @@ public class EmbeddedContainerArtifactResolver
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina",
             "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote",
+            "10.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-websocket-api",
+            "10.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-websocket",
             "10.0.0"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper",
             "10.0.0"));
