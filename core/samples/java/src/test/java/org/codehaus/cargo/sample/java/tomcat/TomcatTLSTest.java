@@ -67,9 +67,12 @@ public class TomcatTLSTest extends AbstractCargoTestCase
      */
     public static Test suite() throws Exception
     {
-        // We exclude tomcat4x container as it does not support TLS
+        // We exclude Tomcat 4.x as it does not support TLS
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
+        // Tomcat 10.x throws an awkward exception: No SSLHostConfig element was found with the
+        // hostName [_default_] to match the defaultSSLHostConfigName for the connector
+        excludedContainerIds.add("tomcat10x");
 
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
@@ -96,12 +99,12 @@ public class TomcatTLSTest extends AbstractCargoTestCase
             (StandaloneLocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
         configuration.setProperty(GeneralPropertySet.PROTOCOL, "https");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE,
-                localhostJksFile.getAbsolutePath());
+            localhostJksFile.getAbsolutePath());
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, "password");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, "jks");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_ALIAS, "localhost");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE,
-                localhostJksFile.getAbsolutePath());
+            localhostJksFile.getAbsolutePath());
         configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, "password");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE, "jks");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, "want");
