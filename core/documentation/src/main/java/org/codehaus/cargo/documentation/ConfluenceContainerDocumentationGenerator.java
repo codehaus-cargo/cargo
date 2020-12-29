@@ -428,10 +428,20 @@ public class ConfluenceContainerDocumentationGenerator
                 String targetDir = System.getProperty("cargo.target.dir");
                 try
                 {
+                    File dummy = new File(System.getProperty("java.io.tmpdir"), "cargo-dummy");
+                    dummy.mkdirs();
+                    dummy.deleteOnExit();
+                    File dummyDeployables = new File(dummy, "deployables");
+                    dummyDeployables.mkdirs();
+                    dummyDeployables.deleteOnExit();
+                    File dummyJakartaEeDeployables = new File(dummy, "deployables-jakarta-ee");
+                    dummyJakartaEeDeployables.mkdirs();
+                    dummyJakartaEeDeployables.deleteOnExit();
+
                     System.setProperty(
                         CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS, container.getId());
                     System.setProperty(
-                        "cargo.testdata.deployables", System.getProperty("java.io.tmpdir"));
+                        "cargo.testdata.deployables", dummyDeployables.getAbsolutePath());
                     System.setProperty("cargo.target.dir", System.getProperty("java.io.tmpdir"));
                     if (JmsQueueResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
                     {
