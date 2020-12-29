@@ -23,8 +23,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -67,21 +65,11 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite("Tests that run on local containers supporting "
             + "WAR deployments and which support authentication");
 
-        // Jetty 11.x, GlassFish 6.x, Tomcat 10.x and TomEE 9.x are excluded for now as they cannot
-        // load anything with javax.* inheritance. The Jakarta EE converter should fix this (see
-        // CARGO-1514 for details).
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jetty11x");
-        excludedContainerIds.add("glassfish6x");
-        excludedContainerIds.add("tomcat10x");
-        excludedContainerIds.add("tomee9x");
-
         suite.addTestSuite(WarAuthenticationTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
             new HasWarSupportValidator(),
-            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
+            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)});
         return suite;
     }
 

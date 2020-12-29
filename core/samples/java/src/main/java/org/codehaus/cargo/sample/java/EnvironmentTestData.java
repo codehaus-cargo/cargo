@@ -22,7 +22,9 @@ package org.codehaus.cargo.sample.java;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -35,6 +37,17 @@ import org.codehaus.cargo.container.installer.Proxy;
  */
 public class EnvironmentTestData
 {
+    /**
+     * Containers that can only use Jakarta EE deployables.
+     */
+    private static final List<String> JAKARTA_EE_CONTAINERS = Arrays.asList(new String[]
+    {
+        "jetty11x",
+        "glassfish6x",
+        "tomcat10x",
+        "tomee9x"
+    });
+
     /**
      * Name of container to run (this is the container ID, see
      * {@link org.codehaus.cargo.container.Container#getId()}. We use it guess the XML name of the
@@ -132,6 +145,13 @@ public class EnvironmentTestData
         if (deployablesLocation == null)
         {
             throw new ContainerException("Property cargo.testdata.deployables not set");
+        }
+        if (EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(containerId))
+        {
+            File deployables = new File(deployablesLocation);
+            File convertedDeployables =
+                new File(deployables.getParentFile(), "deployables-jakarta-ee");
+            deployablesLocation = convertedDeployables.getAbsolutePath();
         }
         File[] deployables = new File(deployablesLocation).listFiles();
         if (deployables != null)

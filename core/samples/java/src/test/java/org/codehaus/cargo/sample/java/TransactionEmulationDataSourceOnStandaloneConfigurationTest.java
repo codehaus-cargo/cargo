@@ -76,10 +76,6 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("jboss75x");
 
-        // GlassFish 6.x is excluded for now as they cannot load anything with javax.* inheritance.
-        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
-        excludedContainerIds.add("glassfish6x");
-
         // We exclude wildfly10x because of WFCORE-1373
         // which makes the container try to generate certain things twice
         excludedContainerIds.add("wildfly10x");

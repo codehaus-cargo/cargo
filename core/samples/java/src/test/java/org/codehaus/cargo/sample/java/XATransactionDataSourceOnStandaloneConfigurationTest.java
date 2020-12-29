@@ -64,13 +64,9 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
 
-        // GlassFish 6.x is excluded for now as they cannot load anything with javax.* inheritance.
-        // The Jakarta EE converter should fix this (see CARGO-1514 for details).
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("glassfish6x");
-
         // We exclude wildfly10x because of WFCORE-1373
         // which makes the container try to generate certain things twice
+        Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("wildfly10x");
 
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,

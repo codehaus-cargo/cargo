@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -72,22 +71,13 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
 
-        // Tomcat 10.x and TomEE 9.x are excluded for now as they cannot load anything with javax.*
-        // inheritance. The Jakarta EE converter should fix this (see CARGO-1514 for details).
-        excludedContainerIds.add("tomcat10x");
-        excludedContainerIds.add("tomee9x");
-
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
-        // TomcatTLSTest doesn't work in Java 6 and earlier due to expired certificates
-        if (JdkUtils.getMajorJavaVersion() > 6)
-        {
-            suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
-                new StartsWithContainerValidator("tomcat", "tomee"),
-                new IsInstalledLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasDirectoryPackagerValidator()}, excludedContainerIds);
-        }
+        suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
+            new StartsWithContainerValidator("tomcat", "tomee"),
+            new IsInstalledLocalContainerValidator(),
+            new HasStandaloneConfigurationValidator(),
+            new HasDirectoryPackagerValidator()}, excludedContainerIds);
         return suite;
     }
 

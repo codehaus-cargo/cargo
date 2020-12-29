@@ -29,6 +29,11 @@
   <description>Samples that exercises the Cargo Java APIs</description>
   <dependencies>
     <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>jakartaee-migration</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberjar</artifactId>
     </dependency>
@@ -53,7 +58,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <configuration>
-
             <childDelegation>${surefire.childDelegation}</childDelegation>
             <useManifestOnlyJar>${surefire.useManifestOnlyJar}</useManifestOnlyJar>
             <useSystemClassLoader>${surefire.useSystemClassLoader}</useSystemClassLoader>
@@ -1445,12 +1449,12 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <!--
-              Copy the designated jdbc driver to an area where the containers can reference it
-              -->
             <phase>process-test-resources</phase>
             <configuration>
               <artifactItems>
+                <!--
+                  Copy the designated jdbc driver to an area where the containers can reference it
+                  -->
                 <artifactItem>
                   <groupId>org.apache.derby</groupId>
                   <artifactId>derby</artifactId>

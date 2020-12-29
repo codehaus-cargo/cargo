@@ -350,6 +350,12 @@
       <!-- Internal dependencies -->
       <!-- Sorted alphabetically by groupId (and artifactId + type if needed). Keep the order! -->
       <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>jakartaee-migration</artifactId>
+        <version>0.1.0</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>authentication-war</artifactId>
         <version>${project.version}</version>
