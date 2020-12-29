@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.java;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -27,13 +28,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.jakartaee.Migration;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.installer.Proxy;
 
 /**
- * Groups together all environmental test datat (ie data that depends on how the user has configured
- * its tests to run in Maven).
+ * Groups together all environmental test data (i.e. data that depends on how the user has
+ * configured its tests to run in Maven).
  */
 public class EnvironmentTestData
 {
@@ -127,19 +129,19 @@ public class EnvironmentTestData
     {
         this.containerId = containerId;
         this.containerType = containerType;
-        this.targetDir = new File(getFileFromString(getSystemProperty("cargo.target.dir")),
-            targetDirSuffix).getPath();
+        this.targetDir = new File(getFileFromString(
+            getSystemProperty("cargo.target.dir")), targetDirSuffix).getPath();
         this.downloadDir = getSystemProperty("cargo.download.dir");
-        this.extractDir = new File(getFileFromString(getSystemProperty("cargo.target.dir")),
-            "cargo/container").getPath();
+        this.extractDir = new File(getFileFromString(
+            getSystemProperty("cargo.target.dir")), "cargo/container").getPath();
         this.proxy = createProxyElement();
         this.installURL = createInstallURL(containerId);
         this.port = createPort(containerId, "servlet", 8080);
         this.rmiPort = createPort(containerId, "rmi", 1099);
         this.home = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
-        this.containerTimeout = Long.parseLong(getSystemProperty("cargo.containers.timeout",
-            "60000"));
+        this.containerTimeout =
+            Long.parseLong(getSystemProperty("cargo.containers.timeout", "60000"));
 
         String deployablesLocation = System.getProperty("cargo.testdata.deployables");
         if (deployablesLocation == null)
@@ -148,10 +150,32 @@ public class EnvironmentTestData
         }
         if (EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(containerId))
         {
+            // CARGO-1514: Add the Jakarta EE converter to samples of affected containers
             File deployables = new File(deployablesLocation);
             File convertedDeployables =
                 new File(deployables.getParentFile(), "deployables-jakarta-ee");
             deployablesLocation = convertedDeployables.getAbsolutePath();
+
+            Migration jakartaEeMigrator = new Migration();
+            if (deployables.isDirectory() && !convertedDeployables.isDirectory())
+            {
+                convertedDeployables.mkdir();
+                for (File deployable : deployables.listFiles())
+                {
+                    jakartaEeMigrator.setSource(deployable);
+                    jakartaEeMigrator.setDestination(
+                        new File(convertedDeployables, deployable.getName()));
+                    try
+                    {
+                        jakartaEeMigrator.execute();
+                    }
+                    catch (IOException e)
+                    {
+                        throw new RuntimeException(
+                            "Cannot convert " + deployable.getName() + " to Jakarta EE", e);
+                    }
+                }
+            }
         }
         File[] deployables = new File(deployablesLocation).listFiles();
         if (deployables != null)

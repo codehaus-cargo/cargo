@@ -20,7 +20,6 @@
 package org.codehaus.cargo.sample.java;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import java.util.StringTokenizer;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.tomcat.jakartaee.Migration;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.sample.java.validator.Validator;
@@ -87,30 +85,6 @@ public class CargoTestSuite extends TestSuite
         {
             String token = tokens.nextToken();
             this.containerIds.add(token);
-        }
-
-        Migration jakartaEeMigrator = new Migration();
-        File deployables = new File(System.getProperty("cargo.testdata.deployables"));
-        File convertedDeployables =
-            new File(deployables.getParentFile(), "deployables-jakarta-ee");
-        if (!convertedDeployables.isDirectory())
-        {
-            convertedDeployables.mkdir();
-            for (File deployable : deployables.listFiles())
-            {
-                jakartaEeMigrator.setSource(deployable);
-                jakartaEeMigrator.setDestination(
-                    new File(convertedDeployables, deployable.getName()));
-                try
-                {
-                    jakartaEeMigrator.execute();
-                }
-                catch (IOException e)
-                {
-                    throw new RuntimeException(
-                        "Cannot convert " + deployable.getName() + " to Jakarta EE", e);
-                }
-            }
         }
     }
 

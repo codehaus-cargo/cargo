@@ -55,6 +55,11 @@
       <type>test-jar</type>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>jakartaee-migration</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>

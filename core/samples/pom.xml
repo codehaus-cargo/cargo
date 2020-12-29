@@ -28,6 +28,7 @@
   <name>Cargo Samples</name>
   <description>Samples that exercises the Cargo Java APIs</description>
   <dependencies>
+    <!-- CARGO-1514: Add the Jakarta EE converter to samples of affected containers -->
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>jakartaee-migration</artifactId>
