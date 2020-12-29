@@ -28,12 +28,6 @@
   <name>Cargo Samples</name>
   <description>Samples that exercises the Cargo Java APIs</description>
   <dependencies>
-    <!-- CARGO-1514: Add the Jakarta EE converter to samples of affected containers -->
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>jakartaee-migration</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberjar</artifactId>
@@ -1467,6 +1461,13 @@
                   <artifactId>simple-jar</artifactId>
                   <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>jakartaee-migration</artifactId>
+                  <classifier>shaded</classifier>
+                  <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
+                  <destFileName>jakartaee-migration-tool.jar</destFileName>
                 </artifactItem>
                 <!-- To get Sun licensed jars needed for Tomcat to work with mail sessions -->
                 <artifactItem>

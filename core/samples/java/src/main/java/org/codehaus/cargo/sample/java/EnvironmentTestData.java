@@ -20,15 +20,15 @@
 package org.codehaus.cargo.sample.java;
 
 import java.io.File;
-import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tomcat.jakartaee.Migration;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.installer.Proxy;
@@ -148,49 +148,75 @@ public class EnvironmentTestData
         {
             throw new ContainerException("Property cargo.testdata.deployables not set");
         }
+        File deployables = new File(deployablesLocation);
+        if (!deployables.isDirectory())
+        {
+            throw new ContainerException(
+                "Property cargo.testdata.deployables does not point to a directory: "
+                    + deployables);
+        }
         if (EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(containerId))
         {
             // CARGO-1514: Add the Jakarta EE converter to samples of affected containers
-            File deployables = new File(deployablesLocation);
             File convertedDeployables =
                 new File(deployables.getParentFile(), "deployables-jakarta-ee");
-            deployablesLocation = convertedDeployables.getAbsolutePath();
 
-            Migration jakartaEeMigrator = new Migration();
-            if (deployables.isDirectory() && !convertedDeployables.isDirectory())
+            if (!convertedDeployables.isDirectory())
             {
-                convertedDeployables.mkdir();
-                for (File deployable : deployables.listFiles())
+                // Use the Jakarta EE migrator using reflection to avoid "polluting" embedded
+                // containers' class loaders during our tests
+                File jakartaEeMigratorFile =
+                    new File(System.getProperty("cargo.testdata.test-jars"),
+                        "jakartaee-migration-tool.jar");
+                if (!jakartaEeMigratorFile.isFile())
                 {
-                    jakartaEeMigrator.setSource(deployable);
-                    jakartaEeMigrator.setDestination(
-                        new File(convertedDeployables, deployable.getName()));
-                    try
+                    throw new RuntimeException(
+                        "Cannot find the Jakarta EE converter " + jakartaEeMigratorFile);
+                }
+                try
+                {
+                    URL[] jakartaEeMigratorUrl = new URL[1];
+                    jakartaEeMigratorUrl[0] = jakartaEeMigratorFile.toURI().toURL();
+                    ClassLoader jakartaEeMigratorClassLoader =
+                        new URLClassLoader(jakartaEeMigratorUrl);
+                    Class jakartaEeMigratorClass =
+                        jakartaEeMigratorClassLoader.loadClass(
+                            "org.apache.tomcat.jakartaee.Migration");
+                    Object jakartaEeMigrator =
+                        jakartaEeMigratorClass.getConstructor().newInstance();
+                    Method setSource = jakartaEeMigratorClass.getMethod("setSource", File.class);
+                    Method setDestination =
+                        jakartaEeMigratorClass.getMethod("setDestination", File.class);
+                    Method execute = jakartaEeMigratorClass.getMethod("execute");
+
+                    convertedDeployables.mkdir();
+                    for (File deployable : deployables.listFiles())
                     {
-                        jakartaEeMigrator.execute();
+                        setSource.invoke(jakartaEeMigrator, deployable);
+                        setDestination.invoke(jakartaEeMigrator,
+                            new File(convertedDeployables, deployable.getName()));
+                        execute.invoke(jakartaEeMigrator);
                     }
-                    catch (IOException e)
-                    {
-                        throw new RuntimeException(
-                            "Cannot convert " + deployable.getName() + " to Jakarta EE", e);
-                    }
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException("Cannot convert deployable to Jakarta EE", e);
                 }
             }
+
+            deployablesLocation = convertedDeployables.getAbsolutePath();
+            deployables = convertedDeployables;
         }
-        File[] deployables = new File(deployablesLocation).listFiles();
-        if (deployables != null)
+        for (File deployable : deployables.listFiles())
         {
-            for (File deployable : deployables)
+            if (deployable.isFile())
             {
-                if (deployable.isFile())
+                String name = deployable.getName();
+                if (name.contains("."))
                 {
-                    String name = deployable.getName();
-                    if (name.contains("."))
-                    {
-                        name = name.substring(0, name.lastIndexOf('.'));
-                    }
-                    this.testDataArtifacts.put(name, deployable.getAbsolutePath());
+                    name = name.substring(0, name.lastIndexOf('.'));
                 }
+                this.testDataArtifacts.put(name, deployable.getAbsolutePath());
             }
         }
     }
