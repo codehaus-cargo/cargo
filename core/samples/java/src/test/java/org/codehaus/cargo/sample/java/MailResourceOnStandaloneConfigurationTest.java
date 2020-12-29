@@ -104,6 +104,12 @@ public class MailResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("glassfish5x");
         excludedContainerIds.add("payara");
 
+        // The Jakarta EE migration tool cannot convert Java EE resources to Jakarta EE yet:
+        // https://github.com/apache/tomcat-jakartaee-migration/issues/6
+        excludedContainerIds.add("glassfish6x");
+        excludedContainerIds.add("tomcat10x");
+        excludedContainerIds.add("tomee9x");
+
         suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),

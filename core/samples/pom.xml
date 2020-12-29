@@ -1447,6 +1447,14 @@
             <phase>process-test-resources</phase>
             <configuration>
               <artifactItems>
+                <!-- Jakarta EE migration tool -->
+                <artifactItem>
+                  <groupId>org.apache.tomcat</groupId>
+                  <artifactId>jakartaee-migration</artifactId>
+                  <classifier>shaded</classifier>
+                  <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
+                  <destFileName>jakartaee-migration-tool.jar</destFileName>
+                </artifactItem>
                 <!--
                   Copy the designated jdbc driver to an area where the containers can reference it
                   -->
@@ -1461,13 +1469,6 @@
                   <artifactId>simple-jar</artifactId>
                   <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.apache.tomcat</groupId>
-                  <artifactId>jakartaee-migration</artifactId>
-                  <classifier>shaded</classifier>
-                  <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
-                  <destFileName>jakartaee-migration-tool.jar</destFileName>
                 </artifactItem>
                 <!-- To get Sun licensed jars needed for Tomcat to work with mail sessions -->
                 <artifactItem>
