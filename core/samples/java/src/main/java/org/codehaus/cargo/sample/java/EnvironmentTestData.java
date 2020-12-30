@@ -42,7 +42,7 @@ public class EnvironmentTestData
     /**
      * Containers that can only use Jakarta EE deployables.
      */
-    private static final List<String> JAKARTA_EE_CONTAINERS = Arrays.asList(new String[]
+    public static final List<String> JAKARTA_EE_CONTAINERS = Arrays.asList(new String[]
     {
         "jetty11x",
         "glassfish6x",
@@ -184,6 +184,13 @@ public class EnvironmentTestData
                             "org.apache.tomcat.jakartaee.Migration");
                     Object jakartaEeMigrator =
                         jakartaEeMigratorClass.getConstructor().newInstance();
+                    Class eeSpecProfileClass =
+                        jakartaEeMigratorClassLoader.loadClass(
+                            "org.apache.tomcat.jakartaee.EESpecProfile");
+                    Method setEESpecProfile =
+                        jakartaEeMigratorClass.getMethod("setEESpecProfile", eeSpecProfileClass);
+                    setEESpecProfile.invoke(jakartaEeMigrator,
+                        eeSpecProfileClass.getDeclaredField("EE").get(null));
                     Method setSource = jakartaEeMigratorClass.getMethod("setSource", File.class);
                     Method setDestination =
                         jakartaEeMigratorClass.getMethod("setDestination", File.class);

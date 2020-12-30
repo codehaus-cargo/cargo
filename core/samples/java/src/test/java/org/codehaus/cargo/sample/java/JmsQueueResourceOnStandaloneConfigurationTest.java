@@ -96,7 +96,7 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly21x");
         excludedContainerIds.add("wildfly22x");
 
-        // The Jakarta EE migration tool cannot convert Java EE resources to Jakarta EE yet:
+        // The Jakarta EE migration tool cannot convert JMS resources to Jakarta EE yet:
         // https://github.com/apache/tomcat-jakartaee-migration/issues/6
         excludedContainerIds.add("glassfish6x");
         excludedContainerIds.add("tomee9x");

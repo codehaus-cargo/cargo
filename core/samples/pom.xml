@@ -1470,16 +1470,21 @@
                   <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                   <destFileName>simple.jar</destFileName>
                 </artifactItem>
-                <!-- To get Sun licensed jars needed for Tomcat to work with mail sessions -->
+                <!-- To get Java EE / Jakarta EE JARs needed for Tomcat to work with mail sessions -->
+                <artifactItem>
+                  <groupId>jakarta.platform</groupId>
+                  <artifactId>jakarta.jakartaee-api</artifactId>
+                  <outputDirectory>${project.build.directory}/mail-jars/jakarta</outputDirectory>
+                </artifactItem>
                 <artifactItem>
                   <groupId>javax.activation</groupId>
                   <artifactId>activation</artifactId>
-                  <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/mail-jars/javax</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>javax.mail</groupId>
                   <artifactId>mail</artifactId>
-                  <outputDirectory>${project.build.directory}/mail-jars</outputDirectory>
+                  <outputDirectory>${project.build.directory}/mail-jars/javax</outputDirectory>
                 </artifactItem>
                 <!-- Deployables -->
                 <artifactItem>

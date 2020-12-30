@@ -77,6 +77,9 @@ public class MailResourceOnStandaloneConfigurationTest extends
         String mail = System.getProperty("cargo.testdata.mail-jars");
         if (mail != null)
         {
+            mail = container.getFileHandler().append(mail,
+                EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(container.getId())
+                    ? "jakarta" : "javax");
             String[] jars = container.getFileHandler().getChildren(mail);
             for (String jar : jars)
             {
@@ -96,19 +99,14 @@ public class MailResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // GlassFish 3.x, 4.x and 5.x as well as Payara containers
+        // GlassFish 3.x, 4.x, 5.x and 6.x as well as Payara containers
         // cannot deploy mail sessions as a resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("glassfish3x");
         excludedContainerIds.add("glassfish4x");
         excludedContainerIds.add("glassfish5x");
-        excludedContainerIds.add("payara");
-
-        // The Jakarta EE migration tool cannot convert Java EE resources to Jakarta EE yet:
-        // https://github.com/apache/tomcat-jakartaee-migration/issues/6
         excludedContainerIds.add("glassfish6x");
-        excludedContainerIds.add("tomcat10x");
-        excludedContainerIds.add("tomee9x");
+        excludedContainerIds.add("payara");
 
         suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
