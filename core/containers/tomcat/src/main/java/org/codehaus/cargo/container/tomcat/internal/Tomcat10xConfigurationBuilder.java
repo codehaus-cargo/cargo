@@ -19,25 +19,27 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
+import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
- * Constructs xml elements needed to configure DataSource for Tomcat 8.x onwards. Note that this
+ * Constructs xml elements needed to configure DataSource for Tomcat 10.x. Note that this
  * implementation converts DataSources into Resources and then uses an appropriate
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
  */
-public class Tomcat8x9x10xConfigurationBuilder extends Tomcat5x6x7xConfigurationBuilder
+public class Tomcat10xConfigurationBuilder extends Tomcat8x9xConfigurationBuilder
 {
 
     /**
-     * generates {@link #typeToFactory}
+     * {@inheritDoc} in Tomcat 10.x, all packages moved from Java EE to Jakarta EE.
      */
-    public Tomcat8x9x10xConfigurationBuilder()
+    @Override
+    public String toConfigurationEntry(Resource resource)
     {
-        super();
-        typeToFactory.put(ConfigurationEntryType.DATASOURCE,
-            "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory");
+        String configurationEntry = super.toConfigurationEntry(resource);
+        configurationEntry = configurationEntry.replace("type='javax.", "type='jakarta.");
+        configurationEntry = configurationEntry.replace("type=\"javax.", "type=\"jakarta.");
+        return configurationEntry;
     }
 
 }

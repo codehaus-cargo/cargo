@@ -19,29 +19,25 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 
 /**
- * {@inheritDoc}
+ * Constructs xml elements needed to configure DataSource for Tomcat 8.x and 9.x. Note that this
+ * implementation converts DataSources into Resources and then uses an appropriate
+ * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
+ * configuration.
  */
-public class Tomcat8x9x10xConfigurationBuilderTest extends Tomcat5x6x7xConfigurationBuilderTest
+public class Tomcat8x9xConfigurationBuilder extends Tomcat5x6x7xConfigurationBuilder
 {
-    /**
-     * @return {@link Tomcat8x9x10xConfigurationBuilder}.
-     */
-    @Override
-    protected ConfigurationBuilder createConfigurationBuilder()
-    {
-        return new Tomcat8x9x10xConfigurationBuilder();
-    }
 
     /**
-     * @return {@link Tomcat8x9x10xConfigurationChecker}.
+     * generates {@link #typeToFactory}
      */
-    @Override
-    protected ConfigurationChecker createConfigurationChecker()
+    public Tomcat8x9xConfigurationBuilder()
     {
-        return new Tomcat8x9x10xConfigurationChecker();
+        super();
+        typeToFactory.put(ConfigurationEntryType.DATASOURCE,
+            "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory");
     }
+
 }

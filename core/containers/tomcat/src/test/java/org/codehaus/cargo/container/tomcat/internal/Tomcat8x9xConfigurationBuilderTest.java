@@ -17,34 +17,31 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat;
+package org.codehaus.cargo.container.tomcat.internal;
 
-import org.codehaus.cargo.container.tomcat.internal.Tomcat10xConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 
 /**
- * Catalina standalone
- * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
- * implementation.
+ * {@inheritDoc}
  */
-public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLocalConfiguration
+public class Tomcat8x9xConfigurationBuilderTest extends Tomcat5x6x7xConfigurationBuilderTest
 {
     /**
-     * {@inheritDoc}
-     * @see Tomcat9xStandaloneLocalConfiguration#Tomcat9xStandaloneLocalConfiguration(String)
+     * @return {@link Tomcat8x9xConfigurationBuilder}.
      */
-    public Tomcat10xStandaloneLocalConfiguration(String dir)
+    @Override
+    protected ConfigurationBuilder createConfigurationBuilder()
     {
-        super(dir);
-
-        configurationBuilder = new Tomcat10xConfigurationBuilder();
+        return new Tomcat8x9xConfigurationBuilder();
     }
 
     /**
-     * {@inheritDoc}
+     * @return {@link Tomcat8x9x10xConfigurationChecker}.
      */
     @Override
-    public String toString()
+    protected ConfigurationChecker createConfigurationChecker()
     {
-        return "Tomcat 10.x Standalone Configuration";
+        return new Tomcat8x9xConfigurationChecker();
     }
 }

@@ -47,7 +47,6 @@ public class Tomcat9xStandaloneLocalConfigurationTest extends
                 setupManager(container);
             }
 
-
             @Override
             protected void configureFiles(FilterChain filterChain, LocalContainer container)
             {

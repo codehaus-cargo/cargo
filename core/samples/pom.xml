@@ -1472,8 +1472,13 @@
                 </artifactItem>
                 <!-- To get Java EE / Jakarta EE JARs needed for Tomcat to work with mail sessions -->
                 <artifactItem>
-                  <groupId>jakarta.platform</groupId>
-                  <artifactId>jakarta.jakartaee-api</artifactId>
+                  <groupId>com.sun.mail</groupId>
+                  <artifactId>mailapi</artifactId>
+                  <outputDirectory>${project.build.directory}/mail-jars/jakarta</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>jakarta.activation</groupId>
+                  <artifactId>jakarta.activation-api</artifactId>
                   <outputDirectory>${project.build.directory}/mail-jars/jakarta</outputDirectory>
                 </artifactItem>
                 <artifactItem>

@@ -23,6 +23,8 @@ import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat10xConfigurationChecker;
 
 /**
  * Tests for the Tomcat 10 implementation of StandaloneLocalConfigurationTest
@@ -47,7 +49,6 @@ public class Tomcat10xStandaloneLocalConfigurationTest extends
                 setupManager(container);
             }
 
-
             @Override
             protected void configureFiles(FilterChain filterChain, LocalContainer container)
             {
@@ -66,5 +67,14 @@ public class Tomcat10xStandaloneLocalConfigurationTest extends
     protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
         return new Tomcat10xInstalledLocalContainer(configuration);
+    }
+
+    /**
+     * @return {@link Tomcat10xConfigurationChecker}.
+     */
+    @Override
+    protected ConfigurationChecker createConfigurationChecker()
+    {
+        return new Tomcat10xConfigurationChecker();
     }
 }
