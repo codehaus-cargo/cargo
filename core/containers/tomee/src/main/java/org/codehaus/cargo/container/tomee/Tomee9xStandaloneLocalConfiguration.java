@@ -50,6 +50,8 @@ public class Tomee9xStandaloneLocalConfiguration extends Tomcat10xStandaloneLoca
     public Tomee9xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(TomeePropertySet.APPS_DIRECTORY, "apps");
     }
 
     /**
