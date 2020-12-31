@@ -75,10 +75,6 @@ public class DataSourceOnStandaloneConfigurationTest extends
         // which makes the container try to generate certain things twice
         excludedContainerIds.add("wildfly10x");
 
-        // The Jakarta EE migration tool cannot convert SQL resources to Jakarta EE yet:
-        // https://github.com/apache/tomcat-jakartaee-migration/issues/6
-        excludedContainerIds.add("tomee9x");
-
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),

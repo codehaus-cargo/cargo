@@ -31,14 +31,29 @@ public class Tomcat10xConfigurationBuilder extends Tomcat8x9xConfigurationBuilde
 {
 
     /**
+     * <code>javax.</code> packages which have been moved to <code>jakarta.</code> instead and
+     * are use by Tomcat resources.
+     */
+    public static final String[] JAKARTA_PACKAGES = new String[]
+    {
+        "jms",
+        "mail"
+    };
+
+    /**
      * {@inheritDoc} in Tomcat 10.x, all packages moved from Java EE to Jakarta EE.
      */
     @Override
     public String toConfigurationEntry(Resource resource)
     {
         String configurationEntry = super.toConfigurationEntry(resource);
-        configurationEntry = configurationEntry.replace("type='javax.", "type='jakarta.");
-        configurationEntry = configurationEntry.replace("type=\"javax.", "type=\"jakarta.");
+        for (String jakartaPackage : Tomcat10xConfigurationBuilder.JAKARTA_PACKAGES)
+        {
+            configurationEntry = configurationEntry.replace(
+                "type='javax." + jakartaPackage, "type='jakarta." + jakartaPackage);
+            configurationEntry = configurationEntry.replace(
+                "type=\"javax." + jakartaPackage, "type=\"jakarta." + jakartaPackage);
+        }
         return configurationEntry;
     }
 

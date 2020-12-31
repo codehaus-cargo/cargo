@@ -34,11 +34,20 @@ public class Tomcat10xConfigurationChecker extends Tomcat8x9xConfigurationChecke
     protected void checkConfigurationMatchesResource(String configuration, Resource resource)
         throws Exception
     {
-        Resource jakartaEeResource =
-            new Resource(resource.getName(), resource.getType().replace("javax.", "jakarta."));
-        jakartaEeResource.setClassName(resource.getClassName());
-        jakartaEeResource.setId(resource.getId());
-        jakartaEeResource.setParameters(resource.getParameters());
+        Resource jakartaEeResource = resource;
+        for (String jakartaPackage : Tomcat10xConfigurationBuilder.JAKARTA_PACKAGES)
+        {
+            if (resource.getType().startsWith("javax." + jakartaPackage))
+            {
+                jakartaEeResource =
+                    new Resource(resource.getName(),
+                        resource.getType().replace("javax.", "jakarta."));
+                jakartaEeResource.setClassName(resource.getClassName());
+                jakartaEeResource.setId(resource.getId());
+                jakartaEeResource.setParameters(resource.getParameters());
+                break;
+            }
+        }
         super.checkConfigurationMatchesResource(configuration, jakartaEeResource);
     }
 }
