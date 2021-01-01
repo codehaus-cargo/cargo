@@ -258,7 +258,15 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             this.addConnectOptions(args);
             args.add("create-jms-resource");
             args.add("--restype");
-            args.add(resource.getType());
+            if (getContainer() instanceof GlassFish6xInstalledLocalContainer)
+            {
+                // GlassFish 6.x onwards uses Jakarta EE
+                args.add(resource.getType().replace("javax.", "jakarta."));
+            }
+            else
+            {
+                args.add(resource.getType());
+            }
             if (!resource.getParameters().isEmpty())
             {
                 args.add("--property");
