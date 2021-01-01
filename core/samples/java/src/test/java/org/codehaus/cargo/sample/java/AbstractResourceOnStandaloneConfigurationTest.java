@@ -58,6 +58,13 @@ public abstract class AbstractResourceOnStandaloneConfigurationTest extends Abst
     protected void addResourceToConfigurationViaProperty(ResourceFixture fixture)
     {
         Configuration config = getLocalContainer().getConfiguration();
-        config.setProperty(ResourcePropertySet.RESOURCE, fixture.buildResourcePropertyString());
+        String resourcePropertyString = fixture.buildResourcePropertyString();
+        if (EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(getContainer().getId()))
+        {
+            resourcePropertyString = resourcePropertyString.replace("javax.jms.", "jakarta.jms.");
+            resourcePropertyString =
+                resourcePropertyString.replace("javax.mail.", "jakarta.mail.");
+        }
+        config.setProperty(ResourcePropertySet.RESOURCE, resourcePropertyString);
     }
 }

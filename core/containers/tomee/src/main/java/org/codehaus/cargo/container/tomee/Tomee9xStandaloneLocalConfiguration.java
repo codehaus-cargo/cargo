@@ -92,7 +92,8 @@ public class Tomee9xStandaloneLocalConfiguration extends Tomcat10xStandaloneLoca
         StringBuilder resourceReplacements = new StringBuilder();
         for (Resource resource : getResources())
         {
-            if (resource.getType().startsWith("javax.jms."))
+            if (resource.getType().startsWith("jakarta.jms.")
+                || resource.getType().startsWith("javax.jms."))
             {
                 if (resourceReplacements.length() == 0)
                 {

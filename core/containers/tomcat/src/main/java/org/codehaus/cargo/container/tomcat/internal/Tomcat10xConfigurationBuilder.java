@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
@@ -39,6 +40,16 @@ public class Tomcat10xConfigurationBuilder extends Tomcat8x9xConfigurationBuilde
         "jms",
         "mail"
     };
+
+    /**
+     * generates {@link #typeToFactory} for Jakarta EE
+     */
+    public Tomcat10xConfigurationBuilder()
+    {
+        super();
+        typeToFactory.put(ConfigurationEntryType.MAIL_SESSION.replace("javax.", "jakarta."),
+            "org.apache.naming.factory.MailSessionFactory");
+    }
 
     /**
      * {@inheritDoc} in Tomcat 10.x, all packages moved from Java EE to Jakarta EE.

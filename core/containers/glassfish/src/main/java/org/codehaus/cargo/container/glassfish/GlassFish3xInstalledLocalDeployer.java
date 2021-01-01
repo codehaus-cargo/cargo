@@ -54,6 +54,13 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      */
     private static final Set<String> JMS_RESOURCE_TYPES = Collections
             .unmodifiableSet(new HashSet<String>(Arrays.asList(
+                    // CARGO-1541: GlassFish 6.x onwards uses Jakarta EE
+                    "jakarta.jms.Topic",
+                    "jakarta.jms.Queue",
+                    "jakarta.jms.ConnectionFactory",
+                    "jakarta.jms.TopicConnectionFactory",
+                    "jakarta.jms.QueueConnectionFactory",
+
                     "javax.jms.Topic",
                     "javax.jms.Queue",
                     "javax.jms.ConnectionFactory",
@@ -265,7 +272,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             }
             else
             {
-                args.add(resource.getType());
+                // CARGO-1541: GlassFish 5.x downwards uses Java EE
+                args.add(resource.getType().replace("jakarta.", "javax."));
             }
             if (!resource.getParameters().isEmpty())
             {
@@ -288,7 +296,9 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
-        else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType()))
+        else if (ConfigurationEntryType.MAIL_SESSION.equals(resource.getType())
+            || ConfigurationEntryType.MAIL_SESSION.replace("javax.", "jakarta.")
+                .equals(resource.getType()))
         {
             List<String> args = new ArrayList<String>();
             this.addConnectOptions(args);
