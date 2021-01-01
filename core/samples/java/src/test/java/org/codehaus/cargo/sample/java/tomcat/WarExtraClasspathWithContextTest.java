@@ -85,10 +85,11 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
             new CargoTestSuite("Tests that run on local containers to test extra classpath with "
                 + " META-INF/context.xml file");
 
-        // Tomcat 4.x and Tomcat 5.x do not support extra classpath.
+        // Tomcat 4.x, 5.x and for some reason also 10.x do not support extra classpath.
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
         excludedContainerIds.add("tomcat5x");
+        excludedContainerIds.add("tomcat10x");
 
         suite.addTestSuite(WarExtraClasspathWithContextTest.class, new Validator[] {
             new StartsWithContainerValidator("tomcat", "tomee"),
