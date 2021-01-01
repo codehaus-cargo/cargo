@@ -102,7 +102,7 @@ public class Tomee9xStandaloneLocalConfiguration extends Tomcat10xStandaloneLoca
                 resourceReplacements.append("  <Resource id=\"");
                 resourceReplacements.append(resource.getName());
                 resourceReplacements.append("\" type=\"");
-                resourceReplacements.append(resource.getType());
+                resourceReplacements.append(resource.getType().replace("javax.", "jakarta."));
                 resourceReplacements.append("\"/>\n");
             }
         }
