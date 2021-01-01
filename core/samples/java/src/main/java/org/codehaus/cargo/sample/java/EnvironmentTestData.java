@@ -20,6 +20,7 @@
 package org.codehaus.cargo.sample.java;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
@@ -189,8 +191,22 @@ public class EnvironmentTestData
                             "org.apache.tomcat.jakartaee.EESpecProfile");
                     Method setEESpecProfile =
                         jakartaEeMigratorClass.getMethod("setEESpecProfile", eeSpecProfileClass);
-                    setEESpecProfile.invoke(jakartaEeMigrator,
-                        eeSpecProfileClass.getDeclaredField("EE").get(null));
+                    // The Jakarta EE migration tool cannot convert JMS resources to Jakarta EE yet:
+                    // https://github.com/apache/tomcat-jakartaee-migration/issues/6
+                    Object eeSpecProfile = eeSpecProfileClass.getField("EE").get(null);
+                    Field patternField = eeSpecProfile.getClass().getDeclaredField("pattern");
+                    patternField.setAccessible(true);
+                    Pattern pattern = (Pattern) patternField.get(eeSpecProfile);
+                    String patternString = pattern.pattern();
+                    if (!patternString.contains("|jms|"))
+                    {
+                        patternString = patternString.replace(
+                            "|enterprise|json|", "|enterprise|jms|json|");
+                        pattern = Pattern.compile(patternString);
+                        patternField.set(eeSpecProfile, pattern);
+                    }
+                    // End of workaround for the Jakarta EE migration tool's JMS-related issue
+                    setEESpecProfile.invoke(jakartaEeMigrator, eeSpecProfile);
                     Method setSource = jakartaEeMigratorClass.getMethod("setSource", File.class);
                     Method setDestination =
                         jakartaEeMigratorClass.getMethod("setDestination", File.class);
