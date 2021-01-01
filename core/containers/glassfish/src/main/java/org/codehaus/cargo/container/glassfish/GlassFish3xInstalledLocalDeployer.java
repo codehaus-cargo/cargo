@@ -260,7 +260,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("--restype");
             if (getContainer() instanceof GlassFish6xInstalledLocalContainer)
             {
-                // GlassFish 6.x onwards uses Jakarta EE
+                // CARGO-1541: GlassFish 6.x onwards uses Jakarta EE
                 args.add(resource.getType().replace("javax.", "jakarta."));
             }
             else
