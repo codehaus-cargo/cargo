@@ -92,10 +92,9 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
      */
     public void testRestartWithNoDeployable() throws Exception
     {
-        // GlassFish 4.1.1, 4.1.2 and 5.0 have a bug where redeployment sometimes causes exception:
+        // GlassFish 4.1.1 and 4.1.2 have a bug where redeployment sometimes causes exception:
         // Keys cannot be duplicate. Old value of this key property, null will be retained.
-        if ("glassfish4x".equals(getTestData().containerId)
-            || "glassfish5x".equals(getTestData().containerId))
+        if ("glassfish4x".equals(getTestData().containerId))
         {
             return;
         }
