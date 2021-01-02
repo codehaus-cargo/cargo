@@ -677,7 +677,7 @@
 
               <property>
                 <name>cargo.glassfish6x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.0.0-RC3/glassfish-6.0.0-RC3.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.0.0/glassfish-6.0.0.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish6x.java.home</name>
