@@ -107,10 +107,19 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      */
     private String descriptorId;
 
-    /** @component */
+    /**
+     * The artifact factory is used to create valid Maven {@link org.apache.maven.artifact.Artifact}
+     * objects, used to calculate dependencies.
+     * 
+     * @component
+     */
     private ArtifactFactory artifactFactory;
 
-    /** @component */
+    /**
+     * Maven artifact resolver, used to calculate dependencies.
+     * 
+     * @component
+     */
     private ArtifactResolver resolver;
 
     /**
@@ -148,13 +157,25 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      */
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
-    /** @component */
+    /**
+     * Maven project builder, used to calculate dependencies.
+     * 
+     * @component
+     */
     private MavenProjectBuilder mavenProjectBuilder;
 
-    /** @component */
+    /**
+     * Maven artifact installer, used to calculate dependencies.
+     * 
+     * @component
+     */
     private ArtifactInstaller installer;
 
-    /** Container */
+    /**
+     * Maven plexus container, used to calculate dependencies.
+     * 
+     * @component
+     */
     private PlexusContainer container;
 
     /**

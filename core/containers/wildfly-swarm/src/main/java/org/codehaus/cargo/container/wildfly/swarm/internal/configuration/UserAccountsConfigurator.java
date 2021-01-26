@@ -32,5 +32,5 @@ public interface UserAccountsConfigurator
      * Configures user accounts and roles.
      * @param users list of users with roles to create.
      */
-    void configureApplicationUsers(final List<User> users);
+    void configureApplicationUsers(List<User> users);
 }

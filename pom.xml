@@ -301,17 +301,6 @@
     </contributor>
   </contributors>
 
-  <prerequisites>
-    <!--
-      The multiple-containers archetype relies on multiple profile activation conditions,
-      which only works starting from Maven 3.2.2.
-      (see https://issues.apache.org/jira/browse/MNG-4565 for details).
-
-      Require Maven 3.2.3 so access to Maven Central is done via HTTPS, avoiding security issues.
-      -->
-    <maven>3.2.3</maven>
-  </prerequisites>
-
   <scm>
     <connection>scm:git:https://github.com/codehaus-cargo/cargo.git</connection>
     <developerConnection>scm:git:https://github.com/codehaus-cargo/cargo.git</developerConnection>
@@ -1046,7 +1035,7 @@
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-utils</artifactId>
-        <version>2.0.0</version>
+        <version>3.3.0</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.rmi</groupId>
@@ -1092,26 +1081,40 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.7</version>
+          <!--
+            We consciously don't upgrade to the maven-antrun-plugin's 3.0 and newer versions,
+            as these have removed the <tasks> parameter
+            -->
+          <version>1.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-archetype-plugin</artifactId>
+          <!--
+            Remember to align the below version with the archetype-packaging version in the
+            cargo-maven2-archetypes artifact.
+            -->
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.17</version>
+          <!--
+            We cannot use maven-checkstyle-plugin version 3.1.1 due to bug:
+            https://github.com/checkstyle/eclipse-cs/issues/190
+            -->
+          <version>3.1.0</version>
           <configuration>
             <consoleOutput>true</consoleOutput>
             <configLocation>build-tools/checkstyle.xml</configLocation>
             <headerLocation>build-tools/checkstyle.license</headerLocation>
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-
-            <!-- See: https://jira.codehaus.org/browse/MCHECKSTYLE-134 -->
-            <suppressionsFileExpression>checkstyle.suppressions.file.donothing</suppressionsFileExpression>
             <propertyExpansion>
               checkstyle.suppressions.file=${project.build.directory}/checkstyle-suppressions.xml
             </propertyExpansion>
@@ -1127,12 +1130,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.5</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
+          <version>3.8.1</version>
           <configuration>
             <!-- When you change the below, remember to also update the Javadoc plugin configuration -->
             <source>1.8</source>
@@ -1142,27 +1145,22 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.8</version>
+          <version>3.1.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.7</version>
+          <version>2.8.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ear-plugin</artifactId>
-          <version>2.8</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-archetype-plugin</artifactId>
-          <version>2.0</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ejb-plugin</artifactId>
-          <version>2.3</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1172,7 +1170,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.4</version>
+          <version>2.5.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1182,12 +1180,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.3</version>
+          <version>3.2.0</version>
           <configuration>
             <source>1.8</source>
             <!--
@@ -1250,17 +1248,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-rar-plugin</artifactId>
-          <version>2.3</version>
+          <version>3.6.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.4.1</version>
+          <version>2.5.3</version>
           <configuration>
             <preparationGoals>clean install</preparationGoals>
             <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -1279,22 +1272,22 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>2.6</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>2.4.3</version>
+          <version>3.2.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.3</version>
+          <version>3.9.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.2.1</version>
+          <version>3.2.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1310,17 +1303,17 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.3.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
-          <version>1.7</version>
+          <version>1.11</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.8</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -1331,11 +1324,41 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>2.4.0</version>
+          <version>4.0.0</version>
           <extensions>true</extensions>
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId> 
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.4.1</version>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <!--
+                    The multiple-containers archetype relies on multiple profile activation
+                    conditions, which only works starting from Maven 3.2.2.
+                    (see https://issues.apache.org/jira/browse/MNG-4565 for details).
+
+                    Require Maven 3.2.3 so access to Maven Central is done via HTTPS.
+                    -->
+                  <version>3.2.3</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
 
     <!--
       Codehaus is using WebDav for site deployment, so we need to use the correct
@@ -1360,7 +1383,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
+        <version>3.1.1</version>
       </plugin>
     </plugins>
   </reporting>
@@ -1397,7 +1420,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.1</version>
+            <version>1.6</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>

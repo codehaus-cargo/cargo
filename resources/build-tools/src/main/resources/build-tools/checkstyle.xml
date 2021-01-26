@@ -186,7 +186,7 @@
     <module name="IllegalImport"/>
 
     <module name="IllegalInstantiation">
-      <property name="classes" value="java.lang.Boolean, java.lang.String"/>
+      <property name="classes" value="java.lang.Boolean"/>
     </module>
 
     <!--module name="IllegalThrows"/-->
@@ -325,6 +325,8 @@
 
     <module name="ReturnCount">
       <property name="max" value="7"/>
+      <property name="maxForVoid" value="7"/>
+      <property name="format" value="^$"/>
     </module>
 
     <module name="RightCurly">
