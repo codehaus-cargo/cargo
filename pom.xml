@@ -335,8 +335,6 @@
       only works starting from Maven 3.2.2: https://issues.apache.org/jira/browse/MNG-4565
 
       Require Maven 3.2.3 so access to Maven Central is done via HTTPS.
-
-      When you update this, also update the versions for maven-archiver and maven-project.
       -->
     <maven.minimum.version>3.2.3</maven.minimum.version>
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
@@ -1030,16 +1028,6 @@
           version 2.0 has a too old Plexus WarArchiver dependency.
           -->
         <version>2.0.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-artifact</artifactId>
-        <version>2.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-embedder</artifactId>
-        <version>${maven.minimum.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>

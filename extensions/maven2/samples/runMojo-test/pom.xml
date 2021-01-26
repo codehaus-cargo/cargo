@@ -37,16 +37,28 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-embedder</artifactId>
+      <version>${maven.minimum.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <scope>test</scope>
+      <version>${maven.minimum.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-settings</artifactId>
+      <version>${maven.minimum.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <!--
+        SLF4J is only used by the Maven3 Embedder,
+        keep the version information here to avoid confusions.
+        -->
+      <version>1.7.30</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
