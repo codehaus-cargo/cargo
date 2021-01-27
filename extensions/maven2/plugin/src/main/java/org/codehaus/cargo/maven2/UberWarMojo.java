@@ -31,7 +31,6 @@ import java.util.List;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.factory.ArtifactFactory;
 import org.apache.maven.artifact.installer.ArtifactInstaller;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -51,14 +50,11 @@ import org.codehaus.cargo.module.webapp.merge.MergedWarArchive;
 import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
 import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
-import org.codehaus.plexus.archiver.ArchiverException;
-import org.codehaus.plexus.archiver.jar.ManifestException;
 import org.codehaus.plexus.archiver.war.WarArchiver;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.jdom.JDOMException;
 
 /**
  * Builds an uber war.
@@ -285,29 +281,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
         {
             throw new MojoExecutionException("Invalid XML descriptor", e);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            throw new MojoExecutionException("IOException creating UBERWAR", e);
-        }
-        catch (JDOMException e)
-        {
-            throw new MojoExecutionException("Xml format exception creating UBERWAR", e);
-        }
-        catch (MergeException e)
-        {
-            throw new MojoExecutionException("Merging exception creating UBERWAR", e);
-        }
-        catch (ArchiverException e)
-        {
-            throw new MojoExecutionException("Archiver exception creating UBERWAR", e);
-        }
-        catch (ManifestException e)
-        {
-            throw new MojoExecutionException("Manifest exception creating UBERWAR", e);
-        }
-        catch (DependencyResolutionRequiredException e)
-        {
-            throw new MojoExecutionException("Dependency resolution exception creating UBERWAR", e);
+            throw new MojoExecutionException("Exception creating Uberwar", e);
         }
     }
 
