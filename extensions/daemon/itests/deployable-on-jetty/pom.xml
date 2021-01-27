@@ -62,6 +62,10 @@
                   <artifactId>jetty-distribution</artifactId>
                   <version>7.6.21.v20160908</version>
                 </artifactInstaller>
+                <systemProperties>
+                  <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+                  <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
+                </systemProperties>
               </container>
               <configuration>
                 <home>${project.build.directory}/jetty-home</home>
@@ -80,10 +84,6 @@
                   </properties>
                 </deployable>
               </deployables>
-              <systemProperties>
-                <daemon.home>${project.build.directory}/daemon-home</daemon.home>
-                <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
-              </systemProperties>
             </configuration>
             <executions>
               <execution>

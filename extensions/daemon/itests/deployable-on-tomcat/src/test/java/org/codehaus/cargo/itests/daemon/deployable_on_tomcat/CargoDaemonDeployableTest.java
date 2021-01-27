@@ -128,7 +128,11 @@ public class CargoDaemonDeployableTest extends TestCase
                 }
             }
         }
-        ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
+
+        // htmlPage = (HtmlPage) htmlPage.refresh();
+        webClient.close();
+        htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
+        ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test-on-tomcat");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
             .getOptionByText("jetty9x").setSelected(true);
@@ -165,10 +169,9 @@ public class CargoDaemonDeployableTest extends TestCase
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
 
-        // htmlPage = (HtmlPage) htmlPage.refresh();
         webClient.close();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
-        DomElement stopButton = htmlPage.getElementById("stopContainer_test1");
+        DomElement stopButton = htmlPage.getElementById("stopContainer_test-on-tomcat");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
         assertTrue("There should be running containers",
@@ -177,7 +180,6 @@ public class CargoDaemonDeployableTest extends TestCase
 
         daemonWatchdog.watchForUnavailability();
 
-        // htmlPage = (HtmlPage) htmlPage.refresh();
         webClient.close();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
         assertFalse("There should be no running containers",

@@ -236,7 +236,11 @@ public class CargoDaemonBrowserTest extends TestCase
                 }
             }
         }
-        ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test1");
+
+        // htmlPage = (HtmlPage) htmlPage.refresh();
+        webClient.close();
+        htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
+        ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test-tjws");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
             .getOptionByText("jetty9x").setSelected(true);
@@ -276,7 +280,7 @@ public class CargoDaemonBrowserTest extends TestCase
         // htmlPage = (HtmlPage) htmlPage.refresh();
         webClient.close();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
-        DomElement stopButton = htmlPage.getElementById("stopContainer_test1");
+        DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
         assertNotNull("Container stop button did not appear. Current content: "
             + htmlPage.asText(), stopButton);
         assertTrue("There should be running containers",

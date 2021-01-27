@@ -46,15 +46,15 @@
           <configuration>
             <container>
               <containerId>tomcat8x</containerId>
-              <systemProperties>
-                <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
-                <daemon.home>${project.build.directory}/daemon-home</daemon.home>
-              </systemProperties>
               <artifactInstaller>
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat</artifactId>
                 <version>8.5.61</version>
               </artifactInstaller>
+              <systemProperties>
+                <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
+                <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+              </systemProperties>
             </container>
             <configuration>
               <properties>
