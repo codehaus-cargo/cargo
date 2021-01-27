@@ -20,7 +20,8 @@
 package org.codehaus.cargo.container.weblogic.internal;
 
 import org.custommonkey.xmlunit.XMLAssert;
-import org.junit.Assert;
+
+import junit.framework.Assert;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSource;

@@ -943,14 +943,14 @@
         <artifactId>jmock-cglib</artifactId>
         <version>${jmock.version}</version>
       </dependency>
-      <!--
-       Due to the fact that we use tests with Suite, ensure we enforce JUnit 3.x to avoid
-       accidental use of advanced APIs such as org.junit.Assume
-       -->
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.13.1</version>
+        <!--
+         Due to the fact that we use tests with Suite, ensure we enforce JUnit 3.x to avoid
+         accidental use of advanced APIs such as org.junit.Assume
+         -->
+        <version>3.8.2</version>
       </dependency>
       <dependency>
         <groupId>net.java.dev.jna</groupId>

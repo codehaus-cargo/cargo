@@ -22,7 +22,7 @@ package org.codehaus.cargo.sample.java;
 import java.net.URL;
 import java.util.Map;
 
-import org.junit.Assert;
+import junit.framework.Assert;
 
 import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.util.CargoException;
