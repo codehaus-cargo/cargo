@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
  * 
  * @goal configure
  * @requiresDependencyResolution test
+ * @threadSafe
  * @description Create a local container standalone configuration at a specified directory
  */
 public class ConfigureMojo extends AbstractCargoMojo

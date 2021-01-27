@@ -24,6 +24,7 @@ package org.codehaus.cargo.maven2;
  * 
  * @goal deployer-stop
  * @requiresDependencyResolution test
+ * @threadSafe
  */
 public class DeployerStopMojo extends AbstractDeployerMojo
 {

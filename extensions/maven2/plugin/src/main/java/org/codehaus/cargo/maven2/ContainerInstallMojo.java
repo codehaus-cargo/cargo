@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * 
  * @goal install
  * @requiresDependencyResolution compile
+ * @threadSafe
  * @since Cargo Maven 2 / Maven 3 plugin v0.3
  */
 public class ContainerInstallMojo extends AbstractCargoMojo

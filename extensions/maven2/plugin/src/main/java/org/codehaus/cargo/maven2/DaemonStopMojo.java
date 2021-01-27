@@ -24,8 +24,9 @@ import org.apache.maven.plugin.MojoExecutionException;
 /**
  * Stop a container via the daemon.
  * 
- * @requiresDependencyResolution test
  * @goal daemon-stop
+ * @requiresDependencyResolution test
+ * @threadSafe
  */
 public class DaemonStopMojo extends AbstractDaemonMojo
 {

@@ -66,6 +66,7 @@ import org.jdom.JDOMException;
  * @goal uberwar
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 {

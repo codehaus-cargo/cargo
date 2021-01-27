@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
  * 
  * @goal start
  * @requiresDependencyResolution test
+ * @threadSafe
  */
 public class ContainerStartMojo extends AbstractCargoMojo
 {

@@ -31,6 +31,7 @@ import org.codehaus.cargo.maven2.configuration.Packager;
  * 
  * @goal package
  * @requiresDependencyResolution test
+ * @threadSafe
  * @since Maven2 Cargo Plugin v0.3
  */
 public class PackageMojo extends AbstractCargoMojo

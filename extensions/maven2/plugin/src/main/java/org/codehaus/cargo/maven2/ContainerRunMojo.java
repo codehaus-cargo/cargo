@@ -34,6 +34,7 @@ import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
  * 
  * @goal run
  * @requiresDependencyResolution test
+ * @threadSafe
  */
 public class ContainerRunMojo extends ContainerStartMojo
 {

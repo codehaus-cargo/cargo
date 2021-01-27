@@ -24,6 +24,7 @@ package org.codehaus.cargo.maven2;
  * 
  * @goal restart
  * @requiresDependencyResolution test
+ * @threadSafe
  */
 public class ContainerRestartMojo extends ContainerStartMojo
 {

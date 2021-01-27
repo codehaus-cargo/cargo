@@ -24,6 +24,7 @@ package org.codehaus.cargo.maven2;
  * 
  * @goal deployer-undeploy
  * @requiresDependencyResolution test
+ * @threadSafe
  */
 public class DeployerUndeployMojo extends AbstractDeployerMojo
 {
