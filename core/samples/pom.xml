@@ -1732,7 +1732,7 @@
     <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
     <surefire.useSystemClassLoader>true</surefire.useSystemClassLoader>
     <!--
-      TODO: Rather install all these container binaries into the Maven2
+      TODO: Rather install all these container binaries into the Maven 3
             repository; which corresponds to ticket CARGO-449.
 
             It would be lovely to install all containers to:

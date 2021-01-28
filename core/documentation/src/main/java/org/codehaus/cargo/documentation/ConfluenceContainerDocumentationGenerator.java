@@ -617,10 +617,10 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("configurator/] separately and put them in your classpath.");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
-            output.append("This does not affect the [Maven2 / Maven 3 plugin|Maven2 plugin], as ");
-            output.append("it will download the required dependencies automatically (and, since ");
-            output.append("Maven downloads and stores the JOnAS Configurator JARs separately ");
-            output.append("from Codehaus Cargo you won’t run into license issues).{note}");
+            output.append("This does not affect the [Maven 3 plugin], as it will download the ");
+            output.append("required dependencies automatically (and, since Maven downloads and ");
+            output.append("stores the JOnAS Configurator JARs separately from Codehaus Cargo ");
+            output.append("you won’t run into license issues).{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
@@ -732,7 +732,7 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
         output.append(
-            "|| Feature name || Java API || Ant tasks || Maven 2 / Maven 3 plugin || Comment ||");
+            "|| Feature name || Java API || Ant tasks || Maven 3 plugin || Comment ||");
         output.append(LINE_SEPARATOR);
 
         output.append("| [Container Instantiation] | ");
@@ -933,7 +933,7 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
         output.append(
-            "|| Feature name || Java API || Ant tasks || Maven 2 / Maven 3 plugin || Comment ||");
+            "|| Feature name || Java API || Ant tasks || Maven 3 plugin || Comment ||");
         output.append(LINE_SEPARATOR);
 
         output.append(generateStandaloneConfigurationText(containerId, ContainerType.INSTALLED));
@@ -1132,7 +1132,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         output.append(
-            "|| Feature name || Java API || Ant tasks || Maven 2 / Maven 3 plugin || Comment ||");
+            "|| Feature name || Java API || Ant tasks || Maven 3 plugin || Comment ||");
         output.append(LINE_SEPARATOR);
 
         if (this.deployerFactory.isDeployerRegistered(containerId, DeployerType.INSTALLED))
@@ -1224,7 +1224,7 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(LINE_SEPARATOR);
         output.append(LINE_SEPARATOR);
         output.append(
-            "|| Feature name || Java API || Ant tasks || Maven 2 / Maven 3 plugin || Comment ||");
+            "|| Feature name || Java API || Ant tasks || Maven 3 plugin || Comment ||");
         output.append(LINE_SEPARATOR);
 
         output.append("| [Debugging] | (/) | (/) | (/) | |");
@@ -1705,8 +1705,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
             output.append("For further information on how to achieve this, please refer to the ");
-            output.append("[associated tip in the Maven2/Maven3 Plugin Tips page|");
-            output.append("Maven2 Plugin Tips#tip4].");
+            output.append("[associated tip in the Maven 3 Plugin Tips page|");
+            output.append("Maven 3 Plugin Tips#tip4].");
             output.append(LINE_SEPARATOR);
             output.append("{info}");
             output.append(LINE_SEPARATOR);

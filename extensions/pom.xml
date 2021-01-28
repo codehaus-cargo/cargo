@@ -39,7 +39,7 @@
   <modules>
     <module>ant</module>
     <module>daemon</module>
-    <module>maven2</module>
+    <module>maven3</module>
   </modules>
 
   <build>

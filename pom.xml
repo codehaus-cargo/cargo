@@ -1115,7 +1115,7 @@
           <artifactId>maven-archetype-plugin</artifactId>
           <!--
             Remember to align the below version with the archetype-packaging version in the
-            cargo-maven2-archetypes artifact.
+            cargo-maven3-archetypes artifact.
             -->
           <version>3.2.0</version>
         </plugin>
@@ -1242,11 +1242,11 @@
               </additionalDependency>
             </additionalDependencies>
             <sourceFileExcludes>
-              <sourceFileExclude>**/org/codehaus/cargo/maven2/HelpMojo.java</sourceFileExclude>
-              <sourceFileExclude>**/org/codehaus/cargo/maven2/Merge*.java</sourceFileExclude>
-              <sourceFileExclude>**/org/codehaus/cargo/maven2/WebXml.java</sourceFileExclude>
-              <sourceFileExclude>**/org/codehaus/cargo/maven2/io/xpp3/*.java</sourceFileExclude>
-              <sourceFileExclude>**/org/codehaus/cargo/maven2/modello/**/*.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven3/HelpMojo.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven3/Merge*.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven3/WebXml.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven3/io/xpp3/*.java</sourceFileExclude>
+              <sourceFileExclude>**/org/codehaus/cargo/maven3/modello/**/*.java</sourceFileExclude>
             </sourceFileExcludes>
           </configuration>
         </plugin>
