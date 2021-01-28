@@ -19,13 +19,13 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Restart a container using Cargo.
- * 
- * @goal restart
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(name = "restart", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class ContainerRestartMojo extends ContainerStartMojo
 {
     /**

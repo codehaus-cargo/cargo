@@ -20,14 +20,12 @@
 package org.codehaus.cargo.maven2.configuration;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
-import org.apache.maven.artifact.resolver.ArtifactResolutionException;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
+import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolverException;
 
 /**
  * An ArtifactInstaller encapsulates the resolving of an artifact from a local
@@ -165,26 +163,24 @@ public class ArtifactInstaller
 
     /**
      * Resolves the dependency and return the artifact file.
-     * @param artifactFactory The artifact factory is used to create valid Maven {@link Artifact}
-     * objects.
      * @param artifactResolver The artifact resolver is used to dynamically resolve
      * {@link Artifact} objects. It will automatically download whatever needed.
-     * @param localRepository The local Maven repository. This is used by the artifact resolver to
-     * download resolved artifacts and put them in the local repository so that they won't have to
-     * be fetched again next time the plugin is executed.
-     * @param repositories The remote Maven repositories used by the artifact resolver to look for
-     * artifacts.
+     * @param projectBuildingRequest Maven project building request.
      * @return Resolved dependency.
-     * @throws ArtifactResolutionException If artifact resolution fails.
-     * @throws ArtifactNotFoundException If artifact not found.
+     * @throws ArtifactResolverException If artifact resolution fails or artifact not found.
      */
-    public File resolve(ArtifactFactory artifactFactory, ArtifactResolver artifactResolver,
-        ArtifactRepository localRepository, List<ArtifactRepository> repositories)
-        throws ArtifactResolutionException, ArtifactNotFoundException
+    public File resolve(ArtifactResolver artifactResolver,
+        ProjectBuildingRequest projectBuildingRequest) throws ArtifactResolverException
     {
-        Artifact artifact = artifactFactory.createArtifactWithClassifier(groupId, artifactId,
-            version, type, classifier);
-        artifactResolver.resolve(artifact, repositories, localRepository);
+        DefaultArtifactCoordinate coordinate = new DefaultArtifactCoordinate();
+        coordinate.setGroupId(groupId);
+        coordinate.setArtifactId(artifactId);
+        coordinate.setVersion(version);
+        coordinate.setExtension(type);
+        coordinate.setClassifier(classifier);
+
+        Artifact artifact =
+            artifactResolver.resolveArtifact(projectBuildingRequest, coordinate).getArtifact();
         return artifact.getFile();
     }
 }

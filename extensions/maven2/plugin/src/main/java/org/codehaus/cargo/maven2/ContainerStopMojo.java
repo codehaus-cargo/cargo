@@ -20,16 +20,15 @@
 package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 
 /**
  * Stop a running container using Cargo.
- * 
- * @goal stop
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(name = "stop", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class ContainerStopMojo extends AbstractCargoMojo
 {
     /**

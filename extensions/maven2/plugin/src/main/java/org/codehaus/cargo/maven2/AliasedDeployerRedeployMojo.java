@@ -19,14 +19,16 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
- * Class used uniquely to provide a goal alias for <code>deployer-redeploy</code>.
+ * Class used uniquely to provide a goal alias for
+ * <code>deployer-redeploy</code>.
  * 
- * @goal redeploy
- * @requiresDependencyResolution test
- * @threadSafe
  * @see DeployerRedeployMojo
  */
+@Mojo(name = "redeploy", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class AliasedDeployerRedeployMojo extends DeployerRedeployMojo
 {
 }

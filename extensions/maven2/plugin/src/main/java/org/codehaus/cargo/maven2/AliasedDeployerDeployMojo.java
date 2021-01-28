@@ -19,14 +19,15 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Class used uniquely to provide a goal alias for <code>deployer-deploy</code>.
  * 
- * @goal deploy
- * @requiresDependencyResolution test
- * @threadSafe
  * @see DeployerDeployMojo
  */
+@Mojo(name = "deploy", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class AliasedDeployerDeployMojo extends DeployerDeployMojo
 {
 }

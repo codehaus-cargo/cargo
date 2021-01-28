@@ -27,21 +27,23 @@ import java.net.URLClassLoader;
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.metadata.ArtifactMetadataSource;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
-import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
+import org.apache.maven.shared.artifact.filter.resolve.ScopeFilter;
+import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResult;
+import org.apache.maven.shared.transfer.dependencies.DefaultDependableCoordinate;
+import org.apache.maven.shared.transfer.dependencies.resolve.DependencyResolver;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
@@ -73,25 +75,27 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Common code used by Cargo MOJOs requiring <code>&lt;container&gt;</code> and
- * <code>&lt;configuration&gt;</code> elements and supporting the notion of Auto-deployable.
+ * <code>&lt;configuration&gt;</code> elements and supporting the notion of
+ * Auto-deployable.
  */
 public abstract class AbstractCargoMojo extends AbstractCommonMojo
 {
     /**
-     * The key under which the container instance is stored in the plugin context. We store it so
-     * that it's possible to get back the same container instance even if this mojo is called in a
-     * different Maven execution context. This is required for stopping embedded containers for
-     * example as we need to use the same instance that was started in order to stop them.
+     * The key under which the container instance is stored in the plugin context.
+     * We store it so that it's possible to get back the same container instance
+     * even if this mojo is called in a different Maven execution context. This is
+     * required for stopping embedded containers for example as we need to use the
+     * same instance that was started in order to stop them.
      */
     public static final String CONTEXT_KEY_CONTAINER =
         AbstractCargoMojo.class.getName() + "-Container";
 
     /**
-     * The key suffix under which the classloader of the container instance is stored
-     * in the plugin context. We store it so that it's possible to get back the same classloader
-     * even if this mojo is called in a different Maven execution context.
-     * This is required for starting and stopping multiple containers as each container
-     * initialization requires different classloader.
+     * The key suffix under which the classloader of the container instance is
+     * stored in the plugin context. We store it so that it's possible to get back
+     * the same classloader even if this mojo is called in a different Maven
+     * execution context. This is required for starting and stopping multiple
+     * containers as each container initialization requires different classloader.
      */
     public static final String CONTEXT_KEY_CLASSLOADER = "-classloader";
 
@@ -101,104 +105,80 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private FileHandler fileHandler = new DefaultFileHandler();
 
     /**
-     * Configures a Cargo {@link org.codehaus.cargo.container.configuration.Configuration}. See the
-     * <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Configures a Cargo
+     * {@link org.codehaus.cargo.container.configuration.Configuration}. See the
+     * <a href=
+     * "https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
      * 
-     * @parameter
      * @see #getConfigurationElement()
      */
+    @Parameter
     private Configuration configuration;
 
     /**
-     * Configures a Cargo {@link org.codehaus.cargo.container.Container}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Configures a Cargo {@link org.codehaus.cargo.container.Container}. See the
+     * <a href=
+     * "https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
-     * 
-     * @parameter
      */
+    @Parameter
     private Container container;
-
 
     /**
      * Daemon configuration.
-     * 
-     * @parameter
      */
+    @Parameter
     private Daemon daemon;
 
-
     /**
-     * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * Configures a Cargo {@link org.codehaus.cargo.container.deployer.Deployer}.
+     * See the <a href=
+     * "https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
      * 
-     * @parameter
      * @see #getDeployerElement()
      */
+    @Parameter
     private Deployer deployer;
 
     /**
-     * List of {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
+     * List of {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the
+     * <a href=
+     * "https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
      * Maven 2 / Maven 3 plugin reference guide</a> for more details.
      * 
-     * @parameter
      * @see #getDeployablesElement()
      */
+    @Parameter
     private Deployable[] deployables;
 
     /**
-     * The metadata source.
-     * 
-     * @component
+     * Maven artifact resolver, used to dynamically resolve JARs for the containers
+     * and also to resolve the JARs for the embedded container's classpaths.
      */
-    private ArtifactMetadataSource metadataSource;
-
-    /**
-     * Maven artifact resolver, used to dynamically resolve JARs for the containers and also to
-     * resolve the JARs for the embedded container's classpaths.
-     * 
-     * @component
-     */
+    @Component
     private ArtifactResolver artifactResolver;
 
     /**
-     * The local Maven repository. This is used by the artifact resolver to download resolved
-     * artifacts and put them in the local repository so that they won't have to be fetched again
-     * next time the plugin is executed.
-     * 
-     * @parameter property="localRepository"
-     * @required
-     * @readonly
+     * Maven dependency resolver, used to dynamically resolve dependencies of
+     * artifacts.
      */
-    private ArtifactRepository localRepository;
+    @Component
+    private DependencyResolver dependencyResolver;
 
     /**
-     * The remote Maven repositories used by the artifact resolver to look for artifacts.
-     * 
-     * @parameter property="project.remoteArtifactRepositories"
-     * @required
-     * @readonly
+     * Maven project building request.
      */
-    private List<ArtifactRepository> repositories;
+    @Parameter(
+        defaultValue = "${session.projectBuildingRequest}", readonly = true, required = true)
+    private ProjectBuildingRequest projectBuildingRequest;
 
     /**
-     * Set this to 'true' to bypass cargo execution.
-     * 
-     * @parameter property="cargo.maven.skip" default-value="false"
-     * @since 1.0.3
+     * Set this to <code>true</code> to bypass cargo execution.
      */
+    @Parameter(property = "cargo.maven.skip", defaultValue = "false")
     private boolean skip;
-
-    /**
-     * The artifact factory is used to create valid Maven {@link org.apache.maven.artifact.Artifact}
-     * objects. This is used to pass Maven artifacts to the artifact resolver so that it can
-     * download the required JARs to put in the embedded container's classpaths.
-     * 
-     * @component
-     */
-    private ArtifactFactory artifactFactory;
 
     /**
      * @see org.codehaus.cargo.maven2.util.CargoProject
@@ -207,36 +187,32 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
     /**
      * Maven settings, injected automatically.
-     * 
-     * @parameter property="settings"
-     * @required
-     * @readonly
      */
+    @Parameter(property = "settings", readonly = true, required = true)
     private Settings settings;
 
     /**
      * Cargo plugin version.
-     * 
-     * @parameter property="plugin.version"
-     * @required
-     * @readonly
      */
+    @Parameter(property = "plugin.version", readonly = true, required = true)
     private String pluginVersion;
 
     /**
      * Should the mojo ignore failures if something fails
-     * 
-     * @parameter property="cargo.ignore.failures" default-value="false"
      */
+    @Parameter(property = "cargo.ignore.failures", defaultValue = "false")
     private boolean ignoreFailures = false;
 
     /**
-     * Calculates the container artifact ID for a given container ID. Note that all containers
-     * identifier are in the form <code>containerArtifactId + the version number + x</code>; for
-     * example <code>jboss42x</code> is from container artifact ID
+     * Calculates the container artifact ID for a given container ID. Note that all
+     * containers identifier are in the form
+     * <code>containerArtifactId + the version number + x</code>; for example
+     * <code>jboss42x</code> is from container artifact ID
      * <code>cargo-core-container-jboss</code>.
+     * 
      * @param containerId Container ID, for example <code>jboss42x</code>.
-     * @return Container artifact ID, for example <code>cargo-core-container-jboss</code>.
+     * @return Container artifact ID, for example
+     *         <code>cargo-core-container-jboss</code>.
      */
     public static String calculateContainerArtifactId(String containerId)
     {
@@ -252,9 +228,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
-     * testing with Mock objects as it can be passed a test file handler that doesn't perform any
-     * real file action.
+     * @param fileHandler the Cargo file utility class to use. This method is useful
+     *                    for unit testing with Mock objects as it can be passed a
+     *                    test file handler that doesn't perform any real file
+     *                    action.
      */
     protected void setFileHandler(FileHandler fileHandler)
     {
@@ -262,11 +239,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
      * @return the user configuration of a Cargo
-     * {@link org.codehaus.cargo.container.deployer.Deployer}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
-     * Maven 2 / Maven 3 plugin reference guide</a> and
-     * {@link org.codehaus.cargo.maven2.configuration.Deployer} for more details.
+     *         {@link org.codehaus.cargo.container.deployer.Deployer}.
+     * @see #setDeployerElement(Deployer)
      */
     protected Deployer getDeployerElement()
     {
@@ -274,8 +252,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @param deployerElement the {@link org.codehaus.cargo.container.deployer.Deployer}
-     * configuration defined by the user
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
+     * @param deployerElement the
+     *                        {@link org.codehaus.cargo.container.deployer.Deployer}
+     *                        configuration defined by the user
      * @see #getDeployerElement()
      */
     protected void setDeployerElement(Deployer deployerElement)
@@ -297,10 +279,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
      * @return the user configuration of the list of
-     * {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
-     * Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     *         {@link org.codehaus.cargo.maven2.configuration.Deployable}.
+     * @see #setDeployablesElement(Deployable[])
      */
     protected Deployable[] getDeployablesElement()
     {
@@ -308,10 +292,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
      * @param deployablesElement the list of
-     * {@link org.codehaus.cargo.maven2.configuration.Deployable}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
-     * Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     *                           {@link org.codehaus.cargo.maven2.configuration.Deployable}.
      * @see #getDeployablesElement()
      */
     protected void setDeployablesElement(Deployable[] deployablesElement)
@@ -320,11 +305,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
      * @return the user configuration of a Cargo
-     * {@link org.codehaus.cargo.container.configuration.Configuration}. See the <a
-     * href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
-     * Maven 2 / Maven 3 plugin reference guide</a> and
-     * {@link org.codehaus.cargo.maven2.configuration.Configuration} for more details.
+     *         {@link org.codehaus.cargo.container.configuration.Configuration}.
+     * @see #setConfigurationElement(Configuration)
      */
     protected Configuration getConfigurationElement()
     {
@@ -332,9 +318,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
      * @param configurationElement the
-     * {@link org.codehaus.cargo.container.configuration.Configuration} configuration defined by the
-     * user
+     *                             {@link org.codehaus.cargo.container.configuration.Configuration}
+     *                             configuration defined by the user
      * @see #getConfigurationElement()
      */
     protected void setConfigurationElement(Configuration configurationElement)
@@ -343,10 +332,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @return the user configuration of a Cargo {@link org.codehaus.cargo.container.Container}.
      * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
-     * Cargo Maven 2 / Maven 3 plugin reference guide</a> and
-     * {@link org.codehaus.cargo.maven2.configuration.Container} for more details.
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
+     * @return the user configuration of a Cargo
+     *         {@link org.codehaus.cargo.container.Container}.
+     * @see #setConfigurationElement(Configuration)
      */
     protected Container getContainerElement()
     {
@@ -354,8 +345,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @param containerElement the {@link org.codehaus.cargo.container.Container} configuration
-     * defined by the user
+     * See the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">
+     * Cargo Maven 2 / Maven 3 plugin reference guide</a> for more details.
+     * 
+     * @param containerElement the {@link org.codehaus.cargo.container.Container}
+     *                         configuration defined by the user
      * @see #getContainerElement()
      */
     protected void setContainerElement(Container containerElement)
@@ -388,8 +382,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @param ignoreFailures
-     *            the ignoreFailures to set
+     * @param ignoreFailures the ignoreFailures to set
      */
     public void setIgnoreFailures(boolean ignoreFailures)
     {
@@ -400,8 +393,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * {@inheritDoc}
      * 
      * <p>
-     * Note: This method is final so that extending classes cannot extend it. Instead they should
-     * implement the {@link #doExecute()} method.
+     * Note: This method is final so that extending classes cannot extend it.
+     * Instead they should implement the {@link #doExecute()} method.
      * </p>
      */
     @Override
@@ -469,11 +462,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * Executes the plugin.
      * 
      * <p>
-     * This method must be implemented by all Mojos extending this class. The reason for this
-     * pattern is because we want the {@link #execute()} method to always be called so that
-     * necessary plugin initialization can be performed. Without this pattern Mojos extending this
-     * class could "forget" to call <code>super.execute()</code> thus leading to unpredictible
-     * results.
+     * This method must be implemented by all Mojos extending this class. The reason
+     * for this pattern is because we want the {@link #execute()} method to always
+     * be called so that necessary plugin initialization can be performed. Without
+     * this pattern Mojos extending this class could "forget" to call
+     * <code>super.execute()</code> thus leading to unpredictible results.
      * </p>
      * 
      * @throws MojoExecutionException in case of error
@@ -481,12 +474,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     protected abstract void doExecute() throws MojoExecutionException;
 
     /**
-     * Creates a {@link org.codehaus.cargo.container.configuration.Configuration} instance. If the
-     * user has not specified a configuration element in the POM file then automatically create a
-     * standalone configuration if the container's type is local or otherwise create a runtime
-     * configuration.
+     * Creates a {@link org.codehaus.cargo.container.configuration.Configuration}
+     * instance. If the user has not specified a configuration element in the POM
+     * file then automatically create a standalone configuration if the container's
+     * type is local or otherwise create a runtime configuration.
      * 
-     * @return a valid {@link org.codehaus.cargo.container.configuration.Configuration} instance
+     * @return a valid
+     *         {@link org.codehaus.cargo.container.configuration.Configuration}
+     *         instance
      * @throws MojoExecutionException in case of error
      */
     protected org.codehaus.cargo.container.configuration.Configuration createConfiguration()
@@ -501,8 +496,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             if (getContainerElement().getType().isLocal())
             {
-                File home = new File(getCargoProject().getBuildDirectory(), "cargo/configurations/"
-                    + getContainerElement().getContainerId());
+                File home = new File(getCargoProject().getBuildDirectory(),
+                    "cargo/configurations/" + getContainerElement().getContainerId());
 
                 configurationElement.setType(ConfigurationType.STANDALONE);
                 configurationElement.setHome(home.getAbsolutePath());
@@ -518,8 +513,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         {
             if (getConfigurationElement().getHome() != null && !getCargoProject().isDaemonRun())
             {
-                getConfigurationElement().setHome(calculateAbsoluteDirectory("configuration home",
-                    getConfigurationElement().getHome()));
+                getConfigurationElement().setHome(calculateAbsoluteDirectory(
+                    "configuration home", getConfigurationElement().getHome()));
             }
         }
 
@@ -545,17 +540,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         if (serverId != null && !serverId.isEmpty())
         {
-            for (Object serverObject : settings.getServers())
+            for (Server server : settings.getServers())
             {
-                Server server = (Server) serverObject;
                 if (serverId.equals(server.getId()))
                 {
                     getLog().info(
                         "The Maven settings.xml file contains a reference for the server with "
                             + "identifier [" + serverId + "], injecting configuration properties");
 
-                    Xpp3Dom[] globalConfigurationOptions = ((Xpp3Dom) server.getConfiguration())
-                        .getChildren();
+                    Xpp3Dom[] globalConfigurationOptions =
+                        ((Xpp3Dom) server.getConfiguration()).getChildren();
                     for (Xpp3Dom option : globalConfigurationOptions)
                     {
                         if (getConfigurationElement().getSetProperties() == null
@@ -571,8 +565,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                             else
                             {
                                 getLog().debug(
-                                    "\tInjected property: " + option.getName() + " = "
-                                        + option.getValue());
+                                    "\tInjected property: " + option.getName()
+                                        + " = " + option.getValue());
                             }
                         }
                         else
@@ -591,14 +585,14 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * @return a {@link org.codehaus.cargo.container.Container} instance if no container object was
-     * stored in the Maven Plugin Context or returns the saved instance otherwise. If a new
-     * container instance is created it's also saved in the Maven Plugin Context for later
-     * retrieval.
-     * @throws MojoExecutionException in case of error
+     * @return a {@link org.codehaus.cargo.container.Container} instance if no
+     *         container object was stored in the Maven Plugin Context or returns
+     *         the saved instance otherwise. If a new container instance is created
+     *         it's also saved in the Maven Plugin Context for later retrieval.
+     * @throws MojoExecutionException    in case of error
      */
     protected org.codehaus.cargo.container.Container createContainer()
-        throws MojoExecutionException
+            throws MojoExecutionException
     {
         org.codehaus.cargo.container.Container container = null;
 
@@ -610,8 +604,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         {
             if (getContainerElement().getHome() != null && !getCargoProject().isDaemonRun())
             {
-                getContainerElement().setHome(calculateAbsoluteDirectory("container home",
-                    getContainerElement().getHome()));
+                getContainerElement().setHome(calculateAbsoluteDirectory(
+                    "container home", getContainerElement().getHome()));
             }
             if (getContainerElement().getArtifactInstaller() != null
                 && getContainerElement().getArtifactInstaller().getExtractDir() != null)
@@ -650,8 +644,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         {
             if (getConfigurationElement().getHome() != null)
             {
-                getConfigurationElement().setHome(calculateAbsoluteDirectory("configuration home",
-                    getConfigurationElement().getHome()));
+                getConfigurationElement().setHome(calculateAbsoluteDirectory(
+                    "configuration home", getConfigurationElement().getHome()));
             }
 
             if (getContainerElement() == null || getContainerElement().getContextKey() == null
@@ -683,17 +677,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             configuration.setLogger(container.getLogger());
 
             // CARGO-1053: Update the container's configuration, since different executions might
-            //             have defined different configurations but the "put the container in the
-            //             Maven2 context" (for handling multiple containers and also for handling
-            //             embedded containers) mechanism will reuse existing container along with
-            //             its configuration.
+            // have defined different configurations but the "put the container in the Maven2
+            // context" (for handling multiple containers and also for handling embedded
+            // containers) mechanism will reuse existing container along with its configuration.
             if (container instanceof RemoteContainer)
             {
                 if (!(configuration instanceof RuntimeConfiguration))
                 {
                     throw new MojoExecutionException("Expected a "
-                        + RuntimeConfiguration.class.getName()
-                        + " but got a " + configuration.getClass().getName());
+                        + RuntimeConfiguration.class.getName() + " but got a "
+                            + configuration.getClass().getName());
                 }
 
                 ((RemoteContainer) container).setConfiguration(
@@ -704,17 +697,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 if (!(configuration instanceof LocalConfiguration))
                 {
                     throw new MojoExecutionException("Expected a "
-                        + LocalConfiguration.class.getName()
-                        + " but got a " + configuration.getClass().getName());
+                        + LocalConfiguration.class.getName() + " but got a "
+                            + configuration.getClass().getName());
                 }
 
-                ((LocalContainer) container).setConfiguration(
-                    (LocalConfiguration) configuration);
+                ((LocalContainer) container).setConfiguration((LocalConfiguration) configuration);
             }
             else
             {
-                throw new MojoExecutionException("Unknown container type "
-                    + container.getClass().getName());
+                throw new MojoExecutionException(
+                    "Unknown container type " + container.getClass().getName());
             }
         }
 
@@ -723,8 +715,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             context.put(containerKey, container);
             if (ResourceUtils.getResourceLoader() != null)
             {
-                context.put(containerKey + CONTEXT_KEY_CLASSLOADER,
-                        ResourceUtils.getResourceLoader());
+                context.put(
+                    containerKey + CONTEXT_KEY_CLASSLOADER, ResourceUtils.getResourceLoader());
             }
         }
 
@@ -732,15 +724,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     }
 
     /**
-     * Creates a brand new {@link org.codehaus.cargo.container.Container} instance. If the user has
-     * not specified a container element in the POM file or if the user has not specified the
-     * container id then automatically create a default container (as defined in
-     * {@link #createDefaultContainerElementIfNecessary}) if the project calling this plugin has a
-     * WAR packaging. If the packaging is different then an exception is raised.
+     * Creates a brand new {@link org.codehaus.cargo.container.Container} instance.
+     * If the user has not specified a container element in the POM file or if the
+     * user has not specified the container id then automatically create a default
+     * container (as defined in {@link #createDefaultContainerElementIfNecessary})
+     * if the project calling this plugin has a WAR packaging. If the packaging is
+     * different then an exception is raised.
      * 
      * @return a valid {@link org.codehaus.cargo.container.Container} instance
-     * @throws MojoExecutionException in case of error or if a default container could not be
-     * created
+     * @throws MojoExecutionException    in case of error or if a default container
+     *                                   could not be created
      */
     protected org.codehaus.cargo.container.Container createNewContainer()
         throws MojoExecutionException
@@ -755,14 +748,13 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         catch (IOException e)
         {
             getLog().warn("Cannot load the URL to put as the optional default installer element "
-                + "for the container, skipping as this won't kill anyway...", e);
+                    + "for the container, skipping as this won't kill anyway...", e);
         }
 
         if (getContainerElement().getType() == ContainerType.EMBEDDED)
         {
-            EmbeddedContainerArtifactResolver resolver =
-                new EmbeddedContainerArtifactResolver(this.artifactResolver, this.localRepository,
-                    this.repositories, this.artifactFactory);
+            EmbeddedContainerArtifactResolver resolver = new EmbeddedContainerArtifactResolver(
+                this.artifactResolver, projectBuildingRequest);
             ClassLoader classLoader = resolver.resolveDependencies(
                 getContainerElement().getContainerId(),
                     getCargoProject().getEmbeddedClassLoader());
@@ -786,9 +778,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         org.codehaus.cargo.container.configuration.Configuration configuration =
             createConfiguration();
         configuration.setLogger(logger);
-        container = getContainerElement().createContainer(configuration,
-            logger, getCargoProject(), artifactFactory, artifactResolver, localRepository,
-            repositories, settings);
+        container = getContainerElement().createContainer(configuration, logger, getCargoProject(),
+            artifactResolver, projectBuildingRequest, settings);
 
         return container;
     }
@@ -796,8 +787,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     /**
      * Creates a container element if required.
      * 
-     * @throws MojoExecutionException in case of error or if a default container could not be
-     * created
+     * @throws MojoExecutionException    in case of error or if a default container
+     *                                   could not be created
      */
     protected void createDefaultContainerElementIfNecessary() throws MojoExecutionException
     {
@@ -843,24 +834,31 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             getLog().info("No container defined, using a default ["
                 + getContainerElement().getContainerId() + ", "
-                + getContainerElement().getType().getType() + "] container");
+                    + getContainerElement().getType().getType() + "] container");
         }
 
         String containerId = getContainerElement().getContainerId();
-        if (containerId != null && artifactFactory != null)
+        if (containerId != null)
         {
             String containerArtifactId =
                 AbstractCargoMojo.calculateContainerArtifactId(containerId);
-            Artifact containerArtifact = artifactFactory.createArtifact("org.codehaus.cargo",
-                containerArtifactId, pluginVersion, null, "jar");
+
+            DefaultArtifactCoordinate containerArtifactCoordinate =
+                new DefaultArtifactCoordinate();
+            containerArtifactCoordinate.setGroupId("org.codehaus.cargo");
+            containerArtifactCoordinate.setArtifactId(containerArtifactId);
+            containerArtifactCoordinate.setVersion(pluginVersion);
+            containerArtifactCoordinate.setExtension("jar");
+
             try
             {
+                Artifact containerArtifact = artifactResolver.resolveArtifact(
+                    projectBuildingRequest, containerArtifactCoordinate).getArtifact();
+
                 // Here, we are to resolve the container's Maven artifact dynamically and, most
                 // importantly, add it to the list of JARs the generic API searches into.
                 //
                 // The central place for this is the CARGO ResourceUtils.
-
-                artifactResolver.resolve(containerArtifact, repositories, localRepository);
                 URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
                 ClassLoader classLoader = ResourceUtils.getResourceLoader();
                 List<URL> urlClassLoaderURLs = new ArrayList<URL>();
@@ -879,23 +877,26 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 {
                     createLogger().debug("Container artifact " + containerArtifact
                         + " for container " + containerId + " already in class loader",
-                        this.getClass().getName());
+                            this.getClass().getName());
                 }
                 else
                 {
-                    Artifact dummy =
-                        artifactFactory.createArtifact("dummy", "dummy", "0.1", null, "pom");
-
-                    Set<Artifact> artifacts = new HashSet<Artifact>(1);
-                    artifacts.add(containerArtifact);
-                    artifacts = artifactResolver.resolveTransitively(artifacts, dummy,
-                        localRepository, repositories, metadataSource,
-                        new ScopeArtifactFilter(Artifact.SCOPE_COMPILE)).getArtifacts();
+                    DefaultDependableCoordinate containerDependableCoordinate =
+                        new DefaultDependableCoordinate();
+                    containerDependableCoordinate.setGroupId("org.codehaus.cargo");
+                    containerDependableCoordinate.setArtifactId(containerArtifactId);
+                    containerDependableCoordinate.setVersion(pluginVersion);
+                    containerDependableCoordinate.setType("jar");
+                    Iterable<ArtifactResult> artifactResults =
+                        dependencyResolver.resolveDependencies(projectBuildingRequest,
+                            containerDependableCoordinate,
+                                ScopeFilter.including(Artifact.SCOPE_COMPILE));
 
                     List<URL> containerArtifactURLs = new ArrayList<URL>();
-                    for (Artifact artifact : artifacts)
+                    containerArtifactURLs.add(containerArtifactUrl);
+                    for (ArtifactResult artifactResult : artifactResults)
                     {
-                        URL artifactURL = artifact.getFile().toURI().toURL();
+                        URL artifactURL = artifactResult.getArtifact().getFile().toURI().toURL();
                         if (!urlClassLoaderURLs.contains(artifactURL))
                         {
                             containerArtifactURLs.add(artifactURL);
@@ -917,9 +918,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             }
             catch (Exception e)
             {
-                createLogger().debug("Cannot resolve container artifact " + containerArtifact
-                    + " for container " + containerId + ": " + e.toString(),
-                    this.getClass().getName());
+                getLog().error(e);
+                createLogger().debug("Cannot resolve container artifact "
+                    + containerArtifactCoordinate + " for container " + containerId + ": "
+                        + e.toString(), this.getClass().getName());
             }
         }
     }
@@ -1021,9 +1023,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * @param starting <code>true</code> if container is starting (i.e., wait for deployment),
      * <code>false</code> otherwise.
      */
-    protected void waitDeployableMonitor(
-            org.codehaus.cargo.container.Container container,
-            boolean starting)
+    protected void waitDeployableMonitor(org.codehaus.cargo.container.Container container,
+        boolean starting)
     {
         if (getDeployablesElement() != null)
         {
@@ -1032,8 +1033,8 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             for (Deployable deployable : getDeployablesElement())
             {
                 DeployableMonitorFactory monitorFactory = new DefaultDeployableMonitorFactory();
-                DeployableMonitor monitor = monitorFactory.
-                        createDeployableMonitor(container, deployable);
+                DeployableMonitor monitor =
+                    monitorFactory.createDeployableMonitor(container, deployable);
 
                 if (monitor != null)
                 {

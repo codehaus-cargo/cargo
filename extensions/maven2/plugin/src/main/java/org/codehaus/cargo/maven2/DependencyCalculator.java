@@ -22,24 +22,26 @@ package org.codehaus.cargo.maven2;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.installer.ArtifactInstaller;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
-import org.apache.maven.profiles.DefaultProfileManager;
-import org.apache.maven.profiles.ProfileManager;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectBuilder;
-import org.codehaus.plexus.PlexusContainer;
+import org.apache.maven.project.ProjectBuilder;
+import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.project.ProjectBuildingResult;
+import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
+import org.apache.maven.shared.transfer.artifact.install.ArtifactInstaller;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
+import org.apache.maven.shared.transfer.dependencies.resolve.DependencyResolver;
 
 /**
  * This class is effectively an unmitigated hack. Any offers to do it 'properly' are gratefully
@@ -63,54 +65,63 @@ import org.codehaus.plexus.PlexusContainer;
 public class DependencyCalculator
 {
 
-    /** @component */
-    private ArtifactFactory artifactFactory;
+    /**
+     * Maven artifact resolver, used to dynamically resolve JARs for the containers and also to
+     * resolve the JARs for the embedded container's classpaths.
+     */
+    @Component
+    private ArtifactResolver artifactResolver;
 
-    /** @component */
-    private ArtifactResolver resolver;
+    /**
+     * Maven dependency resolver, used to dynamically resolve dependencies of artifacts.
+     */
+    @Component
+    private DependencyResolver dependencyResolver;
 
-    /** @parameter property="localRepository" */
-    private ArtifactRepository localRepository;
+    /**
+     * Maven project building request.
+     */
+    @Parameter(
+        defaultValue = "${session.projectBuildingRequest}", readonly = true, required = true)
+    private ProjectBuildingRequest projectBuildingRequest;
 
-    /** @parameter property="project.remoteArtifactRepositories" */
-    private List<ArtifactRepository> remoteRepositories;
-
-    /** @parameter property="project" */
+    /**
+     * The Maven project.
+     */
+    @Parameter(property = "project", readonly = true, required = true)
     private MavenProject mavenProject;
 
-    /** @component */
-    private MavenProjectBuilder mavenProjectBuilder;
+    /**
+     * Maven project builder, used to calculate dependencies.
+     */
+    @Component
+    private ProjectBuilder mavenProjectBuilder;
 
-    /** @component */
+    /**
+     * Maven artifact installer, used to calculate dependencies.
+     */
+    @Component
     private ArtifactInstaller installer;
-
-    /** Container */
-    private PlexusContainer container;
 
     /**
      * Saves all attributes.
-     * @param artifactFactory Artifact factory.
-     * @param resolver Artifact resolver.
-     * @param localRepository Artifact repository.
-     * @param remoteRepositories Remote repositories.
+     * @param dependencyResolver Dependency resolver.
+     * @param artifactResolver Artifact resolver.
+     * @param projectBuildingRequest Maven2 project building request.
      * @param mavenProject Maven2 project.
      * @param mavenProjectBuilder Maven2 project builder.
      * @param installer Artifact installer.
-     * @param container Plexus container.
      */
-    public DependencyCalculator(ArtifactFactory artifactFactory, ArtifactResolver resolver,
-        ArtifactRepository localRepository, List<ArtifactRepository> remoteRepositories,
-        MavenProject mavenProject, MavenProjectBuilder mavenProjectBuilder,
-        ArtifactInstaller installer, PlexusContainer container)
+    public DependencyCalculator(DependencyResolver dependencyResolver,
+        ArtifactResolver artifactResolver, ProjectBuildingRequest projectBuildingRequest,
+        MavenProject mavenProject, ProjectBuilder mavenProjectBuilder, ArtifactInstaller installer)
     {
-        this.artifactFactory = artifactFactory;
-        this.resolver = resolver;
-        this.localRepository = localRepository;
-        this.remoteRepositories = remoteRepositories;
+        this.dependencyResolver = dependencyResolver;
+        this.artifactResolver = artifactResolver;
+        this.projectBuildingRequest = projectBuildingRequest;
         this.mavenProject = mavenProject;
         this.mavenProjectBuilder = mavenProjectBuilder;
         this.installer = installer;
-        this.container = container;
     }
 
     /**
@@ -120,29 +131,30 @@ public class DependencyCalculator
      */
     public Set<File> execute() throws Exception
     {
-        ProfileManager profileManager = new DefaultProfileManager(container);
-
         fixupProjectArtifact();
 
         // Calculate the new deps
         Artifact art = mavenProject.getArtifact();
-        Artifact art2 = artifactFactory.createArtifactWithClassifier(art
-                .getGroupId() + ".cargodeps", art.getArtifactId(), art.getVersion(), "pom",
-                null);
-        resolver.resolve(art2, remoteRepositories, localRepository);
 
-        MavenProject mavenProject = mavenProjectBuilder.buildWithDependencies(
-                art2.getFile(), localRepository, profileManager);
+        DefaultArtifactCoordinate containerArtifactCoordinate = new DefaultArtifactCoordinate();
+        containerArtifactCoordinate.setGroupId(art.getGroupId() + ".cargodeps");
+        containerArtifactCoordinate.setArtifactId(art.getArtifactId());
+        containerArtifactCoordinate.setVersion(art.getVersion());
+        containerArtifactCoordinate.setExtension("pom");
+
+        Artifact art2 = artifactResolver.resolveArtifact(
+            projectBuildingRequest, containerArtifactCoordinate).getArtifact();
+
+        ProjectBuildingResult projectBuildingResult =
+            mavenProjectBuilder.build(art2, projectBuildingRequest);
 
         Set<File> filesToAdd = new HashSet<File>();
 
-        for (Object artifact : mavenProject.getArtifacts())
+        for (Artifact artifact : projectBuildingResult.getProject().getArtifacts())
         {
-            Artifact artdep = (Artifact) artifact;
-            if (artdep.getType().equals("jar"))
+            if (artifact.getType().equals("jar"))
             {
-                resolver.resolve(artdep, remoteRepositories, localRepository);
-                filesToAdd.add(artdep.getFile());
+                filesToAdd.add(artifact.getFile());
             }
         }
 
@@ -155,17 +167,22 @@ public class DependencyCalculator
      */
     protected void fixupProjectArtifact() throws Exception
     {
-        MavenProject mp2 = new MavenProject(mavenProject);
+        MavenProject mp2 = mavenProject.clone();
+
         // For each of our dependencies..
-        for (Object artifact : mp2.createArtifacts(artifactFactory, null, null))
+        for (Artifact artifact : mp2.getArtifacts())
         {
-            Artifact art = (Artifact) artifact;
-            if (art.getType().equals("war"))
+            if (artifact.getType().equals("war"))
             {
-                // Sigh...
-                Artifact art2 = artifactFactory.createArtifactWithClassifier(
-                        art.getGroupId(), art.getArtifactId(),
-                        art.getVersion(), "pom", null);
+                DefaultArtifactCoordinate containerArtifactCoordinate =
+                    new DefaultArtifactCoordinate();
+                containerArtifactCoordinate.setGroupId(artifact.getGroupId());
+                containerArtifactCoordinate.setArtifactId(artifact.getArtifactId());
+                containerArtifactCoordinate.setVersion(artifact.getVersion());
+                containerArtifactCoordinate.setExtension("pom");
+
+                Artifact art2 = artifactResolver.resolveArtifact(
+                    projectBuildingRequest, containerArtifactCoordinate).getArtifact();
                 fixupRepositoryArtifact(art2);
             }
         }
@@ -193,23 +210,24 @@ public class DependencyCalculator
      */
     protected void fixupRepositoryArtifact(Artifact artifact) throws Exception
     {
-        // Resolve it
-        resolver.resolve(artifact, remoteRepositories, localRepository);
         File artifactFile = artifact.getFile();
 
-        // Also, create a project for it
-        MavenProject mavenProject = mavenProjectBuilder.buildFromRepository(
-                artifact, remoteRepositories, localRepository);
-        for (Object createdArtifact : mavenProject.createArtifacts(artifactFactory, null, null))
-        {
-            Artifact art = (Artifact) createdArtifact;
+        ProjectBuildingResult projectBuildingResult =
+            mavenProjectBuilder.build(artifact, projectBuildingRequest);
 
-            if (art.getType().equals("war"))
+        for (Artifact createdArtifact : projectBuildingResult.getProject().getArtifacts())
+        {
+            if (createdArtifact.getType().equals("war"))
             {
-                // Sigh...
-                Artifact art2 = artifactFactory.createArtifactWithClassifier(
-                        art.getGroupId(), art.getArtifactId(),
-                        art.getVersion(), "pom", null);
+                DefaultArtifactCoordinate containerArtifactCoordinate =
+                    new DefaultArtifactCoordinate();
+                containerArtifactCoordinate.setGroupId(createdArtifact.getGroupId());
+                containerArtifactCoordinate.setArtifactId(createdArtifact.getArtifactId());
+                containerArtifactCoordinate.setVersion(createdArtifact.getVersion());
+                containerArtifactCoordinate.setExtension("pom");
+
+                Artifact art2 = artifactResolver.resolveArtifact(
+                    projectBuildingRequest, containerArtifactCoordinate).getArtifact();
                 fixupRepositoryArtifact(art2);
             }
         }
@@ -252,11 +270,19 @@ public class DependencyCalculator
 
         pomWriter.write(new FileWriter(outFile), pomFile);
 
-        Artifact art2 = artifactFactory.createArtifactWithClassifier(artifact
-                .getGroupId() + ".cargodeps", artifact.getArtifactId(), artifact.getVersion(),
-                "pom", null);
+        DefaultArtifactCoordinate containerArtifactCoordinate = new DefaultArtifactCoordinate();
+        containerArtifactCoordinate.setGroupId(artifact.getGroupId() + ".cargodeps");
+        containerArtifactCoordinate.setArtifactId(artifact.getArtifactId());
+        containerArtifactCoordinate.setVersion(artifact.getVersion());
+        containerArtifactCoordinate.setExtension("pom");
 
-        installer.install(outFile, art2, localRepository);
+        Artifact art2 = artifactResolver.resolveArtifact(
+            projectBuildingRequest, containerArtifactCoordinate).getArtifact();
+
+        List<Artifact> artifactList = new ArrayList<Artifact>(1);
+        artifactList.add(art2);
+
+        installer.install(projectBuildingRequest, artifactList);
         outFile.delete();
     }
 

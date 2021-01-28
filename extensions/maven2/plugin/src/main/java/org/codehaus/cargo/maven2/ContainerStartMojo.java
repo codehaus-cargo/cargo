@@ -21,17 +21,16 @@ package org.codehaus.cargo.maven2;
 
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
  * Start a container using Cargo.
- * 
- * @goal start
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(name = "start", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class ContainerStartMojo extends AbstractCargoMojo
 {
     /**

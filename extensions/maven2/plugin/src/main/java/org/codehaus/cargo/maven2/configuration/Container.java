@@ -31,17 +31,15 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import java.util.Set;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
+
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Settings;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -405,7 +403,7 @@ public class Container
         Configuration configuration, Logger logger, CargoProject project)
         throws MojoExecutionException
     {
-        return createContainer(configuration, logger, project, null, null, null, null, null);
+        return createContainer(configuration, logger, project, null, null, null);
     }
 
     /**
@@ -413,24 +411,17 @@ public class Container
      * @param configuration Container configuration.
      * @param logger Logger.
      * @param project Cargo project.
-     * @param artifactFactory The artifact factory is used to create valid Maven
-     * {@link org.apache.maven.artifact.Artifact} objects.
      * @param artifactResolver The artifact resolver is used to dynamically resolve
      * {@link org.apache.maven.artifact.Artifact} objects. It will automatically download whatever
      * needed.
-     * @param localRepository The local Maven repository. This is used by the artifact resolver to
-     * download resolved artifacts and put them in the local repository so that they won't have to
-     * be fetched again next time the plugin is executed.
-     * @param repositories The remote Maven repositories used by the artifact resolver to look for
-     * artifacts.
+     * @param projectBuildingRequest Maven project building request.
      * @param settings Maven2 settings.
      * @return Container configuration.
      * @throws MojoExecutionException If container creation fails.
      */
     public org.codehaus.cargo.container.Container createContainer(
         Configuration configuration, Logger logger, CargoProject project,
-        ArtifactFactory artifactFactory, ArtifactResolver artifactResolver,
-        ArtifactRepository localRepository, List<ArtifactRepository> repositories,
+        ArtifactResolver artifactResolver, ProjectBuildingRequest projectBuildingRequest,
         Settings settings) throws MojoExecutionException
     {
         ContainerFactory factory = new DefaultContainerFactory();
@@ -480,8 +471,9 @@ public class Container
                 {
                     proxy = settings.getActiveProxy();
                 }
-                setupHome((InstalledLocalContainer) container, project, artifactFactory,
-                    artifactResolver, localRepository, repositories, proxy);
+                setupHome(
+                    (InstalledLocalContainer) container, project, artifactResolver,
+                        projectBuildingRequest, proxy);
                 setupOutput((InstalledLocalContainer) container, project);
                 setupExtraClasspath((InstalledLocalContainer) container, project);
                 setupSystemProperties((InstalledLocalContainer) container);
@@ -703,23 +695,16 @@ public class Container
      * {@link ZipUrlInstaller} or {@link ArtifactInstaller}).
      * @param container Container.
      * @param project Cargo project.
-     * @param artifactFactory The artifact factory is used to create valid Maven
-     * {@link org.apache.maven.artifact.Artifact} objects.
      * @param artifactResolver The artifact resolver is used to dynamically resolve
      * {@link org.apache.maven.artifact.Artifact} objects. It will automatically download whatever
      * needed.
-     * @param localRepository The local Maven repository. This is used by the artifact resolver to
-     * download resolved artifacts and put them in the local repository so that they won't have to
-     * be fetched again next time the plugin is executed.
-     * @param repositories The remote Maven repositories used by the artifact resolver to look for
-     * artifacts.
+     * @param projectBuildingRequest Maven project building request.
      * @param proxy If exists, Maven2 proxy.
      * @throws MojoExecutionException If anything goes wrong.
      */
     private void setupHome(InstalledLocalContainer container, CargoProject project,
-        ArtifactFactory artifactFactory, ArtifactResolver artifactResolver,
-        ArtifactRepository localRepository, List<ArtifactRepository> repositories, Proxy proxy)
-        throws MojoExecutionException
+        ArtifactResolver artifactResolver, ProjectBuildingRequest projectBuildingRequest,
+        Proxy proxy) throws MojoExecutionException
     {
         String tmpHome = null;
 
@@ -736,8 +721,7 @@ public class Container
             URL homeURL;
             try
             {
-                home = getArtifactInstaller().resolve(artifactFactory, artifactResolver,
-                    localRepository, repositories);
+                home = getArtifactInstaller().resolve(artifactResolver, projectBuildingRequest);
                 homeURL = home.toURI().toURL();
             }
             catch (Exception e)

@@ -19,13 +19,15 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Deploy a deployable to a container.
- * 
- * @goal deployer-deploy
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(
+    name = "deployer-deploy", requiresDependencyResolution = ResolutionScope.TEST,
+    threadSafe = true)
 public class DeployerDeployMojo extends AbstractDeployerMojo
 {
     @Override

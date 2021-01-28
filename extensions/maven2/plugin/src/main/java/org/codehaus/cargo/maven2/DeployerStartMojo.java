@@ -19,13 +19,15 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Start a deployable which is already installed in a container.
- * 
- * @goal deployer-start
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(
+    name = "deployer-start", requiresDependencyResolution = ResolutionScope.TEST,
+    threadSafe = true)
 public class DeployerStartMojo extends AbstractDeployerMojo
 {
     @Override

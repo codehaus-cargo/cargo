@@ -19,13 +19,15 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Redeploy a deployable (i.e. undeploy and deploy it again) in a container.
- * 
- * @goal deployer-redeploy
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(
+    name = "deployer-redeploy", requiresDependencyResolution = ResolutionScope.TEST,
+    threadSafe = true)
 public class DeployerRedeployMojo extends AbstractDeployerMojo
 {
     @Override

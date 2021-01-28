@@ -20,6 +20,7 @@
 package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -36,6 +37,7 @@ public abstract class AbstractCommonMojo extends AbstractMojo
      * @readonly
      * @see #getProject()
      */
+    @Parameter(property = "project", readonly = true, required = true)
     private MavenProject project;
 
     /**

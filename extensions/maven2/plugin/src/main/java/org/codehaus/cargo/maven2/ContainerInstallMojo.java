@@ -20,6 +20,8 @@
 package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -30,11 +32,9 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
  * in the <a href="https://codehaus-cargo.github.io/cargo/Maven2+Plugin+Reference+Guide.html">Cargo
  * Maven 2 / Maven 3 plugin reference guide</a>.
  * 
- * @goal install
- * @requiresDependencyResolution compile
- * @threadSafe
  * @since Cargo Maven 2 / Maven 3 plugin v0.3
  */
+@Mojo(name = "install", requiresDependencyResolution = ResolutionScope.COMPILE, threadSafe = true)
 public class ContainerInstallMojo extends AbstractCargoMojo
 {
     /**

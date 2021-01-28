@@ -20,6 +20,8 @@
 package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -29,11 +31,9 @@ import org.codehaus.cargo.maven2.configuration.Packager;
  * Package a container distribution, a Configuration and deployed deployables. See
  * {@link org.codehaus.cargo.container.packager.Packager}.
  * 
- * @goal package
- * @requiresDependencyResolution test
- * @threadSafe
  * @since Maven2 Cargo Plugin v0.3
  */
+@Mojo(name = "package", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class PackageMojo extends AbstractCargoMojo
 {
     /**

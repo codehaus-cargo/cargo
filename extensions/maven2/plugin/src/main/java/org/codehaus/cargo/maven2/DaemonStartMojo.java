@@ -22,15 +22,15 @@ package org.codehaus.cargo.maven2;
 import java.io.File;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.tools.daemon.DaemonStart;
 
 /**
  * Start a container via the daemon.
- * 
- * @goal daemon-start
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(
+    name = "daemon-start", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class DaemonStartMojo extends AbstractDaemonMojo
 {
     @Override

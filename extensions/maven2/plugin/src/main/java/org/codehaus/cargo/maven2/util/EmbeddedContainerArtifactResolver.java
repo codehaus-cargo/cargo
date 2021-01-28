@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 
 /**
@@ -44,19 +44,9 @@ public class EmbeddedContainerArtifactResolver
     private ArtifactResolver artifactResolver;
 
     /**
-     * Local repository.
+     * Maven project building request.
      */
-    private ArtifactRepository localRepository;
-
-    /**
-     * List of repositories to look in.
-     */
-    private List<ArtifactRepository> repositories;
-
-    /**
-     * Artifact factory.
-     */
-    private ArtifactFactory artifactFactory;
+    private ProjectBuildingRequest projectBuildingRequest;
 
     /**
      * Map of embedded container dependencies.
@@ -101,18 +91,13 @@ public class EmbeddedContainerArtifactResolver
     /**
      * Save all attributes.
      * @param artifactResolver Artifact resolver.
-     * @param localRepository Local repository.
-     * @param repositories List of repositories to look in.
-     * @param artifactFactory Artifact factory.
+     * @param projectBuildingRequest Maven project building request.
      */
     public EmbeddedContainerArtifactResolver(ArtifactResolver artifactResolver,
-        ArtifactRepository localRepository, List<ArtifactRepository> repositories,
-        ArtifactFactory artifactFactory)
+        ProjectBuildingRequest projectBuildingRequest)
     {
         this.artifactResolver = artifactResolver;
-        this.localRepository = localRepository;
-        this.repositories = repositories;
-        this.artifactFactory = artifactFactory;
+        this.projectBuildingRequest = projectBuildingRequest;
 
         List<Dependency> jetty5xDependencies = new ArrayList<Dependency>();
         jetty5xDependencies.add(new Dependency("jetty", "org.mortbay.jetty", "5.1.12"));
@@ -450,9 +435,14 @@ public class EmbeddedContainerArtifactResolver
             List<URL> urls = new ArrayList<URL>(dependencies.size() + 1);
             for (Dependency dependency : dependencies)
             {
-                Artifact artifact = this.artifactFactory.createArtifact(dependency.groupId,
-                    dependency.artifactId, dependency.version, "compile", "jar");
-                this.artifactResolver.resolve(artifact, this.repositories, this.localRepository);
+                DefaultArtifactCoordinate coordinate = new DefaultArtifactCoordinate();
+                coordinate.setGroupId(dependency.groupId);
+                coordinate.setArtifactId(dependency.artifactId);
+                coordinate.setVersion(dependency.version);
+                coordinate.setExtension("jar");
+
+                Artifact artifact = artifactResolver.resolveArtifact(
+                    this.projectBuildingRequest, coordinate).getArtifact();
                 urls.add(artifact.getFile().toURI().toURL());
             }
 

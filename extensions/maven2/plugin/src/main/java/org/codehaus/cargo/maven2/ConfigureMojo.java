@@ -20,6 +20,8 @@
 package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -27,11 +29,9 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 /**
  * Mojo to create a local container standalone configuration at a specified directory.
  * 
- * @goal configure
- * @requiresDependencyResolution test
- * @threadSafe
  * @description Create a local container standalone configuration at a specified directory
  */
+@Mojo(name = "configure", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class ConfigureMojo extends AbstractCargoMojo
 {
     /**

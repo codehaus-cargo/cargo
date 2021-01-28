@@ -31,14 +31,19 @@ import java.util.List;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.factory.ArtifactFactory;
-import org.apache.maven.artifact.installer.ArtifactInstaller;
-import org.apache.maven.artifact.repository.ArtifactRepository;
-import org.apache.maven.artifact.resolver.ArtifactResolver;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectBuilder;
+import org.apache.maven.project.ProjectBuilder;
+import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.shared.transfer.artifact.install.ArtifactInstaller;
+import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
+import org.apache.maven.shared.transfer.dependencies.resolve.DependencyResolver;
 import org.codehaus.cargo.maven2.io.xpp3.UberWarXpp3Reader;
 import org.codehaus.cargo.maven2.merge.MergeWebXml;
 import org.codehaus.cargo.maven2.merge.MergeXslt;
@@ -48,8 +53,6 @@ import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.merge.MergedWarArchive;
 import org.codehaus.cargo.module.webapp.merge.WarArchiveMerger;
-import org.codehaus.plexus.PlexusConstants;
-import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.archiver.war.WarArchiver;
 import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
@@ -58,122 +61,87 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 /**
  * Builds an uber war.
- * 
- * @goal uberwar
- * @phase package
- * @requiresDependencyResolution runtime
- * @threadSafe
  */
+@Mojo(
+    name = "uberwar", defaultPhase = LifecyclePhase.PACKAGE,
+    requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 {
     /**
      * The directory for the generated WAR.
-     * 
-     * @parameter property="project.build.directory"
-     * @required
      */
+    @Parameter(property = "project.build.directory", required = true)
     private String outputDirectory;
 
     /**
      * The name of the generated WAR.
-     * 
-     * @parameter property="project.build.finalName"
-     * @required
      */
+    @Parameter(property = "project.build.finalName", required = true)
     private String warName;
 
     /**
      * The file name to use for the merge descriptor.
-     * 
-     * @parameter
      */
+    @Parameter
     private File descriptor;
 
     /**
      * Attempt to resolve dependencies, rather than simply merging the files in WEB-INF/lib. This is
      * an experimental feature.
-     * 
-     * @parameter
      */
+    @Parameter
     private boolean resolveDependencies = false;
 
     /**
      * The id to use for the merge descriptor.
-     * 
-     * @parameter
      */
+    @Parameter
     private String descriptorId;
 
     /**
-     * The artifact factory is used to create valid Maven {@link org.apache.maven.artifact.Artifact}
-     * objects, used to calculate dependencies.
-     * 
-     * @component
+     * Maven artifact resolver, used to dynamically resolve JARs for the containers and also to
+     * resolve the JARs for the embedded container's classpaths.
      */
-    private ArtifactFactory artifactFactory;
+    @Component
+    private ArtifactResolver artifactResolver;
 
     /**
-     * Maven artifact resolver, used to calculate dependencies.
-     * 
-     * @component
+     * Maven dependency resolver, used to dynamically resolve dependencies of artifacts.
      */
-    private ArtifactResolver resolver;
+    @Component
+    private DependencyResolver dependencyResolver;
 
     /**
-     * The local Maven repository.
-     * 
-     * @parameter property="localRepository"
-     * @required
-     * @readonly
+     * Maven project building request.
      */
-    private ArtifactRepository localRepository;
-
-    /**
-     * The remote Maven repositories.
-     * 
-     * @parameter property="project.remoteArtifactRepositories"
-     * @required
-     * @readonly
-     */
-    private List<ArtifactRepository> remoteRepositories;
+    @Parameter(
+        defaultValue = "${session.projectBuildingRequest}", readonly = true, required = true)
+    private ProjectBuildingRequest projectBuildingRequest;
 
     /**
      * The Maven project.
-     * 
-     * @parameter property="project"
-     * @required
-     * @readonly
      */
+    @Parameter(property = "project", readonly = true, required = true)
     private MavenProject mavenProject;
 
     /**
      * The archive configuration to use. See <a
      * href="http://maven.apache.org/shared/maven-archiver/index.html">Maven Archiver Reference</a>.
-     * 
-     * @parameter
      */
+    @Parameter
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
      * Maven project builder, used to calculate dependencies.
-     * 
-     * @component
      */
-    private MavenProjectBuilder mavenProjectBuilder;
+    @Component
+    private ProjectBuilder mavenProjectBuilder;
 
     /**
      * Maven artifact installer, used to calculate dependencies.
-     * 
-     * @component
      */
+    @Component
     private ArtifactInstaller installer;
-
-    /**
-     * Maven plexus container, used to calculate dependencies.
-     * 
-     * @component
-     */
-    private PlexusContainer container;
 
     /**
      * @return Parent file of the descriptor.
@@ -351,9 +319,9 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      */
     protected void addAllTransitiveJars(WarArchiveMerger wam) throws MojoExecutionException
     {
-        DependencyCalculator dc = new DependencyCalculator(artifactFactory, resolver,
-            localRepository, remoteRepositories, mavenProject, mavenProjectBuilder, installer,
-            container);
+        DependencyCalculator dc =
+            new DependencyCalculator(dependencyResolver, artifactResolver, projectBuildingRequest,
+                mavenProject, mavenProjectBuilder, installer);
 
         try
         {
@@ -476,14 +444,13 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
     }
 
     /**
-     * Contextualize a context on the current container.
-     * @param context Context to contextualize.
-     * @throws ContextException If anything goes wrong.
+     * Does nothing.
+     * {@inheritDoc}
      */
     @Override
     public void contextualize(Context context) throws ContextException
     {
-        container = (PlexusContainer) context.get(PlexusConstants.PLEXUS_KEY);
+        // Nothing to do
     }
 
 }

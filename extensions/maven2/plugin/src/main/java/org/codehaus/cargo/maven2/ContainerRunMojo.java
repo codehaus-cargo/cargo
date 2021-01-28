@@ -23,6 +23,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
@@ -31,11 +33,8 @@ import org.codehaus.cargo.maven2.configuration.ZipUrlInstaller;
 
 /**
  * Start a container using Cargo and wait until user pressed CTRL + C to stop.
- * 
- * @goal run
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(name = "run", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class ContainerRunMojo extends ContainerStartMojo
 {
     /**

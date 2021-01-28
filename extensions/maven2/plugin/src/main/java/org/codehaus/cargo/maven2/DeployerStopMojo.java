@@ -19,13 +19,14 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Stop a deployable which is already deployed in a container.
- * 
- * @goal deployer-stop
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(
+    name = "deployer-stop", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class DeployerStopMojo extends AbstractDeployerMojo
 {
     @Override

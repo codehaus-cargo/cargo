@@ -20,14 +20,13 @@
 package org.codehaus.cargo.maven2;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 
 /**
  * Stop a container via the daemon.
- * 
- * @goal daemon-stop
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(name = "daemon-stop", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class DaemonStopMojo extends AbstractDaemonMojo
 {
     @Override

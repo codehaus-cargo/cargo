@@ -19,13 +19,15 @@
  */
 package org.codehaus.cargo.maven2;
 
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+
 /**
  * Undeploy a deployable from a container.
- * 
- * @goal deployer-undeploy
- * @requiresDependencyResolution test
- * @threadSafe
  */
+@Mojo(
+    name = "deployer-undeploy", requiresDependencyResolution = ResolutionScope.TEST,
+    threadSafe = true)
 public class DeployerUndeployMojo extends AbstractDeployerMojo
 {
     @Override
