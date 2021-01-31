@@ -1233,18 +1233,7 @@
                 }
               &lt;/script&gt;
             </bottom>
-            <additionalDependencies>
-              <additionalDependency>
-                <groupId>jmock</groupId>
-                <artifactId>jmock</artifactId>
-                <version>${jmock.version}</version>
-              </additionalDependency>
-              <additionalDependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-artifact</artifactId>
-                <version>2.0</version>
-              </additionalDependency>
-            </additionalDependencies>
+            <excludePackageNames>org.codehaus.cargo.documentation</excludePackageNames>
             <sourceFileExcludes>
               <sourceFileExclude>**/org/codehaus/cargo/maven3/HelpMojo.java</sourceFileExclude>
               <sourceFileExclude>**/org/codehaus/cargo/maven3/Merge*.java</sourceFileExclude>
