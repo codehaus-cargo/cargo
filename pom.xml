@@ -339,7 +339,6 @@
     <maven.minimum.version>3.2.3</maven.minimum.version>
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
-    <jmock.version>1.2.0</jmock.version>
   </properties>
 
   <dependencyManagement>
@@ -935,13 +934,8 @@
       </dependency>
       <dependency>
         <groupId>jmock</groupId>
-        <artifactId>jmock</artifactId>
-        <version>${jmock.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>jmock</groupId>
         <artifactId>jmock-cglib</artifactId>
-        <version>${jmock.version}</version>
+        <version>1.2.0</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
