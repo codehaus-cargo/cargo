@@ -14,3 +14,6 @@ nbproject
 
 # Mac DS_Store files
 .DS_Store
+
+# Temporary files created by Surefire in Windows
+TempWmicBatchFile.bat
