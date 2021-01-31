@@ -136,13 +136,17 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         catch (ClassNotFoundException e)
         {
             throw new CargoException("Cannot locate the JBoss connector classes! Make sure the "
-                + "required JBoss JARs (or Maven dependencies) are in CARGO's classpath.\n"
-                + "More information on: "
+                + "required JBoss JARs (or associated Maven dependencies) are in Codehaus Cargo's "
+                + "classpath.\nMore information on: "
                 + "https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html", e);
         }
 
-        try (URLClassLoader deployerClassLoader =
-            new URLClassLoader(new URL[] {deployerJarURL}, jBossConnectorClassLoader))
+        // CARGO-1546: Please do ignore the warning stating that there might be a resource leak
+        // due to the fact that deployerClassLoader is never closed - It actually should not be
+        // closed as long as we have the JBoss5xRemoteDeployer#deployer still active
+        URLClassLoader deployerClassLoader =
+            new URLClassLoader(new URL[] {deployerJarURL}, jBossConnectorClassLoader);
+        try
         {
             final String classToLoad = "org.codehaus.cargo.tools.jboss.JBossDeployer";
             Class<?> jbossDeployerClass = deployerClassLoader.loadClass(classToLoad);
@@ -154,6 +158,17 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
         }
         catch (Throwable t)
         {
+            try
+            {
+                deployerClassLoader.close();
+                deployerClassLoader = null;
+                System.gc();
+            }
+            catch (IOException ignored)
+            {
+                // Ignored
+            }
+
             throw new CargoException("Cannot create the JBoss remote deployer: "
                 + t.getMessage(), t);
         }
