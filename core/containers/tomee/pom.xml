@@ -54,8 +54,8 @@
                   <artifactId>cargo-core-container-tomcat</artifactId>
                   <includes>
                     org/codehaus/cargo/container/internal/resources/tomcat*/*,
-                    org/codehaus/cargo/container/tomcat/*.class,
-                    org/codehaus/cargo/container/tomcat/*/*.class
+                    org/codehaus/cargo/container/tomcat/*,
+                    org/codehaus/cargo/container/tomcat/*/*
                   </includes>
                   <overWrite>false</overWrite>
                 </artifactItem>
