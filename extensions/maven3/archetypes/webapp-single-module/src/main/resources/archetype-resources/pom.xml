@@ -13,7 +13,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>${cargo.archetypes-junit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -30,16 +30,16 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
+          <version>${maven.compiler-plugin.version}</version>
           <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>${maven.compiler-java.version}</source>
+            <target>${maven.compiler-java.version}</target>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${maven.failsafe-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
@@ -59,6 +59,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven.failsafe-plugin.version}</version>
         <executions>
           <execution>
             <id>perform-it</id>

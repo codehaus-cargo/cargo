@@ -51,14 +51,14 @@
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
         <includes>
-          <include>archetype-resources/pom.xml</include>
+          <include>archetype-resources/**/pom.xml</include>
         </includes>
       </resource>
       <resource>
         <directory>src/main/resources</directory>
         <filtering>false</filtering>
         <excludes>
-          <exclude>archetype-resources/pom.xml</exclude>
+          <exclude>archetype-resources/**/pom.xml</exclude>
         </excludes>
       </resource>
     </resources>
@@ -108,9 +108,6 @@
             <showErrors>true</showErrors>
             <streamLogs>true</streamLogs>
             <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
-            <!-- Can't use a cloned local repo as the cargo maven plugin isn't installed
-                 in the clone process. See issue MINVOKER-115.
-            <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath> -->
             <pomIncludes>
               <pomInclude>*</pomInclude>
             </pomIncludes>

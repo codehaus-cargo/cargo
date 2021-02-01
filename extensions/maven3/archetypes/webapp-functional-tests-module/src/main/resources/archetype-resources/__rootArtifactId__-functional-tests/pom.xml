@@ -4,11 +4,11 @@
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>${groupId}</groupId>
-    <artifactId>${rootArtifactId}</artifactId>
-    <version>${version}</version>
+    <groupId>\${groupId}</groupId>
+    <artifactId>\${rootArtifactId}</artifactId>
+    <version>\${version}</version>
   </parent>
-  <artifactId>${artifactId}</artifactId>
+  <artifactId>\${artifactId}</artifactId>
   <name>Maven Functional Tests</name>
 
   <properties>
@@ -19,13 +19,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>${cargo.archetypes-junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>${rootArtifactId}-webapp</artifactId>
-      <version>${project.version}</version>
+      <groupId>\${project.groupId}</groupId>
+      <artifactId>\${rootArtifactId}-webapp</artifactId>
+      <version>\${project.version}</version>
       <type>war</type>
     </dependency>
   </dependencies>
@@ -39,13 +39,13 @@
           <configuration>
             <configuration>
               <properties>
-                <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
+                <cargo.servlet.port>\${servlet.port}</cargo.servlet.port>
               </properties>
             </configuration>
             <deployables>
               <deployable>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>${rootArtifactId}-webapp</artifactId>
+                <groupId>\${project.groupId}</groupId>
+                <artifactId>\${rootArtifactId}-webapp</artifactId>
                 <type>war</type>
               </deployable>
             </deployables>
@@ -57,7 +57,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>${maven.failsafe-plugin.version}</version>
         <executions>
           <execution>
             <id>perform-it</id>
@@ -68,7 +68,7 @@
               <systemProperties>
                 <property>
                   <name>servlet.port</name>
-                  <value>${servlet.port}</value>
+                  <value>\${servlet.port}</value>
                 </property>
               </systemProperties>
             </configuration>

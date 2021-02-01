@@ -330,6 +330,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+    <cargo.derby.version>10.12.1.1</cargo.derby.version>
+    <cargo.archetypes-junit.version>4.13.1</cargo.archetypes-junit.version>
     <!--
       The multiple-containers archetype relies on multiple profile activation conditions, which
       only works starting from Maven 3.2.2: https://issues.apache.org/jira/browse/MNG-4565
@@ -338,7 +340,11 @@
       -->
     <maven.minimum.version>3.2.3</maven.minimum.version>
     <maven.archetype-packaging.version>3.2.0</maven.archetype-packaging.version>
-    <cargo.derby.version>10.12.1.1</cargo.derby.version>
+    <maven.compiler-plugin.version>3.8.1</maven.compiler-plugin.version>
+    <maven.compiler-java.version>1.8</maven.compiler-java.version>
+    <maven.dependency-plugin.version>3.1.2</maven.dependency-plugin.version>
+    <maven.failsafe-plugin.version>2.22.2</maven.failsafe-plugin.version>
+    <maven.surefire-plugin.version>2.22.2</maven.surefire-plugin.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
 
@@ -1149,17 +1155,16 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>${maven.compiler-plugin.version}</version>
           <configuration>
-            <!-- When you change the below, remember to also update the Javadoc plugin configuration -->
-            <source>1.8</source>
-            <target>1.8</target>
+            <source>${maven.compiler-java.version}</source>
+            <target>${maven.compiler-java.version}</target>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>${maven.dependency-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1183,7 +1188,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${maven.failsafe-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -1205,7 +1210,7 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.2.0</version>
           <configuration>
-            <source>1.8</source>
+            <source>${maven.compiler-java.version}</source>
             <!--
               Workaround for a bug which appends the /undefined/ string in search in the apidocs, see
               https://stackoverflow.com/questions/52326318/maven-javadoc-search-redirects-to-undefined-url for details
@@ -1286,7 +1291,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${maven.surefire-plugin.version}</version>
           <configuration>
             <excludes>
               <exclude>**/Abstract*.java</exclude>
