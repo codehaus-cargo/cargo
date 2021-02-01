@@ -337,6 +337,7 @@
       Require Maven 3.2.3 so access to Maven Central is done via HTTPS.
       -->
     <maven.minimum.version>3.2.3</maven.minimum.version>
+    <maven.archetype-packaging.version>3.2.0</maven.archetype-packaging.version>
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
@@ -1107,11 +1108,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-archetype-plugin</artifactId>
-          <!--
-            Remember to align the below version with the archetype-packaging version in the
-            cargo-maven3-archetypes artifact.
-            -->
-          <version>3.2.0</version>
+          <version>${maven.archetype-packaging.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
