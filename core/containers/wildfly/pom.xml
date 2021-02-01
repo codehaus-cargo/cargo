@@ -55,8 +55,9 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-container-jboss</artifactId>
                   <includes>
-                    org/codehaus/cargo/container/jboss/*.*,
-                    org/codehaus/cargo/container/jboss/*/*.*
+                    org/codehaus/cargo/container/internal/resources/jboss*/*,
+                    org/codehaus/cargo/container/jboss/*,
+                    org/codehaus/cargo/container/jboss/*/*
                   </includes>
                   <overWrite>false</overWrite>
                 </artifactItem>
