@@ -6,12 +6,10 @@
     <version>1.9.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-
   <artifactId>cargo-core-container-wildfly-swarm</artifactId>
   <name>Cargo Core WildFly Swarm Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for WildFly Swarm containers</description>
-
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -28,5 +26,35 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <configuration>
+              <outputDirectory>
+                ${project.build.directory}/classes
+              </outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-core-container-jboss</artifactId>
+                  <includes>
+                    org/codehaus/cargo/container/jboss/deployable/JBossWAR.class
+                  </includes>
+                  <overWrite>false</overWrite>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
