@@ -53,13 +53,9 @@
                   <groupId>org.codehaus.cargo</groupId>
                   <artifactId>cargo-core-container-tomcat</artifactId>
                   <includes>
-                    org/codehaus/cargo/container/internal/resources/tomcat/*,
-                    org/codehaus/cargo/container/internal/resources/tomcat4x/*,
-                    org/codehaus/cargo/container/internal/resources/tomcat5x/*,
-                    org/codehaus/cargo/container/tomcat/Tomcat5x*,
-                    org/codehaus/cargo/container/tomcat/Tomcat6x*,
-                    org/codehaus/cargo/container/tomcat/Tomcat7x*,
-                    org/codehaus/cargo/container/tomcat/internal/*
+                    org/codehaus/cargo/container/tomcat/*.class,
+                    org/codehaus/cargo/container/tomcat/internal/*.class,
+                    org/codehaus/cargo/container/internal/resources/tomcat*/*
                   </includes>
                   <overWrite>false</overWrite>
                 </artifactItem>

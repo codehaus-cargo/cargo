@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.tomee;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.tomcat.Tomcat7xRemoteContainer;
+import org.codehaus.cargo.container.tomcat.Tomcat8xRemoteContainer;
 
 /**
  * Special container support for wrapping a running instance of Apache TomEE 7.x.
  */
-public class Tomee7xRemoteContainer extends Tomcat7xRemoteContainer
+public class Tomee7xRemoteContainer extends Tomcat8xRemoteContainer
 {
     /**
      * Unique container id.
@@ -34,7 +34,7 @@ public class Tomee7xRemoteContainer extends Tomcat7xRemoteContainer
 
     /**
      * {@inheritDoc}
-     * @see Tomcat7xRemoteContainer#Tomcat7xRemoteContainer(RuntimeConfiguration)
+     * @see Tomcat8xRemoteContainer#Tomcat8xRemoteContainer(RuntimeConfiguration)
      */
     public Tomee7xRemoteContainer(RuntimeConfiguration configuration)
     {
