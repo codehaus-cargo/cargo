@@ -52,10 +52,12 @@
                   <artifactId>cargo-core-container-glassfish</artifactId>
                   <includes>
                     org/codehaus/cargo/container/glassfish/internal/Abstract*.class,
+                    org/codehaus/cargo/container/glassfish/internal/GlassFish2*.class,
                     org/codehaus/cargo/container/glassfish/internal/GlassFish3*.class,
                     org/codehaus/cargo/container/glassfish/internal/GlassFish4*.class,
                     org/codehaus/cargo/container/glassfish/internal/GlassFish5*.class,
                     org/codehaus/cargo/container/glassfish/internal/GlassFishExistingLocalConfigurationCapability.class,
+                    org/codehaus/cargo/container/glassfish/GlassFish2*.class,
                     org/codehaus/cargo/container/glassfish/GlassFish3*.class,
                     org/codehaus/cargo/container/glassfish/GlassFish4*.class,
                     org/codehaus/cargo/container/glassfish/GlassFish5*.class,
