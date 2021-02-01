@@ -401,7 +401,10 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             command.append(LINUX_SUFFIX);
         }
 
-        command.append(String.join(" ", arguments));
+        if (arguments.length > 0)
+        {
+            command.append(" ").append(String.join(" ", arguments));
+        }
 
         getLogger().debug("Executing command: " + command.toString(),
                 this.getClass().getName());
