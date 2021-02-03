@@ -1333,7 +1333,7 @@
 
               <property>
                 <name>cargo.wildfly22x.url</name>
-                <value>https://download.jboss.org/wildfly/22.0.0.Alpha1/wildfly-22.0.0.Alpha1.zip</value>
+                <value>https://download.jboss.org/wildfly/22.0.0.Final/wildfly-22.0.0.Final.zip</value>
               </property>
               <property>
                 <name>cargo.wildfly22x.java.home</name>
