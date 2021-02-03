@@ -24,7 +24,6 @@ import java.io.File;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
-import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded.MemoryRealm;
 
 /**
  * Embedded Tomcat 8.x container.
@@ -96,7 +95,7 @@ public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
         TomcatEmbedded.Context[] contexts = null;
         if (host != null)
         {
-            host.findChildren();
+            contexts = host.findChildren();
         }
 
         super.doStop();
