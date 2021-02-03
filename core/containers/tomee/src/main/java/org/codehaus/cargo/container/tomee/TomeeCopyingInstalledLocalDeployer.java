@@ -30,11 +30,6 @@ import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
 public class TomeeCopyingInstalledLocalDeployer extends TomcatCopyingInstalledLocalDeployer
 {
     /**
-     * @see #setShouldCopyWars(boolean)
-     */
-    private boolean shouldCopyWars = true;
-
-    /**
      * {@inheritDoc}
      * @see TomcatCopyingInstalledLocalDeployer#TomcatCopyingInstalledLocalDeployer(LocalContainer)
      */

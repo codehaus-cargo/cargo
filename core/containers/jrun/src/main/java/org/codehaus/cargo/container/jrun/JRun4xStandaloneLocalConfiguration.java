@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.jrun.internal.JRun4xConfigurationBuilder;
 import org.codehaus.cargo.container.jrun.internal.JRun4xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
@@ -44,7 +43,7 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandalone
  * implementation.
  */
 public class JRun4xStandaloneLocalConfiguration extends
-    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder
 {
 
     /**

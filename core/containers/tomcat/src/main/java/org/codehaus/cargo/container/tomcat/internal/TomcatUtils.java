@@ -64,7 +64,6 @@ public final class TomcatUtils
      */
     public static String getExtraClasspath(WAR war, boolean xml)
     {
-        StringBuilder sb = new StringBuilder();
         String[] extraClasspath = getExtraClasspath(war);
         if (extraClasspath == null)
         {

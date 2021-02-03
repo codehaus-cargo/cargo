@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
-import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -55,7 +54,7 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * implementation.
  */
 public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
-    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder implements ResourceSupport
+    AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder
 {
 
     /**

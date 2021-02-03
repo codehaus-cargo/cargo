@@ -205,7 +205,6 @@ public class WebXmlTypeAwareParser extends DefaultHandler
         try
         {
             String xmlNs = attrs.getValue("xmlns");
-            String version = attrs.getValue("version");
             if (WebXmlVersion.V2_4.getNamespace().getURI().equals(xmlNs))
             {
                 // We are at a minimum a V2.4

@@ -26,11 +26,6 @@ public class WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution
     extends WebSphere85xInstalledLocalDeployer
 {
     /**
-     * Commands sent to the deployer.
-     */
-    private String commands = "";
-
-    /**
      * Empty constructor.
      */
     public WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution()

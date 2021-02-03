@@ -37,11 +37,6 @@ public class FileManager
 {
 
     /**
-     * The time between refresh.
-     */
-    private static final int REFRESH_TIME = 500;
-
-    /**
      * The cargo home directory.
      */
     private String cargoHomeDirectory;
