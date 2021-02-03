@@ -391,6 +391,8 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("org.apache.tomcat", "tomcat-annotations-api", "10.0.2"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "10.0.2"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "10.0.2"));
+        tomcat10xDependencies.add(
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.0.2"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "10.0.2"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.0.2"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "10.0.2"));
