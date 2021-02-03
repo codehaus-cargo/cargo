@@ -170,7 +170,14 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
         }
         catch (Exception e)
         {
-            System.setProperty("catalina.base", this.previousCatalinaBase);
+            if (this.previousCatalinaBase == null)
+            {
+                System.clearProperty("catalina.base");
+            }
+            else
+            {
+                System.setProperty("catalina.base", this.previousCatalinaBase);
+            }
             throw e;
         }
     }
@@ -210,7 +217,14 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
             }
             finally
             {
-                System.setProperty("catalina.base", this.previousCatalinaBase);
+                if (this.previousCatalinaBase == null)
+                {
+                    System.clearProperty("catalina.base");
+                }
+                else
+                {
+                    System.setProperty("catalina.base", this.previousCatalinaBase);
+                }
             }
         }
         else
