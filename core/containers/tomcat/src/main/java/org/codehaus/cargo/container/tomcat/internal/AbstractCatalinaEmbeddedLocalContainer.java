@@ -34,7 +34,6 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.AbstractEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.TomcatEmbeddedLocalDeployer;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
-import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded.Embedded;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -56,6 +55,11 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * Tomcat connector object.
      */
     protected TomcatEmbedded.Connector connector;
+
+    /**
+     * Previous value of <code>catalina.base</code>
+     */
+    private String previousCatalinaBase;
 
     /**
      * Capability of the Tomcat/Catalina container.
@@ -103,61 +107,71 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
     @Override
     protected void doStart() throws Exception
     {
-        TomcatEmbedded wrapper = new TomcatEmbedded(getClassLoader());
-
         // Tomcat will resolve relative path against CATALINA_BASE, so make it absolute here.
         File home = new File(getConfiguration().getHome()).getAbsoluteFile();
+        this.previousCatalinaBase = System.setProperty("catalina.base", home.getAbsolutePath());
 
-        controller = wrapper.new Embedded();
-
-        controller.setCatalinaBase(home);
-        prepareController(wrapper, home,
-            Integer.parseInt(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
-        if (connector == null || host == null)
+        try
         {
-            throw new CargoException(
-                "Programming error: attributes connector or host not set after prepareController");
-        }
+            TomcatEmbedded wrapper = new TomcatEmbedded(getClassLoader());
 
-        controller.start();
+            controller = wrapper.new Embedded();
 
-        // We don't want Tomcat to deploy WARs by itself, else we cannot undeploy them.
-        // As a result, once Tomcat is started, deploy WARs manually.
-        File[] webapps = new File(getConfiguration().getHome(),
-            getConfiguration().getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY)).listFiles();
-        if (webapps != null)
-        {
-            for (File webapp : webapps)
+            controller.setCatalinaBase(home);
+            prepareController(wrapper, home,
+                Integer.parseInt(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+            if (connector == null || host == null)
             {
-                if (webapp.isFile())
+                throw new CargoException("Programming error: attributes connector or host not set "
+                    + "after prepareController");
+            }
+
+            controller.start();
+
+            // We don't want Tomcat to deploy WARs by itself, else we cannot undeploy them.
+            // As a result, once Tomcat is started, deploy WARs manually.
+            File[] webapps = new File(getConfiguration().getHome(),
+                getConfiguration().getPropertyValue(TomcatPropertySet.WEBAPPS_DIRECTORY))
+                    .listFiles();
+            if (webapps != null)
+            {
+                for (File webapp : webapps)
                 {
-                    String webappName = webapp.getAbsolutePath();
-                    webappName = webappName.substring(0, webappName.length() - 4);
-                    if (new File(webappName).isDirectory())
+                    if (webapp.isFile())
                     {
-                        // We both have a .war file and directory with the same name
-                        // In this case, ignore the file and only deploy the directory
-                        continue;
+                        String webappName = webapp.getAbsolutePath();
+                        webappName = webappName.substring(0, webappName.length() - 4);
+                        if (new File(webappName).isDirectory())
+                        {
+                            // We both have a .war file and directory with the same name
+                            // In this case, ignore the file and only deploy the directory
+                            continue;
+                        }
+                    }
+
+                    WAR war = new WAR(webapp.getAbsolutePath());
+                    if (!scheduledDeployables.containsKey(war.getContext()))
+                    {
+                        scheduledDeployables.put(war.getContext(), war);
                     }
                 }
-
-                WAR war = new WAR(webapp.getAbsolutePath());
-                if (!scheduledDeployables.containsKey(war.getContext()))
+            }
+            if (!scheduledDeployables.isEmpty())
+            {
+                Deployer deployer = new TomcatEmbeddedLocalDeployer(this);
+                Map<String, WAR> scheduledDeployablesCopy =
+                    new HashMap<String, WAR>(scheduledDeployables);
+                for (Map.Entry<String, WAR> deployable : scheduledDeployablesCopy.entrySet())
                 {
-                    scheduledDeployables.put(war.getContext(), war);
+                    deployer.redeploy(deployable.getValue());
+                    scheduledDeployables.remove(deployable.getKey());
                 }
             }
         }
-        if (!scheduledDeployables.isEmpty())
+        catch (Exception e)
         {
-            Deployer deployer = new TomcatEmbeddedLocalDeployer(this);
-            Map<String, WAR> scheduledDeployablesCopy =
-                new HashMap<String, WAR>(scheduledDeployables);
-            for (Map.Entry<String, WAR> deployable : scheduledDeployablesCopy.entrySet())
-            {
-                deployer.redeploy(deployable.getValue());
-                scheduledDeployables.remove(deployable.getKey());
-            }
+            System.setProperty("catalina.base", this.previousCatalinaBase);
+            throw e;
         }
     }
 
@@ -186,11 +200,18 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
     {
         if (controller != null)
         {
-            controller.stop();
-            connector.destroy();
-            controller = null;
-            connector = null;
-            host = null;
+            try
+            {
+                controller.stop();
+                connector.destroy();
+                controller = null;
+                connector = null;
+                host = null;
+            }
+            finally
+            {
+                System.setProperty("catalina.base", this.previousCatalinaBase);
+            }
         }
         else
         {
