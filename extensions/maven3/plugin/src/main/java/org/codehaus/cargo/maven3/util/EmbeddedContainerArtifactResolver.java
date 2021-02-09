@@ -311,20 +311,20 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat7xDependencies = new ArrayList<Dependency>();
         tomcat7xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "7.0.107"));
+            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "7.0.108"));
         tomcat7xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "7.0.107"));
-        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "7.0.107"));
+            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "7.0.108"));
+        tomcat7xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "7.0.108"));
         tomcat7xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "7.0.107"));
+            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "7.0.108"));
         tomcat7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "4.4.2"));
         this.containerDependencies.put("tomcat7x", tomcat7xDependencies);
 
