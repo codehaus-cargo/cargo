@@ -20,7 +20,6 @@
 package org.codehaus.cargo.sample.java;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,7 +28,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
@@ -172,53 +170,42 @@ public class EnvironmentTestData
                         "jakartaee-migration-tool.jar");
                 if (!jakartaEeMigratorFile.isFile())
                 {
-                    throw new RuntimeException(
+                    throw new IllegalArgumentException(
                         "Cannot find the Jakarta EE converter " + jakartaEeMigratorFile);
                 }
                 try
                 {
                     URL[] jakartaEeMigratorUrl = new URL[1];
                     jakartaEeMigratorUrl[0] = jakartaEeMigratorFile.toURI().toURL();
-                    ClassLoader jakartaEeMigratorClassLoader =
-                        new URLClassLoader(jakartaEeMigratorUrl);
-                    Class jakartaEeMigratorClass =
-                        jakartaEeMigratorClassLoader.loadClass(
-                            "org.apache.tomcat.jakartaee.Migration");
-                    Object jakartaEeMigrator =
-                        jakartaEeMigratorClass.getConstructor().newInstance();
-                    Class eeSpecProfileClass =
-                        jakartaEeMigratorClassLoader.loadClass(
-                            "org.apache.tomcat.jakartaee.EESpecProfile");
-                    Method setEESpecProfile =
-                        jakartaEeMigratorClass.getMethod("setEESpecProfile", eeSpecProfileClass);
-                    // The Jakarta EE migration tool cannot convert JMS resources to Jakarta EE yet:
-                    // https://github.com/apache/tomcat-jakartaee-migration/issues/6
-                    Object eeSpecProfile = eeSpecProfileClass.getField("EE").get(null);
-                    Field patternField = eeSpecProfile.getClass().getDeclaredField("pattern");
-                    patternField.setAccessible(true);
-                    Pattern pattern = (Pattern) patternField.get(eeSpecProfile);
-                    String patternString = pattern.pattern();
-                    if (!patternString.contains("|jms|"))
+                    try (URLClassLoader jakartaEeMigratorClassLoader =
+                        new URLClassLoader(jakartaEeMigratorUrl))
                     {
-                        patternString = patternString.replace(
-                            "|enterprise|json|", "|enterprise|jms|json|");
-                        pattern = Pattern.compile(patternString);
-                        patternField.set(eeSpecProfile, pattern);
-                    }
-                    // End of workaround for the Jakarta EE migration tool's JMS-related issue
-                    setEESpecProfile.invoke(jakartaEeMigrator, eeSpecProfile);
-                    Method setSource = jakartaEeMigratorClass.getMethod("setSource", File.class);
-                    Method setDestination =
-                        jakartaEeMigratorClass.getMethod("setDestination", File.class);
-                    Method execute = jakartaEeMigratorClass.getMethod("execute");
+                        Class jakartaEeMigratorClass =
+                            jakartaEeMigratorClassLoader.loadClass(
+                                "org.apache.tomcat.jakartaee.Migration");
+                        Object jakartaEeMigrator =
+                            jakartaEeMigratorClass.getConstructor().newInstance();
+                        Class eeSpecProfileClass =
+                            jakartaEeMigratorClassLoader.loadClass(
+                                "org.apache.tomcat.jakartaee.EESpecProfile");
+                        Method setEESpecProfile = jakartaEeMigratorClass
+                            .getMethod("setEESpecProfile", eeSpecProfileClass);
+                        Object eeSpecProfile = eeSpecProfileClass.getField("EE").get(null);
+                        setEESpecProfile.invoke(jakartaEeMigrator, eeSpecProfile);
+                        Method setSource =
+                            jakartaEeMigratorClass.getMethod("setSource", File.class);
+                        Method setDestination =
+                            jakartaEeMigratorClass.getMethod("setDestination", File.class);
+                        Method execute = jakartaEeMigratorClass.getMethod("execute");
 
-                    convertedDeployables.mkdir();
-                    for (File deployable : deployables.listFiles())
-                    {
-                        setSource.invoke(jakartaEeMigrator, deployable);
-                        setDestination.invoke(jakartaEeMigrator,
-                            new File(convertedDeployables, deployable.getName()));
-                        execute.invoke(jakartaEeMigrator);
+                        convertedDeployables.mkdir();
+                        for (File deployable : deployables.listFiles())
+                        {
+                            setSource.invoke(jakartaEeMigrator, deployable);
+                            setDestination.invoke(jakartaEeMigrator,
+                                new File(convertedDeployables, deployable.getName()));
+                            execute.invoke(jakartaEeMigrator);
+                        }
                     }
                 }
                 catch (Exception e)
