@@ -22,9 +22,10 @@ package org.codehaus.cargo.container.jboss.internal;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.util.Base64;
 
 /**
  * Implementation of {@link HttpURLConnection} using the JDK's {@link java.net.HttpURLConnection}
@@ -87,6 +88,7 @@ public class JdkHttpURLConnection implements HttpURLConnection
     {
         StringBuilder sb = new StringBuilder();
         sb.append(username).append(':').append(password);
-        return "Basic " + Base64.encode(sb.toString());
+        return "Basic "
+            + Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

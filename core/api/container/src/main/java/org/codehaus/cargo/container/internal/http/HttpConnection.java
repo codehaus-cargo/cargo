@@ -28,8 +28,10 @@ import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -206,7 +207,8 @@ public class HttpConnection extends LoggedObject
             String userInfo = url.getUserInfo();
             if (userInfo != null)
             {
-                userInfo = Base64.encode(userInfo);
+                userInfo =
+                    Base64.getEncoder().encodeToString(userInfo.getBytes(StandardCharsets.UTF_8));
                 connection.setRequestProperty("Authorization", "Basic " + userInfo);
             }
 

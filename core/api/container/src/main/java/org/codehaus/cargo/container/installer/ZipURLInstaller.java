@@ -29,6 +29,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 
 import org.apache.tools.ant.taskdefs.Expand;
@@ -36,7 +38,6 @@ import org.apache.tools.ant.taskdefs.Untar;
 import org.apache.tools.ant.taskdefs.Untar.UntarCompressionMethod;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
@@ -495,8 +496,9 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             String userInfo = this.remoteLocation.getUserInfo();
             if (userInfo != null)
             {
-                connection.setRequestProperty("Authorization",
-                    "Basic " + Base64.encode(userInfo));
+                connection.setRequestProperty("Authorization", "Basic "
+                    + Base64.getEncoder().encodeToString(
+                        userInfo.getBytes(StandardCharsets.UTF_8)));
             }
         }
 

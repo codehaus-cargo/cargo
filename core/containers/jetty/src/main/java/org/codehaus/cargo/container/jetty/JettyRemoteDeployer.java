@@ -32,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.RemoteContainer;
@@ -42,7 +43,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
-import org.codehaus.cargo.util.Base64;
 
 /**
  * A remote deployer for the Jetty container.<br><br>
@@ -356,7 +356,8 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         {
             sb.append(password);
         }
-        return "Basic " + Base64.encode(sb.toString());
+        return "Basic "
+            + Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     /**

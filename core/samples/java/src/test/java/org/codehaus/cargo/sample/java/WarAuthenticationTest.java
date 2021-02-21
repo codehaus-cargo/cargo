@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +38,6 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.util.Base64;
 
 /**
  * Validates WAR archives with authentication.
@@ -96,7 +97,9 @@ public class WarAuthenticationTest extends AbstractCargoTestCase
         getLocalContainer().start();
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic " + Base64.encode("someone:p@ssw0rd"));
+        requestProperties.put("Authorization", "Basic "
+            + Base64.getEncoder().encodeToString(
+                "someone:p@ssw0rd".getBytes(StandardCharsets.UTF_8)));
 
         PingUtils.assertPingTrue("Failed authentication", "Principal name [someone], "
             + "Is user in \"cargo\" role [true]", warPingURL, requestProperties, getLogger());

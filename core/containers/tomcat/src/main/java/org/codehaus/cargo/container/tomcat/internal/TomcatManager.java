@@ -32,10 +32,10 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -838,7 +838,8 @@ public class TomcatManager extends LoggedObject
         {
             sb.append(password);
         }
-        return "Basic " + Base64.encode(sb.toString());
+        return "Basic "
+            + Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     /**

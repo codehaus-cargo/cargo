@@ -20,13 +20,14 @@
 package org.codehaus.cargo.sample.maven3;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.util.Base64;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
@@ -52,7 +53,9 @@ public class UsersTest extends TestCase
         final String expected = "Principal name [someone], Is user in \"cargo\" role [true]";
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic " + Base64.encode("someone:p@ssw0rd"));
+        requestProperties.put("Authorization", "Basic "
+            + Base64.getEncoder().encodeToString(
+                "someone:p@ssw0rd".getBytes(StandardCharsets.UTF_8)));
 
         PingUtils.assertPingTrue("Failed authentication", expected, url,
                 requestProperties, logger);
@@ -69,7 +72,9 @@ public class UsersTest extends TestCase
         final String expected = "Principal name [elementUser], Is user in \"cargo\" role [true]";
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic " + Base64.encode("elementUser:pass"));
+        requestProperties.put("Authorization", "Basic "
+            + Base64.getEncoder().encodeToString(
+                "elementUser:pass".getBytes(StandardCharsets.UTF_8)));
 
         PingUtils.assertPingTrue("Failed authentication", expected, url,
                 requestProperties, logger);
