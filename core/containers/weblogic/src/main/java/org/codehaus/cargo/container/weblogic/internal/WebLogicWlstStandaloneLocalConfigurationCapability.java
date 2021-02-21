@@ -60,6 +60,9 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(WebLogicPropertySet.PASSWORD_LENGTH_MIN, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.PASSWORD_SPNUM_MIN, Boolean.TRUE);
 
+        // deployment
+        this.propertySupportMap.put(WebLogicPropertySet.ONLINE_DEPLOYMENT, Boolean.TRUE);
+
         // WLST-based configuration doesn't need these anymore
         this.propertySupportMap.remove(WebLogicPropertySet.CONFIGURATION_VERSION);
         this.propertySupportMap.remove(WebLogicPropertySet.DOMAIN_VERSION);

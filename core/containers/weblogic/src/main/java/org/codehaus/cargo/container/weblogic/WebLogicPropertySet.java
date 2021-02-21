@@ -152,4 +152,14 @@ public interface WebLogicPropertySet
      * password validator.
      */
     String PASSWORD_SPNUM_MIN = "cargo.weblogic.password.spnum.min";
+
+    /**
+     * If set to false then deployments are deployed to WebLogic in stopped state.
+     * If set to true then deployments are deployed while WebLogic is running.
+     *
+     * Online deployment is usable for deploying larger applications with roles defined in web.xml.
+     *
+     * Possible values: true or false. Default value false.
+     */
+    String ONLINE_DEPLOYMENT = "cargo.weblogic.deployment.online";
 }

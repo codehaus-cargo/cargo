@@ -73,7 +73,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inheritDoc}
      * @param fixture Resource fixture.
      * @return <code>conf/server.xml</code> in the configuration's home.
      */

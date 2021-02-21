@@ -28,6 +28,7 @@ import java.util.Set;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -147,6 +148,30 @@ public class WebLogic121xInstalledLocalContainer extends
             executeScript(configurationScript);
         }
 
+        String onlineDeploymentValue = getConfiguration().getPropertyValue(
+            WebLogicPropertySet.ONLINE_DEPLOYMENT);
+        boolean onlineDeployment = Boolean.parseBoolean(onlineDeploymentValue);
+        if (onlineDeployment)
+        {
+            configurationScript.clear();
+            configurationScript.add(
+                configuration.getConfigurationFactory().readDomainOnlineScript());
+            for (Deployable deployable : getConfiguration().getDeployables())
+            {
+                configurationScript.add(configuration.getConfigurationFactory()
+                    .deployDeployableOnlineScript(deployable));
+            }
+            configurationScript.add(
+                configuration.getConfigurationFactory().updateDomainOnlineScript());
+
+            if (!getConfiguration().getDeployables().isEmpty())
+            {
+                getLogger().info("Adding deployments to WebLogic domain.",
+                    this.getClass().getName());
+                executeScript(configurationScript);
+            }
+        }
+
         // Execute online jython scripts
         String scriptPaths = getConfiguration().getPropertyValue(
                 WebLogicPropertySet.JYTHON_SCRIPT_ONLINE);
@@ -155,7 +180,7 @@ public class WebLogic121xInstalledLocalContainer extends
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inheritDoc}
      */
     @Override
     public void doStop(JvmLauncher java) throws Exception

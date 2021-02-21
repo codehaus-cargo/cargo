@@ -65,6 +65,7 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         setProperty(WebLogicPropertySet.SSL_HOSTNAME_VERIFIER_CLASS, "None");
         setProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN, "8");
         setProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN, "1");
+        setProperty(WebLogicPropertySet.ONLINE_DEPLOYMENT, "false");
     }
 
     /**
@@ -141,9 +142,15 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         }
 
         // add deployments to script
-        for (Deployable deployable : getDeployables())
+        String onlineDeploymentValue = getPropertyValue(WebLogicPropertySet.ONLINE_DEPLOYMENT);
+        boolean onlineDeployment = Boolean.parseBoolean(onlineDeploymentValue);
+        if (!onlineDeployment)
         {
-            configurationScript.add(getConfigurationFactory().deployDeployableScript(deployable));
+            for (Deployable deployable : getDeployables())
+            {
+                configurationScript.add(
+                    getConfigurationFactory().deployDeployableScript(deployable));
+            }
         }
 
         // write new domain to domain folder

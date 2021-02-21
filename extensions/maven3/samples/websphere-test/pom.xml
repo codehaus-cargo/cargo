@@ -124,6 +124,11 @@
                 <type>standalone</type>
                 <properties>
                   <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
+                  <!--
+                    Online deployment is required for authentication details and authenticated WARs
+                    to be deployed simultaneously.
+                    -->
+                  <cargo.websphere.deployment.online>true</cargo.websphere.deployment.online>
                   <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
                   <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>

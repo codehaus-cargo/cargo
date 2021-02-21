@@ -141,7 +141,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     }
 
     /**
-     * {@inheritDoc}.
+     * {@inheritDoc}
      */
     @Override
     protected void executePostStartTasks() throws Exception
