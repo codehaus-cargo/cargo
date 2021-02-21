@@ -63,7 +63,7 @@
               <configuration>
                 <properties>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-                  <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
+                  <cargo.servlet.users>someone:p@ssw0rd:cargo</cargo.servlet.users>
                 </properties>
                 <users>
                   <user>

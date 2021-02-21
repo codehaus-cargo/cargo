@@ -123,17 +123,8 @@
               <configuration>
                 <type>standalone</type>
                 <properties>
-                  <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
-                  <!--
-                    Online deployment is required for authentication details and authenticated WARs
-                    to be deployed simultaneously.
-                    -->
-                  <cargo.websphere.deployment.online>true</cargo.websphere.deployment.online>
-                  <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
-                  <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-                  <cargo.websphere.classloader.mode>PARENT_LAST</cargo.websphere.classloader.mode>
-                  <cargo.websphere.war.classloader.policy>SINGLE</cargo.websphere.war.classloader.policy>
+                  <cargo.servlet.users>someone:p@ssw0rd:cargo</cargo.servlet.users>
                   <cargo.datasource.datasource.derby>
                     cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource|
                     cargo.datasource.url=jdbc:derby:derbyDB;create=true|
@@ -153,6 +144,10 @@
                     cargo.resource.type=javax.jms.Queue|
                     cargo.resource.id=MyQueue
                   </cargo.resource.resource.jms.queue>
+                  <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
+                  <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
+                  <cargo.websphere.classloader.mode>PARENT_LAST</cargo.websphere.classloader.mode>
+                  <cargo.websphere.war.classloader.policy>SINGLE</cargo.websphere.war.classloader.policy>
                 </properties>
               </configuration>
               <deployables>

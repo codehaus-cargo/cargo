@@ -203,12 +203,7 @@
             <type>standalone</type>
             <properties>
               <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
-              <cargo.servlet.users>someone:passw0rd:cargo</cargo.servlet.users>
-              <!--
-                Online deployment is required for authentication details and authenticated WARs
-                to be deployed simultaneously.
-                -->
-              <cargo.weblogic.deployment.online>true</cargo.weblogic.deployment.online>
+              <cargo.servlet.users>someone:p@ssw0rd:cargo</cargo.servlet.users>
               <cargo.datasource.datasource.derby>
                 cargo.datasource.driver=org.apache.derby.jdbc.EmbeddedDriver|
                 cargo.datasource.url=jdbc:derby:derbyDB;create=true|

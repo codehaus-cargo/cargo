@@ -56,7 +56,7 @@
           <property name="cargo.servlet.port" value="\${http.port}"/>
           <property name="cargo.tomcat.ajp.port" value="\${ajp.port}"/>
           <property name="cargo.rmi.port" value="\${rmi.port}"/>
-    	  <property name="cargo.servlet.users" value="someone:passw0rd:cargo"/>
+          <property name="cargo.servlet.users" value="someone:p@ssw0rd:cargo"/>
           <deployable type="war" file="${cargo-test-applications.directory}/authentication-war-${project.version}.war">
             <property name="context" value="authentication-war"/>
           </deployable>

@@ -65,24 +65,29 @@ public class PingUtils extends Assert
             success = httpUtils.ping(pingURL, requestProperties, result, PingUtils.TIMEOUT);
         }
 
-        String text = message + ". Failed to ping [" + pingURL.toString() + "], ";
+        StringBuilder text = new StringBuilder(message);
+        text.append(". Failed to ping [" + pingURL.toString() + "], ");
+        if (requestProperties != null && !requestProperties.isEmpty())
+        {
+            text.append("requestProperties = " + requestProperties + ", ");
+        }
         if (result.responseCode == -1)
         {
-            text = text + "Cannot connect to the URL";
+            text.append("Cannot connect to the URL");
         }
         else
         {
-            text = text + "Reason = [" + result.responseMessage + "], Body = ["
-                + result.responseBody + "], Code = [" + result.responseCode + "]";
+            text.append("Reason = [" + result.responseMessage + "], Body = ["
+                + result.responseBody + "], Code = [" + result.responseCode + "]");
         }
 
         if (expectTrue)
         {
-            assertTrue(text, success);
+            assertTrue(text.toString(), success);
         }
         else
         {
-            assertFalse(text, success);
+            assertFalse(text.toString(), success);
         }
 
         if (expectedContent != null)

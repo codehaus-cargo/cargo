@@ -52,7 +52,7 @@ public class UsersTest extends TestCase
         final String expected = "Principal name [someone], Is user in \"cargo\" role [true]";
 
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Basic " + Base64.encode("someone:passw0rd"));
+        requestProperties.put("Authorization", "Basic " + Base64.encode("someone:p@ssw0rd"));
 
         PingUtils.assertPingTrue("Failed authentication", expected, url,
                 requestProperties, logger);
