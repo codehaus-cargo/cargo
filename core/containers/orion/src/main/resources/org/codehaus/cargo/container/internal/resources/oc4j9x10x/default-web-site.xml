@@ -19,15 +19,15 @@
 <!DOCTYPE web-site PUBLIC "Orion Web-site" "http://www.orionserver.com/dtds/web-site.dtd">
 <web-site host="[ALL]" port="@cargo.servlet.port@" display-name="Default Orion WebSite">
 
-    <!-- The default web-app for this site, bound to the root -->
-    <default-web-app application="default" name="defaultWebApp"/>
+  <!-- The default web-app for this site, bound to the root -->
+  <default-web-app application="default" name="defaultWebApp"/>
 
-    <!-- WAR and EAR web mappings -->
-    @orion.web-app@
+  <!-- WAR and EAR web mappings -->
+  @orion.web-app@
 
-    <!-- Map the Cargo Ping Component -->
-    <web-app application="default" name="cargocpc" root="/cargocpc"/>
+  <!-- Map the Cargo Ping Component -->
+  <web-app application="default" name="cargocpc" root="/cargocpc"/>
 
-    <access-log path="../log/default-web-access.log"/>
+  <access-log path="../log/default-web-access.log"/>
 
 </web-site>

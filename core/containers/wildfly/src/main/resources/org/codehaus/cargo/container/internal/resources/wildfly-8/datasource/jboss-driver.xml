@@ -18,7 +18,7 @@
 
 <!-- Appended section starts here -->
                     <driver name="@driverClass@" module="@moduleName@">
-                        <driver-class>
-                            @driverClass@
-                        </driver-class>
+                      <driver-class>
+                        @driverClass@
+                      </driver-class>
                     </driver>

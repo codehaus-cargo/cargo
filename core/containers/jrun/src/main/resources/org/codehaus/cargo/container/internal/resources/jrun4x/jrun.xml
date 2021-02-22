@@ -229,37 +229,37 @@
     <!--   (you have to install SonicMQ locally and recofigure attributes        -->
     <!--   in order to start it. Support only local installation.                -->
     <!-- ==================================================================      -->
-    <!--	<service class="jrun.jms.adapter.SonicMQAdapter" name="JMSAdapter">
+    <!--    <service class="jrun.jms.adapter.SonicMQAdapter" name="JMSAdapter">
                   <attribute name="bindToJNDI">true</attribute>
- 		  <attribute name="ConfigFileName">broker.ini</attribute>
- 		  <attribute name="HomeDir">!!!Sonic home dir!!!</attribute>
-  		  <attribute name="ClassPath">!!!Sonic class path!!!</attribute>
-  		  <attribute name="Host">localhost</attribute>
-  		  <attribute name="Port">2506</attribute>
-  		</service>-->
+           <attribute name="ConfigFileName">broker.ini</attribute>
+           <attribute name="HomeDir">!!!Sonic home dir!!!</attribute>
+            <attribute name="ClassPath">!!!Sonic class path!!!</attribute>
+            <attribute name="Host">localhost</attribute>
+            <attribute name="Port">2506</attribute>
+          </service>-->
     <!-- ==================================================================== -->
     <!--  This service provides JMS access for j2ee clients for SonicMQ JMS   -->
     <!-- ==================================================================== -->
-    <!--	<service class="jrun.jms.wrapper.SonicMQServiceWrapper" name="JMSServiceWrapper">
+    <!--    <service class="jrun.jms.wrapper.SonicMQServiceWrapper" name="JMSServiceWrapper">
                 <attribute name="bindToJNDI">true</attribute>
-   		<attribute name="DefaultQCFName">QueueConnectionFactory</attribute>
-   		<attribute name="DefaultTCFName">TopicConnectionFactory</attribute>
-   		<attribute name="DefaultTransport">TCPIP</attribute>
-   		<attribute name="JMSUrl">none</attribute>
-   		<attribute name="JMSContextFactoryName">none</attribute>
-   		<attribute name="AdapterType">local</attribute>
+           <attribute name="DefaultQCFName">QueueConnectionFactory</attribute>
+           <attribute name="DefaultTCFName">TopicConnectionFactory</attribute>
+           <attribute name="DefaultTransport">TCPIP</attribute>
+           <attribute name="JMSUrl">none</attribute>
+           <attribute name="JMSContextFactoryName">none</attribute>
+           <attribute name="AdapterType">local</attribute>
         <attribute name="AdapterServerName">none</attribute>
-  		</service> -->
+          </service> -->
     <!-- ===================================================================== -->
     <!-- This service provides JMS ASF functionality                           -->
     <!-- ===================================================================== -->
     <!--  <service class="jrun.jms.asf.JRunServerSessionPoolService" name="JMSASF">
-     		<attribute name="_maxPoolSize">10</attribute>
-     		<attribute name="_minPoolSize">3</attribute>
-    		<attribute name="_maxMessageNumber">1</attribute>
-    		<attribute name="_serverSessionPoolFactoryName">JRunDefaultSSPFactory</attribute>
-    		<attribute name="_serverSessionPoolImplCN">none</attribute>
-  	       </service> -->
+             <attribute name="_maxPoolSize">10</attribute>
+             <attribute name="_minPoolSize">3</attribute>
+            <attribute name="_maxMessageNumber">1</attribute>
+            <attribute name="_serverSessionPoolFactoryName">JRunDefaultSSPFactory</attribute>
+            <attribute name="_serverSessionPoolImplCN">none</attribute>
+             </service> -->
   </service>
   <!-- ======================================================================== -->
   <!-- This service handles creation of JavaMail Sessions.                      -->

@@ -17,10 +17,8 @@
   -->
 
 <weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90">
-
-    <security-role-assignment>
-         <role-name>test</role-name>
-         <principal-name>testuser</principal-name>
-    </security-role-assignment>
-
+  <security-role-assignment>
+    <role-name>test</role-name>
+    <principal-name>testuser</principal-name>
+  </security-role-assignment>
 </weblogic-web-app>

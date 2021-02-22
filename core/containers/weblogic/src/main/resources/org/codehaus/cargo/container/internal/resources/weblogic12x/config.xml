@@ -16,7 +16,10 @@
   limitations under the License.
   -->
 
-<domain xsi:schemaLocation="http://xmlns.oracle.com/weblogic/security/wls http://xmlns.oracle.com/weblogic/security/wls/1.0/wls.xsd http://xmlns.oracle.com/weblogic/domain http://xmlns.oracle.com/weblogic/1.0/domain.xsd http://xmlns.oracle.com/weblogic/security http://xmlns.oracle.com/weblogic/1.0/security.xsd http://xmlns.oracle.com/weblogic/security/xacml http://xmlns.oracle.com/weblogic/security/xacml/1.0/xacml.xsd" xmlns="http://xmlns.oracle.com/weblogic/domain" xmlns:sec="http://xmlns.oracle.com/weblogic/security" xmlns:wls="http://xmlns.oracle.com/weblogic/security/wls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<domain xsi:schemaLocation="http://xmlns.oracle.com/weblogic/security/wls http://xmlns.oracle.com/weblogic/security/wls/1.0/wls.xsd
+                            http://xmlns.oracle.com/weblogic/domain http://xmlns.oracle.com/weblogic/1.0/domain.xsd
+                            http://xmlns.oracle.com/weblogic/security http://xmlns.oracle.com/weblogic/1.0/security.xsd
+                            http://xmlns.oracle.com/weblogic/security/xacml http://xmlns.oracle.com/weblogic/security/xacml/1.0/xacml.xsd" xmlns="http://xmlns.oracle.com/weblogic/domain" xmlns:sec="http://xmlns.oracle.com/weblogic/security" xmlns:wls="http://xmlns.oracle.com/weblogic/security/wls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <name>domain</name>
   <domain-version>@cargo.weblogic.domain.version@</domain-version>
   <security-configuration xmlns:xacml="http://xmlns.oracle.com/weblogic/security/xacml" xmlns:pas="http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator">
@@ -41,9 +44,9 @@
     </realm>
     <default-realm>myrealm</default-realm>
     <!--
-        note that the below was provided from the default examples server. As
-        such, it is not secure
-    -->
+      note that the below was provided from the default examples server. As
+      such, it is not secure
+      -->
     <credential-encrypted>{AES}kDBjUhpeZfD/EF13yePHz5PBQq++qEbAKyDXNy8zKR9BeMilO+ir7lRTW9BnykZ2/svMwRM0IUf4XPaFpYx9lWUZB/FQVSWsjZyfR320pPnx+Sc8vqmAOD+1jT3le/Qz</credential-encrypted>
     <node-manager-username>weblogic</node-manager-username>
     <node-manager-password-encrypted>{AES}UpdCGUgXgzv0sNO6vpojnP5Oj4eEj9ScoTZSi/c3hYo=</node-manager-password-encrypted>
@@ -63,9 +66,9 @@
   <embedded-ldap>
     <name>domain</name>
     <!--
-        note that the below was provided from the default examples server. As
-        such, it is not secure
-    -->
+      note that the below was provided from the default examples server. As
+      such, it is not secure
+      -->
     <credential-encrypted>{AES}dfGsRUu0STKT46WgoMqtcqnfr1WDpaIJ/SIemDo194cp1cRCF04rUaP1HkJSJfMR</credential-encrypted>
   </embedded-ldap>
   <configuration-version>@cargo.weblogic.configuration.version@</configuration-version>
