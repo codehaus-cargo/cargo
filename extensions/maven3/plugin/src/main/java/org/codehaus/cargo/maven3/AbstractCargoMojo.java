@@ -838,7 +838,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
 
         String containerId = getContainerElement().getContainerId();
-        if (containerId != null)
+        if (containerId != null && artifactResolver != null && dependencyResolver != null)
         {
             String containerArtifactId =
                 AbstractCargoMojo.calculateContainerArtifactId(containerId);
@@ -852,25 +852,23 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
             try
             {
-                Artifact containerArtifact = artifactResolver.resolveArtifact(
-                    projectBuildingRequest, containerArtifactCoordinate).getArtifact();
-
                 // Here, we are to resolve the container's Maven artifact dynamically and, most
                 // importantly, add it to the list of JARs the generic API searches into.
-                //
-                // The central place for this is the CARGO ResourceUtils.
+                Artifact containerArtifact = artifactResolver.resolveArtifact(
+                    projectBuildingRequest, containerArtifactCoordinate).getArtifact();
                 URL containerArtifactUrl = containerArtifact.getFile().toURI().toURL();
-                ClassLoader classLoader = ResourceUtils.getResourceLoader();
                 List<URL> urlClassLoaderURLs = new ArrayList<URL>();
-                while (classLoader != null)
+
+                // We use the Codehaus Cargo ResourceUtils' ClassLoader as that is one of the key
+                // core classes part of all container dependencies.
+                for (ClassLoader classLoader = ResourceUtils.getResourceLoader();
+                    classLoader != null; classLoader = classLoader.getParent())
                 {
                     if (classLoader instanceof URLClassLoader)
                     {
                         urlClassLoaderURLs.addAll(
                             Arrays.asList(((URLClassLoader) classLoader).getURLs()));
                     }
-
-                    classLoader = classLoader.getParent();
                 }
 
                 if (urlClassLoaderURLs.contains(containerArtifactUrl))
@@ -881,20 +879,18 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
                 else
                 {
+                    List<URL> containerArtifactURLs = new ArrayList<URL>();
+                    containerArtifactURLs.add(containerArtifactUrl);
+
                     DefaultDependableCoordinate containerDependableCoordinate =
                         new DefaultDependableCoordinate();
                     containerDependableCoordinate.setGroupId("org.codehaus.cargo");
                     containerDependableCoordinate.setArtifactId(containerArtifactId);
                     containerDependableCoordinate.setVersion(pluginVersion);
                     containerDependableCoordinate.setType("jar");
-                    Iterable<ArtifactResult> artifactResults =
-                        dependencyResolver.resolveDependencies(projectBuildingRequest,
-                            containerDependableCoordinate,
-                                ScopeFilter.including(Artifact.SCOPE_COMPILE));
-
-                    List<URL> containerArtifactURLs = new ArrayList<URL>();
-                    containerArtifactURLs.add(containerArtifactUrl);
-                    for (ArtifactResult artifactResult : artifactResults)
+                    for (ArtifactResult artifactResult : dependencyResolver.resolveDependencies(
+                        projectBuildingRequest, containerDependableCoordinate,
+                            ScopeFilter.including(Artifact.SCOPE_COMPILE)))
                     {
                         URL artifactURL = artifactResult.getArtifact().getFile().toURI().toURL();
                         if (!urlClassLoaderURLs.contains(artifactURL))
@@ -918,7 +914,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             }
             catch (Exception e)
             {
-                getLog().error(e);
                 createLogger().debug("Cannot resolve container artifact "
                     + containerArtifactCoordinate + " for container " + containerId + ": "
                         + e.toString(), this.getClass().getName());
