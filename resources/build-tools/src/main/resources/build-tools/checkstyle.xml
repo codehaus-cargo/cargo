@@ -37,11 +37,16 @@
     For some reason, this check goes crazy like:
     Missing a header - not enough lines in file
 
-  <module name="RegexpHeader">
+  <module name="Header">
     <property name="headerFile" value="${checkstyle.header.file}"/>
     <property name="multiLines" value="4,5,6"/>
   </module>
    -->
+
+  <module name="LineLength">
+    <property name="ignorePattern" value="(@version|@see|^import)"/>
+    <property name="max" value="100"/>
+  </module>
 
   <!-- Do not allow trailing spaces -->
   <module name="RegexpSingleline">
@@ -211,7 +216,6 @@
 
     <module name="JavadocMethod">
       <property name="scope" value="private"/>
-      <property name="allowUndeclaredRTE" value="true"/>
     </module>
 
     <module name="JavadocStyle">
@@ -235,11 +239,6 @@
 
     <module name="LeftCurly">
       <property name="option" value="nl"/>
-    </module>
-
-    <module name="LineLength">
-      <property name="ignorePattern" value="(@version|@see|^import)"/>
-      <property name="max" value="100"/>
     </module>
 
     <module name="LocalFinalVariableName"/>
