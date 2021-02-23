@@ -1298,12 +1298,16 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <!--
-            Keep this with 3.2.x, versions 3.3.x have introduced a feature which deletes JARs it
-            considers "outdated", in our case it unfortunately deletes the cargo-core-uberjar from
-            the cargo-daemon-webapp WAR file.
-            -->
-          <version>3.2.3</version>
+          <version>3.3.1</version>
+          <configuration>
+            <!--
+              Set this as otherwise the maven-war-plugin will delete JARs it considers "outdated",
+              unfortunately this includes the the cargo-core-uberjar from the cargo-daemon-webapp.
+              -->
+            <outdatedCheckPath>
+              WEB-INF/lib/ignore-outdated-libs
+            </outdatedCheckPath>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.modello</groupId>
