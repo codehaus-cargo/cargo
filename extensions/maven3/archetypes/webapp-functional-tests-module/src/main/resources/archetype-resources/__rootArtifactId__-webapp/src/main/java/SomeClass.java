@@ -19,8 +19,14 @@
  */
 package ${package};
 
+/**
+ * Very simple class, that we use as a JSP bean as an example.
+ */
 public class SomeClass
 {
+    /**
+     * Very simple method, that we call from the JSPs as an example.
+     */
     public String saySomething()
     {
         return "Hello World!";

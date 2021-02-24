@@ -19,15 +19,21 @@
  */
 package ${package};
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
+/**
+ * Tests the {@link SomeClass} class.
+ */
 public class SomeClassTest
 {
+    /**
+     * Tests the {@link SomeClass#saySomething()} method.
+     */
     @Test
     public void testDoSomething()
     {
         SomeClass sc = new SomeClass();
-        Assert.assertEquals("Hello World!", sc.saySomething());
+        Assertions.assertEquals("Hello World!", sc.saySomething());
     }
 }

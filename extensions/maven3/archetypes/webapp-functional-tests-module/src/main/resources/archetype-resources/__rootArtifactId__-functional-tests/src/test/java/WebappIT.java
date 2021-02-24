@@ -22,27 +22,40 @@ package ${package};
 import java.net.URL;
 import java.net.HttpURLConnection;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
+/**
+ * Tests the Web application, by checking that the index page returns a code 200.
+ */
 public class WebappIT
 {
-    private String baseUrl;
+    /**
+     * Base URL used in tests, includes in particular the container's port number.
+     */
+    private static String baseUrl;
 
-    @Before
-    public void initializeTest() throws Exception
+    /**
+     * Initialize tests by saving the base URL used in tests using the container's port number.
+     */
+    @BeforeAll
+    public static void initializeTest()
     {
         String port = System.getProperty("servlet.port");
-        this.baseUrl = "http://localhost:" + port + "/${rootArtifactId}-webapp";
+        WebappIT.baseUrl = "http://localhost:" + port + "/${rootArtifactId}-webapp";
     }
 
+    /**
+     * Call the index page on the container.
+     * @throws Exception if anything goes wrong.
+     */
     @Test
     public void callIndexPage() throws Exception
     {
-        URL url = new URL(this.baseUrl);
+        URL url = new URL(WebappIT.baseUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.connect();
-        Assert.assertEquals(200, connection.getResponseCode());
+        Assertions.assertEquals(200, connection.getResponseCode());
     }
 }

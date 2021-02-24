@@ -32,39 +32,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+/**
+ * Very simple Datasource servlet, which only connects to the Datasource.
+ */
 public class DataSourceServlet extends HttpServlet
 {
+    /**
+     * Datasource.
+     */
+    private DataSource ds;
+
+    /**
+     * Save a reference to the Datasource.
+     */
+    public void init() throws ServletException
+    {
+        try
+        {
+            this.ds =
+                (DataSource) new InitialContext().lookup("java:comp/env/jdbc/CargoDS");
+        }
+        catch (NamingException e)
+        {
+            throw new ServletException("Cannot find the cargo datasource", e);
+        }
+    }
+
+    /**
+     * Very simple Datasource servlet, which only connects to the Datasource.
+     * {@inheritDoc}
+     */
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        Connection c = null;
-        try
+        try (Connection c = this.ds.getConnection(); PrintWriter out = response.getWriter())
         {
-            DataSource ds =
-                (DataSource) new InitialContext().lookup("java:comp/env/jdbc/CargoDS");
-            c = ds.getConnection();
-            try (PrintWriter out = response.getWriter())
-            {
-                out.print("Got connection!");
-            }
+            out.print("Got connection: " + c.toString());
         }
-        catch (NamingException|SQLException e)
+        catch (SQLException e)
         {
             throw new ServletException(e);
-        }
-        finally
-        {
-            try
-            {
-                if (c != null)
-                {
-                    c.close();
-                }
-            }
-            catch (SQLException e)
-            {
-                throw new ServletException(e);
-            }
         }
     }
 }
