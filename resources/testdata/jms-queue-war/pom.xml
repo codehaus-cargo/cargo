@@ -23,7 +23,7 @@
     <artifactId>cargo-samples-testdata</artifactId>
     <version>1.9.2-SNAPSHOT</version>
   </parent>
-  <artifactId>jms-war</artifactId>
+  <artifactId>jms-queue-war</artifactId>
   <name>Cargo test data for samples - JMS Queue WAR</name>
   <packaging>war</packaging>
   <dependencies>

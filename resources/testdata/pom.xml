@@ -37,8 +37,8 @@
     <module>two-datasources-war</module>
     <module>xadatasource-war</module>
     <module>mailsession-war</module>
+    <module>jms-queue-war</module>
     <module>jms-topic-war</module>
-    <module>jms-war</module>
     <module>datasource-cmt-local-war</module>
     <module>classpath-war</module>
     <module>simple-ejb</module>

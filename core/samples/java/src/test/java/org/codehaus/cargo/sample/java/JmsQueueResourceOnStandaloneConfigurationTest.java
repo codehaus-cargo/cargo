@@ -143,6 +143,6 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
 
         addResourceToConfigurationViaProperty(fixture);
 
-        testWar("jms");
+        testWar("jms-queue");
     }
 }

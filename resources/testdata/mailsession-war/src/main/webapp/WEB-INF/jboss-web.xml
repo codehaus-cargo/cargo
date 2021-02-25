@@ -18,7 +18,8 @@
 
 <jboss-web>
   <resource-ref>
-    <res-ref-name>jdbc/CargoDS</res-ref-name>
-    <jndi-name>java:/jdbc/CargoDS</jndi-name>
+    <res-ref-name>mail/Session</res-ref-name>
+    <res-type>javax.mail.Session</res-type>
+    <jndi-name>java:/mail/Session</jndi-name>
   </resource-ref>
 </jboss-web>

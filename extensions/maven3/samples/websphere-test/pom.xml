@@ -67,7 +67,7 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>jms-war</artifactId>
+      <artifactId>jms-queue-war</artifactId>
       <type>war</type>
     </dependency>
     <dependency>
@@ -173,7 +173,7 @@
                 </deployable>
                 <deployable>
                   <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>jms-war</artifactId>
+                  <artifactId>jms-queue-war</artifactId>
                   <type>war</type>
                 </deployable>
                 <deployable>

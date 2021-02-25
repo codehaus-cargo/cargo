@@ -101,7 +101,7 @@ public class WebLogicTest extends TestCase
     public void testJms() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
-            + "/jms-war/test");
+            + "/jms-queue-war/test");
         final String expected = "Got queue!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
