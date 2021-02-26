@@ -103,7 +103,15 @@ public class HandleDatabase
      */
     public Handle get(String handleId)
     {
-        return handles.get(handleId);
+        if (handleId == null)
+        {
+            // ConcurrentHashMap throws a NullPointerException if the key is null
+            return null;
+        }
+        else
+        {
+            return handles.get(handleId);
+        }
     }
 
     /**
