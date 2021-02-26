@@ -82,7 +82,8 @@ class DaemonJvmLauncherStreamRedirector implements Runnable
             {
                 PrintWriter writer = new PrintWriter(outputStream);
                 writer.println();
-                writer.println("--- LOG END ---");
+                writer.println("--- Container VM process has ended ---");
+                writer.println();
                 writer.flush();
                 inputStream.close();
             }

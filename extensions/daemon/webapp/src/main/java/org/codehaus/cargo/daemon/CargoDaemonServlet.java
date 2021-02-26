@@ -349,24 +349,25 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     Long offset = getLong(request.getParameter("offset"));
                     Handle handle = handles.get(handleId);
                     String logFilePath = null;
+                    long filesize;
                     long pos = 0;
-
 
                     if (handle == null)
                     {
-                        throw new CargoDaemonException("Handle id " + handleId + " not found.");
+                        filesize = 0;
                     }
-
-                    if ("viewlog".equals(servletPath))
+                    else
                     {
-                        logFilePath = handle.getContainerOutputPath();
+                        if ("viewlog".equals(servletPath))
+                        {
+                            logFilePath = handle.getContainerOutputPath();
+                        }
+                        else if ("viewcargolog".equals(servletPath))
+                        {
+                            logFilePath = handle.getContainerLogPath();
+                        }
+                        filesize = fileManager.getFileSize(logFilePath);
                     }
-                    else if ("viewcargolog".equals(servletPath))
-                    {
-                        logFilePath = handle.getContainerLogPath();
-                    }
-
-                    long filesize = fileManager.getFileSize(logFilePath);
 
                     response.setContentType("text/html");
                     response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
@@ -390,11 +391,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                         outputStream.flush();
                     }
 
-                    if (filesize == 0)
-                    {
-                        outputStream.println("");
-                    }
-                    else
+                    if (filesize > 0)
                     {
                         if (offset == null)
                         {
@@ -1096,16 +1093,16 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "      // See http://www.howtocreate.co.uk/tutorials/javascript/browserwindow\n"
                 + "      function getViewportHeight() {\n"
                 + "        if (typeof( window.innerWidth ) == 'number') {\n"
-                + "          //Non-IE\n"
+                + "          // Non-IE\n"
                 + "          return window.innerHeight;\n"
                 + "        } else if (document.documentElement && ( "
                 + "document.documentElement.clientWidth "
                 + "|| document.documentElement.clientHeight )) {\n"
-                + "          //IE 6+ in 'standards compliant mode'\n"
+                + "          // IE 6+ in 'standards compliant mode'\n"
                 + "          return document.documentElement.clientHeight;\n"
                 + "        } else if (document.body && ( document.body.clientWidth "
                 + "|| document.body.clientHeight )) {\n"
-                + "          //IE 4 compatible\n"
+                + "          // IE 4 compatible\n"
                 + "          return document.body.clientHeight;\n"
                 + "        }\n"
                 + "        return null;\n"
@@ -1135,18 +1132,25 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "            document.body.scrollTop = currentHeight;\n"
                 + "         scrollDiv.scrollTop = currentHeight;\n"
                 + "      }\n"
-                + "      var xmlHttpRequest = 0;\n"
+                + "      var xmlHttpRequest = false;\n"
                 + "      if (window.XMLHttpRequest) {\n"
                 + "        xmlHttpRequest = new XMLHttpRequest();\n"
                 + "      } else if (window.ActiveXObject) {\n"
                 + "        xmlHttpRequest = new ActiveXObject(\"Microsoft.XMLHTTP\");\n"
                 + "      }\n"
-                + "      if (xmlHttpRequest)\n"
+                + "      function getMoreLog()\n"
                 + "      {\n"
-                + "        xmlHttpRequest.onreadystatechange = function()\n"
+                + "        if (isNaN(offset))\n"
                 + "        {\n"
-                + "          if (xmlHttpRequest.readyState==4 && xmlHttpRequest.status==200)\n"
+                + "          offset = 0;\n"
+                + "        }\n"
+                + "        else\n"
+                + "        {\n"
+                + "          xmlHttpRequest.open(\"GET\", \"./" + pageId
+                + "?handleId=\" + handleId + \"&offset=\" + offset, false);\n"
+                + "          try\n"
                 + "          {\n"
+                + "            xmlHttpRequest.send();\n"
                 + "            var response = xmlHttpRequest.responseText;\n"
                 + "            if (response.length != 0)\n"
                 + "            {\n"
@@ -1159,18 +1163,14 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "            offset = parseInt(xmlHttpRequest.getResponseHeader"
                 + "('X-Text-Size'));\n"
                 + "          }\n"
+                + "          catch (ignored)\n"
+                + "          {\n"
+                + "            // Ignored\n"
+                + "          }\n"
+                + "          setTimeout(getMoreLog, 1000);\n"
                 + "        }\n"
-                + "\n"
-                + "        setInterval(function()\n"
-                + "        {\n"
-                + "          if (isNaN(offset)) return;\n"
-                + "          xmlHttpRequest.open(\"GET\", \"./" + pageId
-                + "?handleId=\" + handleId "
-                + "+ \"&offset=\" + offset, true);\n"
-                + "\n"
-                + "          xmlHttpRequest.send();\n"
-                + "        }, 1000);\n"
                 + "      }\n"
+                + "      getMoreLog();\n"
                 + "//]]>\n"
                 + "    </script>\n"
                 + "  </body>\n"
