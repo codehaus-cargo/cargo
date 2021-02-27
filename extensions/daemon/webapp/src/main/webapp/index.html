@@ -24,42 +24,41 @@
       {
         if (value.indexOf('/') !== -1)
         {
-          value = value.substring(value.lastIndexOf('/') + 1)
+          value = value.substring(value.lastIndexOf('/') + 1);
         }
         if (value.indexOf('\\') !== -1)
         {
-          value = value.substring(value.lastIndexOf('\\') + 1)
+          value = value.substring(value.lastIndexOf('\\') + 1);
         }
-
-        document.getElementById(target).value = value
+        document.getElementById(target).value = value;
       }
-      lastAlertedFileType = ""
+      lastAlertedFileType = "";
       function setFileType(value, target)
       {
         if (value.indexOf('.') !== -1)
         {
-          value = value.substring(value.lastIndexOf('.') + 1)
+          value = value.substring(value.lastIndexOf('.') + 1);
         }
         if (value.indexOf('.') !== -1)
         {
-          value = value.substring(value.lastIndexOf('.') + 1)
+          value = value.substring(value.lastIndexOf('.') + 1);
         }
-        value = value.toLowerCase()
+        value = value.toLowerCase();
 
-        var fileTypes = document.getElementById(target).options
+        var fileTypes = document.getElementById(target).options;
         for (var index in fileTypes)
         {
           if (fileTypes[index].value == value)
           {
-            fileTypes[index].selected = true
-            return
+            fileTypes[index].selected = true;
+            return;
           }
         }
 
         if (value != lastAlertedFileType)
         {
-          lastAlertedFileType = value
-          alert("The deployable type was not recognized. Are you sure you selected a proper deployable?")
+          lastAlertedFileType = value;
+          alert("The deployable type was not recognized. Are you sure you selected a proper deployable?");
         }
       }
     </script>
@@ -350,297 +349,301 @@
     <iframe name="asyncForm" id="asyncForm" width="0" height="0" frameborder="0" style="border:none" src=""></iframe>
 
     <script>
-      var deployableTypes = @deployableTypes@
+      var deployableTypes = @deployableTypes@;
 
-      var configurationProperties = 0
-      var configurationPropertiesDiv = document.getElementById('configurationProperties')
-      var configurationPropertiesTable = document.getElementById('configurationPropertiesTable')
+      var configurationProperties = 0;
+      var configurationPropertiesDiv = document.getElementById('configurationProperties');
+      var configurationPropertiesTable = document.getElementById('configurationPropertiesTable');
 
-      var xmlReplacements = 0
-      var xmlReplacementsDiv = document.getElementById('xmlReplacements')
-      var xmlReplacementsTable = document.getElementById('xmlReplacementsTable')
+      var xmlReplacements = 0;
+      var xmlReplacementsDiv = document.getElementById('xmlReplacements');
+      var xmlReplacementsTable = document.getElementById('xmlReplacementsTable');
 
-      var containerProperties = 0
-      var containerPropertiesDiv = document.getElementById('containerProperties')
-      var containerPropertiesTable = document.getElementById('containerPropertiesTable')
+      var containerProperties = 0;
+      var containerPropertiesDiv = document.getElementById('containerProperties');
+      var containerPropertiesTable = document.getElementById('containerPropertiesTable');
 
-      var configurationFiles = 0
-      var configurationFilesDiv = document.getElementById('configurationFiles')
-      var configurationFilesTable = document.getElementById('configurationFilesTable')
+      var configurationFiles = 0;
+      var configurationFilesDiv = document.getElementById('configurationFiles');
+      var configurationFilesTable = document.getElementById('configurationFilesTable');
 
-      var deployableFiles = 0
-      var deployableFilesDiv = document.getElementById('deployableFiles')
-      var deployableFilesTable = document.getElementById('deployableFilesTable')
+      var deployableFiles = 0;
+      var deployableFilesDiv = document.getElementById('deployableFiles');
+      var deployableFilesTable = document.getElementById('deployableFilesTable');
 
       function addContainerProperty()
       {
-        var row = containerPropertiesTable.insertRow(containerPropertiesTable.rows.length)
+        var row = containerPropertiesTable.insertRow(containerPropertiesTable.rows.length);
 
         if (containerProperties % 2)
         {
-          row.bgColor = "#EAEDF2"
+          row.bgColor = "#EAEDF2";
         }
 
-        row.insertCell(0).innerHTML = "<input id='containerPropertyKey_" + containerProperties + "' style='width:185px'/>"
-        row.insertCell(1).innerHTML = "<input id='containerPropertyValue_" + containerProperties + "' style='width:397px'/>"
+        row.insertCell(0).innerHTML = "<input id='containerPropertyKey_" + containerProperties + "' style='width:185px'/>";
+        row.insertCell(1).innerHTML = "<input id='containerPropertyValue_" + containerProperties + "' style='width:397px'/>";
 
-        containerProperties++
+        containerProperties++;
       }
 
       function calculateContainerProperties()
       {
-        var containerPropertiesJSON = {}
+        var containerPropertiesJSON = {};
         for (var i = 0; i < containerProperties; i++)
         {
-          var key = document.getElementById("containerPropertyKey_" + i).value
-          var value = document.getElementById("containerPropertyValue_" + i).value
+          var key = document.getElementById("containerPropertyKey_" + i).value;
+          var value = document.getElementById("containerPropertyValue_" + i).value;
           if (key != "")
           {
-              containerPropertiesJSON[key] = value
+              containerPropertiesJSON[key] = value;
           }
         }
-        containerPropertiesDiv.innerHTML = "<input name='containerProperties' value='" + JSON.stringify(containerPropertiesJSON) + "'/>"
+        containerPropertiesDiv.innerHTML = "<input name='containerProperties' value='" + JSON.stringify(containerPropertiesJSON) + "'/>";
       }
 
       function addConfigurationProperty()
       {
-        var row = configurationPropertiesTable.insertRow(configurationPropertiesTable.rows.length)
+        var row = configurationPropertiesTable.insertRow(configurationPropertiesTable.rows.length);
 
         if (configurationProperties % 2)
         {
-          row.bgColor = "#EAEDF2"
+          row.bgColor = "#EAEDF2";
         }
 
-        row.insertCell(0).innerHTML = "<input id='configurationPropertyKey_" + configurationProperties + "' style='width:185px'/>"
-        row.insertCell(1).innerHTML = "<input id='configurationPropertyValue_" + configurationProperties + "' style='width:397px'/>"
+        row.insertCell(0).innerHTML = "<input id='configurationPropertyKey_" + configurationProperties + "' style='width:185px'/>";
+        row.insertCell(1).innerHTML = "<input id='configurationPropertyValue_" + configurationProperties + "' style='width:397px'/>";
 
-        configurationProperties++
+        configurationProperties++;
       }
 
       function calculateConfigurationProperties()
       {
-        var configurationPropertiesJSON = {}
+        var configurationPropertiesJSON = {};
         for (var i = 0; i < configurationProperties; i++)
         {
-          var key = document.getElementById("configurationPropertyKey_" + i).value
-          var value = document.getElementById("configurationPropertyValue_" + i).value
+          var key = document.getElementById("configurationPropertyKey_" + i).value;
+          var value = document.getElementById("configurationPropertyValue_" + i).value;
           if (key != "")
           {
-            configurationPropertiesJSON[key] = value
+            configurationPropertiesJSON[key] = value;
           }
         }
-        configurationPropertiesDiv.innerHTML = "<input name='configurationProperties' value='" + JSON.stringify(configurationPropertiesJSON) + "'/>"
+        configurationPropertiesDiv.innerHTML = "<input name='configurationProperties' value='" + JSON.stringify(configurationPropertiesJSON) + "'/>";
       }
 
       function addXmlReplacement()
       {
-        var row = xmlReplacementsTable.insertRow(xmlReplacementsTable.rows.length)
+        var row = xmlReplacementsTable.insertRow(xmlReplacementsTable.rows.length);
 
         if (xmlReplacements % 2)
         {
-          row.bgColor = "#EAEDF2"
+          row.bgColor = "#EAEDF2";
         }
 
-        row.insertCell(0).innerHTML = "<input id='xmlReplacementFile_" + xmlReplacements + "' style='width:144px'/>"
-        row.insertCell(1).innerHTML = "<input id='xmlReplacementXpathExpression_" + xmlReplacements + "' style='width:144px'/>"
-        row.insertCell(2).innerHTML = "<input id='xmlReplacementAttributeName_" + xmlReplacements + "' style='width:144px'/>"
-        row.insertCell(3).innerHTML = "<input id='xmlReplacementValue_" + xmlReplacements + "' style='width:144px'/>"
+        row.insertCell(0).innerHTML = "<input id='xmlReplacementFile_" + xmlReplacements + "' style='width:144px'/>";
+        row.insertCell(1).innerHTML = "<input id='xmlReplacementXpathExpression_" + xmlReplacements + "' style='width:144px'/>";
+        row.insertCell(2).innerHTML = "<input id='xmlReplacementAttributeName_" + xmlReplacements + "' style='width:144px'/>";
+        row.insertCell(3).innerHTML = "<input id='xmlReplacementValue_" + xmlReplacements + "' style='width:144px'/>";
 
-        xmlReplacements++
+        xmlReplacements++;
       }
 
       function calculateXmlReplacements()
       {
-        var xmlReplacementsJSON = []
+        var xmlReplacementsJSON = [];
         for (var i = 0; i < xmlReplacements; i++)
         {
-          var file = document.getElementById("xmlReplacementFile_" + i).value
-          var xpathExpression = document.getElementById("xmlReplacementXpathExpression_" + i).value
-          var attributeName = document.getElementById("xmlReplacementAttributeName_" + i).value
-          var value = document.getElementById("xmlReplacementValue_" + i).value
+          var file = document.getElementById("xmlReplacementFile_" + i).value;
+          var xpathExpression = document.getElementById("xmlReplacementXpathExpression_" + i).value;
+          var attributeName = document.getElementById("xmlReplacementAttributeName_" + i).value;
+          var value = document.getElementById("xmlReplacementValue_" + i).value;
 
-          xmlReplacementsJSON[i] = {}
-          xmlReplacementsJSON[i].file = file
-          xmlReplacementsJSON[i].xpathExpression = xpathExpression
-          xmlReplacementsJSON[i].attributeName = attributeName
-          xmlReplacementsJSON[i].value = value
+          xmlReplacementsJSON[i] = {};
+          xmlReplacementsJSON[i].file = file;
+          xmlReplacementsJSON[i].xpathExpression = xpathExpression;
+          xmlReplacementsJSON[i].attributeName = attributeName;
+          xmlReplacementsJSON[i].value = value;
         }
-        xmlReplacementsDiv.innerHTML = "<input name='xmlReplacements' value='" + JSON.stringify(xmlReplacementsJSON) + "'/>"
+        xmlReplacementsDiv.innerHTML = "<input name='xmlReplacements' value='" + JSON.stringify(xmlReplacementsJSON) + "'/>";
       }
 
       function addConfigurationFile()
       {
-        var row = configurationFilesTable.insertRow(configurationFilesTable.rows.length)
+        var row = configurationFilesTable.insertRow(configurationFilesTable.rows.length);
 
         if (configurationFiles % 2)
         {
-          row.bgColor = "#EAEDF2"
+          row.bgColor = "#EAEDF2";
         }
 
-        row.insertCell(0).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' onchange=\"setFileName(this.value, 'configurationFileName_" + configurationFiles + "')\" style='width:113px' size='5'/>"
-        row.insertCell(1).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' style='width:94px'/>"
-        row.insertCell(2).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' style='width:142px'/>"
-        row.insertCell(3).innerHTML = "<center><input type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "' checked='checked'/></center>"
-        row.insertCell(4).innerHTML = "<center><input type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>"
-        row.insertCell(5).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:70px'/>"
+        row.insertCell(0).innerHTML = "<input type='file' name='configurationFileData_" + configurationFiles + "' onchange=\"setFileName(this.value, 'configurationFileName_" + configurationFiles + "')\" style='width:113px' size='5'/>";
+        row.insertCell(1).innerHTML = "<input id='configurationFileName_" + configurationFiles + "' style='width:94px'/>";
+        row.insertCell(2).innerHTML = "<input id='configurationFileDir_" + configurationFiles + "' style='width:142px'/>";
+        row.insertCell(3).innerHTML = "<center><input type='checkbox' id='configurationFileOverwrite_" + configurationFiles + "' checked='checked'/></center>";
+        row.insertCell(4).innerHTML = "<center><input type='checkbox' id='configurationFileParse_" + configurationFiles + "'/></center>";
+        row.insertCell(5).innerHTML = "<input id='configurationFileEncoding_" + configurationFiles + "' style='width:70px'/>";
 
-        configurationFiles++
+        configurationFiles++;
       }
 
       function calculateConfigurationFiles()
       {
-        var configurationFilePropertiesJSON = []
-        var configurationFilesJSON = []
+        var configurationFilePropertiesJSON = [];
+        var configurationFilesJSON = [];
         for (var i = 0; i < configurationFiles; i++)
         {
-          var filename = document.getElementById("configurationFileName_" + i).value
-          var directory = document.getElementById("configurationFileDir_" + i).value
-          var overwrite = document.getElementById("configurationFileOverwrite_" + i).checked
-          var parse = document.getElementById("configurationFileParse_" + i).checked
-          var encoding = document.getElementById("configurationFileEncoding_" + i).value
+          var filename = document.getElementById("configurationFileName_" + i).value;
+          var directory = document.getElementById("configurationFileDir_" + i).value;
+          var overwrite = document.getElementById("configurationFileOverwrite_" + i).checked;
+          var parse = document.getElementById("configurationFileParse_" + i).checked;
+          var encoding = document.getElementById("configurationFileEncoding_" + i).value;
 
-          configurationFilesJSON[i] = filename
-          configurationFilePropertiesJSON[i] = {}
-          configurationFilePropertiesJSON[i].file = filename
-          configurationFilePropertiesJSON[i].tofile = filename
-          configurationFilePropertiesJSON[i].todir = directory
-          configurationFilePropertiesJSON[i].overwrite = overwrite
-          configurationFilePropertiesJSON[i].filter = parse
-          configurationFilePropertiesJSON[i].encoding = encoding
+          configurationFilesJSON[i] = filename;
+          configurationFilePropertiesJSON[i] = {};
+          configurationFilePropertiesJSON[i].file = filename;
+          configurationFilePropertiesJSON[i].tofile = filename;
+          configurationFilePropertiesJSON[i].todir = directory;
+          configurationFilePropertiesJSON[i].overwrite = overwrite;
+          configurationFilePropertiesJSON[i].filter = parse;
+          configurationFilePropertiesJSON[i].encoding = encoding;
         }
-        configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "'/><input name='configurationFileProperties' value='" + JSON.stringify(configurationFilePropertiesJSON) + "'/>"
+        configurationFilesDiv.innerHTML = "<input name='configurationFiles' value='" + JSON.stringify(configurationFilesJSON) + "'/><input name='configurationFileProperties' value='" + JSON.stringify(configurationFilePropertiesJSON) + "'/>";
       }
 
       function addDeployableFile()
       {
-        var row = deployableFilesTable.insertRow(deployableFilesTable.rows.length)
+        var row = deployableFilesTable.insertRow(deployableFilesTable.rows.length);
 
         if (deployableFiles % 2)
         {
-          row.bgColor = "#EAEDF2"
+          row.bgColor = "#EAEDF2";
         }
 
-        row.insertCell(0).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' onchange=\"setFileName(this.value, 'deployableFileName_" + deployableFiles + "');setFileType(this.value, 'deployableFileType_" + deployableFiles + "')\" style='width:293px' size='31'/>"
-        row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' onchange=\"setFileType(this.value, 'deployableFileType_" + deployableFiles + "')\" style='width:194px'/>"
-        row.insertCell(2).innerHTML = "<select id='deployableFileType_" + deployableFiles + "' style='width:95px'></select>"
+        row.insertCell(0).innerHTML = "<input type='file' name='deployableFileData_" + deployableFiles + "' onchange=\"setFileName(this.value, 'deployableFileName_" + deployableFiles + "');setFileType(this.value, 'deployableFileType_" + deployableFiles + "')\" style='width:293px' size='31'/>";
+        row.insertCell(1).innerHTML = "<input id='deployableFileName_" + deployableFiles + "' onchange=\"setFileType(this.value, 'deployableFileType_" + deployableFiles + "')\" style='width:194px'/>";
+        row.insertCell(2).innerHTML = "<select id='deployableFileType_" + deployableFiles + "' style='width:95px'></select>";
 
-        var sel = document.getElementById("deployableFileType_" + deployableFiles)
+        var sel = document.getElementById("deployableFileType_" + deployableFiles);
         for (var i = 0; i < deployableTypes.length; i++)
         {
-          var deployableType = deployableTypes[i]
-          sel.options.add(new Option(deployableType, deployableType))
+          var deployableType = deployableTypes[i];
+          sel.options.add(new Option(deployableType, deployableType));
         }
 
-        deployableFiles++
+        deployableFiles++;
       }
 
       function calculateDeployableFiles()
       {
-        var deployableFilesJSON = []
+        var deployableFilesJSON = [];
         for (var i = 0; i < deployableFiles; i++)
         {
-          var type = document.getElementById("deployableFileType_" + i).value
-          var filename = document.getElementById("deployableFileName_" + i).value
+          var type = document.getElementById("deployableFileType_" + i).value;
+          var filename = document.getElementById("deployableFileName_" + i).value;
 
-          deployableFilesJSON[i] = {}
-          deployableFilesJSON[i].type = type
-          deployableFilesJSON[i].filename = filename
+          deployableFilesJSON[i] = {};
+          deployableFilesJSON[i].type = type;
+          deployableFilesJSON[i].filename = filename;
         }
-        deployableFilesDiv.innerHTML = "<input name='deployableFiles' value='" + JSON.stringify(deployableFilesJSON) + "'/>"
+        deployableFilesDiv.innerHTML = "<input name='deployableFiles' value='" + JSON.stringify(deployableFilesJSON) + "'/>";
       }
 
       function calculateFormProperties()
       {
-        calculateContainerProperties()
-        calculateConfigurationProperties()
-        calculateXmlReplacements()
-        calculateConfigurationFiles()
-        calculateDeployableFiles()
-        document.getElementById("containerForm").style.display = "none"
-        document.getElementById("onContainerFormSubmit").style.display = "inline"
-        setTimeout("window.location = window.location", 5000)
+        calculateContainerProperties();
+        calculateConfigurationProperties();
+        calculateXmlReplacements();
+        calculateConfigurationFiles();
+        calculateDeployableFiles();
+        document.getElementById("containerForm").style.display = "none";
+        document.getElementById("onContainerFormSubmit").style.display = "inline";
+        setTimeout("window.location = window.location", 5000);
       }
 
-      var containerIds = @containerIds@
-      var containerIdSelect = document.getElementById('containerIdSelect')
+      var containerIds = @containerIds@;
+      var containerIdSelect = document.getElementById('containerIdSelect');
 
-      var handles = @handles@
-      var handleListTable = document.getElementById('handleListTable')
+      var handles = @handles@;
+      var handleListTable = document.getElementById('handleListTable');
 
       for (var i = 0; i < containerIds.length; i++)
       {
-        var containerId = containerIds[i]
-        containerIdSelect.options.add(new Option(containerId, containerId))
+        var containerId = containerIds[i];
+        containerIdSelect.options.add(new Option(containerId, containerId));
       }
 
       function drawHandleListTable()
       {
         for (var i = handleListTable.rows.length; i > 1; i--)
         {
-          handleListTable.deleteRow(i - 1)
+          handleListTable.deleteRow(i - 1);
         }
 
-        var hasHandles = false
+        var hasHandles = false;
         for (var handleId in handles)
         {
-          hasHandles = true
-          var row = handleListTable.insertRow(handleListTable.rows.length)
+          hasHandles = true;
+          var row = handleListTable.insertRow(handleListTable.rows.length);
 
-          row.insertCell(0).innerHTML = handleId
-          row.insertCell(1).innerHTML = handles[handleId]
-          row.insertCell(2).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Stop' id='stopContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>"
-          row.insertCell(3).innerHTML = "<center><form action='./start' method='POST' target='asyncForm'> <input type='submit' value='Start' id='startContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>"
-          row.insertCell(4).innerHTML = "<center><form action='./viewlog' method='GET' target='_blank'> <input type='submit' value='View Container logs' id='viewContainerLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>"
-          row.insertCell(5).innerHTML = "<center><form action='./viewcargolog' method='GET' target='_blank'> <input type='submit' value='View Cargo logs' id='viewCargoLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>"
-          row.insertCell(6).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Delete' id='deleteContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/><input type='hidden' name='deleteContainer' value='true'/></form></center>"
+          row.insertCell(0).innerHTML = handleId;
+          row.insertCell(1).innerHTML = handles[handleId];
+          row.insertCell(2).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Stop' id='stopContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(3).innerHTML = "<center><form action='./start' method='POST' target='asyncForm'> <input type='submit' value='Start' id='startContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(4).innerHTML = "<center><form action='./viewlog' method='GET' target='_blank'> <input type='submit' value='View Container logs' id='viewContainerLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(5).innerHTML = "<center><form action='./viewcargolog' method='GET' target='_blank'> <input type='submit' value='View Cargo logs' id='viewCargoLogs_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/></form></center>";
+          row.insertCell(6).innerHTML = "<center><form action='./stop' method='POST' target='asyncForm'> <input type='submit' value='Delete' id='deleteContainer_" + handleId + "'/> <input type='hidden' name='handleId' value='" + handleId + "'/><input type='hidden' name='deleteContainer' value='true'/></form></center>";
         }
         if (!hasHandles)
         {
-          var row = handleListTable.insertRow(handleListTable.rows.length)
+          var row = handleListTable.insertRow(handleListTable.rows.length);
 
-          var cell = row.insertCell(0)
-          cell.innerHTML = "<center><i>No containers found</i></center>"
-          cell.colSpan = "7"
+          var cell = row.insertCell(0);
+          cell.innerHTML = "<center><i>No containers found</i></center>";
+          cell.colSpan = "7";
         }
       }
 
-      drawHandleListTable()
+      drawHandleListTable();
 
-      var xmlHttpRequest = 0
-      if (window.XMLHttpRequest) {
-        xmlHttpRequest = new XMLHttpRequest()
-      } else if (window.ActiveXObject) {
-        xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP")
+      var xmlHttpRequest = false;
+      if (window.XMLHttpRequest)
+      {
+        xmlHttpRequest = new XMLHttpRequest();
+      }
+      else if (window.ActiveXObject)
+      {
+        xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      function refreshContainers()
+      {
+        var currentDate = new Date();
+        xmlHttpRequest.open("GET", "./getHandles?now=" + currentDate, false);
+
+        try
+        {
+          xmlHttpRequest.send();
+          var response = xmlHttpRequest.responseText;
+          var parsedResponse = {};
+          eval("parsedResponse = " + response);
+          if (typeof parsedResponse === "undefined")
+          {
+            window.alert("Got unexpected response while refreshing handles: " + response);
+          }
+          else
+          {
+            handles = parsedResponse;
+            drawHandleListTable();
+          }
+        }
+        catch (ignored)
+        {
+          // Ignored
+        }
+        setTimeout(refreshContainers, 1000);
       }
       if (xmlHttpRequest)
       {
-        xmlHttpRequest.onreadystatechange = function()
-        {
-          // Do this asynchronously (with timeout), as some browsers do not populate
-          // all XMLHttpRequest request fields when onreadystatechange is fired
-          setTimeout(function()
-          {
-            var response = xmlHttpRequest.responseText
-            var parsedResponse = {}
-            eval("parsedResponse = " + response)
-            if (typeof parsedResponse === "undefined")
-            {
-              window.alert("Got unexpected response while refreshing handles: " + response)
-            }
-            else
-            {
-              handles = parsedResponse
-              drawHandleListTable()
-            }
-          }, 55)
-        }
-
-        setInterval(function()
-        {
-          var currentDate = new Date()
-          xmlHttpRequest.open("GET", "./getHandles?now=" + currentDate, true)
-          xmlHttpRequest.send()
-        }, 5000)
+        setTimeout(refreshContainers, 1000);
       }
     </script>
   </body>
