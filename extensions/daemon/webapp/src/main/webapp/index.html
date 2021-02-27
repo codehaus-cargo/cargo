@@ -64,15 +64,15 @@
     </script>
   </head>
   <body>
-    <table width="100%" id="layout" style="padding:0px;margin:0px;border-collapse:collapse;">
+    <table width="100%" id="layout" style="padding:0px;margin:0px;border-collapse:collapse;position:absolute;">
       <tr>
-        <td colspan="3" style="padding:8px;">
+        <td colspan="3" style="padding:0px;">
           <table width="100%" id="banner" style="padding:0px;margin:0px">
             <tr id="header_row">
-              <td align="left" valign="middle" style="padding:0px;margin:0px;">
+              <td align="left" valign="middle" style="padding:0px;margin:0px;font-size:0px;">
                 <img src="cargo-banner-left.png"/>
               </td>
-              <td align="right" valign="middle" style="padding:0px;margin:0px;">
+              <td align="right" valign="middle" style="padding:0px;margin:0px;font-size:0px;">
                 <img src="cargo-banner-right.png"/>
               </td>
             </tr>
@@ -103,7 +103,7 @@
           <br/>
           Please specify below the various options for your container and select <b>Start</b>.
           <br/><br/>
-          <form action="./start" method="POST" onsubmit="calculateFormProperties()" enctype="multipart/form-data" target="asyncForm" id="containerForm">
+          <form action="./start" method="POST" onsubmit="return calculateFormProperties()" enctype="multipart/form-data" target="asyncForm" id="containerForm">
             <table width="800" style="margin:0px;border-collapse:collapse;">
               <tr bgcolor="#EAEDF2">
                 <td width="200">
@@ -550,14 +550,25 @@
 
       function calculateFormProperties()
       {
-        calculateContainerProperties();
-        calculateConfigurationProperties();
-        calculateXmlReplacements();
-        calculateConfigurationFiles();
-        calculateDeployableFiles();
-        document.getElementById("containerForm").style.display = "none";
-        document.getElementById("onContainerFormSubmit").style.display = "inline";
-        setTimeout("window.location = window.location", 5000);
+        try
+        {
+          calculateContainerProperties();
+          calculateConfigurationProperties();
+          calculateXmlReplacements();
+          calculateConfigurationFiles();
+          calculateDeployableFiles();
+          document.getElementById("containerForm").style.display = "none";
+          document.getElementById("onContainerFormSubmit").style.display = "inline";
+          setTimeout("window.location = window.location", 5000);
+          return true;
+        }
+        catch (err)
+        {
+          window.alert(
+            "We are sorry, something went wrong calculating the container configuration: " + err.message + "\n\n" +
+            "This usually happens because you are using a very old Web browser, please try with a different browser.");
+          return false;
+        }
       }
 
       var containerIds = @containerIds@;

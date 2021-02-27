@@ -30,10 +30,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -44,9 +46,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.State;
+import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -150,11 +154,60 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
     {
         Map<String, String> replacements = new HashMap<String, String>();
 
+        Map<String, Set<ContainerType>> containerIds = CONTAINER_FACTORY.getContainerIds();
+        SortedMap<String, String> sortedContainerIds = new TreeMap<String, String>();
+        for (String containerId : containerIds.keySet())
+        {
+            try
+            {
+                Configuration configuration = CONFIGURATION_FACTORY.createConfiguration(
+                    containerId, ContainerType.INSTALLED, ConfigurationType.STANDALONE);
+                InstalledLocalContainer container = (InstalledLocalContainer)
+                    CONTAINER_FACTORY.createContainer(
+                        containerId, ContainerType.INSTALLED, configuration);
+
+                String[] containerNameAndVersion =
+                    container.getName().toLowerCase(Locale.ENGLISH).split("\\s");
+                if (containerNameAndVersion.length > 1)
+                {
+                    if (containerNameAndVersion[1].charAt(0) >= '0'
+                        && containerNameAndVersion[1].charAt(0) <= '9')
+                    {
+                        Double containerVersion = Double.parseDouble(
+                            containerNameAndVersion[1].replace(".x", ""));
+                        if (containerVersion < 10.0)
+                        {
+                            sortedContainerIds.put(
+                                containerNameAndVersion[0] + '0' + containerVersion, containerId);
+                        }
+                        else
+                        {
+                            sortedContainerIds.put(
+                                containerNameAndVersion[0] + containerVersion, containerId);
+                        }
+                    }
+                    else
+                    {
+                        sortedContainerIds.put(
+                            containerNameAndVersion[0] + containerNameAndVersion[1], containerId);
+                    }
+                }
+                else
+                {
+                    sortedContainerIds.put(containerNameAndVersion[0], containerId);
+                }
+            }
+            catch (ContainerException e)
+            {
+                // That container doesn't have an installed standalone configuration
+                continue;
+            }
+        }
+
         replacements.put("daemonVersion", this.daemonVersion);
         replacements.put("deployableTypes", this.deployableTypes);
-        replacements.put("containerIds", JSONArray
-            .toJSONString(new ArrayList<String>(new TreeSet<String>(CONTAINER_FACTORY
-                .getContainerIds().keySet()))));
+        replacements.put("containerIds",
+            JSONArray.toJSONString(new ArrayList<String>(sortedContainerIds.values())));
         replacements.put("handles", JSONValue.toJSONString(getHandleDetails()));
 
         StringBuilder indexPageBuilder = new StringBuilder();
@@ -1165,8 +1218,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 + "        }\n"
                 + "        else\n"
                 + "        {\n"
+                + "          var currentDate = new Date();\n"
                 + "          xmlHttpRequest.open(\"GET\", \"./" + pageId
-                + "?handleId=\" + handleId + \"&offset=\" + offset, false);\n"
+                + "?handleId=\" + handleId + \"&offset=\" + offset + \"&now=\" + currentDate, "
+                + "false);\n"
                 + "          try\n"
                 + "          {\n"
                 + "            xmlHttpRequest.send();\n"
