@@ -24,6 +24,7 @@ import java.net.URL;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.LocalContainer;
@@ -39,16 +40,14 @@ public class ContainerRunMojo extends ContainerStartMojo
 {
     /**
      * Sets the container id.
-     * 
-     * @parameter property="cargo.maven.containerId"
      */
+    @Parameter(property = "cargo.maven.containerId")
     private String containerId;
 
     /**
      * Sets the container download URL.
-     * 
-     * @parameter property="cargo.maven.containerUrl"
      */
+    @Parameter(property = "cargo.maven.containerUrl")
     private String containerUrl;
 
     /**

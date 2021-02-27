@@ -21,6 +21,7 @@ package org.codehaus.cargo.maven3;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
@@ -35,9 +36,9 @@ import org.codehaus.cargo.maven3.configuration.Packager;
 public class PackageMojo extends AbstractCargoMojo
 {
     /**
-     * @parameter
      * @see #getPackagerElement()
      */
+    @Parameter
     private Packager packager;
 
     /**

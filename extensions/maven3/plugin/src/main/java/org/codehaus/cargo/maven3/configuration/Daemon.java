@@ -22,6 +22,8 @@ package org.codehaus.cargo.maven3.configuration;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.plugins.annotations.Parameter;
+
 /**
  * Holds configuration data for the <code>&lt;daemon&gt;</code> tag used to configure the plugin in
  * the <code>pom.xml</code> file.
@@ -30,16 +32,14 @@ public class Daemon
 {
     /**
      * Daemon properties.
-     * 
-     * @parameter
      */
+    @Parameter
     private Map<String, String> properties;
 
     /**
      * Additional classpath entries.
-     * 
-     * @parameter
      */
+    @Parameter
     private List<String> classpaths;
 
     /**

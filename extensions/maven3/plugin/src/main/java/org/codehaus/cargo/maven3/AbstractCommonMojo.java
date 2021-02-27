@@ -31,10 +31,6 @@ public abstract class AbstractCommonMojo extends AbstractMojo
 {
     /**
      * The Maven project.
-     * 
-     * @parameter property="project"
-     * @required
-     * @readonly
      * @see #getProject()
      */
     @Parameter(property = "project", readonly = true, required = true)
