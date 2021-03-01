@@ -121,6 +121,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "--module=resources",
                 "--module=http",
                 "--module=plus",
+                "--module=annotations",
                 "path=" + classpath
             };
         }
@@ -138,6 +139,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "--module=resources",
                 "--module=http",
                 "--module=plus",
+                "--module=annotations",
                 "path=" + classpath
             };
         }

@@ -78,6 +78,7 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
             "--module=resources",
             "--module=http",
             "--module=plus",
+            "--module=annotations",
             "path=" + classpath
         };
     }
