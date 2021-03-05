@@ -33,6 +33,13 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
     public static final String ID = "jetty10x";
 
     /**
+     * Default list of Jetty modules to activate.
+     * @see JettyPropertySet#MODULES
+     */
+    public static final String DEFAULT_MODULES =
+        "console-capture,server,http,http2c,annotations,plus,websocket,jsp,ext,deploy";
+
+    /**
      * Jetty10xInstalledLocalContainer Constructor.
      * @param configuration The configuration associated with the container
      */
@@ -65,22 +72,20 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
     @Override
     protected String[] getStartArguments(String classpath)
     {
-        return new String[]
+        String configuredModules = getConfiguration().getPropertyValue(JettyPropertySet.MODULES);
+        if (configuredModules == null || configuredModules.trim().length() == 0)
         {
-            "--ini",
-            "--module=console-capture",
-            "--module=server",
-            "--module=client",
-            "--module=deploy",
-            "--module=websocket",
-            "--module=jsp",
-            "--module=ext",
-            "--module=resources",
-            "--module=http",
-            "--module=plus",
-            "--module=annotations",
-            "path=" + classpath
-        };
+            configuredModules = Jetty10xInstalledLocalContainer.DEFAULT_MODULES;
+        }
+        String[] modules = configuredModules.split(",");
+        String[] startArguments = new String[modules.length + 2];
+        startArguments[0] = "--ini";
+        for (int i = 0; i < modules.length; i++)
+        {
+            startArguments[i + 1] = "--module=" + modules[i];
+        }
+        startArguments[startArguments.length - 1] = "path=" + classpath;
+        return startArguments;
     }
 
     /**

@@ -49,4 +49,9 @@ public interface JettyPropertySet
      */
     String REALM_NAME = "cargo.jetty.realm.name";
 
+    /**
+     * Comma-separated list of Jetty modules to activate.
+     */
+    String MODULES = "cargo.jetty.modules";
+
 }

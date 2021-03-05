@@ -17,31 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jetty;
+package org.codehaus.cargo.container.jetty.internal;
+
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 
 /**
- * Jetty 10.x standalone
- * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
+ * Capabilities of the Jetty 10.x and onward's
+ * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
+ * configuration for installed containers.
  */
-public class Jetty10xStandaloneLocalConfiguration extends Jetty9xStandaloneLocalConfiguration
+public class Jetty10xStandaloneLocalConfigurationCapability extends
+    Jetty7xStandaloneLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
-     * @see Jetty9xStandaloneLocalConfiguration#Jetty9xStandaloneLocalConfiguration(String)
+     * Initialize the configuration-specific supports Map.
      */
-    public Jetty10xStandaloneLocalConfiguration(String dir)
+    public Jetty10xStandaloneLocalConfigurationCapability()
     {
-        super(dir);
-        setProperty(JettyPropertySet.MODULES, Jetty10xInstalledLocalContainer.DEFAULT_MODULES);
+        this.propertySupportMap.put(JettyPropertySet.MODULES, Boolean.TRUE);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString()
-    {
-        return "Jetty 10.x Standalone Configuration";
-    }
-
 }
