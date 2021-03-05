@@ -19,12 +19,19 @@
  */
 package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 
 /**
- * Capabilities of Jetty's {@link AbstractJettyExistingLocalConfiguration} configuration.
+ * Capabilities of Jetty 10.x's {@link AbstractJettyExistingLocalConfiguration} configuration.
  */
-public class JettyExistingLocalConfigurationCapability extends
-    AbstractExistingLocalConfigurationCapability
+public class Jetty10xExistingLocalConfigurationCapability extends
+    JettyExistingLocalConfigurationCapability
 {
+    /**
+     * Initialize the configuration-specific supports Map.
+     */
+    public Jetty10xExistingLocalConfigurationCapability()
+    {
+        this.propertySupportMap.put(JettyPropertySet.MODULES, Boolean.TRUE);
+    }
 }

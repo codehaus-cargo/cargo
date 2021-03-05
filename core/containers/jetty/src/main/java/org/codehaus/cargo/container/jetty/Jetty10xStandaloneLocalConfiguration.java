@@ -19,12 +19,21 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty10xStandaloneLocalConfigurationCapability;
+
 /**
  * Jetty 10.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
  */
 public class Jetty10xStandaloneLocalConfiguration extends Jetty9xStandaloneLocalConfiguration
 {
+    /**
+     * Capability of the Jetty Existing local configuration.
+     */
+    private static ConfigurationCapability capability =
+        new Jetty10xStandaloneLocalConfigurationCapability();
+
     /**
      * {@inheritDoc}
      * @see Jetty9xStandaloneLocalConfiguration#Jetty9xStandaloneLocalConfiguration(String)
@@ -33,6 +42,15 @@ public class Jetty10xStandaloneLocalConfiguration extends Jetty9xStandaloneLocal
     {
         super(dir);
         setProperty(JettyPropertySet.MODULES, Jetty10xInstalledLocalContainer.DEFAULT_MODULES);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**
