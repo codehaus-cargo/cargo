@@ -387,7 +387,6 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
             }
 
             token.append("</security-role-mapping>");
-
         }
 
         return token.toString();

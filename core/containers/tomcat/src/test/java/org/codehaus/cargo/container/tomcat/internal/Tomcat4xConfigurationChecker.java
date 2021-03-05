@@ -46,7 +46,6 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     protected void checkConfigurationMatchesResource(String configuration, Resource resource)
         throws Exception
     {
-
         String pathToResource =
             "//Engine/DefaultContext/Resource[@name='" + resource.getName() + "']";
 
@@ -138,7 +137,6 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
             "//Engine/DefaultContext/ResourceParams[@name='" + dataSourceFixture.jndiLocation
                 + "']";
         XMLAssert.assertXpathNotExists(pathToResourceParams, configuration);
-
     }
 
     /**

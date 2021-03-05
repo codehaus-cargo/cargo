@@ -232,7 +232,6 @@ public class DeployerServlet extends HttpServlet
      */
     protected File getFile(String contextPath)
     {
-
         String fileName;
         // the contextPath should always begin with a forward slash but adding
         // this logic if case of future modifications and to prevent a NPE.

@@ -53,7 +53,6 @@ public class Tomcat5x6x7xConfigurationBuilder extends AbstractTomcatConfiguratio
         if (resource.getClassName() != null)
         {
             sb.append("          type='").append(resource.getClassName()).append("'\n");
-
         }
         else
         {

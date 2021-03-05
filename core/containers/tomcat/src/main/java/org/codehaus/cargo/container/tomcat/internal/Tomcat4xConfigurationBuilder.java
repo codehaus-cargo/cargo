@@ -56,12 +56,10 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
         {
             sb.append("          ")
                 .append("type=\"").append(resource.getClassName()).append("\"\n");
-
         }
         else
         {
             sb.append("          ").append("type=\"").append(resource.getType()).append("\"\n");
-
         }
         sb.append("          ").append("auth=\"").append("Container").append("\"\n")
             .append("          ").append("/>\n");

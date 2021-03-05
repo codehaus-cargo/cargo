@@ -118,7 +118,6 @@ public class WebLogic8xConfigXmlInstalledLocalDeployer extends AbstractInstalled
             configXml.removeChild(element);
         }
         this.writeConfigXml(configXml);
-
     }
 
     /**

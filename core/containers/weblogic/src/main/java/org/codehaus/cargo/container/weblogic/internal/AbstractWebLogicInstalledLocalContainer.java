@@ -118,7 +118,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      */
     protected List<String> getBeaHomeDirs()
     {
-
         return new ArrayList<String>();
     }
 
@@ -218,7 +217,6 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      */
     public void initBeaHome()
     {
-
         if (this.getHome() == null)
         {
             throw new ContainerException("Please set container home to WL_HOME");

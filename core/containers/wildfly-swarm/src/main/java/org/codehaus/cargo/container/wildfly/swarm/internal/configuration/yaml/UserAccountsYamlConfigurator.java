@@ -110,7 +110,6 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
             yamlGenerator.writeEndObject();
             yamlGenerator.writeEndObject();
             yamlGenerator.writeEndObject();
-
         }
         catch (IOException ex)
         {
@@ -171,7 +170,6 @@ public class UserAccountsYamlConfigurator extends AbstractConfigurator
             usersToken.toString(), StandardCharsets.ISO_8859_1);
 
         return applicationUsers;
-
     }
 
     /**

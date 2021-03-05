@@ -84,7 +84,6 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
         checker
             .checkConfigurationForDriverConfiguredDSWithLocalTransactionSupportMatchesDSFixture(
                 configuration, dataSourceFixture);
-
     }
 
     /**
@@ -100,7 +99,6 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
         String configuration = checker.insertConfigurationEntryIntoContext(dataSourceEntry);
         checker.checkConfigurationForDataSourceMatchesDataSourceFixture(configuration,
             dataSourceFixture);
-
     }
 
     /**
@@ -137,7 +135,6 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
 
         checker.checkConfigurationForXADataSourceConfiguredDataSourceMatchesDataSourceFixture(
             configuration, dataSourceFixture);
-
     }
 
     /**

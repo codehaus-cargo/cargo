@@ -115,7 +115,6 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
             super
                 .testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport();
             fail("should have received an exception");
-
         }
         catch (UnsupportedOperationException e)
         {
@@ -139,7 +138,6 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
             super
                 .testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport();
             fail("should have received an exception");
-
         }
         catch (UnsupportedOperationException e)
         {

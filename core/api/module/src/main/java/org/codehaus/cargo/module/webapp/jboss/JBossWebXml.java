@@ -109,6 +109,5 @@ public class JBossWebXml extends AbstractDescriptor implements VendorWebAppDescr
         ejbRefElement.addContent(createNestedText(jndiTag, ref.getJndiName()));
 
         getRootElement().addContent(ejbRefElement);
-
     }
 }

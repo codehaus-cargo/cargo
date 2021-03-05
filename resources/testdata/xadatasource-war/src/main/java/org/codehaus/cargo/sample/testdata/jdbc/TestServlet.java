@@ -51,7 +51,6 @@ public class TestServlet extends HttpServlet
             PrintWriter out = response.getWriter();
             out.print("Got connection!");
             out.close();
-
         }
         catch (NamingException e)
         {

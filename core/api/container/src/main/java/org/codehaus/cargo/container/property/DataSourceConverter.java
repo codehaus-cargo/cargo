@@ -184,7 +184,6 @@ public class DataSourceConverter
         Resource resource = new Resource(ds.getJndiLocation(), resourceType);
         resource.setParameters(PropertyUtils.toMap(parameters));
         return resource;
-
     }
 
 }

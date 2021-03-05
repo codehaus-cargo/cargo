@@ -142,7 +142,6 @@ public class LocalConfigurationTest extends TestCase
         {
             configuration.collectUnsupportedResourcesAndThrowException();
             fail("should have gotten an Exception");
-
         }
         catch (CargoException e)
         {
@@ -180,7 +179,6 @@ public class LocalConfigurationTest extends TestCase
         {
             configuration.collectUnsupportedDataSourcesAndThrowException();
             fail("should have gotten an Exception");
-
         }
         catch (CargoException e)
         {
@@ -223,7 +221,6 @@ public class LocalConfigurationTest extends TestCase
         {
             configuration.collectUnsupportedDataSourcesAndThrowException();
             fail("should have gotten an Exception");
-
         }
         catch (CargoException e)
         {
@@ -268,7 +265,6 @@ public class LocalConfigurationTest extends TestCase
         {
             configuration.collectUnsupportedDataSourcesAndThrowException();
             fail("should have gotten an Exception");
-
         }
         catch (CargoException e)
         {

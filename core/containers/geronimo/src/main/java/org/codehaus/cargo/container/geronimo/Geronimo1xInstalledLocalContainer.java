@@ -167,7 +167,6 @@ public class Geronimo1xInstalledLocalContainer extends AbstractInstalledLocalCon
             isStarted = geronimoUtils.isGeronimoStarted();
 
             exitCondition = waitForStarting ? !isStarted : isStarted;
-
         }
         while (exitCondition);
 

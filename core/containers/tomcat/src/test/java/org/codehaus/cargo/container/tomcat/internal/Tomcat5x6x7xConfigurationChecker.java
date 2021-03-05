@@ -54,7 +54,6 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
             "//Context/Resource[@name='" + dataSourceFixture.jndiLocation + "']";
 
         XMLAssert.assertXpathNotExists(pathToResource, configuration);
-
     }
 
     /**
@@ -67,7 +66,6 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
     protected void checkConfigurationMatchesResource(String configuration, Resource resource)
         throws Exception
     {
-
         String pathToResource = "//Context/Resource[@name='" + resource.getName() + "']";
 
         XMLAssert.assertXpathEvaluatesTo("Container", pathToResource + "/@auth", configuration);

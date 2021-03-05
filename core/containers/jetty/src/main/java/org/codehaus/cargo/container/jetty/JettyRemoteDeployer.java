@@ -160,7 +160,6 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
      */
     protected HttpURLConnection createDeployConnection(WAR war) throws IOException
     {
-
         String deployUrl = this.deployerUrl + "/deploy?path=/" + war.getContext();
 
         URL url = new URL(deployUrl);

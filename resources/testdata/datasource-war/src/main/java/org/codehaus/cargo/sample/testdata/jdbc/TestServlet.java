@@ -41,7 +41,6 @@ public class TestServlet extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         Connection c = null;
         try
         {
@@ -51,7 +50,6 @@ public class TestServlet extends HttpServlet
             PrintWriter out = response.getWriter();
             out.print("Got connection!");
             out.close();
-
         }
         catch (NamingException e)
         {

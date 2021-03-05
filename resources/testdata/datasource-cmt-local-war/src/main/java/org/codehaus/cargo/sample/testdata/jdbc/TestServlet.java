@@ -50,7 +50,6 @@ public class TestServlet extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
 
         def.setName("cargotest");
@@ -60,7 +59,6 @@ public class TestServlet extends HttpServlet
         try
         {
             dao.create("Adrian", "Cole");
-
         }
         catch (RuntimeException ex)
         {

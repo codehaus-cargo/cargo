@@ -105,7 +105,6 @@ public class MergeWebXml implements MergeProcessorFactory
             }
         }
         return null;
-
     }
 
     /**

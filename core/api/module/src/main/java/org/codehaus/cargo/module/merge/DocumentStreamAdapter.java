@@ -152,7 +152,6 @@ public class DocumentStreamAdapter implements MergeProcessor
         }
 
         return descriptorIo.createDocumentBuilder().build(theInput);
-
     }
 
     /**

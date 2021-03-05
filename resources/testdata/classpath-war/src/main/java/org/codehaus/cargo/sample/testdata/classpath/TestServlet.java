@@ -36,19 +36,16 @@ public class TestServlet extends HttpServlet
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-
         try
         {
             Class.forName("org.codehaus.cargo.simple.SimpleClass");
             PrintWriter out = response.getWriter();
             out.print("Got class!");
             out.close();
-
         }
         catch (ClassNotFoundException e)
         {
             throw new ServletException(e);
-
         }
     }
 }

@@ -166,7 +166,6 @@ public class ContainerStartMojoTest extends MockObjectTestCase
         container = retrieveContainers(context).get(0);
         assertEquals("qux",
             ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
-
     }
 
     /**

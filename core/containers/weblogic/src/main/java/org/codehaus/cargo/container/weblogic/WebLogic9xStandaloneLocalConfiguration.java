@@ -91,7 +91,6 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         xmlTool = new XmlUtils();
         xmlTool.setNamespaces(namespaces);
         xmlTool.setFileHandler(getFileHandler());
-
     }
 
     /**

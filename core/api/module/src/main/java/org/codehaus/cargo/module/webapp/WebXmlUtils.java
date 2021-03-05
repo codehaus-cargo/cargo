@@ -82,7 +82,6 @@ public final class WebXmlUtils
      */
     public static List<String> getFilterMappings(WebXml webXml, String theFilterName)
     {
-
         if (theFilterName == null)
         {
             throw new NullPointerException();
@@ -113,7 +112,6 @@ public final class WebXmlUtils
      */
     public static List<FilterMapping> getFilterMappingElements(WebXml webXml, String theFilterName)
     {
-
         if (theFilterName == null)
         {
             throw new NullPointerException();
@@ -250,7 +248,6 @@ public final class WebXmlUtils
         WebXmlElement element =
             (WebXmlElement) webXml.getTagByIdentifier(WebXmlType.FILTER, name);
         addTagInitParam(element, paramName, paramValue);
-
     }
 
     /**
@@ -547,7 +544,6 @@ public final class WebXmlUtils
             WebXmlType.JSP_FILE).create().setText(theJspFile));
 
         webXml.addTag(servletElement);
-
     }
 
     /**
@@ -609,7 +605,6 @@ public final class WebXmlUtils
 
         webXml.getRootElement().removeContent(new ElementFilter(WebXmlType.LOGIN_CONFIG));
         webXml.addTag(loginConfigElement);
-
     }
 
     /**
@@ -764,7 +759,6 @@ public final class WebXmlUtils
             ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(
                 WebXmlType.REMOTE).create().setText(
                 ref.getEjbInterface()));
-
         }
         if (ref.getEjbName() != null)
         {
@@ -786,7 +780,6 @@ public final class WebXmlUtils
         }
 
         webXml.addTag(ejbRefElement);
-
     }
 
     /**
@@ -811,7 +804,6 @@ public final class WebXmlUtils
             .setText(theRoleName));
 
         webXml.getRootElement().addContent(securityRoleElement);
-
     }
 
     /**
@@ -933,7 +925,6 @@ public final class WebXmlUtils
 
         webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml
                 .getRootElement());
-
     }
 
     /**
@@ -990,7 +981,6 @@ public final class WebXmlUtils
             WebXmlType.ROLE_NAME).create().setText(theRoleName));
 
         servlet.addContent(runAsElement);
-
     }
 
     /**

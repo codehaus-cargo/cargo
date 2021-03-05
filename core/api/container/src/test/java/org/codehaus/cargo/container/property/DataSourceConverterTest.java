@@ -195,7 +195,6 @@ public class DataSourceConverterTest extends TestCase
         {
             assertEquals("CreateDatabase=create;user=APP", dataSourceConverter
                 .getConnectionPropertiesAsASemicolonDelimitedString(ds));
-
         }
     }
 

@@ -53,7 +53,6 @@ public class DefaultDeployableMonitorFactory implements DeployableMonitorFactory
         }
 
         return deployableMonitor;
-
     }
 
     /**

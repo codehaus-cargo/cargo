@@ -65,7 +65,6 @@ public abstract class AbstractJettyExistingLocalConfiguration
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-
         File deployDir = new File(getHome(), "webapps");
         if (!deployDir.exists())
         {
@@ -80,7 +79,6 @@ public abstract class AbstractJettyExistingLocalConfiguration
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
                 new File(deployDir, "cargocpc.war"));
-
     }
 
     /**

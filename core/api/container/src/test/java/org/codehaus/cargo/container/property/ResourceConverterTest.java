@@ -94,7 +94,6 @@ public class ResourceConverterTest extends TestCase
         {
             assertEquals("CreateDatabase=create;user=APP", resourceConverter
                 .getParametersAsASemicolonDelimitedString(ds));
-
         }
     }
 
@@ -115,7 +114,6 @@ public class ResourceConverterTest extends TestCase
         {
             assertEquals("path=c:\\users\\me;user=APP", resourceConverter
                 .getParametersAsASemicolonDelimitedString(ds));
-
         }
     }
 

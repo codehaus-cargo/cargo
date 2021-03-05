@@ -112,7 +112,6 @@ public class Resource
     public Set<String> getParameterNames()
     {
         return parameters.keySet();
-
     }
 
     /**
