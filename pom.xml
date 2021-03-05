@@ -343,6 +343,7 @@
       Require Maven 3.2.3 so access to Maven Central is done via HTTPS.
       -->
     <maven.minimum.version>3.2.3</maven.minimum.version>
+    <maven.antrun-plugin.version>3.0.0</maven.antrun-plugin.version>
     <maven.archetype-packaging.version>3.2.0</maven.archetype-packaging.version>
     <maven.compiler-plugin.version>3.8.1</maven.compiler-plugin.version>
     <maven.compiler-java.version>1.8</maven.compiler-java.version>
@@ -1109,11 +1110,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
-          <!--
-            We consciously don't upgrade to the maven-antrun-plugin's 3.0 and newer versions,
-            as these have removed the <tasks> parameter
-            -->
-          <version>1.8</version>
+          <version>${maven.antrun-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

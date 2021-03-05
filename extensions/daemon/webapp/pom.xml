@@ -78,13 +78,13 @@
             <id>move-main-class</id>
             <phase>compile</phase>
             <configuration>
-              <tasks>
+              <target>
                 <move todir="${project.build.directory}/${project.build.finalName}">
                   <fileset dir="${project.build.directory}/classes/">
                     <include name="**/Main.class" />
                   </fileset>
                 </move>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>

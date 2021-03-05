@@ -100,6 +100,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>${maven.antrun-plugin.version}</version>
         <executions>
           <execution>
             <id>start</id>
@@ -108,7 +109,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <taskdef resource="cargo.tasks"/>
 
                 <cargo containerId="tomcat7x" action="start" home="\${project.build.directory}/cargo/containers/apache-tomcat-7.0.108">
@@ -131,7 +132,7 @@
                     </deployable>
                   </configuration>
                 </cargo>
-              </tasks>
+              </target>
             </configuration>
           </execution>
           <execution>
@@ -141,7 +142,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <taskdef resource="cargo.tasks"/>
 
                 <cargo containerId="tomcat7x" action="stop" home="\${project.build.directory}/cargo/containers/apache-tomcat-7.0.108">
@@ -156,7 +157,7 @@
                     <property name="cargo.rmi.port" value="\${rmi2.port}"/>
                   </configuration>
                 </cargo>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
