@@ -36,7 +36,7 @@
   </dependencies>
 
   <properties>
-    <cargo.hostname>10.0.2.15</cargo.hostname>
+    <cargo.hostname>localhost</cargo.hostname>
     <cargo.servlet.port>8080</cargo.servlet.port>
     <cargo.glassfish.admin.port>4848</cargo.glassfish.admin.port>
   </properties>
