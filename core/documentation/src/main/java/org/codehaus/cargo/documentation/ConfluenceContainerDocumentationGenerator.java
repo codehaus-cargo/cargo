@@ -1436,10 +1436,10 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(", the Tomcat manager has multiple aspects to be careful about:");
                 output.append(LINE_SEPARATOR);
                 output.append("* Your browser by default accesses the HTML-based manager ");
-                output.append("whereas CARGO needs to use the text-based manager. As a result, ");
-                output.append("if you want to set the {{RemotePropertySet.URI}} manually, ");
-                output.append("please make sure you set the URL for the text-based manager, ");
-                output.append("for example {{http://production27:8080/manager/text}}");
+                output.append("whereas Codehaus Cargo needs to use the text-based manager. As a ");
+                output.append("result, if you want to set the {{RemotePropertySet.URI}} ");
+                output.append("manually, please make sure you set the URL for the text-based ");
+                output.append("manager, for example {{http://production27:8080/manager/text}}");
                 output.append(LINE_SEPARATOR);
                 output.append("* The text-based manager requires to be accessed by a user with ");
                 output.append("the {{manager-script}} role; and by default no user has that ");
