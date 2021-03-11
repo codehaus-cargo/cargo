@@ -1447,19 +1447,19 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("{{tomcat-users.xml}} file to give that role to a user.");
                 output.append(LINE_SEPARATOR);
                 output.append("You can read more in the Tomcat documentation: ");
-                if (containerId.equals("tomcat7x") || containerId.startsWith("tomee"))
+                if (containerId.equals("tomcat7x") || containerId.equals("tomee1x"))
                 {
                     output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html");
                 }
-                else if (containerId.equals("tomcat8x"))
+                else if (containerId.equals("tomcat8x") || containerId.equals("tomee7x"))
                 {
                     output.append("http://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html");
                 }
-                else if (containerId.equals("tomcat9x"))
+                else if (containerId.equals("tomcat9x") || containerId.equals("tomee8x"))
                 {
                     output.append("http://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html");
                 }
-                else if (containerId.equals("tomcat10x"))
+                else if (containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
                 {
                     output.append("http://tomcat.apache.org/tomcat-10.0-doc/manager-howto.html");
                 }
