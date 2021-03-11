@@ -214,6 +214,14 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
         }
 
         java.addClasspathEntries(new File(getHome(), "bin/bootstrap.jar"));
+        if (jvmArgs != null && jvmArgs.contains("java.util.logging.manager")
+            && getConfiguration() instanceof AbstractCatalinaStandaloneLocalConfiguration)
+        {
+            // CARGO-1556: If a dedicated logging manager is defined on the JVM level, most likely
+            // the associated classes are added to the extra classpath configuration. Hence, add
+            // these JARs to the start/stop JVM classpath as well.
+            super.addExtraClasspath(java);
+        }
         addToolsJarToClasspath(java);
         java.setMainClass("org.apache.catalina.startup.Bootstrap");
         java.addAppArguments(action);
