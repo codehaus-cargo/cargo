@@ -220,7 +220,19 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
             // CARGO-1556: If a dedicated logging manager is defined on the JVM level, most likely
             // the associated classes are in the extra classpath configuration. Hence, add these
             // JARs to the start/stop JVM classpath as well.
-            super.addExtraClasspath(java);
+            String[] extraClassPath = getExtraClasspath();
+            if (extraClassPath != null)
+            {
+                File commonLib = new File(
+                    ((AbstractCatalinaStandaloneLocalConfiguration) getConfiguration()).getHome(),
+                        "common/lib");
+                for (String extraClassPathJar : extraClassPath)
+                {
+                    File extraClassPathElement = new File(extraClassPathJar);
+                    File commonLibJar = new File(commonLib, extraClassPathElement.getName());
+                    java.addClasspathEntries(commonLibJar);
+                }
+            }
         }
         addToolsJarToClasspath(java);
         java.setMainClass("org.apache.catalina.startup.Bootstrap");
