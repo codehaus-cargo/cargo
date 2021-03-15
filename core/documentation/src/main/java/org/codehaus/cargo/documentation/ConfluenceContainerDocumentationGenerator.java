@@ -188,6 +188,7 @@ public class ConfluenceContainerDocumentationGenerator
         "wildfly20x",
         "wildfly21x",
         "wildfly22x",
+        "wildfly23x",
         "wildfly-swarm2017x"
     });
 
@@ -654,16 +655,25 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("wildfly22x"))
+        else if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x"))
         {
-            output.append("{note}WildFly 22 comes with two versions: Jakarta EE 8 Full & Web ");
-            output.append("Distribution and the WildFly Preview EE 9 Distribution. Users of the ");
-            output.append("WildFly Preview EE 9 Distribution should be aware that, as a result ");
-            output.append("of the move from Java EE to Jakarta EE as part of the transfer of ");
-            output.append("Java EE to the Eclipse Foundation, the primary package for all ");
-            output.append("implemented APIs has changed from {{javax.\\*}} to {{jakarta.\\*}}. ");
-            output.append("This will almost certainly require code changes to enable ");
-            output.append("applications to migrate to EE 9 and later.");
+            output.append("{note}WildFly ");
+            if (containerId.equals("wildfly22x"))
+            {
+                output.append("22");
+            }
+            else
+            {
+                output.append("23");
+            }
+            output.append(" comes with two versions: Jakarta EE 8 Full & Web Distribution and ");
+            output.append("the WildFly Preview EE 9 Distribution. Users of the WildFly Preview ");
+            output.append("EE 9 Distribution should be aware that, as a result of the move ");
+            output.append("from Java EE to Jakarta EE as part of the transfer of Java EE to the ");
+            output.append("Eclipse Foundation, the primary package for all implemented APIs has ");
+            output.append("changed from {{javax.\\*}} to {{jakarta.\\*}}. This will almost ");
+            output.append("certainly require code changes to enable applications to migrate to ");
+            output.append("EE 9 and later.");
             output.append("{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
