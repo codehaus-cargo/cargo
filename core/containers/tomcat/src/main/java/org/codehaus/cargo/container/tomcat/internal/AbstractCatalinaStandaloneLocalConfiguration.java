@@ -109,18 +109,28 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
 
         if (container instanceof InstalledLocalContainer)
         {
+            String[] classPath;
             InstalledLocalContainer installedContainer = (InstalledLocalContainer) container;
-            String[] classPath = installedContainer.getExtraClasspath();
-            if (classPath != null)
+
+            // CARGO-1556: If a dedicated logging manager is defined on the JVM level, most likely
+            // the associated classes are in the extra classpath configuration. Hence, add these
+            // JARs to the start/stop JVM classpath instead of common/lib.
+            String jvmArgs = getPropertyValue(GeneralPropertySet.JVMARGS);
+            if (jvmArgs != null && jvmArgs.contains("java.util.logging.manager"))
             {
-                for (String path : classPath)
+                classPath = installedContainer.getExtraClasspath();
+                if (classPath != null)
                 {
-                    FileConfig fc = new FileConfig();
-                    fc.setFile(path);
-                    fc.setToDir("common/lib");
-                    setFileProperty(fc);
+                    for (String path : classPath)
+                    {
+                        FileConfig fc = new FileConfig();
+                        fc.setFile(path);
+                        fc.setToDir("common/lib");
+                        setFileProperty(fc);
+                    }
                 }
             }
+
             classPath = installedContainer.getSharedClasspath();
             if (classPath != null)
             {
