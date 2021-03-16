@@ -116,7 +116,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
             // the associated classes are in the extra classpath configuration. Hence, add these
             // JARs to the start/stop JVM classpath instead of common/lib.
             String jvmArgs = getPropertyValue(GeneralPropertySet.JVMARGS);
-            if (jvmArgs != null && jvmArgs.contains("java.util.logging.manager"))
+            if (jvmArgs == null || !jvmArgs.contains("java.util.logging.manager"))
             {
                 classPath = installedContainer.getExtraClasspath();
                 if (classPath != null)
