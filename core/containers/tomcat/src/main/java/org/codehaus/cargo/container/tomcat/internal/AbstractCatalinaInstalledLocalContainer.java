@@ -144,36 +144,16 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
     }
 
     /**
-     * Configures the extra classpath if and only if:
-     * <ul>
-     * <li>We are not on an {@link AbstractCatalinaStandaloneLocalConfiguration}<br>or</li>
-     * <li>We are on an {@link AbstractCatalinaStandaloneLocalConfiguration} and specify a third
-     * party JVM logger (see <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1556">
-     * CARGO-1556</a>).
-     * </ul>
-     * {@inheritDoc}
+     * Configures the extra classpath if we are not on an
+     * {@link AbstractCatalinaStandaloneLocalConfiguration}, does nothing otherwise. That is
+     * because, if we are in an {@link AbstractCatalinaStandaloneLocalConfiguration}, the JARs
+     * in the extra classpath are copied over to <code>common/lib</code> for the Tomcat bootstrap
+     * to load them. {@inheritDoc}
      */
     @Override
     protected void addExtraClasspath(JvmLauncher java)
     {
-        if (getConfiguration() instanceof AbstractCatalinaStandaloneLocalConfiguration)
-        {
-            String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
-            if (jvmArgs != null && jvmArgs.contains("java.util.logging.manager"))
-            {
-                // CARGO-1556: If a dedicated logging manager is defined on the JVM level, most
-                // likely the associated classes are in the extra classpath configuration. Hence,
-                // add these JARs to the start/stop JVM classpath instead of common/lib.
-                super.addExtraClasspath(java);
-            }
-            else
-            {
-                // If we are in a AbstractCatalinaStandaloneLocalConfiguration, by default the JARs
-                // in the extra classpath are copied over to common/lib for the Tomcat bootstrap to
-                // load them. Hence, do not add the extra classpath to the JVM.
-            }
-        }
-        else
+        if (!(getConfiguration() instanceof AbstractCatalinaStandaloneLocalConfiguration))
         {
             super.addExtraClasspath(java);
         }
