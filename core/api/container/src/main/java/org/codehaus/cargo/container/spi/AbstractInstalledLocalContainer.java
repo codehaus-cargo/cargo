@@ -610,6 +610,34 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             jvmargs = jvmargs.replace('\n', ' ');
             jvmargs = jvmargs.replace('\r', ' ');
             jvmargs = jvmargs.replace('\t', ' ');
+
+            if (jvmargs == null || !jvmargs.contains("-Xms"))
+            {
+                java.addJvmArguments("-Xms128m");
+            }
+            if (jvmargs == null || !jvmargs.contains("-Xmx"))
+            {
+                java.addJvmArguments("-Xmx512m");
+            }
+
+            // CARGO-1294: Warning when starting containers on Java 8
+            if (jvmMajorVersion >= 8)
+            {
+                jvmargs.replaceAll("\\s*-XX:PermSize\\d+\\w\\s*", " ");
+                jvmargs.replaceAll("\\s*-XX:MaxPermSize\\d+\\w\\s*", " ");
+            }
+            else
+            {
+                if (jvmargs == null || !jvmargs.contains("-XX:PermSize"))
+                {
+                    java.addJvmArguments("-XX:PermSize=48m");
+                }
+                if (jvmargs == null || !jvmargs.contains("-XX:MaxPermSize"))
+                {
+                    java.addJvmArguments("-XX:MaxPermSize=128m");
+                }
+            }
+
             if (startJmvmargs != null)
             {
                 // CARGO-1535: If in server mode and the START_JVMARGS has memory-related settings,
@@ -632,27 +660,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 }
             }
 
-            if (jvmargs == null || !jvmargs.contains("-Xms"))
-            {
-                java.addJvmArguments("-Xms128m");
-            }
-            if (jvmargs == null || !jvmargs.contains("-Xmx"))
-            {
-                java.addJvmArguments("-Xmx512m");
-            }
-
-            // CARGO-1294: Warning when starting containers on Java 8
-            if (jvmMajorVersion < 8)
-            {
-                if (jvmargs == null || !jvmargs.contains("-XX:PermSize"))
-                {
-                    java.addJvmArguments("-XX:PermSize=48m");
-                }
-                if (jvmargs == null || !jvmargs.contains("-XX:MaxPermSize"))
-                {
-                    java.addJvmArguments("-XX:MaxPermSize=128m");
-                }
-            }
             java.addJvmArgumentLine(jvmargs);
         }
     }
@@ -663,15 +670,24 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     private void addStartJvmArgs(JvmLauncher java)
     {
-        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
-        if (jvmargs != null)
+        String startJmvmargs =
+            getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
+        if (startJmvmargs != null)
         {
             // Replace new lines and tabs, so that Maven or ANT plugins can
             // specify multiline JVM arguments in their XML files
-            jvmargs = jvmargs.replace('\n', ' ');
-            jvmargs = jvmargs.replace('\r', ' ');
-            jvmargs = jvmargs.replace('\t', ' ');
-            java.addJvmArgumentLine(jvmargs);
+            startJmvmargs = startJmvmargs.replace('\n', ' ');
+            startJmvmargs = startJmvmargs.replace('\r', ' ');
+            startJmvmargs = startJmvmargs.replace('\t', ' ');
+
+            // CARGO-1294: Warning when starting containers on Java 8
+            if (jvmMajorVersion >= 8)
+            {
+                startJmvmargs.replaceAll("\\s*-XX:PermSize\\d+\\w\\s*", " ");
+                startJmvmargs.replaceAll("\\s*-XX:MaxPermSize\\d+\\w\\s*", " ");
+            }
+
+            java.addJvmArgumentLine(startJmvmargs);
         }
     }
 
