@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.tools.ant.taskdefs.condition.Os;
 import org.codehaus.cargo.container.ContainerException;
@@ -58,6 +60,22 @@ import org.codehaus.cargo.util.log.Logger;
 public abstract class AbstractInstalledLocalContainer extends AbstractLocalContainer implements
     InstalledLocalContainer
 {
+    /**
+     * Regular expression matcher to capture a quoted <code>-classpath</code> argument
+     */
+    private static Pattern classpathQuotedPattern = Pattern.compile("-classpath\\s+\"([^\"]*)\"");
+
+    /**
+     * Regular expression matcher to capture non-quoted <code>-classpath</code> argument
+     */
+    private static Pattern classpathPattern = Pattern.compile("-classpath\\s+([^\\s+\"]*)\\s+");
+
+    /**
+     * Regular expression matcher to capture non-quoted <code>-classpath</code> argument as the
+     * final argument
+     */
+    private static Pattern classpathFinalPattern = Pattern.compile("-classpath\\s+([^\\s+\"]*)");
+
     /**
      * List of system properties to set in the container JVM.
      */
@@ -660,6 +678,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 }
             }
 
+            // CARGO-1556: Allow setting the JVM classpath using a -classpath argument set as
+            // GeneralPropertySet.JVMARGS
+            jvmargs = addJvmClasspathArguments(java, jvmargs);
             java.addJvmArgumentLine(jvmargs);
         }
     }
@@ -687,8 +708,66 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 startJmvmargs.replaceAll("\\s*-XX:MaxPermSize\\d+\\w\\s*", " ");
             }
 
+            // CARGO-1556: Allow setting the JVM classpath using a -classpath argument set as
+            // GeneralPropertySet.START_JVMARGS
+            startJmvmargs = addJvmClasspathArguments(java, startJmvmargs);
+
             java.addJvmArgumentLine(startJmvmargs);
         }
+    }
+
+    /**
+     * Converts the <code>-classpath</code> JVM arguments into classpath entries.
+     * 
+     * @param java the predefined JVM launcher on which to add classpath entries
+     * @param jvmArgs JVM arguments line
+     * @return JVM arguments line with <code>-classpath</code> entries removed
+     */
+    private String addJvmClasspathArguments(JvmLauncher java, String jvmArgs)
+    {
+        String jvmargs = jvmArgs;
+        if (jvmargs.contains("-classpath"))
+        {
+            String classpath = null;
+            Matcher classpathQuotedMatcher =
+                AbstractInstalledLocalContainer.classpathQuotedPattern.matcher(jvmargs);
+            if (classpathQuotedMatcher.find())
+            {
+                classpath = classpathQuotedMatcher.group(1);
+                jvmargs = classpathQuotedMatcher.replaceAll(" ");
+            }
+            else
+            {
+                Matcher classpathMatcher =
+                    AbstractInstalledLocalContainer.classpathPattern.matcher(jvmargs);
+                if (classpathMatcher.find())
+                {
+                    classpath = classpathMatcher.group(1);
+                    jvmargs = classpathMatcher.replaceAll(" ");
+                }
+                else
+                {
+                    Matcher classpathFinalMatcher =
+                        AbstractInstalledLocalContainer.classpathFinalPattern.matcher(jvmargs);
+                    if (classpathFinalMatcher.find())
+                    {
+                        classpath = classpathFinalMatcher.group(1);
+                        jvmargs = classpathFinalMatcher.replaceAll("");
+                    }
+                }
+            }
+            if (classpath == null)
+            {
+                throw new ContainerException(
+                    "The JVM arguments contains a -classpath entry but none of the classpath "
+                        + "matchers matched");
+            }
+            else
+            {
+                java.addClasspathEntries(classpath.split(File.pathSeparator));
+            }
+        }
+        return jvmargs;
     }
 
     /**
