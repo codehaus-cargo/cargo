@@ -764,6 +764,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             }
             else
             {
+                getLogger().debug("Adding [" + classpath + "] to execution classpath",
+                    this.getClass().getName());
                 java.addClasspathEntries(classpath.split(File.pathSeparator));
             }
         }
