@@ -61,20 +61,25 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     InstalledLocalContainer
 {
     /**
-     * Regular expression matcher to capture a quoted <code>-classpath</code> argument
+     * Regular expression matcher to capture a quoted <code>-classpath</code> or <code>-cp</code>
+     * argument
      */
-    private static Pattern classpathQuotedPattern = Pattern.compile("-classpath\\s+\"([^\"]*)\"");
+    private static Pattern classpathQuotedPattern =
+        Pattern.compile("-(classpath|cp)\\s+\"([^\"]*)\"");
 
     /**
-     * Regular expression matcher to capture non-quoted <code>-classpath</code> argument
+     * Regular expression matcher to capture non-quoted <code>-classpath</code> or
+     * <code>-cp</code> argument
      */
-    private static Pattern classpathPattern = Pattern.compile("-classpath\\s+([^\\s+\"]*)\\s+");
+    private static Pattern classpathPattern =
+        Pattern.compile("-(classpath|cp)\\s+([^\\s+\"]*)\\s+");
 
     /**
-     * Regular expression matcher to capture non-quoted <code>-classpath</code> argument as the
-     * final argument
+     * Regular expression matcher to capture non-quoted <code>-classpath</code> or <code>-cp</code>
+     * argument as the final argument
      */
-    private static Pattern classpathFinalPattern = Pattern.compile("-classpath\\s+([^\\s+\"]*)");
+    private static Pattern classpathFinalPattern =
+        Pattern.compile("-(classpath|cp)\\s+([^\\s+\"]*)");
 
     /**
      * List of system properties to set in the container JVM.
@@ -678,8 +683,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 }
             }
 
-            // CARGO-1556: Allow setting the JVM classpath using a -classpath argument set as
-            // GeneralPropertySet.JVMARGS
+            // CARGO-1556: Allow setting the JVM classpath using a -classpath or -cp argument set
+            // as GeneralPropertySet.JVMARGS
             jvmargs = addJvmClasspathArguments(java, jvmargs);
             java.addJvmArgumentLine(jvmargs);
         }
@@ -708,8 +713,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 startJmvmargs.replaceAll("\\s*-XX:MaxPermSize\\d+\\w\\s*", " ");
             }
 
-            // CARGO-1556: Allow setting the JVM classpath using a -classpath argument set as
-            // GeneralPropertySet.START_JVMARGS
+            // CARGO-1556: Allow setting the JVM classpath using a -classpath or -cp argument set
+            // as GeneralPropertySet.START_JVMARGS
             startJmvmargs = addJvmClasspathArguments(java, startJmvmargs);
 
             java.addJvmArgumentLine(startJmvmargs);
@@ -717,23 +722,24 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     }
 
     /**
-     * Converts the <code>-classpath</code> JVM arguments into classpath entries.
+     * Converts the <code>-classpath</code> or <code>-cp</code> JVM arguments into classpath
+     * entries.
      * 
      * @param java the predefined JVM launcher on which to add classpath entries
      * @param jvmArgs JVM arguments line
-     * @return JVM arguments line with <code>-classpath</code> entries removed
+     * @return JVM arguments line with <code>-classpath</code> and <code>-cp</code> entries removed
      */
     private String addJvmClasspathArguments(JvmLauncher java, String jvmArgs)
     {
         String jvmargs = jvmArgs;
-        if (jvmargs.contains("-classpath"))
+        if (jvmargs.contains("-classpath") || jvmargs.contains("-cp"))
         {
             String classpath = null;
             Matcher classpathQuotedMatcher =
                 AbstractInstalledLocalContainer.classpathQuotedPattern.matcher(jvmargs);
             if (classpathQuotedMatcher.find())
             {
-                classpath = classpathQuotedMatcher.group(1);
+                classpath = classpathQuotedMatcher.group(2);
                 jvmargs = classpathQuotedMatcher.replaceAll(" ");
             }
             else
@@ -742,7 +748,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                     AbstractInstalledLocalContainer.classpathPattern.matcher(jvmargs);
                 if (classpathMatcher.find())
                 {
-                    classpath = classpathMatcher.group(1);
+                    classpath = classpathMatcher.group(2);
                     jvmargs = classpathMatcher.replaceAll(" ");
                 }
                 else
@@ -751,7 +757,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                         AbstractInstalledLocalContainer.classpathFinalPattern.matcher(jvmargs);
                     if (classpathFinalMatcher.find())
                     {
-                        classpath = classpathFinalMatcher.group(1);
+                        classpath = classpathFinalMatcher.group(2);
                         jvmargs = classpathFinalMatcher.replaceAll("");
                     }
                 }
@@ -759,7 +765,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             if (classpath == null)
             {
                 throw new ContainerException(
-                    "The JVM arguments contains a -classpath entry but none of the classpath "
+                    "The JVM arguments contains a classpath entry but none of the classpath "
                         + "matchers matched");
             }
             else
