@@ -65,7 +65,17 @@ public class WARTest extends TestCase
     }
 
     /**
-     * Test WAR context overriden with a slash in the middhe.
+     * Test WAR context overriden with an ending slash.
+     */
+    public void testGetContextWhenOverrideAndEndingSlash()
+    {
+        WAR war = new WAR("c:/some/path/to/war/test.war");
+        war.setContext("/a/");
+        assertEquals("a", war.getContext());
+    }
+
+    /**
+     * Test WAR context overriden with a slash in the middle.
      */
     public void testGetContextWhenOverrideAndMiddleSlash()
     {

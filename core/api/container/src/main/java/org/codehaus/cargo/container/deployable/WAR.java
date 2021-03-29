@@ -59,12 +59,21 @@ public class WAR extends AbstractDeployable
      */
     public synchronized void setContext(String context)
     {
-        // Ensure the context is also well-formed by removing any extra leading "/".
-        this.context = context.trim();
-        if (this.context.startsWith("/"))
+        // Ensure the context is well-formed by removing any extra leading or ending "/".
+        String wellFormedContext = context.trim();
+        while (wellFormedContext.contains("//"))
         {
-            this.context = this.context.substring(1);
+            wellFormedContext = wellFormedContext.replace("//", "/");
         }
+        while (wellFormedContext.startsWith("/"))
+        {
+            wellFormedContext = wellFormedContext.substring(1);
+        }
+        while (wellFormedContext.endsWith("/"))
+        {
+            wellFormedContext = wellFormedContext.substring(0, wellFormedContext.length() - 1);
+        }
+        this.context = wellFormedContext;
     }
 
     /**

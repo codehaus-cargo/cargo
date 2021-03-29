@@ -81,6 +81,24 @@ public class TomcatWAR extends WAR
         if (this.warArchive.getTomcatContextXml() != null)
         {
             context = this.warArchive.getTomcatContextXml().getPath();
+
+            if (context != null)
+            {
+                // Ensure the context is well-formed by removing any extra leading or ending "/".
+                context = context.trim();
+                while (context.contains("//"))
+                {
+                    context = context.replace("//", "/");
+                }
+                while (context.startsWith("/"))
+                {
+                    context = context.substring(1);
+                }
+                while (context.endsWith("/"))
+                {
+                    context = context.substring(0, context.length() - 1);
+                }
+            }
         }
 
         return context;
