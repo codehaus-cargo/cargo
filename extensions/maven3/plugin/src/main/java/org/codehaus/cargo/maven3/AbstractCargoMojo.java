@@ -823,13 +823,13 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     + "specified a zipUrlInstaller. Please check the plugin configuration.");
             }
 
-            getContainerElement().setContainerId("jetty8x");
+            getContainerElement().setContainerId("jetty9x");
             getContainerElement().setType(ContainerType.INSTALLED);
 
             ArtifactInstaller artifactInstaller = new ArtifactInstaller();
             artifactInstaller.setGroupId("org.eclipse.jetty");
             artifactInstaller.setArtifactId("jetty-distribution");
-            artifactInstaller.setVersion("8.1.22.v20160922");
+            artifactInstaller.setVersion("9.4.39.v20210325");
             getContainerElement().setArtifactInstaller(artifactInstaller);
 
             getLog().info("No container defined, using a default ["
