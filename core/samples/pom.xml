@@ -507,7 +507,7 @@
 
               <property>
                 <name>cargo.jetty10x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.1/jetty-home-10.0.1.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.2/jetty-home-10.0.2.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty10x.java.home</name>
