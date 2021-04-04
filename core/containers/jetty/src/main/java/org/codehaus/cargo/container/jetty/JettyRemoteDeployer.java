@@ -172,28 +172,10 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("Content-Type", "application/octet-stream");
 
-        // When trying to upload large amount of data the internal connection buffer can become
-        // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
+        // When trying to upload large amount of data the internal connection buffer can become too
+        // large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
         // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
-        // As Cargo should also work with JDK versions lesser than 1.5 we use reflection to call
-        // setChunkedStreamingMode(). If it fails, we assume we're running an older version of
-        // the JDK. In that case the solution for the user is to increase it's heap size.
-        // For reference, see the following discussions about this:
-        // http://www.velocityreviews.com/forums/t149076-leaking-memory-when-writing-to-url.html
-        // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5026745
-        // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4212479
-        try
-        {
-            connection.getClass().getMethod("setChunkedStreamingMode", Integer.TYPE)
-                .invoke(connection, 0);
-        }
-        catch (Exception e)
-        {
-            // We assume we're on an older JDK version, do nothing.
-            getLogger().debug("Not calling setChunkedStreamingMode() method as JVM ["
-                + System.getProperty("java.version") + "] doesn't support it.",
-                    getClass().getName());
-        }
+        connection.setChunkedStreamingMode(0);
 
         if (this.username != null)
         {
