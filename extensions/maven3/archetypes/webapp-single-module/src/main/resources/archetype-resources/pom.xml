@@ -151,7 +151,7 @@
       </build>
     </profile>
     <profile>
-      <id>jetty7x</id>
+      <id>jetty10x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -160,7 +160,7 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty7x</containerId>
+                  <containerId>jetty10x</containerId>
                   <type>embedded</type>
                 </container>
               </configuration>
@@ -170,7 +170,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat8x</id>
+      <id>tomcat9x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -179,9 +179,9 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>tomcat8x</containerId>
+                  <containerId>tomcat9x</containerId>
                   <zipUrlInstaller>
-                    <url>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.65/tomcat-8.5.65.zip</url>
+                    <url>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.45/tomcat-9.0.45.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>
@@ -238,7 +238,7 @@
       </build>
     </profile>
     <profile>
-      <id>glassfish3x</id>
+      <id>glassfish5x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -247,11 +247,11 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>glassfish3x</containerId>
+                  <containerId>glassfish5x</containerId>
                   <artifactInstaller>
                     <groupId>org.glassfish.main.distributions</groupId>
                     <artifactId>glassfish</artifactId>
-                    <version>3.1.2.2</version>
+                    <version>5.1.0</version>
                   </artifactInstaller>
                 </container>
               </configuration>
@@ -285,7 +285,7 @@
       </build>
     </profile>
     <profile>
-      <id>wildfly10x</id>
+      <id>wildfly21x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -294,11 +294,11 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>wildfly10x</containerId>
+                  <containerId>wildfly21x</containerId>
                   <artifactInstaller>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-dist</artifactId>
-                    <version>10.1.0.Final</version>
+                    <version>21.0.2.Final</version>
                   </artifactInstaller>
                 </container>
               </configuration>

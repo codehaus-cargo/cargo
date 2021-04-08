@@ -142,7 +142,7 @@
       https://codehaus-cargo.github.io/cargo/Jetty+Remote+Deployer.html
       -->
     <profile>
-      <id>jetty8x</id>
+      <id>jetty9x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -151,7 +151,7 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>jetty8x</containerId>
+                  <containerId>jetty9x</containerId>
                 </container>
               </configuration>
             </plugin>
@@ -160,7 +160,7 @@
       </build>
     </profile>
     <profile>
-      <id>tomcat8x</id>
+      <id>tomcat9x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -172,7 +172,7 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>tomcat8x</containerId>
+                  <containerId>tomcat9x</containerId>
                 </container>
               </configuration>
             </plugin>
@@ -318,7 +318,7 @@
       </build>
     </profile>
     <profile>
-      <id>glassfish3x</id>
+      <id>glassfish5x</id>
       <build>
         <pluginManagement>
           <plugins>
@@ -327,7 +327,7 @@
               <artifactId>cargo-maven3-plugin</artifactId>
               <configuration>
                 <container>
-                  <containerId>glassfish3x</containerId>
+                  <containerId>glassfish5x</containerId>
                 </container>
               </configuration>
 
@@ -337,9 +337,9 @@
                 -->
               <dependencies>
                 <dependency>
-                  <groupId>org.glassfish.deployment</groupId>
+                  <groupId>org.glassfish.main.deployment</groupId>
                   <artifactId>deployment-client</artifactId>
-                  <version>3.1.1</version>
+                  <version>5.1.0</version>
                 </dependency>
               </dependencies>
             </plugin>

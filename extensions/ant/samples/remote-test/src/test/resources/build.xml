@@ -36,9 +36,9 @@
     <attribute name="action"/>
 
     <sequential>
-      <cargo containerId="tomcat8x" action="@{action}">
+      <cargo containerId="tomcat9x" action="@{action}">
         <zipUrlInstaller
-          installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.65/tomcat-8.5.65.zip"
+          installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.45/tomcat-9.0.45.zip"
           downloadDir="\${basedir}/../../../../core/samples/java/installs"
           extractDir="\${catalina.root}">
           <!--
@@ -65,7 +65,7 @@
     <attribute name="action"/>
 
     <sequential>
-      <cargo containerId="tomcat8x" action="@{action}" type="remote">
+      <cargo containerId="tomcat9x" action="@{action}" type="remote">
         <configuration type="runtime">
           <property name="cargo.servlet.port" value="\${http.port}"/>
           <property name="cargo.remote.username" value="admin"/>

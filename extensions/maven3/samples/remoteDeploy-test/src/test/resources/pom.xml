@@ -42,7 +42,7 @@
         <version>${project.version}</version>
         <configuration>
           <container>
-            <containerId>tomcat8x</containerId>
+            <containerId>tomcat9x</containerId>
             <type>remote</type>
           </container>
           <configuration>
