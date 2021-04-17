@@ -1354,9 +1354,9 @@ public class ConfluenceContainerDocumentationGenerator
                     output.append(LINE_SEPARATOR);
                     output.append("{info}If you specify {{cargo.runtime.args}} with ");
                     output.append("{{--ini=anyfile.ini}} (where {{anyfile.ini}} points to a ");
-                    output.append("Jetty INI file), any property set in the CARGO Jetty ");
-                    output.append("container will be ignored and the ones read from the INI file ");
-                    output.append("used instead.{info}");
+                    output.append("Jetty INI file), any property set in the Codehaus Cargo ");
+                    output.append("Jetty container will be ignored and the ones read from the ");
+                    output.append("INI file used instead.{info}");
                     output.append(LINE_SEPARATOR);
                 }
 
