@@ -1136,6 +1136,13 @@
               checkstyle.suppressions.file=${project.build.directory}/checkstyle-suppressions.xml
             </propertyExpansion>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>8.41.1</version>
+            </dependency>
+          </dependencies>
           <executions>
             <execution>
               <goals>
