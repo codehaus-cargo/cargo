@@ -214,9 +214,7 @@
 
     <!--module name="InterfaceIsType"/-->
 
-    <module name="JavadocMethod">
-      <property name="scope" value="private"/>
-    </module>
+    <module name="JavadocMethod"/>
 
     <module name="JavadocStyle">
       <property name="severity" value="warning"/>
@@ -224,14 +222,11 @@
     </module>
 
     <module name="JavadocType">
-      <property name="scope" value="private"/>
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowUnknownTags" value="true"/>
     </module>
 
-    <module name="JavadocVariable">
-      <property name="scope" value="private"/>
-    </module>
+    <module name="JavadocVariable"/>
 
     <!--module name="JavaNCSS"/-->
 
