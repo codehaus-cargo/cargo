@@ -168,7 +168,7 @@ public class HttpUtils extends LoggedObject
     private boolean isAvailable(HttpResult responseResult)
     {
         boolean result;
-        if ((responseResult.responseCode >= 200 && responseResult.responseCode < 400)
+        if (responseResult.responseCode >= 200 && responseResult.responseCode < 400
             || responseResult.responseCode == 401 || responseResult.responseCode == 403)
         {
             result = true;

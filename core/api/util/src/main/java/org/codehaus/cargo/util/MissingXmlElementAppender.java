@@ -84,7 +84,7 @@ public class MissingXmlElementAppender
         LinkedList<String> missingNodes = new LinkedList<String>();
         Node evaluate = getMostCommonNode(missingNodes);
 
-        if ((evaluate != null) && (!missingNodes.isEmpty()))
+        if (evaluate != null && !missingNodes.isEmpty())
         {
             evaluate = appendMissingElements(missingNodes, evaluate);
         }
@@ -117,7 +117,7 @@ public class MissingXmlElementAppender
                 missingNodes.addFirst(lastNode);
             }
         }
-        while ((evaluate == null) && !expressionNodes.isEmpty());
+        while (evaluate == null && !expressionNodes.isEmpty());
 
         if (evaluate != null)
         {

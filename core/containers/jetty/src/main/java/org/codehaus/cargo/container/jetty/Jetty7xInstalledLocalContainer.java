@@ -74,8 +74,8 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
     protected void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
     {
         if (getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS) == null
-                || (!getConfiguration().getPropertyValue(
-                    GeneralPropertySet.RUNTIME_ARGS).contains("--ini=")))
+                || !getConfiguration().getPropertyValue(
+                    GeneralPropertySet.RUNTIME_ARGS).contains("--ini="))
         {
             // If logging is set to "high" the turn it on by setting the DEBUG system property
             if (LoggingLevel.HIGH.equalsLevel(getConfiguration().getPropertyValue(

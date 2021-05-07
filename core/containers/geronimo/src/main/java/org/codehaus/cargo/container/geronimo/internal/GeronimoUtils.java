@@ -211,7 +211,7 @@ public class GeronimoUtils
                             bs, "getLocation", new Object[]{testedBundleId}, parameterTypes);
                         logger.debug("\tChecking bundle " + location + ", ID " + testedBundleId,
                             this.getClass().getName());
-                        if ((location.contains(symbolicName) && location.contains(version))
+                        if (location.contains(symbolicName) && location.contains(version)
                             || location.contains(fileName))
                         {
                             bundleId = testedBundleId;
