@@ -36,6 +36,7 @@ updates:
       - dependency-name: "org.apache.maven:maven-settings"
       - dependency-name: "org.apache.maven.plugin-tools:maven-plugin-annotations"
       - dependency-name: "org.eclipse.jetty:jetty-deploy"
+      - dependency-name: "org.jboss.as:jboss-as-controller-client"
       - dependency-name: "org.jboss.integration:jboss-profileservice-spi"
       - dependency-name: "org.jdom:jdom"
         versions: ["[2.0,)"]
