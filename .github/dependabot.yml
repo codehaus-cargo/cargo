@@ -14,28 +14,29 @@
 # limitations under the License.
 # -------------------------------------------------------------------
 
-version: 1
-update_configs:
-  - package_manager: "java:maven"
+version: 2
+updates:
+  - package-ecosystem: "java:maven"
     directory: "/"
-    update_schedule: "daily"
-    ignored_updates:
+    schedule:
+      interval: "daily"
+    ignore:
       - match:
-          - dependency_name: "commons-discovery:commons-discovery"
-          - dependency_name: "javax.mail:mail"
-          - dependency_name: "javax.servlet:servlet-api"
-          - dependency_name: "junit:junit"
+          - dependency-name: "commons-discovery:commons-discovery"
+          - dependency-name: "javax.mail:mail"
+          - dependency-name: "javax.servlet:servlet-api"
+          - dependency-name: "junit:junit"
             versions: ["4.x"]
-          - dependency_name: "org.apache.ant:ant"
+          - dependency-name: "org.apache.ant:ant"
             versions: ["1.10.x"]
-          - dependency_name: "org.apache.derby:derby"
+          - dependency-name: "org.apache.derby:derby"
             versions: ["10.13.x", "10.14.x", "10.15.x"]
-          - dependency_name: "org.apache.maven:maven-archiver"
-          - dependency_name: "org.apache.maven:maven-core"
-          - dependency_name: "org.apache.maven:maven-plugin-api"
-          - dependency_name: "org.apache.maven:maven-settings"
-          - dependency_name: "org.apache.maven.plugin-tools:maven-plugin-annotations"
-          - dependency_name: "org.jdom:jdom"
+          - dependency-name: "org.apache.maven:maven-archiver"
+          - dependency-name: "org.apache.maven:maven-core"
+          - dependency-name: "org.apache.maven:maven-plugin-api"
+          - dependency-name: "org.apache.maven:maven-settings"
+          - dependency-name: "org.apache.maven.plugin-tools:maven-plugin-annotations"
+          - dependency-name: "org.jdom:jdom"
             versions: ["2.x"]
-          - dependency_name: "org.osgi:org.osgi.core"
-          - dependency_name: "org.springframework:spring"
+          - dependency-name: "org.osgi:org.osgi.core"
+          - dependency-name: "org.springframework:spring"
