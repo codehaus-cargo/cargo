@@ -25,17 +25,17 @@ updates:
       - dependency-name: "javax.mail:mail"
       - dependency-name: "javax.servlet:servlet-api"
       - dependency-name: "junit:junit"
-        versions: ["4.x"]
+        versions: ["[4.0,)"]
       - dependency-name: "org.apache.ant:ant"
-        versions: ["1.10.x"]
+        versions: ["[1.10,)"]
       - dependency-name: "org.apache.derby:derby"
-        versions: ["10.13.x", "10.14.x", "10.15.x"]
+        versions: ["[10.13,)"]
       - dependency-name: "org.apache.maven:maven-archiver"
       - dependency-name: "org.apache.maven:maven-core"
       - dependency-name: "org.apache.maven:maven-plugin-api"
       - dependency-name: "org.apache.maven:maven-settings"
       - dependency-name: "org.apache.maven.plugin-tools:maven-plugin-annotations"
       - dependency-name: "org.jdom:jdom"
-        versions: ["2.x"]
+        versions: ["[2.0,)"]
       - dependency-name: "org.osgi:org.osgi.core"
       - dependency-name: "org.springframework:spring"
