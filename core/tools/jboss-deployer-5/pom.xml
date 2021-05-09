@@ -42,7 +42,7 @@
         depend on different versions of same artifact. codehaus-cargo can not simply
         use single version in dependencyManagement.
         -->
-      <version>5.0.3.GA</version>
+      <version>5.1.0.GA</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
