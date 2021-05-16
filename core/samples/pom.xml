@@ -1741,15 +1741,12 @@
     <surefire.useManifestOnlyJar>true</surefire.useManifestOnlyJar>
     <surefire.useSystemClassLoader>true</surefire.useSystemClassLoader>
     <!--
-      TODO: Rather install all these container binaries into the Maven 3
-            repository; which corresponds to ticket CARGO-449.
-
+      TODO: CARGO-449: Rather install all these container binaries into the Maven 3 repository.
             It would be lovely to install all containers to:
             ${settings.localRepository}/org/codehaus/cargo/installs
       -->
     <cargo.download.dir>${project.basedir}/installs</cargo.download.dir>
     <!-- Tomcat 5.x and Jetty 7.x require this setting for the embedded tests -->
-    <!-- TODO: fix embedded tests and remove the SAXParserFactory property -->
     <javax.xml.parsers.SAXParserFactory>com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl</javax.xml.parsers.SAXParserFactory>
     <cargo.java.home.1_4>${java.home}</cargo.java.home.1_4>
     <cargo.java.home.1_5>${java.home}</cargo.java.home.1_5>
