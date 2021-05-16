@@ -24,17 +24,18 @@ package org.codehaus.cargo.container.jonas;
 
 import java.util.Properties;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.stub.JvmLauncherStub;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas4xInstalledLocalContainer}.
  */
-public class Jonas4xInstalledLocalContainerTest extends MockObjectTestCase
+public class Jonas4xInstalledLocalContainerTest extends TestCase
 {
     /**
      * JONAS_ROOT folder for tests.

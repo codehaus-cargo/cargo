@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
@@ -31,13 +33,13 @@ import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 import org.codehaus.cargo.util.log.NullLogger;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.mockito.AdditionalMatchers;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for {@link AbstractCopyingInstalledLocalDeployer}.
  */
-public class CopyingDeployerTest extends MockObjectTestCase
+public class CopyingDeployerTest extends TestCase
 {
     /**
      * File system manager.
@@ -308,12 +310,12 @@ public class CopyingDeployerTest extends MockObjectTestCase
      */
     private ContainerCapability createContainerCapability(DeployableType type)
     {
-        Mock mockContainerCapability = mock(ContainerCapability.class);
-        mockContainerCapability.stubs().method("supportsDeployableType")
-            .with(eq(type)).will(returnValue(true));
-        mockContainerCapability.stubs().method("supportsDeployableType")
-            .with(not(eq(type))).will(returnValue(false));
-        return (ContainerCapability) mockContainerCapability.proxy();
+        ContainerCapability mockContainerCapability = Mockito.mock(ContainerCapability.class);
+        Mockito.when(mockContainerCapability.supportsDeployableType(
+            Mockito.eq(type))).thenReturn(true);
+        Mockito.when(mockContainerCapability.supportsDeployableType(
+            AdditionalMatchers.not(Mockito.eq(type)))).thenReturn(false);
+        return mockContainerCapability;
     }
 
     /**
@@ -334,18 +336,16 @@ public class CopyingDeployerTest extends MockObjectTestCase
             homeString = home;
         }
 
-        Mock mockConfiguration = mock(LocalConfiguration.class);
-        Mock mockContainer = mock(InstalledLocalContainer.class);
+        LocalConfiguration mockConfiguration = Mockito.mock(LocalConfiguration.class);
+        Mockito.when(mockConfiguration.getHome()).thenReturn("ram:///" + homeString);
 
-        mockConfiguration.stubs().method("getHome").will(returnValue("ram:///" + homeString));
-        mockContainer.stubs().method("getConfiguration").will(
-            returnValue(mockConfiguration.proxy()));
+        InstalledLocalContainer mockContainer = Mockito.mock(InstalledLocalContainer.class);
+        Mockito.when(mockContainer.getConfiguration()).thenReturn(mockConfiguration);
+        Mockito.when(mockContainer.getCapability()).thenReturn(capability);
+        Mockito.when(mockContainer.getFileHandler()).thenReturn(this.fileHandler);
+        Mockito.when(mockContainer.getLogger()).thenReturn(new NullLogger());
+        Mockito.when(mockContainer.getId()).thenReturn("mycontainer");
 
-        mockContainer.stubs().method("getCapability").will(returnValue(capability));
-        mockContainer.stubs().method("getFileHandler").will(returnValue(this.fileHandler));
-        mockContainer.stubs().method("getLogger").will(returnValue(new NullLogger()));
-        mockContainer.stubs().method("getId").will(returnValue("mycontainer"));
-
-        return (InstalledLocalContainer) mockContainer.proxy();
+        return mockContainer;
     }
 }

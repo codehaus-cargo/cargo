@@ -24,6 +24,8 @@ package org.codehaus.cargo.container.jonas.internal;
 
 import javax.management.MalformedObjectNameException;
 
+import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -36,12 +38,11 @@ import org.codehaus.cargo.container.jonas.internal.AbstractJonasRemoteDeployer.R
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
-import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
  */
-public class JonasRemoteDeployerTest extends MockObjectTestCase
+public class JonasRemoteDeployerTest extends TestCase
 {
     /**
      * Runtime configuration.

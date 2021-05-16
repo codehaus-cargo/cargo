@@ -22,6 +22,8 @@
  */
 package org.codehaus.cargo.container.jonas;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -35,13 +37,12 @@ import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.jmock.Mock;
-import org.jmock.cglib.MockObjectTestCase;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for {@link Jonas4xInstalledLocalDeployer}.
  */
-public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
+public class Jonas4xInstalledLocalDeployerTest extends TestCase
 {
     /**
      * JONAS_ROOT folder for tests.
@@ -71,7 +72,7 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
     /**
      * {@link Jonas4xAdmin} mock.
      */
-    private Mock admin;
+    private Jonas4xAdmin admin;
 
     /**
      * Deployable factory.
@@ -101,9 +102,8 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
         container.setFileHandler(this.fileHandler);
         container.setHome(JONAS_ROOT);
 
-        this.admin = mock(Jonas4xAdmin.class);
-
-        this.deployer = new Jonas4xInstalledLocalDeployer(container, (Jonas4xAdmin) admin.proxy());
+        this.admin = Mockito.mock(Jonas4xAdmin.class);
+        this.deployer = new Jonas4xInstalledLocalDeployer(container, this.admin);
 
         this.factory = new DefaultDeployableFactory();
 
@@ -133,9 +133,10 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
      */
     private void setupAdminHotDeployment()
     {
-        admin.reset();
-        admin.stubs().method("isServerRunning").will(returnValue(true));
-        admin.stubs().method("deploy").withAnyArguments().will(returnValue(true));
+        Mockito.reset(this.admin);
+        Mockito.when(
+            this.admin.isServerRunning(Mockito.anyObject(), Mockito.anyInt())).thenReturn(true);
+        Mockito.when(this.admin.deploy(Mockito.anyObject())).thenReturn(true);
     }
 
     /**
@@ -143,9 +144,10 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
      */
     private void setupAdminHotDeploymentFailure()
     {
-        admin.reset();
-        admin.stubs().method("isServerRunning").will(returnValue(true));
-        admin.stubs().method("deploy").withAnyArguments().will(returnValue(false));
+        Mockito.reset(this.admin);
+        Mockito.when(
+            this.admin.isServerRunning(Mockito.anyObject(), Mockito.anyInt())).thenReturn(true);
+        Mockito.when(this.admin.deploy(Mockito.anyObject())).thenReturn(false);
     }
 
     /**
@@ -153,8 +155,9 @@ public class Jonas4xInstalledLocalDeployerTest extends MockObjectTestCase
      */
     private void setupAdminColdDeployment()
     {
-        admin.reset();
-        admin.stubs().method("isServerRunning").will(returnValue(false));
+        Mockito.reset(this.admin);
+        Mockito.when(
+            this.admin.isServerRunning(Mockito.anyObject(), Mockito.anyInt())).thenReturn(false);
     }
 
     /**

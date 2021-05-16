@@ -22,6 +22,9 @@ package org.codehaus.cargo.container.jboss;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import junit.framework.TestCase;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
@@ -29,13 +32,13 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
 import org.codehaus.cargo.util.log.NullLogger;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for {@link JBoss4xRemoteDeployer}.
  */
-public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
+public class JBoss4xRemoteDeployerTest extends TestCase
 {
     /**
      * Test create JBoss remote URL for deploy.
@@ -43,56 +46,65 @@ public class JBoss4xRemoteDeployerTest extends MockObjectTestCase
      */
     public void testCreateJBossRemoteURLForDeploy() throws Exception
     {
-        Mock mockConfiguration = mock(RuntimeConfiguration.class);
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.protocol"))
-            .will(returnValue("http"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.hostname"))
-            .will(returnValue("remotehost"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.servlet.port"))
-            .will(returnValue("8888"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.username"))
-            .will(returnValue("john"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.password"))
-            .will(returnValue("doe"));
-        mockConfiguration.stubs().method("getPropertyValue").with(eq("cargo.remote.timeout"))
-            .will(returnValue("120000"));
-        mockConfiguration.stubs().method("getPropertyValue").with(
-            eq("cargo.jboss.remotedeploy.port")).will(returnValue("9999"));
-        mockConfiguration.stubs().method("getPropertyValue").with(
-            eq("cargo.jboss.remotedeploy.hostname")).will(returnValue("localhost"));
+        RuntimeConfiguration mockConfiguration = Mockito.mock(RuntimeConfiguration.class);
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.protocol"))).thenReturn("http");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.hostname"))).thenReturn("remotehost");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.servlet.port"))).thenReturn("8888");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.remote.username"))).thenReturn("john");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.remote.password"))).thenReturn("doe");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.remote.timeout"))).thenReturn("120000");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.remotedeploy.port"))).thenReturn("9999");
+        Mockito.when(mockConfiguration.getPropertyValue(
+            Mockito.eq("cargo.jboss.remotedeploy.hostname"))).thenReturn("localhost");
 
-        Mock mockContainer = mock(RemoteContainer.class);
-        mockContainer.stubs().method("getConfiguration")
-            .will(returnValue(mockConfiguration.proxy()));
-        mockContainer.stubs().method("getLogger").will(returnValue(new NullLogger()));
+        RemoteContainer mockContainer = Mockito.mock(RemoteContainer.class);
+        Mockito.when(mockContainer.getConfiguration()).thenReturn(mockConfiguration);
+        Mockito.when(mockContainer.getLogger()).thenReturn(new NullLogger());
 
-        Mock mockDeployable = mock(Deployable.class);
-        mockDeployable.stubs().method("getFile").will(
-            returnValue("c:/Something With Space/dummy.war"));
+        Deployable mockDeployable = Mockito.mock(Deployable.class);
+        Mockito.when(mockDeployable.getFile()).thenReturn("c:/Something With Space/dummy.war");
 
+        AtomicInteger count = new AtomicInteger(0);
         String mockURL = "http://localhost:9999/Something+With+Space";
-        Mock mockHttpFileServer = mock(ISimpleHttpFileServer.class);
-        mockHttpFileServer.stubs().method("setLogger");
-        mockHttpFileServer.stubs().method("setFile").after("setLogger");
-        mockHttpFileServer.stubs().method("setListeningParameters").after("setFile");
-        mockHttpFileServer.stubs().method("start").after("setListeningParameters");
-        mockHttpFileServer.stubs().method("getURL").after("start").will(returnValue(
-            new URL(mockURL)));
-        mockHttpFileServer.stubs().method("getCallCount").will(returnValue(0));
-        mockHttpFileServer.stubs().method("getCallCount").after("start").will(returnValue(1));
-        mockHttpFileServer.stubs().method("stop").after("start");
+        ISimpleHttpFileServer mockHttpFileServer = Mockito.mock(ISimpleHttpFileServer.class);
+        Mockito.doAnswer(invocation ->
+        {
+            count.incrementAndGet();
+            return null;
+        }
+        ).when(mockHttpFileServer).start();
+        Mockito.when(mockHttpFileServer.getURL()).thenReturn(new URL(mockURL));
+        Mockito.when(mockHttpFileServer.getCallCount()).thenAnswer(invocation ->
+        {
+            return count.get();
+        });
 
-        Mock mockConnection = mock(HttpURLConnection.class);
+        HttpURLConnection mockConnection = Mockito.mock(HttpURLConnection.class);
+
+        JBoss4xRemoteDeployer deployer = new JBoss4xRemoteDeployer(
+            mockContainer, mockConnection, mockHttpFileServer);
+        deployer.deploy(mockDeployable);
+
+        InOrder orderVerifier = Mockito.inOrder(mockHttpFileServer);
+        orderVerifier.verify(mockHttpFileServer).setLogger(Mockito.any());
+        orderVerifier.verify(mockHttpFileServer).setFile(Mockito.any(), Mockito.any());
+        orderVerifier.verify(mockHttpFileServer).setListeningParameters(
+            Mockito.any(), Mockito.any());
+        orderVerifier.verify(mockHttpFileServer).start();
+        orderVerifier.verify(mockHttpFileServer).getURL();
+        orderVerifier.verify(mockHttpFileServer).stop();
+
         // TODO: URLEncoder.encode(String, Charset) was introduced in Java 10,
         //       simplify the below code when Codehaus Cargo is on Java 10+
         String expectedURLPortion = URLEncoder.encode(mockURL, StandardCharsets.UTF_8.name());
-        mockConnection.expects(once()).method("connect").with(stringContains(expectedURLPortion),
-            eq("john"), eq("doe"));
-        mockConnection.stubs().method("setTimeout");
-
-        JBoss4xRemoteDeployer deployer = new JBoss4xRemoteDeployer((RemoteContainer)
-            mockContainer.proxy(), (HttpURLConnection) mockConnection.proxy(),
-            (ISimpleHttpFileServer) mockHttpFileServer.proxy());
-        deployer.deploy((Deployable) mockDeployable.proxy());
+        Mockito.verify(mockConnection, Mockito.times(1)).connect(
+            Mockito.contains(expectedURLPortion), Mockito.eq("john"), Mockito.eq("doe"));
     }
 }

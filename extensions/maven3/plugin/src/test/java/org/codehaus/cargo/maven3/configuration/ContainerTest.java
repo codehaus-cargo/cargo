@@ -25,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,6 +33,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import junit.framework.TestCase;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
@@ -48,13 +49,12 @@ import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 import org.codehaus.cargo.maven3.util.CargoProject;
 import org.codehaus.cargo.util.log.NullLogger;
-import org.jmock.Mock;
-import org.jmock.cglib.MockObjectTestCase;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for the {@link org.codehaus.cargo.maven3.configuration.Container} class.
  */
-public class ContainerTest extends MockObjectTestCase
+public class ContainerTest extends TestCase
 {
     /**
      * Test embedded container creation with system properties.
@@ -86,7 +86,7 @@ public class ContainerTest extends MockObjectTestCase
 
             containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"),
-                new NullLogger(), createTestCargoProject("whatever"));
+                    new NullLogger(), createTestCargoProject("whatever"));
         }
         finally
         {
@@ -133,7 +133,7 @@ public class ContainerTest extends MockObjectTestCase
             container =
                 (InstalledLocalContainer) containerElement.createContainer(
                     new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                    createTestCargoProject("whatever"));
+                        createTestCargoProject("whatever"));
         }
         finally
         {
@@ -184,7 +184,7 @@ public class ContainerTest extends MockObjectTestCase
         org.codehaus.cargo.container.EmbeddedLocalContainer container =
             (EmbeddedLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever", artifacts));
+                    createTestCargoProject("whatever", artifacts));
 
         // 4) Verify that we can load data from our JAR file when using the classloader from the
         // container and when using the context class loader as we set it to be the embedded
@@ -222,7 +222,7 @@ public class ContainerTest extends MockObjectTestCase
         org.codehaus.cargo.container.EmbeddedLocalContainer container =
             (EmbeddedLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever"));
+                    createTestCargoProject("whatever"));
 
         assertEquals(resourceValue, getResource(container.getClassLoader(), resourceName));
         assertEquals(resourceValue, getResource(Thread.currentThread().getContextClassLoader(),
@@ -235,34 +235,31 @@ public class ContainerTest extends MockObjectTestCase
      */
     public void testCreateInstalledLocalContainerWithInstallerAndHome() throws Exception
     {
+        final String containerHome = "container/overriding_home";
+        ZipURLInstaller zipURLInstaller = Mockito.mock(ZipURLInstaller.class);
+        Mockito.when(zipURLInstaller.getHome()).thenReturn(containerHome);
+        Mockito.when(zipURLInstaller.getDownloadFile()).thenReturn("tmp/somedownloadedfile.zip");
+
         org.codehaus.cargo.maven3.configuration.Container containerElement =
             setUpContainerElement(new InstalledLocalContainerStub());
-        final String containerHome = "container/overriding_home";
         containerElement.setHome(containerHome);
-        final Mock mockInstaller = mock(ZipURLInstaller.class, new Class[] {URL.class},
-            new Object[] {new URL("http://whatever")});
-        // install method should be called
-        mockInstaller.expects(once()).method("install");
-        // home provided by installer should not be used
-        mockInstaller.stubs().method("getHome").will(returnValue("container/incorrect_home"));
-        mockInstaller.stubs().method("getDownloadFile").
-            will(returnValue("tmp/somedownloadedfile.zip"));
         containerElement
             .setZipUrlInstaller(new org.codehaus.cargo.maven3.configuration.ZipUrlInstaller()
             {
                 @Override
                 public ZipURLInstaller createInstaller(String ignored)
                 {
-                    return (ZipURLInstaller) mockInstaller.proxy();
+                    return zipURLInstaller;
                 }
             });
 
         org.codehaus.cargo.container.InstalledLocalContainer container =
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever"));
+                    createTestCargoProject("whatever"));
         assertEquals("Specified home didn't override home defined by installer", containerHome,
             container.getHome());
+        Mockito.verify(zipURLInstaller, Mockito.times(1)).install();
     }
 
     /**
@@ -279,7 +276,7 @@ public class ContainerTest extends MockObjectTestCase
         org.codehaus.cargo.container.InstalledLocalContainer container =
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever"));
+                    createTestCargoProject("whatever"));
         assertEquals("Specified home not used", containerHome, container.getHome());
     }
 
@@ -289,31 +286,30 @@ public class ContainerTest extends MockObjectTestCase
      */
     public void testCreateInstalledLocalContainerWithInstaller() throws Exception
     {
+        final String containerHome = "container/installer_home";
+        ZipURLInstaller zipURLInstaller = Mockito.mock(ZipURLInstaller.class);
+        Mockito.when(zipURLInstaller.getHome()).thenReturn(containerHome);
+        Mockito.when(zipURLInstaller.getDownloadFile()).thenReturn("tmp/somedownloadedfile.zip");
+
         org.codehaus.cargo.maven3.configuration.Container containerElement =
             setUpContainerElement(new InstalledLocalContainerStub());
         containerElement.setHome(null);
-        final Mock mockInstaller = mock(ZipURLInstaller.class, new Class[] {URL.class},
-            new Object[] {new URL("http://whatever")});
-        mockInstaller.expects(once()).method("install");
-        final String containerHome = "container/installer_home";
-        mockInstaller.stubs().method("getHome").will(returnValue(containerHome));
-        mockInstaller.stubs().method("getDownloadFile").
-            will(returnValue("tmp/somedownloadedfile.zip"));
         containerElement
             .setZipUrlInstaller(new org.codehaus.cargo.maven3.configuration.ZipUrlInstaller()
             {
                 @Override
                 public ZipURLInstaller createInstaller(String ignored)
                 {
-                    return (ZipURLInstaller) mockInstaller.proxy();
+                    return zipURLInstaller;
                 }
             });
 
         org.codehaus.cargo.container.InstalledLocalContainer container =
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever"));
+                    createTestCargoProject("whatever"));
         assertEquals("Home specified by installer not used", containerHome, container.getHome());
+        Mockito.verify(zipURLInstaller, Mockito.times(1)).install();
     }
 
     /**
@@ -331,7 +327,7 @@ public class ContainerTest extends MockObjectTestCase
         org.codehaus.cargo.container.InstalledLocalContainer container =
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
-                createTestCargoProject("whatever"));
+                    createTestCargoProject("whatever"));
         assertEquals("Container output not set", output, container.getOutput());
         assertTrue("Container output append not set", container.isAppend());
     }
@@ -355,8 +351,7 @@ public class ContainerTest extends MockObjectTestCase
         org.codehaus.cargo.container.InstalledLocalContainer container =
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"),
-                new NullLogger(),
-                createTestCargoProject("whatever"));
+                    new NullLogger(), createTestCargoProject("whatever"));
 
         String[] extraClasspath = container.getExtraClasspath();
         assertEquals("Extra classpath elements count", 2, extraClasspath.length);
@@ -392,11 +387,8 @@ public class ContainerTest extends MockObjectTestCase
      */
     protected CargoProject createTestCargoProject(String packaging, Set<Artifact> artifacts)
     {
-        Mock mockLog = mock(Log.class);
-        mockLog.stubs().method("debug");
-
         return new CargoProject(packaging, "projectGroupId", "projectArtifactId",
-            "target", "projectFinalName", artifacts, (Log) mockLog.proxy());
+            "target", "projectFinalName", artifacts, Mockito.mock(Log.class));
     }
 
     /**

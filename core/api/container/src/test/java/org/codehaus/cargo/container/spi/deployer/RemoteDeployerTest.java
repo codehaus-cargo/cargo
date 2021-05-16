@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
+import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -26,13 +28,13 @@ import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.DeployableMonitorListener;
 import org.codehaus.cargo.util.log.LoggedObject;
 import org.codehaus.cargo.util.log.NullLogger;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+
+import org.mockito.Mockito;
 
 /**
  * Unit tests for {@link AbstractRemoteDeployer}.
  */
-public class RemoteDeployerTest extends MockObjectTestCase
+public class RemoteDeployerTest extends TestCase
 {
 
     /**
@@ -139,8 +141,8 @@ public class RemoteDeployerTest extends MockObjectTestCase
      */
     private RemoteContainer createContainer()
     {
-        Mock mockContainer = mock(RemoteContainer.class);
-        mockContainer.stubs().method("getLogger").will(returnValue(new NullLogger()));
-        return (RemoteContainer) mockContainer.proxy();
+        RemoteContainer mockContainer = Mockito.mock(RemoteContainer.class);
+        Mockito.when(mockContainer.getLogger()).thenReturn(new NullLogger());
+        return mockContainer;
     }
 }

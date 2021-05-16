@@ -26,23 +26,24 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.maven3.util.CargoProject;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for the {@link Deployable} class.
  */
-public class DeployableTest extends MockObjectTestCase
+public class DeployableTest extends TestCase
 {
     /**
      * Mock {@link Log} implementation.
      */
-    private Mock mockLog;
+    private Log mockLog;
 
     /**
      * {@inheritDoc}. Mock {@link Log} implementation.
@@ -50,8 +51,7 @@ public class DeployableTest extends MockObjectTestCase
     @Override
     protected void setUp()
     {
-        this.mockLog = mock(Log.class);
-        this.mockLog.stubs().method("debug");
+        this.mockLog = Mockito.mock(Log.class);
     }
 
     /**
@@ -162,12 +162,14 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setArtifactId("projectArtifactId");
         deployableElement.setType("sar");
 
-        // Verify that the log warning has not been raised
-        this.mockLog.expects(never()).method("warn");
-
         String location = deployableElement
             .computeLocation(createDefaultProject("jboss-sar", null));
         assertTrue(location, location.endsWith("projectFinalName.sar"));
+
+        // Verify that the log warning has not been raised
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((Throwable) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -181,12 +183,14 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setArtifactId("projectArtifactId");
         deployableElement.setType("har");
 
-        // Verify that the log warning has not been raised
-        this.mockLog.expects(never()).method("warn");
-
         String location = deployableElement
             .computeLocation(createDefaultProject("jboss-har", null));
         assertTrue(location, location.endsWith("projectFinalName.har"));
+
+        // Verify that the log warning has not been raised
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((Throwable) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -200,12 +204,14 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setArtifactId("projectArtifactId");
         deployableElement.setType("spring");
 
-        // Verify that the log warning has not been raised
-        this.mockLog.expects(never()).method("warn");
-
         String location = deployableElement.computeLocation(createDefaultProject("jboss-spring",
             null));
         assertTrue(location, location.endsWith("projectFinalName.spring"));
+
+        // Verify that the log warning has not been raised
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((Throwable) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -219,12 +225,14 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setArtifactId("projectArtifactId");
         deployableElement.setType("esb");
 
-        // Verify that the log warning has not been raised
-        this.mockLog.expects(never()).method("warn");
-
         String location = deployableElement
             .computeLocation(createDefaultProject("jboss-esb", null));
         assertTrue(location, location.endsWith("projectFinalName.esb"));
+
+        // Verify that the log warning has not been raised
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((Throwable) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -238,12 +246,14 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setArtifactId("projectArtifactId");
         deployableElement.setType("file");
 
-        // Verify that the log warning has not been raised
-        this.mockLog.expects(never()).method("warn");
-
         String location = deployableElement.computeLocation(createDefaultProject(
             "somerandompackaging", null));
         assertTrue(location, location.endsWith("projectFinalName.somerandompackaging"));
+
+        // Verify that the log warning has not been raised
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn((Throwable) Mockito.any());
+        Mockito.verify(this.mockLog, Mockito.times(0)).warn(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -278,17 +288,6 @@ public class DeployableTest extends MockObjectTestCase
         deployableElement.setArtifactId("projectArtifactId");
         deployableElement.setType("war");
 
-        // Verify that the log warning has been raised too
-        this.mockLog
-            .expects(once())
-            .method("warn")
-            .with(
-                eq("The defined deployable has the same groupId and artifactId as your project's "
-                    + "main artifact but the type is different. You've defined a [war] type "
-                    + "whereas the project's packaging is [something]. This is possibly an error "
-                    + "and as a consequence the plugin will try to find this deployable in the "
-                    + "project's dependencies."));
-
         try
         {
             deployableElement.computeLocation(createDefaultProject("something",
@@ -299,6 +298,14 @@ public class DeployableTest extends MockObjectTestCase
         {
             assertEquals("Artifact [projectGroupId:projectArtifactId:war] is not a dependency of "
                 + "the project.", expected.getMessage());
+
+            // Verify that the log warning has been raised too
+            Mockito.verify(this.mockLog, Mockito.times(1)).warn(
+                "The defined deployable has the same groupId and artifactId as your project's "
+                + "main artifact but the type is different. You've defined a [war] type "
+                + "whereas the project's packaging is [something]. This is possibly an error "
+                + "and as a consequence the plugin will try to find this deployable in the "
+                + "project's dependencies.");
         }
     }
 
@@ -315,7 +322,7 @@ public class DeployableTest extends MockObjectTestCase
         return new CargoProject(packaging, "projectGroupId", "projectArtifactId",
             "projectBuildDirectory", "projectFinalName",
             artifacts == null ? Collections.<Artifact>emptySet() : artifacts,
-            (Log) this.mockLog.proxy());
+            this.mockLog);
     }
 
     /**
@@ -338,13 +345,12 @@ public class DeployableTest extends MockObjectTestCase
      */
     private Artifact createCustomArtifact(String deployableFile)
     {
-        Mock mockArtifact = mock(Artifact.class);
-        mockArtifact.stubs().method("getGroupId").will(returnValue("customGroupId"));
-        mockArtifact.stubs().method("getArtifactId").will(returnValue("customArtifactId"));
-        mockArtifact.stubs().method("getType").will(returnValue("customType"));
-        mockArtifact.stubs().method("getClassifier").will(returnValue(null));
-        mockArtifact.expects(atLeastOnce()).method("getFile").will(returnValue(
-            new File(deployableFile)));
-        return (Artifact) mockArtifact.proxy();
+        Artifact mockArtifact = Mockito.mock(Artifact.class);
+        Mockito.when(mockArtifact.getGroupId()).thenReturn("customGroupId");
+        Mockito.when(mockArtifact.getArtifactId()).thenReturn("customArtifactId");
+        Mockito.when(mockArtifact.getType()).thenReturn("customType");
+        Mockito.when(mockArtifact.getClassifier()).thenReturn(null);
+        Mockito.when(mockArtifact.getFile()).thenReturn(new File(deployableFile));
+        return mockArtifact;
     }
 }

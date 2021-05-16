@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -35,13 +37,12 @@ import org.codehaus.cargo.maven3.configuration.Configuration;
 import org.codehaus.cargo.maven3.configuration.Container;
 import org.codehaus.cargo.maven3.configuration.Deployable;
 import org.codehaus.cargo.maven3.util.CargoProject;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.mockito.Mockito;
 
 /**
  * Unit tests for the {@link ContainerStartMojo} mojo.
  */
-public class ContainerStartMojoTest extends MockObjectTestCase
+public class ContainerStartMojoTest extends TestCase
 {
     /**
      * Mojo for testing.
@@ -176,11 +177,8 @@ public class ContainerStartMojoTest extends MockObjectTestCase
      */
     protected CargoProject createTestCargoProject(String packaging)
     {
-        Mock mockLog = mock(Log.class);
-        mockLog.stubs().method("debug");
-
         return new CargoProject(packaging, "projectGroupId", "projectArtifactId",
-            "target", "projectFinalName", new HashSet<Artifact>(), (Log) mockLog.proxy());
+            "target", "projectFinalName", new HashSet<Artifact>(), Mockito.mock(Log.class));
     }
 
     /**

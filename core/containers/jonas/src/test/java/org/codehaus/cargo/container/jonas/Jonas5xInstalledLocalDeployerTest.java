@@ -22,6 +22,8 @@
  */
 package org.codehaus.cargo.container.jonas;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Bundle;
@@ -35,12 +37,11 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.jmock.cglib.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas5xInstalledLocalDeployer}.
  */
-public class Jonas5xInstalledLocalDeployerTest extends MockObjectTestCase
+public class Jonas5xInstalledLocalDeployerTest extends TestCase
 {
     /**
      * JONAS_ROOT folder for tests.

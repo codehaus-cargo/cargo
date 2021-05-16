@@ -22,14 +22,15 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
+import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link Jonas4xContainerCapabilityTest}.
  */
-public class Jonas4xContainerCapabilityTest extends MockObjectTestCase
+public class Jonas4xContainerCapabilityTest extends TestCase
 {
     /**
      * Container capability.

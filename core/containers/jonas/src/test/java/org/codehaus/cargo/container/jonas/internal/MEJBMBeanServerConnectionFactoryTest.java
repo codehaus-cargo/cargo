@@ -31,16 +31,17 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.TextInputCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
+import junit.framework.TestCase;
+
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.Jonas4xRuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.jmock.MockObjectTestCase;
 
 /**
  * Unit tests for {@link MEJBMBeanServerConnectionFactory}.
  */
-public class MEJBMBeanServerConnectionFactoryTest extends MockObjectTestCase
+public class MEJBMBeanServerConnectionFactoryTest extends TestCase
 {
     /**
      * MEJB MBean sever connection factory.
