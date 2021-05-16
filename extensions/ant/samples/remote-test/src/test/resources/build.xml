@@ -70,7 +70,7 @@
           <property name="cargo.servlet.port" value="\${http.port}"/>
           <property name="cargo.remote.username" value="admin"/>
           <property name="cargo.remote.password" value=""/>
-          <deployable type="war" file="${cargo-test-applications.directory}/simple-war-${project.version}.war">
+          <deployable type="war" file="${cargo-test-applications.directory}/simple-war.war">
             <property name="context" value="simple-test"/>
             <property name="pingURL" value="http://localhost:\${http.port}/simple-test"/>
             <property name="pingTimeout" value="30000"/>

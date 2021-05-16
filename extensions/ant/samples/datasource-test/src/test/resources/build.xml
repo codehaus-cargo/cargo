@@ -53,7 +53,7 @@
             -->
         </zipUrlInstaller>
         <extraClasspath>
-          <pathelement location="${cargo-test-applications.directory}/derby-${cargo.derby.version}.jar"/>
+          <pathelement location="${cargo-test-applications.directory}/derby.jar"/>
         </extraClasspath>
         <sysproperty key="derby.system.home" value="${project.build.directory}/derby"/>
         <configuration home="\${catalina.base}">
@@ -62,7 +62,7 @@
           <property name="cargo.rmi.port" value="\${rmi.port}"/>
           <datasource driverClass="org.apache.derby.jdbc.EmbeddedDriver" url="jdbc:derby:derbyDB;create=true"
             jndiName="jdbc/CargoDS" username="APP" password="nonemptypassword" />
-          <deployable type="war" file="${cargo-test-applications.directory}/datasource-war-${project.version}.war">
+          <deployable type="war" file="${cargo-test-applications.directory}/datasource-war.war">
             <property name="context" value="datasource-test"/>
           </deployable>
         </configuration>

@@ -67,7 +67,6 @@
     <module>liberty</module>
     <module>orion</module>
     <module>payara</module>
-    <module>resin</module>
     <module>tomcat</module>
     <module>tomee</module>
     <module>weblogic</module>
@@ -75,4 +74,17 @@
     <module>wildfly</module>
     <module>wildfly-swarm</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <!-- JDK < 12 -->
+      <id>java12-</id>
+      <activation>
+        <jdk>(,12)</jdk>
+      </activation>
+      <modules>
+        <module>resin</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

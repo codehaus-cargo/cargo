@@ -63,6 +63,11 @@
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>${maven.failsafe-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${maven.war-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>

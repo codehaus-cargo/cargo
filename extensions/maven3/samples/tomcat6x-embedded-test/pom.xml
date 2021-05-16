@@ -38,8 +38,10 @@
 
   <profiles>
     <profile>
-      <id>run-its</id>
+      <!-- JDK < 12 -->
+      <id>java12-</id>
       <activation>
+        <jdk>(,12)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>
