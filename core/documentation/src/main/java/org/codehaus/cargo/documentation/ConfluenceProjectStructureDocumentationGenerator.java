@@ -165,7 +165,6 @@ public class ConfluenceProjectStructureDocumentationGenerator
     {
         StringBuilder markup = new StringBuilder();
         List<String> modules = new ArrayList<String>(aProject.getModules());
-        // TODO: Very ugly way of managing the java11+ profile
         List<Profile> profiles = aProject.getModel().getProfiles();
         if (profiles != null)
         {

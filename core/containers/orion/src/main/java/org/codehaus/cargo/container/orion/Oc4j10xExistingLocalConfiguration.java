@@ -62,8 +62,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        // TODO: Use FileUtils.getFileUtils() when our minimal ANT version is 1.6.3
-        FileUtils fileUtils = FileUtils.newFileUtils();
+        FileUtils fileUtils = FileUtils.getFileUtils();
 
         String autoDeployDirSetting = getPropertyValue(Oc4jPropertySet.AUTO_DEPLOY_DIR);
         if (autoDeployDirSetting == null)

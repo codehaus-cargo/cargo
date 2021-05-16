@@ -92,8 +92,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     public DefaultFileHandler()
     {
         this.antUtils = new AntUtils();
-        // TODO: Use FileUtils.getFileUtils() when our minimal ANT version is 1.6.3
-        this.fileUtils = FileUtils.newFileUtils();
+        this.fileUtils = FileUtils.getFileUtils();
     }
 
     /**
