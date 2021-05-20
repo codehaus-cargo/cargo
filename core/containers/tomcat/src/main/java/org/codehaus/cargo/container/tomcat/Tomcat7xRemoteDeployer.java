@@ -71,7 +71,7 @@ public class Tomcat7xRemoteDeployer extends Tomcat6xRemoteDeployer
      * {@inheritDoc}
      * 
      * <p>
-     * This is a special implementation of undeploy command for Tomcat 7.x with version support.
+     * This is a special implementation of getPath command for Tomcat 7.x with version support.
      * </p>
      */
     @Override
@@ -97,7 +97,7 @@ public class Tomcat7xRemoteDeployer extends Tomcat6xRemoteDeployer
      * {@inheritDoc}
      * 
      * <p>
-     * This is a special implementation of undeploy command for Tomcat 7.x with version support.
+     * This is a special implementation of getVersion command for Tomcat 7.x with version support.
      * </p>
      */
     @Override
