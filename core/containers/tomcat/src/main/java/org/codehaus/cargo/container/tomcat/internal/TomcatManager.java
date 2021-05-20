@@ -936,7 +936,8 @@ public class TomcatManager extends LoggedObject
             while (words.hasMoreTokens())
             {
                 String str = words.nextToken();
-                if (path.equals(str))
+                // CARGO-1563: If the path is set to /ROOT, Tomcat will actually deploy on /
+                if (path.equals(str) || path.equalsIgnoreCase("/ROOT") && str.equals("/"))
                 {
                     String status = words.nextToken();
                     if (versionIdentifier != null)

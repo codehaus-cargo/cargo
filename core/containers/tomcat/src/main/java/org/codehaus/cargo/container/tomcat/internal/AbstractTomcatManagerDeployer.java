@@ -378,7 +378,13 @@ public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeploy
                 + "Tomcat. Got [" + deployable.getFile() + "]");
         }
 
-        return "/" + ((WAR) deployable).getContext();
+        String path = ((WAR) deployable).getContext();
+        if (path.equalsIgnoreCase("ROOT"))
+        {
+            // CARGO-1563: If the context is set to /ROOT, change it to /
+            path = "";
+        }
+        return "/" + path;
     }
 
     /**
