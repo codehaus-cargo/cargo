@@ -70,9 +70,10 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         // We exclude Tomcat 4.x as it does not support TLS
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("tomcat4x");
-        // Tomcat 10.x throws an awkward exception: No SSLHostConfig element was found with the
-        // hostName [_default_] to match the defaultSSLHostConfigName for the connector
+        // Tomcat 10.x and TomEE 9.x throw an awkward exception: No SSLHostConfig element was found
+        // with the hostName [_default_] to match the defaultSSLHostConfigName for the connector
         excludedContainerIds.add("tomcat10x");
+        excludedContainerIds.add("tomee9x");
 
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
