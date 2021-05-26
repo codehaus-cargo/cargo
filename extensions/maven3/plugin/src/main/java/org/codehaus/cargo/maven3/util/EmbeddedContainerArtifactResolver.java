@@ -251,22 +251,22 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("org.eclipse.jetty.toolchain", "jetty-servlet-api", "4.0.5"));
         jetty10xDependencies.add(new Dependency("org.slf4j", "slf4j-api", "2.0.0-alpha1"));
         jetty10xDependencies.add(
-            new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "10.0.2"));
+            new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "10.0.3"));
         jetty10xDependencies.add(
-            new Dependency("org.eclipse.jetty", "jetty-annotations", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp", "10.0.2"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "10.0.2"));
+            new Dependency("org.eclipse.jetty", "jetty-annotations", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-servlet", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp", "10.0.3"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "10.0.3"));
         // jsp
-        jetty10xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.19.0"));
-        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp", "10.0.2"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.25.0"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp", "10.0.3"));
         jetty10xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "9.0.29"));
         jetty10xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "9.0.29"));
         this.containerDependencies.put("jetty10x", jetty10xDependencies);
