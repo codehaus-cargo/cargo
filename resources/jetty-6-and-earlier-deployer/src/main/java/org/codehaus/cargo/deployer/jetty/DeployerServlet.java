@@ -40,8 +40,10 @@ import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.handler.ContextHandlerCollection;
+import org.mortbay.jetty.webapp.WebAppClassLoader;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.log.Log;
+import org.mortbay.log.Logger;
 
 /**
  * This servlet is used to control deploy, undeploy, redeploy, start, and stop a web application
@@ -49,6 +51,11 @@ import org.mortbay.log.Log;
  */
 public class DeployerServlet extends HttpServlet
 {
+
+    /**
+     * The Jetty logger.
+     */
+    private Logger logger;
 
     /**
      * The ContectHandlerCollection for the server.
@@ -73,6 +80,8 @@ public class DeployerServlet extends HttpServlet
      */
     public DeployerServlet(Server server)
     {
+        this.logger = Log.getLogger(this.getClass().getName());
+
         // The org.eclipse.jetty.server.Server class doesn't have any getter for the Jetty
         // configuration home, so we need to read existing system properties
         this.configHome = System.getProperty("config.home");
@@ -102,6 +111,11 @@ public class DeployerServlet extends HttpServlet
                 break;
             }
         }
+
+        WebAppClassLoader cl = (WebAppClassLoader) this.getClass().getClassLoader();
+        this.logger.debug(
+            "Started the Codehaus Cargo Jetty deployer servlet with context " + cl.getContext(),
+                null);
     }
 
     /**
@@ -167,7 +181,8 @@ public class DeployerServlet extends HttpServlet
     protected void deployArchive(HttpServletRequest request, HttpServletResponse response,
             String contextPath) throws IOException
     {
-        Log.debug("Remotely deploying a remote web archive with context " + contextPath);
+        this.logger.debug(
+            "Remotely deploying a remote web archive with context " + contextPath, null);
 
         if (contextPath == null)
         {
@@ -183,12 +198,14 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            Log.debug("trying to get the remote web archive");
+            this.logger.debug(
+                "trying to get the remote web archive for context " + contextPath, null);
+
             File webappFile = new File(this.webAppDirectory,
                 (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
-            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile),
-                8096);
+            OutputStream outputStream =
+                new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
 
             // transfer the data across
             int i = inputStream.read();
@@ -215,8 +232,10 @@ public class DeployerServlet extends HttpServlet
             }
             catch (Exception e)
             {
-                sendError(response, "Unexpected error when trying to start the webapp");
-                Log.warn(e);
+                String errorMessage =
+                    "Unexpected error when trying to start the with context " + contextPath;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
         }
@@ -342,8 +361,9 @@ public class DeployerServlet extends HttpServlet
             }
             catch (URISyntaxException e)
             {
-                sendError(response, "Cannot parse URL " + warURL);
-                Log.warn(e);
+                String errorMessage = "Cannot parse URL " + warURL;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
 
@@ -373,8 +393,10 @@ public class DeployerServlet extends HttpServlet
             }
             catch (Exception e)
             {
-                sendError(response, "Unexpected error when trying to start the webapp");
-                Log.warn(e);
+                String errorMessage =
+                    "Unexpected error when trying to start the with context " + contextPath;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
         }
@@ -408,8 +430,9 @@ public class DeployerServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            sendError(response, "Could not stop context handler " + contextPath);
-            Log.warn(e);
+            String errorMessage = "Could not stop context handler " + contextPath;
+            sendError(response, errorMessage);
+            this.logger.warn(errorMessage, e);
             error = true;
         }
 

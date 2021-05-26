@@ -269,13 +269,13 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            this.logger.debug("trying to get the remote web archive");
+            this.logger.debug("trying to get the remote web archive for context " + contextPath);
 
             File webappFile = new File(this.webAppDirectory,
                 (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
-            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile),
-                8096);
+            OutputStream outputStream =
+                new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
 
             // transfer the data across
             int i = inputStream.read();
@@ -435,8 +435,9 @@ public class DeployerServlet extends HttpServlet
             }
             catch (URISyntaxException e)
             {
-                sendError(response, "Cannot parse URL " + warURL);
-                this.logger.warn("Cannot parse URL", e);
+                String errorMessage = "Cannot parse URL " + warURL;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
 
@@ -466,8 +467,10 @@ public class DeployerServlet extends HttpServlet
             }
             catch (Exception e)
             {
-                sendError(response, "Unexpected error when trying to start the webapp");
-                this.logger.warn("Unexpected error when trying to start the webapp", e);
+                String errorMessage =
+                    "Unexpected error when trying to start the with context " + contextPath;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
         }
@@ -501,8 +504,9 @@ public class DeployerServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            sendError(response, "Could not stop context handler " + contextPath);
-            this.logger.warn("Could not stop context handler " + contextPath, e);
+            String errorMessage = "Could not stop context handler " + contextPath;
+            sendError(response, errorMessage);
+            this.logger.warn(errorMessage, e);
             error = true;
         }
 

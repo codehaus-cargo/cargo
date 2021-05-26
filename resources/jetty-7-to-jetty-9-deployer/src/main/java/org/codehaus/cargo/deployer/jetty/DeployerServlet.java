@@ -43,6 +43,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Logger;
 import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
 
@@ -57,6 +58,11 @@ public class DeployerServlet extends HttpServlet
      * The context.
      */
     private WebAppContext context;
+
+    /**
+     * The Jetty logger.
+     */
+    private Logger logger;
 
     /**
      * The ContectHandlerCollection for the server.
@@ -93,6 +99,8 @@ public class DeployerServlet extends HttpServlet
             throw new IllegalStateException("Cannot get the Jetty Web application context", e);
         }
 
+        this.logger = Log.getLogger(this.getClass().getName());
+
         // The org.eclipse.jetty.server.Server class doesn't have any getter for the Jetty
         // configuration home, so we need to read existing system properties
         String configHome = System.getProperty("config.home");
@@ -124,7 +132,7 @@ public class DeployerServlet extends HttpServlet
             }
         }
 
-        Log.getLogger(this.getClass()).debug(
+        this.logger.debug(
             "Started the Codehaus Cargo Jetty deployer servlet with context " + this.context);
 
         // Due to weird bugs with Jetty 9.4.x webapp class loader, we need to access some classes
@@ -250,8 +258,7 @@ public class DeployerServlet extends HttpServlet
     protected void deployArchive(HttpServletRequest request, HttpServletResponse response,
             String contextPath) throws IOException
     {
-        Log.getLogger(this.getClass()).debug(
-            "Remotely deploying a remote web archive with context " + contextPath);
+        this.logger.debug("Remotely deploying a remote web archive with context " + contextPath);
 
         if (contextPath == null)
         {
@@ -267,13 +274,13 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            Log.getLogger(this.getClass()).debug("trying to get the remote web archive");
+            this.logger.debug("trying to get the remote web archive for context " + contextPath);
 
             File webappFile = new File(this.webAppDirectory,
                 (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
-            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(webappFile),
-                8096);
+            OutputStream outputStream =
+                new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
 
             // transfer the data across
             int i = inputStream.read();
@@ -433,8 +440,9 @@ public class DeployerServlet extends HttpServlet
             }
             catch (URISyntaxException e)
             {
-                sendError(response, "Cannot parse URL " + warURL);
-                Log.getLogger(this.getClass()).warn(e);
+                String errorMessage = "Cannot parse URL " + warURL;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
 
@@ -464,8 +472,10 @@ public class DeployerServlet extends HttpServlet
             }
             catch (Exception e)
             {
-                sendError(response, "Unexpected error when trying to start the webapp");
-                Log.getLogger(this.getClass()).warn(e);
+                String errorMessage =
+                    "Unexpected error when trying to start the with context " + contextPath;
+                sendError(response, errorMessage);
+                this.logger.warn(errorMessage, e);
                 return;
             }
         }
@@ -499,8 +509,9 @@ public class DeployerServlet extends HttpServlet
         }
         catch (Exception e)
         {
-            sendError(response, "Could not stop context handler " + contextPath);
-            Log.getLogger(this.getClass()).warn(e);
+            String errorMessage = "Could not stop context handler " + contextPath;
+            sendError(response, errorMessage);
+            this.logger.warn(errorMessage, e);
             error = true;
         }
 
