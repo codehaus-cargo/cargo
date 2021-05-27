@@ -32,6 +32,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TestServlet extends HttpServlet
 {
+    /**
+     * Loads the {@link org.codehaus.cargo.simple.SimpleClass}.
+     * {@inheritDoc}
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException

@@ -19,28 +19,51 @@
  */
 package org.codehaus.cargo.sample.testdata.jdbc;
 
+/**
+ * Simple class which holds a person's details. We use this in our test Servlet used to verify that
+ * jdbc connectors are working.
+ *
+ * @see org.codehaus.cargo.sample.testdata.jdbc.TestServlet
+ */
 public class Person
 {
-
+    /**
+     * First name.
+     */
     private String firstName;
 
+    /**
+     * Last name.
+     */
     private String lastName;
 
+    /**
+     * @return First name.
+     */
     public String getFirstName()
     {
         return firstName;
     }
 
+    /**
+     * @return Last name.
+     */
     public String getLastName()
     {
         return lastName;
     }
 
+    /**
+     * @param firstName First name.
+     */
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
     }
 
+    /**
+     * @param lastName Last name.
+     */
     public void setLastName(String lastName)
     {
         this.lastName = lastName;

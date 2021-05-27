@@ -57,7 +57,7 @@ public class DeployerServlet extends HttpServlet
     /**
      * Empty class matcher.
      */
-    private static final ClassMatcher emptyClassMatcher = new ClassMatcher();
+    private static final ClassMatcher EMPTY_CLASS_MATCHER = new ClassMatcher();
 
     /**
      * The context.
@@ -183,7 +183,7 @@ public class DeployerServlet extends HttpServlet
 
         try
         {
-            this.context.setServerClassMatcher(DeployerServlet.emptyClassMatcher);
+            this.context.setServerClassMatcher(DeployerServlet.EMPTY_CLASS_MATCHER);
 
             String contextPath = request.getParameter("path");
             String warURL = request.getParameter("war");
@@ -224,7 +224,7 @@ public class DeployerServlet extends HttpServlet
 
         try
         {
-            this.context.setServerClassMatcher(DeployerServlet.emptyClassMatcher);
+            this.context.setServerClassMatcher(DeployerServlet.EMPTY_CLASS_MATCHER);
 
             String command = request.getServletPath();
             if (command.equals("/deploy"))
@@ -409,8 +409,7 @@ public class DeployerServlet extends HttpServlet
         // to the same context
         if (getContextHandler(context) != null)
         {
-            sendError(response, "An application is already deployed at this context : "
-                    + context);
+            sendError(response, "An application is already deployed at this context: " + context);
             error = true;
         }
         else if (!context.startsWith("/"))

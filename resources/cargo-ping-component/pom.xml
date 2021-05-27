@@ -26,4 +26,20 @@
   <artifactId>cargo-ping-component</artifactId>
   <name>Cargo Ping Component</name>
   <packaging>war</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-build-tools</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 </project>

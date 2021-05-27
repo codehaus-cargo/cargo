@@ -27,13 +27,17 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+/**
+ * Class used to interact with the Apache Derby DAO. We use this in our test Servlet used to verify
+ * that jdbc connectors are working.
+ *
+ * @see org.codehaus.cargo.sample.testdata.jdbc.TestServlet
+ */
 public class DerbyDao extends JdbcDaoSupport
 {
-    public void dropTable()
-    {
-        this.getJdbcTemplate().update("DROP TABLE Person" + "");
-    }
-
+    /**
+     * Creates the <code>Person</code> table.
+     */
     public void createTable()
     {
         this.getJdbcTemplate().update(
@@ -43,20 +47,43 @@ public class DerbyDao extends JdbcDaoSupport
                 + "PRIMARY KEY (ID)" + ")");
     }
 
+    /**
+     * Drops the <code>Person</code> table.
+     */
+    public void dropTable()
+    {
+        this.getJdbcTemplate().update("DROP TABLE Person" + "");
+    }
+
+    /**
+     * Creates a person.
+     * @param firstName First name.
+     * @param lastName Last name.
+     */
     public void create(String firstName, String lastName)
     {
         this.getJdbcTemplate().update("INSERT INTO PERSON (FIRSTNAME, LASTNAME) VALUES(?,?)",
             new Object[] {firstName, lastName});
     }
 
+    /**
+     * @return All {@link Person} objects in the <code>Person</code> database.
+     */
     public List selectAll()
     {
         return this.getJdbcTemplate().query("select FIRSTNAME, LASTNAME from PERSON",
             new PersonRowMapper());
     }
 
+    /**
+     * Maps database rows from the <code>Person</code> table as {@link Person} objects.
+     * {@inheritDoc}
+     */
     class PersonRowMapper implements RowMapper
     {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Object mapRow(ResultSet rs, int line) throws SQLException
         {
@@ -64,8 +91,15 @@ public class DerbyDao extends JdbcDaoSupport
             return extractor.extractData(rs);
         }
 
+        /**
+         * Extracts database rows from the <code>Person</code> table as {@link Person} objects.
+         * {@inheritDoc}
+         */
         class PersonResultSetExtractor implements ResultSetExtractor
         {
+            /**
+             * {@inheritDoc}
+             */
             @Override
             public Object extractData(ResultSet rs) throws SQLException
             {

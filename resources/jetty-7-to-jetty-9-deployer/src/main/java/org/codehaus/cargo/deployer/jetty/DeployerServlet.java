@@ -259,7 +259,8 @@ public class DeployerServlet extends HttpServlet
     protected void deployArchive(HttpServletRequest request, HttpServletResponse response,
             String contextPath) throws IOException
     {
-        this.logger.debug("Remotely deploying a remote web archive with context " + contextPath, null);
+        this.logger.debug(
+            "Remotely deploying a remote web archive with context " + contextPath, null);
 
         if (contextPath == null)
         {
@@ -275,7 +276,8 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            this.logger.debug("trying to get the remote web archive for context " + contextPath, null);
+            this.logger.debug(
+                "trying to get the remote web archive for context " + contextPath, null);
 
             File webappFile = new File(this.webAppDirectory,
                 (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
@@ -415,8 +417,7 @@ public class DeployerServlet extends HttpServlet
         // to the same context
         if (getContextHandler(context) != null)
         {
-            sendError(response, "An application is already deployed at this context : "
-                    + context);
+            sendError(response, "An application is already deployed at this context: " + context);
             error = true;
         }
         else if (!context.startsWith("/"))

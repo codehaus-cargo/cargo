@@ -40,12 +40,25 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public class TestServlet extends HttpServlet
 {
+    /**
+     * Spring Web application context.
+     */
     private WebApplicationContext ctx;
 
+    /**
+     * Spring transaction manager.
+     */
     private PlatformTransactionManager txManager;
 
+    /**
+     * Apache Derby DAO.
+     */
     private DerbyDao dao;
 
+    /**
+     * Runs a simple query on the jdbc datasource, which creates a table and puts content in it.
+     * {@inheritDoc}
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
@@ -75,6 +88,10 @@ public class TestServlet extends HttpServlet
         out.close();
     }
 
+    /**
+     * Connects to the jdbc datasource.
+     * {@inheritDoc}
+     */
     @Override
     public void init(ServletConfig config) throws ServletException
     {
@@ -87,6 +104,10 @@ public class TestServlet extends HttpServlet
         dao.createTable();
     }
 
+    /**
+     * Drops the temporary table.
+     * {@inheritDoc}
+     */
     @Override
     public void destroy()
     {

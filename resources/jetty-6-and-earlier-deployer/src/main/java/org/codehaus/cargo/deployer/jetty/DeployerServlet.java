@@ -332,8 +332,7 @@ public class DeployerServlet extends HttpServlet
         // to the same context
         if (getContextHandler(context) != null)
         {
-            sendError(response, "An application is already deployed at this context : "
-                    + context);
+            sendError(response, "An application is already deployed at this context: " + context);
             error = true;
         }
         else if (!context.startsWith("/"))

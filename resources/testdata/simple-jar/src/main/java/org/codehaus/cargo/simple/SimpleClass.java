@@ -19,20 +19,37 @@
  */
 package org.codehaus.cargo.simple;
 
+/**
+ * Simple class which holds a String message. We use this in our test Servlet used to verify that
+ * extra / shared classpath is present.
+ *
+ * @see org.codehaus.cargo.sample.testdata.classpath.TestServlet
+ */
 public class SimpleClass
 {
-
+    /**
+     * Message.
+     */
     protected String message;
 
+    /**
+     * Empty constructor.
+     */
     public SimpleClass()
     {
     }
 
+    /**
+     * @param message message to set
+     */
     public void setMessage(String message)
     {
         this.message = message;
     }
 
+    /**
+     * @return message previously set
+     */
     public String getMessage()
     {
         return message;

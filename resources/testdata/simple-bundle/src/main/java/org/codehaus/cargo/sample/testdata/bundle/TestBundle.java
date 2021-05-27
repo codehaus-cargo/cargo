@@ -34,7 +34,7 @@ public class TestBundle implements BundleActivator
      * The test bundle will be used with containers running on Java 6, we hence cannot use
      * <code>java.nio.charset.StandardCharsets</code> which was introduced in Java 7 only.
      */
-    static private final String CHARSET_UTF_8 = "UTF-8";
+    private static final String CHARSET_UTF_8 = "UTF-8";
 
     /**
      * Starts the bundle, will write a <code>Hello, World</code> text.

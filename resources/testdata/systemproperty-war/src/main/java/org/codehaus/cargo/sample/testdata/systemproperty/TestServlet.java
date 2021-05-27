@@ -32,8 +32,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TestServlet extends HttpServlet
 {
+    /**
+     * Get parameter to pass with the system property name to read.
+     */
     private static final String PROPERTY_NAME = "systemPropertyName";
 
+    /**
+     * Reads a system property and returns it.
+     * {@inheritDoc}
+     */
     @Override
     public void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException
