@@ -40,7 +40,6 @@ import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.ContextHandler;
 import org.mortbay.jetty.handler.ContextHandlerCollection;
-import org.mortbay.jetty.webapp.WebAppClassLoader;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.log.Log;
 import org.mortbay.log.Logger;
@@ -112,10 +111,7 @@ public class DeployerServlet extends HttpServlet
             }
         }
 
-        WebAppClassLoader cl = (WebAppClassLoader) this.getClass().getClassLoader();
-        this.logger.debug(
-            "Started the Codehaus Cargo Jetty deployer servlet with context " + cl.getContext(),
-                null);
+        this.logger.debug("Started the Codehaus Cargo Jetty deployer servlet", null);
     }
 
     /**

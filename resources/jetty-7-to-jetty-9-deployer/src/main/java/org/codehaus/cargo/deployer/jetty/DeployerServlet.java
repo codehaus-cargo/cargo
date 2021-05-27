@@ -133,7 +133,8 @@ public class DeployerServlet extends HttpServlet
         }
 
         this.logger.debug(
-            "Started the Codehaus Cargo Jetty deployer servlet with context " + this.context);
+            "Started the Codehaus Cargo Jetty deployer servlet with context " + this.context,
+                null);
 
         // Due to weird bugs with Jetty 9.4.x webapp class loader, we need to access some classes
         // in the constructor to avoid ClassNotFoundExceptions when accessing later.
@@ -258,7 +259,7 @@ public class DeployerServlet extends HttpServlet
     protected void deployArchive(HttpServletRequest request, HttpServletResponse response,
             String contextPath) throws IOException
     {
-        this.logger.debug("Remotely deploying a remote web archive with context " + contextPath);
+        this.logger.debug("Remotely deploying a remote web archive with context " + contextPath, null);
 
         if (contextPath == null)
         {
@@ -274,7 +275,7 @@ public class DeployerServlet extends HttpServlet
         }
         else
         {
-            this.logger.debug("trying to get the remote web archive for context " + contextPath);
+            this.logger.debug("trying to get the remote web archive for context " + contextPath, null);
 
             File webappFile = new File(this.webAppDirectory,
                 (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
