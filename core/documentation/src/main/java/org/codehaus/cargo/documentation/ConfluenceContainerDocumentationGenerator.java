@@ -165,7 +165,6 @@ public class ConfluenceContainerDocumentationGenerator
     private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[]
     {
         "glassfish5x",
-        "glassfish6x",
         "payara",
         "resin4x",
         "tomcat9x",
@@ -1597,6 +1596,12 @@ public class ConfluenceContainerDocumentationGenerator
                         extra = "Due to a bug parsing the Java version in the OW2 utilities, "
                             + "JOnAS 5.x doesn't run on Java 8 and above";
                     }
+                    else if ("glassfish6x".equals(containerId))
+                    {
+                        javaVersion = "8 (GlassFish 6.0.x) or 11 (GlassFish 6.1.x and above)";
+                        extra = "GlassFish 6.0.x [doesn't run on Java 11 and "
+                            + "above|https://github.com/eclipse-ee4j/glassfish/issues/23102]";
+                    }
                     else if ("resin3x".equals(containerId))
                     {
                         javaVersion = "6, as the Codehaus Cargo_ {{[ResinRun|"
@@ -1640,11 +1645,6 @@ public class ConfluenceContainerDocumentationGenerator
 
                         extra = "Due to incompatibilities with its OSGi environment, "
                             + container.getName() + " doesn't run on Java 8 and above";
-                    }
-                    else if ("glassfish6x".equals(containerId))
-                    {
-                        extra = "Glassfish 6.0 [doesn't yet run on Java 11 and "
-                            + "above|https://github.com/eclipse-ee4j/glassfish/issues/23102]";
                     }
                     else if ("resin3x".equals(containerId))
                     {

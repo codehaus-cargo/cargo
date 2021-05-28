@@ -100,12 +100,14 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
     private void setUpDerby(InstalledLocalContainer container)
     {
         if ("glassfish3x".equals(container.getId()) || "glassfish4x".equals(container.getId())
-            || "glassfish5x".equals(container.getId()) || "payara".equals(container.getId()))
+            || "glassfish5x".equals(container.getId()) || "glassfish6x".equals(container.getId())
+            || "payara".equals(container.getId()))
         {
-            // GlassFish 3.x, 4.x and 5.x as well as earlier versions of Payara already ship with
-            // Derby, adding the JAR twice will result in java.lang.SecurityException:
+            // GlassFish 3.x, 4.x, 5.x and 6.1.x as well as earlier versions of Payara already ship
+            // with Derby, adding the JAR twice will result in java.lang.SecurityException:
             // sealing violation: package org.apache.derby.
-            if (!container.getName().startsWith("Payara 5.2"))
+            if (!container.getName().startsWith("GlassFish 6.0")
+                && !container.getName().startsWith("Payara 5.2"))
             {
                 return;
             }
