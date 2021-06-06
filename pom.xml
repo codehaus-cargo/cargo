@@ -24,7 +24,7 @@
   <packaging>pom</packaging>
 
   <name>Codehaus Cargo</name>
-  <description>Cargo is a thin wrapper that allows you to manipulate Java EE containers in a standard way.</description>
+  <description>Cargo is a thin wrapper that allows you to manipulate various type of application containers (J2EE, Java EE, Jakarta EE and others) in a standard way.</description>
   <url>https://codehaus-cargo.github.io/</url>
   <inceptionYear>2004</inceptionYear>
   <organization>
