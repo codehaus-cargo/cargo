@@ -654,6 +654,13 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
+        else if (containerId.equals("liberty"))
+        {
+            output.append("{note}The Codehaus Cargo WebSphere Liberty container is also ");
+            output.append("compatible with Open Liberty.{note}");
+            output.append(LINE_SEPARATOR);
+            output.append(LINE_SEPARATOR);
+        }
         else if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x"))
         {
             output.append("{note}WildFly ");
