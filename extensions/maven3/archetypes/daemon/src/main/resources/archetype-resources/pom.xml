@@ -179,7 +179,7 @@
                 <container>
                   <containerId>tomcat9x</containerId>
                   <zipUrlInstaller>
-                    <url>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.46/tomcat-9.0.46.zip</url>
+                    <url>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.48/tomcat-9.0.48.zip</url>
                   </zipUrlInstaller>
                 </container>
               </configuration>
