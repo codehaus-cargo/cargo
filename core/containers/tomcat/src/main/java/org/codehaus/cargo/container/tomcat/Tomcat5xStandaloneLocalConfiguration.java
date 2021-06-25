@@ -23,7 +23,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -32,7 +31,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -160,23 +158,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     public String toString()
     {
         return "Tomcat 5.x Standalone Configuration";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setupTransactionManager()
-    {
-        Resource transactionManagerResource =
-            new Resource("UserTransaction", "javax.transaction.UserTransaction");
-
-        Properties parameters = new Properties();
-        PropertyUtils.setPropertyIfNotNull(parameters, "jotm.timeout", "60");
-        PropertyUtils.setPropertyIfNotNull(parameters, "factory",
-            "org.objectweb.jotm.UserTransactionFactory");
-        transactionManagerResource.setParameters(PropertyUtils.toMap(parameters));
-        getResources().add(transactionManagerResource);
     }
 
     /**

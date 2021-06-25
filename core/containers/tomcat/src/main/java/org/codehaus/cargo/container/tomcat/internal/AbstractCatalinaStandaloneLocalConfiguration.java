@@ -199,22 +199,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
     }
 
     /**
-     * {@inheritDoc} note that if there is any datasource configured, this will imply an addition of
-     * the transaction manager.
-     */
-    @Override
-    public void configureDataSources(LocalContainer container)
-    {
-        super.configureDataSources(container);
-        this.setupTransactionManager();
-    }
-
-    /**
-     * Adds an implementation of UserTransaction to the configuration.
-     */
-    protected abstract void setupTransactionManager();
-
-    /**
      * Setup the manager webapp.
      * 
      * @param container the container to configure

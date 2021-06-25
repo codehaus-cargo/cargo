@@ -175,31 +175,6 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Check transaction manager token in XML contents.
-     * @param xml XML contents.
-     * @throws Exception If anything goes wrong.
-     */
-    public void checkTransactionManagerToken(String xml) throws Exception
-    {
-        XMLAssert.assertXpathEvaluatesTo("javax.transaction.UserTransaction",
-            "//Engine/DefaultContext/Resource[@name='UserTransaction']/@type", xml);
-        XMLAssert.assertXpathEvaluatesTo("Container",
-            "//Engine/DefaultContext/Resource[@name='UserTransaction']/@auth", xml);
-        XMLAssert
-            .assertXpathEvaluatesTo(
-                "org.objectweb.jotm.UserTransactionFactory",
-                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']"
-                    + "/parameter[name='factory']/value",
-                xml);
-        XMLAssert
-            .assertXpathEvaluatesTo(
-                "60",
-                "//Engine/DefaultContext/ResourceParams[@name='UserTransaction']"
-                    + "/parameter[name='jotm.timeout']/value",
-                xml);
-    }
-
-    /**
      * Test the creation of multiple resource token values.
      * @throws Exception If anything goes wrong.
      */

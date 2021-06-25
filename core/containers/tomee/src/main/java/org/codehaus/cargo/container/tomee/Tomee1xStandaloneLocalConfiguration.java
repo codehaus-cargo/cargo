@@ -115,16 +115,6 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     }
 
     /**
-     * {@inheritDoc} TomEE provides its own transaction factory with openejb, so we don't add
-     * <code>org.objectweb.jotm.UserTransactionFactory</code> unlike Tomcat
-     */
-    @Override
-    protected void setupTransactionManager()
-    {
-        // Nothing
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

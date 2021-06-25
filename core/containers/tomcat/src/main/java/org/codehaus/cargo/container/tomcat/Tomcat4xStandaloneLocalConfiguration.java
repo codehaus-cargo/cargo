@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 
 import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -28,7 +27,6 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.internal.util.PropertyUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationBuilder;
@@ -85,24 +83,6 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         getFileHandler().copyDirectory(from + "/server/webapps/manager",
             to + "/server/webapps/manager");
         getFileHandler().copyFile(from + "/webapps/manager.xml", to + "/webapps/manager.xml");
-    }
-
-    /**
-     * {@inheritDoc} Adds the transaction manager into the set of resources assigned to this
-     * configuration.
-     */
-    @Override
-    protected void setupTransactionManager()
-    {
-        Resource transactionManagerResource =
-            new Resource("UserTransaction", "javax.transaction.UserTransaction");
-
-        Properties parameters = new Properties();
-        PropertyUtils.setPropertyIfNotNull(parameters, "jotm.timeout", "60");
-        PropertyUtils.setPropertyIfNotNull(parameters, "factory",
-            "org.objectweb.jotm.UserTransactionFactory");
-        transactionManagerResource.setParameters(PropertyUtils.toMap(parameters));
-        getResources().add(transactionManagerResource);
     }
 
     /**

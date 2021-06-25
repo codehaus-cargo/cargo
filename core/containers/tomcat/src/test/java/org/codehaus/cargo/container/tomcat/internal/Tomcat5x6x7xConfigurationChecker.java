@@ -104,19 +104,4 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
     {
         return "<Context>" + dataSourceEntry + "</Context>";
     }
-
-    /**
-     * Check transaction manager token in XML configuration.
-     * @param xml XML configuration.
-     * @throws Exception If anything goes wrong.
-     */
-    public void checkTransactionManagerToken(String xml) throws Exception
-    {
-        XMLAssert
-            .assertXpathEvaluatesTo(
-                "60",
-                "//Context/Transaction[@factory='org.objectweb.jotm.UserTransactionFactory']"
-                    + "/@jotm.timeout",
-                xml);
-    }
 }
