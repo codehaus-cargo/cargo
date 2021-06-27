@@ -178,9 +178,13 @@ public class ConfluenceProjectStructureDocumentationGenerator
         File parent = aProject.getFile();
         for (int i = 0; i < treeIndex && parent != null; i++)
         {
-            if ("resources".equals(parent.getName()) && treeIndex >= 2
-                || "core".equals(parent.getName()) && treeIndex >= 3
-                    || "extensions".equals(parent.getName()) && treeIndex >= 4)
+            // We normally want to keep the sorting as defined in the Maven modules (as that's
+            // what makes "human sense"), nevertheless for the submodules that (de)activate
+            // depending on the JDK versions (i.e., resources, core/containers,
+            // extensions/maven3/archetypes and extensions/**/samples) we need to sort them
+            // alphabetically for increased readability
+            if ("resources".equals(parent.getName()) || "containers".equals(parent.getName())
+                || "archetypes".equals(parent.getName()) || "samples".equals(parent.getName()))
             {
                 sort = true;
             }
@@ -191,9 +195,18 @@ public class ConfluenceProjectStructureDocumentationGenerator
             SortedMap<String, String> sortedModules = new TreeMap<String, String>();
             for (String module : modules)
             {
-                sortedModules.put(
-                    module.replace("jetty-6", "jetty-06").replace("jetty-7", "jetty-07"),
-                        module);
+                // This is to ensure, say, jetty7x is smaller than jetty10x
+                String[] moduleWithSplitVersion = module.split("(?=[2-9])");
+                StringBuilder sortedModule = new StringBuilder();
+                for (String moduleVersionSplit : moduleWithSplitVersion)
+                {
+                    if (sortedModule.length() > 0)
+                    {
+                        sortedModule.append("0");
+                    }
+                    sortedModule.append(moduleVersionSplit);
+                }
+                sortedModules.put(sortedModule.toString(), module);
             }
             modules = new ArrayList<String>(sortedModules.values());
         }
