@@ -173,17 +173,29 @@ public class ConfluenceProjectStructureDocumentationGenerator
                 List<String> profileModules = profile.getModules();
                 modules.addAll(profileModules);
             }
-            if (treeIndex == 2 && "resources".equals(aProject.getFile().getParentFile().getName()))
+        }
+        boolean sort = false;
+        File parent = aProject.getFile();
+        for (int i = 0; i < treeIndex && parent != null; i++)
+        {
+            if ("resources".equals(parent.getName()) && treeIndex >= 2
+                || "core".equals(parent.getName()) && treeIndex >= 3
+                    || "extensions".equals(parent.getName()) && treeIndex >= 4)
             {
-                SortedMap<String, String> sort = new TreeMap<String, String>();
-                for (String module : modules)
-                {
-                    sort.put(
-                        module.replace("jetty-6", "jetty-06").replace("jetty-7", "jetty-07"),
-                            module);
-                }
-                modules = new ArrayList<String>(sort.values());
+                sort = true;
             }
+            parent = parent.getParentFile();
+        }
+        if (sort)
+        {
+            SortedMap<String, String> sortedModules = new TreeMap<String, String>();
+            for (String module : modules)
+            {
+                sortedModules.put(
+                    module.replace("jetty-6", "jetty-06").replace("jetty-7", "jetty-07"),
+                        module);
+            }
+            modules = new ArrayList<String>(sortedModules.values());
         }
         int newTreeIndex = modules.size() > 0 ? treeIndex + 1 : treeIndex;
         for (String moduleArtifactId : modules)
