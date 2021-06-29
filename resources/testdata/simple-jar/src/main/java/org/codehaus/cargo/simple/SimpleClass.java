@@ -22,8 +22,6 @@ package org.codehaus.cargo.simple;
 /**
  * Simple class which holds a String message. We use this in our test Servlet used to verify that
  * extra / shared classpath is present.
- *
- * @see org.codehaus.cargo.sample.testdata.classpath.TestServlet
  */
 public class SimpleClass
 {
