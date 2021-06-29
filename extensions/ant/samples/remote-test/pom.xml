@@ -21,31 +21,31 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-ant</artifactId>
-    <version>1.9.5-SNAPSHOT</version>
+    <version>1.9.5</version>
   </parent>
   <artifactId>cargo-sample-ant-remote-test</artifactId>
-  <name>Cargo Samples - ANT - Remote container test</name>
+  <name>Cargo Samples - Ant - Remote container test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo ANT tasks with a remote container</description>
+  <description>Sample application that exercises the Cargo Ant tasks with a remote container</description>
   <!--
     TODO: It would have been so great to:
-      1) Start the container using ANT
+      1) Start the container using Ant
       2) Only run CargoTest + run an anti-SimpleTest
-      3) Tell ANT to remotely deploy
+      3) Tell Ant to remotely deploy
       4) Only run SimpleTest
-      5) Tell ANT to remotely undeploy
+      5) Tell Ant to remotely undeploy
       6) Run the anti-SimpleTest
-      7) Tell ANT to remotely redeploy
+      7) Tell Ant to remotely redeploy
       8) Only run SimpleTest
-      9) Stop the container using ANT
+      9) Stop the container using Ant
     But I do not know how to manage such a complexity with Maven 3.
     So what we currently do is:
-      1) Start the container using ANT
-      2) Tell ANT to remotely deploy
+      1) Start the container using Ant
+      2) Tell Ant to remotely deploy
       3) Run CargoTest + SimpleTest
-      4) Tell ANT to remotely undeploy
-      5) Tell ANT to remotely redeploy
-      6) Stop the container using ANT
+      4) Tell Ant to remotely undeploy
+      5) Tell Ant to remotely redeploy
+      6) Stop the container using Ant
     -->
   <build>
     <plugins>

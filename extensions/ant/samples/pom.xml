@@ -21,12 +21,12 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-extensions-ant</artifactId>
-    <version>1.9.5-SNAPSHOT</version>
+    <version>1.9.5</version>
   </parent>
   <artifactId>cargo-samples-ant</artifactId>
-  <name>Cargo Samples - ANT</name>
+  <name>Cargo Samples - Ant</name>
   <packaging>pom</packaging>
-  <description>Cargo Samples for ANT</description>
+  <description>Cargo Samples for Ant</description>
   <modules>
     <module>ant1.10-test</module>
     <module>configurationFiles-xmlReplacements-test</module>

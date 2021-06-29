@@ -21,10 +21,10 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven3</artifactId>
-    <version>1.9.5-SNAPSHOT</version>
+    <version>1.9.5</version>
   </parent>
   <artifactId>cargo-sample-maven3-tomcat7-context-test</artifactId>
-  <name>Cargo Samples - Maven 3 - Tomcat 7 context test</name>
+  <name>Cargo Samples - Maven 3 - Tomcat 7.x context test</name>
   <packaging>jar</packaging>
   <description>Sample application that exercises the Cargo Maven 3 plugin with a Tomcat 7.x container and a user-defined context</description>
 

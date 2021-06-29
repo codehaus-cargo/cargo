@@ -21,12 +21,12 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-ant</artifactId>
-    <version>1.9.5-SNAPSHOT</version>
+    <version>1.9.5</version>
   </parent>
   <artifactId>cargo-sample-ant-datasource-test</artifactId>
-  <name>Cargo Samples - ANT - Datasource test</name>
+  <name>Cargo Samples - Ant - Datasource test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo ANT tasks with a container and a datasource</description>
+  <description>Sample application that exercises the Cargo Ant tasks with a container and a datasource</description>
 
   <build>
     <plugins>

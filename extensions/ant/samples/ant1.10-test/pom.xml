@@ -21,12 +21,12 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-ant</artifactId>
-    <version>1.9.5-SNAPSHOT</version>
+    <version>1.9.5</version>
   </parent>
   <artifactId>cargo-sample-ant-ant1.10-test</artifactId>
-  <name>Cargo Samples - ANT - ANT 1.10.x test</name>
+  <name>Cargo Samples - Ant - Ant 1.10.x test</name>
   <packaging>jar</packaging>
-  <description>Sample application that tests the the Cargo ANT tasks with ANT 1.10.x</description>
+  <description>Sample application that tests the the Cargo Ant tasks with Ant 1.10.x</description>
 
   <profiles>
     <profile>
