@@ -92,7 +92,7 @@ public class JBoss72xInstalledLocalContainer extends JBoss71xInstalledLocalConta
         String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArgs != null)
         {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // Replace new lines and tabs, so that Maven or Ant plugins can
             // specify multiline runtime arguments in their XML files
             runtimeArgs = runtimeArgs.replace('\n', ' ');
             runtimeArgs = runtimeArgs.replace('\r', ' ');

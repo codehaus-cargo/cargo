@@ -109,7 +109,8 @@ public class AntLogger extends AbstractLogger
 
         if (antLogLevel == null)
         {
-            throw new IllegalStateException("No ANT log level for CARGO LogLevel " + level);
+            throw new IllegalStateException(
+                "No Ant log level for Codehaus Cargo LogLevel " + level);
         }
 
         if (this.task != null)

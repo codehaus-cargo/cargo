@@ -603,7 +603,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);
         if (runtimeArgs != null)
         {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // Replace new lines and tabs, so that Maven or Ant plugins can
             // specify multiline runtime arguments in their XML files
             runtimeArgs = runtimeArgs.replace('\n', ' ');
             runtimeArgs = runtimeArgs.replace('\r', ' ');
@@ -628,7 +628,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         }
         if (jvmargs != null)
         {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // Replace new lines and tabs, so that Maven or Ant plugins can
             // specify multiline JVM arguments in their XML files
             jvmargs = jvmargs.replace('\n', ' ');
             jvmargs = jvmargs.replace('\r', ' ');
@@ -700,7 +700,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);
         if (startJmvmargs != null)
         {
-            // Replace new lines and tabs, so that Maven or ANT plugins can
+            // Replace new lines and tabs, so that Maven or Ant plugins can
             // specify multiline JVM arguments in their XML files
             startJmvmargs = startJmvmargs.replace('\n', ' ');
             startJmvmargs = startJmvmargs.replace('\r', ' ');

@@ -164,7 +164,7 @@ public class AntUtils
         }
         catch (NullPointerException e)
         {
-            // ANT uses a Hashtable, which means null values are not allowed
+            // Ant uses a Hashtable, which means null values are not allowed
             token.setValue("");
             replaceToken.addConfiguredToken(token);
         }

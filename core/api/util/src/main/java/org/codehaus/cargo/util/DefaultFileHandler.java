@@ -112,7 +112,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     }
 
     /**
-     * Helper method because of signature change with ANT 1.10.x, see
+     * Helper method because of signature change with Ant 1.10.x, see
      * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1482">CARGO-1482</a> for details.
      * @param helper The ChainReaderHelper object for which to get the assembled reader.
      * @return Assembled reader.
