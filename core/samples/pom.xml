@@ -516,7 +516,7 @@
 
               <property>
                 <name>cargo.jetty11x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/11.0.5/jetty-home-11.0.5.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/11.0.6/jetty-home-11.0.6.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty11x.java.home</name>
