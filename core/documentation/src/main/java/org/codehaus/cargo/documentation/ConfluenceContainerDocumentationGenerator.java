@@ -188,6 +188,7 @@ public class ConfluenceContainerDocumentationGenerator
         "wildfly21x",
         "wildfly22x",
         "wildfly23x",
+        "wildfly24x",
         "wildfly-swarm2017x"
     });
 
@@ -661,16 +662,21 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x"))
+        else if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x")
+            || containerId.equals("wildfly24x"))
         {
             output.append("{note}WildFly ");
             if (containerId.equals("wildfly22x"))
             {
                 output.append("22");
             }
-            else
+            else if (containerId.equals("wildfly23x"))
             {
                 output.append("23");
+            }
+            else
+            {
+                output.append("24");
             }
             output.append(" comes with two versions: Jakarta EE 8 Full & Web Distribution and ");
             output.append("the WildFly Preview EE 9 Distribution. Users of the WildFly Preview ");
