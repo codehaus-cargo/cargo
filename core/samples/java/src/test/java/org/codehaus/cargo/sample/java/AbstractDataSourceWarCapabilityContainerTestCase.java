@@ -103,9 +103,9 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
             || "glassfish5x".equals(container.getId()) || "glassfish6x".equals(container.getId())
             || "payara".equals(container.getId()))
         {
-            // GlassFish 3.x, 4.x, 5.x and 6.1.x as well as earlier versions of Payara already ship
-            // with Derby, adding the JAR twice will result in java.lang.SecurityException:
-            // sealing violation: package org.apache.derby.
+            // GlassFish 3.x, 4.x, 5.x and 6.1.x onwards (interestingly, not GlassFish 6.0.0) as
+            // well as earlier versions of Payara already ship with Derby, adding the JAR twice
+            // will result in a SecurityException: sealing violation: package org.apache.derby
             if (!container.getName().startsWith("GlassFish 6.0")
                 && !container.getName().startsWith("Payara 5.2"))
             {
