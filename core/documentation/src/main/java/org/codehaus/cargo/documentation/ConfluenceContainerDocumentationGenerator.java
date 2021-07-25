@@ -89,118 +89,6 @@ public class ConfluenceContainerDocumentationGenerator
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /**
-     * Containers that work on Java 4.
-     */
-    private static final List<String> JAVA4_CONTAINERS = Arrays.asList(new String[]
-    {
-        "geronimo1x",
-        "jboss3x",
-        "jboss4x",
-        "jetty5x",
-        "jo1x",
-        "jonas4x",
-        "oc4j9x",
-        "tomcat4x",
-        "tomcat5x",
-        "weblogic8x"
-    });
-
-    /**
-     * Containers that work on Java 5.
-     */
-    private static final List<String> JAVA5_CONTAINERS = Arrays.asList(new String[]
-    {
-        "geronimo2x",
-        "glassfish2x",
-        "jboss42x",
-        "jboss5x",
-        "jboss51x",
-        "jetty6x",
-        "jrun4x",
-        "oc4j10x",
-        "tomcat6x",
-        "weblogic9x",
-        "weblogic10x"
-    });
-
-    /**
-     * Containers that work on Java 6.
-     */
-    private static final List<String> JAVA6_CONTAINERS = Arrays.asList(new String[]
-    {
-        "geronimo3x",
-        "glassfish3x",
-        "jboss6x",
-        "jboss61x",
-        "jboss7x",
-        "jboss71x",
-        "jboss72x",
-        "jboss73x",
-        "jetty8x",
-        "tomcat7x",
-        "tomee1x",
-        "weblogic103x",
-        "websphere85x"
-    });
-
-    /**
-     * Containers that work on Java 7.
-     */
-    private static final List<String> JAVA7_CONTAINERS = Arrays.asList(new String[]
-    {
-        "glassfish4x",
-        "jboss74x",
-        "jboss75x",
-        "tomcat8x",
-        "weblogic12x",
-        "weblogic121x",
-        "wildfly8x",
-        "wildfly9x"
-    });
-
-    /**
-     * Containers that work on Java 8.
-     */
-    private static final List<String> JAVA8_CONTAINERS = Arrays.asList(new String[]
-    {
-        "glassfish5x",
-        "payara",
-        "resin4x",
-        "tomcat9x",
-        "tomcat10x",
-        "tomee8x",
-        "tomee9x",
-        "weblogic122x",
-        "weblogic14x",
-        "websphere9x",
-        "wildfly10x",
-        "wildfly11x",
-        "wildfly12x",
-        "wildfly13x",
-        "wildfly14x",
-        "wildfly15x",
-        "wildfly16x",
-        "wildfly17x",
-        "wildfly18x",
-        "wildfly19x",
-        "wildfly20x",
-        "wildfly21x",
-        "wildfly22x",
-        "wildfly23x",
-        "wildfly24x",
-        "wildfly-swarm2017x"
-    });
-
-    /**
-     * Containers that work on Java 11.
-     */
-    private static final List<String> JAVA11_CONTAINERS = Arrays.asList(new String[]
-    {
-        "jetty10x",
-        "jetty11x"
-    });
-
-    /**
      * Containers that only work with Java up to version 7 due to JSP issues.
      */
     private static final List<String> JAVA7_MAX_CONTAINERS_JSP = Arrays.asList(new String[]
@@ -1569,31 +1457,7 @@ public class ConfluenceContainerDocumentationGenerator
                 case GeneralPropertySet.JAVA_HOME:
                     String javaVersion;
                     String extra = "";
-                    if (JAVA4_CONTAINERS.contains(containerId))
-                    {
-                        javaVersion = "4";
-                    }
-                    else if (JAVA5_CONTAINERS.contains(containerId))
-                    {
-                        javaVersion = "5";
-                    }
-                    else if (JAVA6_CONTAINERS.contains(containerId))
-                    {
-                        javaVersion = "6";
-                    }
-                    else if (JAVA7_CONTAINERS.contains(containerId))
-                    {
-                        javaVersion = "7";
-                    }
-                    else if (JAVA8_CONTAINERS.contains(containerId))
-                    {
-                        javaVersion = "8";
-                    }
-                    else if (JAVA11_CONTAINERS.contains(containerId))
-                    {
-                        javaVersion = "11";
-                    }
-                    else if ("jetty7x".equals(containerId))
+                    if ("jetty7x".equals(containerId))
                     {
                         javaVersion = "5 if no datasources are to be deployed, 6 otherwise";
                     }
@@ -1628,10 +1492,17 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
                     }
+                    else if ("weblogic12x".equals(containerId)
+                        || "weblogic121x".equals(containerId))
+                    {
+                        javaVersion =
+                            "6 for earlier versions, WebLogic 12.1.3 onwards require Java 7";
+                    }
                     else
                     {
-                        throw new IllegalArgumentException(
-                            "Java version for " + containerId + " is not defined");
+                        String pomJavaVersion = getContainerServerJavaVersion(containerId);
+                        javaVersion =
+                            pomJavaVersion.replace("${cargo.java.home.1_", "").replace("}", "");
                     }
 
                     if (JAVA7_MAX_CONTAINERS_JSP.contains(containerId))
@@ -1900,6 +1771,70 @@ public class ConfluenceContainerDocumentationGenerator
         {
             return "";
         }
+    }
+
+    /**
+     * Returns the Java version used for testing the given container.
+     * @param containerId Container ID.
+     * @return Java version for testing <code>containerId</code>.
+     */
+    public String getContainerServerJavaVersion(String containerId)
+    {
+        File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
+
+        Model model = new Model();
+        try
+        {
+            model = POM_READER.read(new FileReader(pom));
+        }
+        catch (Exception e)
+        {
+            throw new IllegalStateException("Caught Exception reading " + pom, e);
+        }
+
+        MavenProject project = new MavenProject(model);
+        project.setFile(pom);
+
+        Map<String, Plugin> plugins = project.getPluginManagement().getPluginsAsMap();
+        Plugin surefire = plugins.get(SUREFIRE_PLUGIN);
+        if (surefire == null)
+        {
+            throw new IllegalStateException("Cannot find plugin " + SUREFIRE_PLUGIN
+                + " in pom file " + pom + ". Found plugins: " + plugins.keySet());
+        }
+
+        Xpp3Dom configuration = (Xpp3Dom) surefire.getConfiguration();
+        if (configuration == null)
+        {
+            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
+                + " does not have any configuration.");
+        }
+        Xpp3Dom systemProperties = configuration.getChild(SYSTEM_PROPERTIES);
+        if (systemProperties == null)
+        {
+            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
+                + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
+        }
+
+        String urlName = "cargo." + containerId + ".java.home";
+        for (Xpp3Dom property : systemProperties.getChildren())
+        {
+            Xpp3Dom nameChild = property.getChild("name");
+            Xpp3Dom valueChild = property.getChild("value");
+            if (nameChild == null || valueChild == null)
+            {
+                throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
+                    + "'s configuration options in pom file " + pom + " is incomplete:\n"
+                        + property);
+            }
+
+            if (urlName.equals(nameChild.getValue()))
+            {
+                return valueChild.getValue();
+            }
+        }
+
+        throw new IllegalArgumentException("No java.home for " + containerId);
     }
 
     /**
