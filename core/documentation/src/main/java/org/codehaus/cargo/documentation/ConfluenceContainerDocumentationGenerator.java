@@ -118,7 +118,6 @@ public class ConfluenceContainerDocumentationGenerator
         "jetty6x",
         "jrun4x",
         "oc4j10x",
-        "resin31x",
         "tomcat6x",
         "weblogic9x",
         "weblogic10x"
@@ -1615,7 +1614,7 @@ public class ConfluenceContainerDocumentationGenerator
                         extra = "GlassFish 6.0.x [only runs on Java 8|"
                             + "https://github.com/eclipse-ee4j/glassfish/issues/23102]";
                     }
-                    else if ("resin3x".equals(containerId))
+                    else if ("resin3x".equals(containerId) || "resin31x".equals(containerId))
                     {
                         javaVersion = "6, as the Codehaus Cargo_ {{[ResinRun|"
                             + "https://codehaus-cargo.github.io/apidocs/org/codehaus/cargo/"
