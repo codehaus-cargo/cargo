@@ -1357,7 +1357,7 @@
 
               <property>
                 <name>cargo.wildfly24x.url</name>
-                <value>https://download.jboss.org/wildfly/24.0.0.Final/wildfly-24.0.0.Final.zip</value>
+                <value>https://download.jboss.org/wildfly/24.0.1.Final/wildfly-24.0.1.Final.zip</value>
               </property>
               <property>
                 <name>cargo.wildfly24x.java.home</name>
