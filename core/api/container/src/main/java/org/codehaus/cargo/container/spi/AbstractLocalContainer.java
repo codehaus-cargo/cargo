@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
@@ -547,7 +548,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             s.bind(null);
 
             // If the remote port is closed, s.connect will throw an exception
-            s.connect(new InetSocketAddress("localhost", port), connectTimeout);
+            s.connect(new InetSocketAddress(
+                this.getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME), port),
+                    connectTimeout);
             getLogger().debug("\tSocket " + s + " for port " + port + " managed to connect",
                 this.getClass().getName());
 
