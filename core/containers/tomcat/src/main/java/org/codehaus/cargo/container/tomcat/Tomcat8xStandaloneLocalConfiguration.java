@@ -270,7 +270,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
                 sslImplementationName);
         }
 
-        if ("true".equalsIgnoreCase(
+        if (Boolean.parseBoolean(
                 getPropertyValue(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL)))
         {
             addXmlReplacement(serverXmlFileName, connectorXpath() + "/UpgradeProtocol", "className",
