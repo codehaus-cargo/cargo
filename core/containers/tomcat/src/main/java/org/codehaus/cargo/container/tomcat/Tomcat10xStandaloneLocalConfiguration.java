@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10xConfigurationBuilder;
+import org.codehaus.cargo.util.XmlReplacement.ReplacementBehavior;
 
 /**
  * Catalina standalone
@@ -37,6 +39,29 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
         super(dir);
 
         configurationBuilder = new Tomcat10xConfigurationBuilder();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void performXmlReplacements(LocalContainer container)
+    {
+        if (Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.HTTP_SECURE)))
+        {
+            String certificateXpath = connectorXpath() + "/SSLHostConfig/Certificate";
+            addXmlReplacement("conf/server.xml", certificateXpath,
+                "certificateKeystoreFile", TomcatPropertySet.CONNECTOR_KEY_STORE_FILE,
+                    ReplacementBehavior.ADD_MISSING_NODES);
+            if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
+            {
+                addXmlReplacement("conf/server.xml", certificateXpath,
+                    "certificateKeystorePassword", TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD,
+                        ReplacementBehavior.ADD_MISSING_NODES);
+            }
+        }
+
+        super.performXmlReplacements(container);
     }
 
     /**
