@@ -249,7 +249,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
                 "-profileName",
                 getPropertyValue(WebSpherePropertySet.PROFILE),
                 "-profilePath",
-                getHome(),
+                "\"" + getHome() + "\"",
                 "-nodeName",
                 getPropertyValue(WebSpherePropertySet.NODE),
                 "-cellName",

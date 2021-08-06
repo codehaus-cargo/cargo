@@ -266,7 +266,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             // wsadminlib.py is taken from websphere85x container resources
             // as it seems to be compatible with later releases
             getResourceUtils().copyResource(AbstractLocalConfiguration.RESOURCE_PATH
-                    + "websphere85x/wsadminlib.py",
+                + "websphere85x/wsadminlib.py",
                     wsadminlibFile, new FilterChain(), null);
             configurationScript.add(0, ((WebSphereConfiguration) getConfiguration()).
                     getFactory().importWsadminlibScript(wsadminlibFile.getAbsolutePath()));
@@ -320,9 +320,9 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
 
                 // Need to set JVM heap size to be able to process large deployables
                 arguments.add("-javaoption -Xms"
-                        + Long.toString(parsedArguments.getInitialHeap(ByteUnit.MEGABYTES)) + "m");
+                    + Long.toString(parsedArguments.getInitialHeap(ByteUnit.MEGABYTES)) + "m");
                 arguments.add("-javaoption -Xmx"
-                        + Long.toString(parsedArguments.getMaxHeap(ByteUnit.MEGABYTES)) + "m");
+                    + Long.toString(parsedArguments.getMaxHeap(ByteUnit.MEGABYTES)) + "m");
 
                 ContainerMonitor monitor = new ConsoleUrlWebSphereMonitor(this);
                 if (!monitor.isRunning())
@@ -336,17 +336,17 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
                     arguments.add("SOAP");
                     arguments.add("-user");
                     arguments.add(getConfiguration().
-                            getPropertyValue(WebSpherePropertySet.ADMIN_USERNAME));
+                        getPropertyValue(WebSpherePropertySet.ADMIN_USERNAME));
                     arguments.add("-password");
                     arguments.add(getConfiguration().
-                            getPropertyValue(WebSpherePropertySet.ADMIN_PASSWORD));
+                        getPropertyValue(WebSpherePropertySet.ADMIN_PASSWORD));
                 }
                 runWebSphereCommand("wsadmin", arguments.toArray(new String[arguments.size()]));
             }
             else
             {
                 getLogger().warn(String.format("Script file %s doesn't exists.", scriptFilePath),
-                            this.getClass().getName());
+                    this.getClass().getName());
             }
         }
     }
@@ -386,12 +386,14 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
     private void runWebSphereCommand(String wsCommand, String... arguments)
     {
         StringBuilder command = new StringBuilder();
+
+        // Append the command's .bat or .sh file, in quotes (in case its path has spaces)
+        command.append("\"");
         command.append(getHome());
         command.append(File.separator);
         command.append("bin");
         command.append(File.separator);
         command.append(wsCommand);
-
         if (JdkUtils.isWindows())
         {
             command.append(WINDOWS_SUFFIX);
@@ -400,6 +402,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
         {
             command.append(LINUX_SUFFIX);
         }
+        command.append("\"");
 
         if (arguments.length > 0)
         {

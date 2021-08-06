@@ -62,9 +62,9 @@ public class ProcessExecutor
             process = Runtime.getRuntime().exec(cmd);
 
             Future<?> osFuture = executorService.submit(
-                    new ProcessOutputReader(process.getInputStream()));
+                new ProcessOutputReader(process.getInputStream()));
             Future<?> esFuture = executorService.submit(
-                    new ProcessOutputReader(process.getErrorStream()));
+                new ProcessOutputReader(process.getErrorStream()));
 
             process.waitFor();
 
@@ -113,7 +113,6 @@ public class ProcessExecutor
                 {
                     logger.debug(line, ProcessExecutor.class.getName());
                 }
-
             }
             catch (IOException ioe)
             {
