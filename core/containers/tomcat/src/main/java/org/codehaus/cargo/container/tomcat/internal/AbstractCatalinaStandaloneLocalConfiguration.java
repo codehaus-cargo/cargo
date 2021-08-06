@@ -71,10 +71,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * file, when a custom protocol class is in use.
      */
     private static final String CONNECTOR_XPATH_TEMPLATE =
-            "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
-                    + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
-                    + "or @protocol='org.apache.coyote.http11.Http11NioProtocol' "
-                    + "or @protocol='%s']";
+        "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
+            + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
+            + "or @protocol='org.apache.coyote.http11.Http11NioProtocol' "
+            + "or @protocol='%s']";
 
     /**
      * {@inheritDoc}

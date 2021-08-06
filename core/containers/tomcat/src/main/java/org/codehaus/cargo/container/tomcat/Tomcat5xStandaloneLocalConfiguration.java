@@ -123,14 +123,13 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     {
         addXmlReplacement("conf/server.xml", connectorXpath(), "port", ServletPropertySet.PORT);
         addXmlReplacement("conf/server.xml", connectorXpath(), "scheme",
-                GeneralPropertySet.PROTOCOL);
+            GeneralPropertySet.PROTOCOL);
         addXmlReplacement("conf/server.xml", connectorXpath(), "secure",
-                TomcatPropertySet.HTTP_SECURE);
+            TomcatPropertySet.HTTP_SECURE);
         addXmlReplacement("conf/server.xml", connectorXpath(), "emptySessionPath",
-                TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
-        addXmlReplacement("conf/server.xml",
-                connectorXpath(),
-                "URIEncoding", TomcatPropertySet.URI_ENCODING);
+            TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        addXmlReplacement("conf/server.xml", connectorXpath(), "URIEncoding",
+            TomcatPropertySet.URI_ENCODING);
         addXmlReplacement("conf/server.xml", connectorXpath(), "port", ServletPropertySet.PORT);
 
         if (container instanceof EmbeddedLocalContainer)
@@ -139,8 +138,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         }
         else
         {
-            setProperty(
-                org.codehaus.cargo.container.tomcat.TomcatPropertySet.HTTP_SECURE,
+            setProperty(TomcatPropertySet.HTTP_SECURE,
                 String.valueOf("https".equalsIgnoreCase(
                     container.getConfiguration().getPropertyValue(
                         GeneralPropertySet.PROTOCOL))));
