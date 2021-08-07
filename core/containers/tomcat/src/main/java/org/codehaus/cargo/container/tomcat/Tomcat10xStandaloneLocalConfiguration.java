@@ -47,7 +47,7 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
     @Override
     protected void performXmlReplacements(LocalContainer container)
     {
-        if (Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.HTTP_SECURE)))
+        if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
         {
             String certificateXpath = connectorXpath() + "/SSLHostConfig/Certificate";
             addXmlReplacement("conf/server.xml", certificateXpath,
