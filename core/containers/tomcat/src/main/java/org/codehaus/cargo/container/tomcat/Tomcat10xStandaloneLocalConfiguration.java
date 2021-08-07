@@ -56,6 +56,12 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
             if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
             {
                 addXmlReplacement("conf/server.xml", certificateXpath,
+                    "certificateKeystoreType", TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE,
+                        ReplacementBehavior.ADD_MISSING_NODES);
+            }
+            if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
+            {
+                addXmlReplacement("conf/server.xml", certificateXpath,
                     "certificateKeystorePassword", TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD,
                         ReplacementBehavior.ADD_MISSING_NODES);
             }
