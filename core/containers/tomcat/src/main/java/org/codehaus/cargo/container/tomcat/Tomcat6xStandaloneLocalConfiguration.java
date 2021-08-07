@@ -168,9 +168,9 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
     protected void performXmlReplacements(LocalContainer container)
     {
         addXmlReplacement("conf/server.xml", connectorXpath(), "SSLEnabled",
-                TomcatPropertySet.HTTP_SECURE);
+            TomcatPropertySet.HTTP_SECURE);
         String connectorProtocolClass = getPropertyValue(
-                TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
+            TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
         if (connectorProtocolClass != null)
         {
             addXmlReplacement("conf/server.xml", connectorXpath(), "protocol",
