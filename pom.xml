@@ -1133,9 +1133,6 @@
             <headerLocation>build-tools/checkstyle.license</headerLocation>
             <includeTestSourceDirectory>true</includeTestSourceDirectory>
             <suppressionsLocation>build-tools/checkstyle-suppressions.xml</suppressionsLocation>
-            <propertyExpansion>
-              checkstyle.suppressions.file=${project.build.directory}/checkstyle-suppressions.xml
-            </propertyExpansion>
           </configuration>
           <dependencies>
             <dependency>
