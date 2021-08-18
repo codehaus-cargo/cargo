@@ -19,15 +19,16 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.internal.http.HttpConnection;
+import org.codehaus.cargo.container.internal.http.HttpFormRequest;
+import org.codehaus.cargo.container.internal.http.HttpRequest;
 import org.codehaus.cargo.container.internal.http.HttpResult;
-import org.codehaus.cargo.container.internal.http.request.HttpFormRequest;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -95,15 +96,14 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         URL addContentUrl = getAddContentUrl();
         String deploymentName = deployable.getName() + "." + deployable.getType().getType();
 
-        HttpFormRequest formRequest = new HttpFormRequest(addContentUrl);
-        formRequest.setAuthentication(username, password);
-
         StringBuilder sb = new StringBuilder();
         sb.append("Content-Disposition: form-data; ");
         sb.append("name=\"file\"; ");
         sb.append("filename=\"" + deploymentName + "\"");
-
-        HttpResult response = formRequest.execute(sb.toString(), deployable.getFile());
+        HttpFormRequest formRequest =
+            new HttpFormRequest(addContentUrl, sb.toString(), new File(deployable.getFile()));
+        formRequest.setAuthentication(username, password);
+        HttpResult response = formRequest.post();
         verifyResponse(response);
 
         return marshaller.unmarshallAddContentResponse(response);
@@ -123,12 +123,12 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         URL managementUrl = getManagementUrl();
         String deployRequest = marshaller.marshallDeployRequest(deployable, bytesValue);
 
-        HttpConnection connection = new HttpConnection(managementUrl);
-        connection.addRequestProperty("Content-Type", "application/json");
-        connection.setAuthentication(username, password);
-        connection.setRequestBody(deployRequest);
+        HttpRequest request = new HttpRequest(managementUrl);
+        request.addRequestProperty("Content-Type", "application/json");
+        request.setAuthentication(username, password);
+        request.setRequestBody(deployRequest);
 
-        HttpResult response = connection.post();
+        HttpResult response = request.post();
         verifyResponse(response);
     }
 
@@ -145,12 +145,12 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         URL managementUrl = getManagementUrl();
         String undeployRequest = marshaller.marshallUndeployRequest(deployable);
 
-        HttpConnection connection = new HttpConnection(managementUrl);
-        connection.addRequestProperty("Content-Type", "application/json");
-        connection.setAuthentication(username, password);
-        connection.setRequestBody(undeployRequest);
+        HttpRequest request = new HttpRequest(managementUrl);
+        request.addRequestProperty("Content-Type", "application/json");
+        request.setAuthentication(username, password);
+        request.setRequestBody(undeployRequest);
 
-        HttpResult response = connection.post();
+        HttpResult response = request.post();
         verifyResponse(response);
     }
 
@@ -167,12 +167,12 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         URL managementUrl = getManagementUrl();
         String removeRequest = marshaller.marshallRemoveRequest(deployable);
 
-        HttpConnection connection = new HttpConnection(managementUrl);
-        connection.addRequestProperty("Content-Type", "application/json");
-        connection.setAuthentication(username, password);
-        connection.setRequestBody(removeRequest);
+        HttpRequest request = new HttpRequest(managementUrl);
+        request.addRequestProperty("Content-Type", "application/json");
+        request.setAuthentication(username, password);
+        request.setRequestBody(removeRequest);
 
-        HttpResult response = connection.post();
+        HttpResult response = request.post();
         verifyResponse(response);
     }
 
@@ -183,7 +183,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
     {
         String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
         String managementPortValue = configuration.getPropertyValue(
-                JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+            JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
         int managementPort = Integer.valueOf(managementPortValue);
 
         try
@@ -203,7 +203,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
     {
         String hostname = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
         String managementPortValue = configuration.getPropertyValue(
-                JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
+            JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT);
         int managementPort = Integer.valueOf(managementPortValue);
 
         try
@@ -226,9 +226,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         if (!response.isSuccessful())
         {
             throw new CargoException("HTTP request failed, response code: "
-                    + response.getResponseCode() + ", response message: "
+                + response.getResponseCode() + ", response message: "
                     + response.getResponseMessage() + ", response body: "
-                    + response.getResponseBody());
+                        + response.getResponseBody());
         }
     }
 }

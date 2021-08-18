@@ -25,7 +25,7 @@ package org.codehaus.cargo.container.internal.util;
 import java.net.URL;
 import java.util.Map;
 
-import org.codehaus.cargo.container.internal.http.HttpConnection;
+import org.codehaus.cargo.container.internal.http.HttpRequest;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -133,7 +133,7 @@ public class HttpUtils extends LoggedObject
     private HttpResult testConnectivity(URL url, Map<String, String> requestProperties,
         long timeout)
     {
-        HttpConnection connection = new HttpConnection(url, timeout);
+        HttpRequest connection = new HttpRequest(url, timeout);
         connection.setLogger(getLogger());
 
         if (requestProperties != null)

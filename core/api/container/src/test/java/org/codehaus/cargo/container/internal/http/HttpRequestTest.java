@@ -17,15 +17,15 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat.internal;
+package org.codehaus.cargo.container.internal.http;
 
 import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
- * Unit tests for {@link TomcatManager}.
+ * Unit tests for {@link HttpRequest}.
  */
-public class TomcatManagerTest extends AbstractResourceTest
+public class HttpRequestTest extends AbstractResourceTest
 {
     /**
      * Test character set extraction.
@@ -33,13 +33,13 @@ public class TomcatManagerTest extends AbstractResourceTest
      */
     public void testExtractCharset() throws Exception
     {
-        assertEquals(StandardCharsets.UTF_8, TomcatManager.extractCharset(null));
+        assertEquals(StandardCharsets.UTF_8, HttpRequest.extractCharset(null));
         assertEquals(StandardCharsets.UTF_8,
-            TomcatManager.extractCharset("text/html; charset=utf-8"));
+            HttpRequest.extractCharset("text/html; charset=utf-8"));
         assertEquals(StandardCharsets.UTF_8,
-            TomcatManager.extractCharset("application/json; charset=utf-8"));
+            HttpRequest.extractCharset("application/json; charset=utf-8"));
         assertEquals(StandardCharsets.US_ASCII,
-            TomcatManager.extractCharset("text/plain; charset=us-ascii"));
+            HttpRequest.extractCharset("text/plain; charset=us-ascii"));
     }
 
     /**
@@ -53,12 +53,12 @@ public class TomcatManagerTest extends AbstractResourceTest
             + "                        nonce=\"dcd98b7102dd2f0e8b11d0f600bfb0c093\",\n"
             + "                        opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"";
 
-        assertEquals("testrealm@host.com", TomcatManager.extractHeaderComponent(header, "realm"));
-        assertEquals("auth,auth-int", TomcatManager.extractHeaderComponent(header, "qop"));
+        assertEquals("testrealm@host.com", HttpRequest.extractHeaderComponent(header, "realm"));
+        assertEquals("auth,auth-int", HttpRequest.extractHeaderComponent(header, "qop"));
         assertEquals("dcd98b7102dd2f0e8b11d0f600bfb0c093",
-            TomcatManager.extractHeaderComponent(header, "nonce"));
+            HttpRequest.extractHeaderComponent(header, "nonce"));
         assertEquals("5ccc069c403ebaf9f0171e9517f40e41",
-            TomcatManager.extractHeaderComponent(header, "opaque"));
-        assertNull(TomcatManager.extractHeaderComponent(header, "nothing"));
+            HttpRequest.extractHeaderComponent(header, "opaque"));
+        assertNull(HttpRequest.extractHeaderComponent(header, "nothing"));
     }
 }

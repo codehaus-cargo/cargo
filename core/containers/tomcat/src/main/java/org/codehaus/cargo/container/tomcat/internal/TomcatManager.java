@@ -19,23 +19,19 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
+import org.codehaus.cargo.container.internal.http.HttpRequest;
+import org.codehaus.cargo.container.internal.http.HttpResult;
+import org.codehaus.cargo.container.internal.http.HttpFileRequest;
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -43,16 +39,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public class TomcatManager extends LoggedObject
 {
-    /**
-     * cache of nonce values seen
-     */
-    private static final NonceCounter NONCE_COUNTER = new NonceCounter();
-
-    /**
-     * Size of the buffers / chunks used when sending files to Tomcat.
-     */
-    private static final int BUFFER_CHUNK_SIZE = 256 * 1024;
-
     /**
      * The full URL of the Tomcat manager instance to use.
      */
@@ -472,7 +458,7 @@ public class TomcatManager extends LoggedObject
      */
     protected void invoke(String path) throws TomcatManagerException, IOException
     {
-        invoke(path, null, null);
+        invoke(path, null);
     }
 
     /**
@@ -480,254 +466,55 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the Tomcat manager command to invoke
      * @param fileData the file to stream as content data, if needed
-     * @param digestData HTTP Digest authentication data, if available
      * @return the result of the invoking command, as returned by the Tomcat Manager application
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws MalformedURLException if the URL is somehow malformed
      */
-    protected String invoke(String path, File fileData, String digestData) throws
-        TomcatManagerException, IOException
+    protected String invoke(String path, File fileData) throws TomcatManagerException,
+        MalformedURLException
     {
-        // TODO: This method should be refactored so that it can be unit testable.
-
         getLogger().debug("Invoking Tomcat manager using path [" + path + "]",
             getClass().getName());
 
+        HttpResult response;
         URL invokeURL = new URL(this.url + path);
-        HttpURLConnection connection = (HttpURLConnection) invokeURL.openConnection();
-        connection.setAllowUserInteraction(false);
-        connection.setDoInput(true);
-        connection.setUseCaches(false);
-        if (timeout > 0)
-        {
-            connection.setConnectTimeout(timeout);
-            connection.setReadTimeout(timeout);
-        }
-
         if (fileData == null)
         {
             getLogger().debug("Performing GET request", getClass().getName());
-
-            connection.setDoOutput(false);
-            connection.setRequestMethod("GET");
+            HttpRequest request = new HttpRequest(invokeURL, this.timeout);
+            request.setAuthentication(username, password);
+            response = request.get();
         }
         else
         {
             getLogger().debug("Performing PUT request", getClass().getName());
-
-            connection.setDoOutput(true);
-            connection.setRequestMethod("PUT");
-            connection.setRequestProperty("Content-Type", "application/octet-stream");
-
-            // As per CARGO-1418, Expect/Continue causes a slowdown in chunked transfer when
-            // remotely deploying over fast links. This may cause failures (i.e. auth fail) to be
-            // be very slow as the entire PUT request will be transferred before getting the error
-            // response.
-            // connection.setRequestProperty("Expect", "100-continue");
-
-            // When trying to upload large amount of data the internal connection buffer can become
-            // too large and exceed the heap size, leading to a java.lang.OutOfMemoryError.
-            // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
-            // As per CARGO-1418, use a sensible chunk size for fast links.
-            connection.setChunkedStreamingMode(BUFFER_CHUNK_SIZE);
+            HttpFileRequest request = new HttpFileRequest(invokeURL, fileData, this.timeout);
+            request.setAuthentication(username, password);
+            response = request.put();
         }
-
+        if (!response.isSuccessful())
+        {
+            throw new TomcatManagerException("HTTP request failed, response code: "
+                + response.getResponseCode() + ", response message: "
+                    + response.getResponseMessage() + ", response body: "
+                        + response.getResponseBody());
+        }
+        else
+        {
+            String responseBody = response.getResponseBody();
+            if (responseBody == null || !responseBody.startsWith("OK -"))
+            {
+                throw new TomcatManagerException("The Tomcat Manager responded \"" + response
+                    + "\" instead of the expected \"OK\" message");
+            }
+            return responseBody;
+        }
+/*
         if (this.userAgent != null)
         {
             connection.setRequestProperty("User-Agent", this.userAgent);
         }
-
-        if (digestData != null)
-        {
-            connection.setRequestProperty("Authorization", digestData);
-        }
-        else if (this.username != null && !this.username.isEmpty())
-        {
-            String authorization = toAuthorization(this.username, this.password);
-            connection.setRequestProperty("Authorization", authorization);
-        }
-
-        connection.connect();
-
-        String response;
-        try
-        {
-            if (fileData != null)
-            {
-                try (InputStream dataStream = new FileInputStream(fileData);
-                    BufferedOutputStream bufferedOut = new BufferedOutputStream(
-                        connection.getOutputStream()))
-                {
-                    int n;
-                    byte[] bytes = new byte[BUFFER_CHUNK_SIZE];
-                    while ((n = dataStream.read(bytes)) != -1)
-                    {
-                        bufferedOut.write(bytes, 0, n);
-                    }
-                    bufferedOut.flush();
-                }
-            }
-
-            Charset charset = extractCharset(connection.getContentType());
-            response = toString(connection.getInputStream(), charset);
-        }
-        catch (IOException e)
-        {
-            switch (connection.getResponseCode())
-            {
-                case 401:
-                    String wwwAuthenticate = connection.getHeaderField("WWW-Authenticate");
-                    if (digestData == null && wwwAuthenticate != null
-                        && wwwAuthenticate.startsWith("Digest "))
-                    {
-                        getLogger().debug(
-                            "Response code is 401 and server requests Digest authentication",
-                                getClass().getName());
-
-                        String realm = extractHeaderComponent(wwwAuthenticate, "realm");
-                        String qop = extractHeaderComponent(wwwAuthenticate, "qop");
-                        String nonce = extractHeaderComponent(wwwAuthenticate, "nonce");
-                        String opaque = extractHeaderComponent(wwwAuthenticate, "opaque");
-                        String algorithm = extractHeaderComponent(wwwAuthenticate, "algorithm");
-
-                        if (realm == null || nonce == null)
-                        {
-                            throw new TomcatManagerException(
-                                "The username and password you provided are not correct (error "
-                                    + "401), the server requested a Digest authentication but "
-                                        + "realm or nonce are not provided", e);
-                        }
-                        if (qop != null && !"auth".equals(qop))
-                        {
-                            throw new TomcatManagerException(
-                                "The username and password you provided are not correct (error "
-                                    + "401), the server requested a Digest authentication but qop "
-                                        + "is set to " + qop, e);
-                        }
-                        if (algorithm == null)
-                        {
-                            algorithm = "MD5";
-                        }
-                        MessageDigest digest;
-                        try
-                        {
-                            digest = MessageDigest.getInstance(algorithm);
-                        }
-                        catch (NoSuchAlgorithmException nsae)
-                        {
-                            throw new TomcatManagerException(
-                                "The username and password you provided are not correct (error "
-                                    + "401), the server requested a Digest authentication but "
-                                        + "algorithm is set to " + algorithm, nsae);
-                        }
-
-                        String ha1 = this.username + ":" + realm + ":" + this.password;
-                        byte[] hash = digest.digest(ha1.getBytes(StandardCharsets.UTF_8));
-                        StringBuilder sb = new StringBuilder();
-                        for (byte hashByte : hash)
-                        {
-                            sb.append(String.format("%02x", hashByte));
-                        }
-                        ha1 = sb.toString();
-
-                        String uri;
-                        String uriPath = invokeURL.getPath();
-                        String uriQuery = invokeURL.getQuery();
-                        if (uriQuery != null)
-                        {
-                            uri = uriPath + "?" + uriQuery;
-                        }
-                        else
-                        {
-                            uri = uriPath;
-                        }
-
-                        String ha2;
-                        if (fileData == null)
-                        {
-                            ha2 = "GET";
-                        }
-                        else
-                        {
-                            ha2 = "PUT";
-                        }
-                        ha2 += ":" + uri;
-                        hash = digest.digest(ha2.getBytes(StandardCharsets.UTF_8));
-                        sb = new StringBuilder();
-                        for (byte hashByte : hash)
-                        {
-                            sb.append(String.format("%02x", hashByte));
-                        }
-                        ha2 = sb.toString();
-
-                        String nc = NONCE_COUNTER.count(nonce);
-
-                        String cnonce =
-                            String.format("%08x", (long) (Math.random() * 4294967295.0));
-                        cnonce = cnonce.substring(cnonce.length() - 8);
-
-                        String ha3;
-                        if (qop != null)
-                        {
-                            ha3 =
-                                ha1 + ":" + nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + ha2;
-                        }
-                        else
-                        {
-                            ha3 = ha1 + ":" + nonce + ":" + ha2;
-                        }
-                        hash = digest.digest(ha3.getBytes(StandardCharsets.UTF_8));
-                        sb = new StringBuilder();
-                        for (byte hashByte : hash)
-                        {
-                            sb.append(String.format("%02x", hashByte));
-                        }
-                        ha3 = sb.toString();
-
-                        wwwAuthenticate = "Digest username=\"" + this.username + "\", "
-                            + "realm=\"" + realm + "\", "
-                            + "nonce=\"" + nonce + "\", "
-                            + "uri=\"" + uri + "\", "
-                            + "algorithm=" + algorithm + ", "
-                            + "nc=" + nc + ", "
-                            + "cnonce=\"" + cnonce + "\", "
-                            + "response=\"" + ha3 + "\"";
-                        if (qop != null)
-                        {
-                            wwwAuthenticate += ", qop=\"" + qop + "\"";
-                        }
-                        if (opaque != null)
-                        {
-                            wwwAuthenticate += ", opaque=\"" + opaque + "\"";
-                        }
-
-                        getLogger().debug("Digest authentication with ha=" + ha1 + ", ha2=" + ha2
-                            + " and full header " + wwwAuthenticate, getClass().getName());
-
-                        return invoke(path, fileData, wwwAuthenticate);
-                    }
-                    else
-                    {
-                        throw new TomcatManagerException("The username and password you provided "
-                            + "are not correct (error 401)", e);
-                    }
-
-                case 403:
-                    throw new TomcatManagerException("The username you provided is not allowed to "
-                        + "use the text-based Tomcat Manager (error 403)", e);
-
-                default:
-                    throw e;
-            }
-        }
-
-        if (!response.startsWith("OK -"))
-        {
-            throw new TomcatManagerException("The Tomcat Manager responded \"" + response
-                + "\" instead of the expected \"OK\" message");
-        }
-
-        return response;
+*/
     }
 
     /**
@@ -769,116 +556,7 @@ public class TomcatManager extends LoggedObject
             sb.append("&tag=").append(URLEncoder.encode(tag, this.charset));
         }
 
-        invoke(sb.toString(), file, null);
-    }
-
-    /**
-     * Extract charset from <code>Content-Type</code> header.
-     * 
-     * @param contentType <code>Content-Type</code> header.
-     * @return Character set extracted, UTF-8 if no valid charset found.
-     */
-    protected static Charset extractCharset(String contentType)
-    {
-        Charset charset = StandardCharsets.UTF_8;
-        if (contentType != null)
-        {
-            int charsetStart = contentType.indexOf("; charset=");
-            if (charsetStart > 0)
-            {
-                try
-                {
-                    charset = Charset.forName(contentType.substring(charsetStart + 10));
-                }
-                catch (Exception ignored)
-                {
-                    // Ignore parsing charset
-                }
-            }
-        }
-        return charset;
-    }
-
-    /**
-     * Extract a component of a header.
-     * 
-     * @param header header to extract from
-     * @param component component to extract
-     * @return Extracted component, null if component doesn't exist in header
-     */
-    protected static String extractHeaderComponent(String header, String component)
-    {
-        String fullComponent = component + "=\"";
-        int fullComponentLength = fullComponent.length();
-        int index1 = header.indexOf(fullComponent);
-        if (index1 == -1)
-        {
-            return null;
-        }
-        int index2 = header.indexOf('"', index1 + fullComponentLength);
-        if (index2 == -1)
-        {
-            return null;
-        }
-        return header.substring(index1 + fullComponentLength, index2);
-    }
-
-    /**
-     * Gets the HTTP Basic Authorization header value for the supplied username and password.
-     * 
-     * @param username the username to use for authentication
-     * @param password the password to use for authentication
-     * @return the HTTP Basic Authorization header value
-     */
-    private static String toAuthorization(String username, String password)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append(username).append(':');
-        if (password != null)
-        {
-            sb.append(password);
-        }
-        return "Basic "
-            + Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
-    }
-
-    /**
-     * Gets the data from the specified input stream as a string using the specified charset.
-     * 
-     * @param in the input stream to read from
-     * @param charset the charset to use when constructing the string
-     * @return a string representation of the data read from the input stream
-     * @throws IOException if an i/o error occurs
-     */
-    private String toString(InputStream in, Charset charset) throws IOException
-    {
-        InputStreamReader reader = new InputStreamReader(in, charset);
-
-        StringBuilder sb = new StringBuilder();
-        char[] chars = new char[1024];
-        int n;
-        while ((n = reader.read(chars, 0, chars.length)) != -1)
-        {
-            sb.append(chars, 0, n);
-        }
-
-        // See: https://codehaus-cargo.atlassian.net/browse/CARGO-1342
-        String response = sb.toString().replaceAll("\\r\\n?", "\n");
-        if (response.startsWith("HTTP/"))
-        {
-            int httpHeaderBodySeparation = response.indexOf("\n\n");
-            if (httpHeaderBodySeparation != -1)
-            {
-                String splitResponse = response.substring(httpHeaderBodySeparation + 2);
-                httpHeaderBodySeparation = splitResponse.indexOf('\n');
-                if (httpHeaderBodySeparation != -1)
-                {
-                    response = splitResponse.substring(httpHeaderBodySeparation + 1);
-                }
-            }
-        }
-
-        return response;
+        invoke(sb.toString(), file);
     }
 
     /**
@@ -890,7 +568,7 @@ public class TomcatManager extends LoggedObject
      */
     public String list() throws IOException, TomcatManagerException
     {
-        return invoke("/list", null, null);
+        return invoke("/list", null);
     }
 
     /**
