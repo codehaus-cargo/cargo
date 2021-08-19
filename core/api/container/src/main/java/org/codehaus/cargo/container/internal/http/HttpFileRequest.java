@@ -76,6 +76,7 @@ public class HttpFileRequest extends HttpRequest
     @Override
     protected void writeOutputStream(HttpURLConnection connection) throws IOException
     {
+        connection.setRequestProperty("Content-Type", "application/octet-stream");
         connection.setDoOutput(true);
 
         // When trying to upload large amount of data the internal connection buffer can
@@ -86,9 +87,10 @@ public class HttpFileRequest extends HttpRequest
         // As per CARGO-1418, use a sensible chunk size for fast links.
         connection.setChunkedStreamingMode(BUFFER_CHUNK_SIZE);
 
-        try (OutputStream outputStream = connection.getOutputStream())
+        try (OutputStream outputStream = connection.getOutputStream();
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream))
         {
-            writeFileToOutputStream(outputStream);
+            writeFileToOutputStream(bufferedOutputStream);
         }
     }
 
@@ -99,16 +101,15 @@ public class HttpFileRequest extends HttpRequest
      */
     protected void writeFileToOutputStream(OutputStream outputStream) throws IOException
     {
-        try (InputStream dataStream = new FileInputStream(this.file);
-            BufferedOutputStream bufferedOut = new BufferedOutputStream(outputStream))
+        try (InputStream fileInputStream = new FileInputStream(this.file))
         {
             int n;
             byte[] bytes = new byte[BUFFER_CHUNK_SIZE];
-            while ((n = dataStream.read(bytes)) != -1)
+            while ((n = fileInputStream.read(bytes)) != -1)
             {
-                bufferedOut.write(bytes, 0, n);
+                outputStream.write(bytes, 0, n);
             }
-            bufferedOut.flush();
+            outputStream.flush();
         }
     }
 }

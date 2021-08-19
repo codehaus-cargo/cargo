@@ -180,8 +180,9 @@ public class HttpRequest extends LoggedObject
      */
     private HttpResult connect(String httpMethod, String digestData)
     {
+        getLogger().debug("Calling [" + url + "]", this.getClass().getName());
+
         HttpURLConnection connection = null;
-        HttpResult result = new HttpResult();
         try
         {
             if (url.getProtocol().equalsIgnoreCase("https"))
@@ -216,6 +217,7 @@ public class HttpRequest extends LoggedObject
             if (digestData != null)
             {
                 connection.setRequestProperty("Authorization", digestData);
+                getLogger().debug("Set Digest authentication", this.getClass().getName());
             }
             else
             {
@@ -225,6 +227,9 @@ public class HttpRequest extends LoggedObject
                     userInfo = Base64.getEncoder().encodeToString(
                         userInfo.getBytes(StandardCharsets.UTF_8));
                     connection.setRequestProperty("Authorization", "Basic " + userInfo);
+
+                    getLogger().debug("Set Basic authentication based on URL user information",
+                        this.getClass().getName());
                 }
                 else if (this.username != null && !this.username.isEmpty())
                 {
@@ -237,6 +242,9 @@ public class HttpRequest extends LoggedObject
                     userInfo = Base64.getEncoder().encodeToString(
                         sb.toString().getBytes(StandardCharsets.UTF_8));
                     connection.setRequestProperty("Authorization", "Basic " + userInfo);
+
+                    getLogger().debug("Set Basic authentication based on username/password",
+                        this.getClass().getName());
                 }
             }
 
@@ -255,27 +263,13 @@ public class HttpRequest extends LoggedObject
                 }
             }
 
+            getLogger().debug("Sending request and writing to output stream if necessary",
+                this.getClass().getName());
             writeOutputStream(connection);
 
-            result.setResponseCode(connection.getResponseCode());
-            result.setResponseMessage(connection.getResponseMessage());
-            result.setResponseBody(readFully(connection));
-        }
-        catch (IOException e)
-        {
-            int responseCode;
-            String responseMessage;
-            try
-            {
-                responseCode = connection.getResponseCode();
-                responseMessage = connection.getResponseMessage();
-            }
-            catch (IOException ignored)
-            {
-                result.setResponseCode(-1);
-                result.setResponseMessage("IOException calling URL " + url + ": " + e.toString());
-                return result;
-            }
+            int responseCode = connection.getResponseCode();
+            getLogger().debug("Got response code [" + responseCode + "]",
+                this.getClass().getName());
 
             if (responseCode == 401)
             {
@@ -283,9 +277,8 @@ public class HttpRequest extends LoggedObject
                 if (digestData == null && wwwAuthenticate != null
                     && wwwAuthenticate.startsWith("Digest "))
                 {
-                    getLogger().debug(
-                        "Response code is 401 and server requests Digest authentication",
-                            getClass().getName());
+                    getLogger().debug("Server requests Digest authentication",
+                        getClass().getName());
 
                     String realm = extractHeaderComponent(wwwAuthenticate, "realm");
                     String qop = extractHeaderComponent(wwwAuthenticate, "qop");
@@ -295,6 +288,7 @@ public class HttpRequest extends LoggedObject
 
                     if (realm == null)
                     {
+                        HttpResult result = new HttpResult();
                         result.setResponseCode(-1);
                         result.setResponseMessage(
                             "The server requested a Digest authentication but the realm is not "
@@ -303,6 +297,7 @@ public class HttpRequest extends LoggedObject
                     }
                     else if (nonce == null)
                     {
+                        HttpResult result = new HttpResult();
                         result.setResponseCode(-1);
                         result.setResponseMessage(
                             "The server requested a Digest authentication but the nonce is not "
@@ -311,6 +306,7 @@ public class HttpRequest extends LoggedObject
                     }
                     if (qop != null && !"auth".equals(qop))
                     {
+                        HttpResult result = new HttpResult();
                         result.setResponseCode(-1);
                         result.setResponseMessage(
                             "The server requested a Digest authentication but the qop is set to ["
@@ -321,20 +317,7 @@ public class HttpRequest extends LoggedObject
                     {
                         algorithm = "MD5";
                     }
-                    MessageDigest digest;
-                    try
-                    {
-                        digest = MessageDigest.getInstance(algorithm);
-                    }
-                    catch (NoSuchAlgorithmException nsae)
-                    {
-                        result.setResponseCode(-1);
-                        result.setResponseMessage(
-                            "The server requested a Digest authentication but the algorithm is "
-                                + "set to [" + algorithm + "], which is not known to Java: "
-                                    + nsae.toString());
-                        return result;
-                    }
+                    MessageDigest digest = MessageDigest.getInstance(algorithm);
 
                     String ha1 = this.username + ":" + realm + ":" + this.password;
                     byte[] hash = digest.digest(ha1.getBytes(StandardCharsets.UTF_8));
@@ -407,20 +390,32 @@ public class HttpRequest extends LoggedObject
                         wwwAuthenticate += ", opaque=\"" + opaque + "\"";
                     }
 
-                    getLogger().debug("Digest authentication with ha=" + ha1 + ", ha2=" + ha2
-                        + " and full header " + wwwAuthenticate, getClass().getName());
+                    getLogger().debug("Digest authentication with ha=" + ha1 + ", ha2=" + ha2,
+                        getClass().getName());
 
                     return connect(httpMethod, wwwAuthenticate);
                 }
+                else
+                {
+                    getLogger().debug("Server requests [" + wwwAuthenticate + "] authentication",
+                        getClass().getName());
+                }
             }
 
+            HttpResult result = new HttpResult();
             result.setResponseCode(responseCode);
-            result.setResponseMessage(responseMessage);
+            result.setResponseMessage(connection.getResponseMessage());
+            result.setResponseBody(readFully(connection));
+            return result;
         }
-        catch (KeyManagementException | NoSuchAlgorithmException e)
+        catch (IOException | KeyManagementException | NoSuchAlgorithmException e)
         {
+            getLogger().debug(e.toString(), getClass().getName());
+
+            HttpResult result = new HttpResult();
             result.setResponseCode(-1);
             result.setResponseMessage(e.toString());
+            return result;
         }
         finally
         {
@@ -435,12 +430,7 @@ public class HttpRequest extends LoggedObject
             {
                 // Ignored
             }
-
-            getLogger().debug("Called [" + url + "], result = [" + result.getResponseCode() + "]",
-                this.getClass().getName());
         }
-
-        return result;
     }
 
     /**

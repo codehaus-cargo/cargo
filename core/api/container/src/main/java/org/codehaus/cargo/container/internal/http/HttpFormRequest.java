@@ -22,6 +22,7 @@
  */
 package org.codehaus.cargo.container.internal.http;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +99,8 @@ public class HttpFormRequest extends HttpFileRequest
     @Override
     protected void writeOutputStream(HttpURLConnection connection) throws IOException
     {
+        connection.setRequestProperty(
+            "Content-Type", "multipart/form-data; boundary=" + BOUNDARY_VALUE);
         connection.setDoOutput(true);
 
         // When trying to upload large amount of data the internal connection buffer can
@@ -110,7 +113,8 @@ public class HttpFormRequest extends HttpFileRequest
 
         try (OutputStream outputStream = connection.getOutputStream();
             BufferedWriter httpRequestBodyWriter =
-                new BufferedWriter(new OutputStreamWriter(outputStream)))
+                new BufferedWriter(new OutputStreamWriter(outputStream));
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream))
         {
             httpRequestBodyWriter.write(CRLF + BOUNDARY_LEFT + CRLF);
             httpRequestBodyWriter.write(this.formData);
@@ -118,7 +122,7 @@ public class HttpFormRequest extends HttpFileRequest
                 CRLF + "Content-Type: application/octet-stream" + CRLF + CRLF);
             httpRequestBodyWriter.flush();
 
-            writeFileToOutputStream(outputStream);
+            writeFileToOutputStream(bufferedOutputStream);
 
             // Mark the end of the multipart http request
             httpRequestBodyWriter.write(CRLF + BOUNDARY_BOTH + CRLF);

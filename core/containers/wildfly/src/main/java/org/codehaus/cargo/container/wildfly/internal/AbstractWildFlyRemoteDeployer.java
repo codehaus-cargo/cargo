@@ -100,10 +100,11 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         sb.append("Content-Disposition: form-data; ");
         sb.append("name=\"file\"; ");
         sb.append("filename=\"" + deploymentName + "\"");
-        HttpFormRequest formRequest =
+        HttpFormRequest request =
             new HttpFormRequest(addContentUrl, sb.toString(), new File(deployable.getFile()));
-        formRequest.setAuthentication(username, password);
-        HttpResult response = formRequest.post();
+        request.setLogger(this.getLogger());
+        request.setAuthentication(username, password);
+        HttpResult response = request.post();
         verifyResponse(response);
 
         return marshaller.unmarshallAddContentResponse(response);
@@ -124,6 +125,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         String deployRequest = marshaller.marshallDeployRequest(deployable, bytesValue);
 
         HttpRequest request = new HttpRequest(managementUrl);
+        request.setLogger(this.getLogger());
         request.addRequestProperty("Content-Type", "application/json");
         request.setAuthentication(username, password);
         request.setRequestBody(deployRequest);
@@ -146,6 +148,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         String undeployRequest = marshaller.marshallUndeployRequest(deployable);
 
         HttpRequest request = new HttpRequest(managementUrl);
+        request.setLogger(this.getLogger());
         request.addRequestProperty("Content-Type", "application/json");
         request.setAuthentication(username, password);
         request.setRequestBody(undeployRequest);
@@ -168,6 +171,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         String removeRequest = marshaller.marshallRemoveRequest(deployable);
 
         HttpRequest request = new HttpRequest(managementUrl);
+        request.setLogger(this.getLogger());
         request.addRequestProperty("Content-Type", "application/json");
         request.setAuthentication(username, password);
         request.setRequestBody(removeRequest);

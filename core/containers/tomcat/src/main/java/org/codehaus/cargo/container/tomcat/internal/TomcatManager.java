@@ -482,14 +482,24 @@ public class TomcatManager extends LoggedObject
         {
             getLogger().debug("Performing GET request", getClass().getName());
             HttpRequest request = new HttpRequest(invokeURL, this.timeout);
+            request.setLogger(this.getLogger());
             request.setAuthentication(username, password);
+            if (this.userAgent != null)
+            {
+                request.addRequestProperty("User-Agent", this.userAgent);
+            }
             response = request.get();
         }
         else
         {
             getLogger().debug("Performing PUT request", getClass().getName());
             HttpFileRequest request = new HttpFileRequest(invokeURL, fileData, this.timeout);
+            request.setLogger(this.getLogger());
             request.setAuthentication(username, password);
+            if (this.userAgent != null)
+            {
+                request.addRequestProperty("User-Agent", this.userAgent);
+            }
             response = request.put();
         }
         if (!response.isSuccessful())
@@ -509,12 +519,6 @@ public class TomcatManager extends LoggedObject
             }
             return responseBody;
         }
-/*
-        if (this.userAgent != null)
-        {
-            connection.setRequestProperty("User-Agent", this.userAgent);
-        }
-*/
     }
 
     /**
