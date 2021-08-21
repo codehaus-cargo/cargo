@@ -236,7 +236,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
                 Throwable realCause = this.fileServer.getException();
                 if (realCause != null)
                 {
-                    throw new ContainerException("The CARGO embedded HTTP server failed",
+                    throw new ContainerException("The Codehaus Cargo embedded HTTP server failed",
                         realCause);
                 }
             }
@@ -290,7 +290,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         {
             getLogger().info(
                 "No remote username specified, using default [" + DEFAULT_USERNAME + "]",
-                this.getClass().getName());
+                    this.getClass().getName());
             username = DEFAULT_USERNAME;
         }
 
@@ -298,7 +298,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         {
             getLogger().info(
                 "No remote password specified, using default [" + DEFAULT_PASSWORD + "]",
-                this.getClass().getName());
+                    this.getClass().getName());
             password = DEFAULT_PASSWORD;
         }
 

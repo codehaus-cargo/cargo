@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
@@ -34,6 +35,17 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     private static ConfigurationCapability capability =
         new JettyRuntimeConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
+     * @see AbstractRuntimeConfiguration#AbstractRuntimeConfiguration()
+     */
+    public JettyRuntimeConfiguration()
+    {
+        super();
+
+        this.setProperty(RemotePropertySet.TIMEOUT, "120000");
+    }
 
     /**
      * {@inheritDoc}

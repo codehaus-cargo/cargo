@@ -77,8 +77,8 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         this.fileHandler = new DefaultFileHandler();
 
         // Set a timeout in order to avoid CARGO-1299
-        String portStr = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
-        this.timeout = Long.parseLong(portStr);
+        String timeout = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
+        this.timeout = Long.parseLong(timeout);
     }
 
     /**
