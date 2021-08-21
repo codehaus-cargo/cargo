@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
@@ -36,5 +37,6 @@ public class JettyRuntimeConfigurationCapability extends AbstractRuntimeConfigur
     {
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(JettyPropertySet.DEPLOYER_URL, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.TIMEOUT, Boolean.TRUE);
     }
 }
