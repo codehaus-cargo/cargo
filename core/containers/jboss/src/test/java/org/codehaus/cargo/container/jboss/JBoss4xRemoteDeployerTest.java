@@ -29,8 +29,8 @@ import junit.framework.TestCase;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
+import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
 import org.codehaus.cargo.util.log.NullLogger;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
@@ -86,7 +86,7 @@ public class JBoss4xRemoteDeployerTest extends TestCase
             return count.get();
         });
 
-        HttpURLConnection mockConnection = Mockito.mock(HttpURLConnection.class);
+        JdkHttpURLConnection mockConnection = Mockito.mock(JdkHttpURLConnection.class);
 
         JBoss4xRemoteDeployer deployer = new JBoss4xRemoteDeployer(
             mockContainer, mockConnection, mockHttpFileServer);
@@ -105,6 +105,7 @@ public class JBoss4xRemoteDeployerTest extends TestCase
         //       simplify the below code when Codehaus Cargo is on Java 10+
         String expectedURLPortion = URLEncoder.encode(mockURL, StandardCharsets.UTF_8.name());
         Mockito.verify(mockConnection, Mockito.times(1)).connect(
-            Mockito.contains(expectedURLPortion), Mockito.eq("john"), Mockito.eq("doe"));
+            Mockito.contains(expectedURLPortion), Mockito.eq("john"), Mockito.eq("doe"),
+                Mockito.anyInt(), Mockito.any());
     }
 }

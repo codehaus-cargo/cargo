@@ -19,76 +19,42 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.internal.http.HttpRequest;
+import org.codehaus.cargo.container.internal.http.HttpResult;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
- * Implementation of {@link HttpURLConnection} using the JDK's {@link java.net.HttpURLConnection}
- * class.
+ * Perform a HTTP GET to a URL. We have this as a separate class so we can mock it in our tests.
  */
-public class JdkHttpURLConnection implements HttpURLConnection
+public class JdkHttpURLConnection
 {
     /**
-     * Socket read timeout, in milliseconds
+     * Connect to given URL as an HTTP <code>GET</code> request.
+     * @param url URL to connect to.
+     * @param username Username (optional, can be <code>null</code>)
+     * @param password Password (optional, can be <code>null</code>)
+     * @param timeout Connection timeout (optional, can be <code>0</code>)
+     * @param logger Codehaus Cargo logger to use
+     * @throws MalformedURLException If the URL provided is invalid
      */
-    private int timeout;
-
-    /**
-     * Sets the timeout to a specified value, in milliseconds.
-     * @param timeout Timeout value (in milliseconds).
-     * @see java.net.HttpURLConnection#setReadTimeout(int)
-     */
-    @Override
-    public void setTimeout(int timeout)
+    public void connect(String url, String username, String password, int timeout, Logger logger)
+        throws MalformedURLException
     {
-        this.timeout = timeout;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void connect(String url, String username, String password)
-    {
-        try
+        HttpResult response;
+        HttpRequest request = new HttpRequest(new URL(url), timeout);
+        request.setLogger(logger);
+        request.setAuthentication(username, password);
+        response = request.get();
+        if (!response.isSuccessful())
         {
-            java.net.HttpURLConnection connection =
-                (java.net.HttpURLConnection) new URL(url).openConnection();
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestProperty("Authorization",
-                getBasicAuthorizationHeader(username, password));
-            if (timeout > 0)
-            {
-                connection.setReadTimeout(timeout);
-            }
-
-            try (BufferedReader reader =
-                new BufferedReader(new InputStreamReader(connection.getInputStream())))
-            {
-                reader.readLine();
-            }
+            throw new ContainerException("Failed to deploy to [" + url + "], response code: "
+                + response.getResponseCode() + ", response message: "
+                    + response.getResponseMessage() + ", response body: "
+                        + response.getResponseBody());
         }
-        catch (Exception e)
-        {
-            throw new ContainerException("Failed to deploy to [" + url + "]", e);
-        }
-    }
-
-    /**
-     * @param username the username to connect with
-     * @param password the password to connect with
-     * @return the HTTP Basic Authorization header value for the supplied username and password.
-     */
-    private String getBasicAuthorizationHeader(String username, String password)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append(username).append(':').append(password);
-        return "Basic "
-            + Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

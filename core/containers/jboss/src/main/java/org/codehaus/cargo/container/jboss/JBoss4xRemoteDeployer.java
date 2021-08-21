@@ -22,8 +22,8 @@ package org.codehaus.cargo.container.jboss;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +33,6 @@ import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
-import org.codehaus.cargo.container.jboss.internal.HttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.ISimpleHttpFileServer;
 import org.codehaus.cargo.container.jboss.internal.JdkHttpURLConnection;
 import org.codehaus.cargo.container.jboss.internal.SimpleHttpFileServer;
@@ -87,7 +86,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
     /**
      * HTTP connection class to use for deploying/undeploying to JBoss.
      */
-    private HttpURLConnection connection;
+    private JdkHttpURLConnection connection;
 
     /**
      * Location remote JBoss servers will look for files.
@@ -121,7 +120,7 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
      * @param connection the connection class to use
      * @param fileServer http file server to use
      */
-    protected JBoss4xRemoteDeployer(RemoteContainer container, HttpURLConnection connection,
+    protected JBoss4xRemoteDeployer(RemoteContainer container, JdkHttpURLConnection connection,
         ISimpleHttpFileServer fileServer)
     {
         super(container);
@@ -131,10 +130,6 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         this.deployableServerSocketAddress = buildSocketAddressForDeployableServer();
         this.fileHandler = new DefaultFileHandler();
         this.fileServer = fileServer;
-
-        // Set a timeout in order to avoid CARGO-859
-        String portStr = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
-        this.connection.setTimeout(Integer.parseInt(portStr));
     }
 
     /**
@@ -218,16 +213,52 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         try
         {
             this.fileServer.start();
-            String encodedURL = encodeURLLocation(this.fileServer.getURL());
-            String invokedURL = this.configuration.getPropertyValue(GeneralPropertySet.PROTOCOL)
-                + "://" + this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
-                + this.configuration.getPropertyValue(ServletPropertySet.PORT) + jmxConsoleURL
-                + encodedURL;
-            invokeURL(invokedURL);
+
+            // TODO: URLEncoder.encode(String, Charset) was introduced in Java 10,
+            //       simplify the below code when Codehaus Cargo is on Java 10+
+            String encodedURL = URLEncoder.encode(
+                this.fileServer.getURL().toExternalForm(), StandardCharsets.UTF_8.name());
+            String invokedURL =
+                this.configuration.getPropertyValue(GeneralPropertySet.PROTOCOL) + "://"
+                    + this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME) + ":"
+                        + this.configuration.getPropertyValue(ServletPropertySet.PORT)
+                            + jmxConsoleURL + encodedURL;
+
+            String username = this.configuration.getPropertyValue(RemotePropertySet.USERNAME);
+            if (username == null)
+            {
+                getLogger().info(
+                    "No remote username specified, using default [" + DEFAULT_USERNAME + "]",
+                        this.getClass().getName());
+                username = DEFAULT_USERNAME;
+            }
+
+            String password = this.configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+            if (password == null)
+            {
+                getLogger().info(
+                    "No remote password specified, using default [" + DEFAULT_PASSWORD + "]",
+                        this.getClass().getName());
+                password = DEFAULT_PASSWORD;
+            }
+
+            // Set a timeout in order to avoid CARGO-859
+            String timeout = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
+
+            // Request the deployment via the JBoss JMX console, which should connect to our
+            // locally running Web server to download the file
+            this.connection.connect(
+                invokedURL, username, password, Integer.parseInt(timeout), getLogger());
+
+            // Check if JBoss did access our locally running Web server
             if (this.fileServer.getCallCount() == 0 && expectDownload)
             {
                 throw new CargoException("Application server didn't request the file");
             }
+        }
+        catch (MalformedURLException | UnsupportedEncodingException e)
+        {
+            throw new CargoException("Exception building JBoss JMX console URL", e);
         }
         catch (ContainerException e)
         {
@@ -236,8 +267,8 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
                 Throwable realCause = this.fileServer.getException();
                 if (realCause != null)
                 {
-                    throw new ContainerException("The Codehaus Cargo embedded HTTP server failed",
-                        realCause);
+                    throw new ContainerException(
+                        "The Codehaus Cargo embedded HTTP server failed", realCause);
                 }
             }
 
@@ -276,50 +307,5 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         }
 
         return new InetSocketAddress(addressStr, Integer.parseInt(portStr));
-    }
-
-    /**
-     * @param url the JBoss JMX URL to invoke
-     */
-    private void invokeURL(String url)
-    {
-        String username = this.configuration.getPropertyValue(RemotePropertySet.USERNAME);
-        String password = this.configuration.getPropertyValue(RemotePropertySet.PASSWORD);
-
-        if (username == null)
-        {
-            getLogger().info(
-                "No remote username specified, using default [" + DEFAULT_USERNAME + "]",
-                    this.getClass().getName());
-            username = DEFAULT_USERNAME;
-        }
-
-        if (password == null)
-        {
-            getLogger().info(
-                "No remote password specified, using default [" + DEFAULT_PASSWORD + "]",
-                    this.getClass().getName());
-            password = DEFAULT_PASSWORD;
-        }
-
-        this.connection.connect(url, username, password);
-    }
-
-    /**
-     * @param url url to encode
-     * @return the URL-encoded location that can be passed in a URL
-     */
-    private String encodeURLLocation(URL url)
-    {
-        // TODO: URLEncoder.encode(String, Charset) was introduced in Java 10,
-        //       simplify the below code when Codehaus Cargo is on Java 10+
-        try
-        {
-            return URLEncoder.encode(url.toExternalForm(), StandardCharsets.UTF_8.name());
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new IllegalStateException("UTF-8 encoding is missing", e);
-        }
     }
 }
