@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.tools.daemon;
+package org.codehaus.cargo.container.internal.http;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -29,7 +29,7 @@ import java.io.OutputStream;
 /**
  * Represents a form writer capable of sending files and form data as multipart chunks.
  */
-public class MultipartFormWriter
+public class MultipartFormWriter implements AutoCloseable
 {
     /**
      * The line end characters.
@@ -215,12 +215,9 @@ public class MultipartFormWriter
     }
 
     /**
-     * Closes the writer.
-     *
-     * This method must be called.
-     * 
-     * @throws IOException on input/output errors
+     * {@inheritDoc}
      */
+    @Override
     public void close() throws IOException
     {
         // write final boundary

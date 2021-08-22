@@ -36,12 +36,6 @@ import java.net.URL;
  */
 public class HttpFileRequest extends HttpRequest
 {
-
-    /**
-     * Size of the buffers / chunks used when sending files to the HTTP server.
-     */
-    protected static final int BUFFER_CHUNK_SIZE = 256 * 1024;
-
     /**
      * File to be put as output.
      */
@@ -78,13 +72,6 @@ public class HttpFileRequest extends HttpRequest
     {
         connection.setRequestProperty("Content-Type", "application/octet-stream");
         connection.setDoOutput(true);
-
-        // When trying to upload large amount of data the internal connection buffer can
-        // become too large and exceed the heap size, leading to a
-        // java.lang.OutOfMemoryError.
-        //
-        // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode() method.
-        // As per CARGO-1418, use a sensible chunk size for fast links.
         connection.setChunkedStreamingMode(BUFFER_CHUNK_SIZE);
 
         try (OutputStream outputStream = connection.getOutputStream();

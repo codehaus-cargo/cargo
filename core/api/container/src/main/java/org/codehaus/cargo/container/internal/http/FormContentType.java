@@ -17,10 +17,12 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.tools.daemon;
+package org.codehaus.cargo.container.internal.http;
+
+import java.util.Map;
 
 /**
- * Represents the content type of a form.
+ * Represents the content type and basic content of a form.
  */
 public interface FormContentType
 {
@@ -28,4 +30,17 @@ public interface FormContentType
      * @return the content type of a form
      */
     String getContentType();
+
+    /**
+     * Sets a form content, repeating names (keys) will be overriden.
+     * 
+     * @param key The key name
+     * @param value The value string for the specified key
+     */
+    void setFormContent(String key, String value);
+
+    /**
+     * @return the form contents map
+     */
+    Map<String, String> getFormContents();
 }

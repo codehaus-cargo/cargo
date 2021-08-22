@@ -17,13 +17,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.tools.daemon;
+package org.codehaus.cargo.container.internal.http;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the content type for a multipart form.
  */
-public class MultipartFormContentType implements FormContentType
+public class MultipartFormContentType extends UrlEncodedFormContentType
 {
+    /**
+     * Files part of this multipart form.
+     */
+    private final Map<String, File> files = new HashMap<String, File>();
+
     /**
      * The multipart boundary string.
      */
@@ -64,5 +73,24 @@ public class MultipartFormContentType implements FormContentType
     public String getBoundary()
     {
         return boundary;
+    }
+
+    /**
+     * Sets a form content file, repeating names (keys) will be overriden.
+     * 
+     * @param key The key name, used as file name
+     * @param file The file
+     */
+    public void setFormFile(String key, File file)
+    {
+        files.put(key, file);
+    }
+
+    /**
+     * @return the form file contents map
+     */
+    public Map<String, File> getFormFiles()
+    {
+        return files;
     }
 }

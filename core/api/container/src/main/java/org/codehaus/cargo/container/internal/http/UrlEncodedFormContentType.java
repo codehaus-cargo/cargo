@@ -17,7 +17,10 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.tools.daemon;
+package org.codehaus.cargo.container.internal.http;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the content type for an url encoded form.
@@ -25,11 +28,34 @@ package org.codehaus.cargo.tools.daemon;
 public class UrlEncodedFormContentType implements FormContentType
 {
     /**
+     * Form contents part of this multipart form.
+     */
+    private final Map<String, String> contents = new HashMap<String, String>();
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String getContentType()
     {
         return "application/x-www-form-urlencoded";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setFormContent(String key, String value)
+    {
+        contents.put(key, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String, String> getFormContents()
+    {
+        return contents;
     }
 }

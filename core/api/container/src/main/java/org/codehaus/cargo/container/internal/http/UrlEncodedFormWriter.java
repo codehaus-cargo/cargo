@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.tools.daemon;
+package org.codehaus.cargo.container.internal.http;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -34,11 +34,6 @@ public class UrlEncodedFormWriter
      * The buffer that will contain the url encoded form data.
      */
     private final StringBuilder formData = new StringBuilder();
-
-    /**
-     * The output stream to write to.
-     */
-    private DataOutputStream out = null;
 
     /**
      * Constructs an UrlEncodedFormWriter.
@@ -87,11 +82,11 @@ public class UrlEncodedFormWriter
         {
             throw new IllegalArgumentException("Output stream is required.");
         }
-        this.out = new DataOutputStream(os);
-
-        out.writeBytes(formData.toString());
-        out.flush();
-        out.close();
+        try (DataOutputStream out = new DataOutputStream(os))
+        {
+            out.writeBytes(formData.toString());
+            out.flush();
+        }
     }
 
     /**

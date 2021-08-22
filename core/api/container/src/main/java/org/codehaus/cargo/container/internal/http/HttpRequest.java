@@ -52,6 +52,18 @@ import org.codehaus.cargo.util.log.LoggedObject;
 public class HttpRequest extends LoggedObject
 {
     /**
+     * Size of the buffers / chunks used when sending files to the HTTP server.<br>
+     * <br>
+     * When trying to upload large amount of data the internal connection buffer can become too
+     * large and exceed the heap size, leading to an {@link OutOfMemoryError}. This was fixed in
+     * JDK 1.5 by introducing {@link HttpURLConnection#setChunkedStreamingMode(int)}.<br>
+     * <br>
+     * As per <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1418">CARGO-1418</a>, use
+     * a sensible chunk size for fast links.
+     */
+    protected static final int BUFFER_CHUNK_SIZE = 256 * 1024;
+
+    /**
      * cache of nonce values seen
      */
     private static final NonceCounter NONCE_COUNTER = new NonceCounter();

@@ -19,14 +19,10 @@
  */
 package org.codehaus.cargo.tools.daemon;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +34,12 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.internal.http.FormContentType;
+import org.codehaus.cargo.container.internal.http.HttpFormContentTypeRequest;
+import org.codehaus.cargo.container.internal.http.HttpRequest;
+import org.codehaus.cargo.container.internal.http.HttpResult;
+import org.codehaus.cargo.container.internal.http.MultipartFormContentType;
+import org.codehaus.cargo.container.internal.http.UrlEncodedFormContentType;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.XmlReplacement;
@@ -48,11 +50,6 @@ import org.codehaus.cargo.util.log.LoggedObject;
  */
 public class DaemonClient extends LoggedObject
 {
-    /**
-     * The charset to use when decoding Cargo daemon responses.
-     */
-    private static final String DAEMON_CLIENT_CHARSET = StandardCharsets.UTF_8.name();
-
     /**
      * The full URL of the Cargo daemon instance to use.
      */
@@ -67,15 +64,6 @@ public class DaemonClient extends LoggedObject
      * The password to use when authenticating with Cargo daemon.
      */
     private final String password;
-
-    /**
-     * The URL encoding charset to use when communicating with Cargo daemon.<br>
-     * <br>
-     * <b>TODO</b>: {@link URLEncoder#encode(java.lang.String, java.nio.charset.Charset)}
-     * was introduced in Java 10, switch the below type to {@link Charset} when Codehaus Cargo is
-     * on Java 10+.
-     */
-    private String charset;
 
     /**
      * The file handler.
@@ -95,7 +83,7 @@ public class DaemonClient extends LoggedObject
      */
     public DaemonClient(URL url)
     {
-        this(url, null, null, StandardCharsets.UTF_8);
+        this(url, null, null);
     }
 
     /**
@@ -108,24 +96,9 @@ public class DaemonClient extends LoggedObject
      */
     public DaemonClient(URL url, String username, String password)
     {
-        this(url, username, password, StandardCharsets.UTF_8);
-    }
-
-    /**
-     * Creates a Cargo daemon wrapper for the specified URL, username, password and URL
-     * encoding.
-     * 
-     * @param url the full URL of the Cargo daemon instance to use
-     * @param username the username to use when authenticating with Cargo daemon
-     * @param password the password to use when authenticating with Cargo daemon
-     * @param charset the URL encoding charset to use when communicating with Cargo daemon
-     */
-    public DaemonClient(URL url, String username, String password, Charset charset)
-    {
         this.url = url;
         this.username = username;
         this.password = password;
-        this.charset = charset.name();
     }
 
     /**
@@ -156,16 +129,6 @@ public class DaemonClient extends LoggedObject
     public String getPassword()
     {
         return this.password;
-    }
-
-    /**
-     * Gets the URL encoding charset to use when communicating with Cargo daemon.
-     * 
-     * @return the URL encoding charset to use when communicating with Cargo daemon
-     */
-    public Charset getCharset()
-    {
-        return Charset.forName(this.charset);
     }
 
     /**
@@ -801,9 +764,6 @@ public class DaemonClient extends LoggedObject
     protected String invoke(String path, DaemonParameters parameters) throws DaemonException,
         IOException
     {
-        FormContentType contentType = null;
-        UrlEncodedFormWriter urlEncodedFormWriter = null;
-
         URL invokeURL;
         if (this.url.toString().endsWith("/"))
         {
@@ -819,164 +779,89 @@ public class DaemonClient extends LoggedObject
         connection.setDoInput(true);
         connection.setUseCaches(false);
 
+        HttpResult result;
         if (parameters == null)
         {
-            connection.setDoOutput(false);
-            connection.setRequestMethod("GET");
+            HttpRequest request = new HttpRequest(invokeURL);
+            request.setAuthentication(this.username, this.password);
+            if (this.userAgent != null)
+            {
+                request.addRequestProperty("User-Agent", this.userAgent);
+            }
+            request.setLogger(this.getLogger());
+            result = request.get();
         }
         else
         {
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-
+            FormContentType contentType = null;
             if (parameters.isMultipartForm())
             {
-                contentType = new MultipartFormContentType();
-                // When trying to upload large amount of data the internal connection buffer
-                // can become too large and exceed the heap size, leading to a
-                // java.lang.OutOfMemoryError.
-                // This was fixed in JDK 1.5 by introducing a new setChunkedStreamingMode()
-                // method.
-                connection.setChunkedStreamingMode(0);
+                MultipartFormContentType multipartFormContentType = new MultipartFormContentType();
+                contentType = multipartFormContentType;
+
+                for (Map.Entry<String, String> entry : parameters.getFiles().entrySet())
+                {
+                    multipartFormContentType.setFormFile(
+                        entry.getKey(), new File(entry.getValue()));
+                }
             }
             else
             {
                 contentType = new UrlEncodedFormContentType();
-                urlEncodedFormWriter = new UrlEncodedFormWriter();
-
-                for (Map.Entry<String, String> entry : parameters.getParameters().entrySet())
-                {
-                    urlEncodedFormWriter.addField(entry.getKey(), entry.getValue());
-                }
-
-                connection.setRequestProperty("Content-Length",
-                    String.valueOf(urlEncodedFormWriter.getLength()));
             }
-        }
-
-        if (contentType != null)
-        {
-            connection.setRequestProperty("Content-Type", contentType.getContentType());
-        }
-
-        if (this.userAgent != null)
-        {
-            connection.setRequestProperty("User-Agent", this.userAgent);
-        }
-
-        if (this.username != null && !this.username.isEmpty())
-        {
-            String authorization = toAuthorization(this.username, this.password);
-            connection.setRequestProperty("Authorization", authorization);
-        }
-
-        connection.connect();
-
-        if (contentType instanceof MultipartFormContentType)
-        {
-            MultipartFormWriter writer =
-                new MultipartFormWriter((MultipartFormContentType) contentType,
-                    connection.getOutputStream());
-
             for (Map.Entry<String, String> entry : parameters.getParameters().entrySet())
             {
-                writer.writeField(entry.getKey(), entry.getValue());
+                contentType.setFormContent(entry.getKey(), entry.getValue());
             }
 
-            for (Map.Entry<String, String> entry : parameters.getFiles().entrySet())
+            HttpRequest request = new HttpFormContentTypeRequest(invokeURL, contentType);
+            request.setAuthentication(this.username, this.password);
+            if (this.userAgent != null)
             {
-                writer.writeFile(entry.getKey(), "application/octet-stream",
-                    fileHandler.getName(entry.getValue()),
-                    fileHandler.getInputStream(entry.getValue()));
+                request.addRequestProperty("User-Agent", this.userAgent);
             }
-            writer.close();
-        }
-        else if (contentType instanceof UrlEncodedFormContentType)
-        {
-            urlEncodedFormWriter.write(connection.getOutputStream());
+            request.setLogger(this.getLogger());
+            result = request.post();
         }
 
-        String response;
-        try
+        if (!result.isSuccessful())
         {
-            getLogger().info("Trying to read input data", this.getClass().getName());
-            response = toString(connection.getInputStream(), DAEMON_CLIENT_CHARSET);
-        }
-        catch (IOException e)
-        {
-            if (connection.getResponseCode() == 401)
+            if (result.getResponseCode() == 401)
             {
                 throw new DaemonException("The username and password you provided are"
-                    + " not correct (error 401)", e);
+                    + " not correct (error 401): " + result.getResponseBody());
             }
-            else if (connection.getResponseCode() == 403)
+            else if (result.getResponseCode() == 403)
             {
                 throw new DaemonException("The username you provided is not allowed to "
-                    + "use the text-based Cargo daemon (error 403)", e);
+                    + "use the text-based Cargo daemon (error 403): " + result.getResponseBody());
             }
             else
             {
-                throw new DaemonException(connection.getResponseMessage(), e);
+                throw new DaemonException("Failed to deploy to [" + invokeURL
+                    + "], response code: " + result.getResponseCode()
+                        + ", response message: " + result.getResponseMessage()
+                            + ", response body: " + result.getResponseBody());
             }
         }
-        getLogger().info("Response is " + response, this.getClass().getName());
-
-        if (!response.startsWith("OK -"))
+        else
         {
-            String scriptEndString = "</script>";
-            int scriptEnd = response.indexOf(scriptEndString);
-            if (scriptEnd != -1)
+            String response = result.getResponseBody();
+            if (response == null || !response.startsWith("OK -"))
             {
-                response = response.substring(scriptEnd + scriptEndString.length()).trim();
+                String scriptEndString = "</script>";
+                int scriptEnd = response.indexOf(scriptEndString);
+                if (scriptEnd != -1)
+                {
+                    response = response.substring(scriptEnd + scriptEndString.length()).trim();
+                }
+
+                throw new DaemonException("Failed parsing response for " + invokeURL
+                    + ". Response was: " + response);
             }
 
-            throw new DaemonException("Failed parsing response for " + invokeURL
-                + ". Response was: " + response);
+            return response;
         }
-
-        return response;
-    }
-
-    /**
-     * Gets the HTTP Basic Authorization header value for the supplied username and password.
-     * 
-     * @param username the username to use for authentication
-     * @param password the password to use for authentication
-     * @return the HTTP Basic Authorization header value
-     */
-    private static String toAuthorization(String username, String password)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append(username).append(':');
-        if (password != null)
-        {
-            sb.append(password);
-        }
-        return "Basic "
-            + Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
-    }
-
-    /**
-     * Gets the data from the specified input stream as a string using the specified charset.
-     * 
-     * @param in the input stream to read from
-     * @param charset the charset to use when constructing the string
-     * @return a string representation of the data read from the input stream
-     * @throws IOException if an i/o error occurs
-     */
-    private String toString(InputStream in, String charset) throws IOException
-    {
-        InputStreamReader reader = new InputStreamReader(in, charset);
-
-        StringBuilder sb = new StringBuilder();
-        char[] chars = new char[1024];
-        int n;
-        while ((n = reader.read(chars, 0, chars.length)) != -1)
-        {
-            sb.append(chars, 0, n);
-        }
-
-        return sb.toString();
     }
 
 }
