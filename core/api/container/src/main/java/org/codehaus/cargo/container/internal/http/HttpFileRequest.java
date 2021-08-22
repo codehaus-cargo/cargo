@@ -74,21 +74,9 @@ public class HttpFileRequest extends HttpRequest
         connection.setDoOutput(true);
         connection.setChunkedStreamingMode(BUFFER_CHUNK_SIZE);
 
-        try (OutputStream outputStream = connection.getOutputStream();
+        try (InputStream fileInputStream = new FileInputStream(this.file);
+            OutputStream outputStream = connection.getOutputStream();
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream))
-        {
-            writeFileToOutputStream(bufferedOutputStream);
-        }
-    }
-
-    /**
-     * Writes the file into the output stream.
-     * @param outputStream Output stream.
-     * @throws IOException If anything goes wrong.
-     */
-    protected void writeFileToOutputStream(OutputStream outputStream) throws IOException
-    {
-        try (InputStream fileInputStream = new FileInputStream(this.file))
         {
             int n;
             byte[] bytes = new byte[BUFFER_CHUNK_SIZE];

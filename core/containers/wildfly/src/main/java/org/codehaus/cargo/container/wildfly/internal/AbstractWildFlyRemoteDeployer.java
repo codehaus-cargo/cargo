@@ -26,9 +26,10 @@ import java.net.URL;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.internal.http.HttpFormRequest;
+import org.codehaus.cargo.container.internal.http.HttpFormContentTypeRequest;
 import org.codehaus.cargo.container.internal.http.HttpRequest;
 import org.codehaus.cargo.container.internal.http.HttpResult;
+import org.codehaus.cargo.container.internal.http.MultipartFormContentType;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
@@ -96,12 +97,10 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         URL addContentUrl = getAddContentUrl();
         String deploymentName = deployable.getName() + "." + deployable.getType().getType();
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Content-Disposition: form-data; ");
-        sb.append("name=\"file\"; ");
-        sb.append("filename=\"" + deploymentName + "\"");
-        HttpFormRequest request =
-            new HttpFormRequest(addContentUrl, sb.toString(), new File(deployable.getFile()));
+        MultipartFormContentType multipartFormContentType = new MultipartFormContentType();
+        multipartFormContentType.setFormFile(deploymentName, new File(deployable.getFile()));
+        HttpFormContentTypeRequest request =
+            new HttpFormContentTypeRequest(addContentUrl, multipartFormContentType);
         request.setLogger(this.getLogger());
         request.setAuthentication(username, password);
         HttpResult response = request.post();
