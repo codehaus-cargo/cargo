@@ -277,7 +277,25 @@ public class HttpRequest extends LoggedObject
 
             getLogger().debug("Sending request and writing to output stream if necessary",
                 this.getClass().getName());
-            writeOutputStream(connection);
+            try
+            {
+                writeOutputStream(connection);
+            }
+            catch (IOException e)
+            {
+                // CARGO-1569: When there is a need for Digest authentication, certain versions of
+                // WildFly aggressively close the unauthenticated stream before the
+                // writeOutputStream method finishes, which in turn causes an IOException
+                if (connection.getResponseCode() != 401)
+                {
+                    throw e;
+                }
+                String wwwAuthenticate = connection.getHeaderField("WWW-Authenticate");
+                if (wwwAuthenticate == null || !wwwAuthenticate.startsWith("Digest "))
+                {
+                    throw e;
+                }
+            }
 
             int responseCode = connection.getResponseCode();
             getLogger().debug("Got response code [" + responseCode + "]",
