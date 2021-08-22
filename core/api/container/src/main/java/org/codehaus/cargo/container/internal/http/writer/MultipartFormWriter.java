@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.internal.http;
+package org.codehaus.cargo.container.internal.http.writer;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -25,6 +25,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import org.codehaus.cargo.container.internal.http.MultipartFormContentType;
 
 /**
  * Represents a form writer capable of sending files and form data as multipart chunks.
@@ -102,12 +104,28 @@ public class MultipartFormWriter implements AutoCloseable
      * Writes a file's contents.
      * 
      * @param name the field name
-     * @param mimeType the file content type (optional, recommended)
      * @param file the file (the file must exist)
      * @throws IOException on input/output errors
      */
-    public void writeFile(String name, String mimeType, File file) throws IOException
+    public void writeFile(String name, File file) throws IOException
     {
+        writeFile(name, file, "application/octet-stream");
+    }
+
+    /**
+     * Writes a input stream's contents.
+     * 
+     * @param name the field name
+     * @param file the file
+     * @param mimeType The file content type
+     * @throws IOException on input/output errors
+     */
+    public void writeFile(String name, File file, String mimeType) throws IOException
+    {
+        if (name == null || name.trim().isEmpty())
+        {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
         if (file == null)
         {
             throw new IllegalArgumentException("File cannot be null.");
@@ -120,98 +138,33 @@ public class MultipartFormWriter implements AutoCloseable
         {
             throw new IllegalArgumentException("File cannot be a directory.");
         }
-        writeFile(name, mimeType, file.getCanonicalPath(), new FileInputStream(file));
-    }
-
-    /**
-     * Writes a input stream's contents.
-     * 
-     * @param name The field name
-     * @param mimeType The file content type (optional, recommended)
-     * @param fileName The file name (required)
-     * @param is The input stream
-     * @throws IOException on input/output errors
-     */
-    public void writeFile(String name, String mimeType, String fileName, InputStream is)
-        throws IOException
-    {
-        if (is == null)
+        if (mimeType == null || mimeType.trim().isEmpty())
         {
-            throw new IllegalArgumentException("Input stream cannot be null.");
+            throw new IllegalArgumentException("File content type cannot be null");
         }
-        if (fileName == null || fileName.isEmpty())
+        try (InputStream fileInputStream = new FileInputStream(file))
         {
-            throw new IllegalArgumentException("File name cannot be null or empty.");
-        }
-        // write boundary
-        out.writeBytes(PREFIX);
-        out.writeBytes(boundary);
-        out.writeBytes(NEWLINE);
-        // write content header
-        out.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"; filename=\""
-            + fileName + "\"");
-        out.writeBytes(NEWLINE);
-        if (mimeType != null)
-        {
+            // write boundary
+            out.writeBytes(PREFIX);
+            out.writeBytes(boundary);
+            out.writeBytes(NEWLINE);
+            // write content header
+            out.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"; filename=\""
+                + file.getName() + "\"");
+            out.writeBytes(NEWLINE);
             out.writeBytes("Content-Type: " + mimeType);
             out.writeBytes(NEWLINE);
-        }
-        out.writeBytes(NEWLINE);
-        // write content
-        byte[] data = new byte[1024];
-        int r = 0;
-        while ((r = is.read(data, 0, data.length)) != -1)
-        {
-            out.write(data, 0, r);
-        }
-        // close input stream, but ignore any possible exception for it
-        is.close();
-        out.writeBytes(NEWLINE);
-        out.flush();
-    }
-
-    /**
-     * Writes the given bytes.
-     * 
-     * @param name the field name
-     * @param mimeType the file content type (optional, recommended)
-     * @param fileName the file name (required)
-     * @param data the file data
-     * @throws IOException on input/output errors
-     */
-    public void writeFile(String name, String mimeType, String fileName, byte[] data)
-        throws IOException
-    {
-        if (data == null)
-        {
-            throw new IllegalArgumentException("Data cannot be null.");
-        }
-        if (fileName == null || fileName.isEmpty())
-        {
-            throw new IllegalArgumentException("File name cannot be null or empty.");
-        }
-        /*
-         * --boundary\r\n Content-Disposition: form-data; name="<fieldName>";
-         * filename="<filename>"\r\n Content-Type: <mime-type>\r\n \r\n <file-data>\r\n
-         */
-        // write boundary
-        out.writeBytes(PREFIX);
-        out.writeBytes(boundary);
-        out.writeBytes(NEWLINE);
-        // write content header
-        out.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"; filename=\""
-            + fileName + "\"");
-        out.writeBytes(NEWLINE);
-        if (mimeType != null)
-        {
-            out.writeBytes("Content-Type: " + mimeType);
             out.writeBytes(NEWLINE);
+            // write content
+            byte[] data = new byte[1024];
+            int r = 0;
+            while ((r = fileInputStream.read(data, 0, data.length)) != -1)
+            {
+                out.write(data, 0, r);
+            }
+            out.writeBytes(NEWLINE);
+            out.flush();
         }
-        out.writeBytes(NEWLINE);
-        // write content
-        out.write(data, 0, data.length);
-        out.writeBytes(NEWLINE);
-        out.flush();
     }
 
     /**

@@ -21,7 +21,6 @@ package org.codehaus.cargo.tools.daemon;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.http.FormContentType;
-import org.codehaus.cargo.container.internal.http.HttpFormContentTypeRequest;
+import org.codehaus.cargo.container.internal.http.HttpFormRequest;
 import org.codehaus.cargo.container.internal.http.HttpRequest;
 import org.codehaus.cargo.container.internal.http.HttpResult;
 import org.codehaus.cargo.container.internal.http.MultipartFormContentType;
@@ -774,11 +773,6 @@ public class DaemonClient extends LoggedObject
             invokeURL = new URL(this.url + "/" + path);
         }
 
-        HttpURLConnection connection = (HttpURLConnection) invokeURL.openConnection();
-        connection.setAllowUserInteraction(false);
-        connection.setDoInput(true);
-        connection.setUseCaches(false);
-
         HttpResult result;
         if (parameters == null)
         {
@@ -814,7 +808,7 @@ public class DaemonClient extends LoggedObject
                 contentType.setFormContent(entry.getKey(), entry.getValue());
             }
 
-            HttpRequest request = new HttpFormContentTypeRequest(invokeURL, contentType);
+            HttpRequest request = new HttpFormRequest(invokeURL, contentType);
             request.setAuthentication(this.username, this.password);
             if (this.userAgent != null)
             {
@@ -829,19 +823,21 @@ public class DaemonClient extends LoggedObject
             if (result.getResponseCode() == 401)
             {
                 throw new DaemonException("The username and password you provided are"
-                    + " not correct (error 401): " + result.getResponseBody());
+                    + " not correct (error 401): "
+                        + extractErrorMessage(result.getResponseBody()));
             }
             else if (result.getResponseCode() == 403)
             {
                 throw new DaemonException("The username you provided is not allowed to "
-                    + "use the text-based Cargo daemon (error 403): " + result.getResponseBody());
+                    + "use the text-based Cargo daemon (error 403): "
+                        + extractErrorMessage(result.getResponseBody()));
             }
             else
             {
-                throw new DaemonException("Failed to deploy to [" + invokeURL
+                throw new DaemonException("Failed to call Cargo Daemon via URL [" + invokeURL
                     + "], response code: " + result.getResponseCode()
                         + ", response message: " + result.getResponseMessage()
-                            + ", response body: " + result.getResponseBody());
+                            + ", response body: " + extractErrorMessage(result.getResponseBody()));
             }
         }
         else
@@ -849,19 +845,31 @@ public class DaemonClient extends LoggedObject
             String response = result.getResponseBody();
             if (response == null || !response.startsWith("OK -"))
             {
-                String scriptEndString = "</script>";
-                int scriptEnd = response.indexOf(scriptEndString);
-                if (scriptEnd != -1)
-                {
-                    response = response.substring(scriptEnd + scriptEndString.length()).trim();
-                }
-
                 throw new DaemonException("Failed parsing response for " + invokeURL
-                    + ". Response was: " + response);
+                    + ". Response was: " + extractErrorMessage(response));
             }
 
             return response;
         }
     }
 
+    /**
+     * Extract the error message from the Daemon error servlet response.
+     * @param response Daemon error servlet response.
+     * @return Extracted error message.
+     */
+    private String extractErrorMessage(String response)
+    {
+        if (response != null)
+        {
+            final String scriptEndString = "</script>";
+            int scriptEnd = response.indexOf(scriptEndString);
+            if (scriptEnd != -1)
+            {
+                return response.substring(scriptEnd + scriptEndString.length()).trim();
+            }
+        }
+
+        return response;
+    }
 }

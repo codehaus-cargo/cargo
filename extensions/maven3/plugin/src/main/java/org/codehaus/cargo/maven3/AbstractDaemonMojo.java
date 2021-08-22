@@ -109,6 +109,7 @@ public abstract class AbstractDaemonMojo extends AbstractCargoMojo
         {
             throw new MojoExecutionException("Malformed daemon URL: " + e);
         }
+        this.daemonClient.setLogger(this.createLogger());
         this.daemonHandleId = daemonHandleId;
         this.daemonContainer = (InstalledLocalContainer) container;
 

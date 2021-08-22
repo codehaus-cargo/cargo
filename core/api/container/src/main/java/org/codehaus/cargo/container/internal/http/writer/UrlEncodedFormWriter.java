@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.internal.http;
+package org.codehaus.cargo.container.internal.http.writer;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

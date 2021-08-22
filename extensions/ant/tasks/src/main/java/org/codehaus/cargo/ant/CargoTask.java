@@ -621,6 +621,7 @@ public class CargoTask extends Task
                 }
 
                 DaemonClient daemon = new DaemonClient(daemonURL, daemonUsername, daemonPassword);
+                daemon.setLogger(this.getLogger());
 
                 if (ACTION_DAEMON_START.equalsIgnoreCase(getAction()))
                 {

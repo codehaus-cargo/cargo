@@ -53,7 +53,7 @@ public class MultipartFormContentType extends UrlEncodedFormContentType
      */
     private String createBoundary()
     {
-        return "--------------------" + Long.toString(System.currentTimeMillis(), 16);
+        return "----CargoFormBoundary" + Long.toString(System.currentTimeMillis(), 16);
     }
 
     /**

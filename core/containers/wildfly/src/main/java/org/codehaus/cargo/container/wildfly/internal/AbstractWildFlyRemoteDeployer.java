@@ -26,7 +26,7 @@ import java.net.URL;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.internal.http.HttpFormContentTypeRequest;
+import org.codehaus.cargo.container.internal.http.HttpFormRequest;
 import org.codehaus.cargo.container.internal.http.HttpRequest;
 import org.codehaus.cargo.container.internal.http.HttpResult;
 import org.codehaus.cargo.container.internal.http.MultipartFormContentType;
@@ -99,8 +99,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
 
         MultipartFormContentType multipartFormContentType = new MultipartFormContentType();
         multipartFormContentType.setFormFile(deploymentName, new File(deployable.getFile()));
-        HttpFormContentTypeRequest request =
-            new HttpFormContentTypeRequest(addContentUrl, multipartFormContentType);
+        HttpFormRequest request = new HttpFormRequest(addContentUrl, multipartFormContentType);
         request.setLogger(this.getLogger());
         request.setAuthentication(username, password);
         HttpResult response = request.post();

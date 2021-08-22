@@ -23,17 +23,18 @@
 package org.codehaus.cargo.container.internal.http;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import org.codehaus.cargo.container.internal.http.writer.MultipartFormWriter;
+import org.codehaus.cargo.container.internal.http.writer.UrlEncodedFormWriter;
+
 /**
  * HTTP request which posts a form represented as a child of {@link FormContentType}.
  */
-public class HttpFormContentTypeRequest extends HttpRequest
+public class HttpFormRequest extends HttpRequest
 {
 
     /**
@@ -46,7 +47,7 @@ public class HttpFormContentTypeRequest extends HttpRequest
      * @param formData Form data to be sent by HTTP form request.
      * @see HttpRequest#HttpRequest(URL)
      */
-    public HttpFormContentTypeRequest(URL url, FormContentType formData)
+    public HttpFormRequest(URL url, FormContentType formData)
     {
         super(url);
         this.formData = formData;
@@ -58,7 +59,7 @@ public class HttpFormContentTypeRequest extends HttpRequest
      * @param timeout Request timeout.
      * @see HttpRequest#HttpRequest(URL, long)
      */
-    public HttpFormContentTypeRequest(URL url, FormContentType formData, long timeout)
+    public HttpFormRequest(URL url, FormContentType formData, long timeout)
     {
         super(url, timeout);
         this.formData = formData;
@@ -89,15 +90,11 @@ public class HttpFormContentTypeRequest extends HttpRequest
 
                 for (Map.Entry<String, File> entry : multipartFormData.getFormFiles().entrySet())
                 {
-                    try (InputStream fileInputStream = new FileInputStream(entry.getValue()))
-                    {
-                        writer.writeFile(entry.getKey(), "application/octet-stream",
-                            entry.getValue().getName(), fileInputStream);
-                    }
+                    writer.writeFile(entry.getKey(), entry.getValue());
                 }
             }
         }
-        else if (formData instanceof UrlEncodedFormContentType)
+        else
         {
             UrlEncodedFormWriter urlEncodedFormWriter = new UrlEncodedFormWriter();
 
