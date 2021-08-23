@@ -514,7 +514,7 @@ public class TomcatManager extends LoggedObject
             String responseBody = response.getResponseBody();
             if (responseBody == null || !responseBody.startsWith("OK -"))
             {
-                throw new TomcatManagerException("The Tomcat Manager responded \"" + response
+                throw new TomcatManagerException("The Tomcat Manager responded \"" + responseBody
                     + "\" instead of the expected \"OK\" message");
             }
             return responseBody;
