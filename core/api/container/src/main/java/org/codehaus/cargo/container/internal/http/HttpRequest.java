@@ -465,7 +465,7 @@ public class HttpRequest extends LoggedObject
 
     /**
      * If necessary, writes to the output stream of the HTTP URL connection. By default, the
-     * {@link #requestBodyString} is written as output.
+     * {@link #requestBody} is written as output.
      * 
      * @param connection the HTTP URL connection to read from
      * @exception IOException if an error happens during the connection establishment or write

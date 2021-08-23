@@ -44,7 +44,7 @@ public class HttpFileRequest extends HttpRequest
     /**
      * @param url URL to be called.
      * @param file File to be put as output.
-     * @see HttpConnection#HttpConnection(java.net.URL)
+     * @see HttpRequest#HttpRequest(java.net.URL)
      */
     public HttpFileRequest(URL url, File file)
     {
@@ -56,7 +56,7 @@ public class HttpFileRequest extends HttpRequest
      * @param url URL to be called.
      * @param file File to be put as output.
      * @param timeout Request timeout.
-     * @see HttpConnection#HttpConnection(java.net.URL, long)
+     * @see HttpRequest#HttpRequest(java.net.URL, long)
      */
     public HttpFileRequest(URL url, File file, long timeout)
     {
