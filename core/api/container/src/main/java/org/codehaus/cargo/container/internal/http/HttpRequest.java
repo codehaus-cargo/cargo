@@ -216,7 +216,6 @@ public class HttpRequest extends LoggedObject
 
             connection.setRequestMethod(httpMethod);
 
-            connection.setRequestProperty("Connection", "close");
             connection.setAllowUserInteraction(false);
             connection.setDoInput(true);
             connection.setUseCaches(false);
@@ -225,6 +224,9 @@ public class HttpRequest extends LoggedObject
                 connection.setReadTimeout((int) timeout);
                 connection.setConnectTimeout((int) timeout);
             }
+            // Do not forcibly close the connection, rather have it kept alive for efficient HTTP
+            // resource pooling in case of multiple requests to the same server
+            // connection.setRequestProperty("Connection", "close");
 
             if (digestData != null)
             {
