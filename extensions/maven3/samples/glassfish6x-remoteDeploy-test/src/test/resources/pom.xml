@@ -53,7 +53,7 @@
             <artifactInstaller>
               <groupId>org.glassfish.main.distributions</groupId>
               <artifactId>glassfish</artifactId>
-              <version>6.2.0</version>
+              <version>6.2.1</version>
             </artifactInstaller>
           </container>
           <configuration>
