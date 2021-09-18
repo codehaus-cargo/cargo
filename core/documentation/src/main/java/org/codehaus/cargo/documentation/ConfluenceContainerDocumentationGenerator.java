@@ -1476,7 +1476,8 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         javaVersion = "8 (GlassFish 6.0.x) or 11 (GlassFish 6.1.x and above)";
                         extra = "GlassFish 6.0.x [only runs on Java 8|"
-                            + "https://github.com/eclipse-ee4j/glassfish/issues/23102]";
+                            + "https://github.com/eclipse-ee4j/glassfish/issues/23102]{_}"
+                            + LINE_SEPARATOR + "{_}Only GlassFish 6.2.1 onwards supports Java 17";
                     }
                     else if ("resin3x".equals(containerId) || "resin31x".equals(containerId))
                     {
