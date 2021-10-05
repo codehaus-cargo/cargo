@@ -829,7 +829,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             ArtifactInstaller artifactInstaller = new ArtifactInstaller();
             artifactInstaller.setGroupId("org.eclipse.jetty");
             artifactInstaller.setArtifactId("jetty-distribution");
-            artifactInstaller.setVersion("9.4.43.v20210629");
+            artifactInstaller.setVersion("9.4.44.v20210927");
             getContainerElement().setArtifactInstaller(artifactInstaller);
 
             getLog().info("No container defined, using a default ["
