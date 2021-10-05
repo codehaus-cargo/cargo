@@ -135,7 +135,8 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> jetty7xDependencies = new ArrayList<Dependency>();
         jetty7xDependencies.add(new Dependency("javax.servlet", "servlet-api", "2.5"));
-        jetty7xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "3.5.1"));
+        jetty7xDependencies.add(
+            new Dependency("org.eclipse.jdt", "org.eclipse.jdt.core", "3.7.1"));
         jetty7xDependencies.add(
             new Dependency("org.eclipse.jetty", "jetty-continuation", "7.6.21.v20160908"));
         jetty7xDependencies.add(
@@ -196,9 +197,12 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("org.eclipse.jetty.orbit", "javax.activation", "1.1.0.v201105071233"));
         jetty8xDependencies.add(
             new Dependency("org.eclipse.jetty.orbit", "javax.annotation", "1.1.0.v201108011116"));
-        jetty8xDependencies.add(new Dependency("javax.el", "el-api", "2.2"));
-        jetty8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "7.0.55"));
-        jetty8xDependencies.add(new Dependency("org.glassfish.web", "jsp-impl", "2.2.1"));
+        jetty8xDependencies.add(
+            new Dependency("org.eclipse.jetty.orbit", "javax.el", "2.2.0.v201108011116"));
+        jetty8xDependencies.add(
+            new Dependency("org.eclipse.jetty.orbit", "javax.servlet.jsp", "2.2.0.v201112011158"));
+        jetty8xDependencies.add(new Dependency(
+            "org.eclipse.jetty.orbit", "org.apache.jasper.glassfish", "2.2.2.v201112011158"));
         this.containerDependencies.put("jetty8x", jetty8xDependencies);
 
         List<Dependency> jetty9xDependencies = new ArrayList<Dependency>();
@@ -239,7 +243,7 @@ public class EmbeddedContainerArtifactResolver
         jetty9xDependencies.add(
             new Dependency("javax.transaction", "javax.transaction-api", "1.2"));
         // jsp
-        jetty9xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.27.0"));
+        jetty9xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.19.0"));
         jetty9xDependencies.add(
             new Dependency("org.eclipse.jetty", "apache-jsp", "9.4.44.v20210927"));
         jetty9xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "8.5.70"));
@@ -265,10 +269,10 @@ public class EmbeddedContainerArtifactResolver
         jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp", "10.0.6"));
         jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "10.0.6"));
         // jsp
-        jetty10xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.27.0"));
+        jetty10xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.19.0"));
         jetty10xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp", "10.0.6"));
-        jetty10xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "9.0.48"));
-        jetty10xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "9.0.48"));
+        jetty10xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "9.0.29"));
+        jetty10xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "9.0.29"));
         this.containerDependencies.put("jetty10x", jetty10xDependencies);
 
         List<Dependency> jetty11xDependencies = new ArrayList<Dependency>();
@@ -290,10 +294,10 @@ public class EmbeddedContainerArtifactResolver
         jetty11xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-webapp", "11.0.6"));
         jetty11xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "11.0.6"));
         // jsp
-        jetty11xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.27.0"));
+        jetty11xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.24.0"));
         jetty11xDependencies.add(new Dependency("org.eclipse.jetty", "apache-jsp", "11.0.6"));
-        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.7"));
-        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.7"));
+        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.2"));
+        jetty11xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.2"));
         this.containerDependencies.put("jetty11x", jetty11xDependencies);
 
         List<Dependency> tomcat6xDependencies = new ArrayList<Dependency>();
