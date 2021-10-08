@@ -135,8 +135,8 @@ public class Jonas4xInstalledLocalDeployerTest extends TestCase
     {
         Mockito.reset(this.admin);
         Mockito.when(
-            this.admin.isServerRunning(Mockito.anyObject(), Mockito.anyInt())).thenReturn(true);
-        Mockito.when(this.admin.deploy(Mockito.anyObject())).thenReturn(true);
+            this.admin.isServerRunning(Mockito.anyString(), Mockito.anyInt())).thenReturn(true);
+        Mockito.when(this.admin.deploy(Mockito.anyString())).thenReturn(true);
     }
 
     /**
@@ -146,8 +146,8 @@ public class Jonas4xInstalledLocalDeployerTest extends TestCase
     {
         Mockito.reset(this.admin);
         Mockito.when(
-            this.admin.isServerRunning(Mockito.anyObject(), Mockito.anyInt())).thenReturn(true);
-        Mockito.when(this.admin.deploy(Mockito.anyObject())).thenReturn(false);
+            this.admin.isServerRunning(Mockito.anyString(), Mockito.anyInt())).thenReturn(true);
+        Mockito.when(this.admin.deploy(Mockito.anyString())).thenReturn(false);
     }
 
     /**
@@ -157,7 +157,7 @@ public class Jonas4xInstalledLocalDeployerTest extends TestCase
     {
         Mockito.reset(this.admin);
         Mockito.when(
-            this.admin.isServerRunning(Mockito.anyObject(), Mockito.anyInt())).thenReturn(false);
+            this.admin.isServerRunning(Mockito.anyString(), Mockito.anyInt())).thenReturn(false);
     }
 
     /**
