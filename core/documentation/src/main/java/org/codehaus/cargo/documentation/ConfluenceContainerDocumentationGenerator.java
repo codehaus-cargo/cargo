@@ -550,7 +550,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
         else if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x")
-            || containerId.equals("wildfly24x"))
+            || containerId.equals("wildfly24x") || containerId.equals("wildfly25x"))
         {
             output.append("{note}WildFly ");
             if (containerId.equals("wildfly22x"))
@@ -561,9 +561,13 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append("23");
             }
-            else
+            else if (containerId.equals("wildfly24x"))
             {
                 output.append("24");
+            }
+            else
+            {
+                output.append("25");
             }
             output.append(" comes with two versions: Jakarta EE 8 Full & Web Distribution and ");
             output.append("the WildFly Preview EE 9 Distribution. Users of the WildFly Preview ");
