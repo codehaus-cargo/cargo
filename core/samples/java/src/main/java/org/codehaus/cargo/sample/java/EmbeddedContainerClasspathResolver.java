@@ -64,7 +64,7 @@ public class EmbeddedContainerClasspathResolver
 
         List<String> jetty8x9x10x11xDependencies = new ArrayList<String>();
         jetty8x9x10x11xDependencies.add(
-            "lib/*.jar|lib/logging/*.jar|lib/jaspi/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
+            "lib/*.jar|lib/logging/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
         jetty8x9x10x11xDependencies.add("lib/annotations/*.jar");
         jetty8x9x10x11xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
 
@@ -139,7 +139,11 @@ public class EmbeddedContainerClasspathResolver
                         {
                             for (File jar : jars)
                             {
-                                if (!jar.getName().startsWith("demo-"))
+                                // To avoid issues caused by the behaviour described in
+                                // https://github.com/eclipse/jetty.project/issues/4746, do not
+                                // include the Jetty JASPI JARs in the embedded container classpath
+                                if (!jar.getName().startsWith("demo-")
+                                    && !jar.getName().startsWith("jetty-jaspi-"))
                                 {
                                     urls.add(jar.toURI().toURL());
                                     found = true;
