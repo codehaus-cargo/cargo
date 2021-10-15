@@ -97,11 +97,11 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
             + getTimeout() + "] ms...", this.getClass().getName());
 
         // We check if the deployable is servicing requests by pinging a URL specified by the user
-        HttpUtils.HttpResult results = new HttpUtils.HttpResult();
-        boolean isDeployed = this.httpUtils.ping(this.pingURL, results, getTimeout());
-        if (isDeployed && this.contains != null && results.responseBody != null)
+        HttpUtils.HttpResult result = new HttpUtils.HttpResult();
+        boolean isDeployed = this.httpUtils.ping(this.pingURL, result, getTimeout());
+        if (isDeployed && this.contains != null && result.responseBody != null)
         {
-            isDeployed = results.responseBody.contains(this.contains);
+            isDeployed = result.responseBody.contains(this.contains);
         }
 
         String msg = "URL [" + this.pingURL + "] is ";
@@ -111,7 +111,7 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
         }
         else
         {
-            msg += "not responding: " + results.responseCode + " " + results.responseMessage;
+            msg += "not responding: " + result.responseCode + " " + result.responseMessage;
         }
         getLogger().debug(msg, this.getClass().getName());
 

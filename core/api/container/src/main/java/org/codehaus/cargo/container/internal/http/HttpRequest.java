@@ -192,7 +192,8 @@ public class HttpRequest extends LoggedObject
      */
     private HttpResult connect(String httpMethod, String digestData)
     {
-        getLogger().debug("Calling [" + url + "]", this.getClass().getName());
+        getLogger().debug(
+            "Calling [" + url + "] with timeout " + this.timeout, this.getClass().getName());
 
         HttpURLConnection connection = null;
         try
