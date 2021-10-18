@@ -99,9 +99,16 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
         // We check if the deployable is servicing requests by pinging a URL specified by the user
         HttpUtils.HttpResult result = new HttpUtils.HttpResult();
         boolean isDeployed = this.httpUtils.ping(this.pingURL, result, getTimeout());
-        if (isDeployed && this.contains != null && result.responseBody != null)
+        if (isDeployed && this.contains != null)
         {
-            isDeployed = result.responseBody.contains(this.contains);
+            if (result.responseBody != null)
+            {
+                isDeployed = result.responseBody.contains(this.contains);
+            }
+            else
+            {
+                isDeployed = false;
+            }
         }
 
         String msg = "URL [" + this.pingURL + "] is ";
