@@ -357,7 +357,8 @@ public class EmbeddedContainerArtifactResolver
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "8.5.72"));
         tomcat8xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jasper-el", "8.5.72"));
-        tomcat8xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "4.6.1"));
+        // To get to the actual ECJ version, open the MANIFEST.MF file in Tomcat's lib/ecj-xxx.jar
+        tomcat8xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.12.3"));
         this.containerDependencies.put("tomcat8x", tomcat8xDependencies);
 
         List<Dependency> tomcat9xDependencies = new ArrayList<Dependency>();
@@ -385,7 +386,8 @@ public class EmbeddedContainerArtifactResolver
         tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.54"));
         tomcat9xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jasper-el", "9.0.54"));
-        tomcat9xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "4.6.1"));
+        // To get to the actual ECJ version, open the MANIFEST.MF file in Tomcat's lib/ecj-xxx.jar
+        tomcat9xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.26.0"));
         this.containerDependencies.put("tomcat9x", tomcat9xDependencies);
 
         List<Dependency> tomcat10xDependencies = new ArrayList<Dependency>();
@@ -414,7 +416,8 @@ public class EmbeddedContainerArtifactResolver
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "10.0.12"));
         tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jasper-el", "10.0.12"));
-        tomcat10xDependencies.add(new Dependency("org.eclipse.jdt.core.compiler", "ecj", "4.6.1"));
+        // To get to the actual ECJ version, open the MANIFEST.MF file in Tomcat's lib/ecj-xxx.jar
+        tomcat10xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.26.0"));
         this.containerDependencies.put("tomcat10x", tomcat10xDependencies);
     }
 
