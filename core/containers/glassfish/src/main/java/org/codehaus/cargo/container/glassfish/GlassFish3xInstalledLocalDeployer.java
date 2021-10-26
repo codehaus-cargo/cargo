@@ -52,20 +52,20 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      * Allowed JMS resource types per <code>create-jms-resource</code>
      * <code>--restype</code> parameter.
      */
-    private static final Set<String> JMS_RESOURCE_TYPES = Collections
-            .unmodifiableSet(new HashSet<String>(Arrays.asList(
-                    // CARGO-1541: GlassFish 6.x onwards uses Jakarta EE
-                    "jakarta.jms.Topic",
-                    "jakarta.jms.Queue",
-                    "jakarta.jms.ConnectionFactory",
-                    "jakarta.jms.TopicConnectionFactory",
-                    "jakarta.jms.QueueConnectionFactory",
+    private static final Set<String> JMS_RESOURCE_TYPES =
+        Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
+            // CARGO-1541: GlassFish 6.x onwards uses Jakarta EE
+            "jakarta.jms.Topic",
+            "jakarta.jms.Queue",
+            "jakarta.jms.ConnectionFactory",
+            "jakarta.jms.TopicConnectionFactory",
+            "jakarta.jms.QueueConnectionFactory",
 
-                    "javax.jms.Topic",
-                    "javax.jms.Queue",
-                    "javax.jms.ConnectionFactory",
-                    "javax.jms.TopicConnectionFactory",
-                    "javax.jms.QueueConnectionFactory")));
+            "javax.jms.Topic",
+            "javax.jms.Queue",
+            "javax.jms.ConnectionFactory",
+            "javax.jms.TopicConnectionFactory",
+            "javax.jms.QueueConnectionFactory")));
 
     /**
      * Calls parent constructor, which saves the container.
