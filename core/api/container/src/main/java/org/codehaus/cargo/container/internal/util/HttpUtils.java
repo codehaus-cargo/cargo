@@ -22,6 +22,7 @@
  */
 package org.codehaus.cargo.container.internal.util;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
@@ -147,12 +148,19 @@ public class HttpUtils extends LoggedObject
             }
         }
 
-        org.codehaus.cargo.container.internal.http.HttpResult httpResult = connection.get();
-
         HttpResult responseResult = new HttpResult();
-        responseResult.responseBody = httpResult.getResponseBody();
-        responseResult.responseCode = httpResult.getResponseCode();
-        responseResult.responseMessage = httpResult.getResponseMessage();
+        try
+        {
+            org.codehaus.cargo.container.internal.http.HttpResult httpResult = connection.get();
+            responseResult.responseBody = httpResult.getResponseBody();
+            responseResult.responseCode = httpResult.getResponseCode();
+            responseResult.responseMessage = httpResult.getResponseMessage();
+        }
+        catch (IOException e)
+        {
+            responseResult.responseCode = -1;
+            responseResult.responseMessage = e.toString();
+        }
 
         return responseResult;
     }

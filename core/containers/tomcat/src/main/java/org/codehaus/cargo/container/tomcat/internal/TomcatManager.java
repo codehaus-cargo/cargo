@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -168,7 +167,7 @@ public class TomcatManager extends LoggedObject
      * @param path the webapp context path to deploy to
      * @param war the URL of the WAR to deploy
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, URL war) throws TomcatManagerException, IOException
     {
@@ -183,7 +182,7 @@ public class TomcatManager extends LoggedObject
      * @param war the URL of the WAR to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, URL war, boolean update) throws TomcatManagerException,
         IOException
@@ -200,7 +199,7 @@ public class TomcatManager extends LoggedObject
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, URL war, boolean update, String tag)
         throws TomcatManagerException, IOException
@@ -214,7 +213,7 @@ public class TomcatManager extends LoggedObject
      * @param path the webapp context path to deploy to
      * @param war the WAR file to deploy
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, File war) throws TomcatManagerException, IOException
     {
@@ -229,7 +228,7 @@ public class TomcatManager extends LoggedObject
      * @param war the WAR file to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, File war, boolean update)
         throws TomcatManagerException, IOException
@@ -246,7 +245,7 @@ public class TomcatManager extends LoggedObject
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, File war, boolean update, String tag)
         throws TomcatManagerException, IOException
@@ -264,7 +263,7 @@ public class TomcatManager extends LoggedObject
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deploy(String path, String version, File war, boolean update, String tag)
         throws TomcatManagerException, IOException
@@ -278,7 +277,7 @@ public class TomcatManager extends LoggedObject
      * @param path the webapp context path to deploy to
      * @param config the URL of the context XML configuration to deploy
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deployContext(String path, URL config) throws TomcatManagerException, IOException
     {
@@ -293,7 +292,7 @@ public class TomcatManager extends LoggedObject
      * @param config the URL of the context XML configuration to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deployContext(String path, URL config, boolean update)
         throws TomcatManagerException, IOException
@@ -310,7 +309,7 @@ public class TomcatManager extends LoggedObject
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deployContext(String path, URL config, boolean update, String tag)
         throws TomcatManagerException, IOException
@@ -326,7 +325,7 @@ public class TomcatManager extends LoggedObject
      * @param config the URL of the context XML configuration to deploy
      * @param war the URL of the WAR to deploy
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deployContext(String path, URL config, URL war) throws TomcatManagerException,
         IOException
@@ -343,7 +342,7 @@ public class TomcatManager extends LoggedObject
      * @param war the URL of the WAR to deploy
      * @param update whether to first undeploy the webapp if it already exists
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deployContext(String path, URL config, URL war, boolean update)
         throws TomcatManagerException, IOException
@@ -362,7 +361,7 @@ public class TomcatManager extends LoggedObject
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void deployContext(String path, URL config, URL war, boolean update, String tag)
         throws TomcatManagerException, IOException
@@ -375,7 +374,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the webapp context path to undeploy
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void undeploy(String path) throws TomcatManagerException, IOException
     {
@@ -388,7 +387,7 @@ public class TomcatManager extends LoggedObject
      * @param path the webapp context path to undeploy
      * @param version the version of the webapp context path to undeploy
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void undeploy(String path, String version) throws TomcatManagerException, IOException
     {
@@ -406,7 +405,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the webapp context path to remove
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void remove(String path) throws TomcatManagerException, IOException
     {
@@ -418,7 +417,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the webapp context path to reload
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void reload(String path) throws TomcatManagerException, IOException
     {
@@ -430,7 +429,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the webapp context path to start
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void start(String path) throws TomcatManagerException, IOException
     {
@@ -442,7 +441,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the webapp context path to stop
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public void stop(String path) throws TomcatManagerException, IOException
     {
@@ -454,7 +453,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @param path the Tomcat manager command to invoke
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     protected void invoke(String path) throws TomcatManagerException, IOException
     {
@@ -468,10 +467,9 @@ public class TomcatManager extends LoggedObject
      * @param fileData the file to stream as content data, if needed
      * @return the result of the invoking command, as returned by the Tomcat Manager application
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws MalformedURLException if the URL is somehow malformed
+     * @throws IOException if connecting to the server fails
      */
-    protected String invoke(String path, File fileData) throws TomcatManagerException,
-        MalformedURLException
+    protected String invoke(String path, File fileData) throws TomcatManagerException, IOException
     {
         getLogger().debug("Invoking Tomcat manager using path [" + path + "]",
             getClass().getName());
@@ -532,7 +530,7 @@ public class TomcatManager extends LoggedObject
      * @param update whether to first undeploy the webapp if it already exists
      * @param tag the tag name to use
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     private void deployImpl(String path, String version, URL config, URL war, File file,
         boolean update, String tag) throws TomcatManagerException, IOException
@@ -568,7 +566,7 @@ public class TomcatManager extends LoggedObject
      * 
      * @return a string representing the result of invoked command
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public String list() throws IOException, TomcatManagerException
     {
@@ -581,7 +579,7 @@ public class TomcatManager extends LoggedObject
      * @param path the webapp context path to get status
      * @return the current status of the webapp in the running container
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public TomcatDeployableStatus getStatus(String path) throws IOException, TomcatManagerException
     {
@@ -595,7 +593,7 @@ public class TomcatManager extends LoggedObject
      * @param version the version of the webapp context path to get status
      * @return the current status of the webapp in the running container
      * @throws TomcatManagerException if the Tomcat manager request fails
-     * @throws IOException if an i/o error occurs
+     * @throws IOException if connecting to the server fails
      */
     public TomcatDeployableStatus getStatus(String path, String version) throws IOException,
         TomcatManagerException

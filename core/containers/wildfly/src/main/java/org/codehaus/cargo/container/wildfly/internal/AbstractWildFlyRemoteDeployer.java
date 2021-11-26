@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.wildfly.internal;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -69,8 +70,15 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
     @Override
     public void deploy(Deployable deployable)
     {
-        String bytesValue = uploadDeployable(deployable);
-        deployDeployable(deployable, bytesValue);
+        try
+        {
+            String bytesValue = uploadDeployable(deployable);
+            deployDeployable(deployable, bytesValue);
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Error connecting to the remote WildFly server.", e);
+        }
     }
 
     /**
@@ -79,8 +87,15 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
     @Override
     public void undeploy(Deployable deployable)
     {
-        undeployDeployable(deployable);
-        removeDeployable(deployable);
+        try
+        {
+            undeployDeployable(deployable);
+            removeDeployable(deployable);
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Error connecting to the remote WildFly server.", e);
+        }
     }
 
     /**
@@ -88,8 +103,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      * 
      * @param deployable Deployable to be uploaded.
      * @return Value of BYTES_VALUE field in response.
+     * @throws IOException If connecting to the server fails.
      */
-    private String uploadDeployable(Deployable deployable)
+    private String uploadDeployable(Deployable deployable) throws IOException
     {
         String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
         String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
@@ -113,8 +129,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      * 
      * @param deployable Deployable to be deployed.
      * @param bytesValue BYTES_VALUE marking uploaded content.
+     * @throws IOException If connecting to the server fails.
      */
-    private void deployDeployable(Deployable deployable, String bytesValue)
+    private void deployDeployable(Deployable deployable, String bytesValue) throws IOException
     {
         String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
         String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
@@ -136,8 +153,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      * Undeploy deployable on server.
      * 
      * @param deployable Deployable to be undeployed.
+     * @throws IOException If connecting to the server fails.
      */
-    private void undeployDeployable(Deployable deployable)
+    private void undeployDeployable(Deployable deployable) throws IOException
     {
         String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
         String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
@@ -159,8 +177,9 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
      * Remove deployable from server.
      * 
      * @param deployable Deployable to be removed.
+     * @throws IOException If connecting to the server fails.
      */
-    private void removeDeployable(Deployable deployable)
+    private void removeDeployable(Deployable deployable) throws IOException
     {
         String username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
         String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);

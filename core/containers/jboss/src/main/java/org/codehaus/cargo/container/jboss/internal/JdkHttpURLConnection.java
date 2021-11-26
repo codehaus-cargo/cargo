@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -39,10 +39,10 @@ public class JdkHttpURLConnection
      * @param password Password (optional, can be <code>null</code>)
      * @param timeout Connection timeout (optional, can be <code>0</code>)
      * @param logger Codehaus Cargo logger to use
-     * @throws MalformedURLException If the URL provided is invalid
+     * @throws IOException If connecting to the JBoss server fails
      */
     public void connect(String url, String username, String password, int timeout, Logger logger)
-        throws MalformedURLException
+        throws IOException
     {
         HttpResult response;
         HttpRequest request = new HttpRequest(new URL(url), timeout);

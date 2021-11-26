@@ -152,32 +152,36 @@ public class HttpRequest extends LoggedObject
 
     /**
      * @return Result of HTTP GET call of this connection.
+     * @throws IOException If connecting to the server fails.
      */
-    public HttpResult get()
+    public HttpResult get() throws IOException
     {
         return connect("GET", null);
     }
 
     /**
      * @return Result of HTTP POST call of this connection.
+     * @throws IOException If connecting to the server fails.
      */
-    public HttpResult post()
+    public HttpResult post() throws IOException
     {
         return connect("POST", null);
     }
 
     /**
      * @return Result of HTTP PUT call of this connection.
+     * @throws IOException If connecting to the server fails.
      */
-    public HttpResult put()
+    public HttpResult put() throws IOException
     {
         return connect("PUT", null);
     }
 
     /**
      * @return Result of HTTP DELETE call of this connection.
+     * @throws IOException If connecting to the server fails.
      */
-    public HttpResult delete()
+    public HttpResult delete() throws IOException
     {
         return connect("DELETE", null);
     }
@@ -189,8 +193,9 @@ public class HttpRequest extends LoggedObject
      * @param digestData HTTP Digest authentication data, if available
      * @return the HTTP(S) result containing -1 as response code if no connection could be
      * established
+     * @throws IOException If connecting to the server fails.
      */
-    private HttpResult connect(String httpMethod, String digestData)
+    private HttpResult connect(String httpMethod, String digestData) throws IOException
     {
         getLogger().debug(
             "Calling [" + url + "] with timeout " + this.timeout, this.getClass().getName());
@@ -441,14 +446,9 @@ public class HttpRequest extends LoggedObject
             result.setResponseBody(readFully(connection));
             return result;
         }
-        catch (IOException | KeyManagementException | NoSuchAlgorithmException e)
+        catch (KeyManagementException | NoSuchAlgorithmException e)
         {
-            getLogger().debug(e.toString(), getClass().getName());
-
-            HttpResult result = new HttpResult();
-            result.setResponseCode(-1);
-            result.setResponseMessage(e.toString());
-            return result;
+            throw new IOException(e);
         }
         finally
         {
@@ -706,6 +706,7 @@ public class HttpRequest extends LoggedObject
         @Override
         public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
         {
+            // Method purposefully left empty
         }
 
         /**
@@ -716,6 +717,7 @@ public class HttpRequest extends LoggedObject
         @Override
         public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
         {
+            // Method purposefully left empty
         }
     }
 

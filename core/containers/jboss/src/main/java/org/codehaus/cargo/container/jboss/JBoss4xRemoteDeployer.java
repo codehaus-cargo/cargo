@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -259,6 +260,10 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         catch (MalformedURLException | UnsupportedEncodingException e)
         {
             throw new CargoException("Exception building JBoss JMX console URL", e);
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Cannot connect to the JBoss server", e);
         }
         catch (ContainerException e)
         {
