@@ -22,11 +22,13 @@ package org.codehaus.cargo.container.glassfish;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.enterprise.deploy.shared.factories.DeploymentFactoryManager;
 import javax.enterprise.deploy.spi.DeploymentManager;
 import javax.enterprise.deploy.spi.Target;
+import javax.enterprise.deploy.spi.TargetModuleID;
 import javax.enterprise.deploy.spi.exceptions.DeploymentManagerCreationException;
 
 import org.codehaus.cargo.container.ContainerException;
@@ -95,9 +97,9 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
         if (prop != null && !prop.isEmpty())
         {
             Set<String> cfgTargets = new HashSet<String>(Arrays.asList(prop.split(",")));
-            ArrayList<Target> result = new ArrayList<Target>();
+            List<Target> result = new ArrayList<Target>();
 
-            for (Target target: targets)
+            for (Target target : targets)
             {
                 if (cfgTargets.contains(target.getName()))
                 {
@@ -109,7 +111,7 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
             {
                 String allTargets = "";
 
-                for (Target t: targets)
+                for (Target t : targets)
                 {
                     allTargets += t.getName() + " ";
                 }
@@ -121,6 +123,38 @@ public class GlassFish3xRemoteDeployer extends AbstractJsr88Deployer
             return result.toArray(new Target[result.size()]);
         }
 
-        return targets;
+        return super.filterTargets(targets);
+    }
+
+    /**
+     * @param targetModuleIDs List with all available target module IDs for the target module.
+     * @return Target module IDs set up in the runtime configuration.
+     */
+    @Override
+    protected TargetModuleID[] filterTargetModuleIDs(List<TargetModuleID> targetModuleIDs)
+    {
+        String prop = this.getRuntimeConfiguration().getPropertyValue(
+            GlassFishPropertySet.TARGET);
+
+        if (prop != null && !prop.isEmpty())
+        {
+            Set<String> cfgTargets = new HashSet<String>(Arrays.asList(prop.split(",")));
+            List<TargetModuleID> result = new ArrayList<TargetModuleID>();
+
+            for (TargetModuleID targetModule : targetModuleIDs)
+            {
+                for (String target : cfgTargets)
+                {
+                    if (targetModule.getTarget().getName().equals(target))
+                    {
+                        result.add(targetModule);
+                    }
+                }
+            }
+
+            return result.toArray(new TargetModuleID[result.size()]);
+        }
+
+        return super.filterTargetModuleIDs(targetModuleIDs);
     }
 }

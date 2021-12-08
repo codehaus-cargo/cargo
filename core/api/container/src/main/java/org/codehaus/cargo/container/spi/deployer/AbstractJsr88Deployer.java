@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.spi.deployer;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.deploy.shared.ModuleType;
 import javax.enterprise.deploy.shared.factories.DeploymentFactoryManager;
@@ -423,7 +425,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
                 + " has no JSR-88 match and cannot be remotely deployed.");
         }
 
-        TargetModuleID targetModule = null;
         TargetModuleID[] modules = deploymentManager.getAvailableModules(moduleType,
             deploymentManager.getTargets());
 
@@ -431,27 +432,30 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         sb.append("Cannot find the module \"");
         sb.append(moduleName);
         sb.append("\". Available modules:");
+
+        List<TargetModuleID> targetModules = new ArrayList<>();
+
         for (TargetModuleID module : modules)
         {
             String moduleId = module.getModuleID();
 
             if (moduleName.equals(moduleId))
             {
-                targetModule = module;
-                break;
+                targetModules.add(module);
             }
-            sb.append("\n\t- ");
-            sb.append(moduleId);
+            else
+            {
+                sb.append("\n\t- ");
+                sb.append(moduleId);
+            }
         }
 
-        if (targetModule == null)
+        if (targetModules.isEmpty())
         {
             throw new CargoException(sb.toString());
         }
 
-        TargetModuleID[] targetModules = new TargetModuleID[1];
-        targetModules[0] = targetModule;
-        return targetModules;
+        return filterTargetModuleIDs(targetModules);
     }
 
     /**
@@ -463,11 +467,20 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     }
 
     /**
-     * @param targets List with all awailable targets for this container instance.
+     * @param targets List with all available targets for this container instance.
      * @return Let implementations filter targets for deploy.
      */
     protected Target[] filterTargets(Target[] targets)
     {
         return targets;
+    }
+
+    /**
+     * @param targetModuleIDs List with all available target module IDs for the target module.
+     * @return Let implementations filter target module IDs for deploy.
+     */
+    protected TargetModuleID[] filterTargetModuleIDs(List<TargetModuleID> targetModuleIDs)
+    {
+        return targetModuleIDs.toArray(new TargetModuleID[targetModuleIDs.size()]);
     }
 }
