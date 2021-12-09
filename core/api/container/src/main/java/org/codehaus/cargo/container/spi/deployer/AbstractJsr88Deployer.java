@@ -129,10 +129,10 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
 
             ProgressObject progressObject = deploymentManager.distribute(
                 this.filterTargets(deploymentManager.getTargets()), deployableFile, null);
-            this.waitForProgressObject(progressObject);
+            this.waitForProgressObject("Distributing", progressObject);
 
             progressObject = deploymentManager.start(progressObject.getResultTargetModuleIDs());
-            this.waitForProgressObject(progressObject);
+            this.waitForProgressObject("Starting", progressObject);
         }
         finally
         {
@@ -172,10 +172,10 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         }
 
         ProgressObject progressObject = deploymentManager.stop(targetModules);
-        this.waitForProgressObject(progressObject);
+        this.waitForProgressObject("Stopping", progressObject);
 
         progressObject = deploymentManager.undeploy(targetModules);
-        this.waitForProgressObject(progressObject);
+        this.waitForProgressObject("Undeploying", progressObject);
     }
 
     /**
@@ -203,10 +203,10 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         if (targetModules != null)
         {
             ProgressObject progressObject = deploymentManager.stop(targetModules);
-            this.waitForProgressObject(progressObject);
+            this.waitForProgressObject("Stopping", progressObject);
 
             progressObject = deploymentManager.undeploy(targetModules);
-            this.waitForProgressObject(progressObject);
+            this.waitForProgressObject("Undeploying", progressObject);
         }
 
         this.deploy(deployable);
@@ -231,7 +231,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         }
 
         ProgressObject progressObject = deploymentManager.start(targetModules);
-        this.waitForProgressObject(progressObject);
+        this.waitForProgressObject("Starting", progressObject);
     }
 
     /**
@@ -253,16 +253,18 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         }
 
         ProgressObject progressObject = deploymentManager.stop(targetModules);
-        this.waitForProgressObject(progressObject);
+        this.waitForProgressObject("Stopping", progressObject);
     }
 
     /**
      * Waits for a progress object.
      * 
+     * @param reason Reason for wait (Start, Stop, etc.), used for error messages.
      * @param progressObject Progress object.
      * @throws CargoException If timeout or deployment fails.
      */
-    private void waitForProgressObject(ProgressObject progressObject) throws CargoException
+    private void waitForProgressObject(String reason, ProgressObject progressObject)
+        throws CargoException
     {
         long timeout = System.currentTimeMillis() + this.timeout;
         while (System.currentTimeMillis() < timeout)
@@ -273,7 +275,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             }
             catch (InterruptedException e)
             {
-                throw new CargoException("Thread.sleep has failed", e);
+                throw new CargoException("Thread.sleep failed", e);
             }
 
             DeploymentStatus status = progressObject.getDeploymentStatus();
@@ -283,12 +285,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             }
             else if (status.isFailed())
             {
-                throw new CargoException("Deployment has failed: " + status.getMessage());
+                throw new CargoException(reason + " failed: " + status.getMessage());
             }
         }
 
-        throw new CargoException("Deployment has timed out after " + this.timeout
-            + " milliseconds");
+        throw new CargoException(reason + " timed out after " + this.timeout + " milliseconds");
     }
 
     /**
@@ -329,9 +330,9 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         catch (ClassNotFoundException e)
         {
             throw new CargoException(
-                "Cannot locate the JSR-88 deployer class " + deploymentFactoryClassName + "\n"
-                    + "Make sure the target server's librarires are in CARGO's classpath.\n"
-                    + "More information on: https://codehaus-cargo.github.io/cargo/JSR88.html", e);
+                "Cannot locate the JSR-88 deployer class " + deploymentFactoryClassName + "\nMake "
+                    + "sure the target server's librarires are in Codehaus Cargo's classpath.\n"
+                        + "Read more on: https://codehaus-cargo.github.io/cargo/JSR88.html", e);
         }
         catch (Throwable t)
         {
@@ -421,8 +422,8 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         }
         else
         {
-            throw new IllegalArgumentException("CARGO deployable type " + deployable.getType()
-                + " has no JSR-88 match and cannot be remotely deployed.");
+            throw new IllegalArgumentException("Codehaus Cargo deployable type "
+                + deployable.getType() + " has no JSR-88 match and cannot be remotely deployed.");
         }
 
         TargetModuleID[] modules = deploymentManager.getAvailableModules(moduleType,
