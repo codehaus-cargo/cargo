@@ -94,6 +94,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("wildfly23x");
         excludedContainerIds.add("wildfly24x");
         excludedContainerIds.add("wildfly25x");
+        excludedContainerIds.add("wildfly26x");
 
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {

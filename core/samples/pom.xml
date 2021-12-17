@@ -1374,6 +1374,15 @@
               </property>
 
               <property>
+                <name>cargo.wildfly26x.url</name>
+                <value>https://github.com/wildfly/wildfly/releases/download/26.0.0.Final/wildfly-26.0.0.Final.zip</value>
+              </property>
+              <property>
+                <name>cargo.wildfly26x.java.home</name>
+                <value>${cargo.java.home.1_8}</value>
+              </property>
+
+              <property>
                 <name>cargo.wildfly-swarm2017x.home</name>
                 <value>${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar</value>
               </property>
@@ -2271,6 +2280,12 @@
       <id>wildfly25x</id>
       <properties>
         <cargo.containers>wildfly25x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>wildfly26x</id>
+      <properties>
+        <cargo.containers>wildfly26x</cargo.containers>
       </properties>
     </profile>
     <profile>
