@@ -757,7 +757,7 @@
 
               <property>
                 <name>cargo.payara.url</name>
-                <value>https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2021.8/payara-5.2021.8.zip</value>
+                <value>https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2021.9/payara-5.2021.9.zip</value>
               </property>
               <property>
                 <name>cargo.payara.java.home</name>
