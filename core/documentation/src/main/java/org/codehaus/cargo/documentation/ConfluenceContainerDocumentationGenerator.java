@@ -1312,25 +1312,14 @@ public class ConfluenceContainerDocumentationGenerator
                 || containerId.startsWith("tomee"))
             {
                 output.append("{info}With ");
-                if (containerId.equals("tomcat7x"))
-                {
-                    output.append("Tomcat 7");
-                }
-                else if (containerId.equals("tomcat8x"))
-                {
-                    output.append("Tomcat 8");
-                }
-                else if (containerId.equals("tomcat9x"))
-                {
-                    output.append("Tomcat 9");
-                }
-                else if (containerId.equals("tomcat10x"))
-                {
-                    output.append("Tomcat 10");
-                }
-                else if (containerId.startsWith("tomee"))
+                if (containerId.startsWith("tomee"))
                 {
                     output.append("TomEE");
+                }
+                else
+                {
+                    output.append("Tomcat ");
+                    output.append(containerId.replace("tomcat", "").replace("x", ""));
                 }
                 output.append(", the Tomcat manager has multiple aspects to be careful about:");
                 output.append(LINE_SEPARATOR);
