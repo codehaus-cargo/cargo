@@ -9,13 +9,14 @@
 *.css text
 *.dtd text
 *.groovy text
+*.html text
 *.java text
+*.json text
 *.jsp text
 *.ldift text
 *.license text
 *.md text
 *.mdo text
-*.license text
 *.properties text
 *.props text
 *.py text
@@ -24,6 +25,9 @@
 *.types text
 *.xml text
 *.xsd text
+*.yml text
+LICENSE text
+NOTICE text
 
 # Known binary files
 *.dat binary
@@ -31,6 +35,7 @@
 *.jar binary
 *.jks binary
 *.jpg binary
+*.keystore binary
 *.png binary
 *.ppt binary
 *.war binary
