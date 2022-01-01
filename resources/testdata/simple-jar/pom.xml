@@ -26,6 +26,7 @@
   <artifactId>simple-jar</artifactId>
   <name>Cargo test data for samples - Simple JAR</name>
   <description>
+    Cargo test data for samples - Simple JAR.
     Used in tests to determine that specific classes are added to the classpath.
   </description>
   <packaging>jar</packaging>

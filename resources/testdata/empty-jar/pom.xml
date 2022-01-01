@@ -26,6 +26,7 @@
   <artifactId>empty-jar</artifactId>
   <name>Cargo test data for samples - Empty JAR</name>
   <description>
+    Cargo test data for samples - Empty JAR.
     We need this empty jar because an EAR's application.xml requires at least one &lt;module&gt; element so we've chosen to define an empty jar.
   </description>
   <packaging>jar</packaging>
