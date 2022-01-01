@@ -435,8 +435,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void replaceInXmlFile(XmlReplacement... xmlReplacements)
-        throws CargoException
+    public void replaceInXmlFile(XmlReplacement... xmlReplacements) throws CargoException
     {
         Map<String, Map<XmlReplacementDetails, String>> replacements =
             new HashMap<String, Map<XmlReplacementDetails, String>>();
