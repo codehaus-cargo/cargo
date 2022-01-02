@@ -439,7 +439,8 @@ public class ConfluenceContainerDocumentationGenerator
 
         if (containerId.equals("geronimo1x"))
         {
-            output.append("{note}The Geronimo 1.x CARGO container REQUIRES Geronimo 1.1.1.{note}");
+            output.append(
+                "{note}The Codehaus Cargo Geronimo 1.x container REQUIRES Geronimo 1.1.1.{note}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
@@ -1168,7 +1169,7 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("recommended for you to prefer using WebSphere with an ");
                 output.append("[existing local configuration|Existing Local Configuration]; ");
                 output.append("i.e. a WebSphere profile you would create beforehand using ");
-                output.append("WebSphere's setup commands and then use that with CARGO.");
+                output.append("WebSphere's setup commands and then use that with Codehaus Cargo.");
                 output.append("{note}");
                 output.append(LINE_SEPARATOR);
                 output.append(LINE_SEPARATOR);
@@ -1523,7 +1524,7 @@ public class ConfluenceContainerDocumentationGenerator
                     }
                     else if (containerId.startsWith("websphere"))
                     {
-                        extra = "By default, CARGO will use the JVM from the "
+                        extra = "By default, Codehaus Cargo will use the JVM from the "
                             + "WebSphere installation directory";
                     }
                     if (!extra.isEmpty())
