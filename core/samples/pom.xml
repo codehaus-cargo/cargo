@@ -683,7 +683,7 @@
                 <!--
                 <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.1.0/glassfish-6.1.0.zip</value>
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.2.3/glassfish-6.2.3.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.2.4/glassfish-6.2.4.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish6x.java.home</name>
