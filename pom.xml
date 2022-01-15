@@ -341,8 +341,10 @@
       only works starting from Maven 3.2.2: https://issues.apache.org/jira/browse/MNG-4565
 
       Require Maven 3.2.3 so access to Maven Central is done via HTTPS.
+
+      The Maven compiler plugin's version 3.9.0 onwards requires Maven 3.2.5.
       -->
-    <maven.minimum.version>3.2.3</maven.minimum.version>
+    <maven.minimum.version>3.2.5</maven.minimum.version>
     <maven.antrun-plugin.version>3.0.0</maven.antrun-plugin.version>
     <maven.archetype-packaging.version>3.2.1</maven.archetype-packaging.version>
     <maven.compiler-plugin.version>3.9.0</maven.compiler-plugin.version>
