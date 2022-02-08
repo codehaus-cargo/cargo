@@ -25,6 +25,7 @@ package org.codehaus.cargo.container.wildfly.internal;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.http.HttpResult;
+import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.util.CargoException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -145,13 +146,26 @@ public class WildFlyRemoteDeploymentJsonMarshaller
     /**
      * @param deployable Deployable.
      * @return Deployable file name, which takes into account the WAR context, including the case
-     * where it would be the root WAR.
+     * where it would be the root WAR. Moreover, when the JBoss or WildFly WAR file has the context
+     * root set in the <code>jboss-web.xml</code> file, it will
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1577">return the original WAR
+     * file name</a>.
      */
     public String getDeployableFilename(Deployable deployable)
     {
         String deployableName;
         if (deployable instanceof WAR)
         {
+            if (deployable instanceof JBossWAR)
+            {
+                JBossWAR jbossWar = (JBossWAR) deployable;
+                if (jbossWar.containsJBossWebContext())
+                {
+                    // CARGO-1577: When the JBoss or WildFly WAR file has the context root set in
+                    //             the jboss-web.xml file, keep the original WAR file name
+                    return jbossWar.getFileHandler().getName(jbossWar.getFile());
+                }
+            }
             WAR war = (WAR) deployable;
             String context = war.getContext();
             if ("".equals(context) || "/".equals(context))

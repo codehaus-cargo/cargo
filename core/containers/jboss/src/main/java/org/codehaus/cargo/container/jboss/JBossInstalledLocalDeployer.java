@@ -66,7 +66,10 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
      * {@inheritDoc}. We override the base implementation because JBoss requires that expanded WAR
      * directories to end with <code>.war</code> so we have to rename the expanded WAR directory.
      * See <a href="http://docs.jboss.org/jbossas/jboss4guide/r4/html/ch2.chapter.html#d0e5347">
-     * the JBoss documentation for AbstractWebDeployer</a>.
+     * the JBoss documentation for AbstractWebDeployer</a>.  Moreover, when the JBoss WAR file has
+     * the context root set in the <code>jboss-web.xml</code> file, it will
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1577">return the original WAR
+     * file name</a>.
      */
     @Override
     protected String getDeployableName(Deployable deployable)

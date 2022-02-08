@@ -30,9 +30,9 @@ import java.net.URLClassLoader;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
+import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
 import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 import org.codehaus.cargo.util.CargoException;
@@ -61,7 +61,7 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
 
         URL deployerJarURL;
         try (InputStream deployerJarInputStream =
-                this.getClass().getClassLoader().getResourceAsStream(deployerJarName))
+            this.getClass().getClassLoader().getResourceAsStream(deployerJarName))
         {
             if (deployerJarInputStream == null)
             {
@@ -72,7 +72,7 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
             {
                 File deployerJarFile = File.createTempFile("cargo-jboss-deployer-", ".jar");
                 try (FileOutputStream deployerJarOutputStream =
-                        new FileOutputStream(deployerJarFile))
+                    new FileOutputStream(deployerJarFile))
                 {
                     byte[] buf = new byte[1024];
                     int len;
@@ -224,7 +224,11 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
     }
 
     /**
-     * Get the deployable name for a given deployable. This also takes into account the WAR context.
+     * Get the deployable name for a given deployable. This also takes into account the WAR
+     * context, including the case where it would be the root WAR. Moreover, when the JBoss WAR
+     * file has the context root set in the <code>jboss-web.xml</code> file, it will
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1577">return the original WAR
+     * file name</a>.
      * @param deployable Deployable to get the name for.
      * @return Name for <code>deployable</code>.
      */
@@ -232,17 +236,25 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
     {
         File localFile = new File(deployable.getFile());
         String localFileName = localFile.getName();
-        if (deployable.getType() == DeployableType.WAR)
+        if (deployable instanceof WAR)
         {
+            if (deployable instanceof JBossWAR)
+            {
+                JBossWAR jbossWar = (JBossWAR) deployable;
+                if (jbossWar.containsJBossWebContext())
+                {
+                    // CARGO-1577: When the JBoss or WildFly WAR file has the context root set in
+                    //             the jboss-web.xml file, keep the original WAR file name
+                    return localFileName;
+                }
+            }
             WAR war = (WAR) deployable;
-            if (war.getContext().isEmpty())
+            String context = war.getContext();
+            if ("".equals(context) || "/".equals(context))
             {
-                localFileName = "rootContext.war";
+                context = "ROOT";
             }
-            else
-            {
-                localFileName = war.getContext() + ".war";
-            }
+            localFileName = context + ".war";
         }
 
         return localFileName;
