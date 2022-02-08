@@ -23,6 +23,7 @@
 package org.codehaus.cargo.container.wildfly.internal;
 
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.http.HttpResult;
 import org.codehaus.cargo.util.CargoException;
 import org.json.simple.JSONArray;
@@ -93,8 +94,7 @@ public class WildFlyRemoteDeploymentJsonMarshaller
         hashObject.put("hash", bytesValueObject);
 
         JSONObject deploymentObject = new JSONObject();
-        deploymentObject.put("deployment",
-                deployable.getName() + "." + deployable.getType().getType());
+        deploymentObject.put("deployment", getDeployableFilename(deployable));
 
         JSONObject deployRequest = new JSONObject();
         deployRequest.put("content", wrapInArray(hashObject));
@@ -116,8 +116,7 @@ public class WildFlyRemoteDeploymentJsonMarshaller
     public String marshallUndeployRequest(Deployable deployable)
     {
         JSONObject deploymentObject = new JSONObject();
-        deploymentObject.put("deployment",
-                deployable.getName() + "." + deployable.getType().getType());
+        deploymentObject.put("deployment", getDeployableFilename(deployable));
 
         JSONObject deployRequest = new JSONObject();
         deployRequest.put("address", wrapInArray(deploymentObject));
@@ -134,14 +133,38 @@ public class WildFlyRemoteDeploymentJsonMarshaller
     public String marshallRemoveRequest(Deployable deployable)
     {
         JSONObject deploymentObject = new JSONObject();
-        deploymentObject.put("deployment",
-                deployable.getName() + "." + deployable.getType().getType());
+        deploymentObject.put("deployment", getDeployableFilename(deployable));
 
         JSONObject deployRequest = new JSONObject();
         deployRequest.put("address", wrapInArray(deploymentObject));
         deployRequest.put("operation", "remove");
 
         return deployRequest.toJSONString();
+    }
+
+    /**
+     * @param deployable Deployable.
+     * @return Deployable file name, which takes into account the WAR context, including the case
+     * where it would be the root WAR.
+     */
+    public String getDeployableFilename(Deployable deployable)
+    {
+        String deployableName;
+        if (deployable instanceof WAR)
+        {
+            WAR war = (WAR) deployable;
+            String context = war.getContext();
+            if ("".equals(context) || "/".equals(context))
+            {
+                context = "ROOT";
+            }
+            deployableName = context;
+        }
+        else
+        {
+            deployableName = deployable.getName();
+        }
+        return deployableName + "." + deployable.getType().getType();
     }
 
     /**

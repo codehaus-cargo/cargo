@@ -111,10 +111,10 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         String password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
 
         URL addContentUrl = getAddContentUrl();
-        String deploymentName = deployable.getName() + "." + deployable.getType().getType();
+        String deployableFilename = marshaller.getDeployableFilename(deployable);
 
         MultipartFormContentType multipartFormContentType = new MultipartFormContentType();
-        multipartFormContentType.setFormFile(deploymentName, new File(deployable.getFile()));
+        multipartFormContentType.setFormFile(deployableFilename, new File(deployable.getFile()));
         HttpFormRequest request = new HttpFormRequest(addContentUrl, multipartFormContentType);
         request.setLogger(this.getLogger());
         request.setAuthentication(username, password);
