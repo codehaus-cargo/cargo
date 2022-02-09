@@ -56,6 +56,7 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
         setProperty(JBossPropertySet.JBOSS_JMX_PORT, "1091");
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
         setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
+        setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
     }
 
     /**

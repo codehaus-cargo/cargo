@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 
@@ -34,5 +35,6 @@ public abstract class AbstractJBossRuntimeConfigurationCapability extends
     public AbstractJBossRuntimeConfigurationCapability()
     {
         this.propertySupportMap.put(RemotePropertySet.URI, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
     }
 }

@@ -61,7 +61,7 @@ public abstract class AbstractWildFlyRemoteDeployer extends AbstractRemoteDeploy
         super(container);
 
         this.configuration = container.getConfiguration();
-        this.marshaller = new WildFlyRemoteDeploymentJsonMarshaller();
+        this.marshaller = new WildFlyRemoteDeploymentJsonMarshaller(this.configuration);
     }
 
     /**

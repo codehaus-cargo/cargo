@@ -23,6 +23,7 @@ import java.net.InetSocketAddress;
 import java.net.URL;
 
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.Logger;
 
@@ -33,10 +34,21 @@ public interface ISimpleHttpFileServer
 {
 
     /**
-     * @param handler file handler to use.
-     * @param deployable deployable to handle.
+     * @param fileHandler file handler to use.
      */
-    void setFile(FileHandler handler, Deployable deployable);
+    void setFileHandler(FileHandler fileHandler);
+
+    /**
+     * @param logger logger to use.
+     */
+    void setLogger(Logger logger);
+
+    /**
+     * @param deployable deployable to handle.
+     * @param keepOriginalWarFilename whether to keep the original file name, see
+     * {@link JBossPropertySet#KEEP_ORIGINAL_WAR_FILENAME} for details.
+     */
+    void setFile(Deployable deployable, String keepOriginalWarFilename);
 
     /**
      * @param listenSocket socket to listen on.
@@ -44,11 +56,6 @@ public interface ISimpleHttpFileServer
      * from the listenSocket.
      */
     void setListeningParameters(InetSocketAddress listenSocket, String remoteDeployAddress);
-
-    /**
-     * @param logger logger to use.
-     */
-    void setLogger(Logger logger);
 
     /**
      * @return url this server serves.

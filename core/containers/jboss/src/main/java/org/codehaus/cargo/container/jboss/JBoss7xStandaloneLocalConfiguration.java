@@ -87,15 +87,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
         setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
-
-        getProperties().remove(JBossPropertySet.JBOSS_AJP_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_INVOKER_POOL_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_NAMING_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
+        setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
 
         try
         {

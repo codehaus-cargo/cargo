@@ -34,8 +34,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.Logger;
@@ -100,7 +101,16 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * @param logger logger to use.
+     * {@inheritDoc}
+     */
+    @Override
+    public void setFileHandler(FileHandler fileHandler)
+    {
+        this.fileHandler = fileHandler;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void setLogger(Logger logger)
@@ -109,23 +119,29 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * @param handler file handler to use.
-     * @param deployable deployable to handle.
+     * {@inheritDoc}
      */
     @Override
-    public void setFile(FileHandler handler, Deployable deployable)
+    public void setFile(Deployable deployable, String keepOriginalWarFilename)
     {
+        if (this.fileHandler == null)
+        {
+            throw new CargoException("Please call setFileHandler first!");
+        }
+
+        if (this.logger == null)
+        {
+            throw new CargoException("Please call setLogger first!");
+        }
+
         String filePath = deployable.getFile();
 
         this.filePath = filePath;
-        this.fileHandler = handler;
-        this.remotePath = "/" + getDeployableName(deployable);
+        this.remotePath = "/" + getDeployableName(deployable, keepOriginalWarFilename);
     }
 
     /**
-     * @param listenSocket socket to listen on.
-     * @param remoteDeployAddress remote hostname to use in the url, if null it will be obtained
-     * from the listenSocket.
+     * {@inheritDoc}
      */
     @Override
     public void setListeningParameters(InetSocketAddress listenSocket, String remoteDeployAddress)
@@ -163,7 +179,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * @return url this server serves.
+     * {@inheritDoc}
      */
     @Override
     public URL getURL()
@@ -177,7 +193,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * @return the number of successful calls received.
+     * {@inheritDoc}
      */
     @Override
     public int getCallCount()
@@ -186,7 +202,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * @return exception, if any occured.
+     * {@inheritDoc}
      */
     @Override
     public Throwable getException()
@@ -195,16 +211,11 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * starts the server.
+     * {@inheritDoc}
      */
     @Override
     public void start()
     {
-        if (this.logger == null)
-        {
-            throw new CargoException("Please call setLogger first!");
-        }
-
         if (this.serverSocket == null)
         {
             throw new CargoException("Please call setListeningParameters first!");
@@ -217,7 +228,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * stops the server.
+     * {@inheritDoc}
      */
     @Override
     public void stop()
@@ -235,7 +246,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     }
 
     /**
-     * runs the thread.
+     * {@inheritDoc}
      */
     @Override
     public void run()
@@ -359,23 +370,44 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
     /**
      * Get the deployable name for a given deployable. This also takes into account the WAR context.
      * @param deployable Deployable to get the name for.
+     * @param keepOriginalWarFilename whether to keep the original file name, see
+     * {@link JBossPropertySet#KEEP_ORIGINAL_WAR_FILENAME} for details.
      * @return Name for <code>deployable</code>.
      */
-    private String getDeployableName(Deployable deployable)
+    private String getDeployableName(Deployable deployable, String keepOriginalWarFilename)
     {
         File localFile = new File(deployable.getFile());
         String localFileName = localFile.getName();
-        if (deployable.getType() == DeployableType.WAR)
+        if (deployable instanceof WAR)
         {
+            if (deployable instanceof JBossWAR)
+            {
+                JBossWAR jbossWar = (JBossWAR) deployable;
+                if (jbossWar.containsJBossWebContext())
+                {
+                    if (logger != null)
+                    {
+                        logger.info("The WAR file [" + localFileName + "] has a context root set "
+                            + "in its jboss-web.xml file, which will override any other context "
+                                + "set in the Codehaus Cargo deployable",
+                                    this.getClass().getName());
+                    }
+
+                    if (!"true".equalsIgnoreCase(keepOriginalWarFilename))
+                    {
+                        // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
+                        //             in the jboss-web.xml file, keep the original WAR file name
+                        return localFileName;
+                    }
+                }
+            }
             WAR war = (WAR) deployable;
-            if (war.getContext().isEmpty())
+            String context = war.getContext();
+            if ("".equals(context) || "/".equals(context))
             {
-                localFileName = "rootContext.war";
+                context = "ROOT";
             }
-            else
-            {
-                localFileName = war.getContext() + ".war";
-            }
+            localFileName = context + ".war";
         }
 
         return localFileName;

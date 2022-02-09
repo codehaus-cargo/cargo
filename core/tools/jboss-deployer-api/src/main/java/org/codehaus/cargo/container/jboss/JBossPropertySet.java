@@ -141,6 +141,16 @@ public interface JBossPropertySet
     String ALTERNATIVE_DEPLOYMENT_DIR = "cargo.jboss.deployment.dir";
 
     /**
+     * By default, Codehaus Cargo renames the WAR files to match the Web application context,
+     * nevertheless this is not relevant when the WAR file has the JBoss-specific context defined
+     * in it.<br>
+     * <br>
+     * This property defines whether to keep the original WAR filename if the WAR file has a
+     * <code>&lt;context-root&gt;</code> in the <code>WEB-INF/jboss-web.xml</code> file.
+     */
+    String KEEP_ORIGINAL_WAR_FILENAME = "cargo.jboss.deployer.keepOriginalWarFilename";
+
+    /**
      * Modules directory to use instead of the default <code>modules</code> directory.
      */
     String ALTERNATIVE_MODULES_DIR = "cargo.jboss.modules.dir";
@@ -150,8 +160,8 @@ public interface JBossPropertySet
      * Used for custom configuration of JBoss container in online mode.<br>
      * <br>
      * Example usage:<br>
-     * setProperty("cargo.jboss.script.cli.online.journal",
-     *              "target/jms-journal.cli")<br>
+     * <code>setProperty("cargo.jboss.script.cli.online.journal",
+     *                       "target/jms-journal.cli")</code>
      */
     String CLI_ONLINE_SCRIPT = "cargo.jboss.script.cli.online";
 }

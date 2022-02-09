@@ -64,6 +64,7 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.FALSE);
     }
 }

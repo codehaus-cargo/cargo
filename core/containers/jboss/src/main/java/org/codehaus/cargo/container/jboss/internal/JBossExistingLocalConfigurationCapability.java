@@ -40,13 +40,13 @@ public class JBossExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
-            Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
 
         // We don't support this property since it's not required as the configuration home already
-        // points to the JBoss configuration to use...
+        // points to the JBoss configuration to use
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
     }
 }

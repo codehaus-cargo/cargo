@@ -36,7 +36,7 @@ import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
+import org.codehaus.cargo.container.spi.deployer.AbstractDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.tomcat.Tomcat8xRuntimeConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
@@ -44,7 +44,7 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 /**
  * Common code to perform both local or remote deployments using a Tomcat manager-based deployer.
  */
-public abstract class AbstractTomcatManagerDeployer extends AbstractRemoteDeployer
+public abstract class AbstractTomcatManagerDeployer extends AbstractDeployer
 {
     /**
      * The name of the user agent when communicating with Tomcat manager.

@@ -24,6 +24,7 @@ import java.io.IOException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployer.DeployerType;
 
 /**
  * Common code to perform local deployments using a Tomcat manager-based deployer.
@@ -50,6 +51,16 @@ public abstract class AbstractTomcatManagerInstalledLocalDeployer extends
      * {@inheritDoc}
      */
     @Override
+    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
+        IOException
+    {
+        getTomcatManager().undeploy(getPath(deployable));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected Configuration getConfiguration()
     {
         return this.container.getConfiguration();
@@ -59,9 +70,8 @@ public abstract class AbstractTomcatManagerInstalledLocalDeployer extends
      * {@inheritDoc}
      */
     @Override
-    protected void performUndeploy(Deployable deployable) throws TomcatManagerException,
-        IOException
+    public DeployerType getType()
     {
-        getTomcatManager().undeploy(getPath(deployable));
+        return DeployerType.INSTALLED;
     }
 }

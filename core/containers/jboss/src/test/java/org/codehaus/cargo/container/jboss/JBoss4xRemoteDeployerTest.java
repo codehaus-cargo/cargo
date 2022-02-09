@@ -93,6 +93,7 @@ public class JBoss4xRemoteDeployerTest extends TestCase
         deployer.deploy(mockDeployable);
 
         InOrder orderVerifier = Mockito.inOrder(mockHttpFileServer);
+        orderVerifier.verify(mockHttpFileServer).setFileHandler(Mockito.any());
         orderVerifier.verify(mockHttpFileServer).setLogger(Mockito.any());
         orderVerifier.verify(mockHttpFileServer).setFile(Mockito.any(), Mockito.any());
         orderVerifier.verify(mockHttpFileServer).setListeningParameters(

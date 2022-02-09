@@ -243,9 +243,17 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
                 JBossWAR jbossWar = (JBossWAR) deployable;
                 if (jbossWar.containsJBossWebContext())
                 {
-                    // CARGO-1577: When the JBoss or WildFly WAR file has the context root set in
-                    //             the jboss-web.xml file, keep the original WAR file name
-                    return localFileName;
+                    getLogger().info("The WAR file [" + localFileName + "] has a context root set "
+                        + "in its jboss-web.xml file, which will override any other context set "
+                            + "in the Codehaus Cargo deployable", this.getClass().getName());
+
+                    if (!"true".equalsIgnoreCase(getContainer().getConfiguration().getPropertyValue(
+                        JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME)))
+                    {
+                        // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
+                        //             in the jboss-web.xml file, keep the original WAR file name
+                        return localFileName;
+                    }
                 }
             }
             WAR war = (WAR) deployable;

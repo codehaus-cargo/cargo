@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.deployer.DeployerType;
 
 /**
  * Common code to perform remote deployments using a Tomcat manager-based deployer.
@@ -49,5 +50,14 @@ public abstract class AbstractTomcatRemoteDeployer extends AbstractTomcatManager
     protected Configuration getConfiguration()
     {
         return this.container.getConfiguration();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DeployerType getType()
+    {
+        return DeployerType.REMOTE;
     }
 }

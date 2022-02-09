@@ -49,8 +49,8 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
     @Override
     public String getDeployableDir(Deployable deployable)
     {
-        String clustered = getContainer().getConfiguration().
-                                 getPropertyValue(JBossPropertySet.CLUSTERED);
+        String clustered =
+            getContainer().getConfiguration().getPropertyValue(JBossPropertySet.CLUSTERED);
 
         if (Boolean.parseBoolean(clustered))
         {
@@ -79,7 +79,18 @@ public class JBossInstalledLocalDeployer extends AbstractCopyingInstalledLocalDe
             JBossWAR jbossWar = (JBossWAR) deployable;
             if (jbossWar.containsJBossWebContext())
             {
-                return getFileHandler().getName(deployable.getFile());
+                String filename = getFileHandler().getName(deployable.getFile());
+                getLogger().info("The WAR file [" + filename + "] has a context root set in its "
+                    + "jboss-web.xml file, which will override any other context set in the "
+                        + "Codehaus Cargo deployable", this.getClass().getName());
+
+                if (!"true".equalsIgnoreCase(getContainer().getConfiguration().getPropertyValue(
+                    JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME)))
+                {
+                    // CARGO-1577: When the JBoss or WildFly WAR file has the context root set in
+                    //             the jboss-web.xml file, keep the original WAR file name
+                    return filename;
+                }
             }
         }
 

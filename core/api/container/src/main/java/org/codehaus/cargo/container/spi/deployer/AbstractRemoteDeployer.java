@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 
 /**
@@ -29,11 +29,24 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 public abstract class AbstractRemoteDeployer extends AbstractDeployer
 {
     /**
+     * Remote container into which to perform deployment operations.
+     */
+    private RemoteContainer container;
+
+    /**
      * @param container the remote container into which to perform deployment operations
      */
-    public AbstractRemoteDeployer(Container container)
+    public AbstractRemoteDeployer(RemoteContainer container)
     {
         super(container);
+    }
+
+    /**
+     * @return the remote container into which to perform deployment operations
+     */
+    protected RemoteContainer getContainer()
+    {
+        return this.container;
     }
 
     /**

@@ -37,7 +37,7 @@ public class WildFlyRemoteDeploymentJsonMarshallerTest extends TestCase
     {
         String hash = "K47rAt/kgPKImk/K2wqCUFniIOI=";
         WildFlyRemoteDeploymentJsonMarshaller marshaller =
-                new WildFlyRemoteDeploymentJsonMarshaller();
+            new WildFlyRemoteDeploymentJsonMarshaller(null);
 
         Deployable deployable = new WAR("/test/path");
         String deployRequest = marshaller.marshallDeployRequest(deployable, hash);
