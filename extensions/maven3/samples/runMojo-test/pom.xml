@@ -58,7 +58,7 @@
         SLF4J is only used by the Maven3 Embedder,
         keep the version information here to avoid confusions.
         -->
-      <version>1.7.35</version>
+      <version>1.7.36</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
