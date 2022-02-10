@@ -444,7 +444,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
+
+        if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
             || containerId.equals("wildfly10x") || containerId.equals("wildfly11x")
             || containerId.equals("wildfly13x") || containerId.equals("wildfly18x")
             || containerId.equals("wildfly22x"))
@@ -499,7 +500,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.startsWith("jonas"))
+
+        if (containerId.startsWith("jonas"))
         {
             output.append("{note}Due to [license ");
             output.append("conflicts|https://codehaus-cargo.atlassian.net/browse/CARGO-1489], ");
@@ -518,7 +520,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("glassfish6x") || containerId.equals("jetty11x")
+
+        if (containerId.equals("glassfish6x") || containerId.equals("jetty11x")
             || containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
         {
             String containerName;
@@ -548,14 +551,16 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("liberty"))
+
+        if (containerId.equals("liberty"))
         {
             output.append("{info}The Codehaus Cargo WebSphere Liberty container is also ");
             output.append("compatible with Open Liberty.{info}");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x")
+
+        if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x")
             || containerId.equals("wildfly24x") || containerId.equals("wildfly25x")
             || containerId.equals("wildfly26x"))
         {
@@ -573,7 +578,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.startsWith("weblogic12"))
+
+        if (containerId.startsWith("weblogic12"))
         {
             if (containerId.equals("weblogic12x"))
             {
@@ -597,7 +603,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
         }
-        else if (containerId.startsWith("websphere"))
+
+        if (containerId.startsWith("websphere"))
         {
             output.append("{note}");
             output.append("The WebSphere container does +not+ support WebSphere Application ");
