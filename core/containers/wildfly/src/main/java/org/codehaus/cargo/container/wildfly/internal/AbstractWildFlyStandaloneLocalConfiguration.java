@@ -56,6 +56,7 @@ public abstract class AbstractWildFlyStandaloneLocalConfiguration
         super(dir);
 
         setProperty(JBossPropertySet.CONFIGURATION, "standalone");
+        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
         setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
         setProperty(JBossPropertySet.JBOSS_AJP_PORT, "8009");
         setProperty(JBossPropertySet.JBOSS_HTTPS_PORT, "8443");

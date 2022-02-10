@@ -76,6 +76,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         setProperty(GeneralPropertySet.RMI_PORT, "1099");
         setProperty(JBossPropertySet.CONFIGURATION, "default");
+        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
         setProperty(JBossPropertySet.JBOSS_NAMING_PORT, "1098");
         setProperty(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT, "8083");
         setProperty(JBossPropertySet.JBOSS_JRMP_PORT, "1090");
@@ -85,7 +86,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
-        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
     }
 
     /**
