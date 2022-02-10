@@ -42,7 +42,7 @@ public class JBoss7xRuntimeConfiguration extends AbstractRuntimeConfiguration
     {
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
-        setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
+        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
 
         getProperties().remove(GeneralPropertySet.RMI_PORT);
     }

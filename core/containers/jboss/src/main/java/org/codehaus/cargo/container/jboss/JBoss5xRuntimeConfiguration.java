@@ -46,7 +46,7 @@ public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
         setProperty(JBossPropertySet.CONFIGURATION, "default");
         setProperty(JBossPropertySet.PROFILE, "default");
         setProperty(JBossPropertySet.CLUSTERED, "false");
-        setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
+        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
     }
 
     /**

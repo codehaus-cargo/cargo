@@ -371,7 +371,7 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
      * Get the deployable name for a given deployable. This also takes into account the WAR context.
      * @param deployable Deployable to get the name for.
      * @param keepOriginalWarFilename whether to keep the original file name, see
-     * {@link JBossPropertySet#KEEP_ORIGINAL_WAR_FILENAME} for details.
+     * {@link JBossPropertySet#DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME} for details.
      * @return Name for <code>deployable</code>.
      */
     private String getDeployableName(Deployable deployable, String keepOriginalWarFilename)

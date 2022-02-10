@@ -87,7 +87,7 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4447");
         setProperty(JBossPropertySet.CONFIGURATION, CONFIGURATION);
         setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
-        setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
+        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
 
         try
         {

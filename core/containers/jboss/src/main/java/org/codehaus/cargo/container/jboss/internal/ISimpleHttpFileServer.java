@@ -46,7 +46,7 @@ public interface ISimpleHttpFileServer
     /**
      * @param deployable deployable to handle.
      * @param keepOriginalWarFilename whether to keep the original file name, see
-     * {@link JBossPropertySet#KEEP_ORIGINAL_WAR_FILENAME} for details.
+     * {@link JBossPropertySet#DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME} for details.
      */
     void setFile(Deployable deployable, String keepOriginalWarFilename);
 

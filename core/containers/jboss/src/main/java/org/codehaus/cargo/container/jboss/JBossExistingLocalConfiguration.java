@@ -59,7 +59,7 @@ public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfig
         setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
-        setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
+        setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
     }
 
     /**

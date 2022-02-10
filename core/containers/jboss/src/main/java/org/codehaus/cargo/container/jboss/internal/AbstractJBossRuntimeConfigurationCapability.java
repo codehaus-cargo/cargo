@@ -35,6 +35,7 @@ public abstract class AbstractJBossRuntimeConfigurationCapability extends
     public AbstractJBossRuntimeConfigurationCapability()
     {
         this.propertySupportMap.put(RemotePropertySet.URI, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
     }
 }

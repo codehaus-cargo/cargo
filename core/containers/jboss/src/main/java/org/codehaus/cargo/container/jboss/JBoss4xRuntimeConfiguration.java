@@ -42,7 +42,7 @@ public class JBoss4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     public JBoss4xRuntimeConfiguration()
     {
         this.setProperty(RemotePropertySet.TIMEOUT, "120000");
-        this.setProperty(JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME, "false");
+        this.setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
     }
 
     /**

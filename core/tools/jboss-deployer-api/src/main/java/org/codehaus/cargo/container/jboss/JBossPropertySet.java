@@ -148,7 +148,7 @@ public interface JBossPropertySet
      * This property defines whether to keep the original WAR filename if the WAR file has a
      * <code>&lt;context-root&gt;</code> in the <code>WEB-INF/jboss-web.xml</code> file.
      */
-    String KEEP_ORIGINAL_WAR_FILENAME = "cargo.jboss.deployer.keepOriginalWarFilename";
+    String DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME = "cargo.jboss.deployer.keepOriginalWarFilename";
 
     /**
      * Modules directory to use instead of the default <code>modules</code> directory.

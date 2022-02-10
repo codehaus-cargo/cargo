@@ -248,7 +248,7 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
                             + "in the Codehaus Cargo deployable", this.getClass().getName());
 
                     if (!"true".equalsIgnoreCase(getContainer().getConfiguration().getPropertyValue(
-                        JBossPropertySet.KEEP_ORIGINAL_WAR_FILENAME)))
+                        JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME)))
                     {
                         // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
                         //             in the jboss-web.xml file, keep the original WAR file name
