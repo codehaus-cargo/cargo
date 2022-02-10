@@ -24,6 +24,7 @@ import java.io.File;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.module.webapp.jboss.JBossWarArchive;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Extension that supports custom JBoss descriptor files such as the <code>jboss-web.xml</code> one.
@@ -36,6 +37,11 @@ public class JBossWAR extends WAR
      * The parsed JBoss descriptors in the WAR.
      */
     private JBossWarArchive warArchive;
+
+    /**
+     * @see JBossWAR#informJBossWebContext(Logger)
+     */
+    private boolean jBossWebContextInformed = false;
 
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
@@ -129,6 +135,32 @@ public class JBossWAR extends WAR
         else
         {
             return false;
+        }
+    }
+
+    /**
+     * When a WAR file has a context root set in its <code>WEB-INF/jboss-web.xml</code> file, then
+     * this overrides any other context set in the Codehaus Cargo deployable. Inform the user about
+     * it when necessary.<br>
+     * <br>
+     * This information message is output only once per {@link JBossWAR} object instance.
+     * @param logger logger to user for informing.
+     */
+    public synchronized void informJBossWebContext(Logger logger)
+    {
+        if (!this.jBossWebContextInformed)
+        {
+            if (this.containsJBossWebContext())
+            {
+                if (logger != null)
+                {
+                    String filename = getFileHandler().getName(this.getFile());
+                    logger.info("The WAR file [" + filename + "] has a context root set in its "
+                        + "jboss-web.xml file, which will override any other context set in the "
+                            + "Codehaus Cargo deployable", this.getClass().getName());
+                    jBossWebContextInformed = true;
+                }
+            }
         }
     }
 }

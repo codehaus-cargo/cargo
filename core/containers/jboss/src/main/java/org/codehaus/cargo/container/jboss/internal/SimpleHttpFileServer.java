@@ -385,15 +385,8 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
                 JBossWAR jbossWar = (JBossWAR) deployable;
                 if (jbossWar.containsJBossWebContext())
                 {
-                    if (logger != null)
-                    {
-                        logger.info("The WAR file [" + localFileName + "] has a context root set "
-                            + "in its jboss-web.xml file, which will override any other context "
-                                + "set in the Codehaus Cargo deployable",
-                                    this.getClass().getName());
-                    }
-
-                    if (!"true".equalsIgnoreCase(keepOriginalWarFilename))
+                    jbossWar.informJBossWebContext(this.logger);
+                    if ("true".equalsIgnoreCase(keepOriginalWarFilename))
                     {
                         // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
                         //             in the jboss-web.xml file, keep the original WAR file name
