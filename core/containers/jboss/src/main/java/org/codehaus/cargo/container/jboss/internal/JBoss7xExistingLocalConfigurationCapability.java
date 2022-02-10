@@ -43,8 +43,9 @@ public class JBoss7xExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR,
-            Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
     }
