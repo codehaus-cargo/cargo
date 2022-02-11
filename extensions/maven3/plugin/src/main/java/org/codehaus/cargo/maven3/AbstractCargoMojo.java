@@ -581,6 +581,23 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             }
         }
 
+        if (getProject() != null && getProject().getProperties() != null)
+        {
+            for (Map.Entry<Object, Object> property : getProject().getProperties().entrySet())
+            {
+                if (property.getKey() != null && property.getValue() != null
+                    && property.getKey() instanceof String
+                    && property.getValue() instanceof String)
+                {
+                    String key = (String) property.getKey();
+                    if (key.startsWith("cargo."))
+                    {
+                        configuration.setProperty(key, (String) property.getValue());
+                    }
+                }
+            }
+        }
+
         return configuration;
     }
 
