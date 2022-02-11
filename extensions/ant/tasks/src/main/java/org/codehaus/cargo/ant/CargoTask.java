@@ -46,6 +46,7 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
@@ -1104,8 +1105,26 @@ public class CargoTask extends Task
                     getContainerClass());
             }
 
-            container = this.containerFactory.createContainer(this.containerId, this.containerType,
-                getConfiguration().createConfiguration(this.containerId, this.containerType));
+            Configuration configuration =
+                getConfiguration().createConfiguration(this.containerId, this.containerType);
+            if (getProject() != null && getProject().getProperties() != null)
+            {
+                for (Map.Entry<String, Object> property : getProject().getProperties().entrySet())
+                {
+                    if (property.getKey() != null && property.getValue() != null
+                        && property.getValue() instanceof String)
+                    {
+                        if (property.getKey().startsWith("cargo."))
+                        {
+                            configuration.setProperty(
+                                property.getKey(), (String) property.getValue());
+                        }
+                    }
+                }
+            }
+
+            container = this.containerFactory.createContainer(
+                this.containerId, this.containerType, configuration);
 
             createCargoLogger();
         }
