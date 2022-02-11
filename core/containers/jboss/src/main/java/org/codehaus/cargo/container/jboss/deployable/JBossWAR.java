@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.jboss.deployable;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -34,14 +36,14 @@ import org.codehaus.cargo.util.log.Logger;
 public class JBossWAR extends WAR
 {
     /**
+     * @see JBossWAR#informJBossWebContext(Logger)
+     */
+    private static Set<String> jBossWebContextInformed = new HashSet<String>();
+
+    /**
      * The parsed JBoss descriptors in the WAR.
      */
     private JBossWarArchive warArchive;
-
-    /**
-     * @see JBossWAR#informJBossWebContext(Logger)
-     */
-    private boolean jBossWebContextInformed = false;
 
     /**
      * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
@@ -143,12 +145,12 @@ public class JBossWAR extends WAR
      * this overrides any other context set in the Codehaus Cargo deployable. Inform the user about
      * it when necessary.<br>
      * <br>
-     * This information message is output only once per {@link JBossWAR} object instance.
+     * This information message is output only once per {@link JBossWAR} file name.
      * @param logger logger to user for informing.
      */
     public synchronized void informJBossWebContext(Logger logger)
     {
-        if (!this.jBossWebContextInformed)
+        if (!JBossWAR.jBossWebContextInformed.contains(this.getFile()))
         {
             if (this.containsJBossWebContext())
             {
@@ -158,7 +160,7 @@ public class JBossWAR extends WAR
                     logger.info("The WAR file [" + filename + "] has a context root set in its "
                         + "jboss-web.xml file, which will override any other context set in the "
                             + "Codehaus Cargo deployable", this.getClass().getName());
-                    jBossWebContextInformed = true;
+                    JBossWAR.jBossWebContextInformed.add(this.getFile());
                 }
             }
         }
