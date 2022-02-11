@@ -203,8 +203,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             for (Map.Entry<String, String> property
                 : getConfiguration().getProperties().entrySet())
             {
-                // CARGO-1438: Only check ports for property names prefixed with "cargo."
+                // CARGO-1438: Only check ports for property names supported by the container
                 if (property.getKey().startsWith("cargo.") && property.getKey().endsWith(".port")
+                    && getConfiguration().getCapability().supportsProperty(property.getKey())
                     && property.getValue() != null)
                 {
                     try
@@ -392,8 +393,9 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
 
             for (Map.Entry<String, String> property : getConfiguration().getProperties().entrySet())
             {
-                // CARGO-1438: Only check ports for property names prefixed with "cargo."
+                // CARGO-1438: Only check ports for property names supported by the container
                 if (!property.getKey().startsWith("cargo.") || !property.getKey().endsWith(".port")
+                    || !getConfiguration().getCapability().supportsProperty(property.getKey())
                     || property.getValue() == null)
                 {
                     continue;
