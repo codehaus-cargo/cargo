@@ -592,6 +592,9 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     String key = (String) property.getKey();
                     if (key.startsWith("cargo."))
                     {
+                        getLog().info(
+                            "Injecting configuration property [" + property.getKey()
+                                + "] with value [" + property.getValue() + "]");
                         configuration.setProperty(key, (String) property.getValue());
                     }
                 }
