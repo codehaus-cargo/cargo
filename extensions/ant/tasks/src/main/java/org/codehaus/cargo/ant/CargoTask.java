@@ -1116,6 +1116,13 @@ public class CargoTask extends Task
                     {
                         if (property.getKey().startsWith("cargo."))
                         {
+                            if (getLogger() != null)
+                            {
+                                getLogger().debug(
+                                    "Injecting configuration property [" + property.getKey()
+                                        + "] with value [" + property.getValue() + "]",
+                                            this.getClass().getName());
+                            }
                             configuration.setProperty(
                                 property.getKey(), (String) property.getValue());
                         }
