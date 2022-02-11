@@ -171,8 +171,8 @@ public class WildFlyRemoteDeploymentJsonMarshaller
                 String localFileName = jbossWar.getFileHandler().getName(jbossWar.getFile());
                 if (jbossWar.containsJBossWebContext())
                 {
-                    jbossWar.informJBossWebContext(configuration.getLogger());
-                    if ("true".equalsIgnoreCase(configuration.getPropertyValue(
+                    jbossWar.informJBossWebContext(this.configuration.getLogger());
+                    if ("true".equalsIgnoreCase(this.configuration.getPropertyValue(
                         JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME)))
                     {
                         // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
