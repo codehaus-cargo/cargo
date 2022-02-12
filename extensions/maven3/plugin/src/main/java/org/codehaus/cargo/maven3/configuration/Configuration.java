@@ -25,15 +25,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.settings.Server;
+import org.apache.maven.settings.Settings;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -43,6 +43,7 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.maven3.util.CargoProject;
 import org.codehaus.cargo.util.XmlReplacement;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Holds configuration data for the <code>&lt;configuration&gt;</code> tag used to configure the
@@ -74,11 +75,6 @@ public class Configuration
      * Container properties loaded from file.
      */
     private File propertiesFile;
-
-    /**
-     * List of properties set using properties file or directly.
-     */
-    private List<String> setProperties;
 
     /**
      * Extra files.
@@ -172,14 +168,6 @@ public class Configuration
     public void setPropertiesFile(File propertiesFile)
     {
         this.propertiesFile = propertiesFile;
-    }
-
-    /**
-     * @return List of properties set using properties file or directly.
-     */
-    public List<String> getSetProperties()
-    {
-        return this.setProperties;
     }
 
     /**
@@ -301,13 +289,18 @@ public class Configuration
      * @param deployables Deployables to deploy.
      * @param project Cargo project.
      * @param mavenProject Maven project.
+     * @param contextKey Container context key, which can be used to start, stop, configure or
+     * deploy to the same Cargo container (together with its configuration) from different Maven
+     * artifacts.
+     * @param mavenSettings Maven settings.
      * @param log Maven logger.
      * @return Configuration.
      * @throws MojoExecutionException If configuration creation fails.
      */
     public org.codehaus.cargo.container.configuration.Configuration createConfiguration(
         String containerId, ContainerType containerType, Deployable[] deployables,
-        CargoProject project, MavenProject mavenProject, Log log) throws MojoExecutionException
+        CargoProject project, MavenProject mavenProject, String contextKey, Settings mavenSettings,
+        Log log) throws MojoExecutionException
     {
         ConfigurationFactory factory = new DefaultConfigurationFactory();
 
@@ -333,29 +326,76 @@ public class Configuration
         {
             if (project.isDaemonRun())
             {
-                configuration = factory.createConfiguration(containerId, containerType, getType(),
-                    "");
+                configuration =
+                    factory.createConfiguration(containerId, containerType, getType(), "");
             }
             else if (ConfigurationType.RUNTIME.equals(getType()))
             {
-                configuration = factory.createConfiguration(containerId, containerType, getType(),
-                    null);
+                configuration =
+                    factory.createConfiguration(containerId, containerType, getType(), null);
             }
             else
             {
-                File home = new File(project.getBuildDirectory(), "cargo/configurations/"
-                    + containerId);
-                configuration = factory.createConfiguration(containerId, containerType, getType(),
-                    home.getAbsolutePath());
+                File home =
+                    new File(project.getBuildDirectory(), "cargo/configurations/" + containerId);
+                configuration = factory.createConfiguration(
+                    containerId, containerType, getType(), home.getAbsolutePath());
             }
         }
         else
         {
-            configuration = factory.createConfiguration(containerId, containerType, getType(),
-                getHome());
+            configuration =
+                factory.createConfiguration(containerId, containerType, getType(), getHome());
         }
 
-        this.setProperties = new ArrayList<String>();
+        // CARGO-596 / CARGO-1020: Find the container context key or cargo.server.settings for the
+        // current configuration. When found, iterate in the list of servers in Maven's
+        // settings.xml file in order to find out which server id corresponds to that identifier,
+        // and copy all settings.
+        //
+        // This feature helps people out in centralising their configurations.
+        if (mavenSettings != null)
+        {
+            String serverId = null;
+            if (getProperties() != null)
+            {
+                serverId = getProperties().get("cargo.server.settings");
+            }
+            if (serverId != null && !serverId.isEmpty())
+            {
+                log.debug("Found cargo.server.settings: " + serverId);
+            }
+            else if (contextKey != null)
+            {
+                serverId = contextKey;
+                log.debug("Found container context key: " + serverId);
+            }
+            if (serverId != null && !serverId.isEmpty())
+            {
+                for (Server server : mavenSettings.getServers())
+                {
+                    if (serverId.equals(server.getId()))
+                    {
+                        log.info(
+                            "The Maven settings.xml file contains a reference for the server with "
+                                + "identifier [" + serverId
+                                    + "], injecting configuration properties");
+
+                        Xpp3Dom[] globalConfigurationOptions =
+                            ((Xpp3Dom) server.getConfiguration()).getChildren();
+                        for (Xpp3Dom option : globalConfigurationOptions)
+                        {
+                            log.info(
+                                "\tInjecting container configuration property [" + option.getName()
+                                    + "] based on the Maven settings.xml reference");
+                            configuration.setProperty(
+                                option.getName(), transformMavenPropertyValue(option.getValue()));
+                        }
+                        break;
+                    }
+                }
+            }
+        }
 
         // CARGO-1579: Allow container configuration properties to be set using
         //             Maven project properties
@@ -363,19 +403,18 @@ public class Configuration
         {
             for (Map.Entry<Object, Object> property : mavenProject.getProperties().entrySet())
             {
-                if (property.getKey() != null && property.getValue() != null
-                    && property.getKey() instanceof String
+                if (property.getKey() != null && property.getKey() instanceof String
                     && property.getValue() instanceof String)
                 {
                     String key = (String) property.getKey();
                     if (key.startsWith("cargo.")
                         && configuration.getCapability().supportsProperty(key))
                     {
-                        log.debug(
+                        log.info(
                             "Injecting container configuration property [" + key
-                                + "] based on the Maven project property");
-                        configuration.setProperty(key, (String) property.getValue());
-                        this.setProperties.add(key);
+                                + "] based on the associated Maven project property");
+                        configuration.setProperty(
+                            key, transformMavenPropertyValue((String) property.getValue()));
                     }
                 }
             }
@@ -397,7 +436,6 @@ public class Configuration
                     String propertyName = (String) propertyNames.nextElement();
                     String propertyValue = properties.getProperty(propertyName);
                     configuration.setProperty(propertyName, propertyValue);
-                    this.setProperties.add(propertyName);
                 }
             }
             catch (FileNotFoundException e)
@@ -418,18 +456,8 @@ public class Configuration
         {
             for (Map.Entry<String, String> property : getProperties().entrySet())
             {
-                // Maven 3 doesn't like empty elements and will set them to Null. Thus we
-                // need to modify that behavior and change them to an empty string. For example
-                // this allows users to pass an empty password for the cargo.remote.password
-                // configuration property.
-                String propertyValue = property.getValue();
-                if (propertyValue == null)
-                {
-                    propertyValue = "";
-                }
-
-                configuration.setProperty(property.getKey(), propertyValue);
-                this.setProperties.add(property.getKey());
+                configuration.setProperty(
+                    property.getKey(), transformMavenPropertyValue(property.getValue()));
             }
         }
 
@@ -487,6 +515,27 @@ public class Configuration
         }
 
         return configuration;
+    }
+
+    /**
+     * Maven 3 doesn't like empty elements and will set them to <code>null</code>. Thus we we need
+     * need to modify that behavior and change them to an empty string. For example this allows
+     * users to pass an empty password for the <code>cargo.remote.password</code> configuration
+     * property.
+     * @param value Maven property value.
+     * @return Transformed Maven property value, in particular <code>null</code> changed to an
+     * empty string.
+     */
+    private String transformMavenPropertyValue(String value)
+    {
+        if (value == null)
+        {
+            return "";
+        }
+        else
+        {
+            return value;
+        }
     }
 
     /**

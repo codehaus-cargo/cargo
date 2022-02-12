@@ -36,7 +36,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.ProjectBuildingRequest;
-import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.shared.artifact.filter.resolve.ScopeFilter;
 import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
@@ -71,7 +70,6 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
-import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
  * Common code used by Cargo MOJOs requiring <code>&lt;container&gt;</code> and
@@ -518,60 +516,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
             }
         }
 
+        String contextKey = null;
+        if (getContainerElement() != null && getContainerElement().getContextKey() != null
+            && !getContainerElement().getContextKey().trim().isEmpty())
+        {
+            contextKey = getContainerElement().getContextKey().trim();
+        }
         configuration = getConfigurationElement().createConfiguration(
             getContainerElement().getContainerId(), getContainerElement().getType(),
-                getDeployablesElement(), getCargoProject(), getProject(), getLog());
-
-        // Find the container context key or cargo.server.settings for the current configuration.
-        // When found, iterate in the list of servers in Maven's settings.xml file in order to find
-        // out which server id corresponds to that identifier, and copy all non-set settings.
-        //
-        // This feature helps people out in centralising their configurations.
-        String serverId = configuration.getPropertyValue("cargo.server.settings");
-        if (serverId != null && !serverId.isEmpty())
-        {
-            getLog().debug("Found cargo.server.settings: " + serverId);
-        }
-        else if (getContainerElement() != null && getContainerElement().getContextKey() != null
-            && !getContainerElement().getContextKey().isEmpty())
-        {
-            serverId = getContainerElement().getContextKey();
-            getLog().debug("Found container context key: " + serverId);
-        }
-        if (serverId != null && !serverId.isEmpty())
-        {
-            for (Server server : settings.getServers())
-            {
-                if (serverId.equals(server.getId()))
-                {
-                    getLog().info(
-                        "The Maven settings.xml file contains a reference for the server with "
-                            + "identifier [" + serverId + "], injecting configuration properties");
-
-                    Xpp3Dom[] globalConfigurationOptions =
-                        ((Xpp3Dom) server.getConfiguration()).getChildren();
-                    for (Xpp3Dom option : globalConfigurationOptions)
-                    {
-                        if (getConfigurationElement().getSetProperties() == null
-                            || !getConfigurationElement().getSetProperties().contains(
-                                option.getName()))
-                        {
-                            configuration.setProperty(option.getName(), option.getValue());
-                            getLog().debug(
-                                "Injecting container configuration property [" + option.getName()
-                                    + "] based on the Maven settings.xml reference");
-                        }
-                        else
-                        {
-                            getLog().info(
-                                "\tProperty " + option.getName()
-                                    + " already set in the Maven artifact, skipping");
-                        }
-                    }
-                    break;
-                }
-            }
-        }
+                getDeployablesElement(), getCargoProject(), getProject(), contextKey, settings,
+                    getLog());
 
         return configuration;
     }
