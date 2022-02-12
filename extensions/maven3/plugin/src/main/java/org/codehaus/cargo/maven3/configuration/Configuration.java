@@ -357,6 +357,8 @@ public class Configuration
 
         this.setProperties = new ArrayList<String>();
 
+        // CARGO-1579: Allow container configuration properties to be set using
+        //             Maven project properties
         if (mavenProject != null && mavenProject.getProperties() != null)
         {
             for (Map.Entry<Object, Object> property : mavenProject.getProperties().entrySet())
