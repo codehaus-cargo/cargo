@@ -27,9 +27,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -39,6 +41,7 @@ import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.util.XmlReplacement;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Nested Ant element to wrap the
@@ -288,9 +291,12 @@ public class ConfigurationElement
     /**
      * @param containerId the container id associated with this configuration
      * @param containerType the container type associated with this configuration
+     * @param antProject the Ant project
+     * @param log the logger
      * @return a configuration instance matching this container and the defined type
      */
-    public Configuration createConfiguration(String containerId, ContainerType containerType)
+    public Configuration createConfiguration(String containerId, ContainerType containerType,
+        Project antProject, Logger log)
     {
         ConfigurationFactory factory = new DefaultConfigurationFactory();
 
@@ -310,6 +316,28 @@ public class ConfigurationElement
         {
             configuration = factory.createConfiguration(containerId, containerType, getType(),
                 getHome());
+        }
+
+        // CARGO-1578: Allow container configuration properties to be set using
+        //             Ant build properties
+        if (antProject != null && antProject.getProperties() != null)
+        {
+            for (Map.Entry<String, Object> property : antProject.getProperties().entrySet())
+            {
+                if (property.getKey() != null && property.getValue() != null
+                    && property.getValue() instanceof String)
+                {
+                    if (property.getKey().startsWith("cargo.")
+                        && configuration.getCapability().supportsProperty(property.getKey()))
+                    {
+                        log.debug(
+                            "Injecting container configuration property [" + property.getKey()
+                                + "] based on the Ant build property", this.getClass().getName());
+                        configuration.setProperty(
+                            property.getKey(), (String) property.getValue());
+                    }
+                }
+            }
         }
 
         // Set container properties loaded from file (if any)

@@ -59,7 +59,7 @@ public class ConfigurationElementTest extends TestCase
 
         LocalConfiguration configuration =
             (LocalConfiguration) configElement.createConfiguration("someContainerId",
-                ContainerType.INSTALLED);
+                ContainerType.INSTALLED, null, null);
 
         assertEquals(2, configuration.getDeployables().size());
         assertEquals("some/war/file", ((WAR) configuration.getDeployables().get(0)).getFile());
