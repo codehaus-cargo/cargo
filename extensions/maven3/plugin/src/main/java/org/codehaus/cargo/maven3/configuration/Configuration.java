@@ -32,6 +32,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -298,12 +300,14 @@ public class Configuration
      * @param containerType Container type.
      * @param deployables Deployables to deploy.
      * @param project Cargo project.
+     * @param mavenProject Maven project.
+     * @param log Maven logger.
      * @return Configuration.
      * @throws MojoExecutionException If configuration creation fails.
      */
     public org.codehaus.cargo.container.configuration.Configuration createConfiguration(
         String containerId, ContainerType containerType, Deployable[] deployables,
-        CargoProject project) throws MojoExecutionException
+        CargoProject project, MavenProject mavenProject, Log log) throws MojoExecutionException
     {
         ConfigurationFactory factory = new DefaultConfigurationFactory();
 
@@ -353,6 +357,28 @@ public class Configuration
 
         this.setProperties = new ArrayList<String>();
 
+        if (mavenProject != null && mavenProject.getProperties() != null)
+        {
+            for (Map.Entry<Object, Object> property : mavenProject.getProperties().entrySet())
+            {
+                if (property.getKey() != null && property.getValue() != null
+                    && property.getKey() instanceof String
+                    && property.getValue() instanceof String)
+                {
+                    String key = (String) property.getKey();
+                    if (key.startsWith("cargo.")
+                        && configuration.getCapability().supportsProperty(key))
+                    {
+                        log.debug(
+                            "Injecting container configuration property [" + key
+                                + "] based on the Maven project property");
+                        configuration.setProperty(key, (String) property.getValue());
+                        this.setProperties.add(key);
+                    }
+                }
+            }
+        }
+
         // Set container properties loaded from file (if any)
         if (getPropertiesFile() != null)
         {
@@ -374,8 +400,9 @@ public class Configuration
             }
             catch (FileNotFoundException e)
             {
-                configuration.getLogger().warn("Configuration property file ["
-                    + getPropertiesFile() + "] cannot be read", getClass().getName());
+                log.warn(
+                    "Configuration property file [" + getPropertiesFile()
+                        + "] does not exist, skipping");
             }
             catch (IOException ioe)
             {

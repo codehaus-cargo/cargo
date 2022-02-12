@@ -520,7 +520,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
 
         configuration = getConfigurationElement().createConfiguration(
             getContainerElement().getContainerId(), getContainerElement().getType(),
-                getDeployablesElement(), getCargoProject());
+                getDeployablesElement(), getCargoProject(), getProject(), getLog());
 
         // Find the container context key or cargo.server.settings for the current configuration.
         // When found, iterate in the list of servers in Maven's settings.xml file in order to find
@@ -557,46 +557,18 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                                 option.getName()))
                         {
                             configuration.setProperty(option.getName(), option.getValue());
-                            if (option.getName().contains("password"))
-                            {
-                                getLog().debug(
-                                    "\tInjected password property: " + option.getName() + "= ***");
-                            }
-                            else
-                            {
-                                getLog().debug(
-                                    "\tInjected property: " + option.getName()
-                                        + " = " + option.getValue());
-                            }
+                            getLog().debug(
+                                "Injecting container configuration property [" + option.getName()
+                                    + "] based on the Maven settings.xml reference");
                         }
                         else
                         {
-                            getLog().debug(
+                            getLog().info(
                                 "\tProperty " + option.getName()
                                     + " already set in the Maven artifact, skipping");
                         }
                     }
                     break;
-                }
-            }
-        }
-
-        if (getProject() != null && getProject().getProperties() != null)
-        {
-            for (Map.Entry<Object, Object> property : getProject().getProperties().entrySet())
-            {
-                if (property.getKey() != null && property.getValue() != null
-                    && property.getKey() instanceof String
-                    && property.getValue() instanceof String)
-                {
-                    String key = (String) property.getKey();
-                    if (key.startsWith("cargo."))
-                    {
-                        getLog().info(
-                            "Injecting configuration property [" + property.getKey()
-                                + "] with value [" + property.getValue() + "]");
-                        configuration.setProperty(key, (String) property.getValue());
-                    }
                 }
             }
         }

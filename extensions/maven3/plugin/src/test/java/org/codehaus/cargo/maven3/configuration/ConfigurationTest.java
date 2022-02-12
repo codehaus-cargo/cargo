@@ -50,7 +50,8 @@ public class ConfigurationTest extends TestCase
         configuration.setImplementation(StandaloneLocalConfigurationStub.class.getName());
         configuration.setHome("/some/path");
 
-        configuration.createConfiguration("testcontainer", ContainerType.INSTALLED, null, null);
+        configuration.createConfiguration(
+            "testcontainer", ContainerType.INSTALLED, null, null, null, null);
     }
 
     /**
@@ -71,7 +72,8 @@ public class ConfigurationTest extends TestCase
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
                 null, new CargoProject(
-                    null, null, null, null, null, Collections.<Artifact>emptySet(), null));
+                    null, null, null, null, null, Collections.<Artifact>emptySet(), null),
+                        null, null);
 
         assertEquals("", configuration.getPropertyValue("someName"));
     }
@@ -105,7 +107,8 @@ public class ConfigurationTest extends TestCase
             configuration =
                 configurationElement.createConfiguration("testcontainer", ContainerType.INSTALLED,
                     null, new CargoProject(
-                        null, null, null, null, null, Collections.<Artifact>emptySet(), null));
+                        null, null, null, null, null, Collections.<Artifact>emptySet(), null),
+                            null, null);
         }
         finally
         {
@@ -136,7 +139,8 @@ public class ConfigurationTest extends TestCase
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED,
                 null, new CargoProject(
-                    null, null, null, null, null, Collections.<Artifact>emptySet(), null));
+                    null, null, null, null, null, Collections.<Artifact>emptySet(), null),
+                        null, null);
 
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List<org.codehaus.cargo.container.configuration.entry.Resource> resources = conf
@@ -167,7 +171,8 @@ public class ConfigurationTest extends TestCase
         org.codehaus.cargo.container.configuration.Configuration configuration =
             configurationElement.createConfiguration("testContainer", ContainerType.INSTALLED,
                 null, new CargoProject(
-                    null, null, null, null, null, Collections.<Artifact>emptySet(), null));
+                    null, null, null, null, null, Collections.<Artifact>emptySet(), null),
+                        null, null);
 
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List<org.codehaus.cargo.container.property.User> users = conf.getUsers();
