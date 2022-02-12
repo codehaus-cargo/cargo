@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.spi.configuration.NullConfigurationCapability;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.NullLogger;
 
@@ -32,6 +33,16 @@ import org.codehaus.cargo.util.log.NullLogger;
  */
 public abstract class AbstractConfigurationStub implements Configuration
 {
+    /**
+     * Null capability.
+     */
+    private static ConfigurationCapability capability = new NullConfigurationCapability();
+
+    /**
+     * Null logger.
+     */
+    private static Logger logger = new NullLogger();
+
     /**
      * Properties.
      */
@@ -49,22 +60,22 @@ public abstract class AbstractConfigurationStub implements Configuration
 
     /**
      * {@inheritDoc}
+     * @return {@link NullConfigurationCapability}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return AbstractConfigurationStub.capability;
+    }
+
+    /**
+     * {@inheritDoc}
      * @return {@link NullLogger}
      */
     @Override
     public Logger getLogger()
     {
-        return new NullLogger();
-    }
-
-    /**
-     * Throws a {@link RuntimeException}. {@inheritDoc}
-     * @return Nothing.
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        throw new RuntimeException("Not implemented");
+        return AbstractConfigurationStub.logger;
     }
 
     /**
