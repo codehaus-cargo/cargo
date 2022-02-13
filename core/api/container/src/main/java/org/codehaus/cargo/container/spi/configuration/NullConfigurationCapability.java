@@ -32,6 +32,7 @@ public class NullConfigurationCapability implements ConfigurationCapability
 {
     /**
      * {@inheritDoc}
+     * @return Always returns <code>false</code>.
      */
     @Override
     public boolean supportsProperty(String propertyName)
@@ -41,6 +42,7 @@ public class NullConfigurationCapability implements ConfigurationCapability
 
     /**
      * {@inheritDoc}
+     * @return Always returns {@link Collections#emptyMap()}.
      */
     @Override
     public Map<String, Boolean> getProperties()
