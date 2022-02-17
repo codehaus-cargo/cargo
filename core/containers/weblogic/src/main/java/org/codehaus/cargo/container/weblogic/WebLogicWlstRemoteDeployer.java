@@ -40,7 +40,7 @@ public class WebLogicWlstRemoteDeployer extends AbstractRemoteDeployer
 
     /**
      * {@inheritDoc}
-     * @see AbstractRemoteDeployer#AbstractRemoteDeployer(Container)
+     * @see AbstractRemoteDeployer#AbstractRemoteDeployer(RemoteContainer)
      */
     public WebLogicWlstRemoteDeployer(WebLogicRemoteScriptingContainer container)
     {
