@@ -335,6 +335,8 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat8xDependencies = new ArrayList<Dependency>();
         tomcat8xDependencies.add(
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "8.5.75"));
+        tomcat8xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-servlet-api", "8.5.75"));
         tomcat8xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-annotations-api", "8.5.75"));
@@ -362,6 +364,8 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat9xDependencies = new ArrayList<Dependency>();
         tomcat9xDependencies.add(
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "9.0.58"));
+        tomcat9xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-servlet-api", "9.0.58"));
         tomcat9xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-annotations-api", "9.0.58"));
@@ -388,6 +392,8 @@ public class EmbeddedContainerArtifactResolver
         this.containerDependencies.put("tomcat9x", tomcat9xDependencies);
 
         List<Dependency> tomcat10xDependencies = new ArrayList<Dependency>();
+        tomcat10xDependencies.add(
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.0.16"));
         tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-servlet-api", "10.0.16"));
         tomcat10xDependencies.add(
