@@ -185,9 +185,11 @@
               <configuration>
                 <container>
                   <containerId>tomcat9x</containerId>
-                  <zipUrlInstaller>
-                    <url>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.58/tomcat-9.0.58.zip</url>
-                  </zipUrlInstaller>
+                  <artifactInstaller>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat</artifactId>
+                    <version>9.0.59</version>
+                  </artifactInstaller>
                 </container>
               </configuration>
             </plugin>
