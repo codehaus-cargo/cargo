@@ -21,6 +21,8 @@ updates:
     schedule:
       interval: "daily"
     ignore:
+      - dependency-name: "com.puppycrawl.tools:checkstyle"
+        versions: ["[10.0,)"]
       - dependency-name: "commons-discovery:commons-discovery"
       - dependency-name: "javax.mail:mail"
       - dependency-name: "javax.servlet:servlet-api"
