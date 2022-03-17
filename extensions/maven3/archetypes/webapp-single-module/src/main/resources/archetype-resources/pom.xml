@@ -188,7 +188,7 @@
                   <artifactInstaller>
                     <groupId>org.apache.tomcat</groupId>
                     <artifactId>tomcat</artifactId>
-                    <version>9.0.59</version>
+                    <version>9.0.60</version>
                   </artifactInstaller>
                 </container>
               </configuration>
