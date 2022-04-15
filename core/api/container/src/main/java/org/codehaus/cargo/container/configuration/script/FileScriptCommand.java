@@ -20,8 +20,9 @@
 package org.codehaus.cargo.container.configuration.script;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
@@ -73,34 +74,37 @@ public class FileScriptCommand extends AbstractScriptCommand
             FilterChain filterChain = new FilterChain();
             antUtils.addTokensToFilterChain(filterChain, getConfiguration().getProperties());
 
-            ChainReaderHelper helper = new ChainReaderHelper();
-            helper.setBufferSize(8192);
-            helper.setPrimaryReader(
-                new BufferedReader(new FileReader(this.filePath, StandardCharsets.UTF_8)));
-            Vector<FilterChain> filterChains = new Vector<FilterChain>();
-            filterChains.add(filterChain);
-            helper.setFilterChains(filterChains);
-            try (BufferedReader in =
-                    new BufferedReader(DefaultFileHandler.getAssembledReader(helper)))
+            try (BufferedReader primaryReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(this.filePath), StandardCharsets.UTF_8)))
             {
-                String line;
-                StringBuilder out = new StringBuilder();
-                while ((line = in.readLine()) != null)
+                ChainReaderHelper helper = new ChainReaderHelper();
+                helper.setBufferSize(8192);
+                helper.setPrimaryReader(primaryReader);
+                Vector<FilterChain> filterChains = new Vector<FilterChain>();
+                filterChains.add(filterChain);
+                helper.setFilterChains(filterChains);
+                try (BufferedReader in =
+                    new BufferedReader(DefaultFileHandler.getAssembledReader(helper)))
                 {
-                    if (line.isEmpty())
+                    String line;
+                    StringBuilder out = new StringBuilder();
+                    while ((line = in.readLine()) != null)
                     {
-                        out.append(NEW_LINE);
-                    }
-                    else
-                    {
-                        if (out.length() > 0)
+                        if (line.isEmpty())
                         {
                             out.append(NEW_LINE);
                         }
-                        out.append(line);
+                        else
+                        {
+                            if (out.length() > 0)
+                            {
+                                out.append(NEW_LINE);
+                            }
+                            out.append(line);
+                        }
                     }
+                    return out.toString();
                 }
-                return out.toString();
             }
         }
         catch (IOException e)
