@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.websphere.internal.configuration.WebSphereConfigurationEntryType;
 
 /**
  * Implementation of JMS queue configuration script command.
  */
-public class JmsQueueScriptCommand extends AbstractScriptCommand
+public class JmsQueueScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

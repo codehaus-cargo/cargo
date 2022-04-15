@@ -22,14 +22,14 @@ package org.codehaus.cargo.container.websphere.internal.configuration.commands.d
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 
 /**
  * Implementation of setting logging configuration script command.
  */
-public class LoggingScriptCommand extends AbstractScriptCommand
+public class LoggingScriptCommand extends AbstractResourceScriptCommand
 {
     /**
      * Sets configuration containing all needed information for building configuration scripts.

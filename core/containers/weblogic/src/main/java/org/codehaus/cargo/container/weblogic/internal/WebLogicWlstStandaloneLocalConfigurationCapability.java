@@ -45,6 +45,8 @@ public class WebLogicWlstStandaloneLocalConfigurationCapability extends
         // support external scripts
         this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_OFFLINE, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_ONLINE, Boolean.TRUE);
+        this.propertySupportMap.put(
+            WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, Boolean.TRUE);
 
         // Logging configuration
         this.propertySupportMap.put(WebLogicPropertySet.LOG_ROTATION_TYPE, Boolean.TRUE);

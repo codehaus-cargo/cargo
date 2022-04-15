@@ -19,13 +19,14 @@
  */
 package org.codehaus.cargo.container.websphere;
 
+import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.websphere.internal.configuration.WebSphereJythonConfigurationFactory;
 
 /**
  * All WebSphere configuration implementations must implement this interface which provides method
  * to retrieve jython script factory.
  */
-public interface WebSphereConfiguration
+public interface WebSphereConfiguration extends Configuration
 {
 
     /**

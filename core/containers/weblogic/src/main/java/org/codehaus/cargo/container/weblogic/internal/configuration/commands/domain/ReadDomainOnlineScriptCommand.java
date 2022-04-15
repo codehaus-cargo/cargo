@@ -23,14 +23,14 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
  * Implementation of read domain online configuration script command.
  */
-public class ReadDomainOnlineScriptCommand extends AbstractScriptCommand
+public class ReadDomainOnlineScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

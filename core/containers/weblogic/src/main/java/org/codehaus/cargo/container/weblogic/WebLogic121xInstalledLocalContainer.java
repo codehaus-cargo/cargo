@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.configuration.script.FileScriptCommand;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
@@ -148,9 +149,8 @@ public class WebLogic121xInstalledLocalContainer extends
             executeScript(configurationScript);
         }
 
-        String onlineDeploymentValue = getConfiguration().getPropertyValue(
-            WebLogicPropertySet.ONLINE_DEPLOYMENT);
-        boolean onlineDeployment = Boolean.parseBoolean(onlineDeploymentValue);
+        boolean onlineDeployment = Boolean.parseBoolean(
+            getConfiguration().getPropertyValue(WebLogicPropertySet.ONLINE_DEPLOYMENT));
         if (onlineDeployment)
         {
             configurationScript.clear();
@@ -176,7 +176,21 @@ public class WebLogic121xInstalledLocalContainer extends
         String scriptPaths = getConfiguration().getPropertyValue(
                 WebLogicPropertySet.JYTHON_SCRIPT_ONLINE);
         List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
-        executeScriptFiles(scriptPathList);
+        boolean replaceJythonProperties = Boolean.parseBoolean(
+            configuration.getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES));
+        if (replaceJythonProperties)
+        {
+            List<ScriptCommand> fileScript = new ArrayList<ScriptCommand>(scriptPathList.size());
+            for (String scriptPath : scriptPathList)
+            {
+                fileScript.add(new FileScriptCommand(configuration, scriptPath));
+            }
+            executeScript(fileScript);
+        }
+        else
+        {
+            executeScriptFiles(scriptPathList);
+        }
     }
 
     /**

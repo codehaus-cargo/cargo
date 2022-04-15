@@ -80,6 +80,9 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
 
         setProperty(WebSpherePropertySet.OVERWRITE_EXISTING_CONFIGURATION,
                 WebSphereExistingConfigurationSetting.ALL.getName());
+
+        setProperty(WebSpherePropertySet.ONLINE_DEPLOYMENT, "false");
+        setProperty(WebSpherePropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, "false");
     }
 
     /**

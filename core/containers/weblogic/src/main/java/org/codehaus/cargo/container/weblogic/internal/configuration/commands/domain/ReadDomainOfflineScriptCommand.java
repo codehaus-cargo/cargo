@@ -22,13 +22,13 @@ package org.codehaus.cargo.container.weblogic.internal.configuration.commands.do
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.weblogic.WebLogicConfiguration;
 
 /**
  * Implementation of read domain offline configuration script command.
  */
-public class ReadDomainOfflineScriptCommand extends AbstractScriptCommand
+public class ReadDomainOfflineScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

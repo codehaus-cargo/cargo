@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.property.User;
 
 /**
  * Implementation of adding user to group configuration script command.
  */
-public class AddUserToGroupScriptCommand extends AbstractScriptCommand
+public class AddUserToGroupScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

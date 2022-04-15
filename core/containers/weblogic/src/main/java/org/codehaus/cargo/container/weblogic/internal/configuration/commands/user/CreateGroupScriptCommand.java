@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of create group configuration script command.
  */
-public class CreateGroupScriptCommand extends AbstractScriptCommand
+public class CreateGroupScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

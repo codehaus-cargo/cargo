@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.weblogic.internal.configuration.commands.de
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -32,7 +32,7 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Implementation of deploy deployable online configuration script command.
  */
-public class DeployDeployableOnlineScriptCommand extends AbstractScriptCommand
+public class DeployDeployableOnlineScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogic14xStandaloneLocal
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -105,7 +106,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogicWlstStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogicExistingLocalConfigurationCapability.class);
+            WebLogicWlstExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic121x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WebLogicWlstRuntimeConfigurationCapability.class);
@@ -115,7 +116,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogicWlstStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic122x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogicExistingLocalConfigurationCapability.class);
+            WebLogicWlstExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic122x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WebLogicWlstRuntimeConfigurationCapability.class);
@@ -125,7 +126,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic14xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic14x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogicExistingLocalConfigurationCapability.class);
+            WebLogicWlstExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic14x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WebLogicWlstRuntimeConfigurationCapability.class);

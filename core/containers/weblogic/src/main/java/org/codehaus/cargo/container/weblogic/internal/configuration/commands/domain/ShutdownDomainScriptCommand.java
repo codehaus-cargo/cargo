@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of shutdown domain configuration script command.
  */
-public class ShutdownDomainScriptCommand extends AbstractScriptCommand
+public class ShutdownDomainScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

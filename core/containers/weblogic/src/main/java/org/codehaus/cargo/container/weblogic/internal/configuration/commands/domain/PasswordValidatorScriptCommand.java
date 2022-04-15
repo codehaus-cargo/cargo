@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of setting of password validator.
  */
-public class PasswordValidatorScriptCommand extends AbstractScriptCommand
+public class PasswordValidatorScriptCommand extends AbstractResourceScriptCommand
 {
     /**
      * Sets configuration containing all needed information for building configuration scripts.

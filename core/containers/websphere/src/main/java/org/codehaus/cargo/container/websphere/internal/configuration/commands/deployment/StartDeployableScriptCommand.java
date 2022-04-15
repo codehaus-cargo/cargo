@@ -22,13 +22,13 @@ package org.codehaus.cargo.container.websphere.internal.configuration.commands.d
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
  * Implementation of deployable starting configuration script command.
  */
-public class StartDeployableScriptCommand extends AbstractScriptCommand
+public class StartDeployableScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

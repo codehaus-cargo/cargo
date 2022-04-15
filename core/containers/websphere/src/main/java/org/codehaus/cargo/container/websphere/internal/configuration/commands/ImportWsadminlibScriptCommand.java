@@ -22,12 +22,12 @@ package org.codehaus.cargo.container.websphere.internal.configuration.commands;
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of importing wsadminlib configuration script command.
  */
-public class ImportWsadminlibScriptCommand extends AbstractScriptCommand
+public class ImportWsadminlibScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

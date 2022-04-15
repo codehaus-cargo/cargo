@@ -34,6 +34,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.script.FileScriptCommand;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
@@ -100,6 +101,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         setProperty(WebSpherePropertySet.JMS_SIBUS, "jmsBus");
 
         setProperty(WebSpherePropertySet.ONLINE_DEPLOYMENT, "false");
+        setProperty(WebSpherePropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, "false");
     }
 
     /**
@@ -199,7 +201,20 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         // Execute offline jython scripts
         String scriptPaths = getPropertyValue(WebSpherePropertySet.JYTHON_SCRIPT_OFFLINE);
         List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
-        wsContainer.executeScriptFiles(scriptPathList);
+        if (Boolean.parseBoolean(
+            getPropertyValue(WebSpherePropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES)))
+        {
+            List<ScriptCommand> fileScript = new ArrayList<ScriptCommand>(scriptPathList.size());
+            for (String scriptPath : scriptPathList)
+            {
+                fileScript.add(new FileScriptCommand(this, scriptPath));
+            }
+            wsContainer.executeScript(fileScript);
+        }
+        else
+        {
+            wsContainer.executeScriptFiles(scriptPathList);
+        }
     }
 
     /**

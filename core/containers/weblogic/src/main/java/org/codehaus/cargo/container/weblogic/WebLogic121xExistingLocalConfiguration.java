@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicWlstExistingLocalConfiguration;
-import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogicWlstExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 
 /**
@@ -50,6 +50,8 @@ public class WebLogic121xExistingLocalConfiguration extends
         setProperty(WebLogicPropertySet.SERVER, "server");
         setProperty(ServletPropertySet.PORT, "7001");
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
+        setProperty(WebLogicPropertySet.ONLINE_DEPLOYMENT, "false");
+        setProperty(WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, "false");
     }
 
     /**
@@ -58,7 +60,7 @@ public class WebLogic121xExistingLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return new WebLogicExistingLocalConfigurationCapability();
+        return new WebLogicWlstExistingLocalConfigurationCapability();
     }
 
     /**

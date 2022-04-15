@@ -17,23 +17,24 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.weblogic;
+package org.codehaus.cargo.container.weblogic.internal;
 
-import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 
 /**
- * All WebLogic configuration implementations must implement this interface which provides method to
- * find out the location of key directories needed to operate WebLogic.
+ * Capabilities of WebLogic existing configuration based on WSLT files.
  */
-public interface WebLogicConfiguration extends Configuration
+public class WebLogicWlstExistingLocalConfigurationCapability
+    extends WebLogicExistingLocalConfigurationCapability
 {
-
     /**
-     * The DOMAIN_HOME holds the configuration and runtime files of a WebLogic domain. One or more
-     * server processes execute from this directory and must have permissions to write to it.
-     * 
-     * @return The DOMAIN_HOME, or instance-specific installation of WebLogic
+     * Initialize the configuration-specific supports Map.
      */
-    String getDomainHome();
-
+    public WebLogicWlstExistingLocalConfigurationCapability()
+    {
+        this.propertySupportMap.put(WebLogicPropertySet.ONLINE_DEPLOYMENT, Boolean.TRUE);
+        this.propertySupportMap.put(WebLogicPropertySet.JYTHON_SCRIPT_ONLINE, Boolean.TRUE);
+        this.propertySupportMap.put(
+            WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, Boolean.TRUE);
+    }
 }

@@ -23,14 +23,14 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.internal.util.JythonUtils;
 import org.codehaus.cargo.container.property.User;
 
 /**
  * Implementation of create user configuration script command.
  */
-public class CreateUserScriptCommand extends AbstractScriptCommand
+public class CreateUserScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

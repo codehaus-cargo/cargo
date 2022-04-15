@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of setting server SSL properties configuration script command.
  */
-public class SslScriptCommand extends AbstractScriptCommand
+public class SslScriptCommand extends AbstractResourceScriptCommand
 {
     /**
      * Sets configuration containing all needed information for building configuration scripts.

@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.weblogic.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of update domain online configuration script command.
  */
-public class UpdateDomainOnlineScriptCommand extends AbstractScriptCommand
+public class UpdateDomainOnlineScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

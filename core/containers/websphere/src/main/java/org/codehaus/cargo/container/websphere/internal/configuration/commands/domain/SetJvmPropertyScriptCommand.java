@@ -22,12 +22,12 @@ package org.codehaus.cargo.container.websphere.internal.configuration.commands.d
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of setting JVM property configuration script command.
  */
-public class SetJvmPropertyScriptCommand extends AbstractScriptCommand
+public class SetJvmPropertyScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

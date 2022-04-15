@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.script.FileScriptCommand;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
@@ -66,6 +67,7 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         setProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN, "8");
         setProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN, "1");
         setProperty(WebLogicPropertySet.ONLINE_DEPLOYMENT, "false");
+        setProperty(WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, "false");
     }
 
     /**
@@ -164,7 +166,20 @@ public class WebLogic121xStandaloneLocalConfiguration extends
         // Execute offline jython scripts
         String scriptPaths = getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_OFFLINE);
         List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
-        weblogicContainer.executeScriptFiles(scriptPathList);
+        if (Boolean.parseBoolean(
+            getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES)))
+        {
+            List<ScriptCommand> fileScript = new ArrayList<ScriptCommand>(scriptPathList.size());
+            for (String scriptPath : scriptPathList)
+            {
+                fileScript.add(new FileScriptCommand(this, scriptPath));
+            }
+            weblogicContainer.executeScript(fileScript);
+        }
+        else
+        {
+            weblogicContainer.executeScriptFiles(scriptPathList);
+        }
     }
 
     /**

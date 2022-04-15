@@ -25,12 +25,12 @@ import java.util.Map.Entry;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Contains common logic used by WildFly commands.
  */
-public abstract class AbstractWildFlyScriptCommand extends AbstractScriptCommand
+public abstract class AbstractWildFlyScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

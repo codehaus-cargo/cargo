@@ -107,6 +107,13 @@ public interface WebLogicPropertySet
     String JYTHON_SCRIPT_ONLINE = "cargo.weblogic.script.jython.online";
 
     /**
+     * Whether to replace properties, surrounded by <code>@</code> symbols, when reading the files
+     * {@link WebLogicPropertySet#JYTHON_SCRIPT_ONLINE} and/or
+     * {@link WebLogicPropertySet#JYTHON_SCRIPT_OFFLINE}.
+     */
+    String JYTHON_SCRIPT_REPLACE_PROPERTIES = "cargo.weblogic.script.jython.replaceProperties";
+
+    /**
      * Specifies whether to ignore the installed implementation of the
      * weblogic.security.SSL.HostnameVerifier interface
      * (when this server is acting as a client to another application server).<br>

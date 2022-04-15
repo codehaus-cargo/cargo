@@ -20,12 +20,12 @@
 package org.codehaus.cargo.container.websphere.internal.configuration.commands.domain;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of setting miscellaneous configuration configuration script command.
  */
-public class MiscConfigurationScriptCommand extends AbstractScriptCommand
+public class MiscConfigurationScriptCommand extends AbstractResourceScriptCommand
 {
     /**
      * Sets configuration containing all needed information for building configuration scripts.

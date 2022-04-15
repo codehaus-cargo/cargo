@@ -26,7 +26,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ComplexPropertyUtils;
@@ -44,7 +44,7 @@ import org.jdom.Element;
 /**
  * Implementation of deploying deployable configuration script command.
  */
-public class DeployDeployableScriptCommand extends AbstractScriptCommand
+public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

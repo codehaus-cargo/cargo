@@ -19,18 +19,7 @@
  */
 package org.codehaus.cargo.container.configuration.script;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.internal.util.ResourceUtils;
-import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.CargoException;
 
 /**
  * Implementation of general functionality for configuration script commands.
@@ -41,7 +30,7 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     /**
      * New line.
      */
-    private static final String NEW_LINE = System.getProperty("line.separator");
+    protected static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
      * Container configuration.
@@ -49,57 +38,13 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     private Configuration configuration;
 
     /**
-     * Path to configuration script resources.
-     */
-    private String resourcePath;
-
-    /**
-     * Resource utility class.
-     */
-    private ResourceUtils resourceUtils;
-
-    /**
-     * Ant utility class.
-     */
-    private AntUtils antUtils;
-
-    /**
      * Sets configuration containing all needed information for building configuration scripts.
      * 
      * @param configuration Container configuration.
-     * @param resourcePath Path to configuration script resources.
      */
-    public AbstractScriptCommand(Configuration configuration, String resourcePath)
+    public AbstractScriptCommand(Configuration configuration)
     {
         this.configuration = configuration;
-        this.resourcePath = resourcePath;
-        this.resourceUtils = new ResourceUtils();
-        this.antUtils = new AntUtils();
-    }
-
-    /**
-     * @return Filtered script.
-     */
-    @Override
-    public String readScript()
-    {
-        FilterChain filterChain = new FilterChain();
-        antUtils.addTokensToFilterChain(filterChain, configuration.getProperties());
-
-        Map<String, String> propertiesMap = new HashMap<String, String>();
-        addConfigurationScriptProperties(propertiesMap);
-        antUtils.addTokensToFilterChain(filterChain, propertiesMap);
-
-        String resourceName = resourcePath + getScriptRelativePath();
-        try
-        {
-            return resourceUtils.readResource(
-                resourceName, filterChain, StandardCharsets.UTF_8) + NEW_LINE;
-        }
-        catch (IOException e)
-        {
-            throw new CargoException("Error while reading resource [" + resourceName + "] ", e);
-        }
     }
 
     /**
@@ -109,37 +54,6 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     public boolean isApplicable()
     {
         return true;
-    }
-
-    /**
-     * @return Relative path to resource being read.
-     */
-    protected abstract String getScriptRelativePath();
-
-    /**
-     * Add custom properties needed for configuration script filtering.
-     * 
-     * @param propertiesMap Map of additional custom properties.
-     */
-    protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
-    {
-    };
-
-    /**
-     * @param type Resource type.
-     * @return Resource of defined type.
-     */
-    protected Resource findResource(String type)
-    {
-        Resource foundResource = null;
-        for (Resource resource : ((LocalConfiguration) configuration).getResources())
-        {
-            if (type.equals(resource.getType()))
-            {
-                foundResource = resource;
-            }
-        }
-        return foundResource;
     }
 
     /**

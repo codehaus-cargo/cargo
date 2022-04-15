@@ -24,12 +24,12 @@ import java.util.Map.Entry;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of datasource connection property configuration script command.
  */
-public class DataSourceConnectionPropertyScriptCommand extends AbstractScriptCommand
+public class DataSourceConnectionPropertyScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

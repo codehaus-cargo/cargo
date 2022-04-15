@@ -56,11 +56,13 @@ public class WebSphere85xStandaloneLocalConfigurationCapability
         this.propertySupportMap.put(WebSpherePropertySet.EJB_TO_RES_REF_BINDING, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.APPLICATION_SECURITY, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.GLOBAL_SECURITY_PROPERTIES, Boolean.TRUE);
-        this.propertySupportMap.put(WebSpherePropertySet.SESSION_MANAGEMENT_PROPERTIES,
-                Boolean.TRUE);
+        this.propertySupportMap.put(
+            WebSpherePropertySet.SESSION_MANAGEMENT_PROPERTIES, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.LOGGING_ROLLOVER, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.JYTHON_SCRIPT_OFFLINE, Boolean.TRUE);
         this.propertySupportMap.put(WebSpherePropertySet.JYTHON_SCRIPT_ONLINE, Boolean.TRUE);
+        this.propertySupportMap.put(
+            WebSpherePropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, Boolean.TRUE);
 
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);

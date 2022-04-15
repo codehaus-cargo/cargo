@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
 /**
  * Implementation of JMS subdeployment configuration script command.
  */
-public class JmsSubdeploymentScriptCommand extends AbstractScriptCommand
+public class JmsSubdeploymentScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

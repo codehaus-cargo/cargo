@@ -22,12 +22,12 @@ package org.codehaus.cargo.container.weblogic.internal.configuration.commands.do
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of create domain configuration script command.
  */
-public class CreateDomainScriptCommand extends AbstractScriptCommand
+public class CreateDomainScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

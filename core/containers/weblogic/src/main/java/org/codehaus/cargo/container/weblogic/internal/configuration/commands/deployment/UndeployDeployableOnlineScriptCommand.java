@@ -22,13 +22,13 @@ package org.codehaus.cargo.container.weblogic.internal.configuration.commands.de
 import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 import org.codehaus.cargo.container.deployable.Deployable;
 
 /**
  * Implementation of undeploy deployable online configuration script command.
  */
-public class UndeployDeployableOnlineScriptCommand extends AbstractScriptCommand
+public class UndeployDeployableOnlineScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

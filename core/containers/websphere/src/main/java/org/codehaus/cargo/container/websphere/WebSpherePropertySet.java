@@ -180,6 +180,13 @@ public interface WebSpherePropertySet
     String JYTHON_SCRIPT_ONLINE = "cargo.websphere.script.jython.online";
 
     /**
+     * Whether to replace properties, surrounded by <code>@</code> symbols, when reading the files
+     * {@link WebSpherePropertySet#JYTHON_SCRIPT_ONLINE} and/or
+     * {@link WebSpherePropertySet#JYTHON_SCRIPT_OFFLINE}.
+     */
+    String JYTHON_SCRIPT_REPLACE_PROPERTIES = "cargo.websphere.script.jython.replaceProperties";
+
+    /**
      * WebSphere administration port.
      */
     String ADMINISTRATION_PORT = "cargo.websphere.administration.port";

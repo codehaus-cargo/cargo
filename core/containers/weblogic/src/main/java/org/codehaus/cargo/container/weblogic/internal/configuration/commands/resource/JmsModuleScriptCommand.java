@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
+import org.codehaus.cargo.container.configuration.script.AbstractResourceScriptCommand;
 
 /**
  * Implementation of JMS module configuration script command.
  */
-public class JmsModuleScriptCommand extends AbstractScriptCommand
+public class JmsModuleScriptCommand extends AbstractResourceScriptCommand
 {
 
     /**

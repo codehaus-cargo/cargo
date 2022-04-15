@@ -48,5 +48,10 @@ public class WebSphere85xExistingLocalConfigurationCapability
             Boolean.TRUE);
 
         this.propertySupportMap.put(WebSpherePropertySet.ADMINISTRATION_PORT, Boolean.TRUE);
+
+        this.propertySupportMap.put(WebSpherePropertySet.ONLINE_DEPLOYMENT, Boolean.TRUE);
+        this.propertySupportMap.put(WebSpherePropertySet.JYTHON_SCRIPT_ONLINE, Boolean.TRUE);
+        this.propertySupportMap.put(
+            WebSpherePropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES, Boolean.TRUE);
     }
 }
