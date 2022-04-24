@@ -39,8 +39,8 @@
   <profiles>
     <!--
       We can only build with Java 8 before update 91/92, due to a bug introduced in that update
-      that blocks JSP compilation with Jetty 7.x. See:
-      http://stackoverflow.com/questions/36963248/the-type-java-io-objectinputstream-cannot-be-resolved-it-is-indirectly-referenc
+      which blocks JSP compilation with Jetty 7.x. See:
+      https://stackoverflow.com/questions/36963248/the-type-java-io-objectinputstream-cannot-be-resolved-it-is-indirectly-referenc
       -->
     <profile>
       <id>java8-</id>
