@@ -179,6 +179,10 @@ class DaemonJvmLauncher implements JvmLauncher
         {
             return;
         }
+        if (!new File(command).isFile())
+        {
+            throw new JvmLauncherException("JVM executable file [" + command + "] doesn't exist");
+        }
         this.executable =
             command.replace('/', File.separatorChar).replace('\\', File.separatorChar);
     }

@@ -71,6 +71,10 @@ public class JvmLauncherStub implements JvmLauncher
     @Override
     public void setJvm(String command)
     {
+        if (command == null || command.isEmpty())
+        {
+            return;
+        }
         this.jvm = command;
     }
 

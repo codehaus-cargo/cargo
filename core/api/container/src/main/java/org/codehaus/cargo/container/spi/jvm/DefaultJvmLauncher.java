@@ -33,7 +33,7 @@ import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
 /**
  * The default JVM launcher.
  */
-class DefaultJvmLauncher implements JvmLauncher
+public class DefaultJvmLauncher implements JvmLauncher
 {
 
     /**
@@ -77,6 +77,14 @@ class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setJvm(String command)
     {
+        if (command == null || command.isEmpty())
+        {
+            return;
+        }
+        if (!new File(command).isFile())
+        {
+            throw new JvmLauncherException("JVM executable file [" + command + "] doesn't exist");
+        }
         this.java.setJvm(command);
     }
 

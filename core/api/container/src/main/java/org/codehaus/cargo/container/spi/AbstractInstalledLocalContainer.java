@@ -52,6 +52,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.util.AntUtils;
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
@@ -399,9 +400,11 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                     throw new IOException("Can't read JVM version from line: " + jvmVersion);
                 }
             }
-            catch (Throwable t)
+            catch (InterruptedException | IOException e)
             {
-                jvmVersion = System.getProperty("java.version");
+                throw new CargoException(
+                    "Cannot read JVM version, please check that the provided execution ["
+                        + java.getCommandLine() + "] is valid", e);
             }
             finally
             {
