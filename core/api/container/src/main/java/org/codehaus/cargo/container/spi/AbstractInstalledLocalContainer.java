@@ -391,7 +391,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 }
                 br = new BufferedReader(new FileReader(jvmVersionFile));
                 jvmVersion = br.readLine();
-                if (jvmVersion != null && jvmVersion.startsWith("java version \""))
+                if (jvmVersion != null && (jvmVersion.startsWith("java version \"")
+                    || jvmVersion.startsWith("openjdk version \"")))
                 {
                     jvmVersion = jvmVersion.substring(jvmVersion.indexOf('"') + 1);
                 }
