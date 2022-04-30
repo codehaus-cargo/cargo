@@ -1142,7 +1142,7 @@
                 WebSphere 8.5 runs on JDK 1.6
 
                 There is no non-interactive download link for WebSphere 8.5.x.  Here is is a link that requires license agreement:
-                   * http://www.ibm.com/developerworks/downloads/ws/was/
+                   * https://www.ibm.com/cloud/websphere-application-server
 
                 Once you install this, set the cargo.websphere85x.home property accordingly.
 
@@ -1170,7 +1170,7 @@
                 WebSphere 9 runs on JDK 8
 
                 There is no non-interactive download link for WebSphere 9.x.  Here is is a link that requires license agreement:
-                   * http://www.ibm.com/developerworks/downloads/ws/was/
+                   * https://www.ibm.com/cloud/websphere-application-server
 
                 Once you install this, set the cargo.websphere9x.home property accordingly.
 
