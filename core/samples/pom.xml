@@ -913,7 +913,7 @@
 
                 Notes:
 
-                WebLogic 8.1SP6 and below run on JDK 1.4
+                WebLogic 8.1 SP6 and below run on JDK 1.4
 
                 There is no non-interactive download link for WL 8.x.  Here is a link that requires license agreement:
                    * http://commerce.bea.com/showproduct.jsp?family=WLS&major=8.1&minor=6
@@ -941,7 +941,7 @@
 
                 Notes:
 
-                WebLogic 9.2MP3 and below run on JDK 1.5
+                WebLogic 9.2 MP3 and below run on JDK 1.5
 
                 There is no non-interactive download link for WL 9.x.  Here are links that require license agreement:
                    * http://commerce.bea.com/showproduct.jsp?family=WLS&major=9.2&minor=3
@@ -970,7 +970,7 @@
 
                 Notes:
 
-                WebLogic 10.0MP1 and below run on JDK 1.5
+                WebLogic 10.0 MP1 and below run on JDK 1.5
 
                 There is no non-interactive download link for WL 10.x.  Here are links that require license agreement:
                    * http://commerce.bea.com/showallversions.jsp?family=WLS
