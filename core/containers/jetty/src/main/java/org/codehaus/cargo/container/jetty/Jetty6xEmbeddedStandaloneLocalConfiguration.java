@@ -47,6 +47,12 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     public Jetty6xEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        addXmlReplacement(
+            "etc/webdefault.xml",
+            "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
+                + "/parent::init-param/param-value",
+            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
     /**
