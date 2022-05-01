@@ -48,10 +48,11 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     {
         super(dir);
 
-        // Attempting to add support for JettyPropertySet.USE_FILE_MAPPED_BUFFER to the Jetty 6.x
-        // Embedded Standalone Local Configuration results in the error: Missing implementation of
-        // resolved method abstract setFeature(Ljava/lang/String;Z)V of abstract class
-        // javax.xml.parsers.DocumentBuilderFactory
+        addXmlReplacement(
+            "etc/webdefault.xml",
+            "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
+                + "/parent::init-param/param-value",
+            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
     /**

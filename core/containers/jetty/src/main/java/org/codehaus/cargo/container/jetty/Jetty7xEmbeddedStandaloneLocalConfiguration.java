@@ -20,8 +20,6 @@
 package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.Jetty7xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 7.x instance.
@@ -30,33 +28,12 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
     Jetty6xEmbeddedStandaloneLocalConfiguration
 {
     /**
-     * capabilities supported by this config.
-     */
-    private static ConfigurationCapability capability =
-        new Jetty7xEmbeddedStandaloneLocalConfigurationCapability();
-
-    /**
      * {@inheritDoc}
      * @see Jetty6xEmbeddedStandaloneLocalConfiguration#Jetty6xEmbeddedStandaloneLocalConfiguration(String)
      */
     public Jetty7xEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        addXmlReplacement(
-            "etc/webdefault.xml",
-            "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
-                + "/parent::init-param/param-value",
-            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
     }
 
     /**
