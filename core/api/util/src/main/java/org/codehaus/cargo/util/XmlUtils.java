@@ -128,7 +128,7 @@ public class XmlUtils
             domFactory.setFeature(
                 "http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         }
-        catch (ParserConfigurationException ignored)
+        catch (AbstractMethodError | ParserConfigurationException ignored)
         {
             // Ignored
         }
