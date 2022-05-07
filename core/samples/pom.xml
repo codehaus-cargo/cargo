@@ -339,8 +339,9 @@
               <!--
                 JBoss 7.2 is actually called EAP 6.1.0
 
-                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
-                cargo.jboss72x.home property accordingly.
+                To test JBoss EAP 6.1.0, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.jboss72x.home property accordingly.
 
                 For example:
 
@@ -361,8 +362,9 @@
               <!--
                 JBoss 7.3 is actually called EAP 6.2.0
 
-                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
-                cargo.jboss73x.home property accordingly.
+                To test JBoss EAP 6.2.0, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.jboss73x.home property accordingly.
 
                 For example:
 
@@ -383,8 +385,9 @@
               <!--
                 JBoss 7.4 is actually called EAP 6.3.0
 
-                Please download it manually from http://www.jboss.org/jbossas/downloads and set the
-                cargo.jboss74x.home property accordingly.
+                To test JBoss EAP 6.3.0, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.jboss74x.home property accordingly.
 
                 For example:
 
@@ -405,8 +408,9 @@
               <!--
                 JBoss 7.5 is actually called EAP 6.4.0
 
-                Please download it manually from https://www.jboss.org/products/eap/download/ and
-                set the cargo.jboss75x.home property accordingly.
+                To test JBoss EAP 6.4.0, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.jboss75x.home property accordingly.
 
                 For example:
 
@@ -1219,7 +1223,7 @@
                 should be used to run JBoss EAP 7.
 
                 To test JBoss EAP 7, please download it manually from
-                http://developers.redhat.com/products/eap/download/
+                https://developers.redhat.com/products/eap/download
                 and set the cargo.wildfly10x.home property accordingly.
 
                 For example:
@@ -1238,6 +1242,21 @@
                 <value>${cargo.java.home.1_8}</value>
               </property>
 
+              <!--
+                JBoss EAP 7.1 is based on WildFly 11.x, as a result the WildFly 11.x container
+                should be used to run JBoss EAP 7.1.
+
+                To test JBoss EAP 7.1, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.wildfly11x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.wildfly11x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-7.1.0</value>
+                  </property>
+                -->
               <property>
                 <name>cargo.wildfly11x.url</name>
                 <value>https://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.zip</value>
@@ -1256,6 +1275,21 @@
                 <value>${cargo.java.home.1_8}</value>
               </property>
 
+              <!--
+                JBoss EAP 7.2 is based on WildFly 13.x, as a result the WildFly 13.x container
+                should be used to run JBoss EAP 7.2.
+
+                To test JBoss EAP 7.2, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.wildfly13x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.wildfly13x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-7.2.0</value>
+                  </property>
+                -->
               <property>
                 <name>cargo.wildfly13x.url</name>
                 <value>https://download.jboss.org/wildfly/13.0.0.Final/wildfly-13.0.0.Final.zip</value>
@@ -1301,6 +1335,21 @@
                 <value>${cargo.java.home.1_8}</value>
               </property>
 
+              <!--
+                JBoss EAP 7.3 is based on WildFly 18.x, as a result the WildFly 18.x container
+                should be used to run JBoss EAP 7.3.
+
+                To test JBoss EAP 7.3, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.wildfly18x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.wildfly18x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-7.3.0</value>
+                  </property>
+                -->
               <property>
                 <name>cargo.wildfly18x.url</name>
                 <value>https://download.jboss.org/wildfly/18.0.1.Final/wildfly-18.0.1.Final.zip</value>
@@ -1337,6 +1386,21 @@
                 <value>${cargo.java.home.1_8}</value>
               </property>
 
+              <!--
+                JBoss EAP 7.4 is based on WildFly 22.x, as a result the WildFly 22.x container
+                should be used to run JBoss EAP 7.4.
+
+                To test JBoss EAP 7.4, please download it manually from
+                https://developers.redhat.com/products/eap/download
+                and set the cargo.wildfly22x.home property accordingly.
+
+                For example:
+
+                  <property>
+                    <name>cargo.wildfly22x.home</name>
+                    <value>C:/Program Files/JBoss/jboss-eap-7.4.0</value>
+                  </property>
+                -->
               <property>
                 <name>cargo.wildfly22x.url</name>
                 <value>https://download.jboss.org/wildfly/22.0.1.Final/wildfly-22.0.1.Final.zip</value>
