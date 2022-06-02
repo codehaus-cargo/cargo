@@ -24,6 +24,9 @@ updates:
       - dependency-name: "com.puppycrawl.tools:checkstyle"
         versions: ["[10.0,)"]
       - dependency-name: "commons-discovery:commons-discovery"
+discovery"
+      - dependency-name: "jakarta:servlet-api"
+        versions: ["[6.0,)"]
       - dependency-name: "javax.mail:mail"
       - dependency-name: "javax.servlet:servlet-api"
       - dependency-name: "junit:junit"
