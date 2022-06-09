@@ -538,7 +538,7 @@
 
               <property>
                 <name>cargo.jonas4x.url</name>
-                <value>https://download.forge.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
+                <value>https://dllegacy.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
               </property>
               <property>
                 <name>cargo.jonas4x.java.home</name>
