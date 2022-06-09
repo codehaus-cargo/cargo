@@ -49,37 +49,40 @@ public class JBoss6xStandaloneLocalConfiguration
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss:service=Naming']/.."
-                + "/property[@name='bindingName' and text()='Port']/.."
+                + "/property[@name='serviceName' and text()='jboss:service=Naming']/parent::bean"
+                + "/property[@name='bindingName' and text()='Port']/parent::bean"
                 + "/property[@name='port']", null,
             GeneralPropertySet.RMI_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss:service=Naming']/.."
-                + "/property[@name='bindingName' and text()='RmiPort']/.."
+                + "/property[@name='serviceName' and text()='jboss:service=Naming']/parent::bean"
+                + "/property[@name='bindingName' and text()='RmiPort']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_NAMING_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss:service=WebService']/.."
+                + "/property[@name='serviceName' "
+                    + "and text()='jboss:service=WebService']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='UnifiedInvokerConnector']/.."
+                + "/property[@name='serviceName' "
+                    + "and text()='UnifiedInvokerConnector']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss:service=invoker,type=jrmp']/.."
+                + "/property[@name='serviceName' "
+                    + "and text()='jboss:service=invoker,type=jrmp']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_JRMP_INVOKER_PORT);
 
@@ -87,7 +90,8 @@ public class JBoss6xStandaloneLocalConfiguration
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' and "
-                    + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmi']/.."
+                    + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmi']"
+                        + "/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_JRMP_PORT);
 
@@ -96,15 +100,17 @@ public class JBoss6xStandaloneLocalConfiguration
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
                 + "/property[@name='serviceName' and "
-                    + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmiServer']/.."
+                    + "text()='jboss.remoting:service=JMXConnectorServer,protocol=rmiServer']"
+                        + "/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_JMX_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss.web:service=WebServer']/.."
-                + "/property[@name='bindingName' and text()='HttpConnector']/.."
+                + "/property[@name='serviceName' "
+                    + "and text()='jboss.web:service=WebServer']/parent::bean"
+                + "/property[@name='bindingName' and text()='HttpConnector']/parent::bean"
                 + "/property[@name='port']", null,
             ServletPropertySet.PORT);
 
@@ -112,24 +118,26 @@ public class JBoss6xStandaloneLocalConfiguration
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss.web:service=WebServer']/.."
-                + "/property[@name='bindingName' and text()='AjpConnector']/.."
+                + "/property[@name='serviceName' "
+                    + "and text()='jboss.web:service=WebServer']/parent::bean"
+                + "/property[@name='bindingName' and text()='AjpConnector']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_AJP_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='TransactionManager']/.."
-                + "/property[@name='bindingName' and text()='recoveryManager']/.."
+                + "/property[@name='serviceName' and text()='TransactionManager']/parent::bean"
+                + "/property[@name='bindingName' and text()='recoveryManager']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT);
 
         addXmlReplacement(
             "conf/bindingservice.beans/META-INF/bindings-jboss-beans.xml",
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='TransactionManager']/.."
-                + "/property[@name='bindingName' and text()='transactionStatusManager']/.."
+                + "/property[@name='serviceName' and text()='TransactionManager']/parent::bean"
+                + "/property[@name='bindingName' "
+                    + "and text()='transactionStatusManager']/parent::bean"
                 + "/property[@name='port']", null,
             JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT);
 

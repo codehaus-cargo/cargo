@@ -134,8 +134,8 @@ public class DefaultFileHandlerTest extends TestCase
 
         XmlReplacement xmlReplacement = new XmlReplacement(file,
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
-                + "/property[@name='serviceName' and text()='jboss:service=Naming']/.."
-                + "/property[@name='bindingName' and text()='Port']/.."
+                + "/property[@name='serviceName' and text()='jboss:service=Naming']/parent::bean"
+                + "/property[@name='bindingName' and text()='Port']/parent::bean"
                 + "/property[@name='port']", null,
                 XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
