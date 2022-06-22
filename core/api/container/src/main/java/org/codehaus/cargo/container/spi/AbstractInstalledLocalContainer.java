@@ -366,8 +366,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             setJvmToLaunchContainerIn(java);
 
             // Read the real JVM version
-            BufferedReader br = null;
-            String jvmVersion;
             try
             {
                 File jvmVersionFile = File.createTempFile("cargo-jvm-version-", ".txt");
@@ -389,16 +387,29 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                     }
                     Thread.sleep(100);
                 }
-                br = new BufferedReader(new FileReader(jvmVersionFile));
-                jvmVersion = br.readLine();
-                if (jvmVersion != null && (jvmVersion.startsWith("java version \"")
-                    || jvmVersion.startsWith("openjdk version \"")))
+
+                // CARGO-1586: Read all the lines of the output (not just the first line)
+                StringBuilder javaVersionOutput = new StringBuilder();
+                try (BufferedReader br = new BufferedReader(new FileReader(jvmVersionFile)))
                 {
-                    jvmVersion = jvmVersion.substring(jvmVersion.indexOf('"') + 1);
-                }
-                else
-                {
-                    throw new IOException("Can't read JVM version from line: " + jvmVersion);
+                    for (String line = br.readLine(); line != null; line = br.readLine())
+                    {
+                        if (line.startsWith("java version \"")
+                            || line.startsWith("openjdk version \""))
+                        {
+                            jvmMajorVersion = JdkUtils.parseMajorJavaVersion(
+                                line.substring(line.indexOf('"') + 1));
+                            break;
+                        }
+                        javaVersionOutput.append(line);
+                        javaVersionOutput.append(System.getProperty("line.separator"));
+                    }
+
+                    if (jvmMajorVersion == -1)
+                    {
+                        throw new IOException(
+                            "Can't read JVM version from output: " + javaVersionOutput);
+                    }
                 }
             }
             catch (InterruptedException | IOException e)
@@ -407,23 +418,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                     "Cannot read JVM version, please check that the provided execution ["
                         + java.getCommandLine() + "] is valid", e);
             }
-            finally
-            {
-                if (br != null)
-                {
-                    try
-                    {
-                        br.close();
-                    }
-                    catch (IOException ignored)
-                    {
-                        // Ignored
-                    }
-                    br = null;
-                    System.gc();
-                }
-            }
-            jvmMajorVersion = JdkUtils.parseMajorJavaVersion(jvmVersion);
         }
 
         JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh, spawned);
