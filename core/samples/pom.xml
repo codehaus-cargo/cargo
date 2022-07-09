@@ -905,7 +905,7 @@
 
               <property>
                 <name>cargo.tomee9x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.0.0-M7/apache-tomee-9.0.0-M7-plus.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.0.0-M8/apache-tomee-9.0.0-M8-plus.zip</value>
               </property>
               <property>
                 <name>cargo.tomee9x.java.home</name>
