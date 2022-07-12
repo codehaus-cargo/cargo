@@ -909,7 +909,7 @@
               </property>
               <property>
                 <name>cargo.tomee9x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
+                <value>${cargo.java.home.1_11}</value>
               </property>
 
               <!--

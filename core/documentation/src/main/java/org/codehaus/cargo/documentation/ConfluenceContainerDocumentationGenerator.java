@@ -1485,6 +1485,11 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
                     }
+                    else if ("tomee9x".equals(containerId))
+                    {
+                        javaVersion = "8 (up to and including TomEE 9.0.0 M7) or "
+                            + "11 (TomEE 9.0.0 M8 onwards)";
+                    }
                     else if ("weblogic12x".equals(containerId)
                         || "weblogic121x".equals(containerId))
                     {
