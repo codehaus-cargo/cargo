@@ -19,12 +19,12 @@
  */
 package org.codehaus.cargo.container.payara.internal;
 
-import org.codehaus.cargo.container.glassfish.internal.GlassFish5xContainerCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7xContainerCapability;
 
 /**
  * Payara container capability.
  */
-public class PayaraContainerCapability extends GlassFish5xContainerCapability
+public class PayaraContainerCapability extends GlassFish3x4x5x6x7xContainerCapability
 {
-    // Nothing compared to GlassFish 5.x
+    // Nothing compared to GlassFish 3.x onwards container capabilities
 }

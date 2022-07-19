@@ -17,12 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish.internal;
+package org.codehaus.cargo.container.glassfish;
 
 /**
- * GlassFish 6.x container capability.
+ * GlassFish 7.x standalone local configuration.
  */
-public class GlassFish6xContainerCapability extends GlassFish5xContainerCapability
+public class GlassFish7xStandaloneLocalConfiguration
+    extends GlassFish6xStandaloneLocalConfiguration
 {
-    // Nothing compared to GlassFish 5.x
+
+    /**
+     * Creates the local configuration object.
+     * 
+     * @param home The work directory where files needed to run GlassFish will be created.
+     */
+    public GlassFish7xStandaloneLocalConfiguration(String home)
+    {
+        super(home);
+    }
+
 }

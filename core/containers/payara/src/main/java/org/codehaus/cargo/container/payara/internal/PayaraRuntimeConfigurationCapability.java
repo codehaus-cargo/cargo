@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.container.payara.internal;
 
-import org.codehaus.cargo.container.glassfish.internal.GlassFish5xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5xRuntimeConfigurationCapability;
 
 /**
  * Capabilities of Payara
  * {@link org.codehaus.cargo.container.payara.PayaraRuntimeConfiguration} configuration.
  */
 public class PayaraRuntimeConfigurationCapability
-    extends GlassFish5xRuntimeConfigurationCapability
+    extends GlassFish3x4x5xRuntimeConfigurationCapability
 {
-    // Nothing compared to GlassFish 5.x
+    // Nothing compared to GlassFish 3.x onwards configuration capabilities
 }

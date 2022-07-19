@@ -21,7 +21,7 @@ package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish3xContainerCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7xContainerCapability;
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 
 /**
@@ -37,7 +37,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
     /**
      * the Capability of the GlassFish container.
      */
-    private ContainerCapability capability = new GlassFish3xContainerCapability();
+    private ContainerCapability capability = new GlassFish3x4x5x6x7xContainerCapability();
 
     /**
      * Constructor.

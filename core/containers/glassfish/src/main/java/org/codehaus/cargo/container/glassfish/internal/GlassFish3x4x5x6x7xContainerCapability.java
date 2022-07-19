@@ -19,11 +19,20 @@
  */
 package org.codehaus.cargo.container.glassfish.internal;
 
+import org.codehaus.cargo.container.deployable.DeployableType;
+
 /**
- * GlassFish 5.x standalone local configuration capability.
+ * GlassFish 3.x, 4.x, 5.x, 6.x and 7.x container capability.
  */
-public class GlassFish5xStandaloneLocalConfigurationCapability extends
-    GlassFish4xStandaloneLocalConfigurationCapability
+public class GlassFish3x4x5x6x7xContainerCapability extends GlassFish2xContainerCapability
 {
-    // Nothing compared to GlassFish 4.x
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean supportsDeployableType(DeployableType type)
+    {
+        return super.supportsDeployableType(type) || DeployableType.BUNDLE.equals(type);
+    }
+
 }

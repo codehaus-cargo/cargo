@@ -21,12 +21,10 @@ package org.codehaus.cargo.container.glassfish;
 
 import java.util.Properties;
 
-import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish5xContainerCapability;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
@@ -35,11 +33,6 @@ import org.codehaus.cargo.util.CargoException;
  */
 public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLocalContainer
 {
-
-    /**
-     * Container capability instance.
-     */
-    private static final ContainerCapability CAPABILITY = new GlassFish5xContainerCapability();
 
     /**
      * Calls parent constructor, which saves the configuration.
@@ -106,15 +99,6 @@ public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLoca
                 throw new CargoException(sb.toString(), t);
             }
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
     /**

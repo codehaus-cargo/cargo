@@ -521,7 +521,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
 
-        if (containerId.equals("glassfish6x") || containerId.equals("jetty11x")
+        if (containerId.equals("glassfish6x") || containerId.equals("glassfish7x")
+            || containerId.equals("jetty11x")
             || containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
         {
             String containerName;
@@ -529,7 +530,7 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 containerName = "Jetty 11";
             }
-            else if (containerId.equals("glassfish6x"))
+            else if (containerId.startsWith("glassfish"))
             {
                 containerName = "GlassFish 6";
             }
@@ -1108,16 +1109,16 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(LINE_SEPARATOR);
         }
 
-        if (containerId.equals("glassfish6x"))
+        if (containerId.equals("glassfish6x") || containerId.equals("glassfish7x"))
         {
             output.append(LINE_SEPARATOR);
-            output.append("{info}The GlassFish 6.x container doesn't have any remote deployers ");
-            output.append("yet, as GlassFish 6.0 lacks JSR-88 support and it is unclear whether ");
-            output.append("this will be included in a future release.");
+            output.append("{info}The GlassFish 6.x onwards containers do have any remote ");
+            output.append("deployers, as GlassFish 6.0 onwards lack JSR-88 support.");
             output.append(LINE_SEPARATOR);
             output.append(LINE_SEPARATOR);
-            output.append("Until then, please follow the [remote deployment instructions for ");
-            output.append("GlassFish 6.x|Remote deployments to GlassFish 6.x].{info}");
+            output.append("Please follow the [remote deployment instructions for GlassFish 6.x ");
+            output.append("onwards|Remote deployments to GlassFish 6.x onwards].");
+            output.append("{info}");
         }
 
         return output.toString();

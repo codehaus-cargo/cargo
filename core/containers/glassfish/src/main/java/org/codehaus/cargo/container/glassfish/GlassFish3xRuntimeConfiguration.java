@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish3xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
@@ -34,7 +34,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
      * Capability of the GlassFish runtime configuration.
      */
     private static ConfigurationCapability capability =
-        new GlassFish3xRuntimeConfigurationCapability();
+        new GlassFish3x4x5xRuntimeConfigurationCapability();
 
     /**
      * Creates the runtime configuration object.

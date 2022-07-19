@@ -27,5 +27,5 @@ import org.codehaus.cargo.container.glassfish.internal.GlassFishExistingLocalCon
 public class PayaraExistingLocalConfigurationCapability extends
     GlassFishExistingLocalConfigurationCapability
 {
-    // Nothing compared to GlassFish
+    // Nothing compared to GlassFish existing configuration capabilities
 }

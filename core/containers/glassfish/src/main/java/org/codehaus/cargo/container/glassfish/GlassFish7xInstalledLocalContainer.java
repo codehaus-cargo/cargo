@@ -19,39 +19,50 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish4x5x6x7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 
 /**
- * GlassFish 4.x standalone local configuration.
+ * GlassFish 7.x installed local container.
  */
-public class GlassFish4xStandaloneLocalConfiguration
-    extends GlassFish3xStandaloneLocalConfiguration
+public class GlassFish7xInstalledLocalContainer extends GlassFish6xInstalledLocalContainer
 {
 
     /**
-     * Container capability instance.
-     */
-    private static final ConfigurationCapability CAPABILITY =
-        new GlassFish4x5x6x7xStandaloneLocalConfigurationCapability();
-
-    /**
-     * Creates the local configuration object.
+     * Calls parent constructor, which saves the configuration.
      * 
-     * @param home The work directory where files needed to run GlassFish will be created.
+     * @param localConfiguration Configuration.
      */
-    public GlassFish4xStandaloneLocalConfiguration(String home)
+    public GlassFish7xInstalledLocalContainer(LocalConfiguration localConfiguration)
     {
-        super(home);
+        super(localConfiguration);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ConfigurationCapability getCapability()
+    protected AbstractGlassFishInstalledLocalDeployer getLocalDeployer()
     {
-        return CAPABILITY;
+        return new GlassFish7xInstalledLocalDeployer(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getId()
+    {
+        return "glassfish7x";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
+    {
+        return "GlassFish " + getVersion("7.x");
     }
 
 }

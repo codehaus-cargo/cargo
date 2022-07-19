@@ -19,27 +19,10 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish5xRuntimeConfigurationCapability;
-
 /**
  * Configuration to use when using a GlassFish 5.x remote container.
  */
 public class GlassFish5xRuntimeConfiguration extends GlassFish4xRuntimeConfiguration
 {
-    /**
-     * Capability of the GlassFish runtime configuration.
-     */
-    private static ConfigurationCapability capability =
-        new GlassFish5xRuntimeConfigurationCapability();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
-    }
-
+    // Nothing compared to the GlassFish 4.x remote container configuration.
 }

@@ -46,6 +46,7 @@ public class EnvironmentTestData
     {
         "jetty11x",
         "glassfish6x",
+        "glassfish7x",
         "tomcat10x",
         "tomee9x"
     });

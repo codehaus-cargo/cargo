@@ -17,22 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish.internal;
+package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 
 /**
- * GlassFish 3.x container capability.
+ * GlassFish 7.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
+ * applications.
  */
-public class GlassFish3xContainerCapability extends GlassFish2xContainerCapability
+public class GlassFish7xInstalledLocalDeployer extends GlassFish6xInstalledLocalDeployer
 {
     /**
-     * {@inheritDoc}
+     * Calls parent constructor, which saves the container.
+     * 
+     * @param localContainer Container.
      */
-    @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public GlassFish7xInstalledLocalDeployer(InstalledLocalContainer localContainer)
     {
-        return super.supportsDeployableType(type) || DeployableType.BUNDLE.equals(type);
+        super(localContainer);
     }
-
 }

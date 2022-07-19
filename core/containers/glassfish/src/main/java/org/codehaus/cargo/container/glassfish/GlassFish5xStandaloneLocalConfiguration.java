@@ -19,21 +19,12 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish5xStandaloneLocalConfigurationCapability;
-
 /**
  * GlassFish 5.x standalone local configuration.
  */
 public class GlassFish5xStandaloneLocalConfiguration
     extends GlassFish4xStandaloneLocalConfiguration
 {
-
-    /**
-     * Container capability instance.
-     */
-    private static final ConfigurationCapability CAPABILITY =
-        new GlassFish5xStandaloneLocalConfigurationCapability();
 
     /**
      * Creates the local configuration object.
@@ -43,15 +34,6 @@ public class GlassFish5xStandaloneLocalConfiguration
     public GlassFish5xStandaloneLocalConfiguration(String home)
     {
         super(home);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
 }

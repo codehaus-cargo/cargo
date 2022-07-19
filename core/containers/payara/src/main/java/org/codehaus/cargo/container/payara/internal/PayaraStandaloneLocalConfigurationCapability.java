@@ -19,13 +19,13 @@
  */
 package org.codehaus.cargo.container.payara.internal;
 
-import org.codehaus.cargo.container.glassfish.internal.GlassFish5xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish4x5x6x7xStandaloneLocalConfigurationCapability;
 
 /**
  * Payara standalone local configuration capability.
  */
 public class PayaraStandaloneLocalConfigurationCapability extends
-    GlassFish5xStandaloneLocalConfigurationCapability
+    GlassFish4x5x6x7xStandaloneLocalConfigurationCapability
 {
-    // Nothing compared to GlassFish 5.x
+    // Nothing compared to GlassFish 4.x onwards configuration capabilities
 }

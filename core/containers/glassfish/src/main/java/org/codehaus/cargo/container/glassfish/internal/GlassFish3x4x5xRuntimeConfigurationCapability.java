@@ -27,13 +27,13 @@ import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurati
  * Capabilities of GlassFish
  * {@link org.codehaus.cargo.container.glassfish.GlassFish3xRuntimeConfiguration} configuration.
  */
-public class GlassFish3xRuntimeConfigurationCapability
+public class GlassFish3x4x5xRuntimeConfigurationCapability
     extends AbstractRuntimeConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public GlassFish3xRuntimeConfigurationCapability()
+    public GlassFish3x4x5xRuntimeConfigurationCapability()
     {
         this.propertySupportMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);

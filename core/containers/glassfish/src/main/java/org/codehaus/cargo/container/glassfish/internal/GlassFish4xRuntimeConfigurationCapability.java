@@ -24,7 +24,7 @@ package org.codehaus.cargo.container.glassfish.internal;
  * {@link org.codehaus.cargo.container.glassfish.GlassFish4xRuntimeConfiguration} configuration.
  */
 public class GlassFish4xRuntimeConfigurationCapability
-    extends GlassFish3xRuntimeConfigurationCapability
+    extends GlassFish3x4x5xRuntimeConfigurationCapability
 {
     // Nothing compared to GlassFish 3.x
 }

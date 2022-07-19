@@ -19,21 +19,14 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish6xContainerCapability;
 
 /**
  * GlassFish 6.x installed local container.
  */
 public class GlassFish6xInstalledLocalContainer extends GlassFish5xInstalledLocalContainer
 {
-
-    /**
-     * Container capability instance.
-     */
-    private static final ContainerCapability CAPABILITY = new GlassFish6xContainerCapability();
 
     /**
      * Calls parent constructor, which saves the configuration.
@@ -52,15 +45,6 @@ public class GlassFish6xInstalledLocalContainer extends GlassFish5xInstalledLoca
     protected AbstractGlassFishInstalledLocalDeployer getLocalDeployer()
     {
         return new GlassFish6xInstalledLocalDeployer(this);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
     /**
