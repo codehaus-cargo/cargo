@@ -48,7 +48,8 @@ public class EnvironmentTestData
         "glassfish6x",
         "glassfish7x",
         "tomcat10x",
-        "tomee9x"
+        "tomee9x",
+        "wildfly27x"
     });
 
     /**

@@ -522,8 +522,8 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (containerId.equals("glassfish6x") || containerId.equals("glassfish7x")
-            || containerId.equals("jetty11x")
-            || containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
+            || containerId.equals("jetty11x") || containerId.equals("tomcat10x")
+            || containerId.equals("tomee9x") || containerId.equals("wildfly27x"))
         {
             String containerName;
             if (containerId.equals("jetty11x"))
@@ -538,9 +538,13 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 containerName = "Tomcat 10";
             }
-            else
+            else if (containerId.equals("tomee9x"))
             {
                 containerName = "TomEE 9";
+            }
+            else
+            {
+                containerName = "WildFly 27";
             }
             output.append("{note}Users of " + containerName + ".x onwards should be aware that, ");
             output.append("as a result of the move from Java EE to Jakarta EE as part of the ");
