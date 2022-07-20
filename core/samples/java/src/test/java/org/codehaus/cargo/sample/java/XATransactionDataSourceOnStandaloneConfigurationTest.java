@@ -64,9 +64,13 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
 
+        // We exclude GlassFish 7.x (at least, during its current milestone phase) as it doesn't
+        // support XA transaction emulation the way Codehaus Cargo tests it
+        Set<String> excludedContainerIds = new TreeSet<String>();
+        excludedContainerIds.add("glassfish7x");
+
         // We exclude wildfly10x because of WFCORE-1373
         // which makes the container try to generate certain things twice
-        Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("wildfly10x");
 
         suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,

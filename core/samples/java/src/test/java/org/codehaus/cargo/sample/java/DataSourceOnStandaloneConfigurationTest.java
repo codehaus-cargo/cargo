@@ -65,8 +65,8 @@ public class DataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude geronimo2x and liberty
-        // as they don't support datasource setup the way CARGO tests it
+        // We exclude geronimo2x and liberty as they don't support datasource setup the way
+        // Codehaus Cargo tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("liberty");
