@@ -106,7 +106,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             tempDirectory = new File(fileHandler.createUniqueTmpDirectory());
             deployableFile = new File(tempDirectory, localFileName);
             fileHandler.copyFile(deployable.getFile(), deployableFile.getAbsolutePath());
-            deployableFile.deleteOnExit();
         }
         else if (deployable.getType() == DeployableType.EAR)
         {
@@ -115,7 +114,6 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
             tempDirectory = new File(fileHandler.createUniqueTmpDirectory());
             deployableFile = new File(tempDirectory, localFileName);
             fileHandler.copyFile(deployable.getFile(), deployableFile.getAbsolutePath());
-            deployableFile.deleteOnExit();
         }
         else
         {

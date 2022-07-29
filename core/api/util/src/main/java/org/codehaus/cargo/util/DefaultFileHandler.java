@@ -566,8 +566,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         do
         {
             uniqueNameCounter++;
-            tmpDir = new File(new File(System.getProperty("java.io.tmpdir")),
-                "cargo/" + Integer.toString(uniqueNameCounter));
+            tmpDir = new File(this.getTmpPath(Integer.toString(uniqueNameCounter)));
         }
         while (tmpDir.exists());
         tmpDir.deleteOnExit();
