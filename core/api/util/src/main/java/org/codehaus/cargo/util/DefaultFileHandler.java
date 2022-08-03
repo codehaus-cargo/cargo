@@ -161,27 +161,27 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         {
             getFileUtils().copyFile(new File(source).getAbsolutePath(),
                 new File(target).getAbsolutePath(), null, overwrite);
-
-            long size = getSize(target);
-            String unit = "bytes";
-            if (size > 1024)
-            {
-                size = size / 1024;
-                unit = "KB";
-            }
-            else if (size > 1024)
-            {
-                size = size / 1024;
-                unit = "MB";
-            }
-            getLogger().debug("Copied binary file [" + source + "] to [" + target + "] (" + size
-                + " " + unit + ")", this.getClass().getName());
         }
         catch (IOException e)
         {
             throw new CargoException("Failed to copy source file [" + source + "] to ["
                 + target + "]", e);
         }
+
+        long size = getSize(target);
+        String unit = "bytes";
+        if (size > 1024)
+        {
+            size = size / 1024;
+            unit = "KB";
+        }
+        else if (size > 1024)
+        {
+            size = size / 1024;
+            unit = "MB";
+        }
+        getLogger().debug("Copied binary file [" + source + "] to [" + target + "] (" + size + " "
+            + unit + ")", this.getClass().getName());
     }
 
     /**
@@ -216,27 +216,27 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                     }
                 }
             }
-
-            long size = getSize(target);
-            String unit = "bytes";
-            if (size > 1024)
-            {
-                size = size / 1024;
-                unit = "KB";
-            }
-            else if (size > 1024)
-            {
-                size = size / 1024;
-                unit = "MB";
-            }
-            getLogger().debug("Copied text file [" + source + "] to [" + target + "] (" + size
-                + " " + unit + "), encoding " + encoding, this.getClass().getName());
         }
         catch (IOException e)
         {
             throw new CargoException("Failed to copy source file [" + source + "] to [" + target
                     + "] with FilterChain", e);
         }
+
+        long size = getSize(target);
+        String unit = "bytes";
+        if (size > 1024)
+        {
+            size = size / 1024;
+            unit = "KB";
+        }
+        else if (size > 1024)
+        {
+            size = size / 1024;
+            unit = "MB";
+        }
+        getLogger().debug("Copied text file [" + source + "] to [" + target + "] (" + size + " "
+            + unit + "), encoding " + encoding, this.getClass().getName());
     }
 
     /**
@@ -274,15 +274,15 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             copyTask.setOverwrite(true);
 
             copyTask.execute();
-
-            getLogger().debug("Copied directory [" + source + "] to [" + target + "]",
-                this.getClass().getName());
         }
         catch (BuildException e)
         {
             throw new CargoException("Failed to copy source directory [" + source + "] to ["
                 + target + "]", e);
         }
+
+        getLogger().debug("Copied directory [" + source + "] to [" + target + "]",
+            this.getClass().getName());
     }
 
     /**
@@ -567,9 +567,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                     node.setTextContent(replacement.getValue());
                 }
             }
-
-            getLogger().debug("Performed XML replacements in [" + file + "]",
-                this.getClass().getName());
         }
         catch (Exception e)
         {
@@ -577,6 +574,9 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         }
 
         domUtils.saveXml(doc, file);
+
+        getLogger().debug("Performed XML replacements in [" + file + "]",
+            this.getClass().getName());
     }
 
     /**
@@ -893,14 +893,14 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         try (Writer writer = newWriter(file, encoding))
         {
             writer.write(content);
-
-            getLogger().debug("Wrote text file [" + file + "], encoding " + encoding,
-                this.getClass().getName());
         }
         catch (IOException e)
         {
             throw new CargoException("Cannot write file" + file, e);
         }
+
+        getLogger().debug("Wrote text file [" + file + "], encoding " + encoding,
+            this.getClass().getName());
     }
 
     /**
