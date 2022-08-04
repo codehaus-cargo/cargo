@@ -58,20 +58,20 @@ public class Jetty9xStandaloneLocalConfiguration extends Jetty8xStandaloneLocalC
         getFileHandler().createDirectory(getHome(), "lib/ext");
         getFileHandler().createDirectory(getHome(), "resources");
 
-        String httpIni;
+        String httpIni = null;
         String startD = getFileHandler().append(installedContainer.getHome(), "start.d");
+        String startIni = getFileHandler().append(installedContainer.getHome(), "start.ini");
         if (getFileHandler().isDirectory(startD))
         {
             getFileHandler().copyDirectory(startD, getHome() + "/start.d");
             httpIni = getFileHandler().append(getHome(), "start.d/http.ini");
         }
-        else
+        else if (getFileHandler().exists(startIni))
         {
-            getFileHandler().copyFile(
-                installedContainer.getHome() + "/start.ini", getHome() + "/start.ini");
+            getFileHandler().copyFile(startIni, getHome() + "/start.ini");
             httpIni = getFileHandler().append(getHome(), "start.ini");
         }
-        if (getFileHandler().exists(httpIni))
+        if (httpIni != null && getFileHandler().exists(httpIni))
         {
             Map<String, String> httpIniReplacements = new HashMap<String, String>(1);
             httpIniReplacements.put("8080", getPropertyValue(ServletPropertySet.PORT));

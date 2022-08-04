@@ -142,6 +142,11 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyFile(String source, String target, boolean overwrite)
     {
+        File sourceFile = new File(source);
+        if (!sourceFile.isFile())
+        {
+            throw new CargoException("Source file [" + source + "] is not a file");
+        }
         File targetFile = new File(target);
         if (targetFile.isFile() && !overwrite)
         {
@@ -159,7 +164,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 targetFile = new File(this.append(target, getName(source)));
             }
 
-            try (InputStream in = new FileInputStream(new File(source));
+            try (InputStream in = new FileInputStream(sourceFile);
                 FileOutputStream out = new FileOutputStream(targetFile))
             {
                 copy(in, out);
