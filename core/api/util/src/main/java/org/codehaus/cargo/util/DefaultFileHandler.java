@@ -62,7 +62,6 @@ import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.FilterChain;
-import org.apache.tools.ant.util.FileUtils;
 
 import org.codehaus.cargo.util.log.LoggedObject;
 
@@ -82,17 +81,11 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     private AntUtils antUtils;
 
     /**
-     * Ant helper API to manipulate files.
-     */
-    private FileUtils fileUtils;
-
-    /**
      * Initializations.
      */
     public DefaultFileHandler()
     {
         this.antUtils = new AntUtils();
-        this.fileUtils = FileUtils.getFileUtils();
     }
 
     /**
@@ -101,14 +94,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     private AntUtils getAntUtils()
     {
         return this.antUtils;
-    }
-
-    /**
-     * @return the File utility class
-     */
-    private FileUtils getFileUtils()
-    {
-        return this.fileUtils;
     }
 
     /**
@@ -157,31 +142,49 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyFile(String source, String target, boolean overwrite)
     {
-        try
+        File targetFile = new File(target);
+        if (targetFile.isFile() && !overwrite)
         {
-            getFileUtils().copyFile(new File(source).getAbsolutePath(),
-                new File(target).getAbsolutePath(), null, overwrite);
+            getLogger().debug("Skipping copy of existing binary file [" + target + "]",
+                this.getClass().getName());
         }
-        catch (IOException e)
+        else
         {
-            throw new CargoException("Failed to copy source file [" + source + "] to ["
-                + target + "]", e);
-        }
+            if (!targetFile.getParentFile().exists())
+            {
+                this.mkdirs(targetFile.getParentFile().getAbsolutePath());
+            }
+            if (targetFile.isDirectory())
+            {
+                targetFile = new File(this.append(target, getName(source)));
+            }
 
-        long size = getSize(target);
-        String unit = "bytes";
-        if (size > 1024)
-        {
-            size = size / 1024;
-            unit = "KB";
+            try (InputStream in = new FileInputStream(new File(source));
+                FileOutputStream out = new FileOutputStream(targetFile))
+            {
+                copy(in, out);
+            }
+            catch (IOException e)
+            {
+                throw new CargoException("Failed to copy source file [" + source + "] to ["
+                    + targetFile + "]", e);
+            }
+
+            long size = targetFile.length();
+            String unit = "bytes";
+            if (size > 1024)
+            {
+                size = size / 1024;
+                unit = "KB";
+            }
+            else if (size > 1024)
+            {
+                size = size / 1024;
+                unit = "MB";
+            }
+            getLogger().debug("Copied binary file [" + source + "] to [" + target + "] (" + size
+                + " " + unit + ")", this.getClass().getName());
         }
-        else if (size > 1024)
-        {
-            size = size / 1024;
-            unit = "MB";
-        }
-        getLogger().debug("Copied binary file [" + source + "] to [" + target + "] (" + size + " "
-            + unit + ")", this.getClass().getName());
     }
 
     /**
@@ -313,8 +316,16 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             File targetFile = new File(targetDirectory, sourceDirectoryContent.getName());
             if (sourceDirectoryContent.isFile())
             {
-                copyFile(sourceDirectoryContent.getAbsolutePath(), targetFile.getAbsolutePath(),
-                    filterChain, encoding);
+                if (filterChain == null)
+                {
+                    copyFile(
+                        sourceDirectoryContent.getAbsolutePath(), targetFile.getAbsolutePath());
+                }
+                else
+                {
+                    copyFile(sourceDirectoryContent.getAbsolutePath(),
+                        targetFile.getAbsolutePath(), filterChain, encoding);
+                }
             }
             else
             {
@@ -727,12 +738,22 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         for (int i = 0; i < 3 && !success; i++)
         {
             // mkdirs() return false when the directory already exists so test for existence first
-            if (pathFile.exists())
+            if (pathFile.isFile())
+            {
+                throw new CargoException("Path [" + pathFile + "] is a file and not a directory");
+            }
+            else if (pathFile.isDirectory())
             {
                 success = true;
+
+                getLogger().debug("Directory [" + pathFile + "] exists",
+                    this.getClass().getName());
             }
             else
             {
+                getLogger().debug("Creating directory [" + pathFile + "] and sub-directories",
+                    this.getClass().getName());
+
                 success = pathFile.mkdirs();
             }
         }
