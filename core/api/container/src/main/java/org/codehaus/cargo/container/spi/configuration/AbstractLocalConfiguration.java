@@ -150,6 +150,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
     /**
      * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
      * 
      * @param logger the logger to set and set in the ancillary objects
      */
@@ -158,6 +159,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     {
         super.setLogger(logger);
         this.fileHandler.setLogger(logger);
+        this.resourceUtils.setLogger(logger);
     }
 
     /**

@@ -43,6 +43,7 @@ import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Utility class that provides a couple of methods for extracting files stored as resource in a JAR.
@@ -79,6 +80,19 @@ public final class ResourceUtils extends LoggedObject
     public static void setResourceLoader(ClassLoader resourceLoader)
     {
         ResourceUtils.resourceLoader = resourceLoader;
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        ResourceUtils.defaultFileHandler.setLogger(logger);
     }
 
     /**

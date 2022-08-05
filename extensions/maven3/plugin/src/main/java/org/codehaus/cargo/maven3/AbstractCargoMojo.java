@@ -65,8 +65,6 @@ import org.codehaus.cargo.maven3.deployer.DeployableMonitorFactory;
 import org.codehaus.cargo.maven3.log.MavenLogger;
 import org.codehaus.cargo.maven3.util.CargoProject;
 import org.codehaus.cargo.maven3.util.EmbeddedContainerArtifactResolver;
-import org.codehaus.cargo.util.DefaultFileHandler;
-import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
@@ -96,11 +94,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
      * containers as each container initialization requires different classloader.
      */
     public static final String CONTEXT_KEY_CLASSLOADER = "-classloader";
-
-    /**
-     * File utility class.
-     */
-    private FileHandler fileHandler = new DefaultFileHandler();
 
     /**
      * Configures a Cargo
@@ -215,25 +208,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     public static String calculateContainerArtifactId(String containerId)
     {
         return "cargo-core-container-" + containerId.replaceAll("\\d+x", "");
-    }
-
-    /**
-     * @return the Cargo file utility class
-     */
-    protected FileHandler getFileHandler()
-    {
-        return this.fileHandler;
-    }
-
-    /**
-     * @param fileHandler the Cargo file utility class to use. This method is useful
-     *                    for unit testing with Mock objects as it can be passed a
-     *                    test file handler that doesn't perform any real file
-     *                    action.
-     */
-    protected void setFileHandler(FileHandler fileHandler)
-    {
-        this.fileHandler = fileHandler;
     }
 
     /**

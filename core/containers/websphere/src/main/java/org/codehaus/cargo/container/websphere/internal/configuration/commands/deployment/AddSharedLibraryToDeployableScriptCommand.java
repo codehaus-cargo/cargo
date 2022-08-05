@@ -69,6 +69,7 @@ public class AddSharedLibraryToDeployableScriptCommand extends AbstractResourceS
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
         FileHandler fileHandler = new DefaultFileHandler();
+        fileHandler.setLogger(this.getConfiguration().getLogger());
         propertiesMap.put("cargo.library.shared.id", fileHandler.getName(sharedLibraryPath));
         propertiesMap.put("cargo.deployable.id", deployable.getName());
     }

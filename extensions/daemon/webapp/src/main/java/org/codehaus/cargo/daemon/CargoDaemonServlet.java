@@ -478,7 +478,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             case "installed":
                 String file = request.getParameter("file");
                 response.setContentType("text/plain");
-                if (fileManager.existsFile(file))
+                if (fileManager.existsFile(null, file))
                 {
                     response.getWriter().println("OK - INSTALLED");
                 }
@@ -779,9 +779,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param configurationFiles The configuration files.
      * @param handleId The handle id.
      * @param request The initial start request.
+     * @throws IOException if error happens
      */
     private void saveConfigurationFiles(List<String> configurationFiles, String handleId,
-        StartRequest request)
+        StartRequest request) throws IOException
     {
         int i = 0;
 
@@ -794,7 +795,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("configurationFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
-
             i++;
         }
     }
@@ -805,8 +805,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param sharedFiles The shared classpath files.
      * @param handleId The handle id.
      * @param request The initial start request.
+     * @throws IOException if error happens
      */
     private void saveSharedFiles(List<String> sharedFiles, String handleId, StartRequest request)
+        throws IOException
     {
         int i = 0;
 
@@ -819,7 +821,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("sharedFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
-
             i++;
         }
     }
@@ -830,8 +831,10 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param extraFiles The extra classpath files.
      * @param handleId The handle id.
      * @param request The initial start request.
+     * @throws IOException if error happens
      */
     private void saveExtraFiles(List<String> extraFiles, String handleId, StartRequest request)
+        throws IOException
     {
         int i = 0;
 
@@ -844,7 +847,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
         {
             InputStream inputStream = request.getFile("extraFileData_" + i, true);
             fileManager.saveFile(handleId, filename, inputStream);
-
             i++;
         }
     }
@@ -955,10 +957,11 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
      * @param deployableFiles List of properties for deployable files.
      * @param configuration Reference to the configuration.
      * @param request The start request of the container.
+     * @throws IOException if error happens
      */
     private void setupDeployableFiles(String handleId, String containerId,
         List<PropertyTable> deployableFiles, LocalConfiguration configuration,
-        StartRequest request)
+        StartRequest request) throws IOException
     {
         int i = 0;
 
@@ -967,9 +970,22 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             DeployableType deployableType = DeployableType.toType(properties.get("type"));
             String filename = properties.get("filename", true);
 
-            String location =
-                fileManager.saveFile(handleId, filename,
-                    request.getFile("deployableFileData_" + i, false));
+            String location;
+            InputStream deployableFileData = request.getFile("deployableFileData_" + i, false);
+            if (deployableFileData != null)
+            {
+                location = fileManager.saveFile(handleId, filename, deployableFileData);
+            }
+            else if (fileManager.existsFile(handleId, filename))
+            {
+                // for a restart request, reuse existing deployable files
+                location = fileManager.resolveWorkspacePath(handleId, filename);
+            }
+            else
+            {
+                throw new CargoDaemonException("File parameter deployableFileData_" + i
+                    + " for file \"" + filename + "\" on handle id " + handleId + " is required.");
+            }
 
             Deployable deployable =
                 DEPLOYABLE_FACTORY.createDeployable(containerId, location, deployableType);

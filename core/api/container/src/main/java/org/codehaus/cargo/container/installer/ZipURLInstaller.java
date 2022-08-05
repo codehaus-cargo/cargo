@@ -41,6 +41,7 @@ import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Installs a zipped container file from a URL to a location on your local disk.
@@ -114,6 +115,19 @@ public class ZipURLInstaller extends LoggedObject implements Installer
         this.extractDir = extractDir;
         this.fileHandler = new DefaultFileHandler();
         this.antUtils = new AntUtils();
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        this.fileHandler.setLogger(logger);
     }
 
     /**

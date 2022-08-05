@@ -130,6 +130,9 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
         this.connection = connection;
         this.deployableServerSocketAddress = buildSocketAddressForDeployableServer();
         this.fileHandler = new DefaultFileHandler();
+        this.fileHandler.setLogger(this.getLogger());
+        fileServer.setFileHandler(this.fileHandler);
+        fileServer.setLogger(this.getLogger());
         this.fileServer = fileServer;
     }
 
@@ -206,8 +209,6 @@ public class JBoss4xRemoteDeployer extends AbstractRemoteDeployer
     private void invokeRemotely(Deployable deployable, String jmxConsoleURL,
         boolean expectDownload)
     {
-        this.fileServer.setFileHandler(this.fileHandler);
-        this.fileServer.setLogger(this.getLogger());
         this.fileServer.setFile(deployable,
             configuration.getPropertyValue(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME));
         this.fileServer.setListeningParameters(this.deployableServerSocketAddress,

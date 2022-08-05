@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.packager.Packager;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Package a container distribution and its local configuration in a directory.
@@ -78,6 +79,19 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
     protected void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        this.fileHandler.setLogger(logger);
     }
 
     /**

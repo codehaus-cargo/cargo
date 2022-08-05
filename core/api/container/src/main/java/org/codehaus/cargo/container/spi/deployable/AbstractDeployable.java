@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Common class for easy Deployable implementations.
@@ -73,6 +74,19 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     public void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        this.fileHandler.setLogger(logger);
     }
 
     /**

@@ -269,7 +269,7 @@ public class StartRequest
             {
                 if (required)
                 {
-                    throw new CargoDaemonException("Parameter " + name + " is required.");
+                    throw new CargoDaemonException("File parameter " + name + " is required.");
                 }
             }
 

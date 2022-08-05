@@ -43,6 +43,7 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Client for the Cargo daemon
@@ -98,6 +99,19 @@ public class DaemonClient extends LoggedObject
         this.url = url;
         this.username = username;
         this.password = password;
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        this.fileHandler.setLogger(logger);
     }
 
     /**

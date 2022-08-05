@@ -179,9 +179,10 @@ public class FileManager
      */
     public void saveHandleDatabase(HandleDatabase database) throws IOException
     {
-        String file = getHandleDatabaseFile();
-
-        database.store(fileHandler.getOutputStream(file));
+        try (OutputStream outputStream = fileHandler.getOutputStream(getHandleDatabaseFile()))
+        {
+            database.store(outputStream);
+        }
     }
 
     /**
@@ -196,8 +197,10 @@ public class FileManager
     {
         String file =
             fileHandler.append(getConfigurationDirectory(handleId), "request.properties");
-
-        properties.store(fileHandler.getOutputStream(file), null);
+        try (OutputStream outputStream = fileHandler.getOutputStream(file))
+        {
+            properties.store(outputStream, null);
+        }
     }
 
     /**
@@ -314,12 +317,20 @@ public class FileManager
      * @param relativeFile The relative filename
      * @param inputStream The inputstream containing the file contents
      * @return path to the saved file
+     * @throws IOException if exception happens
      */
-    public String saveFile(String relativeFile, InputStream inputStream)
+    public String saveFile(String relativeFile, InputStream inputStream) throws IOException
     {
         String file = fileHandler.append(getWorkspaceDirectory(), relativeFile);
 
-        fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
+        try (OutputStream outputStream = fileHandler.getOutputStream(file))
+        {
+            fileHandler.copy(inputStream, outputStream);
+        }
+        finally
+        {
+            inputStream.close();
+        }
 
         return file;
     }
@@ -331,14 +342,20 @@ public class FileManager
      * @param relativeFile The relative filename
      * @param inputStream The inputstream containing the file contents
      * @return path to the saved file
+     * @throws IOException if exception happens
      */
     public String saveFile(String handleId, String relativeFile, InputStream inputStream)
+        throws IOException
     {
         String file = fileHandler.append(getWorkspaceDirectory(handleId), relativeFile);
 
-        if (inputStream != null)
+        try (OutputStream outputStream = fileHandler.getOutputStream(file))
         {
-            fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
+            fileHandler.copy(inputStream, outputStream);
+        }
+        finally
+        {
+            inputStream.close();
         }
 
         return file;
@@ -353,16 +370,24 @@ public class FileManager
      * @param relativeFile The relative filename
      * @param inputStream The inputstream containing the file contents
      * @return path to the saved file
+     * @throws IOException if exception happens
      */
     public String saveFile(String handleId, String relativeDirectory, String relativeFile,
-        InputStream inputStream)
+        InputStream inputStream) throws IOException
     {
         String file =
             fileHandler.append(
                 fileHandler.append(getWorkspaceDirectory(handleId), relativeDirectory),
                 relativeFile);
 
-        fileHandler.copy(inputStream, fileHandler.getOutputStream(file));
+        try (OutputStream outputStream = fileHandler.getOutputStream(file))
+        {
+            fileHandler.copy(inputStream, outputStream);
+        }
+        finally
+        {
+            inputStream.close();
+        }
 
         return file;
     }
@@ -370,12 +395,13 @@ public class FileManager
     /**
      * Check if filename exists in the workspace.
      * 
+     * @param handleId The handle identifier of a container
      * @param filename The file to check
      * @return true if file exists
      */
-    public boolean existsFile(String filename)
+    public boolean existsFile(String handleId, String filename)
     {
-        String filepath = fileHandler.append(getWorkspaceDirectory(), filename);
+        String filepath = fileHandler.append(getWorkspaceDirectory(handleId), filename);
         return fileHandler.exists(filepath);
     }
 

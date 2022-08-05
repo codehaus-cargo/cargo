@@ -27,6 +27,8 @@ import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.maven3.configuration.Packager;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Package a container distribution, a Configuration and deployed deployables. See
@@ -102,8 +104,10 @@ public class PackageMojo extends AbstractCargoMojo
 
         if (getPackagerElement().getOutputLocation() == null)
         {
-            String outputLocation = getFileHandler().append(getCargoProject().getBuildDirectory(),
-                "package");
+            FileHandler fileHandler = new DefaultFileHandler();
+            fileHandler.setLogger(container.getLogger());
+            String outputLocation = fileHandler.append(
+                getCargoProject().getBuildDirectory(), "package");
             getPackagerElement().setOutputLocation(outputLocation);
         }
 

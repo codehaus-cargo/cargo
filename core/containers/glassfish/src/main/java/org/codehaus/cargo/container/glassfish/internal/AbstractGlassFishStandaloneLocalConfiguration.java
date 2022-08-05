@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.DefaultFileHandler;
 
 /**
  * GlassFish standalone local configuration.
@@ -122,8 +121,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
     {
         InstalledLocalContainer installedLocalContainer = (InstalledLocalContainer) container;
 
-        DefaultFileHandler fileHandler = new DefaultFileHandler();
-        fileHandler.delete(fileHandler.append(this.getHome(),
+        this.getFileHandler().delete(this.getFileHandler().append(this.getHome(),
             this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)));
 
         int exitCode = configureUsingAsAdmin((AbstractGlassFishInstalledLocalContainer) container);

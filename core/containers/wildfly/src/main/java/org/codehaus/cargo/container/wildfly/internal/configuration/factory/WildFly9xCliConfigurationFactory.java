@@ -202,6 +202,6 @@ public class WildFly9xCliConfigurationFactory extends WildFly8xCliConfigurationF
      */
     public ScriptCommand customScript(String scriptPath)
     {
-        return new CustomWildFlyScriptCommand(scriptPath);
+        return new CustomWildFlyScriptCommand(configuration, scriptPath);
     }
 }

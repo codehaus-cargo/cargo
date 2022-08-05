@@ -31,6 +31,7 @@ import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Default {@link ConfigurationFactory} implementation that has all the known container
@@ -76,6 +77,19 @@ public class DefaultConfigurationFactory extends
         super();
 
         AbstractFactoryRegistry.register(classLoader, this);
+    }
+
+    /**
+     * Overriden in order to set the logger on ancillary components.
+     * {@inheritDoc}
+     * 
+     * @param logger the logger to set and set in the ancillary objects
+     */
+    @Override
+    public void setLogger(Logger logger)
+    {
+        super.setLogger(logger);
+        this.fileHandler.setLogger(logger);
     }
 
     /**

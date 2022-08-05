@@ -491,6 +491,7 @@ public abstract class AbstractJonasRemoteDeployer extends AbstractRemoteDeployer
         // Read file
         File file = new File(deployable.getFile());
         FileHandler fileHandler = new DefaultFileHandler();
+        fileHandler.setLogger(this.getLogger());
         ByteArrayOutputStream out;
         try (FileInputStream in = new FileInputStream(file))
         {

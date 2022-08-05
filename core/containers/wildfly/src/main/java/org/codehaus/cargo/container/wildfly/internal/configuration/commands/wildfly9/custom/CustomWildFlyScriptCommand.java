@@ -20,14 +20,16 @@
 package org.codehaus.cargo.container.wildfly.internal.configuration.commands.wildfly9.custom;
 
 import java.nio.charset.StandardCharsets;
-import org.codehaus.cargo.container.configuration.script.ScriptCommand;
+
+import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.script.AbstractScriptCommand;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Implementation of custom configuration script command.
  */
-public class CustomWildFlyScriptCommand implements ScriptCommand
+public class CustomWildFlyScriptCommand extends AbstractScriptCommand
 {
 
     /**
@@ -38,10 +40,12 @@ public class CustomWildFlyScriptCommand implements ScriptCommand
     /**
      * Sets configuration containing all needed information for building configuration scripts.
      * 
+     * @param configuration Container configuration.
      * @param resourcePath Path to configuration script resource.
      */
-    public CustomWildFlyScriptCommand(String resourcePath)
+    public CustomWildFlyScriptCommand(Configuration configuration, String resourcePath)
     {
+        super(configuration);
         this.resourcePath = resourcePath;
     }
 
@@ -52,6 +56,7 @@ public class CustomWildFlyScriptCommand implements ScriptCommand
     public String readScript()
     {
         FileHandler fileHandler = new DefaultFileHandler();
+        fileHandler.setLogger(this.getConfiguration().getLogger());
         String customScript = fileHandler.readTextFile(resourcePath, StandardCharsets.UTF_8);
         return customScript;
     }
