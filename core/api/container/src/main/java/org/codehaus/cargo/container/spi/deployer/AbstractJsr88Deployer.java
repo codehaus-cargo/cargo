@@ -91,6 +91,7 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
     {
         File deployableFile;
         File tempDirectory;
+        fileHandler.setLogger(getLogger());
         if (deployable.getType() == DeployableType.WAR)
         {
             String localFileName;
