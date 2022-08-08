@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -287,7 +286,7 @@ public class Deployable extends AbstractDependency
                 }
                 catch (Exception e)
                 {
-                    throw new BuildException("Invalid property [" + propertyName
+                    throw new MojoExecutionException("Invalid property [" + propertyName
                         + "] for deployable type [" + deployable.getType() + "]", e);
                 }
             }
