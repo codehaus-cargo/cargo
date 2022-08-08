@@ -258,9 +258,11 @@ public class Deployable extends AbstractDependency
      * Set user-defined properties on the created deployable.
      * @param deployable the deployable on which to set the properties
      * @param project Cargo project.
+     * @throws MojoExecutionException If property  name is invalid for deployable type
      */
     protected void setPropertiesOnDeployable(
         org.codehaus.cargo.container.deployable.Deployable deployable, CargoProject project)
+        throws MojoExecutionException
     {
         if (getProperties() != null)
         {
