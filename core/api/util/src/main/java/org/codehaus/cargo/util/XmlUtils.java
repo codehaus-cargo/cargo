@@ -19,10 +19,8 @@
  */
 package org.codehaus.cargo.util;
 
-import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +37,6 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPath;
 
-import org.apache.tools.ant.util.ReaderInputStream;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -293,7 +290,7 @@ public class XmlUtils
         try
         {
             Document parsed = this.builder.parse(
-                new BufferedInputStream(new ReaderInputStream(new StringReader(elementToParse))));
+                new ByteArrayInputStream(elementToParse.getBytes(StandardCharsets.UTF_8)));
             return parsed.getDocumentElement();
         }
         catch (Exception e)
