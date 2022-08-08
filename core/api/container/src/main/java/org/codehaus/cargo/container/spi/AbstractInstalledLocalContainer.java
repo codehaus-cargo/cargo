@@ -36,7 +36,6 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.tools.ant.taskdefs.condition.Os;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -538,7 +537,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         {
             String binDir = getFileHandler().append(javaHome, "bin");
             String javaPath = getFileHandler().append(binDir, "java");
-            if (Os.isFamily("windows"))
+            if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("windows"))
             {
                 javaPath += ".exe";
             }
