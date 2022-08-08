@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.log.Logger;
 
 /**
  * Default container implementation that all local container implementations must extend.
@@ -87,6 +86,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         this.append = false;
         this.configuration = configuration;
         this.fileHandler = new DefaultFileHandler();
+        this.fileHandler.setLogger(this.getLogger());
     }
 
     /**
@@ -123,19 +123,6 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
     public boolean isAppend()
     {
         return this.append;
-    }
-
-    /**
-     * Overriden in order to set the logger on ancillary components.
-     * {@inheritDoc}
-     * 
-     * @param logger the logger to set and set in the ancillary objects
-     */
-    @Override
-    public void setLogger(Logger logger)
-    {
-        super.setLogger(logger);
-        this.fileHandler.setLogger(logger);
     }
 
     /**

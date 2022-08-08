@@ -45,7 +45,6 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.log.Logger;
 
 /**
  * JSR-88 remote deployer.
@@ -78,23 +77,11 @@ public abstract class AbstractJsr88Deployer extends AbstractRemoteDeployer
         super(container);
         this.configuration = container.getConfiguration();
         this.fileHandler = new DefaultFileHandler();
+        this.fileHandler.setLogger(this.getLogger());
 
         // Set a timeout in order to avoid CARGO-1299
         String timeout = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
         this.timeout = Long.parseLong(timeout);
-    }
-
-    /**
-     * Overriden in order to set the logger on ancillary components.
-     * {@inheritDoc}
-     * 
-     * @param logger the logger to set and set in the ancillary objects
-     */
-    @Override
-    public void setLogger(Logger logger)
-    {
-        super.setLogger(logger);
-        this.fileHandler.setLogger(logger);
     }
 
     /**
