@@ -260,8 +260,9 @@ public class DeployableTest extends TestCase
      * Setting a Null property is the way Maven 3 operates when the user specifies an empty
      * property. We need to verify that the Cargo plugin intercepts that and replaces the Null with
      * an empty String.
+     * @throws Exception If anything goes wrong.
      */
-    public void testSettingANullDeployableProperty()
+    public void testSettingANullDeployableProperty() throws Exception
     {
         Deployable deployableElement = new Deployable();
         WAR war = new WAR("/some/file.war");
