@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import org.apache.tools.ant.types.FilterChain;
+import java.util.Map;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -48,10 +49,11 @@ public class Tomcat9xStandaloneLocalConfigurationTest extends
             }
 
             @Override
-            protected void configureFiles(FilterChain filterChain, LocalContainer container)
+            protected void configureFiles(
+                Map<String, String> replacements, LocalContainer container)
             {
                 createServerXml();
-                super.configureFiles(filterChain, container);
+                super.configureFiles(replacements, container);
             }
         };
     }

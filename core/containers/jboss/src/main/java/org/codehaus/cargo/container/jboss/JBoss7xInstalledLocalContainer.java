@@ -25,13 +25,12 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.jar.JarFile;
-
-import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
@@ -383,17 +382,16 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             }
             dependencies.add("org.codehaus.cargo.classpath." + moduleName);
 
-            FilterChain filterChain = new FilterChain();
-            getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
-            getAntUtils().addTokenToFilterChain(
-                filterChain, "dependencies", dependenciesXml.toString());
+            Map<String, String> replacements = new HashMap<String, String>(2);
+            replacements.put("moduleName", moduleName);
+            replacements.put("dependencies", dependenciesXml.toString());
 
             getFileHandler().copyFile(classpathElement,
                 getFileHandler().append(folder, moduleName + ".jar"));
             getResourceUtils().copyResource(
                 AbstractLocalConfiguration.RESOURCE_PATH + "jboss-module/jboss-module.xml",
                     getFileHandler().append(folder, "module.xml"),
-                        getFileHandler(), filterChain, StandardCharsets.UTF_8);
+                        getFileHandler(), replacements, StandardCharsets.UTF_8);
         }
     }
 

@@ -23,22 +23,18 @@
 package org.codehaus.cargo.container.internal.util;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Vector;
+import java.util.Map;
 
-import org.apache.tools.ant.filters.util.ChainReaderHelper;
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -51,13 +47,13 @@ import org.codehaus.cargo.util.log.Logger;
 public final class ResourceUtils extends LoggedObject
 {
     /**
-     * Size of the buffers / chunks used when copying resources.
+     * New line character.
      */
-    private static final int BUFFER_CHUNK_SIZE = 256 * 1024;
+    private static final String NEW_LINE = System.getProperty("line.separator");
 
     /**
      * Default file handler for the @link{ResourceUtils#copyResource(String, File)} and
-     * @link{ResourceUtils#copyResource(String, File, FilterChain)} methods.
+     * @link{ResourceUtils#copyResource(String, File, Map, Charset)} methods.
      */
     private static FileHandler defaultFileHandler = new DefaultFileHandler();
 
@@ -148,15 +144,15 @@ public final class ResourceUtils extends LoggedObject
      * @param resourceName The name of the resource, relative to the
      * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
-     * @param filterChain The ordered list of filter readers that should be applied while copying
+     * @param replacements The ordered list of replacements that should be applied while copying
      * @param encoding The encoding that should be used when copying the resource. Use null for
      * system default encoding
      * @throws IOException If an I/O error occurs while copying the resource
      */
-    public void copyResource(String resourceName, File destFile, FilterChain filterChain,
+    public void copyResource(String resourceName, File destFile, Map<String, String> replacements,
         Charset encoding) throws IOException
     {
-        copyResource(resourceName, destFile.getPath(), defaultFileHandler, filterChain, encoding);
+        copyResource(resourceName, destFile.getPath(), defaultFileHandler, replacements, encoding);
     }
 
     /**
@@ -167,70 +163,16 @@ public final class ResourceUtils extends LoggedObject
      * org.codehaus.cargo.container.internal.util package
      * @param destFile The file to which the contents of the resource should be copied
      * @param handler The file handler to be used for file copy
-     * @param filterChain The ordered list of filter readers that should be applied while copying
+     * @param replacements The ordered list of replacements that should be applied while copying
      * @param encoding The encoding that should be used when copying the resource. Use null for
      * system default encoding
      * @throws IOException If an I/O error occurs while copying the resource
      */
     public void copyResource(String resourceName, String destFile, FileHandler handler,
-        FilterChain filterChain, Charset encoding) throws IOException
+        Map<String, String> replacements, Charset encoding) throws IOException
     {
-        InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
-        if (resource == null)
-        {
-            throw new IOException("Resource [" + resourceName
-                + "] not found in resource loader " + ResourceUtils.resourceLoader);
-        }
-
-        ChainReaderHelper helper = new ChainReaderHelper();
-        helper.setBufferSize(ResourceUtils.BUFFER_CHUNK_SIZE);
-        helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
-        Vector filterChains = new Vector();
-        filterChains.add(filterChain);
-        helper.setFilterChains(filterChains);
-        try (BufferedReader in =
-                new BufferedReader(DefaultFileHandler.getAssembledReader(helper));
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                handler.getOutputStream(destFile))))
-        {
-            String line;
-            while ((line = in.readLine()) != null)
-            {
-                if (line.isEmpty())
-                {
-                    out.newLine();
-                }
-                else
-                {
-                    out.write(line);
-                    out.newLine();
-                }
-            }
-        }
-    }
-
-    /**
-     * Creates a new InputStreamReader with provide encoding
-     * 
-     * @param is the stream used to create the reader
-     * @param encoding the encoding used to create the reader. If it is <code>null</code> then the
-     * default system encoding will be used.
-     * @return a new reader for provided stream and encoding
-     * @throws UnsupportedEncodingException If the named charset is not supported
-     */
-    private InputStreamReader createReader(InputStream is, Charset encoding)
-        throws UnsupportedEncodingException
-    {
-        InputStreamReader r;
-        if (encoding != null)
-        {
-            r = new InputStreamReader(is, encoding);
-        }
-        else
-        {
-            r = new InputStreamReader(is);
-        }
-        return r;
+        handler.writeTextFile(
+            destFile, readResource(resourceName, replacements, encoding), encoding);
     }
 
     /**
@@ -294,51 +236,53 @@ public final class ResourceUtils extends LoggedObject
      * 
      * @param resourceName The name of the resource, relative to the
      * <code>org.codehaus.cargo.container.internal.util</code> package
-     * @param filterChain The ordered list of filter readers that should be applied while reading
+     * @param replacements The ordered list of replacements that should be applied while reading
      * @param encoding The encoding that should be used when reading the resource. Use null for
      * system default encoding
      * @return Content of resource as String.
      * @throws IOException If an I/O error occurs while reading the resource
      */
-    public String readResource(String resourceName, FilterChain filterChain, Charset encoding)
-        throws IOException
+    public String readResource(String resourceName, Map<String, String> replacements,
+        Charset encoding) throws IOException
     {
-        String newLine = System.getProperty("line.separator");
-        InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);
-
-        if (resource == null)
+        try (InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName))
         {
-            throw new CargoException("Resource [" + resourceName
-                + "] not found in resource loader " + ResourceUtils.resourceLoader);
-        }
-
-        ChainReaderHelper helper = new ChainReaderHelper();
-        helper.setBufferSize(8192);
-        helper.setPrimaryReader(new BufferedReader(createReader(resource, encoding)));
-        Vector<FilterChain> filterChains = new Vector<FilterChain>();
-        filterChains.add(filterChain);
-        helper.setFilterChains(filterChains);
-        try (BufferedReader in =
-                new BufferedReader(DefaultFileHandler.getAssembledReader(helper)))
-        {
-            String line;
-            StringBuilder out = new StringBuilder();
-            while ((line = in.readLine()) != null)
+            if (resource == null)
             {
-                if (line.isEmpty())
-                {
-                    out.append(newLine);
-                }
-                else
-                {
-                    if (out.length() > 0)
-                    {
-                        out.append(newLine);
-                    }
-                    out.append(line);
-                }
+                throw new CargoException("Resource [" + resourceName
+                    + "] not found in resource loader " + ResourceUtils.resourceLoader);
             }
-            return out.toString();
+
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(resource, encoding)))
+            {
+                String line;
+                StringBuilder out = new StringBuilder();
+                while ((line = in.readLine()) != null)
+                {
+                    if (line.isEmpty())
+                    {
+                        out.append(ResourceUtils.NEW_LINE);
+                    }
+                    else
+                    {
+                        if (out.length() > 0)
+                        {
+                            out.append(ResourceUtils.NEW_LINE);
+                        }
+                        out.append(line);
+                    }
+                }
+                String output = out.toString();
+                if (replacements != null)
+                {
+                    for (Map.Entry<String, String> replacement : replacements.entrySet())
+                    {
+                        String replacementKey = "@" + replacement.getKey() + "@";
+                        output = output.replace(replacementKey, replacement.getValue());
+                    }
+                }
+                return output;
+            }
         }
     }
 }

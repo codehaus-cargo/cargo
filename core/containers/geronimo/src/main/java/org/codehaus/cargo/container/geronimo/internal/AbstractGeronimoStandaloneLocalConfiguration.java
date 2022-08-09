@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tools.ant.types.FilterChain;
-
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -38,7 +36,6 @@ import org.codehaus.cargo.container.geronimo.GeronimoInstalledLocalDeployer;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
@@ -72,32 +69,26 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
      * @return token with all the user-defined token value
      * @exception java.net.MalformedURLException If an URL is malformed.
      */
-    protected FilterChain createGeronimoFilterChain(LocalContainer container)
+    protected Map<String, String> createGeronimoReplacements(LocalContainer container)
         throws MalformedURLException
     {
-        FilterChain filterChain = getFilterChain();
-
-        getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
-            getPropertyValue(GeneralPropertySet.RMI_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, ServletPropertySet.PORT,
-            getPropertyValue(ServletPropertySet.PORT));
+        Map<String, String> replacements = getReplacements();
 
         // Add token filters for authenticated users
         String[] userTokens = getUserTokens();
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.users", userTokens[0]);
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.groups", userTokens[1]);
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.manager.username",
+        replacements.put("geronimo.users", userTokens[0]);
+        replacements.put("geronimo.groups", userTokens[1]);
+        replacements.put("geronimo.manager.username",
             getPropertyValue(RemotePropertySet.USERNAME));
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.manager.password",
+        replacements.put("geronimo.manager.password",
             getPropertyValue(RemotePropertySet.PASSWORD));
 
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.console.log.level",
+        replacements.put("geronimo.console.log.level",
             getPropertyValue(GeronimoPropertySet.GERONIMO_CONSOLE_LOGLEVEL));
-        getAntUtils().addTokenToFilterChain(filterChain, "geronimo.file.log.level",
+        replacements.put("geronimo.file.log.level",
             getPropertyValue(GeronimoPropertySet.GERONIMO_FILE_LOGLEVEL));
 
-        return filterChain;
+        return replacements;
     }
 
     /**
@@ -191,13 +182,11 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
                 throw new ContainerException("Unknown transaction support type: "
                     + datasource.getTransactionSupport());
             }
-            FilterChain filterChain = new FilterChain();
-            getAntUtils().addTokensToFilterChain(filterChain, replacements);
 
             File target = new File(getHome(),
                 "var/temp/cargo-datasource-" + datasource.getId() + ".xml");
             getResourceUtils().copyResource(RESOURCE_PATH + "geronimo/DataSourceTemplate.xml",
-                target, filterChain, StandardCharsets.UTF_8);
+                target, replacements, StandardCharsets.UTF_8);
 
             deployer.deployRar(
                 "org.codehaus.cargo.datasource/" + datasource.getId() + "/1.0/car", target);

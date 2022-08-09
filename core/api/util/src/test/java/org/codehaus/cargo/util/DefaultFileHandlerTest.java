@@ -23,7 +23,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import junit.framework.TestCase;
-import org.apache.tools.ant.types.FilterChain;
 
 /**
  * Unit tests for {@link DefaultFileHandler}.
@@ -77,7 +76,7 @@ public class DefaultFileHandlerTest extends TestCase
             this.fileHandler.isDirectory("target/" + random));
         this.fileHandler.createFile("target/random.txt");
         this.fileHandler.copyFile("target/random.txt", "target/" + random + "/random.txt",
-            new FilterChain(), StandardCharsets.UTF_8);
+            null, StandardCharsets.UTF_8);
         assertTrue("Subdirectory " + random + " does not exist after copy",
             this.fileHandler.isDirectory("target/" + random));
         assertTrue("File in subdirectory " + random + " missing after copy",

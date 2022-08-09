@@ -21,8 +21,8 @@ package org.codehaus.cargo.container.geronimo;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -68,7 +68,7 @@ public class Geronimo3xStandaloneLocalConfiguration extends
     {
         setupConfigurationDir();
 
-        FilterChain filterChain = createGeronimoFilterChain(container);
+        Map<String, String> replacements = createGeronimoReplacements(container);
 
         final String containerHome = ((InstalledLocalContainer) container).getHome();
 
@@ -87,11 +87,11 @@ public class Geronimo3xStandaloneLocalConfiguration extends
         String securityDir = getFileHandler().createDirectory(getHome(), "/var/security");
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/users.properties",
-                new File(securityDir, "users.properties"), filterChain,
+                new File(securityDir, "users.properties"), replacements,
                     StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/groups.properties",
-                new File(securityDir, "groups.properties"), filterChain,
+                new File(securityDir, "groups.properties"), replacements,
                     StandardCharsets.ISO_8859_1);
 
         getFileHandler().createDirectory(getHome(), "/var/temp");

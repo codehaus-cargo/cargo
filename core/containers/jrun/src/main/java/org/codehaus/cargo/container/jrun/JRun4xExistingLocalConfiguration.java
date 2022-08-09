@@ -25,6 +25,8 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jrun.internal.JRun4xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
@@ -45,6 +47,10 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
     public JRun4xExistingLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(GeneralPropertySet.RMI_PORT, "2999");
+        setProperty(ServletPropertySet.PORT, JRun4xPropertySet.DEFAULT_PORT);
+        setProperty(JRun4xPropertySet.SERVER_NAME, JRun4xPropertySet.DEFAULT_SERVER_NAME);
     }
 
     /**
@@ -62,12 +68,6 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        // set default server instance if none defined.
-        if (getPropertyValue(JRun4xPropertySet.SERVER_NAME) == null)
-        {
-            setProperty(JRun4xPropertySet.SERVER_NAME, JRun4xPropertySet.DEFAULT_SERVER_NAME);
-        }
-
         InstalledLocalContainer jrunContainer = (InstalledLocalContainer) container;
         JRun4xInstalledLocalDeployer deployer = new JRun4xInstalledLocalDeployer(jrunContainer);
         deployer.redeploy(getDeployables());

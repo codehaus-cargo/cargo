@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -74,18 +73,15 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
     @Override
     public String readScript()
     {
-        FilterChain filterChain = new FilterChain();
-        antUtils.addTokensToFilterChain(filterChain, getConfiguration().getProperties());
-
-        Map<String, String> propertiesMap = new HashMap<String, String>();
-        addConfigurationScriptProperties(propertiesMap);
-        antUtils.addTokensToFilterChain(filterChain, propertiesMap);
+        Map<String, String> replacements =
+            new HashMap<String, String>(getConfiguration().getProperties());
+        addConfigurationScriptProperties(replacements);
 
         String resourceName = resourcePath + getScriptRelativePath();
         try
         {
             return resourceUtils.readResource(
-                resourceName, filterChain, StandardCharsets.UTF_8) + NEW_LINE;
+                resourceName, replacements, StandardCharsets.UTF_8) + NEW_LINE;
         }
         catch (IOException e)
         {

@@ -70,7 +70,7 @@ public class ConfigurationFilesTest extends TestCase
         @Override
         protected void doConfigure(LocalContainer container)
         {
-            configureFiles(getFilterChain(), container);
+            configureFiles(getReplacements(), container);
         }
 
         /**

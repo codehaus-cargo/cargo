@@ -29,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -38,7 +37,6 @@ import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
@@ -119,7 +117,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         jbossContainer = (JBossInstalledLocalContainer) container;
 
-        FilterChain filterChain = createJBossFilterChain(jbossContainer);
+        Map<String, String> replacements = createJBossReplacements(jbossContainer);
 
         String deployDir = getFileHandler().createDirectory(getHome(), "/deploy");
         String libDir = getFileHandler().createDirectory(getHome(), "/lib");
@@ -139,7 +137,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         {
             getResourceUtils().copyResource(
                 RESOURCE_PATH + jbossContainer.getId() + "/" + cargoFile,
-                    new File(confDir, cargoFile), filterChain, StandardCharsets.UTF_8);
+                    new File(confDir, cargoFile), replacements, StandardCharsets.UTF_8);
         }
 
         // Copy resources from jboss installation folder and exclude files
@@ -150,7 +148,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         // CARGO-825: Configure the logging append property
         String jbossLog4jXml = getFileHandler().append(confDir, this.log4jFileName);
-        Map<String, String> replacements = new HashMap<String, String>(2);
+        replacements = new HashMap<String, String>(2);
         replacements.put(
             "<param name=\"Append\" value=\"false\"/>",
             "<param name=\"Append\" value=\"" + Boolean.toString(container.isAppend()) + "\"/>");
@@ -203,16 +201,16 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
                 throw new CargoException("Unknown transaction type " + ds.getTransactionSupport());
             }
 
-            FilterChain filterChain = createFilterChain();
-            getAntUtils().addTokenToFilterChain(filterChain, "jndiName", ds.getJndiLocation());
-            getAntUtils().addTokenToFilterChain(filterChain, "url", ds.getUrl());
-            getAntUtils().addTokenToFilterChain(filterChain, "driverClass", ds.getDriverClass());
-            getAntUtils().addTokenToFilterChain(filterChain, "username", ds.getUsername());
-            getAntUtils().addTokenToFilterChain(filterChain, "password", ds.getPassword());
+            Map<String, String> replacements = new HashMap<String, String>(5);
+            replacements.put("jndiName", ds.getJndiLocation());
+            replacements.put("url", ds.getUrl());
+            replacements.put("driverClass", ds.getDriverClass());
+            replacements.put("username", ds.getUsername());
+            replacements.put("password", ds.getPassword());
 
             getResourceUtils().copyResource(sourceFile, new File(
                 getFileHandler().append(deployDir, "cargo-" + ds.getId() + "-ds.xml")),
-                filterChain, StandardCharsets.UTF_8);
+                    replacements, StandardCharsets.UTF_8);
         }
     }
 
@@ -309,17 +307,17 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
     }
 
     /**
-     * Create filter to replace token in configuration file with user defined token.
+     * Create token replacement in configuration file with user defined token.
      * 
      * @param container the JBoss container instance from which we'll find the JBoss installed files
      * to reference
      * @return token with all the user-defined token value
      * @throws MalformedURLException If an URL is malformed.
      */
-    protected FilterChain createJBossFilterChain(JBossInstalledLocalContainer container)
+    protected Map<String, String> createJBossReplacements(JBossInstalledLocalContainer container)
         throws MalformedURLException
     {
-        FilterChain filterChain = createFilterChain();
+        Map<String, String> replacements = getReplacements();
 
         String[] version = jbossContainer.getName().split(" ");
         if (version.length < 2)
@@ -353,72 +351,28 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
             && Integer.parseInt(minorVersion) <= 2
             && Integer.valueOf(revisionVersion) <= 7))
         {
-            getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.server.mode.attr",
+            replacements.put("cargo.jboss.server.mode.attr",
                 "<attribute name=\"ServerMode\">true</attribute>");
         }
 
         String bindingXmlFile = getFileHandler().append(getHome(), "conf/cargo-binding.xml");
-        getAntUtils().addTokenToFilterChain(filterChain, "cargo.jboss.binding.url",
-            getFileHandler().getURL(bindingXmlFile));
-
-        getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
-            getPropertyValue(GeneralPropertySet.RMI_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_NAMING_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_NAMING_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_CLASSLOADING_WEBSERVICE_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_JRMP_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_JRMP_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_JRMP_INVOKER_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, JBossPropertySet.JBOSS_INVOKER_POOL_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_INVOKER_POOL_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            JBossPropertySet.JBOSS_EJB3_REMOTING_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain,
-            JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT,
-            getPropertyValue(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, ServletPropertySet.PORT,
-            getPropertyValue(ServletPropertySet.PORT));
-
-        getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.LOGGING,
-            getJBossLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
+        replacements.put("cargo.jboss.binding.url", getFileHandler().getURL(bindingXmlFile));
 
         File libDir =
             new File(container.getLibDir(getPropertyValue(JBossPropertySet.CONFIGURATION)));
-        getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.lib.url",
-            libDir.toURI().toURL().toString());
+        replacements.put("cargo.server.lib.url", libDir.toURI().toURL().toString());
 
         // just use the original deploy directory and copy all the deployables from the server
         // deploy directory to the cargo one. This is due to JBoss having deployers and sars in
         // the deploy directory which contain config files used to configure the server.
         // By placing these files in the cargo home directory we will now be able to configure them
         // with cargo.
-        getAntUtils().addTokenToFilterChain(filterChain, "cargo.server.deploy.url", "deploy/");
+        replacements.put("cargo.server.deploy.url", "deploy/");
 
         // Setup the shared classpath
-        getAntUtils().addTokenToFilterChain(filterChain, "jboss.shared.classpath",
-            getSharedClasspathXml(container));
+        replacements.put("jboss.shared.classpath", getSharedClasspathXml(container));
 
-        return filterChain;
+        return replacements;
     }
 
     /**

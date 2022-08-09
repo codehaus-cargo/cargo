@@ -25,8 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.filters.ReplaceTokens;
-import org.apache.tools.ant.types.FilterChain;
 import org.apache.tools.ant.util.FileUtils;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -155,42 +153,42 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
         setupConfigurationDir();
 
         FileUtils fileUtils = FileUtils.getFileUtils();
-        FilterChain filterChain = createOrionFilterChain();
+        Map<String, String> replacements = createOrionReplacements();
 
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
 
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/server.xml",
-            getFileHandler().append(confDir, "server.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(confDir, "server.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/application.xml",
-            getFileHandler().append(confDir, "application.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(confDir, "application.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/default-web-site.xml",
             getFileHandler().append(confDir, "default-web-site.xml"), getFileHandler(),
-            filterChain, StandardCharsets.UTF_8);
+                replacements, StandardCharsets.UTF_8);
 
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/mime.types",
-            getFileHandler().append(confDir, "mime.types"), getFileHandler(), filterChain,
+            getFileHandler().append(confDir, "mime.types"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/principals.xml",
-            getFileHandler().append(confDir, "principals.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(confDir, "principals.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/rmi.xml",
-            getFileHandler().append(confDir, "rmi.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(confDir, "rmi.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
 
         // create a default data-sources.xml file/
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/data-sources.xml",
-            getFileHandler().append(confDir, "data-sources.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(confDir, "data-sources.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
 
-        copyCustomResources(confDir, filterChain);
+        copyCustomResources(confDir, replacements);
 
         // Create default web app (required by Orion unfortunately...)
         String defaultWebAppDir =
             getFileHandler().createDirectory(getHome(), "default-web-app/WEB-INF");
         getResourceUtils().copyResource(ORION_RESOURCE_PATH + "/web.xml",
-            getFileHandler().append(defaultWebAppDir, "web.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(defaultWebAppDir, "web.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
 
         // Orion need to have a /persistence directory created, otherwise it
@@ -225,47 +223,31 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      * Copy resources that are different between the different standalone implementations.
      * 
      * @param confDir the configuration dir where to copy the resources to
-     * @param filterChain the Ant filter chain to apply when copying the resources
+     * @param replacements the token replacements to apply when copying the resources
      * @throws Exception in case of an error during the copy
      */
-    protected abstract void copyCustomResources(String confDir, FilterChain filterChain)
+    protected abstract void copyCustomResources(String confDir, Map<String, String> replacements)
         throws Exception;
 
     /**
-     * @return an Ant filter chain containing implementation for the filter tokens used in the Orion
-     * configuration files
+     * @return an token replacement chain containing implementation for the filter tokens used in
+     * the Orion configuration files
      */
-    private FilterChain createOrionFilterChain()
+    private Map<String, String> createOrionReplacements()
     {
-        FilterChain filterChain = getFilterChain();
-
-        // Add Orion RMI port token
-        getAntUtils().addTokenToFilterChain(filterChain, GeneralPropertySet.RMI_PORT,
-            getPropertyValue(GeneralPropertySet.RMI_PORT));
+        Map<String, String> replacements = getReplacements();
 
         // Add token filters for adding users and roles
         if (!getUsers().isEmpty())
         {
-            getAntUtils().addTokenToFilterChain(filterChain, "orion.users", getUserToken());
-            getAntUtils().addTokenToFilterChain(filterChain, "orion.roles", getRoleToken());
+            replacements.put("orion.users", getUserToken());
+            replacements.put("orion.roles", getRoleToken());
         }
 
         // Add application deployment tokens
-
-        ReplaceTokens.Token tokenApplications = new ReplaceTokens.Token();
-        tokenApplications.setKey("orion.application");
-
-        ReplaceTokens.Token tokenWebModules = new ReplaceTokens.Token();
-        tokenWebModules.setKey("orion.web-module");
-
-        ReplaceTokens.Token tokenWebApps = new ReplaceTokens.Token();
-        tokenWebApps.setKey("orion.web-app");
-
-        // Note: The following values must never be empty string as otherwise
-        // the Ant filtering code fails.
-        StringBuilder keyApplications = new StringBuilder(" ");
-        StringBuilder keyWebModules = new StringBuilder(" ");
-        StringBuilder keyWebApps = new StringBuilder(" ");
+        StringBuilder keyApplications = new StringBuilder();
+        StringBuilder keyWebModules = new StringBuilder();
+        StringBuilder keyWebApps = new StringBuilder();
 
         for (Deployable deployable : getDeployables())
         {
@@ -324,23 +306,11 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
             }
         }
 
-        tokenApplications.setValue(keyApplications.toString());
-        tokenWebModules.setValue(keyWebModules.toString());
-        tokenWebApps.setValue(keyWebApps.toString());
+        replacements.put("orion.application", keyApplications.toString());
+        replacements.put("orion.web-module", keyWebModules.toString());
+        replacements.put("orion.web-app", keyWebApps.toString());
 
-        ReplaceTokens replaceApplications = new ReplaceTokens();
-        replaceApplications.addConfiguredToken(tokenApplications);
-        filterChain.addReplaceTokens(replaceApplications);
-
-        ReplaceTokens replaceWebModules = new ReplaceTokens();
-        replaceWebModules.addConfiguredToken(tokenWebModules);
-        filterChain.addReplaceTokens(replaceWebModules);
-
-        ReplaceTokens replaceWebApps = new ReplaceTokens();
-        replaceWebApps.addConfiguredToken(tokenWebApps);
-        filterChain.addReplaceTokens(replaceWebApps);
-
-        return filterChain;
+        return replacements;
     }
 
     /**

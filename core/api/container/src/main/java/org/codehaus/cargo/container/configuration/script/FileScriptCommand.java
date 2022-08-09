@@ -20,18 +20,16 @@
 package org.codehaus.cargo.container.configuration.script;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Vector;
+import java.util.Map;
 
-import org.apache.tools.ant.filters.util.ChainReaderHelper;
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Implementation of general functionality for existing script files.
@@ -45,9 +43,9 @@ public class FileScriptCommand extends AbstractScriptCommand
     private String filePath;
 
     /**
-     * Ant utility class.
+     * File handler class.
      */
-    private AntUtils antUtils;
+    private FileHandler fileHandler;
 
     /**
      * Sets configuration containing all needed information for building configuration scripts.
@@ -60,7 +58,8 @@ public class FileScriptCommand extends AbstractScriptCommand
         super(configuration);
 
         this.filePath = filePath;
-        this.antUtils = new AntUtils();
+        this.fileHandler = new DefaultFileHandler();
+        this.fileHandler.setLogger(configuration.getLogger());
     }
 
     /**
@@ -69,42 +68,39 @@ public class FileScriptCommand extends AbstractScriptCommand
     @Override
     public String readScript()
     {
-        try
+        try (InputStream resource = this.fileHandler.getInputStream(this.filePath))
         {
-            FilterChain filterChain = new FilterChain();
-            antUtils.addTokensToFilterChain(filterChain, getConfiguration().getProperties());
-
-            try (BufferedReader primaryReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(this.filePath), StandardCharsets.UTF_8)))
+            try (BufferedReader in =
+                new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)))
             {
-                ChainReaderHelper helper = new ChainReaderHelper();
-                helper.setBufferSize(8192);
-                helper.setPrimaryReader(primaryReader);
-                Vector<FilterChain> filterChains = new Vector<FilterChain>();
-                filterChains.add(filterChain);
-                helper.setFilterChains(filterChains);
-                try (BufferedReader in =
-                    new BufferedReader(DefaultFileHandler.getAssembledReader(helper)))
+                String line;
+                StringBuilder out = new StringBuilder();
+                while ((line = in.readLine()) != null)
                 {
-                    String line;
-                    StringBuilder out = new StringBuilder();
-                    while ((line = in.readLine()) != null)
+                    if (line.isEmpty())
                     {
-                        if (line.isEmpty())
-                        {
-                            out.append(NEW_LINE);
-                        }
-                        else
-                        {
-                            if (out.length() > 0)
-                            {
-                                out.append(NEW_LINE);
-                            }
-                            out.append(line);
-                        }
+                        out.append(FileScriptCommand.NEW_LINE);
                     }
-                    return out.toString();
+                    else
+                    {
+                        if (out.length() > 0)
+                        {
+                            out.append(FileScriptCommand.NEW_LINE);
+                        }
+                        out.append(line);
+                    }
                 }
+                String output = out.toString();
+                Map<String, String> replacements = getConfiguration().getProperties();
+                if (replacements != null)
+                {
+                    for (Map.Entry<String, String> replacement : replacements.entrySet())
+                    {
+                        String replacementKey = "@" + replacement.getKey() + "@";
+                        output = output.replace(replacementKey, replacement.getValue());
+                    }
+                }
+                return output;
             }
         }
         catch (IOException e)

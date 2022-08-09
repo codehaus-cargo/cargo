@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -36,6 +35,8 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.jrun.internal.JRun4xConfigurationBuilder;
 import org.codehaus.cargo.container.jrun.internal.JRun4xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder;
 
 /**
@@ -59,7 +60,10 @@ public class JRun4xStandaloneLocalConfiguration extends
     public JRun4xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-        getServerName();
+
+        setProperty(GeneralPropertySet.RMI_PORT, "2999");
+        setProperty(ServletPropertySet.PORT, JRun4xPropertySet.DEFAULT_PORT);
+        setProperty(JRun4xPropertySet.SERVER_NAME, JRun4xPropertySet.DEFAULT_SERVER_NAME);
     }
 
     /**
@@ -118,26 +122,13 @@ public class JRun4xStandaloneLocalConfiguration extends
     }
 
     /**
-     * Get the JRun server name for this configuration.
-     * @return the JRun server name.
-     */
-    private String getServerName()
-    {
-        // set default server instance name if not set
-        if (getPropertyValue(JRun4xPropertySet.SERVER_NAME) == null)
-        {
-            setProperty(JRun4xPropertySet.SERVER_NAME, JRun4xPropertySet.DEFAULT_SERVER_NAME);
-        }
-        return getPropertyValue(JRun4xPropertySet.SERVER_NAME);
-    }
-
-    /**
      * The list of required files needed to start up JRun4.
      * @return the list of files required to start JRun4.
      */
     private List<String> getRequiredFiles()
     {
-        String serverInfDirectory = "/servers/" + getServerName() + "/SERVER-INF/";
+        String serverInfDirectory =
+            "/servers/" + getPropertyValue(JRun4xPropertySet.SERVER_NAME) + "/SERVER-INF/";
 
         List<String> files = new ArrayList<String>();
         files.add(serverInfDirectory + "auth.config");
@@ -167,7 +158,7 @@ public class JRun4xStandaloneLocalConfiguration extends
      */
     private void filterResources(LocalContainer container) throws IOException
     {
-        FilterChain chain = new JRun4xFilterChain(container);
+        Map<String, String> replacements = new JRun4xReplacements(container);
 
         String to = getHome();
         String libDir = getFileHandler().createDirectory(to, "lib");
@@ -175,27 +166,28 @@ public class JRun4xStandaloneLocalConfiguration extends
 
         // filter server name in servers.xml
         getResourceUtils().copyResource(resourcePath + "/servers.xml",
-            new File(libDir, "/servers.xml"), chain, StandardCharsets.UTF_8);
+            new File(libDir, "/servers.xml"), replacements, StandardCharsets.UTF_8);
 
         // filter VM config in jvm.config
         getFileHandler().createDirectory(to, "bin");
         getResourceUtils().copyResource(resourcePath + "/jvm.config",
-            new File(to + "/bin/jvm.config"), chain, StandardCharsets.UTF_8);
+            new File(to + "/bin/jvm.config"), replacements, StandardCharsets.UTF_8);
 
-        String serverInf = "servers/" + getServerName() + "/SERVER-INF";
+        String serverInf =
+            "servers/" + getPropertyValue(JRun4xPropertySet.SERVER_NAME) + "/SERVER-INF";
         String serverInfDir = getFileHandler().createDirectory(getHome(), serverInf);
 
         // filter port and logging level in jrun.xml
         getResourceUtils().copyResource(resourcePath + "/jrun.xml",
-            new File(serverInfDir, "/jrun.xml"), chain, StandardCharsets.UTF_8);
+            new File(serverInfDir, "/jrun.xml"), replacements, StandardCharsets.UTF_8);
 
         // filter users in jrun-users.xml
         getResourceUtils().copyResource(resourcePath + "/jrun-users.xml",
-            new File(serverInfDir, "/jrun-users.xml"), chain, StandardCharsets.UTF_8);
+            new File(serverInfDir, "/jrun-users.xml"), replacements, StandardCharsets.UTF_8);
 
         // filter rmi port in jndi.propertiess
         getResourceUtils().copyResource(resourcePath + "/jndi.properties",
-            new File(serverInfDir, "/jndi.properties"), chain, StandardCharsets.ISO_8859_1);
+            new File(serverInfDir, "/jndi.properties"), replacements, StandardCharsets.ISO_8859_1);
     }
 
     /**
@@ -282,7 +274,8 @@ public class JRun4xStandaloneLocalConfiguration extends
     private String getResourceFile(LocalContainer container)
     {
         return getFileHandler().append(getHome(),
-                "servers/" + getServerName() + "/SERVER-INF/jrun-resources.xml");
+            "servers/" + getPropertyValue(JRun4xPropertySet.SERVER_NAME)
+                + "/SERVER-INF/jrun-resources.xml");
     }
 
     /**

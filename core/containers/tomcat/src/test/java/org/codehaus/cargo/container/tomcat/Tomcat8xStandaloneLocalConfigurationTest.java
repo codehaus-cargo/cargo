@@ -20,8 +20,8 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -62,10 +62,11 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
             }
 
             @Override
-            protected void configureFiles(FilterChain filterChain, LocalContainer container)
+            protected void configureFiles(
+                Map<String, String> replacements, LocalContainer container)
             {
                 createServerXml();
-                super.configureFiles(filterChain, container);
+                super.configureFiles(replacements, container);
             }
         };
     }

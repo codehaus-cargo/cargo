@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -335,10 +334,10 @@ public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocal
      * {@inheritDoc}
      */
     @Override
-    protected void configureFiles(FilterChain filterChain, LocalContainer container)
+    protected void configureFiles(Map<String, String> replacements, LocalContainer container)
     {
         performXmlReplacements(container);
-        super.configureFiles(filterChain, container);
+        super.configureFiles(replacements, container);
     }
 
     /**

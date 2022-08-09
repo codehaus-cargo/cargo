@@ -20,8 +20,8 @@
 package org.codehaus.cargo.container.orion;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionStandaloneLocalConfiguration;
 
 /**
@@ -42,11 +42,12 @@ public class Oc4j9xStandaloneLocalConfiguration extends AbstractOrionStandaloneL
      * {@inheritDoc}
      */
     @Override
-    protected void copyCustomResources(String confDir, FilterChain filterChain) throws Exception
+    protected void copyCustomResources(String confDir, Map<String, String> replacements)
+        throws Exception
     {
         getResourceUtils().copyResource(RESOURCE_PATH + "oc4j9x" + "/global-web-application.xml",
             getFileHandler().append(confDir, "global-web-application.xml"), getFileHandler(),
-                filterChain, StandardCharsets.UTF_8);
+                replacements, StandardCharsets.UTF_8);
     }
 
     /**

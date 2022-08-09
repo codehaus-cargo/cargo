@@ -83,16 +83,17 @@ public class WebLogic8xStandaloneLocalConfiguration extends
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
             getFileHandler().append(getDomainHome(), "config.xml"), getFileHandler(),
-            getFilterChain(), StandardCharsets.UTF_8);
+                getReplacements(), StandardCharsets.UTF_8);
 
         WebLogic8xConfigXmlInstalledLocalDeployer deployer =
             new WebLogic8xConfigXmlInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
 
+        // DefaultAuthenticatorInit.ldift doesn't have any tokens to replace
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
-            getFileHandler().append(getDomainHome(), "DefaultAuthenticatorInit.ldift"),
-            getFileHandler(), getFilterChain(), StandardCharsets.UTF_8);
+                getFileHandler().append(getDomainHome(), "DefaultAuthenticatorInit.ldift"),
+                    getFileHandler(), null, StandardCharsets.UTF_8);
 
         deployCargoPing((WebLogicLocalContainer) container);
     }

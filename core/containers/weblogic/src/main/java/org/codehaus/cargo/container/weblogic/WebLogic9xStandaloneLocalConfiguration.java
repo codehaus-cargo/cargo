@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -124,13 +123,13 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         getFileHandler().createDirectory(getDomainHome(),
             ((WebLogicLocalContainer) container).getAutoDeployDirectory());
 
-        FilterChain filterChain = createWebLogicFilterChain();
+        Map<String, String> replacements = createWebLogicReplacements();
 
         // make sure you use this method, as it ensures the same filehandler
         // that created the directory will be used to copy the resource.
         // This is especially important for unit testing
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/config.xml",
-            getFileHandler().append(configDir, "config.xml"), getFileHandler(), filterChain,
+            getFileHandler().append(configDir, "config.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
 
         WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer deployer =
@@ -141,7 +140,7 @@ public class WebLogic9xStandaloneLocalConfiguration extends
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/DefaultAuthenticatorInit.ldift",
               getFileHandler().append(securityDir, "DefaultAuthenticatorInit.ldift"),
-                    getFileHandler(), filterChain, StandardCharsets.UTF_8);
+                    getFileHandler(), replacements, StandardCharsets.UTF_8);
 
         getResourceUtils().copyResource(
             RESOURCE_PATH + container.getId() + "/SerializedSystemIni.dat",
@@ -151,27 +150,16 @@ public class WebLogic9xStandaloneLocalConfiguration extends
     }
 
     /**
-     * @return an Ant filter chain containing implementation for the filter tokens used in the
-     * WebLogic configuration files.
+     * @return filter tokens used in the WebLogic configuration files.
      */
-    private FilterChain createWebLogicFilterChain()
+    private Map<String, String> createWebLogicReplacements()
     {
-        FilterChain filterChain = getFilterChain();
+        Map<String, String> replacements = getReplacements();
 
-        getAntUtils().addTokenToFilterChain(filterChain,
-            WebLogicPropertySet.CONFIGURATION_VERSION,
-            getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION));
-
-        getAntUtils().addTokenToFilterChain(filterChain, WebLogicPropertySet.DOMAIN_VERSION,
-            getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION));
-
-        getAntUtils().addTokenToFilterChain(filterChain, WebLogicPropertySet.SERVER,
-            getPropertyValue(WebLogicPropertySet.SERVER));
-
-        getAntUtils().addTokenToFilterChain(filterChain, WebLogicPropertySet.LOGGING,
+        replacements.put(WebLogicPropertySet.LOGGING,
             getWebLogicLogLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
 
-        return filterChain;
+        return replacements;
     }
 
     /**

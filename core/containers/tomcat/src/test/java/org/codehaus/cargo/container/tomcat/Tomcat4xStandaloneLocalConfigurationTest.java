@@ -255,8 +255,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
     {
         configuration.setProperty(TomcatPropertySet.HOST_STARTSTOPTHREADS, "42");
         configuration.configure(container);
-
-        String config = configuration.getFileHandler().readTextFile(
+        String config =
+            configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
     }

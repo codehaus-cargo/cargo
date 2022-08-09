@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -98,7 +97,7 @@ public class WildFly8xStandaloneLocalConfiguration
     protected void doConfigure(LocalContainer c) throws Exception
     {
         AbstractWildFlyInstalledLocalContainer container =
-                (AbstractWildFlyInstalledLocalContainer) c;
+            (AbstractWildFlyInstalledLocalContainer) c;
         super.doConfigure(c);
 
         String configurationXmlFile = "configuration/"
@@ -188,15 +187,10 @@ public class WildFly8xStandaloneLocalConfiguration
 
             for (DataSource dataSource : getDataSources())
             {
-                String moduleName = WildFlyModuleUtils.getDataSourceDriverModuleName(
-                        container, dataSource);
+                String moduleName =
+                    WildFlyModuleUtils.getDataSourceDriverModuleName(container, dataSource);
 
-                FilterChain filterChain = createFilterChain();
-                getAntUtils().addTokenToFilterChain(filterChain, "moduleName", moduleName);
-                getAntUtils().addTokenToFilterChain(filterChain, "driverClass",
-                    dataSource.getDriverClass());
                 String jndiName = dataSource.getJndiLocation();
-
                 if (!jndiName.startsWith("java:/"))
                 {
                     jndiName = "java:/" + jndiName;
@@ -205,12 +199,13 @@ public class WildFly8xStandaloneLocalConfiguration
                         this.getClass().getName());
                 }
 
-                getAntUtils().addTokenToFilterChain(filterChain, "jndiName", jndiName);
-                getAntUtils().addTokenToFilterChain(filterChain, "url", dataSource.getUrl());
-                getAntUtils().addTokenToFilterChain(filterChain, "username",
-                    dataSource.getUsername());
-                getAntUtils().addTokenToFilterChain(filterChain, "password",
-                    dataSource.getPassword());
+                Map<String, String> replacements = new HashMap<String, String>(6);
+                replacements.put("moduleName", moduleName);
+                replacements.put("driverClass", dataSource.getDriverClass());
+                replacements.put("jndiName", jndiName);
+                replacements.put("url", dataSource.getUrl());
+                replacements.put("username", dataSource.getUsername());
+                replacements.put("password", dataSource.getPassword());
 
                 String xa = "";
                 if (TransactionSupport.XA_TRANSACTION.equals(dataSource.getTransactionSupport()))
@@ -225,7 +220,7 @@ public class WildFly8xStandaloneLocalConfiguration
                     String temporaryDriver = getFileHandler().append(tmpDir, "driver.xml");
                     getResourceUtils().copyResource(
                         RESOURCE_PATH + "wildfly-8/datasource/jboss-driver" + xa + ".xml",
-                            temporaryDriver, getFileHandler(), filterChain,
+                            temporaryDriver, getFileHandler(), replacements,
                                 StandardCharsets.UTF_8);
                     drivers.append("\n");
                     temporaryDriver = getFileHandler().readTextFile(
@@ -244,7 +239,7 @@ public class WildFly8xStandaloneLocalConfiguration
                 String temporaryDatasource = getFileHandler().append(tmpDir, "datasource.xml");
                 getResourceUtils().copyResource(
                     RESOURCE_PATH + "wildfly-8/datasource/jboss-datasource.xml",
-                        temporaryDatasource, getFileHandler(), filterChain,
+                        temporaryDatasource, getFileHandler(), replacements,
                             StandardCharsets.UTF_8);
                 datasources.append("\n");
                 temporaryDatasource = getFileHandler().readTextFile(

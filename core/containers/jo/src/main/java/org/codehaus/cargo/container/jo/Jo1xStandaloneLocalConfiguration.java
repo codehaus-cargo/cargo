@@ -22,9 +22,7 @@ package org.codehaus.cargo.container.jo;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
-
-import org.apache.tools.ant.filters.ReplaceTokens;
-import org.apache.tools.ant.types.FilterChain;
+import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -34,7 +32,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jo.internal.Jo1xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
-import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
 /**
@@ -62,16 +59,6 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * Token key.
      */
     private static final String TOKEN_KEY_LOGLEVEL = "jo.loglevel";
-
-    /**
-     * Default hostname.
-     */
-    private static final String DEFAULT_HOSTNAME = "*";
-
-    /**
-     * Default port.
-     */
-    private static final String DEFAULT_PORT = "8080";
 
     /**
      * Default metaserver port.
@@ -112,32 +99,32 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     {
         setupConfigurationDir();
 
-        FilterChain filterChain = createJoFilterChain();
+        Map<String, String> replacements = createJoReplacements();
 
         String confDir = getFileHandler().createDirectory(getHome(), "etc");
         String resourcePath = RESOURCE_PATH + container.getId();
 
         getResourceUtils().copyResource(resourcePath + "/factory.properties",
-            new File(confDir, "factory.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "factory.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/groups.properties",
-            new File(confDir, "groups.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "groups.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/hosts.properties",
-            new File(confDir, "hosts.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "hosts.properties"), replacements, StandardCharsets.ISO_8859_1);
 
         getResourceUtils().copyResource(resourcePath + "/listener.properties",
-            new File(confDir, "listener.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "listener.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/mime.properties",
-            new File(confDir, "mime.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "mime.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/roles.properties",
-            new File(confDir, "roles.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "roles.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/server.properties",
-            new File(confDir, "server.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "server.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/users.properties",
-            new File(confDir, "users.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "users.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/metaserver.properties",
-            new File(confDir, "metaserver.properties"), filterChain, StandardCharsets.ISO_8859_1);
+            new File(confDir, "metaserver.properties"), replacements, StandardCharsets.ISO_8859_1);
         getResourceUtils().copyResource(resourcePath + "/metalistener.properties",
-            new File(confDir, "metalistener.properties"), filterChain,
+            new File(confDir, "metalistener.properties"), replacements,
                 StandardCharsets.ISO_8859_1);
 
         // jo! log directory
@@ -152,41 +139,32 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     }
 
     /**
-     * @return an Ant filter chain containing implementation for the filter tokens used in the Orion
-     * configuration files
+     * @return token with all the user-defined token value
      * @throws MalformedURLException if the document base cannot be determined
      */
-    private FilterChain createJoFilterChain() throws MalformedURLException
+    private Map<String, String> createJoReplacements() throws MalformedURLException
     {
-        FilterChain filterChain = getFilterChain();
+        Map<String, String> replacements = getReplacements();
 
-        // TODO: Add token filters for adding users and roles
-        // Add application deployment tokens
-        filterChain.addReplaceTokens(createWebappToken());
-        // set virtual hostname
-        filterChain.addReplaceTokens(createHostnameToken());
-        // set port
-        filterChain.addReplaceTokens(createPortToken());
         // set loglevel
-        filterChain.addReplaceTokens(createLogLevelToken());
-        // set metaserver port
-        filterChain.addReplaceTokens(createMetaserverPortToken());
+        replacements.put(TOKEN_KEY_LOGLEVEL, createLogLevelToken());
         // set war dir
-        filterChain.addReplaceTokens(createWarDirToken());
-        return filterChain;
+        replacements.put(TOKEN_KEY_WAR_DIR, createWarDirToken());
+        // add application deployment tokens
+        replacements.put(TOKEN_KEY_WEBAPP, createWebappToken());
+        // TODO: Add token filters for adding users and roles
+
+        return replacements;
     }
 
     /**
-     * Create {@link ReplaceTokens} for the deployed webapps.
+     * Create token for the deployed webapps.
      * 
-     * @return tokens
+     * @return token for the deployed webapps.
      * @throws MalformedURLException if the document base cannot be determined
      */
-    private ReplaceTokens createWebappToken() throws MalformedURLException
+    private String createWebappToken() throws MalformedURLException
     {
-        ReplaceTokens.Token tokenWebApps = new ReplaceTokens.Token();
-        tokenWebApps.setKey(TOKEN_KEY_WEBAPP);
-
         StringBuilder keyWebApps = new StringBuilder();
 
         for (Deployable deployable : getDeployables())
@@ -227,63 +205,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
             }
         }
 
-        // Note: The following values must never be empty string as otherwise
-        // the Ant filtering code fails.
-        if (keyWebApps.length() == 0)
-        {
-            keyWebApps.append(" ");
-        }
-        tokenWebApps.setValue(keyWebApps.toString());
-        ReplaceTokens replaceWebApps = new ReplaceTokens();
-        replaceWebApps.addConfiguredToken(tokenWebApps);
-
-        return replaceWebApps;
-    }
-
-    /**
-     * Creates tokens for the (virtual) hostname.
-     * 
-     * @return hostname token
-     */
-    private ReplaceTokens createHostnameToken()
-    {
-        ReplaceTokens.Token tokenHostname = new ReplaceTokens.Token();
-        tokenHostname.setKey(GeneralPropertySet.HOSTNAME);
-
-        String hostname = getPropertyValue(GeneralPropertySet.HOSTNAME);
-        // default to *
-        if (hostname == null)
-        {
-            hostname = DEFAULT_HOSTNAME;
-        }
-
-        tokenHostname.setValue(hostname);
-        ReplaceTokens replaceHostname = new ReplaceTokens();
-        replaceHostname.addConfiguredToken(tokenHostname);
-        return replaceHostname;
-    }
-
-    /**
-     * Creates tokens for the port.
-     * 
-     * @return port token
-     */
-    private ReplaceTokens createPortToken()
-    {
-        ReplaceTokens.Token tokenPort = new ReplaceTokens.Token();
-        tokenPort.setKey(ServletPropertySet.PORT);
-
-        String port = getPropertyValue(ServletPropertySet.PORT);
-        // default to 8080
-        if (port == null)
-        {
-            port = DEFAULT_PORT;
-        }
-
-        tokenPort.setValue(port);
-        ReplaceTokens replacePort = new ReplaceTokens();
-        replacePort.addConfiguredToken(tokenPort);
-        return replacePort;
+        return keyWebApps.toString();
     }
 
     /**
@@ -291,11 +213,8 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * 
      * @return loglevel token
      */
-    private ReplaceTokens createLogLevelToken()
+    private String createLogLevelToken()
     {
-        ReplaceTokens.Token tokenLogLevel = new ReplaceTokens.Token();
-        tokenLogLevel.setKey(TOKEN_KEY_LOGLEVEL);
-
         String logLevel = getPropertyValue(GeneralPropertySet.LOGGING);
         String joLogLevel;
         if (LoggingLevel.LOW.equalsLevel(logLevel))
@@ -311,10 +230,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
             joLogLevel = "2";
         }
 
-        tokenLogLevel.setValue(joLogLevel);
-        ReplaceTokens replacePort = new ReplaceTokens();
-        replacePort.addConfiguredToken(tokenLogLevel);
-        return replacePort;
+        return joLogLevel;
     }
 
     /**
@@ -322,37 +238,9 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
      * 
      * @return wardir token
      */
-    private ReplaceTokens createWarDirToken()
+    private String createWarDirToken()
     {
-        ReplaceTokens.Token tokenWarDir = new ReplaceTokens.Token();
-        tokenWarDir.setKey(TOKEN_KEY_WAR_DIR);
-        tokenWarDir.setValue(new File(getHome(), "webapp/host").toString());
-        ReplaceTokens replaceWarDir = new ReplaceTokens();
-        replaceWarDir.addConfiguredToken(tokenWarDir);
-        return replaceWarDir;
-    }
-
-    /**
-     * Creates tokens for the metaserver listener port.
-     * 
-     * @return port token
-     */
-    private ReplaceTokens createMetaserverPortToken()
-    {
-        ReplaceTokens.Token tokenPort = new ReplaceTokens.Token();
-        tokenPort.setKey(GeneralPropertySet.RMI_PORT);
-
-        String port = getPropertyValue(GeneralPropertySet.RMI_PORT);
-        if (port == null)
-        {
-            throw new IllegalArgumentException("Property " + GeneralPropertySet.RMI_PORT
-                + " not set!");
-        }
-
-        tokenPort.setValue(port);
-        ReplaceTokens replacePort = new ReplaceTokens();
-        replacePort.addConfiguredToken(tokenPort);
-        return replacePort;
+        return getFileHandler().append(getHome(), "webapp/host");
     }
 
     /**

@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Vector;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -61,7 +60,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.FilterChain;
 
 import org.codehaus.cargo.util.log.LoggedObject;
 
@@ -196,40 +194,39 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void copyFile(String source, String target, FilterChain filterChain, Charset encoding)
+    public void copyFile(
+        String source, String target, Map<String, String> replacements, Charset encoding)
     {
         try (BufferedReader fileReader =
-                new BufferedReader(this.newReader(this.getInputStream(source), encoding)))
-        {
-            ChainReaderHelper helper = new ChainReaderHelper();
-            helper.setBufferSize(8192);
-            helper.setPrimaryReader(fileReader);
-            Vector<FilterChain> filterChains = new Vector<FilterChain>();
-            filterChains.add(filterChain);
-            helper.setFilterChains(filterChains);
-            try (BufferedReader in =
-                    new BufferedReader(DefaultFileHandler.getAssembledReader(helper));
+                new BufferedReader(this.newReader(this.getInputStream(source), encoding));
                 BufferedWriter out = new BufferedWriter(this.newWriter(target, encoding)))
+        {
+            String line;
+            while ((line = fileReader.readLine()) != null)
             {
-                String line;
-                while ((line = in.readLine()) != null)
+                if (line.isEmpty())
                 {
-                    if (line.isEmpty())
+                    out.newLine();
+                }
+                else
+                {
+                    if (replacements != null)
                     {
-                        out.newLine();
+                        for (Map.Entry<String, String> replacement : replacements.entrySet())
+                        {
+                            String replacementKey = "@" + replacement.getKey() + "@";
+                            line = line.replace(replacementKey, replacement.getValue());
+                        }
                     }
-                    else
-                    {
-                        out.write(line);
-                        out.newLine();
-                    }
+                    out.write(line);
+                    out.newLine();
                 }
             }
         }
         catch (IOException e)
         {
             throw new CargoException("Failed to copy source file [" + source + "] to [" + target
-                    + "] with FilterChain", e);
+                    + "] with replacements", e);
         }
 
         long size = getSize(target);
@@ -298,8 +295,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public void copyDirectory(String source, String target, FilterChain filterChain,
-        Charset encoding)
+    public void copyDirectory(
+        String source, String target, Map<String, String> replacements, Charset encoding)
     {
         File sourceDirectory = new File(source);
         if (!sourceDirectory.isDirectory())
@@ -322,7 +319,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             File targetFile = new File(targetDirectory, sourceDirectoryContent.getName());
             if (sourceDirectoryContent.isFile())
             {
-                if (filterChain == null)
+                if (replacements == null)
                 {
                     copyFile(
                         sourceDirectoryContent.getAbsolutePath(), targetFile.getAbsolutePath());
@@ -330,13 +327,13 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 else
                 {
                     copyFile(sourceDirectoryContent.getAbsolutePath(),
-                        targetFile.getAbsolutePath(), filterChain, encoding);
+                        targetFile.getAbsolutePath(), replacements, encoding);
                 }
             }
             else
             {
                 copyDirectory(sourceDirectoryContent.getAbsolutePath(),
-                    targetFile.getAbsolutePath(), filterChain, encoding);
+                    targetFile.getAbsolutePath(), replacements, encoding);
             }
         }
     }

@@ -20,8 +20,8 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -146,13 +146,12 @@ public class Tomcat4xStandaloneLocalConfiguration extends
         super.doConfigure(container);
 
         String serverXml = getFileHandler().append(getHome() + "/conf", "server.xml");
-        FilterChain filterChain = createFilterChain();
-        getAntUtils().addTokenToFilterChain(filterChain, "catalina.logging.level",
+        Map<String, String> replacements = getReplacements();
+        replacements.put("catalina.logging.level",
             getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
-        getAntUtils().addTokenToFilterChain(filterChain, "tomcat.webapps",
-            createTomcatWebappsToken());
+        replacements.put("tomcat.webapps", createTomcatWebappsToken());
         getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/server.xml",
-            serverXml, getFileHandler(), filterChain, StandardCharsets.UTF_8);
+            serverXml, getFileHandler(), replacements, StandardCharsets.UTF_8);
     }
 
     /**

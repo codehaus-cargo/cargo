@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -102,7 +101,6 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setupConfigurationDir();
 
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
-        FilterChain emptyFilterChain = createFilterChain();
 
         getFileHandler().createDirectory(getHome(), "temp");
         getFileHandler().createDirectory(getHome(), "logs");
@@ -146,26 +144,25 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         {
             String webXml = getFileHandler().append(confDir, "web.xml");
             getResourceUtils().copyResource(RESOURCE_PATH + container.getId() + "/web.xml", webXml,
-                getFileHandler(), emptyFilterChain, StandardCharsets.UTF_8);
+                getFileHandler(), null, StandardCharsets.UTF_8);
         }
 
-        String tomcatUsersXml = getFileHandler().append(confDir, "tomcat-users.xml");
-        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/tomcat-users.xml", tomcatUsersXml,
-            getFileHandler(), emptyFilterChain, StandardCharsets.UTF_8);
         Map<String, String> replacements = new HashMap<String, String>(1);
         replacements.put("@tomcat.users@", getSecurityToken());
-        getFileHandler().replaceInFile(tomcatUsersXml, replacements, StandardCharsets.UTF_8);
-        String loggingProperties = getFileHandler().append(confDir, "logging.properties");
-        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/logging.properties",
-            loggingProperties, getFileHandler(), emptyFilterChain, StandardCharsets.ISO_8859_1);
+        String tomcatUsersXml = getFileHandler().append(confDir, "tomcat-users.xml");
+        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/tomcat-users.xml", tomcatUsersXml,
+            getFileHandler(), replacements, StandardCharsets.UTF_8);
+
         replacements.clear();
         replacements.put("@catalina.logging.level@",
             getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
-        getFileHandler().replaceInFile(
-            loggingProperties, replacements, StandardCharsets.ISO_8859_1);
+        String loggingProperties = getFileHandler().append(confDir, "logging.properties");
+        getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/logging.properties",
+            loggingProperties, getFileHandler(), replacements, StandardCharsets.ISO_8859_1);
+
         getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/context.xml",
             getFileHandler().append(confDir, "context.xml"), getFileHandler(),
-            createFilterChain(), StandardCharsets.UTF_8);
+                null, StandardCharsets.UTF_8);
 
         setupManager(container);
 

@@ -20,11 +20,11 @@
 package org.codehaus.cargo.container.websphere;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.ScriptingCapableContainer;
@@ -279,9 +279,10 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             wsadminlibFile.deleteOnExit();
             // wsadminlib.py is taken from websphere85x container resources
             // as it seems to be compatible with later releases
-            getResourceUtils().copyResource(AbstractLocalConfiguration.RESOURCE_PATH
-                + "websphere85x/wsadminlib.py",
-                    wsadminlibFile, new FilterChain(), null);
+            // wsadminlib.py doesn't have any tokens to replace
+            getResourceUtils().copyResource(
+                AbstractLocalConfiguration.RESOURCE_PATH + "websphere85x/wsadminlib.py",
+                    wsadminlibFile, null, StandardCharsets.ISO_8859_1);
             configurationScript.add(0, ((WebSphereConfiguration) getConfiguration()).
                     getFactory().importWsadminlibScript(wsadminlibFile.getAbsolutePath()));
 

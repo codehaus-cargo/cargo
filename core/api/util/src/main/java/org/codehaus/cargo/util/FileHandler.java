@@ -25,8 +25,6 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.types.FilterChain;
-
 import org.codehaus.cargo.util.log.Loggable;
 
 /**
@@ -160,15 +158,16 @@ public interface FileHandler extends Loggable
     void copyFile(String source, String target, boolean overwrite);
 
     /**
-     * Copy a file from a source to a destination using a filterchain to specify token replacement.
+     * Copy a file from a source to a destination using token replacement.
      * 
      * @param source the file to copy from. Must not be <code>null</code>
      * @param target the file to copy to. Must not be <code>null</code>
-     * @param filterChain the filterChain to use. Must not be <code>null</code>
+     * @param replacements the token replacements to use. Must not be <code>null</code>
      * @param encoding The character encoding to use, may be {@code null} or empty to use the
      *            platform's default encoding.
      */
-    void copyFile(String source, String target, FilterChain filterChain, Charset encoding);
+    void copyFile(
+        String source, String target, Map<String, String> replacements, Charset encoding);
 
     /**
      * Copy a directory from a source to a destination.
@@ -189,16 +188,16 @@ public interface FileHandler extends Loggable
     void copyDirectory(String source, String target, List<String> excludes);
 
     /**
-     * Copy a directory from a source to a destination using a filterchain to specify token
-     * replacement.
+     * Copy a directory from a source to a destination using a token replacement.
      * 
      * @param source the directory to copy from. Must not be <code>null</code>
      * @param target the directory to copy to. Must not be <code>null</code>
-     * @param filterChain the filterChain to use. Must not be <code>null</code>
+     * @param replacements the token replacements to use. Must not be <code>null</code>
      * @param encoding The character encoding to use, may be {@code null} or empty to use the
      *            platform's default encoding.
      */
-    void copyDirectory(String source, String target, FilterChain filterChain, Charset encoding);
+    void copyDirectory(
+        String source, String target, Map<String, String> replacements, Charset encoding);
 
     /**
      * Extracts a war file into a directory.

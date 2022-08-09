@@ -21,12 +21,12 @@ package org.codehaus.cargo.container.spi.configuration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tools.ant.types.FilterChain;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -80,10 +80,10 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     private List<FileConfig> files;
 
     /**
-     * The filterChain for the configuration files. This contains the tokens and what values they
+     * The replacements for the configuration files. This contains the tokens and what values they
      * should be replaced with.
      */
-    private FilterChain filterChain;
+    private Map<String, String> replacements;
 
     /**
      * The home directory for the configuration. This is where the associated container will be set
@@ -291,23 +291,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 + getType().getType() + " configuration: " + e.getMessage(), e);
         }
 
-        configureFiles(getFilterChain(), container);
-    }
-
-    /**
-     * Creates the default filter chain that should be applied while copying container configuration
-     * files to the working directory from which the container is started.
-     * 
-     * @return The default filter chain
-     */
-    protected final FilterChain createFilterChain()
-    {
-        this.filterChain = new FilterChain();
-
-        // add all the token specified in the containers configuration into the filterchain
-        getAntUtils().addTokensToFilterChain(filterChain, getProperties());
-
-        return filterChain;
+        configureFiles(getReplacements(), container);
     }
 
     /**
@@ -317,21 +301,21 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      * 
      * @return The default filter chain
      */
-    protected FilterChain getFilterChain()
+    protected Map<String, String> getReplacements()
     {
-        if (this.filterChain == null)
+        if (this.replacements == null)
         {
-            this.filterChain = createFilterChain();
+            this.replacements = new HashMap<String, String>(getProperties());
         }
-        return this.filterChain;
+        return this.replacements;
     }
 
     /**
      * Copy the customized configuration files into the cargo home directory.
-     * @param filterChain the filter chain to use during the copy
+     * @param replacements the replacements to use during the copy
      * @param container local container
      */
-    protected void configureFiles(FilterChain filterChain, LocalContainer container)
+    protected void configureFiles(Map<String, String> replacements, LocalContainer container)
     {
         List<FileConfig> files = this.files;
 
@@ -363,7 +347,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
                     if (fileConfig.getConfigfile())
                     {
-                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir, filterChain,
+                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir, replacements,
                             fileConfig.getEncodingAsCharset());
                     }
                     else
@@ -375,7 +359,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 {
                     if (fileConfig.getConfigfile())
                     {
-                        getFileHandler().copyFile(fileConfig.getFile(), destFile, filterChain,
+                        getFileHandler().copyFile(fileConfig.getFile(), destFile, replacements,
                             fileConfig.getEncodingAsCharset());
                     }
                     else
