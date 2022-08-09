@@ -42,6 +42,7 @@ import org.codehaus.cargo.container.spi.startup.CombinedContainerMonitor;
 import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * WildFly container implementation.
@@ -176,7 +177,7 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     @Override
     public void executeScript(List<ScriptCommand> configurationScript)
     {
-        String newLine = System.getProperty("line.separator");
+        String newLine = FileHandler.NEW_LINE;
         StringBuilder sb = new StringBuilder();
 
         for (ScriptCommand configuration : configurationScript)

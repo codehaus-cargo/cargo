@@ -46,6 +46,7 @@ import org.codehaus.cargo.container.websphere.internal.ProcessExecutor;
 import org.codehaus.cargo.container.websphere.util.ByteUnit;
 import org.codehaus.cargo.container.websphere.util.JvmArguments;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * WebSphere 8.5.x container implementation.
@@ -287,7 +288,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
                     getFactory().importWsadminlibScript(wsadminlibFile.getAbsolutePath()));
 
             // build jython script
-            String newLine = System.getProperty("line.separator");
+            String newLine = FileHandler.NEW_LINE;
             StringBuilder sb = new StringBuilder();
             for (ScriptCommand configuration : configurationScript)
             {

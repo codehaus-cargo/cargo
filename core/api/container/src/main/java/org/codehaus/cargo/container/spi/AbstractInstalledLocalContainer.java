@@ -53,6 +53,7 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
 import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
@@ -402,7 +403,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                             break;
                         }
                         javaVersionOutput.append(line);
-                        javaVersionOutput.append(System.getProperty("line.separator"));
+                        javaVersionOutput.append(FileHandler.NEW_LINE);
                     }
 
                     if (jvmMajorVersion == -1)

@@ -28,8 +28,8 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
-import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Implementation of general functionality for configuration script commands.
@@ -48,11 +48,6 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
     private ResourceUtils resourceUtils;
 
     /**
-     * Ant utility class.
-     */
-    private AntUtils antUtils;
-
-    /**
      * Sets configuration containing all needed information for building configuration scripts.
      * 
      * @param configuration Container configuration.
@@ -64,7 +59,6 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
 
         this.resourcePath = resourcePath;
         this.resourceUtils = new ResourceUtils();
-        this.antUtils = new AntUtils();
     }
 
     /**
@@ -81,7 +75,7 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
         try
         {
             return resourceUtils.readResource(
-                resourceName, replacements, StandardCharsets.UTF_8) + NEW_LINE;
+                resourceName, replacements, StandardCharsets.UTF_8) + FileHandler.NEW_LINE;
         }
         catch (IOException e)
         {

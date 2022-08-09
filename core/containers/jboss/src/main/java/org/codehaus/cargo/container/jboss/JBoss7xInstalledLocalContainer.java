@@ -46,6 +46,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * JBoss 7.x series container implementation.
@@ -403,7 +404,7 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     public void executeScript(List<ScriptCommand> configurationScript)
     {
-        String newLine = System.getProperty("line.separator");
+        String newLine = FileHandler.NEW_LINE;
         StringBuilder sb = new StringBuilder();
 
         for (ScriptCommand configuration : configurationScript)

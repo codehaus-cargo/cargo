@@ -79,13 +79,13 @@ public class FileScriptCommand extends AbstractScriptCommand
                 {
                     if (line.isEmpty())
                     {
-                        out.append(FileScriptCommand.NEW_LINE);
+                        out.append(FileHandler.NEW_LINE);
                     }
                     else
                     {
                         if (out.length() > 0)
                         {
-                            out.append(FileScriptCommand.NEW_LINE);
+                            out.append(FileHandler.NEW_LINE);
                         }
                         out.append(line);
                     }

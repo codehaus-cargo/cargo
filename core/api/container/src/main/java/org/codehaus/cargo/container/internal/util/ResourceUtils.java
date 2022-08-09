@@ -47,11 +47,6 @@ import org.codehaus.cargo.util.log.Logger;
 public final class ResourceUtils extends LoggedObject
 {
     /**
-     * New line character.
-     */
-    private static final String NEW_LINE = System.getProperty("line.separator");
-
-    /**
      * Default file handler for the @link{ResourceUtils#copyResource(String, File)} and
      * @link{ResourceUtils#copyResource(String, File, Map, Charset)} methods.
      */
@@ -261,13 +256,13 @@ public final class ResourceUtils extends LoggedObject
                 {
                     if (line.isEmpty())
                     {
-                        out.append(ResourceUtils.NEW_LINE);
+                        out.append(FileHandler.NEW_LINE);
                     }
                     else
                     {
                         if (out.length() > 0)
                         {
-                            out.append(ResourceUtils.NEW_LINE);
+                            out.append(FileHandler.NEW_LINE);
                         }
                         out.append(line);
                     }

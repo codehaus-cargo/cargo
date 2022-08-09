@@ -36,6 +36,11 @@ public interface FileHandler extends Loggable
 {
 
     /**
+     * New line character.
+     */
+    String NEW_LINE = System.getProperty("line.separator");
+
+    /**
      * Represents details of an XML replacement.
      */
     class XmlReplacementDetails

@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.jo.internal.Jo1xStandaloneLocalConfiguration
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * jo! standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
@@ -41,22 +42,17 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
     /**
-     * Line separator.
-     */
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    /**
-     * Token key.
+     * Token key for the WAR directory.
      */
     private static final String TOKEN_KEY_WAR_DIR = "jo.wardir";
 
     /**
-     * Token key.
+     * Token key for the Web applications.
      */
     private static final String TOKEN_KEY_WEBAPP = "jo.webapp";
 
     /**
-     * Token key.
+     * Token key for the log level.
      */
     private static final String TOKEN_KEY_LOGLEVEL = "jo.loglevel";
 
@@ -196,12 +192,12 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
                 }
 
                 keyWebApps.append("# CARGO! Context: " + war.getContext() + " File: "
-                    + war.getFile() + LINE_SEPARATOR);
+                    + war.getFile() + FileHandler.NEW_LINE);
                 keyWebApps.append("host.webapp." + webappName + ".mapping=" + mapping
-                    + LINE_SEPARATOR);
+                    + FileHandler.NEW_LINE);
                 keyWebApps.append("host.webapp." + webappName + ".docbase=" + docbase
-                    + LINE_SEPARATOR);
-                keyWebApps.append(LINE_SEPARATOR);
+                    + FileHandler.NEW_LINE);
+                keyWebApps.append(FileHandler.NEW_LINE);
             }
         }
 

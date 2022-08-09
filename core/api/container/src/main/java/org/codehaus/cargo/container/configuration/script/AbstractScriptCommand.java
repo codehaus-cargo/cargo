@@ -28,11 +28,6 @@ public abstract class AbstractScriptCommand implements ScriptCommand
 {
 
     /**
-     * New line.
-     */
-    protected static final String NEW_LINE = System.getProperty("line.separator");
-
-    /**
      * Container configuration.
      */
     private Configuration configuration;

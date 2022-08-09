@@ -19,16 +19,13 @@
  */
 package org.codehaus.cargo.container.wildfly.swarm.internal.jvm;
 
+import org.codehaus.cargo.util.FileHandler;
+
 /**
  * Utility class for Exceptions.
  */
 public final class StackTraceUtil
 {
-    /**
-     * Line separator character.
-     */
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
     /**
      * Prevent creating an instance.
      */
@@ -48,7 +45,7 @@ public final class StackTraceUtil
         for (StackTraceElement element : error.getStackTrace())
         {
             output.append(element.toString());
-            output.append(StackTraceUtil.LINE_SEPARATOR);
+            output.append(FileHandler.NEW_LINE);
         }
         return output.toString();
     }

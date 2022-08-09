@@ -82,7 +82,7 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
     @Override
     public void executeScript(List<ScriptCommand> configurationScript)
     {
-        String newLine = System.getProperty("line.separator");
+        String newLine = FileHandler.NEW_LINE;
         StringBuilder sb = new StringBuilder();
         for (ScriptCommand configuration : configurationScript)
         {

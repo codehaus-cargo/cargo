@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Unit tests for {@link ConfluenceContainerDocumentationGenerator}
@@ -89,7 +90,7 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
                 if (url != null)
                 {
                     writer.write("cargo." + containerId + ".url=" + url
-                        + System.getProperty("line.separator"));
+                        + FileHandler.NEW_LINE);
                 }
             }
         }

@@ -37,6 +37,7 @@ import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicInstalledL
 import org.codehaus.cargo.container.weblogic.internal.ConsoleUrlWebLogicMonitor;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Special container support for the Bea WebLogic 12.1.3 application server. Contains WLST support.
@@ -216,7 +217,7 @@ public class WebLogic121xInstalledLocalContainer extends
     @Override
     public void executeScript(List<ScriptCommand> configurationScript)
     {
-        String newLine = System.getProperty("line.separator");
+        String newLine = FileHandler.NEW_LINE;
         StringBuilder sb = new StringBuilder();
         for (ScriptCommand configuration : configurationScript)
         {

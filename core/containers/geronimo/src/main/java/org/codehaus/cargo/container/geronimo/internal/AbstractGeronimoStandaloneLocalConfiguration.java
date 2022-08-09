@@ -39,6 +39,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Abstract Geronimo standalone {@link org.codehaus.cargo.container.configuration.Configuration}
@@ -114,7 +115,7 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
                 usersToken.append(user.getName());
                 usersToken.append('=');
                 usersToken.append(user.getPassword());
-                usersToken.append(System.getProperty("line.separator"));
+                usersToken.append(FileHandler.NEW_LINE);
 
                 for (String role : user.getRoles())
                 {
@@ -135,7 +136,7 @@ public abstract class AbstractGeronimoStandaloneLocalConfiguration extends
                 groupsToken.append(key);
                 groupsToken.append('=');
                 groupsToken.append(String.join(",", groupUsers.getValue()));
-                groupsToken.append(System.getProperty("line.separator"));
+                groupsToken.append(FileHandler.NEW_LINE);
             }
 
             tokens[0] = usersToken.toString();
