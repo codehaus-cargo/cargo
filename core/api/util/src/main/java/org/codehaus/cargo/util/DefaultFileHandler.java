@@ -32,8 +32,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -57,7 +55,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.filters.util.ChainReaderHelper;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.types.FileSet;
 
@@ -92,37 +89,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     private AntUtils getAntUtils()
     {
         return this.antUtils;
-    }
-
-    /**
-     * Helper method because of signature change with Ant 1.10.x, see
-     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1482">CARGO-1482</a> for details.
-     * @param helper The ChainReaderHelper object for which to get the assembled reader.
-     * @return Assembled reader.
-     * @throws IOException In case an exception occurs.
-     */
-    public static Reader getAssembledReader(ChainReaderHelper helper) throws IOException
-    {
-        try
-        {
-            Method m = helper.getClass().getMethod("getAssembledReader", (Class<?>[]) null);
-            return (Reader) m.invoke(helper, (Object[]) null);
-        }
-        catch (InvocationTargetException e)
-        {
-            if (e.getTargetException() instanceof IOException)
-            {
-                throw (IOException) e.getTargetException();
-            }
-            else
-            {
-                throw new IOException("Cannot invoke getAssembledReader", e);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new IOException("Cannot invoke getAssembledReader", e);
-        }
     }
 
     /**
