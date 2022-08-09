@@ -148,13 +148,13 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         }
 
         Map<String, String> replacements = new HashMap<String, String>(1);
-        replacements.put("@tomcat.users@", getSecurityToken());
+        replacements.put("tomcat.users", getSecurityToken());
         String tomcatUsersXml = getFileHandler().append(confDir, "tomcat-users.xml");
         getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/tomcat-users.xml", tomcatUsersXml,
             getFileHandler(), replacements, StandardCharsets.UTF_8);
 
         replacements.clear();
-        replacements.put("@catalina.logging.level@",
+        replacements.put("catalina.logging.level",
             getTomcatLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));
         String loggingProperties = getFileHandler().append(confDir, "logging.properties");
         getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/logging.properties",
