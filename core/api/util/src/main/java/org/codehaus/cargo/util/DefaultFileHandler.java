@@ -198,17 +198,18 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyFile(String source, String target, FilterChain filterChain, Charset encoding)
     {
-        try (InputStream fileIS = new FileInputStream(source))
+        try (BufferedReader fileReader =
+                new BufferedReader(this.newReader(this.getInputStream(source), encoding)))
         {
             ChainReaderHelper helper = new ChainReaderHelper();
             helper.setBufferSize(8192);
-            helper.setPrimaryReader(new BufferedReader(newReader(fileIS, encoding)));
+            helper.setPrimaryReader(fileReader);
             Vector<FilterChain> filterChains = new Vector<FilterChain>();
             filterChains.add(filterChain);
             helper.setFilterChains(filterChains);
             try (BufferedReader in =
                     new BufferedReader(DefaultFileHandler.getAssembledReader(helper));
-                BufferedWriter out = new BufferedWriter(newWriter(target, encoding)))
+                BufferedWriter out = new BufferedWriter(this.newWriter(target, encoding)))
             {
                 String line;
                 while ((line = in.readLine()) != null)
@@ -890,7 +891,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public String readTextFile(String file, Charset encoding)
     {
-        try (BufferedReader in = new BufferedReader(newReader(getInputStream(file), encoding)))
+        try (BufferedReader in =
+            new BufferedReader(this.newReader(this.getInputStream(file), encoding)))
         {
             String str;
             StringBuilder out = new StringBuilder();
@@ -916,7 +918,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void writeTextFile(String file, String content, Charset encoding)
     {
-        try (Writer writer = newWriter(file, encoding))
+        try (Writer writer = this.newWriter(file, encoding))
         {
             writer.write(content);
         }
