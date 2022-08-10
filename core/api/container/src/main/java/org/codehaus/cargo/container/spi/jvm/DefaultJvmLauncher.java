@@ -20,8 +20,11 @@
 package org.codehaus.cargo.container.spi.jvm;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Java;
@@ -29,6 +32,7 @@ import org.apache.tools.ant.types.Environment;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.RedirectorElement;
 import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * The default JVM launcher.
@@ -324,7 +328,6 @@ public class DefaultJvmLauncher implements JvmLauncher
         // Not supported by Ant Java Task
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -374,6 +377,95 @@ public class DefaultJvmLauncher implements JvmLauncher
         {
             throw new JvmLauncherException(e.getMessage(), e);
         }
+    }
+
+    /**
+     * Turn a string command line to an array of arguments. The logic takes into account the spaces
+     * between arguments, as well as single/double quotes for escaping arguments with spaces in
+     * them.
+     * @param toProcess the command line to process.
+     * @return the command line broken into strings.
+     * An empty or null toProcess parameter results in a zero sized array.
+     */
+    public static String[] translateCommandline(String toProcess)
+    {
+        if (toProcess == null || toProcess.isEmpty())
+        {
+            return new String[0];
+        }
+
+        final int normal = 0;
+        final int inQuote = 1;
+        final int inDoubleQuote = 2;
+        int state = normal;
+        final StringTokenizer tok = new StringTokenizer(toProcess, "\"' ", true);
+        final List<String> result = new ArrayList<>();
+        final StringBuilder current = new StringBuilder();
+        boolean lastTokenHasBeenQuoted = false;
+
+        while (tok.hasMoreTokens())
+        {
+            String nextTok = tok.nextToken();
+            switch (state)
+            {
+                case inQuote:
+                    if ("'".equals(nextTok))
+                    {
+                        lastTokenHasBeenQuoted = true;
+                        state = normal;
+                    }
+                    else
+                    {
+                        current.append(nextTok);
+                    }
+                    break;
+
+                case inDoubleQuote:
+                    if ("\"".equals(nextTok))
+                    {
+                        lastTokenHasBeenQuoted = true;
+                        state = normal;
+                    }
+                    else
+                    {
+                        current.append(nextTok);
+                    }
+                    break;
+
+                default:
+                    if ("'".equals(nextTok))
+                    {
+                        state = inQuote;
+                    }
+                    else if ("\"".equals(nextTok))
+                    {
+                        state = inDoubleQuote;
+                    }
+                    else if (" ".equals(nextTok))
+                    {
+                        if (lastTokenHasBeenQuoted || current.length() > 0)
+                        {
+                            result.add(current.toString());
+                            current.setLength(0);
+                        }
+                    }
+                    else
+                    {
+                        current.append(nextTok);
+                    }
+                    lastTokenHasBeenQuoted = false;
+                    break;
+            }
+        }
+        if (lastTokenHasBeenQuoted || current.length() > 0)
+        {
+            result.add(current.toString());
+        }
+        if (state == inQuote || state == inDoubleQuote)
+        {
+            throw new CargoException("unbalanced quotes in " + toProcess);
+        }
+        return result.toArray(new String[result.size()]);
     }
 
 }

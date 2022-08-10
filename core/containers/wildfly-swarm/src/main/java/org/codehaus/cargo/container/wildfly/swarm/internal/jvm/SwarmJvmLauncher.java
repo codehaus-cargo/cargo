@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.tools.ant.types.Commandline;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 import org.codehaus.cargo.util.log.Logger;
@@ -241,7 +241,7 @@ public class SwarmJvmLauncher implements JvmLauncher
     {
         if (line != null)
         {
-            String[] args = Commandline.translateCommandline(line);
+            String[] args = DefaultJvmLauncher.translateCommandline(line);
 
             if (args != null)
             {
@@ -405,7 +405,7 @@ public class SwarmJvmLauncher implements JvmLauncher
     {
         if (line != null)
         {
-            String[] args = Commandline.translateCommandline(line);
+            String[] args = DefaultJvmLauncher.translateCommandline(line);
 
             if (args != null)
             {

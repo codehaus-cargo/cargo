@@ -32,14 +32,14 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
-import org.apache.tools.ant.types.Commandline;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 
 /**
  * A JVM launcher that launches a new Process, that can be forcibly killed if needed.
  */
-class DaemonJvmLauncher implements JvmLauncher
+public class DaemonJvmLauncher implements JvmLauncher
 {
     /**
      * The working directory.
@@ -222,7 +222,7 @@ class DaemonJvmLauncher implements JvmLauncher
     {
         if (line != null)
         {
-            String[] args = Commandline.translateCommandline(line);
+            String[] args = DefaultJvmLauncher.translateCommandline(line);
 
             if (args != null)
             {
@@ -386,7 +386,7 @@ class DaemonJvmLauncher implements JvmLauncher
     {
         if (line != null)
         {
-            String[] args = Commandline.translateCommandline(line);
+            String[] args = DefaultJvmLauncher.translateCommandline(line);
 
             if (args != null)
             {

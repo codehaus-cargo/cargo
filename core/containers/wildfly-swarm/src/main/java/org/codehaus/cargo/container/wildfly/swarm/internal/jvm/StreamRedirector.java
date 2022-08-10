@@ -26,7 +26,7 @@ import java.io.OutputStream;
 /**
  * Redirects the output of a process into an OutputStream by periodically pumping data.
  */
-class StreamRedirector implements Runnable
+public class StreamRedirector implements Runnable
 {
     /**
      * The size of the buffer that will contain the output data of the process.

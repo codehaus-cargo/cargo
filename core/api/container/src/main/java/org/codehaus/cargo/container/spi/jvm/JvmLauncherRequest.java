@@ -26,7 +26,6 @@ import org.codehaus.cargo.util.log.Loggable;
  */
 public class JvmLauncherRequest
 {
-
     /**
      * {@code true} to launch a server process, {@code false} to launch a client/utility process.
      */
