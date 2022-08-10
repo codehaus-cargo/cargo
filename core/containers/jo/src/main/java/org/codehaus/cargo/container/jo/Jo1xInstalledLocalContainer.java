@@ -110,7 +110,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     public void doStop(JvmLauncher java) throws Exception
     {
         for (String path : getFileHandler().getChildren(
-            getHome(), Jo1xInstalledLocalContainer.ALL_JARS))
+            getFileHandler().append(getHome(), "lib"), Jo1xInstalledLocalContainer.ALL_JARS))
         {
             java.addClasspathEntries(new File(path));
         }
