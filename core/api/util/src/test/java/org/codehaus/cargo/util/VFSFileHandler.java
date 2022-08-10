@@ -21,6 +21,7 @@ package org.codehaus.cargo.util;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.vfs2.AllFileSelector;
@@ -376,27 +377,63 @@ public class VFSFileHandler extends DefaultFileHandler
     }
 
     /**
-     * Get the children of a directory. {@inheritDoc}
-     * @param directory Directory to which to get the children.
-     * @return Children of <code>directory</code>.
+     * {@inheritDoc}
      */
     @Override
     public String[] getChildren(String directory)
     {
-        String[] results;
+        return getChildren(directory, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String[] getChildren(String directory, List<String> filters)
+    {
+        List<String> results = new ArrayList<String>();
+
         try
         {
             FileObject[] files = getFileSystemManager().resolveFile(directory).getChildren();
-            results = new String[files.length];
             for (int i = 0; i < files.length; i++)
             {
-                results[i] = files[i].getName().getURI();
+                if (filters != null)
+                {
+                    for (String filter : filters)
+                    {
+                        if (filter.contains("/"))
+                        {
+                            throw new CargoException("Unsupported file filter: " + filter);
+                        }
+                        else if (filter.startsWith("*"))
+                        {
+                            if (files[i].getName().getBaseName().endsWith(filter.substring(1)))
+                            {
+                                results.add(files[i].getName().getURI());
+                            }
+                        }
+                        else if (filter.contains("*"))
+                        {
+                            throw new CargoException("Unsupported file filter: " + filter);
+                        }
+                        else if (files[i].getName().getBaseName().equals(filter))
+                        {
+                            results.add(files[i].getName().getURI());
+                        }
+                    }
+                }
+                else
+                {
+                    results.add(files[i].getName().getURI());
+                }
             }
         }
         catch (FileSystemException e)
         {
             throw new CargoException("Failed to get childrens for [" + directory + "]", e);
         }
-        return results;
+
+        return results.toArray(new String[results.size()]);
     }
 }

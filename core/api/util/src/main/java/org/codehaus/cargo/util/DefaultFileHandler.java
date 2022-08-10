@@ -217,7 +217,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyDirectory(String source, String target)
     {
-        copyDirectory(source, target, new ArrayList<String>());
+        copyDirectory(source, target, null);
     }
 
     /**
@@ -235,9 +235,12 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             fileSet.setDir(new File(source));
 
             // Exclude files marked by the user to be excluded
-            for (String excludeName : excludes)
+            if (excludes != null)
             {
-                fileSet.createExclude().setName(excludeName);
+                for (String excludeName : excludes)
+                {
+                    fileSet.createExclude().setName(excludeName);
+                }
             }
 
             copyTask.addFileset(fileSet);
@@ -820,18 +823,54 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public String[] getChildren(String directory)
     {
-        String[] results;
+        return getChildren(directory, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String[] getChildren(String directory, List<String> filters)
+    {
+        List<String> results = new ArrayList<String>();
 
         // Note: we use listFiles() instead of list() because list() returns relative paths only
         // and we need to return full paths.
         File[] files = new File(directory).listFiles();
-        results = new String[files.length];
         for (int i = 0; i < files.length; i++)
         {
-            results[i] = files[i].getPath();
+            if (filters != null)
+            {
+                for (String filter : filters)
+                {
+                    if (filter.contains("/"))
+                    {
+                        throw new CargoException("Unsupported file filter: " + filter);
+                    }
+                    else if (filter.startsWith("*"))
+                    {
+                        if (files[i].getName().endsWith(filter.substring(1)))
+                        {
+                            results.add(files[i].getPath());
+                        }
+                    }
+                    else if (filter.contains("*"))
+                    {
+                        throw new CargoException("Unsupported file filter: " + filter);
+                    }
+                    else if (files[i].getName().equals(filter))
+                    {
+                        results.add(files[i].getPath());
+                    }
+                }
+            }
+            else
+            {
+                results.add(files[i].getPath());
+            }
         }
 
-        return results;
+        return results.toArray(new String[results.size()]);
     }
 
     /**

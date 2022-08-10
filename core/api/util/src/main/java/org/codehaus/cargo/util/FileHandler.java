@@ -187,7 +187,8 @@ public interface FileHandler extends Loggable
      * 
      * @param source the directory to copy from. Must not be <code>null</code>.
      * @param target the directory to copy to. Must not be <code>null</code>.
-     * @param excludes the list of files to be excluded. Each entry in the list is an <a
+     * @param excludes the list of files to be excluded, can be <code>null</code>.
+     * Each entry in the list is an <a
      * href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant file pattern</a>.
      */
     void copyDirectory(String source, String target, List<String> excludes);
@@ -380,6 +381,15 @@ public interface FileHandler extends Loggable
      * @return the children of the passed directory
      */
     String[] getChildren(String directory);
+
+    /**
+     * @param directory the directory for which to return all children
+     * @param filters any filters to apply when listing, can be <code>null</code>
+     * Each entry in the list is an <a
+     * href="http://ant.apache.org/manual/dirtasks.html#patterns">Ant file pattern</a>.
+     * @return the children of the passed directory
+     */
+    String[] getChildren(String directory, List<String> filters);
 
     /**
      * gets the absolute path from a file that may be relative to the current directory.

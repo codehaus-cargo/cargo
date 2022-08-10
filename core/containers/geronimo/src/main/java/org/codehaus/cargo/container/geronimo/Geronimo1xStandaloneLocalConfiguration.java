@@ -23,8 +23,6 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -77,7 +75,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends
 
         // TODO: Remove this once the system property for changing the var/ directory is
         // implemented in Geronimo.
-        copyExtraStuffTemporarily(new File(((InstalledLocalContainer) container).getHome()));
+        copyExtraStuffTemporarily(((InstalledLocalContainer) container).getHome());
 
         // Copy the geronimo configuration file
         String configDir = getFileHandler().createDirectory(getHome(), "var/config");
@@ -124,50 +122,34 @@ public class Geronimo1xStandaloneLocalConfiguration extends
      * 
      * @param containerHome location where the container is installed
      */
-    private void copyExtraStuffTemporarily(File containerHome)
+    private void copyExtraStuffTemporarily(String containerHome)
     {
         // The config store needs to exist before the container starts
-        File configStore = new File(containerHome, "config-store");
-        if (configStore.isDirectory())
+        String configStore = getFileHandler().append(containerHome, "config-store");
+        if (getFileHandler().isDirectory(configStore))
         {
-            Copy copyStore = (Copy) getAntUtils().createAntTask("copy");
-            FileSet fileSetStore = new FileSet();
-            fileSetStore.setDir(new File(containerHome, "config-store"));
-            copyStore.addFileset(fileSetStore);
-            copyStore.setTodir(new File(getHome(), "config-store"));
-            copyStore.execute();
+            getFileHandler().copyDirectory(configStore,
+                getFileHandler().append(getHome(), "config-store"));
         }
 
         // Create the Geronimo bin directory by copying it.
-        Copy copyBin = (Copy) getAntUtils().createAntTask("copy");
-        FileSet fileSetBin = new FileSet();
-        fileSetBin.setDir(new File(containerHome, "bin"));
-        copyBin.addFileset(fileSetBin);
-        copyBin.setTodir(new File(getHome(), "bin"));
-        copyBin.execute();
+        getFileHandler().copyDirectory(
+            getFileHandler().append(containerHome, "bin"),
+                getFileHandler().append(getHome(), "bin"));
 
         // Create the Geronimo lib directory by copying it.
-        Copy copyLib = (Copy) getAntUtils().createAntTask("copy");
-        FileSet fileSetLib = new FileSet();
-        fileSetLib.setDir(new File(containerHome, "lib"));
-        copyLib.addFileset(fileSetLib);
-        copyLib.setTodir(new File(getHome(), "lib"));
-        copyLib.execute();
+        getFileHandler().copyDirectory(
+            getFileHandler().append(containerHome, "lib"),
+                getFileHandler().append(getHome(), "lib"));
 
         // Create the Geronimo repository by copying it.
-        Copy copyRepo = (Copy) getAntUtils().createAntTask("copy");
-        FileSet fileSetRepo = new FileSet();
-        fileSetRepo.setDir(new File(containerHome, "repository"));
-        copyRepo.addFileset(fileSetRepo);
-        copyRepo.setTodir(new File(getHome(), "repository"));
-        copyRepo.execute();
+        getFileHandler().copyDirectory(
+            getFileHandler().append(containerHome, "repository"),
+                getFileHandler().append(getHome(), "repository"));
 
         // Create the Geronimo schema directory by copying it.
-        Copy copySchema = (Copy) getAntUtils().createAntTask("copy");
-        FileSet fileSetSchema = new FileSet();
-        fileSetSchema.setDir(new File(containerHome, "schema"));
-        copySchema.addFileset(fileSetSchema);
-        copySchema.setTodir(new File(getHome(), "schema"));
-        copySchema.execute();
+        getFileHandler().copyDirectory(
+            getFileHandler().append(containerHome, "schema"),
+                getFileHandler().append(getHome(), "schema"));
     }
 }

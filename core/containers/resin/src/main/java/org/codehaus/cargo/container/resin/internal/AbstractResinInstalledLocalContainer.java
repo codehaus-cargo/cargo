@@ -27,8 +27,9 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
+import java.util.List;
 
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
@@ -40,6 +41,11 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
  */
 public abstract class AbstractResinInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
+    /**
+     * Inclusion filter for all JAR files.
+     */
+    private static final List<String> ALL_JARS = Arrays.asList("*.jar");
+
     /**
      * Parsed version of the container.
      */
@@ -121,13 +127,11 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
         java.addClasspathEntries(getResourceUtils().getResourceLocation(this.getClass(),
             "/" + ResinRun.class.getName().replace('.', '/') + ".class"));
 
-        FileSet fileSet = new FileSet();
-        fileSet.setProject(getAntUtils().createProject());
-        fileSet.setDir(new File(getHome()));
-        fileSet.createInclude().setName("lib/*.jar");
-        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        for (String path : getFileHandler().getChildren(
+            getFileHandler().append(getHome(), "lib"),
+                AbstractResinInstalledLocalContainer.ALL_JARS))
         {
-            java.addClasspathEntries(new File(fileSet.getDir(), path));
+            java.addClasspathEntries(new File(path));
         }
     }
 

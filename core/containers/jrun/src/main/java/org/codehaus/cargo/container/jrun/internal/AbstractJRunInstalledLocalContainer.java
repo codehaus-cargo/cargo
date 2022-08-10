@@ -24,11 +24,12 @@ package org.codehaus.cargo.container.jrun.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
@@ -41,6 +42,12 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
  */
 public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
+    /**
+     * Inclusion filter for all JRun JARs.
+     */
+    private static final List<String> JRUN_JARS =
+        Arrays.asList("webservices.jar", "macromedia_drivers.jar");
+
     /**
      * Parsed version of the container.
      */
@@ -114,13 +121,11 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
         java.addClasspathEntries(getConfiguration().getHome() + "/lib/jrun.jar");
 
-        FileSet libFileSet = new FileSet();
-        libFileSet.setProject(getAntUtils().createProject());
-        libFileSet.setDir(new File(getHome() + "/lib"));
-        libFileSet.setIncludes("webservices.jar,macromedia_drivers.jar");
-        for (String path : libFileSet.getDirectoryScanner().getIncludedFiles())
+        for (String path : getFileHandler().getChildren(
+            getFileHandler().append(getHome(), "lib"),
+                AbstractJRunInstalledLocalContainer.JRUN_JARS))
         {
-            java.addClasspathEntries(new File(libFileSet.getDir(), path));
+            java.addClasspathEntries(new File(path));
         }
     }
 
