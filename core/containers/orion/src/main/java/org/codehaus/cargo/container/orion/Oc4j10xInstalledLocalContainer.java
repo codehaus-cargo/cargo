@@ -22,9 +22,6 @@
  */
 package org.codehaus.cargo.container.orion;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.orion.internal.AbstractOc4j10xInstalledLocalContainer;
 
@@ -69,13 +66,13 @@ public class Oc4j10xInstalledLocalContainer extends AbstractOc4j10xInstalledLoca
      * {@inheritDoc}
      */
     @Override
-    protected Set<String> getContainerClasspathIncludes()
+    protected String[] getContainerClasspathIncludes()
     {
-        Set<String> classpath = new HashSet<String>();
-        classpath.add("j2ee/home/oc4j.jar");
-        classpath.add("j2ee/home/lib/pcl.jar");
-
-        return classpath;
+        return new String[]
+        {
+            getFileHandler().append(getHome(), "j2ee/home/oc4j.jar"),
+            getFileHandler().append(getHome(), "j2ee/home/lib/pcl.jar")
+        };
     }
 
     /**

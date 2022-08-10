@@ -23,9 +23,7 @@
 package org.codehaus.cargo.container.orion.internal;
 
 import java.io.File;
-import java.util.Set;
 
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
@@ -92,19 +90,11 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
     @Override
     public void doStart(JvmLauncher java) throws Exception
     {
-        // Invoke the main class
-        FileSet fileSet = new FileSet();
-        fileSet.setProject(getAntUtils().createProject());
-        fileSet.setDir(new File(getHome()));
-        for (String containerClasspathInclude : getContainerClasspathIncludes())
+        for (String path : getContainerClasspathIncludes())
         {
-            fileSet.createInclude().setName(containerClasspathInclude);
+            java.addClasspathEntries(new File(path));
         }
-        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
-        {
-            java.addClasspathEntries(new File(fileSet.getDir(), path));
-        }
-        addToolsJarToClasspath(java);
+
         java.setMainClass(getStartClassname());
         java.addAppArguments("-config");
         java.addAppArgument(new File(getConfiguration().getHome(), "config/server.xml"));
@@ -124,8 +114,7 @@ public abstract class AbstractOc4j10xInstalledLocalContainer extends
     protected abstract String getStopClassname();
 
     /**
-     * @return Set containing Ant-style include strings that sets the classpath based on the
-     * installation's home dir.
+     * @return JAR files to include in the classpath based on the installation's home dir.
      */
-    protected abstract Set<String> getContainerClasspathIncludes();
+    protected abstract String[] getContainerClasspathIncludes();
 }

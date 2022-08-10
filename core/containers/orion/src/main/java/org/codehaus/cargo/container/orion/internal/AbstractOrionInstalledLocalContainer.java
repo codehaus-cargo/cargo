@@ -24,7 +24,6 @@ package org.codehaus.cargo.container.orion.internal;
 
 import java.io.File;
 
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
@@ -66,15 +65,11 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
     @Override
     public void doStop(JvmLauncher java)
     {
-        // invoke the main class
-        FileSet fileSet = new FileSet();
-        fileSet.setProject(getAntUtils().createProject());
-        fileSet.setDir(new File(getHome()));
-        fileSet.createInclude().setName(getContainerClasspathIncludes());
-        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        for (String path : getContainerClasspathIncludes())
         {
-            java.addClasspathEntries(new File(fileSet.getDir(), path));
+            java.addClasspathEntries(new File(path));
         }
+
         java.setMainClass(getStopClassname());
 
         String shutdownURL = "ormi://"
@@ -97,22 +92,14 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
     @Override
     public void doStart(JvmLauncher java) throws Exception
     {
-        // Invoke the main class
-        FileSet fileSet = new FileSet();
-        fileSet.setProject(getAntUtils().createProject());
-        fileSet.setDir(new File(getHome()));
-        fileSet.createInclude().setName(getContainerClasspathIncludes());
-        for (String path : fileSet.getDirectoryScanner().getIncludedFiles())
+        for (String path : getContainerClasspathIncludes())
         {
-            java.addClasspathEntries(new File(fileSet.getDir(), path));
+            java.addClasspathEntries(new File(path));
         }
-        addToolsJarToClasspath(java);
+
         java.setMainClass(getStartClassname());
         java.addAppArguments("-config");
         java.addAppArgument(new File(getConfiguration().getHome(), "conf/server.xml"));
-
-        // Add the tools.jar to the classpath.
-        addToolsJarToClasspath(java);
 
         java.start();
     }
@@ -128,8 +115,7 @@ public abstract class AbstractOrionInstalledLocalContainer extends AbstractInsta
     protected abstract String getStopClassname();
 
     /**
-     * @return Ant-style include string that sets the classpath based on the installation's home
-     * dir.
+     * @return JAR files to include in the classpath based on the installation's home dir.
      */
-    protected abstract String getContainerClasspathIncludes();
+    protected abstract String[] getContainerClasspathIncludes();
 }

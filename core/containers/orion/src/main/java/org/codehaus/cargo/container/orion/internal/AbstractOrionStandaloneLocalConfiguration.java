@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.util.FileUtils;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
@@ -152,7 +151,6 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     {
         setupConfigurationDir();
 
-        FileUtils fileUtils = FileUtils.getFileUtils();
         Map<String, String> replacements = createOrionReplacements();
 
         String confDir = getFileHandler().createDirectory(getHome(), "conf");
@@ -210,8 +208,8 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
             if (deployable.getType() != DeployableType.WAR
                 || deployable.getType() == DeployableType.WAR && !deployable.isExpanded())
             {
-                fileUtils.copyFile(new File(deployable.getFile()).getAbsoluteFile(),
-                    new File(appDir, new File(deployable.getFile()).getName()), null, true);
+                getFileHandler().copyFile(deployable.getFile(),
+                    getFileHandler().append(appDir, new File(deployable.getFile()).getName()));
             }
         }
         // Deploy the CPC (Cargo Ping Component) to the webapps directory
