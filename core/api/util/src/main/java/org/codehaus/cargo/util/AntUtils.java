@@ -22,16 +22,8 @@
  */
 package org.codehaus.cargo.util;
 
-import java.io.File;
-import java.net.URI;
-import java.util.Map;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.filters.ReplaceTokens;
-import org.apache.tools.ant.types.Environment;
-import org.apache.tools.ant.types.FilterChain;
-import org.apache.tools.ant.types.Path;
 
 /**
  * Set of common Ant utility methods.
@@ -71,69 +63,6 @@ public class AntUtils
     }
 
     /**
-     * Convenience method to create an Ant environment variable that points to a file.
-     * 
-     * @param key The key or name of the variable
-     * @param file The file the variable should point to
-     * @return The created environment variable
-     */
-    public Environment.Variable createSysProperty(String key, File file)
-    {
-        Environment.Variable var = new Environment.Variable();
-        var.setKey(key);
-        var.setFile(file);
-        return var;
-    }
-
-    /**
-     * Convenience method to create an Ant environment variable that contains a path.
-     * 
-     * @param key The key or name of the variable
-     * @param path The path
-     * @return The created environment variable
-     */
-    public Environment.Variable createSysProperty(String key, Path path)
-    {
-        Environment.Variable var = new Environment.Variable();
-        var.setKey(key);
-        var.setPath(path);
-        return var;
-    }
-
-    /**
-     * Convenience method to create an Ant environment variable that contains a string.
-     * 
-     * @param key The key or name of the variable
-     * @param value The value
-     * @return The created environment variable
-     */
-    public Environment.Variable createSysProperty(String key, String value)
-    {
-        Environment.Variable var = new Environment.Variable();
-        var.setKey(key);
-        var.setValue(value);
-        return var;
-    }
-
-    /**
-     * <p>
-     * Convenience method to create an Ant environment variable that contains a string from an URI.
-     * <p>
-     * <b>Note</b> that {@link java.net.URI#getPath()} will be used.
-     * 
-     * @param key The key or name of the variable
-     * @param value The URI to take the value from; {@link java.net.URI#getPath()} will be used
-     * @return The created environment variable
-     */
-    public Environment.Variable createSysProperty(String key, URI value)
-    {
-        Environment.Variable var = new Environment.Variable();
-        var.setKey(key);
-        var.setValue(value.getPath());
-        return var;
-    }
-
-    /**
      * @return a default empty Ant {@link org.apache.tools.ant.Project }
      */
     public Project createProject()
@@ -142,47 +71,6 @@ public class AntUtils
         defaultProject.init();
 
         return defaultProject;
-    }
-
-    /**
-     * Add a token to an existing filter chain.
-     * 
-     * @param filterChain the filter chain to augment
-     * @param key the token key
-     * @param value the token value
-     */
-    public void addTokenToFilterChain(FilterChain filterChain, String key,
-        String value)
-    {
-        ReplaceTokens replaceToken = new ReplaceTokens();
-        ReplaceTokens.Token token = new ReplaceTokens.Token();
-        token.setKey(key);
-        token.setValue(value);
-        try
-        {
-            replaceToken.addConfiguredToken(token);
-        }
-        catch (NullPointerException e)
-        {
-            // Ant uses a Hashtable, which means null values are not allowed
-            token.setValue("");
-            replaceToken.addConfiguredToken(token);
-        }
-        filterChain.addReplaceTokens(replaceToken);
-    }
-
-    /**
-     * Add the map of tokens to the filterChain.
-     * 
-     * @param filterChain The filterchain to use
-     * @param map The map
-     */
-    public void addTokensToFilterChain(FilterChain filterChain, Map<String, String> map)
-    {
-        for (Map.Entry<String, String> entry : map.entrySet())
-        {
-            addTokenToFilterChain(filterChain, entry.getKey(), entry.getValue());
-        }
     }
 
 }

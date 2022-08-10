@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.util.log;
+package org.codehaus.cargo.ant;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +26,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 import org.codehaus.cargo.util.internal.log.AbstractLogger;
+import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Logger implementation that logs to Ant.

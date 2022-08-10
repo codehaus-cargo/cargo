@@ -59,7 +59,6 @@ import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.tools.daemon.DaemonClient;
 import org.codehaus.cargo.tools.daemon.DaemonPropertySet;
 import org.codehaus.cargo.tools.daemon.DaemonStart;
-import org.codehaus.cargo.util.log.AntLogger;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
