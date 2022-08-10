@@ -44,7 +44,6 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.TransactionSupport;
 import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -92,11 +91,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     private String home;
 
     /**
-     * Ant utility class.
-     */
-    private AntUtils antUtils;
-
-    /**
      * Resource utility class.
      */
     private ResourceUtils resourceUtils;
@@ -135,7 +129,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
 
         this.deployables = new ArrayList<Deployable>();
         this.fileHandler = new DefaultFileHandler();
-        this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.resources = new ArrayList<Resource>();
         this.dataSources = new ArrayList<DataSource>();
@@ -178,14 +171,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     public void setFileHandler(FileHandler fileHandler)
     {
         this.fileHandler = fileHandler;
-    }
-
-    /**
-     * @return the Ant utility class
-     */
-    protected final AntUtils getAntUtils()
-    {
-        return this.antUtils;
     }
 
     /**

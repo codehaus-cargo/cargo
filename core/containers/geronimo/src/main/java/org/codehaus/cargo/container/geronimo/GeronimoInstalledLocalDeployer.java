@@ -41,18 +41,12 @@ import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * A Geronimo deploytool-based deployer to perform deployment to a local container.
  */
 public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeployer
 {
-    /**
-     * Ant utility class.
-     */
-    private AntUtils antUtils;
-
     /**
      * Geronimo utilities.
      */
@@ -65,16 +59,7 @@ public class GeronimoInstalledLocalDeployer extends AbstractInstalledLocalDeploy
     public GeronimoInstalledLocalDeployer(InstalledLocalContainer container)
     {
         super(container);
-        this.antUtils = new AntUtils();
         this.geronimoUtils = new GeronimoUtils(container.getConfiguration());
-    }
-
-    /**
-     * @return the Ant utility class
-     */
-    protected final AntUtils getAntUtils()
-    {
-        return this.antUtils;
     }
 
     /**

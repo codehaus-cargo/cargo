@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.orion.internal.Oc4jExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
+import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -90,7 +91,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
         }
 
         // Deploy the cargocpc web-app by packaging it as an EAR and auto-deploy
-        Ear ear = (Ear) getAntUtils().createAntTask("ear");
+        Ear ear = (Ear) new AntUtils().createAntTask("ear");
         File tmpDir = new File(getFileHandler().createUniqueTmpDirectory());
         File appXml = new File(tmpDir, "application.xml");
         getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",

@@ -67,27 +67,6 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     private static int uniqueNameCounter = -1;
 
     /**
-     * Ant utility class.
-     */
-    private AntUtils antUtils;
-
-    /**
-     * Initializations.
-     */
-    public DefaultFileHandler()
-    {
-        this.antUtils = new AntUtils();
-    }
-
-    /**
-     * @return the Ant utility class
-     */
-    private AntUtils getAntUtils()
-    {
-        return this.antUtils;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

@@ -51,7 +51,6 @@ import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
-import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.Logger;
@@ -105,11 +104,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     private String home;
 
     /**
-     * Ant utility class.
-     */
-    private AntUtils antUtils;
-
-    /**
      * HTTP utility class.
      */
     private HttpUtils httpUtils;
@@ -144,7 +138,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     {
         super(configuration);
 
-        this.antUtils = new AntUtils();
         this.resourceUtils = new ResourceUtils();
         this.httpUtils = new HttpUtils();
         this.jvmLauncherFactory = new DefaultJvmLauncherFactory();
@@ -172,14 +165,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
     protected final HttpUtils getHttpUtils()
     {
         return this.httpUtils;
-    }
-
-    /**
-     * @return the Ant utility class
-     */
-    protected final AntUtils getAntUtils()
-    {
-        return this.antUtils;
     }
 
     /**
