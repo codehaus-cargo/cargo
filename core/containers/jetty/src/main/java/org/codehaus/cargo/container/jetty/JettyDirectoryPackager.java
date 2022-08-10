@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
@@ -30,12 +29,19 @@ import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
  */
 public class JettyDirectoryPackager extends AbstractDirectoryPackager
 {
-
     /**
      * The portion of Jetty's distribution to exclude from packaging.
      */
-    public static final List<String> EXCLUDED_FROM_DISTRIBUTION = Arrays.asList("etc/**",
-        "logs/**", "webapps/**", "work/**", "overlays", "javadoc", "contexts/**", "start.d/**");
+    private static final List<String> EXCLUDED_FROM_DISTRIBUTION =
+        Arrays.asList(
+            "contexts/**", "etc/**", "logs/**", "resources/**", "start.d/**", "start.ini",
+                "webapps/**");
+
+    /**
+     * The portion of Jetty's configuration to exclude from packaging.
+     */
+    private static final List<String> EXCLUDED_FROM_CONFIGURATION =
+        Arrays.asList("logs/**");
 
     /**
      * {@inheritDoc}
@@ -52,7 +58,7 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
     @Override
     protected List<String> getConfigurationExclusions()
     {
-        return Collections.emptyList();
+        return JettyDirectoryPackager.EXCLUDED_FROM_CONFIGURATION;
     }
 
     /**
@@ -61,6 +67,6 @@ public class JettyDirectoryPackager extends AbstractDirectoryPackager
     @Override
     protected List<String> getDistributionExclusions()
     {
-        return EXCLUDED_FROM_DISTRIBUTION;
+        return JettyDirectoryPackager.EXCLUDED_FROM_DISTRIBUTION;
     }
 }

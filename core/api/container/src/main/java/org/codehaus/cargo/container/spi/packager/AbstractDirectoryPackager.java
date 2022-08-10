@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.spi.packager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -34,6 +35,12 @@ import org.codehaus.cargo.util.log.Logger;
  */
 public abstract class AbstractDirectoryPackager extends LoggedObject implements Packager
 {
+    /**
+     * The portion of that we by default exclude from packaging.
+     */
+    private static final List<String> EXCLUDED_FROM_CONFIGURATION =
+        Arrays.asList("**/cargocpc.war");
+
     /**
      * @see #getTargetDirectory()
      */
@@ -103,12 +110,12 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
         getFileHandler().copyDirectory(container.getHome(), getTargetDirectory(),
             getDistributionExclusions());
 
-        List<String> configurationExclusions = getDefaultConfigurationExclusions();
+        List<String> configurationExclusions = new ArrayList<String>();
+        configurationExclusions.addAll(getDefaultConfigurationExclusions());
         configurationExclusions.addAll(getConfigurationExclusions());
 
         getFileHandler().copyDirectory(container.getConfiguration().getHome(),
-            getTargetDirectory(),
-            configurationExclusions);
+            getTargetDirectory(), configurationExclusions);
     }
 
     /**
@@ -117,9 +124,7 @@ public abstract class AbstractDirectoryPackager extends LoggedObject implements 
      */
     private List<String> getDefaultConfigurationExclusions()
     {
-        List<String> excludes = new ArrayList<String>();
-        excludes.add("**/cargocpc.war");
-        return excludes;
+        return AbstractDirectoryPackager.EXCLUDED_FROM_CONFIGURATION;
     }
 
     /**

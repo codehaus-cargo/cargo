@@ -54,10 +54,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.types.FileSet;
-
 import org.codehaus.cargo.util.log.LoggedObject;
 
 /**
@@ -97,7 +93,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyFile(String source, String target)
     {
-        copyFile(source, target, false);
+        this.copyFile(source, target, false);
     }
 
     /**
@@ -131,7 +127,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             try (InputStream in = new FileInputStream(sourceFile);
                 FileOutputStream out = new FileOutputStream(targetFile))
             {
-                copy(in, out);
+                this.copy(in, out);
             }
             catch (IOException e)
             {
@@ -217,7 +213,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyDirectory(String source, String target)
     {
-        copyDirectory(source, target, null);
+        this.copyDirectory(source, target, null);
     }
 
     /**
@@ -226,38 +222,97 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copyDirectory(String source, String target, List<String> excludes)
     {
-        try
+        File sourceDirectory = new File(source);
+        if (!sourceDirectory.isDirectory())
         {
-            Copy copyTask = (Copy) getAntUtils().createAntTask("copy");
-            copyTask.setTodir(new File(target));
+            throw new CargoException("Source [" + source + "] is not a directory");
+        }
 
-            FileSet fileSet = new FileSet();
-            fileSet.setDir(new File(source));
+        File targetDirectory = new File(target);
+        if (!targetDirectory.isDirectory())
+        {
+            targetDirectory.mkdirs();
+        }
+        if (!targetDirectory.isDirectory())
+        {
+            throw new CargoException("Target directory [" + target + "] cannot be created");
+        }
 
-            // Exclude files marked by the user to be excluded
+        for (File sourceDirectoryContent : sourceDirectory.listFiles())
+        {
+            String sourcePath = sourceDirectoryContent.getAbsolutePath();
+            String subtarget = this.append(target, sourceDirectoryContent.getName());
+
+            boolean included = true;
             if (excludes != null)
             {
-                for (String excludeName : excludes)
+                for (String exclude : excludes)
                 {
-                    fileSet.createExclude().setName(excludeName);
+                    if (exclude.endsWith("/**"))
+                    {
+                        if (sourceDirectoryContent.isDirectory())
+                        {
+                            if (sourceDirectoryContent.getName().equals(
+                                exclude.substring(0, exclude.length() - 3)))
+                            {
+                                // Content of the directory should be ignored,
+                                // nevertheless an (empty) target directory should be kept
+                                this.mkdirs(subtarget);
+
+                                included = false;
+                                break;
+                            }
+                        }
+                    }
+                    else if (exclude.startsWith("**/"))
+                    {
+                        if (sourceDirectoryContent.isFile())
+                        {
+                            if (sourceDirectoryContent.getName().endsWith(exclude.substring(3)))
+                            {
+                                included = false;
+                                break;
+                            }
+                        }
+                    }
+                    else if (exclude.contains("*") || exclude.contains("/"))
+                    {
+                        throw new CargoException("Unsupported exclusion filter: " + exclude);
+                    }
                 }
             }
+            if (included)
+            {
+                if (sourceDirectoryContent.isDirectory())
+                {
+                    // For subdirectories, only add file exclusions into the list
+                    List<String> updatedExcludes = null;
+                    if (excludes != null)
+                    {
+                        for (String exclude : excludes)
+                        {
+                            if (exclude.startsWith("**/"))
+                            {
+                                if (updatedExcludes == null)
+                                {
+                                    updatedExcludes = new ArrayList<String>();
+                                    updatedExcludes.add(exclude);
+                                }
+                            }
+                        }
+                    }
 
-            copyTask.addFileset(fileSet);
-            copyTask.setFailOnError(true);
-            copyTask.setIncludeEmptyDirs(true);
-            copyTask.setOverwrite(true);
-
-            copyTask.execute();
+                    this.copyDirectory(sourcePath, subtarget, updatedExcludes);
+                }
+                else
+                {
+                    this.copyFile(sourcePath, subtarget);
+                }
+            }
         }
-        catch (BuildException e)
-        {
-            throw new CargoException("Failed to copy source directory [" + source + "] to ["
-                + target + "]", e);
-        }
 
-        getLogger().debug("Copied directory [" + source + "] to [" + target + "]",
-            this.getClass().getName());
+        getLogger().debug("Copied directory [" + source + "] to [" + target + "] with exclusions ["
+            + excludes + "]", this.getClass().getName());
     }
 
     /**
@@ -290,21 +345,24 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             {
                 if (replacements == null)
                 {
-                    copyFile(
+                    this.copyFile(
                         sourceDirectoryContent.getAbsolutePath(), targetFile.getAbsolutePath());
                 }
                 else
                 {
-                    copyFile(sourceDirectoryContent.getAbsolutePath(),
+                    this.copyFile(sourceDirectoryContent.getAbsolutePath(),
                         targetFile.getAbsolutePath(), replacements, encoding);
                 }
             }
             else
             {
-                copyDirectory(sourceDirectoryContent.getAbsolutePath(),
+                this.copyDirectory(sourceDirectoryContent.getAbsolutePath(),
                     targetFile.getAbsolutePath(), replacements, encoding);
             }
         }
+
+        getLogger().debug("Copied directory [" + source + "] to [" + target
+            + "] with replacements [" + replacements + "]", this.getClass().getName());
     }
 
     /**
@@ -326,15 +384,15 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             while (e.hasMoreElements())
             {
                 JarEntry j = (JarEntry) e.nextElement();
-                String dst = append(exploded, j.getName());
+                String dst = this.append(exploded, j.getName());
 
                 if (j.isDirectory())
                 {
-                    mkdirs(dst);
+                    this.mkdirs(dst);
                     continue;
                 }
 
-                mkdirs(getParent(dst));
+                this.mkdirs(getParent(dst));
 
                 try (InputStream in = archive.getInputStream(j);
                     FileOutputStream out = new FileOutputStream(dst))
@@ -365,7 +423,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     public String createDirectory(String parentDir, String name)
     {
         File dir = new File(parentDir, name);
-        mkdirs(dir.getAbsolutePath());
+        this.mkdirs(dir.getAbsolutePath());
         if (!dir.isDirectory() || !dir.exists())
         {
             throw new CargoException("Couldn't create directory " + dir.getAbsolutePath());
@@ -401,7 +459,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void copy(InputStream in, OutputStream out)
     {
-        copy(in, out, 1024);
+        this.copy(in, out, 1024);
     }
 
     /**
@@ -589,7 +647,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         }
         while (tmpDir.exists());
         tmpDir.deleteOnExit();
-        mkdirs(tmpDir.getAbsolutePath());
+        this.mkdirs(tmpDir.getAbsolutePath());
 
         getLogger().debug("Created unique temporary directory [" + tmpDir + "]",
             this.getClass().getName());
@@ -658,7 +716,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         String parent = getParent(file);
         if (parent != null)
         {
-            mkdirs(parent);
+            this.mkdirs(parent);
         }
 
         OutputStream os;
@@ -723,7 +781,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             }
             else
             {
-                getLogger().debug("Creating directory [" + pathFile + "] and sub-directories",
+                getLogger().debug("Creating directory [" + pathFile + "] and parents",
                     this.getClass().getName());
 
                 success = pathFile.mkdirs();
@@ -962,7 +1020,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         String parent = getParent(file);
         if (!isDirectory(parent))
         {
-            mkdirs(parent);
+            this.mkdirs(parent);
         }
 
         if (encoding == null)

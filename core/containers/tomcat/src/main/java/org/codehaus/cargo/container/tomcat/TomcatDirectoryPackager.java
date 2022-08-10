@@ -19,8 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
@@ -30,6 +29,20 @@ import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
  */
 public class TomcatDirectoryPackager extends AbstractDirectoryPackager
 {
+    /**
+     * The portion of Tomcat's distribution to exclude from packaging.
+     */
+    private static final List<String> EXCLUDED_FROM_DISTRIBUTION =
+        Arrays.asList("conf/**", "logs/**", "temp/**", "webapps/**", "work/**");
+
+    /**
+     * The portion of Tomcat's configuration to exclude from packaging.<br>
+     * <br>
+     * TODO: Also exclude webapps/cargocpc.war and the webapps/cargocpc directory.
+     */
+    private static final List<String> EXCLUDED_FROM_CONFIGURATION =
+        Arrays.asList("logs/**", "temp/**", "work/**");
+
     /**
      * {@inheritDoc}
      * @see org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager#AbstractDirectoryPackager(String)
@@ -45,7 +58,7 @@ public class TomcatDirectoryPackager extends AbstractDirectoryPackager
     @Override
     protected List<String> getConfigurationExclusions()
     {
-        return Collections.emptyList();
+        return TomcatDirectoryPackager.EXCLUDED_FROM_CONFIGURATION;
     }
 
     /**
@@ -54,12 +67,6 @@ public class TomcatDirectoryPackager extends AbstractDirectoryPackager
     @Override
     protected List<String> getDistributionExclusions()
     {
-        List<String> excludes = new ArrayList<String>();
-        excludes.add("conf/**");
-        excludes.add("logs/**");
-        excludes.add("webapps/**");
-        excludes.add("work/**");
-
-        return excludes;
+        return TomcatDirectoryPackager.EXCLUDED_FROM_DISTRIBUTION;
     }
 }

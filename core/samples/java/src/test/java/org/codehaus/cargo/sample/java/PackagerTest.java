@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.packager.Packager;
 import org.codehaus.cargo.container.packager.PackagerType;
+import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
@@ -94,6 +95,7 @@ public class PackagerTest extends AbstractCargoTestCase
         PackagerFactory factory = new DefaultPackagerFactory();
         Packager packager = factory.createPackager(getTestData().containerId,
             PackagerType.DIRECTORY, targetLocation.getPath());
+        ((AbstractDirectoryPackager) packager).setLogger(getLogger());
         packager.packageContainer(container);
 
         // Try to start and stop the container using an existing configuration. This doesn't really
