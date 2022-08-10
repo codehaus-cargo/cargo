@@ -19,12 +19,10 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.io.File;
 import java.net.URL;
 
 import junit.framework.Test;
 
-import org.apache.tools.ant.taskdefs.Copy;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -33,7 +31,6 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Test for WAR support.
@@ -86,15 +83,13 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
     public void testDeployWarDefinedWithRelativePath() throws Exception
     {
         // Copies the testdata artifact
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        File artifactFile = new File(artifactDir, "simple.war").getAbsoluteFile();
-        Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-        copyTask.setTofile(artifactFile);
-        copyTask.setFile(new File(getTestData().getTestDataFileFor("simple-war")));
-        copyTask.execute();
+        String artifactFile = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "simple.war");
+        getFileHandler().copyFile(
+            getTestData().getTestDataFileFor("simple-war"), artifactFile);
 
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            artifactFile.getAbsolutePath(), DeployableType.WAR);
+            artifactFile, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

@@ -47,6 +47,8 @@ import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
@@ -88,6 +90,11 @@ public abstract class AbstractCargoTestCase extends TestCase
     private Logger logger;
 
     /**
+     * File handler.
+     */
+    private FileHandler fileHandler;
+
+    /**
      * Class loader, used for embedded containers.
      */
     private ClassLoader classLoader;
@@ -115,6 +122,9 @@ public abstract class AbstractCargoTestCase extends TestCase
 
         this.logger = new FileLogger(new File(targetDir.getParentFile(), "cargo.log"), true);
         this.logger.setLevel(LogLevel.DEBUG);
+
+        this.fileHandler = new DefaultFileHandler();
+        this.fileHandler.setLogger(this.logger);
     }
 
     /**
@@ -335,6 +345,14 @@ public abstract class AbstractCargoTestCase extends TestCase
     protected Logger getLogger()
     {
         return this.logger;
+    }
+
+    /**
+     * @return file handler.
+     */
+    protected FileHandler getFileHandler()
+    {
+        return this.fileHandler;
     }
 
     /**

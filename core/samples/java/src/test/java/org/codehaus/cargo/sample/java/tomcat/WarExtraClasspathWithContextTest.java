@@ -19,13 +19,10 @@
  */
 package org.codehaus.cargo.sample.java.tomcat;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Expand;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -40,7 +37,6 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
 
 import junit.framework.Test;
@@ -50,6 +46,11 @@ import junit.framework.Test;
  */
 public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
 {
+    /**
+     * String array holding the classpath for the simple jar file.
+     */
+    private String[] simpleJarExtraClasspath;
+
     /**
      * Initializes the test case.
      * 
@@ -71,6 +72,14 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
     {
         super.setUp();
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+
+        String simpleJar = System.getProperty("cargo.testdata.simple-jar");
+        if (simpleJar == null)
+        {
+            throw new CargoException("Please set property [cargo.testdata.simple-jar] to a valid "
+                + "location of simple-jar");
+        }
+        this.simpleJarExtraClasspath = new String[] {simpleJar};
     }
 
     /**
@@ -108,22 +117,14 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
     {
         // Copies the tomcat context war in order to rename it so that it matches the context
         // path defined in its context.xml file.
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-        copyTask.setTofile(new File(artifactDir, "tomcat-context.war"));
-        copyTask.setFile(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
-        copyTask.execute();
-
-        String simpleJar = System.getProperty("cargo.testdata.simple-jar");
-        if (simpleJar == null)
-        {
-            throw new CargoException("Please set property [cargo.testdata.simple-jar] to a valid "
-                + "location of simple-jar");
-        }
+        String artifactFile = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "tomcat-context.war");
+        getFileHandler().copyFile(
+            getTestData().getTestDataFileFor("tomcatcontext-war"), artifactFile);
 
         WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir, "tomcat-context.war").getPath(), DeployableType.WAR);
-        war.setExtraClasspath(new String[] {simpleJar});
+            artifactFile, DeployableType.WAR);
+        war.setExtraClasspath(this.simpleJarExtraClasspath);
 
         getLocalContainer().getConfiguration().addDeployable(war);
         getLocalContainer().getConfiguration().setProperty(TomcatPropertySet.COPY_WARS, "false");
@@ -145,24 +146,15 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
      */
     public void testLoadClassOnExpandedWarWithContextXmlFile() throws Exception
     {
-        // Copy the war from the Maven local repository in order to expand it
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");
-        expandTask.setDest(new File(artifactDir, "tomcat-context"));
-        expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war-link-simple"
-                + "-jar")));
-        expandTask.execute();
-
-        String simpleJar = System.getProperty("cargo.testdata.simple-jar");
-        if (simpleJar == null)
-        {
-            throw new CargoException("Please set property [cargo.testdata.simple-jar] to a valid "
-                + "location of simple-jar");
-        }
+        String expandedWarDirectory = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "tomcat-context");
+        getFileHandler().explode(getTestData().getTestDataFileFor("tomcatcontext-war"),
+            expandedWarDirectory);
 
         WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir, "tomcat-context").getPath(), DeployableType.WAR);
-        war.setExtraClasspath(new String[] {simpleJar});
+            expandedWarDirectory, DeployableType.WAR);
+
+        war.setExtraClasspath(this.simpleJarExtraClasspath);
 
         getLocalContainer().getConfiguration().addDeployable(war);
         getLocalContainer().getConfiguration().setProperty(TomcatPropertySet.COPY_WARS, "false");
@@ -176,6 +168,5 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         getLocalContainer().stop();
         PingUtils.assertPingFalse("tomcat context war not stopped", warPingURL, getLogger());
     }
-
 
 }

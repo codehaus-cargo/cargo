@@ -19,15 +19,12 @@
  */
 package org.codehaus.cargo.sample.java.tomcat;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Set;
 import java.util.TreeSet;
 
 import junit.framework.Test;
 
-import org.apache.tools.ant.taskdefs.Copy;
-import org.apache.tools.ant.taskdefs.Expand;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -40,7 +37,6 @@ import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValida
 import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Test for Tomcat WARs.
@@ -96,14 +92,13 @@ public class TomcatWarTest extends AbstractCargoTestCase
     {
         // Copies the tomcat context war in order to rename it so that it matches the context
         // path defined in its context.xml file.
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-        copyTask.setTofile(new File(artifactDir, "tomcat-context.war"));
-        copyTask.setFile(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
-        copyTask.execute();
+        String artifactFile = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "tomcat-context.war");
+        getFileHandler().copyFile(
+            getTestData().getTestDataFileFor("tomcatcontext-war"), artifactFile);
 
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir, "tomcat-context.war").getPath(), DeployableType.WAR);
+            artifactFile, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
@@ -123,15 +118,13 @@ public class TomcatWarTest extends AbstractCargoTestCase
      */
     public void testExpandedWarWithContextXmlFile() throws Exception
     {
-        // Copy the war from the Maven local repository in order to expand it
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");
-        expandTask.setDest(new File(artifactDir, "tomcat-context"));
-        expandTask.setSrc(new File(getTestData().getTestDataFileFor("tomcatcontext-war")));
-        expandTask.execute();
+        String expandedWarDirectory = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "tomcat-context");
+        getFileHandler().explode(getTestData().getTestDataFileFor("tomcatcontext-war"),
+            expandedWarDirectory);
 
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir, "tomcat-context").getPath(), DeployableType.WAR);
+            expandedWarDirectory, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

@@ -19,14 +19,11 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.io.File;
 import java.net.URL;
 
-import org.apache.tools.ant.taskdefs.Expand;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Abstract test case for container with WAR capabilities.
@@ -74,15 +71,13 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
             return;
         }
 
-        // Copy the war from the Maven local repository in order to expand it
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        Expand expandTask = (Expand) new AntUtils().createProject().createTask("unwar");
-        expandTask.setDest(new File(artifactDir, "expanded-war"));
-        expandTask.setSrc(new File(getTestData().getTestDataFileFor("expanded-war")));
-        expandTask.execute();
+        String expandedWarDirectory = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "expanded-war");
+        getFileHandler().explode(getTestData().getTestDataFileFor("expanded-war"),
+            expandedWarDirectory);
 
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            new File(artifactDir, "expanded-war").getPath(), DeployableType.WAR);
+            expandedWarDirectory, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

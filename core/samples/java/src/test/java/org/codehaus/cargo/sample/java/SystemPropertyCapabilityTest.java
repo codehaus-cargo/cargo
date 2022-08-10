@@ -19,13 +19,11 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.io.File;
 import java.net.URL;
 import java.util.UUID;
 
 import junit.framework.Test;
 
-import org.apache.tools.ant.taskdefs.Copy;
 import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -34,7 +32,6 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.util.AntUtils;
 
 /**
  * Test for system property support.
@@ -88,15 +85,13 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
         String random = UUID.randomUUID().toString();
 
         // Copies the testdata artifact
-        File artifactDir = new File(getTestData().targetDir).getParentFile();
-        File artifactFile = new File(artifactDir, "systemproperty.war").getAbsoluteFile();
-        Copy copyTask = (Copy) new AntUtils().createProject().createTask("copy");
-        copyTask.setTofile(artifactFile);
-        copyTask.setFile(new File(getTestData().getTestDataFileFor("systemproperty-war")));
-        copyTask.execute();
+        String artifactFile = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "systemproperty.war");
+        getFileHandler().copyFile(
+            getTestData().getTestDataFileFor("systemproperty-war"), artifactFile);
 
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            artifactFile.getAbsolutePath(), DeployableType.WAR);
+            artifactFile, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
