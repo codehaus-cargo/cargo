@@ -21,16 +21,14 @@ package org.codehaus.cargo.sample.java;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Test;
 
-import org.apache.tools.ant.taskdefs.War;
-import org.apache.tools.ant.types.FileSet;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -51,20 +49,13 @@ import org.codehaus.cargo.sample.java.validator.HasRuntimeConfigurationValidator
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
-import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.DefaultFileHandler;
-import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.ZipCompressor;
 
 /**
  * Test for remote deployment.
  */
 public class RemoteDeploymentTest extends AbstractCargoTestCase
 {
-    /**
-     * File handler.
-     */
-    private FileHandler fileHandler = new DefaultFileHandler();
-
     /**
      * Local container.
      */
@@ -391,32 +382,21 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     private Deployable modifyWar(Deployable originalDeployable) throws Exception
     {
         // Create the HTML file that we'll add to the WAR
-        File tmpDir = new File(new File(getTestData().targetDir).getParent(), "modified-war");
-        tmpDir.mkdirs();
-        if (!tmpDir.isDirectory())
-        {
-            throw new FileNotFoundException("Cannot create modified WAR temporary directory \""
-                + tmpDir + "\"");
-        }
-        File htmlFile = new File(tmpDir, "some.html");
-        try (FileWriter fw = new FileWriter(htmlFile))
-        {
-            fw.write("It works...");
-        }
+        String modifiedWarDirectory = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir), "modified-war");
+        getFileHandler().mkdirs(modifiedWarDirectory);
+        getFileHandler().explode(originalDeployable.getFile(), modifiedWarDirectory);
+        String htmlFile = getFileHandler().append(modifiedWarDirectory, "some.html");
+        getFileHandler().writeTextFile(htmlFile, "It works...", StandardCharsets.UTF_8);
 
         // Copy and update the WAR to add the HTML file
-        File originalWar = new File(originalDeployable.getFile());
-        File updatedWar = new File(tmpDir, originalWar.getName());
-        this.fileHandler.copyFile(originalWar.getPath(), updatedWar.getPath());
-        War warTask = (War) new AntUtils().createProject().createTask("war");
-        warTask.setUpdate(true);
-        warTask.setDestFile(updatedWar);
-        FileSet fileSet = new FileSet();
-        fileSet.setFile(htmlFile);
-        warTask.addFileset(fileSet);
-        warTask.execute();
+        String modifiedWar = getFileHandler().append(
+            getFileHandler().getParent(getTestData().targetDir),
+                getFileHandler().getName(originalDeployable.getFile()));
+        ZipCompressor compressor = new ZipCompressor(getFileHandler());
+        compressor.compress(modifiedWarDirectory, modifiedWar);
 
         return new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            updatedWar.getPath(), DeployableType.WAR);
+            modifiedWar, DeployableType.WAR);
     }
 }

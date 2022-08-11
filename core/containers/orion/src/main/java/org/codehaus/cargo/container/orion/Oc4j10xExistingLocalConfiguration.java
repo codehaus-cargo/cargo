@@ -24,17 +24,14 @@ package org.codehaus.cargo.container.orion;
 
 import java.io.File;
 
-import org.apache.tools.ant.taskdefs.Ear;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.util.FileUtils;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.orion.internal.Oc4jExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
-import org.codehaus.cargo.util.AntUtils;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.ZipCompressor;
 
 /**
  * Existing local configuration for the OC4J 10.x application server.
@@ -63,8 +60,6 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
     @Override
     protected void doConfigure(LocalContainer container) throws Exception
     {
-        FileUtils fileUtils = FileUtils.getFileUtils();
-
         String autoDeployDirSetting = getPropertyValue(Oc4jPropertySet.AUTO_DEPLOY_DIR);
         if (autoDeployDirSetting == null)
         {
@@ -80,33 +75,30 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
         {
             if (deployable.getType() == DeployableType.EAR)
             {
-                fileUtils.copyFile(deployable.getFile(), getFileHandler().append(appDir,
-                        getFileHandler().getName(deployable.getFile())), null, true);
+                getFileHandler().copyFile(deployable.getFile(),
+                    getFileHandler().append(appDir,
+                        getFileHandler().getName(deployable.getFile())), true);
             }
             else
             {
-                throw new CargoException("Only deployables of type "
-                                         + DeployableType.EAR + " is supported");
+                throw new CargoException(
+                    "Only deployables of type " + DeployableType.EAR + " are supported");
             }
         }
 
         // Deploy the cargocpc web-app by packaging it as an EAR and auto-deploy
-        Ear ear = (Ear) new AntUtils().createAntTask("ear");
-        File tmpDir = new File(getFileHandler().createUniqueTmpDirectory());
-        File appXml = new File(tmpDir, "application.xml");
-        getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
-                                        new File(tmpDir, "cargocpc.war"));
-        getResourceUtils().copyResource(RESOURCE_PATH + "oc4j10x/application.xml",
-                                        appXml);
-        ear.setAppxml(appXml);
-        FileSet fileSet = new FileSet();
-        fileSet.setDir(tmpDir);
-        fileSet.createInclude().setName("cargocpc.war");
-        ear.addFileset(fileSet);
-        ear.setDestFile(new File(appDir, "cargocpc.ear"));
-        ear.execute();
-
-        getFileHandler().delete(tmpDir.getAbsolutePath());
+        String earDirectory = getFileHandler().createUniqueTmpDirectory();
+        String metaInf = getFileHandler().append(earDirectory, "META-INF");
+        getFileHandler().mkdirs(metaInf);
+        getResourceUtils().copyResource(
+            RESOURCE_PATH + "cargocpc.war",
+                getFileHandler().append(earDirectory, "cargocpc.war"), getFileHandler());
+        getResourceUtils().copyResource(
+            RESOURCE_PATH + "oc4j10x/application.xml",
+                getFileHandler().append(metaInf, "application.xml"), getFileHandler());
+        ZipCompressor compressor = new ZipCompressor(getFileHandler());
+        compressor.compress(earDirectory, getFileHandler().append(appDir, "cargocpc.ear"));
+        getFileHandler().delete(earDirectory);
     }
 
     /**
