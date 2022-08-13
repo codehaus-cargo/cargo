@@ -41,11 +41,6 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-api-container</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-api-container</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
