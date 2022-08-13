@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -360,8 +361,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             delete(exploded);
         }
 
-        byte[] buf = new byte[1024];
-
+        Path explodedPath = new File(exploded).toPath();
         try (JarFile archive = new JarFile(new File(war).getAbsoluteFile()))
         {
             Enumeration e = archive.entries();
@@ -369,6 +369,12 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             {
                 JarEntry j = (JarEntry) e.nextElement();
                 String dst = this.append(exploded, j.getName());
+
+                File dstFile = new File(dst);
+                if (!dstFile.toPath().normalize().startsWith(explodedPath))
+                {
+                    throw new IOException("File contains illegal path: " + j.getName());
+                }
 
                 if (j.isDirectory())
                 {
@@ -381,20 +387,21 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
                 try (InputStream in = archive.getInputStream(j);
                     FileOutputStream out = new FileOutputStream(dst))
                 {
-                    while (true)
-                    {
-                        int sz = in.read(buf);
-                        if (sz < 0)
-                        {
-                            break;
-                        }
-                        out.write(buf, 0, sz);
-                    }
+                    this.copy(in, out);
                 }
             }
         }
         catch (IOException e)
         {
+            try
+            {
+                delete(exploded);
+            }
+            catch (Exception ignored)
+            {
+                // Ignored
+            }
+
             throw new CargoException(
                 "Failed to extract file [" + war + "] to [" + exploded + "]", e);
         }
