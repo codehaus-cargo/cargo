@@ -20,50 +20,143 @@
 package org.codehaus.cargo.container.spi.jvm;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.Environment;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.RedirectorElement;
-import org.codehaus.cargo.container.internal.AntContainerExecutorThread;
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.WinNT.HANDLE;
+
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * The default JVM launcher.
+ * A JVM launcher that launches a new Process, that can be forcibly killed if needed.
  */
 public class DefaultJvmLauncher implements JvmLauncher
 {
-
     /**
-     * The Ant Java task being used to launch the JVM.
+     * The working directory.
      */
-    private final Java java;
+    private File workingDirectory;
 
     /**
-     * {@code true} to launch the JVM in spawn - separate thread independent of the initial thread
+     * The executable to run.
      */
-    private boolean spawn;
+    private String executable;
 
     /**
-     * List of extra environment variables. Ant's Java task doesn't offer a getter for the
-     * environment variable, forcing us to keep track of them ourselves.
+     * The vm arguments.
+     */
+    private final List<String> jvmArguments = new ArrayList<String>();
+
+    /**
+     * The vm classpath.
+     */
+    private String classpath;
+
+    /**
+     * The vm jar path.
+     */
+    private String jarPath;
+
+    /**
+     * The main class to run.
+     */
+    private String mainClass;
+
+    /**
+     * The vm system properties.
+     */
+    private final List<String> systemProperties = new ArrayList<String>();
+
+    /**
+     * The extra environment variables.
      */
     private final Map<String, String> environmentVariables = new HashMap<String, String>();
 
     /**
-     * Creates a new launcher using the specified Ant Java task.
-     * 
-     * @param java The Ant Java task to use for launching, must not be {@code null}.
+     * The application arguments.
      */
-    public DefaultJvmLauncher(Java java)
+    private final List<String> applicationArguments = new ArrayList<String>();
+
+    /**
+     * The running process.
+     */
+    private Process process;
+
+    /**
+     * Output file.
+     */
+    private File outputFile;
+
+    /**
+     * Append output.
+     */
+    private boolean appendOutput = false;
+
+    /**
+     * Creates a new launcher.
+     */
+    public DefaultJvmLauncher()
     {
-        this.java = java;
+    }
+
+    /**
+     * Build the complete command line.
+     * 
+     * @return the array representing the tokens of the command line
+     */
+    private List<String> buildCommandLine()
+    {
+        List<String> commandLine = new ArrayList<String>();
+
+        commandLine.add(executable);
+
+        commandLine.addAll(jvmArguments);
+        commandLine.addAll(systemProperties);
+
+        if (classpath != null && jarPath == null)
+        {
+            commandLine.add("-classpath");
+            commandLine.add(classpath);
+        }
+
+        if (jarPath != null)
+        {
+            commandLine.add("-jar");
+            commandLine.add(jarPath);
+        }
+
+        if (jarPath == null)
+        {
+            commandLine.add(mainClass);
+        }
+        commandLine.addAll(applicationArguments);
+
+        return commandLine;
+    }
+
+    /**
+     * Add a path to the classpath.
+     * 
+     * @param path the path to add to the classpath
+     */
+    private void addClasspath(String path)
+    {
+        if (classpath == null)
+        {
+            classpath = path;
+        }
+        else
+        {
+            classpath += File.pathSeparator + path;
+        }
     }
 
     /**
@@ -72,7 +165,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setWorkingDirectory(File workingDirectory)
     {
-        this.java.setDir(workingDirectory);
+        this.workingDirectory = workingDirectory;
     }
 
     /**
@@ -89,7 +182,8 @@ public class DefaultJvmLauncher implements JvmLauncher
         {
             throw new JvmLauncherException("JVM executable file [" + command + "] doesn't exist");
         }
-        this.java.setJvm(command);
+        this.executable =
+            command.replace('/', File.separatorChar).replace('\\', File.separatorChar);
     }
 
     /**
@@ -100,7 +194,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (file != null)
         {
-            this.java.createJvmarg().setFile(file);
+            jvmArguments.add(file.getAbsolutePath());
         }
     }
 
@@ -114,7 +208,7 @@ public class DefaultJvmLauncher implements JvmLauncher
         {
             for (String value : values)
             {
-                this.java.createJvmarg().setValue(value);
+                jvmArguments.add(value);
             }
         }
     }
@@ -127,7 +221,15 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (line != null)
         {
-            this.java.createJvmarg().setLine(line);
+            String[] args = DefaultJvmLauncher.translateCommandline(line);
+
+            if (args != null)
+            {
+                for (String arg : args)
+                {
+                    jvmArguments.add(arg);
+                }
+            }
         }
     }
 
@@ -139,10 +241,25 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (paths != null)
         {
-            Path cp = this.java.createClasspath();
             for (String path : paths)
             {
-                cp.createPathElement().setPath(path);
+                addClasspath(path);
+            }
+        }
+    }
+
+    /**
+     * Adds additional classpath entries.
+     * 
+     * @param paths The additional classpath entries.
+     */
+    public void addClasspathEntries(List<String> paths)
+    {
+        if (paths != null)
+        {
+            for (String path : paths)
+            {
+                addClasspath(path);
             }
         }
     }
@@ -155,10 +272,9 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (paths != null)
         {
-            Path cp = this.java.createClasspath();
             for (File path : paths)
             {
-                cp.createPathElement().setLocation(path);
+                addClasspath(path.getAbsolutePath());
             }
         }
     }
@@ -169,8 +285,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public String getClasspath()
     {
-        Path p = this.java.getCommandLine().getClasspath();
-        return (p != null) ? p.toString() : "";
+        return classpath;
     }
 
     /**
@@ -181,10 +296,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (name != null && !name.isEmpty())
         {
-            Environment.Variable var = new Environment.Variable();
-            var.setKey(name);
-            var.setValue(value != null ? value : "");
-            this.java.addSysproperty(var);
+            systemProperties.add("-D" + name + "=" + value);
         }
     }
 
@@ -196,12 +308,6 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (name != null && !name.isEmpty())
         {
-            Environment.Variable var = new Environment.Variable();
-            var.setKey(name);
-            var.setValue(value);
-            java.addEnv(var);
-
-            // separate bookkeeping, to enable getter method
             environmentVariables.put(name, value);
         }
     }
@@ -228,7 +334,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (jarFile != null)
         {
-            this.java.setJar(jarFile);
+            jarPath = jarFile.getAbsolutePath();
         }
     }
 
@@ -240,7 +346,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (mainClass != null)
         {
-            this.java.setClassname(mainClass);
+            this.mainClass = mainClass;
         }
     }
 
@@ -252,7 +358,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (file != null)
         {
-            this.java.createArg().setFile(file);
+            applicationArguments.add(file.getAbsolutePath());
         }
     }
 
@@ -266,7 +372,7 @@ public class DefaultJvmLauncher implements JvmLauncher
         {
             for (String value : values)
             {
-                this.java.createArg().setValue(value);
+                applicationArguments.add(value);
             }
         }
     }
@@ -279,7 +385,15 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         if (line != null)
         {
-            this.java.createArg().setLine(line);
+            String[] args = DefaultJvmLauncher.translateCommandline(line);
+
+            if (args != null)
+            {
+                for (String arg : args)
+                {
+                    applicationArguments.add(arg);
+                }
+            }
         }
     }
 
@@ -289,16 +403,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setOutputFile(File outputFile)
     {
-        this.java.setOutput(outputFile);
-        this.java.setError(outputFile);
-
-        // Don't create empty log files!
-        // Output and error streams are redirected to same file. Creating of empty files
-        // would overwrite content in log file written by the other output stream!
-        // See CARGO-1423.
-        RedirectorElement redirector = new RedirectorElement();
-        redirector.setCreateEmptyFiles(false);
-        this.java.addConfiguredRedirector(redirector);
+        this.outputFile = outputFile;
     }
 
     /**
@@ -307,7 +412,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setAppendOutput(boolean appendOutput)
     {
-        this.java.setAppend(appendOutput);
+        this.appendOutput = appendOutput;
     }
 
     /**
@@ -316,7 +421,22 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public String getCommandLine()
     {
-        return this.java.getCommandLine().toString();
+        StringBuilder result = new StringBuilder();
+        List<String> commandLine = buildCommandLine();
+        if (commandLine != null)
+        {
+            for (int i = 0; i < commandLine.size(); i++)
+            {
+                if (i != 0)
+                {
+                    result.append(' ');
+                }
+
+                result.append(commandLine.get(i));
+            }
+        }
+
+        return result.toString();
     }
 
     /**
@@ -325,7 +445,16 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void kill()
     {
-        // Not supported by Ant Java Task
+        if (process != null)
+        {
+            // Call first method to kill the process
+            // This is cleanest in code, but no guarantees by the JVM...
+            process.destroy();
+
+            // So we call second method to kill the process to be sure
+            nativeKill();
+            process = null;
+        }
     }
 
     /**
@@ -334,14 +463,6 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setTimeout(long millis)
     {
-        if (millis > 0)
-        {
-            this.java.setTimeout(millis);
-        }
-        else
-        {
-            this.java.setTimeout(null);
-        }
     }
 
     /**
@@ -350,7 +471,6 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setSpawn(boolean spawn)
     {
-        this.spawn = spawn;
     }
 
     /**
@@ -359,8 +479,52 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void start() throws JvmLauncherException
     {
-        Thread runner = new AntContainerExecutorThread(this.java, this.spawn);
-        runner.start();
+        try
+        {
+            ProcessBuilder pb =
+                new ProcessBuilder(buildCommandLine()).directory(workingDirectory)
+                    .redirectErrorStream(true);
+            pb.environment().putAll(environmentVariables);
+
+            this.process = pb.start();
+
+            if (outputFile == null)
+            {
+                // Close the streams
+                process.getErrorStream().close();
+                process.getOutputStream().close();
+                process.getInputStream().close();
+            }
+            else
+            {
+                FileOutputStream outputStream = new FileOutputStream(outputFile, appendOutput);
+
+                Thread outputStreamRedirector =
+                    new Thread(new DefaultJvmLauncherStreamRedirector(process.getInputStream(),
+                        outputStream));
+
+                outputStreamRedirector.start();
+            }
+        }
+        catch (IOException e)
+        {
+            throw new JvmLauncherException("Failed to launch process " + e);
+        }
+        finally
+        {
+            Runtime.getRuntime().addShutdownHook(new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    if (DefaultJvmLauncher.this.process != null)
+                    {
+                        DefaultJvmLauncher.this.process.destroy();
+                        DefaultJvmLauncher.this.process = null;
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -369,13 +533,59 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public int execute() throws JvmLauncherException
     {
+        start();
         try
         {
-            return this.java.executeJava();
+            return this.process.waitFor();
         }
-        catch (BuildException e)
+        catch (InterruptedException e)
         {
-            throw new JvmLauncherException(e.getMessage(), e);
+            throw new JvmLauncherException("Failed waiting for process to end", e);
+        }
+    }
+
+    /**
+     * Forcefully kill the launched process using platform specific methods.
+     */
+    private void nativeKill()
+    {
+        if (process == null)
+        {
+            return;
+        }
+        if (process.getClass().getName().equals("java.lang.UNIXProcess"))
+        {
+            try
+            {
+                Field f = process.getClass().getDeclaredField("pid");
+                f.setAccessible(true);
+                int pid = f.getInt(process);
+                Runtime.getRuntime().exec("kill -9 " + pid);
+            }
+            catch (Throwable e)
+            {
+                // Ignore, we tried our best
+            }
+        }
+        else if (process.getClass().getName().equals("java.lang.Win32Process")
+            || process.getClass().getName().equals("java.lang.ProcessImpl"))
+        {
+            try
+            {
+                Field f = process.getClass().getDeclaredField("handle");
+                f.setAccessible(true);
+                long handleId = f.getLong(process);
+
+                Kernel32 kernel = Kernel32.INSTANCE;
+                HANDLE handle = new HANDLE();
+                handle.setPointer(Pointer.createConstant(handleId));
+                int pid = kernel.GetProcessId(handle);
+                Runtime.getRuntime().exec("taskkill /PID " + pid + " /F");
+            }
+            catch (Throwable e)
+            {
+                // Ignore, we tried our best
+            }
         }
     }
 

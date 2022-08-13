@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.tools.ant.util.JavaEnvUtils;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
 
@@ -40,7 +39,7 @@ public class JvmLauncherStub implements JvmLauncher
     /**
      * JVM command.
      */
-    private String jvm = JavaEnvUtils.getJreExecutable("java");
+    private String jvm;
 
     /**
      * Classpath entries.

@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.daemon.jvm;
+package org.codehaus.cargo.container.spi.jvm;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +27,7 @@ import java.io.PrintWriter;
 /**
  * Redirects the output of a process into an OutputStream by periodically pumping data.
  */
-public class DaemonJvmLauncherStreamRedirector implements Runnable
+public class DefaultJvmLauncherStreamRedirector implements Runnable
 {
     /**
      * The size of the buffer that will contain the output data of the process.
@@ -50,7 +50,7 @@ public class DaemonJvmLauncherStreamRedirector implements Runnable
      * @param is the input stream
      * @param os the output stream
      */
-    public DaemonJvmLauncherStreamRedirector(InputStream is, OutputStream os)
+    public DefaultJvmLauncherStreamRedirector(InputStream is, OutputStream os)
     {
         inputStream = is;
         outputStream = os;

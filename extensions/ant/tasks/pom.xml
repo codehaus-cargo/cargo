@@ -29,6 +29,12 @@
   <description>Ant tasks for Cargo</description>
   <dependencies>
     <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberjar</artifactId>
     </dependency>

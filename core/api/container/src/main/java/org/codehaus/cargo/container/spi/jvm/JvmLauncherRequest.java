@@ -37,11 +37,6 @@ public class JvmLauncherRequest
     private Loggable loggable;
 
     /**
-     * {@code true} to launch a remote JVM via SSH, {@code false} to launch a local JVM
-     */
-    private boolean ssh;
-
-    /**
      * {@code true} if JVM should be spawned - outlive parent process.
      */
     private boolean spawned;
@@ -64,23 +59,9 @@ public class JvmLauncherRequest
      * @param server {@code true} to launch a server process, {@code false} to launch a
      * client/utility process.
      * @param loggable The object to forward all logging to, must not be {@code null}.
-     * @param ssh {@code true} to launch a remote JVM via SSH, {@code false} to launch a local JVM.
-     */
-    public JvmLauncherRequest(boolean server, Loggable loggable, boolean ssh)
-    {
-        this(server, loggable, ssh, false);
-    }
-
-    /**
-     * Creates a new JVM launch request with the specified properties.
-     * 
-     * @param server {@code true} to launch a server process, {@code false} to launch a
-     * client/utility process.
-     * @param loggable The object to forward all logging to, must not be {@code null}.
-     * @param ssh {@code true} to launch a remote JVM via SSH, {@code false} to launch a local JVM.
      * @param spawned {@code true} if JVM should be spawned - outlive parent process.
      */
-    public JvmLauncherRequest(boolean server, Loggable loggable, boolean ssh, boolean spawned)
+    public JvmLauncherRequest(boolean server, Loggable loggable, boolean spawned)
     {
         if (loggable == null)
         {
@@ -88,7 +69,6 @@ public class JvmLauncherRequest
         }
         this.server = server;
         this.loggable = loggable;
-        this.ssh = ssh;
         this.spawned = spawned;
     }
 
@@ -112,17 +92,6 @@ public class JvmLauncherRequest
     public Loggable getLoggable()
     {
         return this.loggable;
-    }
-
-    /**
-     * Indicates whether the JVM should be launched on a remote host via SSH or on the local
-     * machine.
-     * 
-     * @return {@code true} to launch a remote JVM, {@code false} to launch a local JVM.
-     */
-    public boolean isSsh()
-    {
-        return this.ssh;
     }
 
     /**

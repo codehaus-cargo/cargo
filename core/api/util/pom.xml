@@ -26,13 +26,8 @@
   <artifactId>cargo-core-api-util</artifactId>
   <name>Cargo Core Util API</name>
   <packaging>jar</packaging>
-  <description>Core Utility API (logging, Ant utils, File utils, etc)</description>
+  <description>Core Utility API (logging, File utils, etc)</description>
   <dependencies>
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-    </dependency>
-
     <dependency>
       <groupId>xmlunit</groupId>
       <artifactId>xmlunit</artifactId>
@@ -42,9 +37,9 @@
   <build>
     <plugins>
       <!--
-        We create an attached artifact containing reusable test classes which we're reusing in
+        We create an attached artifact containing reusable test classes which we are reusing in
         other modules' unit tests. We need to only include some classes but there seems to be no
-        way to do that using the JAR plugin
+        way to do that using the JAR plugin.
         -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

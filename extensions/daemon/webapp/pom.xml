@@ -119,10 +119,6 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
-    <dependency>
-      <groupId>net.java.dev.jna</groupId>
-      <artifactId>platform</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

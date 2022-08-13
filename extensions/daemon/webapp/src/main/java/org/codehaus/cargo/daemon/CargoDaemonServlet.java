@@ -61,7 +61,6 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.installer.Installer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.daemon.file.FileManager;
-import org.codehaus.cargo.daemon.jvm.DaemonJvmLauncherFactory;
 import org.codehaus.cargo.daemon.properties.PropertyTable;
 import org.codehaus.cargo.daemon.request.StartRequest;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -631,8 +630,6 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     ContainerType.INSTALLED, configuration);
 
             additionalClasspath = setupAdditionalClasspath(additionalClasspath, handleId);
-
-            container.setJvmLauncherFactory(new DaemonJvmLauncherFactory(additionalClasspath));
 
             if (timeout != null && !timeout.isEmpty())
             {

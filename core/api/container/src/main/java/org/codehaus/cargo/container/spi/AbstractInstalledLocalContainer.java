@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,12 +40,10 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.property.SSHPropertySet;
 import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
@@ -337,18 +334,13 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
      */
     protected JvmLauncher createJvmLauncher(boolean server)
     {
-        boolean ssh = getConfiguration().getPropertyValue(SSHPropertySet.HOST) != null;
         boolean spawned = Boolean.parseBoolean(getConfiguration().getPropertyValue(
                 GeneralPropertySet.SPAWN_PROCESS));
 
         if (jvmMajorVersion == -1)
         {
-            JvmLauncherRequest request = new JvmLauncherRequest(false, this, ssh);
+            JvmLauncherRequest request = new JvmLauncherRequest(false, this);
             JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
-            if (ssh)
-            {
-                addSshProperties(java);
-            }
             setJvmToLaunchContainerIn(java);
 
             // Read the real JVM version
@@ -406,7 +398,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
             }
         }
 
-        JvmLauncherRequest request = new JvmLauncherRequest(server, this, ssh, spawned);
+        JvmLauncherRequest request = new JvmLauncherRequest(server, this, spawned);
 
         JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
 
@@ -414,11 +406,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         // working directory as the configuration; so set this here.
         java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
             getConfiguration().getHome())));
-
-        if (ssh)
-        {
-            addSshProperties(java);
-        }
 
         // If the user has not specified any output file then the process's output will be logged
         // to the Ant logging subsystem which will in turn go to the Cargo's logging subsystem as
@@ -458,43 +445,6 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         addSpawn(java);
 
         return java;
-    }
-
-    /**
-     * Adds in parameters necessary to identify this as a cargo-launched container.
-     * 
-     * @param java the java command that will start the container
-     */
-    private void addSshProperties(JvmLauncher java)
-    {
-        if (getConfiguration().getDeployables() != null)
-        {
-            for (Deployable toDeploy : getConfiguration().getDeployables())
-            {
-                java.setSystemProperty(
-                    "sshjava.shift." + getFileHandler().getAbsolutePath(toDeploy.getFile()),
-                    "deployables/" + new File(toDeploy.getFile()).getName());
-            }
-        }
-
-        if (getHome() != null)
-        {
-            java.setSystemProperty("sshjava.shift." + getFileHandler().getAbsolutePath(getHome()),
-                "containers/" + getId());
-        }
-
-        Properties properties = new Properties();
-        properties.put("sshjava.username", SSHPropertySet.USERNAME);
-        properties.put("sshjava.host", SSHPropertySet.HOST);
-        properties.put("sshjava.password", SSHPropertySet.PASSWORD);
-        properties.put("sshjava.keyfile", SSHPropertySet.KEYFILE);
-        properties.put("sshjava.remotebase", SSHPropertySet.REMOTEBASE);
-
-        for (Map.Entry<?, ?> entry : properties.entrySet())
-        {
-            java.setSystemProperty(entry.getKey().toString(),
-                getConfiguration().getPropertyValue(entry.getValue().toString()));
-        }
     }
 
     /**

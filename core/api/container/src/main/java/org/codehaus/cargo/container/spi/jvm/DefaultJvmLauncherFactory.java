@@ -19,28 +19,33 @@
  */
 package org.codehaus.cargo.container.spi.jvm;
 
-import org.apache.tools.ant.taskdefs.Java;
-import org.codehaus.cargo.container.internal.util.AntBuildListener;
-import org.codehaus.cargo.util.AntUtils;
-import org.codehaus.cargo.util.log.Loggable;
+import java.util.List;
 
 /**
- * The default factory to create JVM launchers.
+ * The factory to create JVM launchers.
  */
 public class DefaultJvmLauncherFactory implements JvmLauncherFactory
 {
-
     /**
-     * Ant utility class.
+     * The additional classpath entries to use.
      */
-    private final AntUtils antUtils;
+    private List<String> additionalClasspathEntries;
 
     /**
-     * Creates a new JVM launcher factory.
+     * Constructs a launcher with default settings.
      */
     public DefaultJvmLauncherFactory()
     {
-        this.antUtils = new AntUtils();
+    }
+
+    /**
+     * Constructs a launcher with additional classpath entries.
+     * 
+     * @param additionalClasspathEntries The addtional classpath.
+     */
+    public DefaultJvmLauncherFactory(List<String> additionalClasspathEntries)
+    {
+        this.additionalClasspathEntries = additionalClasspathEntries;
     }
 
     /**
@@ -49,33 +54,14 @@ public class DefaultJvmLauncherFactory implements JvmLauncherFactory
     @Override
     public JvmLauncher createJvmLauncher(JvmLauncherRequest request)
     {
-        Loggable loggable = request.getLoggable();
+        DefaultJvmLauncher launcher = new DefaultJvmLauncher();
 
-        Java java = (Java) antUtils.createAntTask(request.isSsh() ? "sshjava" : "java");
-
-        java.setFork(true);
-
-        if (!request.isSpawned())
+        if (additionalClasspathEntries != null && additionalClasspathEntries.size() != 0)
         {
-            java.setLogError(true);
+            launcher.addClasspathEntries(additionalClasspathEntries);
         }
 
-        boolean foundBuildListener = false;
-        for (Object listenerObject : java.getProject().getBuildListeners())
-        {
-            if (listenerObject instanceof AntBuildListener)
-            {
-                foundBuildListener = true;
-                break;
-            }
-        }
-        if (!foundBuildListener)
-        {
-            java.getProject().addBuildListener(
-                new AntBuildListener(loggable.getLogger(), loggable.getClass().getName()));
-        }
-
-        return new DefaultJvmLauncher(java);
+        return launcher;
     }
 
 }

@@ -127,6 +127,7 @@
               <artifactSet>
                 <includes>
                   <include>org.codehaus.cargo</include>
+                  <include>net.java.dev.jna:jna-platform</include>
 
                   <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs</include>

@@ -958,8 +958,8 @@
       </dependency>
       <dependency>
         <groupId>net.java.dev.jna</groupId>
-        <artifactId>platform</artifactId>
-        <version>3.5.2</version>
+        <artifactId>jna-platform</artifactId>
+        <version>5.12.1</version>
       </dependency>
       <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
