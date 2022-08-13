@@ -289,6 +289,21 @@ public class ZipURLInstaller extends LoggedObject implements Installer
     }
 
     /**
+     * @return true if the container has already been downloaded, false otherwise
+     */
+    public boolean isAlreadyDownloaded()
+    {
+        boolean isDownloaded = false;
+        String targetFile = getFileHandler().append(getDownloadDir(), getSourceFileName());
+        if (getFileHandler().exists(targetFile))
+        {
+            isDownloaded = true;
+        }
+
+        return isDownloaded;
+    }
+
+    /**
      * @return true if the container has already been extracted, false otherwise
      */
     public boolean isAlreadyExtracted()
