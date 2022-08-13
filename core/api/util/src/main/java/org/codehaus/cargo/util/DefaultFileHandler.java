@@ -62,6 +62,11 @@ import org.codehaus.cargo.util.log.LoggedObject;
 public class DefaultFileHandler extends LoggedObject implements FileHandler
 {
     /**
+     * Default file buffer size.
+     */
+    public static final int FILE_BUFFER_SIZE = 256 * 1024;
+
+    /**
      * Counter for creating unique temp directories.
      */
     private static int uniqueNameCounter = -1;
@@ -433,12 +438,12 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     }
 
     /**
-     * {@inheritDoc}. The default buffer size if 1024.
+     * {@inheritDoc}. The default buffer size is {@link DefaultFileHandler#FILE_BUFFER_SIZE}.
      */
     @Override
     public void copy(InputStream in, OutputStream out)
     {
-        this.copy(in, out, 1024);
+        this.copy(in, out, DefaultFileHandler.FILE_BUFFER_SIZE);
     }
 
     /**
