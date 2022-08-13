@@ -19,13 +19,14 @@
  */
 package org.codehaus.cargo.container.spi.jvm;
 
-import org.codehaus.cargo.util.AbstractResourceTest;
 import org.codehaus.cargo.util.CargoException;
+
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link DefaultJvmLauncher}.
  */
-public class DefaultJvmLauncherTest extends AbstractResourceTest
+public class DefaultJvmLauncherTest extends TestCase
 {
     /**
      * Test {@link DefaultJvmLauncher#translateCommandline(String)}.

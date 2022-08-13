@@ -20,12 +20,13 @@
 package org.codehaus.cargo.container.internal.http;
 
 import java.nio.charset.StandardCharsets;
-import org.codehaus.cargo.util.AbstractResourceTest;
+
+import junit.framework.TestCase;
 
 /**
  * Unit tests for {@link HttpRequest}.
  */
-public class HttpRequestTest extends AbstractResourceTest
+public class HttpRequestTest extends TestCase
 {
     /**
      * Test character set extraction.
