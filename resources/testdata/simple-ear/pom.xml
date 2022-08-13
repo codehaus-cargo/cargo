@@ -31,7 +31,6 @@
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
       <type>war</type>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
   <build>
