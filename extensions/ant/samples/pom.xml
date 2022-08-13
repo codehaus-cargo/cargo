@@ -90,6 +90,10 @@
                     </artifactItem>
 
                     <artifactItem>
+                      <groupId>org.apache.commons</groupId>
+                      <artifactId>commons-compress</artifactId>
+                    </artifactItem>
+                    <artifactItem>
                       <groupId>commons-discovery</groupId>
                       <artifactId>commons-discovery</artifactId>
                     </artifactItem>
