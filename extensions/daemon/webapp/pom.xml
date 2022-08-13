@@ -59,12 +59,6 @@
                   <destFileName>servlet.jar</destFileName>
                   <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/tjws</outputDirectory>
                 </artifactItem>
-                <artifactItem>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-core-uberjar</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
-                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -112,11 +106,6 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
-      <artifactId>cargo-core-uberjar</artifactId>
-      <scope>provided</scope>
-    </dependency>
 
     <dependency>
       <groupId>com.googlecode.json-simple</groupId>
@@ -127,10 +116,6 @@
       <artifactId>commons-fileupload</artifactId>
     </dependency>
     <dependency>
-      <groupId>commons-discovery</groupId>
-      <artifactId>commons-discovery</artifactId>
-    </dependency>
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
@@ -139,22 +124,9 @@
       <artifactId>platform</artifactId>
     </dependency>
 
-    <!-- Dependencies as per https://codehaus-cargo.github.io/cargo/Installation.html -->
     <dependency>
-      <groupId>com.fasterxml.jackson.dataformat</groupId>
-      <artifactId>jackson-dataformat-yaml</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>jaxen</groupId>
-      <artifactId>jaxen</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jdom</groupId>
-      <artifactId>jdom</artifactId>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-uberjar</artifactId>
     </dependency>
 
     <!-- Dependencies added due to CARGO-1489 and CARGO-1494 -->
