@@ -21,19 +21,24 @@ package org.codehaus.cargo.container.installer;
 
 import java.io.IOException;
 import java.net.URL;
-
-import junit.framework.TestCase;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.util.AbstractResourceTest;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link ZipURLInstaller}.
  */
-public class ZipURLInstallerTest extends TestCase
+public class ZipURLInstallerTest extends AbstractResourceTest
 {
+    /**
+     * Package path.
+     */
+    private static final String PACKAGE_PATH = "org/codehaus/cargo/container/installer/";
+
     /**
      * Installer.
      */
@@ -60,7 +65,7 @@ public class ZipURLInstallerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test ZIP URL installer and its fils system manager. {@inheritDoc}
+     * Creates the test ZIP URL installer and its file system manager. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -210,5 +215,58 @@ public class ZipURLInstallerTest extends TestCase
         this.installer.setExtractDir("ram:///tmp");
 
         assertEquals("ram:///tmp/resin-3.0.18/resin-3.0.18", this.installer.getHome());
+    }
+
+    /**
+     * Test extraction of a 7Z file.
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testExtract7z() throws Exception
+    {
+        extractAndTest("7z");
+    }
+
+    /**
+     * Test extraction of a TAR.GZ file.
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testExtractTarGz() throws Exception
+    {
+        extractAndTest("tar.gz");
+    }
+
+    /**
+     * Test extraction of a ZIP file.
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testExtractZip() throws Exception
+    {
+        extractAndTest("zip");
+    }
+
+    /**
+     * Test extraction of a a file.
+     * @param extension the extension to test.
+     * @throws Exception If an unexpected error occurs
+     */
+    private void extractAndTest(String extension) throws Exception
+    {
+        URL url =
+            new URL(this.fileHandler.getURL(
+                getResourcePath(PACKAGE_PATH + "dummy-archive." + extension)));
+        ZipURLInstaller installer = new ZipURLInstaller(url);
+        this.fileHandler.delete(installer.getExtractDir());
+        installer.install();
+
+        String home = this.fileHandler.getParent(installer.getHome());
+        String dummyFileContents =
+            this.fileHandler.readTextFile(this.fileHandler.append(home, "dummy-file.txt"),
+                StandardCharsets.UTF_8);
+        assertEquals("this is a dummy file", dummyFileContents);
+        String dummyFileInDirectoryContents =
+            this.fileHandler.readTextFile(
+                this.fileHandler.append(home, "dummy-directory/dummy-file-in-dummy-directory.txt"),
+                    StandardCharsets.UTF_8);
+        assertEquals("this is a dummy file in a dummy directory", dummyFileInDirectoryContents);
     }
 }
