@@ -130,6 +130,9 @@
 
                   <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs</include>
+
+                  <!-- RMI -->
+                  <include>org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec</include>
                 </includes>
                 <excludes>
                   <exclude>*:*:*:sources</exclude>
