@@ -70,13 +70,24 @@ public class ZipCompressor
     {
         for (String child : this.fileHandler.getChildren(currentDirectory))
         {
+            String childPath = child.replace(startDirectory, "").replace('\\', '/');
+            if (childPath.startsWith("/"))
+            {
+                childPath = childPath.substring(1);
+            }
+
             if (this.fileHandler.isDirectory(child))
             {
+                // In ZIP terminology, en entry is a directory when its name ends with a /
+                childPath = childPath + '/';
+                ZipEntry entry = new ZipEntry(childPath);
+                zipFile.putNextEntry(entry);
+
                 this.compressDirectory(child, startDirectory, zipFile);
             }
             else
             {
-                ZipEntry entry = new ZipEntry(child.replace(startDirectory, ""));
+                ZipEntry entry = new ZipEntry(childPath);
                 zipFile.putNextEntry(entry);
                 try (InputStream content = this.fileHandler.getInputStream(child))
                 {
