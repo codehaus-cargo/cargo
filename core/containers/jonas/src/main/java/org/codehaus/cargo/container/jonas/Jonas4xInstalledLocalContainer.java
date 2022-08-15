@@ -135,12 +135,13 @@ public class Jonas4xInstalledLocalContainer extends AbstractJonasInstalledLocalC
     }
 
     /**
-     * Configuring the target java ant task to launch a JOnAS command.
+     * Configuring the target java to launch a JOnAS command.
      * 
      * @param java the target JVM launcher to setup
      */
     public void doAction(JvmLauncher java)
     {
+        setJvmToLaunchContainerIn(java);
         setupSysProps(java);
 
         java.setMainClass("org.objectweb.jonas.server.Bootstrap");

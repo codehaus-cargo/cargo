@@ -116,6 +116,10 @@ public class DefaultJvmLauncher implements JvmLauncher
     {
         List<String> commandLine = new ArrayList<String>();
 
+        if (executable == null)
+        {
+            throw new CargoException("Java executable not set");
+        }
         commandLine.add(executable);
 
         commandLine.addAll(jvmArguments);
