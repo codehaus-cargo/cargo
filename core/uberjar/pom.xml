@@ -127,13 +127,13 @@
               <artifactSet>
                 <includes>
                   <include>org.codehaus.cargo</include>
-                  <include>net.java.dev.jna:jna-platform</include>
+                  <include>net.java.dev.jna</include>
 
                   <!-- EJB, JSR-88 and JSR-160 -->
                   <include>org.apache.geronimo.specs</include>
 
                   <!-- RMI -->
-                  <include>org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec</include>
+                  <include>org.jboss.spec.javax.rmi</include>
                 </includes>
                 <excludes>
                   <exclude>*:*:*:sources</exclude>

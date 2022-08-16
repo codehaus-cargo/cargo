@@ -32,7 +32,9 @@
       <fileMode>0644</fileMode>
       <includes>
         <include>org.codehaus.cargo:*:*:sources:*</include>
+        <include>net.java.dev.jna:*:*:sources:*</include>
         <include>org.apache.geronimo.specs:*:*:sources:*</include>
+        <include>org.jboss.spec.javax.rmi:*:*:sources:*</include>
       </includes>
       <unpack>true</unpack>
       <unpackOptions>
