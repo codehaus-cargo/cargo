@@ -23,14 +23,13 @@ updates:
     ignore:
       - dependency-name: "com.puppycrawl.tools:checkstyle"
         versions: ["[10.0,)"]
-      - dependency-name: "commons-discovery:commons-discovery"
       - dependency-name: "jakarta:servlet-api"
-        versions: ["[6.0,)"]
       - dependency-name: "javax.mail:mail"
       - dependency-name: "javax.servlet:servlet-api"
       - dependency-name: "junit:junit"
         versions: ["[4.0,)"]
       - dependency-name: "org.apache.ant:ant"
+        versions: ["[1.10,)"]
       - dependency-name: "org.apache.derby:derby"
         versions: ["[10.13,)"]
       - dependency-name: "org.apache.maven:maven-archiver"
@@ -43,8 +42,6 @@ updates:
       - dependency-name: "org.eclipse.jetty:jetty-deploy"
       - dependency-name: "org.jboss.as:jboss-as-controller-client"
       - dependency-name: "org.jboss.integration:jboss-profileservice-spi"
-      - dependency-name: "org.jdom:jdom"
-        versions: ["[2.0,)"]
       - dependency-name: "org.mortbay.jetty:jetty"
       - dependency-name: "org.osgi:org.osgi.core"
       - dependency-name: "org.springframework:spring"
