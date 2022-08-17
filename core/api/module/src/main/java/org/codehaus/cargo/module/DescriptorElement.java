@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.module;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Extension of JDOM element that represents a descriptor element.

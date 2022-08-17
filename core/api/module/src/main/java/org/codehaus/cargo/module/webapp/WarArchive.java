@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.codehaus.cargo.module.JarArchive;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Encapsulates access to a WAR.

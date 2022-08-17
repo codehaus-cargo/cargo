@@ -21,7 +21,7 @@ package org.codehaus.cargo.module.webapp.elements;
 
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.webapp.WebXmlTag;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  */

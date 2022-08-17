@@ -23,7 +23,7 @@ import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.ejb.EjbDef;
 import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Encapsulates the DOM representation of a jboss ejb deployment descriptor <code>jboss.xml</code>

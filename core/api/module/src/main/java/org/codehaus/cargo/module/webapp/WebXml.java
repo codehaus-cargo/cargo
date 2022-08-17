@@ -31,9 +31,9 @@ import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.Identifier;
 import org.codehaus.cargo.module.J2eeDescriptor;
-import org.jdom.DocType;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.DocType;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>web.xml</code> to

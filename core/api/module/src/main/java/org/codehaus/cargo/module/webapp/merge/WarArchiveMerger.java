@@ -26,7 +26,7 @@ import org.codehaus.cargo.module.merge.MergeException;
 import org.codehaus.cargo.module.merge.MergeProcessor;
 import org.codehaus.cargo.module.webapp.WarArchive;
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Class for merging two War Archives into each other.

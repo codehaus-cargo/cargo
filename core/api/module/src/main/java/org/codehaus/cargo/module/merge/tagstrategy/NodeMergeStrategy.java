@@ -28,11 +28,11 @@ import java.util.regex.Pattern;
 import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.DescriptorType;
-import org.jdom.Content;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Text;
-import org.jdom.xpath.XPath;
+import org.jdom2.Content;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Text;
+import org.jdom2.xpath.XPath;
 
 /**
  * A merging strategy that can be used to combine two XML documents together.

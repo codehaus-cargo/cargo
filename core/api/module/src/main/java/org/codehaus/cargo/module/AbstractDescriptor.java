@@ -25,10 +25,10 @@ package org.codehaus.cargo.module;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom.Comment;
-import org.jdom.Content;
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Comment;
+import org.jdom2.Content;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 /**
  * Encapsulates the DOM representation of a deployment descriptor to provide convenience methods for

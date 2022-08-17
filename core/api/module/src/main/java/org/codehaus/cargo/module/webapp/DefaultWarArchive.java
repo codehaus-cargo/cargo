@@ -50,7 +50,7 @@ import org.codehaus.cargo.module.webapp.websphere.IbmWebBndXmiIo;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Class that encapsulates access to a WAR.

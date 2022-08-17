@@ -29,8 +29,8 @@ import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.Descriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.J2eeDescriptor;
-import org.jdom.DocType;
-import org.jdom.Element;
+import org.jdom2.DocType;
+import org.jdom2.Element;
 
 /**
  * Encapsulates the DOM representation of an EAR descriptor (<code>application.xml</code>) to

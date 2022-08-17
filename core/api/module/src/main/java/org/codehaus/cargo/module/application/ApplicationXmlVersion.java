@@ -22,7 +22,7 @@
  */
 package org.codehaus.cargo.module.application;
 
-import org.jdom.DocType;
+import org.jdom2.DocType;
 
 /**
  * Enumerated type that represents the version of the deployment descriptor of a enterprise

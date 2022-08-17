@@ -36,9 +36,9 @@ import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
 import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.Comment;
-import org.jdom.Content;
-import org.jdom.Element;
+import org.jdom2.Comment;
+import org.jdom2.Content;
+import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXml}.
@@ -1525,9 +1525,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createFilterElement(webXml.getDescriptorType(), "f1", "f1class"));
-        List<Content> order = webXml.getRootElement().getChildren();
-        assertEquals("filter", ((Element) order.get(0)).getName());
-        assertEquals("servlet", ((Element) order.get(1)).getName());
+        List<Element> order = webXml.getRootElement().getChildren();
+        assertEquals("filter", (order.get(0)).getName());
+        assertEquals("servlet", (order.get(1)).getName());
     }
 
     /**
@@ -1572,9 +1572,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
-        List<Element> order = webXml.getRootElement().getContent();
-        assertEquals("filter", order.get(0).getName());
-        assertEquals("servlet", order.get(1).getName());
+        List<Content> order = webXml.getRootElement().getContent();
+        assertEquals("filter", ((Element) order.get(0)).getName());
+        assertEquals("servlet", ((Element) order.get(1)).getName());
     }
 
     /**

@@ -24,7 +24,7 @@ import java.io.InputStream;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
 import org.codehaus.cargo.module.DescriptorType;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Provides convenience methods for reading Oracle web deployment descriptor.

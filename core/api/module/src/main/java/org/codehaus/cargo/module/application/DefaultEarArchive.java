@@ -30,7 +30,7 @@ import org.codehaus.cargo.module.ejb.DefaultEjbArchive;
 import org.codehaus.cargo.module.ejb.EjbArchive;
 import org.codehaus.cargo.module.webapp.DefaultWarArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Encapsulates access to an EAR.

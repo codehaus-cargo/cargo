@@ -19,11 +19,12 @@
  */
 package org.codehaus.cargo.module.webapp.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.module.webapp.WebXmlTag;
 import org.codehaus.cargo.module.webapp.WebXmlType;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  */
@@ -95,7 +96,13 @@ public class Filter extends WebXmlElement
      */
     public List<InitParam> getInitParams()
     {
-        return getChildren("init-param", getTag().getTagNamespace());
+        List<Element> children = getChildren("init-param", getTag().getTagNamespace());
+        List<InitParam> result = new ArrayList<InitParam>(children.size());
+        for (Element child : children)
+        {
+            result.add((InitParam) child);
+        }
+        return result;
     }
 
     /**

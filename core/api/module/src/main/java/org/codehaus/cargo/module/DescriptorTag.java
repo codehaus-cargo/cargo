@@ -25,7 +25,7 @@ package org.codehaus.cargo.module;
 import java.lang.reflect.Constructor;
 
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Represents the various top-level tags in a deployment descriptor as a typesafe enumeration.

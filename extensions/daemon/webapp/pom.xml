@@ -163,7 +163,7 @@
     </dependency>
     <dependency>
       <groupId>org.jdom</groupId>
-      <artifactId>jdom</artifactId>
+      <artifactId>jdom2</artifactId>
     </dependency>
 
     <!-- Dependencies added due to CARGO-1489 and CARGO-1494 -->

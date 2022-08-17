@@ -26,7 +26,7 @@ import java.io.InputStream;
 
 import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.JarArchiveIo;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Class that encapsulates access to a WAR.

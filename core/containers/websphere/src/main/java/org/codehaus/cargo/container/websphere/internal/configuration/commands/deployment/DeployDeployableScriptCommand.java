@@ -39,7 +39,7 @@ import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Implementation of deploying deployable configuration script command.

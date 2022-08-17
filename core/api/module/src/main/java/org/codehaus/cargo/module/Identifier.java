@@ -22,9 +22,9 @@ package org.codehaus.cargo.module;
 import java.util.Map;
 
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.xpath.XPath;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.xpath.XPath;
 
 /**
  * Class used to work out how to 'identify' instances of DescrtiptorTags.

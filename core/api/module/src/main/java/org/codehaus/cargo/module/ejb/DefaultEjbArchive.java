@@ -31,7 +31,7 @@ import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXml;
 import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXmlIo;
 import org.codehaus.cargo.module.ejb.websphere.IbmEjbJarBndXmi;
 import org.codehaus.cargo.module.ejb.websphere.IbmEjbJarBndXmiIo;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Class that encapsulates access to an EJB JAR.

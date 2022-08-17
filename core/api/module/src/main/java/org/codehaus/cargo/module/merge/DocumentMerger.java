@@ -22,9 +22,9 @@ package org.codehaus.cargo.module.merge;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom.Content;
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Content;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 /**
  * Class that can merge two DOM Documents, relatively simply. This works by just importing all the

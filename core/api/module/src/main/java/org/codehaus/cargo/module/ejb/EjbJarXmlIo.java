@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

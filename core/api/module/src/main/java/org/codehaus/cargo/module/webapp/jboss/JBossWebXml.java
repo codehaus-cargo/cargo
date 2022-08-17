@@ -23,7 +23,7 @@ import org.codehaus.cargo.module.AbstractDescriptor;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Encapsulates the DOM representation of a web deployment descriptor <code>jboss-web.xml</code> to

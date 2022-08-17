@@ -22,9 +22,9 @@ package org.codehaus.cargo.module;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
 
 /**

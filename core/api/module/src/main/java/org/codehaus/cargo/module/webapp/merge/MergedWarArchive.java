@@ -34,7 +34,7 @@ import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.JarUtils;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Subclass representing the merged WAR file.

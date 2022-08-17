@@ -27,7 +27,7 @@ import java.io.IOException;
 import org.codehaus.cargo.module.JarArchive;
 import org.codehaus.cargo.module.ejb.EjbArchive;
 import org.codehaus.cargo.module.webapp.WarArchive;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Class that encapsulates access to an EAR.

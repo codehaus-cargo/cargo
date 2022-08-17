@@ -32,8 +32,8 @@ import org.codehaus.cargo.module.webapp.elements.InitParam;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
 import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
-import org.jdom.Element;
-import org.jdom.filter.ElementFilter;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
 
 /**
  */

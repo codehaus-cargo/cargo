@@ -26,8 +26,8 @@ import org.codehaus.cargo.module.DescriptorTag;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.EjbRef;
 import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Encapsulates the DOM representation of a websphere web deployment descriptor

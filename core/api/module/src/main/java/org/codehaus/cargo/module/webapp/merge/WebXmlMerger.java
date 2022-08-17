@@ -37,7 +37,7 @@ import org.codehaus.cargo.module.webapp.WebXmlVersion;
 import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.module.webapp.elements.MimeMapping;
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Helper class that can merge two web deployment descriptors.

@@ -21,7 +21,7 @@ package org.codehaus.cargo.module;
 
 import java.util.Collection;
 
-import org.jdom.JDOMFactory;
+import org.jdom2.JDOMFactory;
 
 /**
  * Represents a "type" of descriptor - e.g. web.xml

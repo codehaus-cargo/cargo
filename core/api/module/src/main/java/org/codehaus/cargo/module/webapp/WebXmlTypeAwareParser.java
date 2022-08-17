@@ -29,7 +29,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 import org.xml.sax.Attributes;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;

@@ -23,7 +23,7 @@
 package org.codehaus.cargo.module.application;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
-import org.jdom.DocType;
+import org.jdom2.DocType;
 
 /**
  * Unit tests for {@link ApplicationXmlVersion}.

@@ -31,7 +31,7 @@ import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.Identifier;
 import org.codehaus.cargo.module.merge.tagstrategy.MergeStrategy;
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Merge a descriptor by tag.

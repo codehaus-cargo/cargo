@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WeblogicXml}.

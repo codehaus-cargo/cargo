@@ -21,13 +21,13 @@ package org.codehaus.cargo.module;
 
 import java.util.List;
 
-import org.jdom.Document;
-import org.jdom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 /**
  * Common interface for Deployment Descriptors.
  */
-public interface Descriptor extends org.jdom.Parent
+public interface Descriptor extends org.jdom2.Parent
 {
     /**
      * Returns the file name of this descriptor. For example "web.xml", "weblogic.xml", etc.

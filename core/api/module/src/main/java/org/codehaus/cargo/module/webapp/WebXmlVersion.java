@@ -22,9 +22,9 @@
  */
 package org.codehaus.cargo.module.webapp;
 
-import org.jdom.DocType;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.DocType;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Enumerated type that represents the version of the web deployment descriptor.

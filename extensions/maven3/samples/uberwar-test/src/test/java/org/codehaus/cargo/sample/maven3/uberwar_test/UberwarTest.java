@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;

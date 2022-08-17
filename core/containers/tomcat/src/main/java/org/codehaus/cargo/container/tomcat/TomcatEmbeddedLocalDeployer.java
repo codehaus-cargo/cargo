@@ -32,7 +32,7 @@ import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
 import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
 import org.codehaus.cargo.module.webapp.tomcat.TomcatWarArchive;
-import org.jdom.Attribute;
+import org.jdom2.Attribute;
 
 /**
  * {@link org.codehaus.cargo.container.deployer.Deployer} for deploying to

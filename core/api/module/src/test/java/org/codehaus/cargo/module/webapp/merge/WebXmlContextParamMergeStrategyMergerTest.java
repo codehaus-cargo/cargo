@@ -32,7 +32,7 @@ import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXmlMerger} with merge strategies.

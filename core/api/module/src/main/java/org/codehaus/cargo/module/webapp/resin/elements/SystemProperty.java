@@ -22,7 +22,7 @@ package org.codehaus.cargo.module.webapp.resin.elements;
 import org.codehaus.cargo.module.DescriptorElement;
 import org.codehaus.cargo.module.webapp.resin.ResinWebXmlTag;
 import org.codehaus.cargo.module.webapp.resin.ResinWebXmlType;
-import org.jdom.Attribute;
+import org.jdom2.Attribute;
 
 /**
  * Wrapper Class representing a resin-web.xml system property.

@@ -25,11 +25,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.codehaus.cargo.util.CargoException;
-import org.jdom.DefaultJDOMFactory;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMFactory;
-import org.jdom.Namespace;
+import org.jdom2.DefaultJDOMFactory;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMFactory;
+import org.jdom2.Namespace;
 
 /**
  */
@@ -157,7 +157,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements Descri
      * {@inheritDoc}
      */
     @Override
-    public Element element(String name)
+    public Element element(int line, int col, String name)
     {
         DescriptorTag tag = getTagByName(name);
         if (tag != null)
@@ -172,14 +172,14 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements Descri
             }
         }
 
-        return super.element(name);
+        return super.element(line, col, name);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Element element(String name, Namespace namespace)
+    public Element element(int line, int col, String name, Namespace namespace)
     {
         DescriptorTag tag = getTagByName(name);
         if (tag != null)
@@ -198,7 +198,7 @@ public class AbstractDescriptorType extends DefaultJDOMFactory implements Descri
                 // Ignored
             }
         }
-        return super.element(name, namespace);
+        return super.element(line, col, name, namespace);
     }
 
     /**

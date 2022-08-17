@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.codehaus.cargo.module.AbstractDescriptorIo;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Provides convenience methods for reading JBoss ejb jar deployment descriptor.

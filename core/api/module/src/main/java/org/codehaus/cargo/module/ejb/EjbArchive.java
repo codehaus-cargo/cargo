@@ -22,7 +22,7 @@ package org.codehaus.cargo.module.ejb;
 import java.io.IOException;
 
 import org.codehaus.cargo.module.JarArchive;
-import org.jdom.JDOMException;
+import org.jdom2.JDOMException;
 
 /**
  * Class that encapsulates access to an EJB JAR.
