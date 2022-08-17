@@ -1457,7 +1457,7 @@
 
               <property>
                 <name>cargo.wildfly27x.url</name>
-                <value>https://github.com/wildfly/wildfly/releases/download/27.0.0.Alpha3/wildfly-preview-27.0.0.Alpha3.zip</value>
+                <value>https://github.com/wildfly/wildfly/releases/download/27.0.0.Alpha4/wildfly-preview-27.0.0.Alpha4.zip</value>
               </property>
               <property>
                 <name>cargo.wildfly27x.java.home</name>
