@@ -44,4 +44,6 @@ updates:
       - dependency-name: "org.jboss.integration:jboss-profileservice-spi"
       - dependency-name: "org.mortbay.jetty:jetty"
       - dependency-name: "org.osgi:org.osgi.core"
+      - dependency-name: "org.slf4j:slf4j-simple"
+        versions: ["[2.0,)"]
       - dependency-name: "org.springframework:spring"
