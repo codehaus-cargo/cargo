@@ -271,8 +271,17 @@ public class DeployerServlet extends HttpServlet
         {
             this.logger.debug("trying to get the remote web archive for context " + contextPath);
 
-            File webappFile = new File(this.webAppDirectory,
-                (contextPath.equals("/") ? "ROOT" : contextPath.substring(1)) + ".war");
+            String webappFileName = contextPath;
+            if (webappFileName.equals("/"))
+            {
+                webappFileName = "ROOT";
+            }
+            else
+            {
+                webappFileName = webappFileName.replaceAll("\\W", "-");
+            }
+            File webappFile = new File(this.webAppDirectory, webappFileName + ".war");
+
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
             OutputStream outputStream =
                 new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
