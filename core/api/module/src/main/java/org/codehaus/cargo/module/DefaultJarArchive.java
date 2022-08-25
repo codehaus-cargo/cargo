@@ -221,15 +221,16 @@ public class DefaultJarArchive implements JarArchive
                 String outFile = getFileHandler().append(
                     path, DefaultFileHandler.sanitizeFilename(entry.getName(),
                         getFileHandler().getLogger()));
-                if (outFile.endsWith("/"))
+                if (entry.isDirectory())
                 {
                     getFileHandler().mkdirs(outFile);
                 }
                 else
                 {
-                    if (!getFileHandler().exists(getFileHandler().getParent(outFile)))
+                    String parent = getFileHandler().getParent(outFile);
+                    if (!getFileHandler().exists(parent))
                     {
-                        getFileHandler().mkdirs(getFileHandler().getParent(outFile));
+                        getFileHandler().mkdirs(parent);
                     }
 
                     if (!getFileHandler().exists(outFile))
