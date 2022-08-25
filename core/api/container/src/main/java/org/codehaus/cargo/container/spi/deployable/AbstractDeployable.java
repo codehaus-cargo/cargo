@@ -158,7 +158,7 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
                 "The deployable [" + getName()
                     + "] has trailing slashes, removing for the sanitized file name",
                         this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replaceAll("^/+", "");
+            sanitizedFilename = sanitizedFilename.replaceAll("^\\/+", "");
         }
 
         if (sanitizedFilename.endsWith("/"))
@@ -167,15 +167,24 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
                 "The deployable [" + getName()
                     + "] has ending slashes, removing for the sanitized file name",
                         this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replaceAll("/+$", "");
+            sanitizedFilename = sanitizedFilename.replaceAll("\\/+$", "");
         }
 
-        if (sanitizedFilename.contains("/"))
+        while (sanitizedFilename.contains("/../"))
         {
             getLogger().info(
-                "The deployable [" + getName() + "] has intermediate slashes, replacing with dash",
+                "The deployable [" + getName()
+                    + "] has intermediate /../, removing for the sanitized file name",
+                        this.getClass().getName());
+            sanitizedFilename = sanitizedFilename.replace("/../", "/");
+        }
+
+        while (sanitizedFilename.contains("//"))
+        {
+            getLogger().info(
+                "The deployable [" + getName() + "] has intermediate //, replacing with single /",
                     this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replace('/', '-');
+            sanitizedFilename = sanitizedFilename.replace("//", "/");
         }
 
         return sanitizedFilename.trim();

@@ -129,4 +129,14 @@ public class WARTest extends TestCase
         war.setContext("context");
         assertEquals("context", war.getName());
     }
+
+    /**
+     * Test file name when WAR context is overriden.
+     */
+    public void testGetFilenameWhenOverride()
+    {
+        WAR war = new WAR("c:/some/path/to/war/test.war");
+        war.setContext("// this/../../is/../a//test/");
+        assertEquals("this/is/a/test.war", war.getFilename());
+    }
 }
