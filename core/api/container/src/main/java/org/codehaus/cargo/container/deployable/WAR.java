@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+import org.codehaus.cargo.util.DefaultFileHandler;
 
 /**
  * Wraps a WAR file that will be deployed in the container. The root context for this WAR is taken
@@ -173,7 +174,7 @@ public class WAR extends AbstractDeployable
         }
         else
         {
-            baseFilename = sanitizeFilename(baseFilename);
+            baseFilename = DefaultFileHandler.sanitizeFilename(baseFilename, getLogger());
         }
         return baseFilename;
     }

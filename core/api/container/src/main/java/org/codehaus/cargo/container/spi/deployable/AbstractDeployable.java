@@ -143,54 +143,6 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     }
 
     /**
-     * Sanitize a given name to turn it into a safe {@link #getFilename()}. This includes, for
-     * example, removing slashes.
-     * @param filename name to sanitize
-     * @return sanitized name
-     */
-    public String sanitizeFilename(String filename)
-    {
-        String sanitizedFilename = filename.replace('\\', '/');
-
-        if (sanitizedFilename.startsWith("/"))
-        {
-            getLogger().info(
-                "The deployable [" + getName()
-                    + "] has trailing slashes, removing for the sanitized file name",
-                        this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replaceAll("^\\/+", "");
-        }
-
-        if (sanitizedFilename.endsWith("/"))
-        {
-            getLogger().info(
-                "The deployable [" + getName()
-                    + "] has ending slashes, removing for the sanitized file name",
-                        this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replaceAll("\\/+$", "");
-        }
-
-        while (sanitizedFilename.contains("/../"))
-        {
-            getLogger().info(
-                "The deployable [" + getName()
-                    + "] has intermediate /../, removing for the sanitized file name",
-                        this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replace("/../", "/");
-        }
-
-        while (sanitizedFilename.contains("//"))
-        {
-            getLogger().info(
-                "The deployable [" + getName() + "] has intermediate //, replacing with single /",
-                    this.getClass().getName());
-            sanitizedFilename = sanitizedFilename.replace("//", "/");
-        }
-
-        return sanitizedFilename.trim();
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

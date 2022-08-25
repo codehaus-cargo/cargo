@@ -378,7 +378,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             while ((sevenZEntry = sevenZFile.getNextEntry()) != null)
             {
                 String destinationEntry =
-                    getFileHandler().append(getExtractDir(), sevenZEntry.getName());
+                    getFileHandler().append(getExtractDir(),
+                        DefaultFileHandler.sanitizeFilename(sevenZEntry.getName(), getLogger()));
                 if (sevenZEntry.isDirectory())
                 {
                     getFileHandler().mkdirs(destinationEntry);
@@ -453,7 +454,8 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             while ((archiveEntry = dearchivedInputStream.getNextEntry()) != null)
             {
                 String destinationEntry =
-                    getFileHandler().append(getExtractDir(), archiveEntry.getName());
+                    getFileHandler().append(getExtractDir(),
+                        DefaultFileHandler.sanitizeFilename(archiveEntry.getName(), getLogger()));
                 if (archiveEntry.isDirectory())
                 {
                     getFileHandler().mkdirs(destinationEntry);

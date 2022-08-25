@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.spi.deployable;
 
+import org.codehaus.cargo.util.DefaultFileHandler;
+
 /**
  * Common class for easy Deployable implementations with settable names.
  */
@@ -71,6 +73,7 @@ public abstract class AbstractDeployablewithSettableName extends AbstractDeploya
     @Override
     public String getFilename()
     {
-        return sanitizeFilename(getName() + "." + getType().getType());
+        return DefaultFileHandler.sanitizeFilename(
+            getName() + "." + getType().getType(), getLogger());
     }
 }

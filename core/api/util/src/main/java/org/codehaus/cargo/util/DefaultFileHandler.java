@@ -56,6 +56,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import org.codehaus.cargo.util.log.LoggedObject;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * File operations that are performed in Cargo. All file operations must use this class.
@@ -71,6 +72,64 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * Counter for creating unique temp directories.
      */
     private static int uniqueNameCounter = -1;
+
+    /**
+     * Sanitize a given name to turn it into a safe file name, removing for example leading or
+     * trailing slashes, as well as intermediate parent path jumps.
+     * @param filename name to sanitize
+     * @param logger Logger to log when sanitization happens (optional)
+     * @return sanitized name
+     */
+    public static String sanitizeFilename(String filename, Logger logger)
+    {
+        String sanitizedFilename = filename.replace('\\', '/');
+
+        if (sanitizedFilename.startsWith("/"))
+        {
+            if (logger != null)
+            {
+                logger.info("File name [" + filename
+                    + "] has trailing slashes, removing for the sanitized file name",
+                        DefaultFileHandler.class.getName());
+            }
+            sanitizedFilename = sanitizedFilename.replaceAll("^\\/+", "");
+        }
+
+        if (sanitizedFilename.endsWith("/"))
+        {
+            if (logger != null)
+            {
+                logger.info("File name [" + filename
+                    + "] has ending slashes, removing for the sanitized file name",
+                        DefaultFileHandler.class.getName());
+            }
+            sanitizedFilename = sanitizedFilename.replaceAll("\\/+$", "");
+        }
+
+        while (sanitizedFilename.contains("/../"))
+        {
+            if (logger != null)
+            {
+                logger.info("File name [" + filename
+                    + "] has intermediate /../, replacing with single /",
+                        DefaultFileHandler.class.getName());
+            }
+            sanitizedFilename = sanitizedFilename.replace("/../", "/");
+        }
+
+        while (sanitizedFilename.contains("//"))
+        {
+            if (logger != null)
+            {
+                logger.info("File name [" + filename
+                    + "] has intermediate //, replacing with single /",
+                        DefaultFileHandler.class.getName());
+            }
+            sanitizedFilename = sanitizedFilename.replace("//", "/");
+        }
+
+        return sanitizedFilename.trim();
+    }
 
     /**
      * {@inheritDoc}
@@ -368,13 +427,8 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             while (e.hasMoreElements())
             {
                 JarEntry j = (JarEntry) e.nextElement();
-                String dst = this.append(exploded, j.getName());
-
-                File dstFile = new File(dst);
-                if (!dstFile.toPath().normalize().startsWith(explodedPath))
-                {
-                    throw new IOException("File contains illegal path: " + j.getName());
-                }
+                String dst = this.append(exploded,
+                    DefaultFileHandler.sanitizeFilename(j.getName(), getLogger()));
 
                 if (j.isDirectory())
                 {
@@ -800,6 +854,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public boolean exists(String path)
     {
+        // Security note: Uncontrolled data used in path expression not relevant, we don't output
         return new File(path).exists();
     }
 

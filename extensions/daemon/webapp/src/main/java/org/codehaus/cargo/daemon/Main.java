@@ -157,6 +157,7 @@ public final class Main
             while (enumeration.hasMoreElements())
             {
                 JarEntry jarEntry = (JarEntry) enumeration.nextElement();
+                // Security note: Zip Slip cannot happen here, this is our own ZIP
                 File destFile = new File(destDir, jarEntry.getName());
                 if (jarEntry.isDirectory())
                 {

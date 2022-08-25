@@ -24,8 +24,6 @@ package org.codehaus.cargo.module;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -214,48 +212,37 @@ public class DefaultJarArchive implements JarArchive
     @Override
     public void expandToPath(String path) throws IOException
     {
-        expandToPath(path, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void expandToPath(String path, FileFilter filter) throws IOException
-    {
         try (JarInputStream inputStream = getContentAsStream())
         {
             byte[] buffer = new byte[40960];
             ZipEntry entry;
             while ((entry = inputStream.getNextEntry()) != null)
             {
-                String entryName = entry.getName();
-                String outFile = getFileHandler().append(path, entryName);
-                if (filter == null || filter.accept(new File(entryName)))
+                String outFile = getFileHandler().append(
+                    path, DefaultFileHandler.sanitizeFilename(entry.getName(),
+                        getFileHandler().getLogger()));
+                if (outFile.endsWith("/"))
                 {
-                    if (outFile.endsWith("/"))
+                    getFileHandler().mkdirs(outFile);
+                }
+                else
+                {
+                    if (!getFileHandler().exists(getFileHandler().getParent(outFile)))
                     {
-                        getFileHandler().mkdirs(outFile);
+                        getFileHandler().mkdirs(getFileHandler().getParent(outFile));
                     }
-                    else
+
+                    if (!getFileHandler().exists(outFile))
                     {
-                        if (!getFileHandler().exists(getFileHandler().getParent(outFile)))
-                        {
-                            getFileHandler().mkdirs(getFileHandler().getParent(outFile));
-                        }
+                        getFileHandler().createFile(outFile);
+                    }
 
-                        if (!getFileHandler().exists(outFile))
+                    try (OutputStream out = getFileHandler().getOutputStream(outFile))
+                    {
+                        int read;
+                        while ((read = inputStream.read(buffer)) > 0)
                         {
-                            getFileHandler().createFile(outFile);
-                        }
-
-                        try (OutputStream out = getFileHandler().getOutputStream(outFile))
-                        {
-                            int read;
-                            while ((read = inputStream.read(buffer)) > 0)
-                            {
-                                out.write(buffer, 0, read);
-                            }
+                            out.write(buffer, 0, read);
                         }
                     }
                 }

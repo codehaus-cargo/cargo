@@ -20,7 +20,6 @@
 package org.codehaus.cargo.module.webapp.merge;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -333,20 +332,10 @@ public class MergedWarArchive implements WarArchive
     @Override
     public void expandToPath(String path) throws IOException
     {
-        expandToPath(path, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void expandToPath(String path, FileFilter filter) throws IOException
-    {
         for (MergeWarFileDetails details : this.warFiles)
         {
             WarArchive wa = details.getWarFile();
-
-            wa.expandToPath(path, filter);
+            wa.expandToPath(path);
         }
     }
 
