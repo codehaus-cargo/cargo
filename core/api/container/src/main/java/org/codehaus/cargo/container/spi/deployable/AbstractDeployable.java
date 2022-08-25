@@ -41,7 +41,7 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     private FileHandler fileHandler;
 
     /**
-     * @param file the location of the deploybale file being wrapped.
+     * @param file the location of the deployable file being wrapped.
      */
     public AbstractDeployable(String file)
     {
@@ -123,12 +123,62 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     public String getName()
     {
         String name = getFileHandler().getName(getFile());
-        int nameIndex = name.toLowerCase().lastIndexOf('.');
+        int nameIndex = name.lastIndexOf('.');
         if (nameIndex >= 0)
         {
             name = name.substring(0, nameIndex);
         }
         return name;
+    }
+
+    /**
+     * {@inheritDoc}<br>
+     * <br>
+     * Default value is the Deployable file name.
+     */
+    @Override
+    public String getFilename()
+    {
+        return getFileHandler().getName(getFile());
+    }
+
+    /**
+     * Sanitize a given name to turn it into a safe {@link #getFilename()}. This includes, for
+     * example, removing slashes.
+     * @param filename name to sanitize
+     * @return sanitized name
+     */
+    public String sanitizeFilename(String filename)
+    {
+        String sanitizedFilename = filename.replace('\\', '/');
+
+        if (sanitizedFilename.startsWith("/"))
+        {
+            getLogger().info(
+                "The deployable [" + getName()
+                    + "] has trailing slashes, removing for the sanitized file name",
+                        this.getClass().getName());
+            sanitizedFilename = sanitizedFilename.replaceAll("^/+", "");
+        }
+
+        if (sanitizedFilename.endsWith("/"))
+        {
+            getLogger().info(
+                "The deployable [" + getName()
+                    + "] has ending slashes, removing for the sanitized file name",
+                        this.getClass().getName());
+            sanitizedFilename = sanitizedFilename.replaceAll("/+$", "");
+        }
+
+        if (sanitizedFilename.contains("/"))
+        {
+            getLogger().info(
+                "The deployable [" + getName() + "] has intermediate slashes, replacing with dash",
+                    this.getClass().getName());
+            sanitizedFilename = sanitizedFilename.replace('/', '-');
+        }
+
+        return sanitizedFilename.trim();
     }
 
     /**

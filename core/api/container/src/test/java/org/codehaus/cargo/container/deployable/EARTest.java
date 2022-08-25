@@ -40,7 +40,7 @@ public class EARTest extends TestCase
      */
     public void testGetNameWhenEarHasNoExtension()
     {
-        EAR ear = new EAR("/some/path/to/ejb/test");
+        EAR ear = new EAR("/some/path/to/ear/test");
         assertEquals("test", ear.getName());
     }
 

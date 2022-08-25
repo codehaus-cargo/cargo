@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableException;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 import org.codehaus.cargo.util.XmlUtils;
@@ -323,40 +322,18 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer extends
      */
     protected String createIdForDeployable(Deployable deployable)
     {
-        String name = null;
-        // TODO this code should be moved into the deployable objects themselves, as they
-        // are better responsible for their name.
-        if (deployable.getType() == DeployableType.WAR)
-        {
-            name = ((WAR) deployable).getContext();
-        }
-        else if (deployable.getType() == DeployableType.EAR)
-        {
-            name = ((EAR) deployable).getName();
-        }
-        else if (deployable.getType() == DeployableType.EJB
+        if (deployable.getType() == DeployableType.WAR
+            || deployable.getType() == DeployableType.EAR
+            ||  deployable.getType() == DeployableType.EJB
             || deployable.getType() == DeployableType.RAR)
         {
-            name = createIdFromFileName(deployable);
+            return deployable.getFilename();
         }
         else
         {
             throw new DeployableException("name extraction for " + deployable.getType()
                 + " not currently supported");
         }
-        return name;
-    }
-
-    /**
-     * Get a string name for the configuration of this deployable based on its filename.
-     * 
-     * @param deployable used to construct the id
-     * @return a string that can be used to name this configuration
-     */
-    protected String createIdFromFileName(Deployable deployable)
-    {
-        File file = new File(deployable.getFile());
-        return file.getName();
     }
 
     /**

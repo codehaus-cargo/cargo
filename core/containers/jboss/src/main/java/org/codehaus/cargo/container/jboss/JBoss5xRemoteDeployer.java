@@ -30,7 +30,6 @@ import java.net.URLClassLoader;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
 import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.jboss.internal.IJBossProfileManagerDeployer;
@@ -234,34 +233,22 @@ public class JBoss5xRemoteDeployer extends AbstractRemoteDeployer
      */
     private String getDeployableName(Deployable deployable)
     {
-        File localFile = new File(deployable.getFile());
-        String localFileName = localFile.getName();
-        if (deployable instanceof WAR)
+        if (deployable instanceof JBossWAR)
         {
-            if (deployable instanceof JBossWAR)
+            JBossWAR jbossWar = (JBossWAR) deployable;
+            if (jbossWar.containsJBossWebContext())
             {
-                JBossWAR jbossWar = (JBossWAR) deployable;
-                if (jbossWar.containsJBossWebContext())
+                jbossWar.informJBossWebContext(getLogger());
+                if ("true".equalsIgnoreCase(getContainer().getConfiguration().getPropertyValue(
+                    JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME)))
                 {
-                    jbossWar.informJBossWebContext(getLogger());
-                    if ("true".equalsIgnoreCase(getContainer().getConfiguration().getPropertyValue(
-                        JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME)))
-                    {
-                        // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
-                        //             in the jboss-web.xml file, keep the original WAR file name
-                        return localFileName;
-                    }
+                    // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
+                    //             in the jboss-web.xml file, keep the original WAR file name
+                    return jbossWar.getFileHandler().getName(jbossWar.getFile());
                 }
             }
-            WAR war = (WAR) deployable;
-            String context = war.getContext();
-            if ("".equals(context) || "/".equals(context))
-            {
-                context = "ROOT";
-            }
-            localFileName = context + ".war";
         }
 
-        return localFileName;
+        return deployable.getFilename();
     }
 }

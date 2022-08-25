@@ -194,20 +194,14 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
             if (deployable.getType() == DeployableType.WAR)
             {
                 WAR war = (WAR) deployable;
-                String context = war.getContext();
-                getLogger().info("Undeploying context [" + context + "] from [" + deployableDir
-                    + "]...", this.getClass().getName());
-                if ("".equals(context) || "/".equals(context))
-                {
-                    getLogger().info(
-                        "The WAR file has its context set to / and will therefore be "
-                            + "deployed as ROOT.war", this.getClass().getName());
-                    context = "ROOT";
-                }
+                getLogger().info("Undeploying context [" + war.getContext() + "] from ["
+                    + deployableDir + "]...", this.getClass().getName());
 
                 // Delete both the WAR file or the expanded WAR directory.
-                String warLocation = getFileHandler().append(deployableDir, context + ".war");
-                String expandedwarLocation = getFileHandler().append(deployableDir, context);
+                String warLocation =
+                    getFileHandler().append(deployableDir, war.getBaseFilename() + ".war");
+                String expandedwarLocation =
+                    getFileHandler().append(deployableDir, war.getBaseFilename());
 
                 if (!getFileHandler().exists(warLocation)
                     && !getFileHandler().exists(expandedwarLocation))

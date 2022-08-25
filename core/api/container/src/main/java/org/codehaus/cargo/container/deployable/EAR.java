@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployablewithSettableName;
 import org.codehaus.cargo.module.application.ApplicationXml;
 import org.codehaus.cargo.module.application.DefaultEarArchive;
 import org.codehaus.cargo.module.application.EarArchive;
@@ -33,14 +33,8 @@ import org.codehaus.cargo.module.application.EarArchive;
 /**
  * Wraps an EAR file that will be deployed in the container.
  */
-public class EAR extends AbstractDeployable
+public class EAR extends AbstractDeployablewithSettableName
 {
-    /**
-     * The name of this deployable (it can be anything, there's no special rule). If not specified
-     * by user, it is computed from the EAR's file name (removing the filename extension).
-     */
-    private String name;
-
     /**
      * List of webapps that have been found during parsing inside the wrapped EAR.
      */
@@ -53,29 +47,6 @@ public class EAR extends AbstractDeployable
     public EAR(String ear)
     {
         super(ear);
-    }
-
-    /**
-     * Parse the EAR file name to set up the EAR name. The parsing occurs only if the user has not
-     * already specified a custom name.
-     * 
-     * @see #setName(String)
-     */
-    private void parseName()
-    {
-        if (this.name == null)
-        {
-            String name = getFileHandler().getName(getFile());
-            int nameIndex = name.toLowerCase().lastIndexOf(".ear");
-            if (nameIndex >= 0)
-            {
-                name = name.substring(0, nameIndex);
-            }
-
-            getLogger().debug("Parsed EAR name = [" + name + "]", this.getClass().getName());
-
-            setName(name);
-        }
     }
 
     /**
@@ -121,27 +92,6 @@ public class EAR extends AbstractDeployable
             }
             this.webapps = webapps;
         }
-    }
-
-    /**
-     * Sets the name of this deployable. It can be anything (there's no special rule).
-     * @param name the name of this deployable
-     */
-    public synchronized void setName(String name)
-    {
-        this.name = name;
-    }
-
-    /**
-     * Returns the name of this deployable. If not specified by user, it is computed from the
-     * EAR's file name (removing the filename extension).
-     * @return the name of this deployable
-     */
-    @Override
-    public synchronized String getName()
-    {
-        parseName();
-        return this.name;
     }
 
     /**

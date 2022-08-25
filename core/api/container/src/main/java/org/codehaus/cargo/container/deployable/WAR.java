@@ -156,4 +156,41 @@ public class WAR extends AbstractDeployable
     {
         return getContext();
     }
+
+    /**
+     * Similar to {@link #getFilename()}, without the <code>.war</code> extension.
+     * @return The file or directory name for this WAR, taking into account the context.
+     */
+    public String getBaseFilename()
+    {
+        String baseFilename = this.getContext();
+        if ("".equals(baseFilename) || baseFilename.matches("/+"))
+        {
+            getLogger().info(
+                "The WAR file has its context set to / and will therefore be "
+                    + "deployed as ROOT.war", this.getClass().getName());
+            baseFilename = "ROOT";
+        }
+        else
+        {
+            baseFilename = sanitizeFilename(baseFilename);
+        }
+        return baseFilename;
+    }
+
+    /**
+     * {@inheritDoc}<br>
+     * <br>
+     * Value is calculated based on the WAR context and whether it is expanded or not.
+     */
+    @Override
+    public String getFilename()
+    {
+        String filename = getBaseFilename();
+        if (!this.isExpanded())
+        {
+            filename = filename + ".war";
+        }
+        return filename;
+    }
 }

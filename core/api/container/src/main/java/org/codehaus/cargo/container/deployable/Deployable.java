@@ -46,4 +46,12 @@ public interface Deployable extends Loggable
      * See CARGO-1352.
      */
     String getName();
+
+    /**
+     * Deployable file name, taking into account the {@link #getName()}, including any
+     * deployable-specific aspects of it, and the escaping in order to avoid unwanted file system
+     * actions (for example, ensuring the file name contains no slashes).
+     * @return The file or directory name for this deployable.
+     */
+    String getFilename();
 }

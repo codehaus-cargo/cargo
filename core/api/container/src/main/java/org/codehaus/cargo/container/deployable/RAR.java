@@ -19,20 +19,13 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployablewithSettableName;
 
 /**
  * Wraps a RAR file that will be deployed in the container.
  */
-public class RAR extends AbstractDeployable
+public class RAR extends AbstractDeployablewithSettableName
 {
-
-    /**
-     * The name of this deployable (it can be anything, there's no special rule). If not specified
-     * by user, it is computed from the RAR's file name (removing the filename extension).
-     */
-    private String name;
-
     /**
      * @param rar the location of the RAR being wrapped.
      */
@@ -42,56 +35,12 @@ public class RAR extends AbstractDeployable
     }
 
     /**
-     * Parse the file name to set up the RAR name. The parsing occurs only if the user has not
-     * already specified a custom name.
-     * 
-     * @see #setName(String)
-     */
-    private void parseName()
-    {
-        if (this.name == null)
-        {
-            String name = getFileHandler().getName(getFile());
-            int nameIndex = name.toLowerCase().lastIndexOf(".rar");
-            if (nameIndex >= 0)
-            {
-                name = name.substring(0, nameIndex);
-            }
-
-            getLogger().debug("Parsed RAR name = [" + name + "]", this.getClass().getName());
-
-            setName(name);
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public DeployableType getType()
     {
         return DeployableType.RAR;
-    }
-
-    /**
-     * Sets the name of this deployable. It can be anything (there's no special rule).
-     * @param name the name of this deployable
-     */
-    public synchronized void setName(String name)
-    {
-        this.name = name;
-    }
-
-    /**
-     * Returns the name of this deployable. If not specified by user, it is computed from the
-     * RAR's file name (removing the filename extension).
-     * @return the name of this deployable
-     */
-    @Override
-    public synchronized String getName()
-    {
-        parseName();
-        return this.name;
     }
 
 }

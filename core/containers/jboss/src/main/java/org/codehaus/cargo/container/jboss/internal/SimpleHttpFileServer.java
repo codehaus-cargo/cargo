@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,7 +33,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.util.CargoException;
@@ -376,33 +374,21 @@ public class SimpleHttpFileServer implements Runnable, ISimpleHttpFileServer
      */
     private String getDeployableName(Deployable deployable, String keepOriginalWarFilename)
     {
-        File localFile = new File(deployable.getFile());
-        String localFileName = localFile.getName();
-        if (deployable instanceof WAR)
+        if (deployable instanceof JBossWAR)
         {
-            if (deployable instanceof JBossWAR)
+            JBossWAR jbossWar = (JBossWAR) deployable;
+            if (jbossWar.containsJBossWebContext())
             {
-                JBossWAR jbossWar = (JBossWAR) deployable;
-                if (jbossWar.containsJBossWebContext())
+                jbossWar.informJBossWebContext(this.logger);
+                if ("true".equalsIgnoreCase(keepOriginalWarFilename))
                 {
-                    jbossWar.informJBossWebContext(this.logger);
-                    if ("true".equalsIgnoreCase(keepOriginalWarFilename))
-                    {
-                        // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
-                        //             in the jboss-web.xml file, keep the original WAR file name
-                        return localFileName;
-                    }
+                    // CARGO-1577: When the JBoss or WildFly WAR file has the context root set
+                    //             in the jboss-web.xml file, keep the original WAR file name
+                    return jbossWar.getFileHandler().getName(jbossWar.getFile());
                 }
             }
-            WAR war = (WAR) deployable;
-            String context = war.getContext();
-            if ("".equals(context) || "/".equals(context))
-            {
-                context = "ROOT";
-            }
-            localFileName = context + ".war";
         }
 
-        return localFileName;
+        return deployable.getFilename();
     }
 }

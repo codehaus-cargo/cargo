@@ -181,14 +181,14 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
         String xml = this.xmlUtil.toString(domain);
         try
         {
-            XMLAssert.assertXpathEvaluatesTo("cargo",
+            XMLAssert.assertXpathEvaluatesTo("cargo.war",
                 "//weblogic:app-deployment/weblogic:name", xml);
             XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
                 "//weblogic:app-deployment/weblogic:source-path", xml);
         }
         catch (Throwable t)
         {
-            XMLAssert.assertXpathEvaluatesTo("cargo",
+            XMLAssert.assertXpathEvaluatesTo("cargo.war",
                 "//app-deployment/name", xml);
             XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
                 "//app-deployment/source-path", xml);
@@ -231,7 +231,7 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
     {
         WAR war = createWar();
         String name = deployer.createIdForDeployable(war);
-        assertEquals("cargo", name);
+        assertEquals("cargo.war", name);
     }
 
     /**
@@ -253,7 +253,7 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
     {
         EAR ear = createEAR();
         String name = deployer.createIdForDeployable(ear);
-        assertEquals("cargo.war", name);
+        assertEquals("cargo.ear", name);
     }
 
     /**
@@ -264,7 +264,7 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
     {
         RAR rar = createRAR();
         String name = deployer.createIdForDeployable(rar);
-        assertEquals("cargo.war", name);
+        assertEquals("cargo.rar", name);
     }
 
     /**
@@ -327,7 +327,7 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
      */
     private EAR createEAR() throws Exception
     {
-        // Current implementation of EJB does not validate
+        // Current implementation of EAR does not validate
         // the type of file in any way. As such, we can re-use WAR
         // logic until this code is broken, or reimplemented as mocks
         WAR war = createWar();
@@ -369,16 +369,6 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
         {
             fail("wrong exception type: " + e);
         }
-    }
-
-    /**
-     * Test deployable name construction.
-     * @throws Exception If anything goes wrong.
-     */
-    public void testBuildDeployableNameFromFile() throws Exception
-    {
-        File file = createFile();
-        assertEquals("cargo.war", deployer.createIdFromFileName(file));
     }
 
     /**

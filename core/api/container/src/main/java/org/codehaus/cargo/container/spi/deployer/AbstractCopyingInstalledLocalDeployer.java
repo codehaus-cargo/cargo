@@ -31,7 +31,6 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
-import org.codehaus.cargo.container.deployable.RAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
 
@@ -270,60 +269,6 @@ public abstract class AbstractCopyingInstalledLocalDeployer extends
      */
     protected String getDeployableName(Deployable deployable)
     {
-        String deployableName;
-        if (DeployableType.WAR.equals(deployable.getType()))
-        {
-            WAR war = (WAR) deployable;
-            String context = war.getContext();
-            if ("".equals(context) || "/".equals(context))
-            {
-                getLogger().info(
-                    "The WAR file has its context set to / and will therefore be "
-                        + "deployed as ROOT.war", this.getClass().getName());
-                context = "ROOT";
-            }
-            if (war.isExpanded())
-            {
-                deployableName = context;
-            }
-            else
-            {
-                deployableName = context + ".war";
-            }
-        }
-        else if (DeployableType.EAR.equals(deployable.getType()))
-        {
-            // CARGO-598: If the EAR has a name property, use that one instead of file name
-            EAR ear = (EAR) deployable;
-            String earName = ear.getName();
-            if (earName == null || "".equals(earName))
-            {
-                earName = getFileHandler().getName(ear.getFile());
-            }
-            if (!earName.toLowerCase().endsWith(".ear"))
-            {
-                earName = earName + ".ear";
-            }
-            deployableName = earName;
-        }
-        else if (DeployableType.RAR.equals(deployable.getType()))
-        {
-            RAR rar = (RAR) deployable;
-            String rarName = rar.getName();
-            if (rarName == null || "".equals(rarName))
-            {
-                rarName = getFileHandler().getName(rar.getFile());
-            }
-            if (!rarName.toLowerCase().endsWith(".rar"))
-            {
-                rarName = rarName + ".rar";
-            }
-            deployableName = rarName;
-        }
-        else
-        {
-            deployableName = getFileHandler().getName(deployable.getFile());
-        }
-        return deployableName;
+        return deployable.getFilename();
     }
 }
