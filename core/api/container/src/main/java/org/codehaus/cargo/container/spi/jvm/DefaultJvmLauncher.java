@@ -564,7 +564,7 @@ public class DefaultJvmLauncher implements JvmLauncher
                 Field f = process.getClass().getDeclaredField("pid");
                 f.setAccessible(true);
                 int pid = f.getInt(process);
-                Runtime.getRuntime().exec("kill -9 " + pid);
+                Runtime.getRuntime().exec(new String[] {"kill", "-9", Integer.toString(pid)});
             }
             catch (Throwable e)
             {
@@ -584,7 +584,8 @@ public class DefaultJvmLauncher implements JvmLauncher
                 HANDLE handle = new HANDLE();
                 handle.setPointer(Pointer.createConstant(handleId));
                 int pid = kernel.GetProcessId(handle);
-                Runtime.getRuntime().exec("taskkill /PID " + pid + " /F");
+                Runtime.getRuntime().exec(
+                    new String[] {"taskkill", "/PID", Integer.toString(pid), "/F"});
             }
             catch (Throwable e)
             {
