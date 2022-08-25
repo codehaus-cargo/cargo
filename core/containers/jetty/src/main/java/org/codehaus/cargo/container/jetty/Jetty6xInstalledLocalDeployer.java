@@ -88,8 +88,15 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             // - ability to accelerate deployment by avoiding an actual copy of the WAR
             String contextDir = getContextsDir();
             String contextFile = war.getFilename();
-            contextFile = getFileHandler().append(contextDir,
-                contextFile.substring(0, contextFile.length() - 3) + "xml");
+            if (war.isExpanded())
+            {
+                contextFile = contextFile + ".xml";
+            }
+            else
+            {
+                contextFile = contextFile.substring(0, contextFile.length() - 3) + "xml";
+            }
+            contextFile = getFileHandler().append(contextDir, contextFile);
             getFileHandler().createFile(contextFile);
 
             getLogger().info("Deploying WAR by creating Jetty context XML file in [" + contextFile
