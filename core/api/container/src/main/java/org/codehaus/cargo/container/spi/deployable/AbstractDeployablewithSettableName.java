@@ -48,7 +48,7 @@ public abstract class AbstractDeployablewithSettableName extends AbstractDeploya
      */
     public void setName(String name)
     {
-        if (name == null || sanitizeFilename(name).isEmpty())
+        if (name == null || DefaultFileHandler.sanitizeFilename(name, getLogger()).isEmpty())
         {
             throw new NullPointerException("Custom deployable name cannot be null or empty");
         }

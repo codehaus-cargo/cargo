@@ -90,4 +90,13 @@ public class CustomType implements Deployable
     {
         return null;
     }
+
+    /**
+     * @return <code>null</code>
+     */
+    @Override
+    public String getFilename()
+    {
+        return null;
+    }
 }
