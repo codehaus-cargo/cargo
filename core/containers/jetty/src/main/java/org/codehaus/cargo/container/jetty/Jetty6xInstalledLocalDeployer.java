@@ -87,7 +87,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             // - ability to tell Jetty to install the WAR under a given context name
             // - ability to accelerate deployment by avoiding an actual copy of the WAR
             String contextDir = getContextsDir();
-            String contextFile = war.getFilename();
+            String contextFile = war.getFilename().replace('/', '-');
             if (war.isExpanded())
             {
                 contextFile = contextFile + ".xml";
