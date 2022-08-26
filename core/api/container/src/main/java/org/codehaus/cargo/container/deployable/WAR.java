@@ -165,7 +165,9 @@ public class WAR extends AbstractDeployable
     public String getBaseFilename()
     {
         String baseFilename = this.getContext();
-        if ("".equals(baseFilename) || baseFilename.matches("/+"))
+
+        // First check for ROOT here, before sanitizing, in case the / path was set "normally"
+        if (baseFilename == null || baseFilename.trim().isEmpty() || baseFilename.matches("/+"))
         {
             getLogger().info(
                 "The WAR file has its context set to / and will therefore be "
@@ -176,6 +178,16 @@ public class WAR extends AbstractDeployable
         {
             baseFilename = DefaultFileHandler.sanitizeFilename(baseFilename, getLogger());
         }
+
+        // Also check for ROOT after sanitizing file name
+        if (baseFilename.trim().isEmpty() || baseFilename.matches("/+"))
+        {
+            getLogger().info(
+                "The WAR file has its sanitized context set to [" + baseFilename
+                    + "] and will therefore be deployed as ROOT.war", this.getClass().getName());
+            baseFilename = "ROOT";
+        }
+
         return baseFilename;
     }
 

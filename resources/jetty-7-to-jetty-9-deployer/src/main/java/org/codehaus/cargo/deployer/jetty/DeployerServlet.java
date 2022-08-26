@@ -279,16 +279,8 @@ public class DeployerServlet extends HttpServlet
             this.logger.debug(
                 "trying to get the remote web archive for context " + contextPath, null);
 
-            String webappFileName = contextPath;
-            if (webappFileName.equals("/"))
-            {
-                webappFileName = "ROOT";
-            }
-            else
-            {
-                webappFileName = webappFileName.replaceAll("\\W", "-");
-            }
-            File webappFile = new File(this.webAppDirectory, webappFileName + ".war");
+            File webappFile = new File(
+                this.webAppDirectory, getWebAppFilename(contextPath) + ".war");
 
             InputStream inputStream = new BufferedInputStream(request.getInputStream());
             OutputStream outputStream =
@@ -341,18 +333,7 @@ public class DeployerServlet extends HttpServlet
      */
     protected File getFile(String contextPath)
     {
-        String fileName;
-        // the contextPath should always begin with a forward slash but adding
-        // this logic if case of future modifications and to prevent a NPE.
-        int slashPos = contextPath.indexOf('/');
-        if (slashPos >= 0)
-        {
-            fileName = contextPath.substring(slashPos + 1);
-        }
-        else
-        {
-            fileName = contextPath;
-        }
+        String fileName = getWebAppFilename(contextPath);
 
         File webappArchive = new File(webAppDirectory, fileName + ".war");
         File webappDirectory = new File(webAppDirectory, fileName);
@@ -442,7 +423,7 @@ public class DeployerServlet extends HttpServlet
         else
         {
             String webappDestLocation = webAppDirectory + context + ".war";
-            File webappDest = new File(webappDestLocation);
+            File webappDest = new File(webAppDirectory, getWebAppFilename(context) + ".war");
 
             URI uri = null;
             try
@@ -596,6 +577,30 @@ public class DeployerServlet extends HttpServlet
         {
             webAppFile.delete();
         }
+    }
+
+    /**
+     * Returns the webapp file name for a given context.
+     * @param context The webapp context
+     * @return The file name (without extension) for the provided webapp context, filtering out
+     * all non-word characters
+     */
+    protected String getWebAppFilename(String context)
+    {
+        String webappFileName = context;
+        if (webappFileName == null || webappFileName.trim().isEmpty()
+            || webappFileName.matches("/+"))
+        {
+            webappFileName = "ROOT";
+        }
+        else
+        {
+            webappFileName = webappFileName.replace('\\', '/');
+            webappFileName = webappFileName.replaceAll("^\\/+", "");
+            webappFileName = webappFileName.replaceAll("\\/+$", "");
+            webappFileName = webappFileName.replaceAll("\\W", "-");
+        }
+        return webappFileName;
     }
 
     /**
