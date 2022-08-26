@@ -864,6 +864,12 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public void createFile(String file)
     {
+        String parent = getParent(file);
+        if (!isDirectory(parent))
+        {
+            mkdirs(parent);
+        }
+
         try
         {
             // If the file already exists, createNewFile() returns false but we ignore it as
@@ -882,7 +888,12 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     @Override
     public boolean isDirectoryEmpty(String dir)
     {
-        return new File(dir).list().length == 0;
+        File directory = new File(dir);
+        if (!directory.isDirectory())
+        {
+            throw new CargoException("Path [" + dir + "] does not exist or is not a directory");
+        }
+        return directory.list().length == 0;
     }
 
     /**
