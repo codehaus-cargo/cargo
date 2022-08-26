@@ -64,9 +64,9 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             new CargoTestSuite(
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
-        // We exclude Geronimo, JBoss, WildFly 14.x onwards and GlassFish 7.x (at least, during its
-        // current milestone phase) as these doesn't support XA transaction emulation the way
-        // Codehaus Cargo tests it
+        // We exclude Geronimo, JBoss, WildFly 10.x and WilFly 14.x onwards and GlassFish 7.x
+        // (at least, during its current milestone phase) as these doesn't support XA transaction
+        // emulation the way Codehaus Cargo tests it
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("geronimo3x");
@@ -84,6 +84,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("jboss73x");
         excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("jboss75x");
+        excludedContainerIds.add("wildfly10x");
         excludedContainerIds.add("wildfly14x");
         excludedContainerIds.add("wildfly15x");
         excludedContainerIds.add("wildfly16x");
