@@ -393,6 +393,7 @@ public class DeployerServlet extends HttpServlet
         // war's name
         if (context == null)
         {
+            // Security note: Uncontrolled data used in path expression not relevant, we don't output
             File file = new File(warURL);
             String fileName = file.getName();
             if (fileName.endsWith(".war"))
