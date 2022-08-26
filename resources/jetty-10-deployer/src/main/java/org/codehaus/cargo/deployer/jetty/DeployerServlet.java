@@ -385,7 +385,8 @@ public class DeployerServlet extends HttpServlet
         // war's name
         if (context == null)
         {
-            // Security note: Uncontrolled data used in path expression not relevant, we don't output
+            // Security note: Uncontrolled data used in path expression not relevant,
+            //                we don't write any data
             File file = new File(warURL);
             String fileName = file.getName();
             if (fileName.endsWith(".war"))
@@ -430,6 +431,8 @@ public class DeployerServlet extends HttpServlet
                 return;
             }
 
+            // Security note: Uncontrolled data used in path expression not avoidable,
+            //                we need to read the source file requested
             File webappSource = new File(uri);
 
             FileInputStream fileInputStream = new FileInputStream(webappSource);
