@@ -357,7 +357,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "  </servlet>"
             + "  <servlet-mapping>"
             + "    <servlet-name>s1</servlet-name>"
-            + "    <url-pattern>/s1</url-pattern>"
+            + "    <url-pattern>/u1</url-pattern>"
+            + "    <url-pattern>/u2</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
         WebXml srcWebXml = WebXmlIo.parseWebXml(
@@ -369,7 +370,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             + "  </servlet>"
             + "  <servlet-mapping>"
             + "    <servlet-name>s1</servlet-name>"
-            + "    <url-pattern>/s1</url-pattern>"
+            + "    <url-pattern>/u2</url-pattern>"
+            + "    <url-pattern>/u3</url-pattern>"
             + "  </servlet-mapping>"
             + "</web-app>";
         WebXml mergeWebXml = WebXmlIo.parseWebXml(
@@ -378,8 +380,10 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         merger.merge(mergeWebXml);
         assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
-        assertEquals(1, servletMappings.size());
-        assertEquals("/s1", servletMappings.get(0));
+        assertEquals(3, servletMappings.size());
+        assertEquals("/u1", servletMappings.get(0));
+        assertEquals("/u2", servletMappings.get(1));
+        assertEquals("/u3", servletMappings.get(2));
     }
 
 }

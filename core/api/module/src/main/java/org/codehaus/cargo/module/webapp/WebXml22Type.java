@@ -31,6 +31,7 @@ import org.codehaus.cargo.module.webapp.elements.Listener;
 import org.codehaus.cargo.module.webapp.elements.MimeMapping;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
+import org.codehaus.cargo.module.webapp.elements.ServletMapping;
 
 /**
  * Web 2.2 Descriptor.
@@ -72,7 +73,8 @@ public class WebXml22Type extends WebXmlType
             new WebXmlTag(this, "servlet-class"),
             new WebXmlTag(this, "load-on-startup"),
             new WebXmlTag(this, "run-as"),
-            new WebXmlTag(this, "servlet-mapping"),
+            new WebXmlTag(this, "servlet-mapping", true, new Identifier("servlet-name"),
+                ServletMapping.class),
             new WebXmlTag(this, "url-pattern"),
             new WebXmlTag(this, "session-config", false),
             new WebXmlTag(this, "mime-mapping", false, null, MimeMapping.class),

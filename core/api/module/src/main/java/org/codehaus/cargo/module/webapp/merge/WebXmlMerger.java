@@ -34,7 +34,6 @@ import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
 import org.codehaus.cargo.module.webapp.WebXmlVersion;
-import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.module.webapp.elements.MimeMapping;
 import org.codehaus.cargo.util.CargoException;
 import org.jdom2.Element;
@@ -70,6 +69,8 @@ public class WebXmlMerger extends XmlMerger
             WebXmlType.FILTER_MAPPING, DescriptorMergerByTag.IGNORE);
         descriptorMergerByTag.setStrategy(
             WebXmlType.SERVLET, DescriptorMergerByTag.IGNORE);
+        descriptorMergerByTag.setStrategy(
+            WebXmlType.SERVLET_MAPPING, DescriptorMergerByTag.IGNORE);
         descriptorMergerByTag.setStrategy(
             WebXmlType.MIME_MAPPING, DescriptorMergerByTag.IGNORE);
 
@@ -121,7 +122,8 @@ public class WebXmlMerger extends XmlMerger
 
             super.merge(theMerge);
 
-            if (WebXmlVersion.V2_3.compareTo(this.webXml.getVersion()) <= 0)
+            WebXmlVersion version = this.webXml.getVersion();
+            if (version == null || WebXmlVersion.V2_3.compareTo(version) <= 0)
             {
                 mergeFilters(theMergeWebXml);
             }
@@ -184,52 +186,64 @@ public class WebXmlMerger extends XmlMerger
     }
 
     /**
-     * Merges the servlet definitions from the specified descriptor into the original descriptor.
+     * Merges the filter definitions from the specified descriptor into the original descriptor.
      * 
      * @param theWebXml The descriptor that contains the filter definitions that are to be merged
      * into the original descriptor
      */
     protected final void mergeFilters(WebXml theWebXml)
     {
-        List<String> filterNames = WebXmlUtils.getFilterNames(theWebXml);
-        int count = 0;
-        for (String filterName : filterNames)
+        try
         {
-            if (!WebXmlUtils.hasFilter(webXml, filterName))
+            List<String> filterNames = WebXmlUtils.getFilterNames(theWebXml);
+            int count = 0;
+            for (String filterName : filterNames)
             {
-                WebXmlUtils.addFilter(this.webXml,
-                    WebXmlUtils.getFilter(theWebXml, filterName));
-            }
-            else
-            {
-                // merge the parameters
-                List<String> filterInitParamNames =
-                    WebXmlUtils.getFilterInitParamNames(theWebXml, filterName);
-                for (String paramName : filterInitParamNames)
+                if (!WebXmlUtils.hasFilter(this.webXml, filterName))
                 {
+                    WebXmlUtils.addFilter(this.webXml,
+                        WebXmlUtils.getFilter(theWebXml, filterName));
+                }
+                else
+                {
+                    // merge the parameters
                     List<String> existingInitParams =
                         WebXmlUtils.getFilterInitParamNames(this.webXml, filterName);
-                    if (!existingInitParams.contains(paramName))
+                    List<String> filterInitParamNames =
+                        WebXmlUtils.getFilterInitParamNames(theWebXml, filterName);
+                    for (String paramName : filterInitParamNames)
                     {
-                        String paramValue =
-                            WebXmlUtils.getFilterInitParam(theWebXml, filterName, paramName);
-                        WebXmlUtils.addFilterInitParam(this.webXml, filterName, paramName,
-                            paramValue);
+                        if (!existingInitParams.contains(paramName))
+                        {
+                            String paramValue =
+                                WebXmlUtils.getFilterInitParam(theWebXml, filterName, paramName);
+                            WebXmlUtils.addFilterInitParam(
+                                this.webXml, filterName, paramName, paramValue);
+                        }
                     }
                 }
+                // merge the mappings
+                List<String> existingFilterMappings =
+                    WebXmlUtils.getFilterMappings(this.webXml, filterName);
+                List<String> filterMappings =
+                    WebXmlUtils.getFilterMappings(theWebXml, filterName);
+                for (String urlPattern : filterMappings)
+                {
+                    if (!existingFilterMappings.contains(urlPattern))
+                    {
+                        WebXmlUtils.addFilterMapping(this.webXml, filterName, urlPattern);
+                    }
+                }
+                count++;
             }
-            // merge the mappings
-            List<FilterMapping> mappings =
-                WebXmlUtils.getFilterMappingElements(theWebXml, filterName);
-            for (FilterMapping mapping : mappings)
-            {
-                WebXmlUtils.addFilterMapping(this.webXml, mapping);
-            }
-            count++;
+            getLogger().debug("Merged " + count + " filter definition"
+                + (count != 1 ? "s " : " ") + "into the descriptor",
+                    this.getClass().getName());
         }
-        getLogger().debug("Merged " + count + " filter definition"
-            + (count != 1 ? "s " : " ") + "into the descriptor",
-            this.getClass().getName());
+        catch (Exception e)
+        {
+            throw new CargoException("Exception merging filter definitions", e);
+        }
     }
 
     /**
@@ -255,14 +269,19 @@ public class WebXmlMerger extends XmlMerger
                 else
                 {
                     // merge the parameters
+                    List<String> existingInitParams =
+                        WebXmlUtils.getServletInitParamNames(this.webXml, servletName);
                     List<String> servletInitParamNames =
                         WebXmlUtils.getServletInitParamNames(theWebXml, servletName);
                     for (String paramName : servletInitParamNames)
                     {
-                        String paramValue =
-                            WebXmlUtils.getServletInitParam(theWebXml, servletName, paramName);
-                        WebXmlUtils.addServletInitParam(this.webXml,
-                            servletName, paramName, paramValue);
+                        if (!existingInitParams.contains(paramName))
+                        {
+                            String paramValue =
+                                WebXmlUtils.getServletInitParam(theWebXml, servletName, paramName);
+                            WebXmlUtils.addServletInitParam(
+                                this.webXml, servletName, paramName, paramValue);
+                        }
                     }
                     String roleName =
                         WebXmlUtils.getServletRunAsRoleName(theWebXml, servletName);
@@ -272,12 +291,12 @@ public class WebXmlMerger extends XmlMerger
                     }
                 }
                 // merge the mappings
+                List<String> existingServletMappings =
+                    WebXmlUtils.getServletMappings(this.webXml, servletName);
                 List<String> servletMappings =
                     WebXmlUtils.getServletMappings(theWebXml, servletName);
                 for (String urlPattern : servletMappings)
                 {
-                    List<String> existingServletMappings =
-                        WebXmlUtils.getServletMappings(this.webXml, servletName);
                     if (!existingServletMappings.contains(urlPattern))
                     {
                         WebXmlUtils.addServletMapping(this.webXml, servletName, urlPattern);
@@ -287,7 +306,7 @@ public class WebXmlMerger extends XmlMerger
             }
             getLogger().debug("Merged " + count + " servlet definition"
                 + (count != 1 ? "s " : " ") + "into the descriptor",
-                this.getClass().getName());
+                    this.getClass().getName());
         }
         catch (Exception e)
         {
@@ -365,6 +384,6 @@ public class WebXmlMerger extends XmlMerger
 
         getLogger().debug("Merged " + count + " mime mapping definition"
             + (count != 1 ? "s " : " ") + "into the descriptor",
-            this.getClass().getName());
+                this.getClass().getName());
     }
 }

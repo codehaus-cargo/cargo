@@ -20,7 +20,7 @@
 package org.codehaus.cargo.module.webapp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.cargo.module.Descriptor;
@@ -31,6 +31,7 @@ import org.codehaus.cargo.module.webapp.elements.FilterMapping;
 import org.codehaus.cargo.module.webapp.elements.InitParam;
 import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
+import org.codehaus.cargo.module.webapp.elements.ServletMapping;
 import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
 import org.jdom2.Element;
 import org.jdom2.filter.ElementFilter;
@@ -87,15 +88,17 @@ public final class WebXmlUtils
             throw new NullPointerException();
         }
         List<String> filterMappings = new ArrayList<String>();
-        for (Element element : webXml.getTags(WebXmlType.FILTER_MAPPING))
+        List<Element> filterMappingElements = webXml.getElements(WebXmlType.FILTER_MAPPING);
+        for (Element filterMappingElement : filterMappingElements)
         {
-            FilterMapping filterMappingElement = (FilterMapping) element;
-            if (theFilterName.equals(filterMappingElement.getFilterName()))
+            if (theFilterName.equals(filterMappingElement.getChild(
+                WebXmlType.FILTER_NAME, filterMappingElement.getNamespace()).getText()))
             {
-                String urlPattern = filterMappingElement.getUrlPattern();
-                if (urlPattern != null)
+                List<Element> urlPatternElements = filterMappingElement.getChildren(
+                    WebXmlType.URL_PATTERN, filterMappingElement.getNamespace());
+                for (Element urlPatternElement : urlPatternElements)
                 {
-                    filterMappings.add(urlPattern);
+                    filterMappings.add(urlPatternElement.getText());
                 }
             }
         }
@@ -224,14 +227,22 @@ public final class WebXmlUtils
     {
         WebXmlElement element =
             (WebXmlElement) webXml.getTagByIdentifier(WebXmlType.FILTER, name);
-        List<Element> items = element.getChildren("init-param", element.getTag().getTagNamespace());
-        List<String> result = new ArrayList<String>(items.size());
-        for (Element item : items)
+        if (element != null)
         {
-            InitParam ip = (InitParam) item;
-            result.add(ip.getParamName());
+            List<Element> items =
+                element.getChildren("init-param", element.getTag().getTagNamespace());
+            List<String> result = new ArrayList<String>(items.size());
+            for (Element item : items)
+            {
+                InitParam ip = (InitParam) item;
+                result.add(ip.getParamName());
+            }
+            return result;
         }
-        return result;
+        else
+        {
+            return Collections.emptyList();
+        }
     }
 
     /**
@@ -365,14 +376,39 @@ public final class WebXmlUtils
             if (theServletName.equals(servletMappingElement.getChild(
                 WebXmlType.SERVLET_NAME, servletMappingElement.getNamespace()).getText()))
             {
-                String urlPattern =
-                    servletMappingElement.getChild(WebXmlType.URL_PATTERN,
-                        servletMappingElement.getNamespace())
-                        .getText();
-                if (urlPattern != null)
+                List<Element> urlPatternElements = servletMappingElement.getChildren(
+                    WebXmlType.URL_PATTERN, servletMappingElement.getNamespace());
+                for (Element urlPatternElement : urlPatternElements)
                 {
-                    servletMappings.add(urlPattern);
+                    servletMappings.add(urlPatternElement.getText());
                 }
+            }
+        }
+        return servletMappings;
+    }
+
+    /**
+     * Returns the servlet mappings that the specified servlet is mapped to in an ordered list. If
+     * there are no mappings for the specified servlet, an empty list is returned.
+     * 
+     * @param webXml The webXml file to use
+     * @param theServletName The name of the servlet of which the mappings should be retrieved
+     * @return An ordered list of the servlet elements
+     */
+    public static List<ServletMapping> getServletMappingElements(
+        WebXml webXml, String theServletName)
+    {
+        if (theServletName == null)
+        {
+            throw new NullPointerException();
+        }
+        List<ServletMapping> servletMappings = new ArrayList<ServletMapping>();
+        for (Element element : webXml.getTags(WebXmlType.SERVLET_MAPPING))
+        {
+            ServletMapping servletMappingElement = (ServletMapping) element;
+            if (theServletName.equals(servletMappingElement.getServletName()))
+            {
+                servletMappings.add(servletMappingElement);
             }
         }
         return servletMappings;
@@ -845,86 +881,35 @@ public final class WebXmlUtils
 
     /**
      * @param webXml The webXml file to use
-     * @param rhs The mapping to add
+     * @param theFilterName The name of the filter
+     * @param theUrlPattern the URL PAttern to add
      */
-    public static void addFilterMapping(WebXml webXml, FilterMapping rhs)
+    public static void addFilterMapping(WebXml webXml, String theFilterName,
+        String theUrlPattern)
     {
-        String filterName = rhs.getFilterName();
-
-        if (!hasFilter(webXml, filterName))
+        if (!hasFilter(webXml, theFilterName))
         {
-            throw new IllegalStateException("Filter '" + filterName + "' not defined");
+            throw new IllegalStateException("Filter '" + theFilterName + "' not defined");
         }
-
-        List<FilterMapping> mappings = WebXmlUtils.getFilterMappingElements(webXml,
-            filterName);
-
-        FilterMapping filterMappingElement = null;
-        for (FilterMapping mapping : mappings)
+        List<FilterMapping> filterMappings =
+            WebXmlUtils.getFilterMappingElements(webXml, theFilterName);
+        DescriptorElement filterMappingElement;
+        if (filterMappings.size() > 0)
         {
-            if (rhs.getUrlPattern() != null)
-            {
-                if (rhs.getUrlPattern().equals(mapping.getUrlPattern()))
-                {
-                    filterMappingElement = mapping;
-                    break;
-                }
-            }
-            else if (rhs.getServletName() != null)
-            {
-                if (rhs.getServletName().equals(mapping.getServletName()))
-                {
-                    filterMappingElement = mapping;
-                    break;
-                }
-            }
+            filterMappingElement = filterMappings.get(0);
         }
-
-        if (filterMappingElement == null)
+        else
         {
-            filterMappingElement = (FilterMapping) webXml.getDescriptorType()
-                    .getTagByName(WebXmlType.FILTER_MAPPING).create();
-
+            filterMappingElement =
+                webXml.getDescriptorType().getTagByName(WebXmlType.FILTER_MAPPING).create();
             filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-                WebXmlType.FILTER_NAME).create().setText(filterName));
-
-            String urlPattern = rhs.getUrlPattern();
-
-            if (urlPattern != null)
-            {
-                filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-                        WebXmlType.URL_PATTERN).create().setText(urlPattern));
-            }
-            else
-            {
-                // must be servlet name instead
-                String servletName = rhs.getServletName();
-                if (servletName == null)
-                {
-                    throw new IllegalStateException("Filter '" + filterName
-                            + "' has neither a servlet-name nor a url-pattern.");
-                }
-                filterMappingElement.setServletName(servletName);
-            }
+                WebXmlType.FILTER_NAME).create().setText(theFilterName));
+            webXml.addElement(
+                filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement());
         }
 
-        String[] dispatchers = rhs.getDispatchers();
-        List<String> filterMappingElementDispatchers =
-            Arrays.asList(filterMappingElement.getDispatchers());
-
-        if (dispatchers != null)
-        {
-            for (String dispatcher : dispatchers)
-            {
-                if (!filterMappingElementDispatchers.contains(dispatcher))
-                {
-                    filterMappingElement.addDispatcher(dispatcher);
-                }
-            }
-        }
-
-        webXml.addElement(filterMappingElement.getTag(), filterMappingElement, webXml
-                .getRootElement());
+        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+            WebXmlType.URL_PATTERN).create().setText(theUrlPattern));
     }
 
     /**
@@ -986,7 +971,7 @@ public final class WebXmlUtils
     /**
      * @param webXml The webXml file to use
      * @param theServletName The name of the servlet
-     * @param theUrlPattern the URL PAttern to add
+     * @param theUrlPattern the URL Pattern to add
      */
     public static void addServletMapping(WebXml webXml, String theServletName,
         String theUrlPattern)
@@ -995,18 +980,25 @@ public final class WebXmlUtils
         {
             throw new IllegalStateException("Servlet '" + theServletName + "' not defined");
         }
-        DescriptorElement servletMappingElement = webXml.getDescriptorType().getTagByName(
-            WebXmlType.SERVLET_MAPPING).create();
+        List<ServletMapping> servletMappings =
+            WebXmlUtils.getServletMappingElements(webXml, theServletName);
+        DescriptorElement servletMappingElement;
+        if (servletMappings.size() > 0)
+        {
+            servletMappingElement = servletMappings.get(0);
+        }
+        else
+        {
+            servletMappingElement =
+                webXml.getDescriptorType().getTagByName(WebXmlType.SERVLET_MAPPING).create();
+            servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+                WebXmlType.SERVLET_NAME).create().setText(theServletName));
+            webXml.addElement(
+                servletMappingElement.getTag(), servletMappingElement, webXml.getRootElement());
+        }
 
         servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-            WebXmlType.SERVLET_NAME).create().setText(
-            theServletName));
-        servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(
-            WebXmlType.URL_PATTERN).create().setText(
-            theUrlPattern));
-
-        webXml.addElement(servletMappingElement.getTag(), servletMappingElement, webXml
-                .getRootElement());
+            WebXmlType.URL_PATTERN).create().setText(theUrlPattern));
     }
 
     /**

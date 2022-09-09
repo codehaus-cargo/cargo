@@ -341,17 +341,17 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
 
-        Element servletElement = webXml.getTagByIdentifier(WebXmlType.FILTER, "f1");
-        assertNotNull(servletElement);
-        assertEquals("filter", servletElement.getName());
+        Element filterElement = webXml.getTagByIdentifier(WebXmlType.FILTER, "f1");
+        assertNotNull(filterElement);
+        assertEquals("filter", filterElement.getName());
         assertEquals("filter-name",
-            getFirstChild(servletElement).getName());
+            getFirstChild(filterElement).getName());
         assertEquals("f1",
-            getFirstChild(servletElement).getValue());
+            getFirstChild(filterElement).getValue());
         assertEquals("filter-class",
-            getLastChild(servletElement).getName());
+            getLastChild(filterElement).getName());
         assertEquals("fclass1",
-            getLastChild(servletElement).getValue());
+            getLastChild(filterElement).getValue());
     }
 
     /**

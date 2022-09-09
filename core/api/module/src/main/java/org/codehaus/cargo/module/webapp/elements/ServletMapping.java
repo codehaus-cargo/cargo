@@ -28,13 +28,13 @@ import org.jdom2.Element;
 
 /**
  */
-public class FilterMapping extends WebXmlElement
+public class ServletMapping extends WebXmlElement
 {
     /**
      * Constructor.
      * @param tag Web Xml Tag definition
      */
-    public FilterMapping(WebXmlTag tag)
+    public ServletMapping(WebXmlTag tag)
     {
         super(tag);
     }
@@ -68,22 +68,22 @@ public class FilterMapping extends WebXmlElement
     }
 
     /**
-     * Get the filter name.
-     * @return The filter name
+     * Get the servlet name.
+     * @return The servlet name
      */
-    public String getFilterName()
+    public String getServletName()
     {
-        Element e = getChild(WebXmlType.FILTER_NAME, this.getNamespace());
-        return e.getText();
+        Element e = getChild(WebXmlType.SERVLET_NAME, this.getNamespace());
+        return e == null ? null : e.getText();
     }
 
     /**
-     * Set the filter name.
-     * @param filterName The filter name
+     * Set the servlet name.
+     * @param servletName The servlet name
      */
-    public void setFilterName(String filterName)
+    public void setServletName(String servletName)
     {
-        Element e = child(WebXmlType.FILTER_NAME);
-        e.setText(filterName);
+        Element e = child(WebXmlType.SERVLET_NAME);
+        e.setText(servletName);
     }
 }

@@ -306,8 +306,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * Tests whether the same filter in two different files is mapped correctly
      * (i.e., once).
      * 
-     * @throws Exception
-     *             If an unexpected error occurs
+     * @throws Exception If an unexpected error occurs
      */
     public void testMergeSameFilterWithInitParamInTwoDocuments() throws Exception
     {
@@ -345,10 +344,60 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
         List<String> filterInitParamNames = WebXmlUtils.getFilterInitParamNames(srcWebXml, "f1");
         assertTrue(filterInitParamNames.size() == 1);
         assertEquals("fparamName", filterInitParamNames.get(0));
-        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml,
-                "f1");
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
         assertEquals(1, filterMappings.size());
         assertEquals("/f1mapping1", filterMappings.get(0));
+    }
+
+    /**
+     * Tests whether the same filter in two different files is mapped correctly
+     * (i.e., once), and that the different URL patterns are represented.
+     * 
+     * @throws Exception If an unexpected error occurs
+     */
+    public void testMergeSameFilterWithInitParamDifferentMappingInTwoDocuments() throws Exception
+    {
+        String srcXml = "<web-app>" + "  <filter>"
+                + "    <filter-name>f1</filter-name>"
+                + "    <filter-class>fclass1</filter-class>"
+                + "    <init-param>"
+                + "      <param-name>fparamName</param-name>"
+                + "      <param-value>fparamValue</param-value>"
+                + "    </init-param>"
+                + "  </filter>"
+                + "  <filter-mapping>"
+                + "    <filter-name>f1</filter-name>"
+                + "    <url-pattern>/f1mapping1</url-pattern>"
+                + "    <url-pattern>/f1mapping2</url-pattern>"
+                + "  </filter-mapping>" + "</web-app>";
+        WebXml srcWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
+        String mergeXml = "<web-app>" + "  <filter>"
+                + "    <filter-name>f1</filter-name>"
+                + "    <filter-class>fclass1</filter-class>"
+                + "    <init-param>"
+                + "      <param-name>fparamName</param-name>"
+                + "      <param-value>fparamValue</param-value>"
+                + "    </init-param>"
+                + "  </filter>"
+                + "  <filter-mapping>"
+                + "    <filter-name>f1</filter-name>"
+                + "    <url-pattern>/f1mapping2</url-pattern>"
+                + "    <url-pattern>/f1mapping3</url-pattern>"
+                + "  </filter-mapping>" + "</web-app>";
+        WebXml mergeWebXml = WebXmlIo.parseWebXml(
+            new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
+        WebXmlMerger merger = new WebXmlMerger(srcWebXml);
+        merger.mergeFilters(mergeWebXml);
+        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        List<String> filterInitParamNames = WebXmlUtils.getFilterInitParamNames(srcWebXml, "f1");
+        assertTrue(filterInitParamNames.size() == 1);
+        assertEquals("fparamName", filterInitParamNames.get(0));
+        List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
+        assertEquals(3, filterMappings.size());
+        assertEquals("/f1mapping1", filterMappings.get(0));
+        assertEquals("/f1mapping2", filterMappings.get(1));
+        assertEquals("/f1mapping3", filterMappings.get(2));
     }
 
     /**
