@@ -1190,7 +1190,6 @@
           <configuration>
             <source>${maven.compiler-java.version}</source>
             <target>${maven.compiler-java.version}</target>
-            <release>${maven.compiler-java.release}</release>
           </configuration>
         </plugin>
         <plugin>
@@ -1466,6 +1465,22 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <!--
+      See: https://issues.apache.org/jira/browse/MCOMPILER-339
+
+      TODO: Move this to the general maven-compiler-plugin once we upgrade the minimum JDK to 11,
+            or when the maven-compiler-plugin can manage the --release flag properly.
+      -->
+    <profile>
+      <id>javac-release</id>
+      <activation>
+        <jdk>[11,)</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.release>${maven.compiler-java.release}</maven.compiler.release>
+      </properties>
     </profile>
   </profiles>
 </project>
