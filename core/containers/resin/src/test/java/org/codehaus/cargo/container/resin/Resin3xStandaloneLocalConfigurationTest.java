@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.resin;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -133,8 +133,9 @@ public class Resin3xStandaloneLocalConfigurationTest extends
     protected void setUpDataSourceFile() throws Exception
     {
         String file = configuration.getHome() + "/conf/resin.conf";
+        // TODO: We cannot use StandardCharsets.UTF_8 due to the javac --release 6 constraint
         getFileHandler().writeTextFile(file, "<resin xmlns=\"http://caucho.com/ns/resin\" "
-            + "xmlns:resin=\"http://caucho.com/ns/resin/core\" />", StandardCharsets.UTF_8);
+            + "xmlns:resin=\"http://caucho.com/ns/resin/core\" />", Charset.forName("UTF-8"));
     }
 
     /**

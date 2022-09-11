@@ -49,6 +49,7 @@
         <configuration>
           <source>${maven.compiler-java.version}</source>
           <target>${maven.compiler-java.version}</target>
+          <release>${maven.compiler-java.release}</release>
         </configuration>
       </plugin>
       <plugin>

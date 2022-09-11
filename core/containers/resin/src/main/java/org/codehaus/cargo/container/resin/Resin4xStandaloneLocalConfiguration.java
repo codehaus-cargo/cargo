@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.resin;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import org.codehaus.cargo.container.Container;
@@ -51,6 +51,8 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
     protected void prepareConfigurationDirectory(Container container, String confDir)
         throws IOException
     {
+        // TODO: We cannot use StandardCharsets.UTF_8 due to the javac --release 6 constraint
+        Charset utf8 = Charset.forName("UTF-8");
         String sourceConf = getFileHandler().append(
             ((InstalledLocalContainer) container).getHome(), "conf");
 
@@ -69,8 +71,8 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
         replacements.put("<host id=\"\" root-directory=\".\">",
             "<host id=\"\" root-directory=\".\">\n"
             + createExpandedWarTokenValue("document-directory"));
-        getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.xml"),
-            replacements, StandardCharsets.UTF_8);
+        getFileHandler().replaceInFile(
+            getFileHandler().append(confDir, "resin.xml"), replacements, utf8);
         replacements.clear();
         replacements.put("<allow-servlet-el/>",
             "<allow-servlet-el/>\n"
@@ -82,12 +84,12 @@ public class Resin4xStandaloneLocalConfiguration extends Resin31xStandaloneLocal
                     + "<password-digest>none</password-digest>\n"
                 + "</init>\n"
             + "</authenticator>");
-        getFileHandler().replaceInFile(getFileHandler().append(confDir, "cluster-default.xml"),
-            replacements, StandardCharsets.UTF_8);
+        getFileHandler().replaceInFile(
+            getFileHandler().append(confDir, "cluster-default.xml"), replacements, utf8);
         replacements.clear();
         replacements.put("8080", getPropertyValue(ServletPropertySet.PORT));
-        getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.properties"),
-            replacements, StandardCharsets.UTF_8);
+        getFileHandler().replaceInFile(
+            getFileHandler().append(confDir, "resin.properties"), replacements, utf8);
 
         addXmlReplacement("conf/resin.xml", "//resin/log-handler[@name='']", "level",
             getResinLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));

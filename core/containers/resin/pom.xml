@@ -37,6 +37,7 @@
             <!-- ResinRun requires to be built with Java 6 -->
             <source>1.6</source>
             <target>1.6</target>
+            <release>6</release>
           </configuration>
         </plugin>
       </plugins>

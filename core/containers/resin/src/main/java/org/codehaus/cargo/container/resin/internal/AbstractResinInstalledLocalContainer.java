@@ -185,7 +185,9 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
             {
                 try
                 {
-                    classloader.close();
+                    // TODO: We cannot use URLClassLoader.close()
+                    //       due to the javac --release 6 constraint
+                    // classloader.close();
                 }
                 catch (Exception ignored)
                 {

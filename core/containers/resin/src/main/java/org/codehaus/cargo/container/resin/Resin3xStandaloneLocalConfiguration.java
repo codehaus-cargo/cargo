@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.resin;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,8 +162,10 @@ public class Resin3xStandaloneLocalConfiguration extends
         replacements.put("<host id=\"\" root-directory=\".\">",
             "<host id=\"\" root-directory=\".\">\n"
             + createExpandedWarTokenValue("document-directory"));
-        getFileHandler().replaceInFile(getFileHandler().append(confDir, "resin.conf"),
-                replacements, StandardCharsets.UTF_8);
+        // TODO: We cannot use StandardCharsets.UTF_8 due to the javac --release 6 constraint
+        getFileHandler().replaceInFile(
+            getFileHandler().append(confDir, "resin.conf"), replacements,
+                Charset.forName("UTF-8"));
 
         addXmlReplacement("conf/resin.conf", "//resin/log[@name='']", "level",
             getResinLoggingLevel(getPropertyValue(GeneralPropertySet.LOGGING)));

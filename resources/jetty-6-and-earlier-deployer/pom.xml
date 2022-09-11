@@ -56,6 +56,7 @@
             <!-- Build the Jetty deployers with Java 6 (oldest that the JDK 11 can do) -->
             <source>1.6</source>
             <target>1.6</target>
+            <release>6</release>
           </configuration>
         </plugin>
       </plugins>
