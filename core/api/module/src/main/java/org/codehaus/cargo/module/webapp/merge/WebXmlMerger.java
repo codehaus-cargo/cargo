@@ -222,7 +222,7 @@ public class WebXmlMerger extends XmlMerger
                         }
                     }
                 }
-                // merge the mappings
+                // merge the URL patterns
                 List<String> existingFilterMappings =
                     WebXmlUtils.getFilterMappings(this.webXml, filterName);
                 List<String> filterMappings =
@@ -232,6 +232,22 @@ public class WebXmlMerger extends XmlMerger
                     if (!existingFilterMappings.contains(urlPattern))
                     {
                         WebXmlUtils.addFilterMapping(this.webXml, filterName, urlPattern);
+                    }
+                }
+                WebXmlVersion version = this.webXml.getVersion();
+                if (version == null || WebXmlVersion.V2_4.compareTo(version) <= 0)
+                {
+                    // merge the dispatchers
+                    List<String> existingFilterDispatchers =
+                        WebXmlUtils.getFilterDispatchers(this.webXml, filterName);
+                    List<String> filterDispatchers =
+                        WebXmlUtils.getFilterDispatchers(theWebXml, filterName);
+                    for (String dispatcher : filterDispatchers)
+                    {
+                        if (!existingFilterDispatchers.contains(dispatcher))
+                        {
+                            WebXmlUtils.addFilterDispatcher(this.webXml, filterName, dispatcher);
+                        }
                     }
                 }
                 count++;

@@ -68,6 +68,34 @@ public class FilterMapping extends WebXmlElement
     }
 
     /**
+     * Get the dispatchers.
+     * @return Dispatchers
+     */
+    public List<String> getDispatchers()
+    {
+        List<Element> e = getChildren(WebXmlType.DISPATCHER, this.getNamespace());
+        List<String> result = new ArrayList<String>(e.size());
+        for (Element ee : e)
+        {
+            result.add(ee.getText());
+        }
+        return result;
+    }
+
+    /**
+     * Add a dispatcher.
+     * @param dispatcher The dispatcher
+     */
+    public void addDispatcher(String dispatcher)
+    {
+        if (!getDispatchers().contains(dispatcher))
+        {
+            Element e = child(WebXmlType.DISPATCHER);
+            e.setText(dispatcher);
+        }
+    }
+
+    /**
      * Get the filter name.
      * @return The filter name
      */

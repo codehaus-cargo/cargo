@@ -87,7 +87,7 @@ public final class WebXmlUtils
         {
             throw new NullPointerException();
         }
-        List<String> filterMappings = new ArrayList<String>();
+        List<String> filterUrlPatterns = new ArrayList<String>();
         List<Element> filterMappingElements = webXml.getElements(WebXmlType.FILTER_MAPPING);
         for (Element filterMappingElement : filterMappingElements)
         {
@@ -98,11 +98,43 @@ public final class WebXmlUtils
                     WebXmlType.URL_PATTERN, filterMappingElement.getNamespace());
                 for (Element urlPatternElement : urlPatternElements)
                 {
-                    filterMappings.add(urlPatternElement.getText());
+                    filterUrlPatterns.add(urlPatternElement.getText());
                 }
             }
         }
-        return filterMappings;
+        return filterUrlPatterns;
+    }
+
+    /**
+     * Returns the dispatchers that the specified filter is mapped to in an ordered list. If there
+     * are no mappings for the specified filter, an empty list is returned.
+     * 
+     * @param webXml The webXml file to use
+     * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
+     * @return An ordered list of the dispatchers
+     */
+    public static List<String> getFilterDispatchers(WebXml webXml, String theFilterName)
+    {
+        if (theFilterName == null)
+        {
+            throw new NullPointerException();
+        }
+        List<String> filterDispatchers = new ArrayList<String>();
+        List<Element> filterMappingElements = webXml.getElements(WebXmlType.FILTER_MAPPING);
+        for (Element filterMappingElement : filterMappingElements)
+        {
+            if (theFilterName.equals(filterMappingElement.getChild(
+                WebXmlType.FILTER_NAME, filterMappingElement.getNamespace()).getText()))
+            {
+                List<Element> urlPatternElements = filterMappingElement.getChildren(
+                    WebXmlType.DISPATCHER, filterMappingElement.getNamespace());
+                for (Element urlPatternElement : urlPatternElements)
+                {
+                    filterDispatchers.add(urlPatternElement.getText());
+                }
+            }
+        }
+        return filterDispatchers;
     }
 
     /**
@@ -882,7 +914,7 @@ public final class WebXmlUtils
     /**
      * @param webXml The webXml file to use
      * @param theFilterName The name of the filter
-     * @param theUrlPattern the URL PAttern to add
+     * @param theUrlPattern the URL Pattern to add
      */
     public static void addFilterMapping(WebXml webXml, String theFilterName,
         String theUrlPattern)
@@ -910,6 +942,39 @@ public final class WebXmlUtils
 
         filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
             WebXmlType.URL_PATTERN).create().setText(theUrlPattern));
+    }
+
+    /**
+     * @param webXml The webXml file to use
+     * @param theFilterName The name of the filter
+     * @param theDispatcher the dispatcher to add
+     */
+    public static void addFilterDispatcher(WebXml webXml, String theFilterName,
+        String theDispatcher)
+    {
+        if (!hasFilter(webXml, theFilterName))
+        {
+            throw new IllegalStateException("Filter '" + theFilterName + "' not defined");
+        }
+        List<FilterMapping> filterMappings =
+            WebXmlUtils.getFilterMappingElements(webXml, theFilterName);
+        DescriptorElement filterMappingElement;
+        if (filterMappings.size() > 0)
+        {
+            filterMappingElement = filterMappings.get(0);
+        }
+        else
+        {
+            filterMappingElement =
+                webXml.getDescriptorType().getTagByName(WebXmlType.DISPATCHER).create();
+            filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+                WebXmlType.FILTER_NAME).create().setText(theFilterName));
+            webXml.addElement(
+                filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement());
+        }
+
+        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(
+            WebXmlType.DISPATCHER).create().setText(theDispatcher));
     }
 
     /**
