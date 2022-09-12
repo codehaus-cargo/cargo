@@ -119,22 +119,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <!--
-    See: https://issues.apache.org/jira/browse/MCOMPILER-339
-
-    TODO: Move this to the general maven-compiler-plugin once we upgrade the minimum JDK to 11,
-          or when the maven-compiler-plugin can manage the "release" flag properly.
-    -->
-  <profiles>
-    <profile>
-      <id>javac-release</id>
-      <activation>
-        <jdk>[11,)</jdk>
-      </activation>
-      <properties>
-        <maven.compiler.release>${maven.compiler-java.release}</maven.compiler.release>
-      </properties>
-    </profile>
-  </profiles>
 </project>
