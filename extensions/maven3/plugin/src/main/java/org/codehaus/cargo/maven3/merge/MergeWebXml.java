@@ -81,7 +81,7 @@ public class MergeWebXml implements MergeProcessorFactory
      * {@inheritDoc}
      * @param wam WAR archive merger.
      * @param xml XML merge.
-     * @return Merge processor.
+     * @return <code>null</code>
      */
     @Override
     public MergeProcessor create(WarArchiveMerger wam, Merge xml)
@@ -90,32 +90,27 @@ public class MergeWebXml implements MergeProcessorFactory
 
         Xpp3Dom parameters = (Xpp3Dom) xml.getParameters();
 
+        Xpp3Dom[] tags;
         Xpp3Dom defaultNode = parameters.getChild("default");
-
         if (defaultNode != null)
         {
-            Xpp3Dom[] tags = defaultNode.getChildren("tag");
-            for (Xpp3Dom tag : tags)
-            {
-                String tagName = tag.getAttribute("name");
-                Xpp3Dom strategy = tag.getChild("strategy");
-                MergeStrategy ms = makeStrategy(strategy);
-
-                webXmlMerger.setMergeStrategy(tagName, ms);
-            }
+            // CARGO-968: Remove redundant <default> tag from uberwar merge descriptor,
+            //            while still supporting the old configuration
+            tags = defaultNode.getChildren("tag");
         }
         else
-        { 
-            Xpp3Dom[] tags = defaultNode.getChildren("tag");
-            for (Xpp3Dom tag : tags)
-            {
-                String tagName = tag.getAttribute("name");
-                Xpp3Dom strategy = tag.getChild("strategy");
-                MergeStrategy ms = makeStrategy(strategy);
-
-                webXmlMerger.setMergeStrategy(tagName, ms);
-            }
+        {
+            tags = defaultNode.getChildren("tag");
         }
+        for (Xpp3Dom tag : tags)
+        {
+            String tagName = tag.getAttribute("name");
+            Xpp3Dom strategy = tag.getChild("strategy");
+            MergeStrategy ms = makeStrategy(strategy);
+
+            webXmlMerger.setMergeStrategy(tagName, ms);
+        }
+
         return null;
     }
 
