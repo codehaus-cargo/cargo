@@ -104,6 +104,18 @@ public class MergeWebXml implements MergeProcessorFactory
                 webXmlMerger.setMergeStrategy(tagName, ms);
             }
         }
+        else
+        { 
+            Xpp3Dom[] tags = defaultNode.getChildren("tag");
+            for (Xpp3Dom tag : tags)
+            {
+                String tagName = tag.getAttribute("name");
+                Xpp3Dom strategy = tag.getChild("strategy");
+                MergeStrategy ms = makeStrategy(strategy);
+
+                webXmlMerger.setMergeStrategy(tagName, ms);
+            }
+        }
         return null;
     }
 
