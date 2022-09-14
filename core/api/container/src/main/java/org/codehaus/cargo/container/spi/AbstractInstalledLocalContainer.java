@@ -351,20 +351,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                 java.setAppendOutput(true);
                 java.setMainClass("-version");
 
-                // We need to use java.start and not java.execute since the latter, which calls
-                // org.apache.tools.ant.taskdefs.Java.executeJava() method, doesn't set up
-                // stderr / stdout properly
-                java.start();
-
-                // Give 15 seconds to read the version
-                for (int i = 0; i < 150; i++)
-                {
-                    if (jvmVersionFile.length() > 0)
-                    {
-                        break;
-                    }
-                    Thread.sleep(100);
-                }
+                // CARGO-1595: Wait for the process to complete (which is what java.execute does),
+                //             in case the command returns a lot of text back and takes time
+                java.execute();
 
                 // CARGO-1586: Read all the lines of the output (not just the first line)
                 StringBuilder javaVersionOutput = new StringBuilder();
@@ -390,7 +379,7 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                     }
                 }
             }
-            catch (InterruptedException | IOException e)
+            catch (IOException e)
             {
                 throw new CargoException(
                     "Cannot read JVM version, please check that the provided execution ["
