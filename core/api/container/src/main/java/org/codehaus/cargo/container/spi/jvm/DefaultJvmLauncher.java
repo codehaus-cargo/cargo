@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
@@ -40,6 +41,11 @@ import org.codehaus.cargo.util.CargoException;
  */
 public class DefaultJvmLauncher implements JvmLauncher
 {
+    /**
+     * Timeout while waiting for {@link #execute()} command to complete.
+     */
+    private static final long TIMEOUT = 60 * 1000;
+
     /**
      * The working directory.
      */
@@ -521,11 +527,7 @@ public class DefaultJvmLauncher implements JvmLauncher
                 @Override
                 public void run()
                 {
-                    if (DefaultJvmLauncher.this.process != null)
-                    {
-                        DefaultJvmLauncher.this.process.destroy();
-                        DefaultJvmLauncher.this.process = null;
-                    }
+                    DefaultJvmLauncher.this.kill();
                 }
             });
         }
@@ -540,7 +542,24 @@ public class DefaultJvmLauncher implements JvmLauncher
         start();
         try
         {
-            return this.process.waitFor();
+            if (this.process.waitFor(DefaultJvmLauncher.TIMEOUT, TimeUnit.MILLISECONDS))
+            {
+                return this.process.exitValue();
+            }
+            else
+            {
+                try
+                {
+                    this.kill();
+                }
+                catch (Throwable e)
+                {
+                    // Ignore, we tried our best
+                }
+
+                throw new JvmLauncherException("Java command [" + this.getCommandLine()
+                    + "] did not complete after " + DefaultJvmLauncher.TIMEOUT + " milliseconds");
+            }
         }
         catch (InterruptedException e)
         {
