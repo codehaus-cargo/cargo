@@ -42,11 +42,6 @@ import org.codehaus.cargo.util.CargoException;
 public class DefaultJvmLauncher implements JvmLauncher
 {
     /**
-     * Timeout while waiting for {@link #execute()} command to complete.
-     */
-    private static final long TIMEOUT = 60 * 1000;
-
-    /**
      * The working directory.
      */
     private File workingDirectory;
@@ -90,6 +85,11 @@ public class DefaultJvmLauncher implements JvmLauncher
      * The application arguments.
      */
     private final List<String> applicationArguments = new ArrayList<String>();
+
+    /**
+     * Timeout while waiting for {@link #execute()} command to complete.
+     */
+    private long timeout = 60 * 1000;
 
     /**
      * The running process.
@@ -473,6 +473,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     @Override
     public void setTimeout(long millis)
     {
+        this.timeout = millis;
     }
 
     /**
@@ -496,8 +497,8 @@ public class DefaultJvmLauncher implements JvmLauncher
                     .redirectErrorStream(true);
             if (outputFile != null)
             {
-                pb.redirectOutput(appendOutput ? Redirect.appendTo(outputFile)
-                        : Redirect.to(outputFile));
+                pb.redirectOutput(
+                    appendOutput ? Redirect.appendTo(outputFile) : Redirect.to(outputFile));
             }
             pb.environment().putAll(environmentVariables);
 
@@ -537,7 +538,7 @@ public class DefaultJvmLauncher implements JvmLauncher
         start();
         try
         {
-            if (this.process.waitFor(DefaultJvmLauncher.TIMEOUT, TimeUnit.MILLISECONDS))
+            if (this.process.waitFor(DefaultJvmLauncher.this.timeout, TimeUnit.MILLISECONDS))
             {
                 return this.process.exitValue();
             }
@@ -553,7 +554,8 @@ public class DefaultJvmLauncher implements JvmLauncher
                 }
 
                 throw new JvmLauncherException("Java command [" + this.getCommandLine()
-                    + "] did not complete after " + DefaultJvmLauncher.TIMEOUT + " milliseconds");
+                    + "] did not complete after " + DefaultJvmLauncher.this.timeout
+                        + " milliseconds");
             }
         }
         catch (InterruptedException e)
