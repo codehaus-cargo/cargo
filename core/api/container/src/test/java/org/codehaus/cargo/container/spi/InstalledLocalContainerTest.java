@@ -22,8 +22,11 @@
  */
 package org.codehaus.cargo.container.spi;
 
-import junit.framework.TestCase;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
+import junit.framework.TestCase;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.LocalContainer;
@@ -33,6 +36,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.stub.JvmLauncherStub;
 import org.codehaus.cargo.util.FileHandler;
@@ -548,4 +552,33 @@ public class InstalledLocalContainerTest extends TestCase
         assertTrue("Expected argument \"" + needle + "\", got \"" + haystack + "\"",
             haystack.contains(needle));
     }
+
+    public void testJvmVersionSlowToExecute() throws Exception
+    {
+        AbstractInstalledLocalContainerStub container =
+                new AbstractInstalledLocalContainerStub(configuration);
+
+        DefaultJvmLauncher delayingJvmLauncher = new DefaultJvmLauncher()
+        {
+            @Override
+            public void setOutputFile(File outputFile)
+            {
+                try (PrintWriter writer = new PrintWriter(outputFile))
+                {
+                    // Write a first line of text directly to pinpoint CARGO-1595 issue:
+                    writer.println("Picked up JAVA_TOOL_OPTIONS: -Dtest=foo");
+                    writer.flush();
+                }
+                catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                super.setOutputFile(outputFile);
+            }
+
+        };
+        container.setJvmLauncherFactory(request -> delayingJvmLauncher);
+        container.startInternal();
+    }
+
 }

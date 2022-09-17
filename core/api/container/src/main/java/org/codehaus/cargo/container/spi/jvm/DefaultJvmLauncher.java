@@ -20,8 +20,8 @@
 package org.codehaus.cargo.container.spi.jvm;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -494,6 +494,11 @@ public class DefaultJvmLauncher implements JvmLauncher
             ProcessBuilder pb =
                 new ProcessBuilder(buildCommandLine()).directory(workingDirectory)
                     .redirectErrorStream(true);
+            if (outputFile != null)
+            {
+                pb.redirectOutput(appendOutput ? Redirect.appendTo(outputFile)
+                        : Redirect.to(outputFile));
+            }
             pb.environment().putAll(environmentVariables);
 
             this.process = pb.start();
@@ -504,16 +509,6 @@ public class DefaultJvmLauncher implements JvmLauncher
                 process.getErrorStream().close();
                 process.getOutputStream().close();
                 process.getInputStream().close();
-            }
-            else
-            {
-                FileOutputStream outputStream = new FileOutputStream(outputFile, appendOutput);
-
-                Thread outputStreamRedirector =
-                    new Thread(new DefaultJvmLauncherStreamRedirector(process.getInputStream(),
-                        outputStream));
-
-                outputStreamRedirector.start();
             }
         }
         catch (IOException e)
