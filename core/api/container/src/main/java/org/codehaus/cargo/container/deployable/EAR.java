@@ -41,8 +41,7 @@ public class EAR extends AbstractDeployablewithSettableName
     private Map<String, String> webapps;
 
     /**
-     * {@inheritDoc}
-     * @see AbstractDeployable#AbstractDeployable(String)
+     * @param ear the location of the EAR being wrapped.
      */
     public EAR(String ear)
     {

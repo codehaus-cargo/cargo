@@ -553,6 +553,10 @@ public class InstalledLocalContainerTest extends TestCase
             haystack.contains(needle));
     }
 
+    /**
+     * Test the case when the JVM version is slow to execute.
+     * @throws Exception If anything goes wrong.
+     */
     public void testJvmVersionSlowToExecute() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
