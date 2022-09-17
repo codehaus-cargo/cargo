@@ -502,7 +502,7 @@
                 <!--
                 <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.28.v20191105/jetty-distribution-9.3.28.v20191105.tar.gz</value>
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/9.4.48.v20220622/jetty-home-9.4.48.v20220622.tar.gz</value>
+                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/9.4.49.v20220914/jetty-home-9.4.49.v20220914.tar.gz</value>
               </property>
               <property>
                 <name>cargo.jetty9x.java.home</name>
