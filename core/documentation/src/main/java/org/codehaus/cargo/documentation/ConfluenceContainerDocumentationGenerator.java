@@ -1483,6 +1483,10 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
                     }
+                    else if ("tomcat10x".equals(containerId))
+                    {
+                        javaVersion = "8 (Tomcat 10.0.x) or 11 (Tomcat 10.1.x onwards)";
+                    }
                     else if ("tomee7x".equals(containerId))
                     {
                         javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
