@@ -20,9 +20,13 @@
 package org.codehaus.cargo.container.glassfish.internal;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * Implements an GlassFish 2.x AsAdmin command.
@@ -102,11 +106,33 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
         }
         else
         {
+            File asAdminOutput;
+            try
+            {
+                asAdminOutput = File.createTempFile("cargo-glassfish-asadmin-", ".txt");
+            }
+            catch (IOException e)
+            {
+                throw new CargoException("Cannot create asadmin output file", e);
+            }
+            java.setOutputFile(asAdminOutput);
             int exitCode = java.execute();
             if (exitCode != 0 && exitCode != 1)
             {
-                // the first token is the command
-                throw new CargoException("Command failed. asadmin exited " + exitCode);
+                final StringBuilder argumentsStringBuilder = new StringBuilder();
+                for (final String arg : args)
+                {
+                    argumentsStringBuilder.append(arg);
+                    argumentsStringBuilder.append(' ');
+                }
+                if (args.length > 0)
+                {
+                    argumentsStringBuilder.deleteCharAt(argumentsStringBuilder.length() - 1);
+                }
+                FileHandler fh = new DefaultFileHandler();
+                throw new CargoException("GlassFish admin command with args ("
+                    + argumentsStringBuilder + ") failed: asadmin exited " + exitCode + ": "
+                        + fh.readTextFile(asAdminOutput.getPath(), StandardCharsets.UTF_8));
             }
             return exitCode;
         }
