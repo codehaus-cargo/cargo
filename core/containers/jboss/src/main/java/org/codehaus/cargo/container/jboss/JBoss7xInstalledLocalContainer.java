@@ -425,6 +425,8 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+
+            tempFile.delete();
         }
         catch (IOException e)
         {

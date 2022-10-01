@@ -299,11 +299,14 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
                 this.getClass().getName());
 
             // script is stored to *.py file
-            File tempFile = File.createTempFile("jython", ".py");
+            File tempFile = File.createTempFile("cargo-websphere-jython", ".py");
             tempFile.deleteOnExit();
             getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+
+            wsadminlibFile.delete();
+            tempFile.delete();
         }
         catch (Exception e)
         {

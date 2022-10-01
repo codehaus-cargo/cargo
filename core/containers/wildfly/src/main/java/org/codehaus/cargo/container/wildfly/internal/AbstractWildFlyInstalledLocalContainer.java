@@ -193,11 +193,12 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
         {
             // script is stored to *.cli file which is added as parameter when invoking CLI
             // executor
-            File tempFile = File.createTempFile("wildfly-", ".cli");
+            File tempFile = File.createTempFile("cargo-wildfly-", ".cli");
             tempFile.deleteOnExit();
             getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+            tempFile.delete();
         }
         catch (IOException e)
         {

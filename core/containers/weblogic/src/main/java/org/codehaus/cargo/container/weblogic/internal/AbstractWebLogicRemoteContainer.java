@@ -99,11 +99,13 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
         {
             // script is stored to *.py file which is added as parameter when invoking WLST
             // configuration class
-            File tempFile = File.createTempFile("wlst", ".py");
+            File tempFile = File.createTempFile("cargo-weblogic-wlst-", ".py");
             tempFile.deleteOnExit();
             getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+
+            tempFile.delete();
         }
         catch (Exception e)
         {

@@ -239,6 +239,8 @@ public class WebLogic121xInstalledLocalContainer extends
             getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
             executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+
+            tempFile.delete();
         }
         catch (Exception e)
         {

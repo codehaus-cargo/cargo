@@ -378,6 +378,10 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
                             "Can't read JVM version from output: " + javaVersionOutput);
                     }
                 }
+                finally
+                {
+                    jvmVersionFile.delete();
+                }
             }
             catch (IOException e)
             {

@@ -119,21 +119,23 @@ public class GlassFish2xAsAdmin extends AbstractAsAdmin
             int exitCode = java.execute();
             if (exitCode != 0 && exitCode != 1)
             {
-                final StringBuilder argumentsStringBuilder = new StringBuilder();
+                final StringBuilder arguments = new StringBuilder();
                 for (final String arg : args)
                 {
-                    argumentsStringBuilder.append(arg);
-                    argumentsStringBuilder.append(' ');
+                    arguments.append(arg);
+                    arguments.append(' ');
                 }
                 if (args.length > 0)
                 {
-                    argumentsStringBuilder.deleteCharAt(argumentsStringBuilder.length() - 1);
+                    arguments.deleteCharAt(arguments.length() - 1);
                 }
                 FileHandler fh = new DefaultFileHandler();
-                throw new CargoException("GlassFish admin command with args ("
-                    + argumentsStringBuilder + ") failed: asadmin exited " + exitCode + ": "
-                        + fh.readTextFile(asAdminOutput.getPath(), StandardCharsets.UTF_8));
+                String output = fh.readTextFile(asAdminOutput.getPath(), StandardCharsets.UTF_8);
+                asAdminOutput.delete();
+                throw new CargoException("GlassFish admin command with args (" + arguments
+                    + ") failed: asadmin exited " + exitCode + ": " + output);
             }
+            asAdminOutput.delete();
             return exitCode;
         }
     }
