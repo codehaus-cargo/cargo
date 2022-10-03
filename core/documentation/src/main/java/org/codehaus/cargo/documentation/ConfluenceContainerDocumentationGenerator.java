@@ -1117,7 +1117,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
             output.append("Please follow the [remote deployment instructions for GlassFish 6.x ");
-            output.append("onwards|Remote deployments to GlassFish 6.x onwards].");
+            output.append("onwards|Remote deployments to GlassFish 6.x onwards and to recent ");
+            output.append("Payara versions].");
             output.append("{info}");
         }
 
@@ -1321,7 +1322,26 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(generateConfigurationPropertiesForConfigurationTypeForContainerType(
                 "Runtime", ConfigurationType.RUNTIME, containerId, ContainerType.REMOTE));
             output.append(FileHandler.NEW_LINE);
-            if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
+            if (containerId.equals("payara"))
+            {
+                output.append(FileHandler.NEW_LINE);
+                output.append("{info}Recent versions of Payara might have [issues getting ");
+                output.append("deployables uploaded via JSR-88|");
+                output.append("https://codehaus-cargo.atlassian.net/browse/CARGO-1588], ");
+                output.append("resulting in errors such as:");
+                output.append(FileHandler.NEW_LINE);
+                output.append("{code}");
+                output.append("Distributing failed: Action failed Deploying application to ");
+                output.append("target server failed; File not found");
+                output.append("{code}");
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+                output.append("Please follow the [remote deployment instructions for recent ");
+                output.append("Payara versions|Remote deployments to GlassFish 6.x onwards and ");
+                output.append("to recent Payara versions].");
+                output.append("{info}");
+            }
+            else if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
                 || containerId.equals("tomcat9x") || containerId.equals("tomcat10x")
                 || containerId.startsWith("tomee"))
             {
