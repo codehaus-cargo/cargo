@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.spi.jvm;
 
 import java.io.File;
 
+import org.codehaus.cargo.util.log.Logger;
+
 /**
  * A JVM launcher is responsible to fork a JVM.
  */
@@ -161,6 +163,16 @@ public interface JvmLauncher
      * @see #setOutputFile(File)
      */
     void setAppendOutput(boolean appendOutput);
+
+    /**
+     * Sets the logger to which the output of the JVM is redirected.
+     * 
+     * @param outputLogger The logger to which the output of the JVM is redirected, may be
+     * {@code null}.
+     * @param category the log category to use when logging the JVM's outputs, should not be
+     * {@code null}.
+     */
+    void setOutputLogger(Logger outputLogger, String category);
 
     /**
      * Gets a string representation of the currently configured command line.

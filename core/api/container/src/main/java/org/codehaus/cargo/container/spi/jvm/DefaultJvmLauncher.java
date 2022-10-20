@@ -35,6 +35,7 @@ import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * A JVM launcher that launches a new Process, that can be forcibly killed if needed.
@@ -105,6 +106,16 @@ public class DefaultJvmLauncher implements JvmLauncher
      * Append output.
      */
     private boolean appendOutput = false;
+
+    /**
+     * The logger to which the output of the JVM is redirected
+     */
+    private Logger outputLogger;
+
+    /**
+     * The log category to use when logging the JVM's outputs
+     */
+    private String category;
 
     /**
      * Creates a new launcher.
@@ -408,7 +419,7 @@ public class DefaultJvmLauncher implements JvmLauncher
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}. This takes precendence over {@link #setOutputLogger(Logger, String)}.
      */
     @Override
     public void setOutputFile(File outputFile)
@@ -423,6 +434,20 @@ public class DefaultJvmLauncher implements JvmLauncher
     public void setAppendOutput(boolean appendOutput)
     {
         this.appendOutput = appendOutput;
+    }
+
+    /**
+     * {@inheritDoc}. If {@link #setOutputFile(File)} is set, that will take precedence.
+     */
+    @Override
+    public void setOutputLogger(Logger outputLogger, String category)
+    {
+        this.outputLogger = outputLogger;
+        if (category == null)
+        {
+            throw new IllegalArgumentException("Logger category should not be null");
+        }
+        this.category = category;
     }
 
     /**
@@ -503,13 +528,22 @@ public class DefaultJvmLauncher implements JvmLauncher
             pb.environment().putAll(environmentVariables);
 
             this.process = pb.start();
+            process.getOutputStream().close();
 
             if (outputFile == null)
             {
-                // Close the streams
-                process.getErrorStream().close();
-                process.getOutputStream().close();
-                process.getInputStream().close();
+                if (outputLogger != null)
+                {
+                    Thread outputStreamRedirector =
+                        new Thread(new DefaultJvmLauncherLoggerRedirector(
+                            process.getInputStream(), outputLogger, category));
+                    outputStreamRedirector.start();
+                }
+                else
+                {
+                    process.getErrorStream().close();
+                    process.getInputStream().close();
+                }
             }
         }
         catch (IOException e)

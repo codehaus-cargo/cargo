@@ -29,6 +29,7 @@ import java.util.Properties;
 
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncherException;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * A JVM launcher stub.
@@ -256,9 +257,17 @@ public class JvmLauncherStub implements JvmLauncher
      * {@inheritDoc}
      */
     @Override
+    public void setOutputLogger(Logger outputLogger, String category)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String getCommandLine()
     {
-        StringBuilder sb = new StringBuilder(1024);
+        StringBuilder sb = new StringBuilder();
         sb.append(this.jvm);
         sb.append(" -classpath").append(getClasspath());
         return sb.toString();

@@ -400,10 +400,12 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
         java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
             getConfiguration().getHome())));
 
-        // If the user has not specified any output file then the process's output will be logged
-        // to the Ant logging subsystem which will in turn go to the Cargo's logging subsystem as
-        // we're configuring Ant with our own custom build listener (see below).
-        if (getOutput() != null)
+        if (getOutput() == null)
+        {
+            // CARGO-1596: If no output file was set, then output the Java process via the logger
+            java.setOutputLogger(getLogger(), this.getClass().getName());
+        }
+        else
         {
             File outputFile = new File(getOutput());
 
