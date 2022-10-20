@@ -32,7 +32,6 @@ import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
 import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.wildfly.swarm.internal.jvm.SwarmJvmLauncherFactory;
 
 /**
  * WildFly Swarm container common implementation.
@@ -59,7 +58,6 @@ public abstract class AbstractWildFlySwarmInstalledLocalContainer extends
     protected AbstractWildFlySwarmInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-        setJvmLauncherFactory(new SwarmJvmLauncherFactory());
     }
 
     /**
