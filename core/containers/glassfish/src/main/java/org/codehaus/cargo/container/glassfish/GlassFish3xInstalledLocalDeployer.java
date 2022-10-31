@@ -149,6 +149,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     public void deployDatasource(DataSource dataSource)
     {
         StringBuilder dataSourcePropertyString = new StringBuilder();
+        List<String> dataSourceConnectionPoolProperties = new ArrayList<String>();
         Map<String, String> dataSourceProperties = new HashMap<String, String>();
 
         dataSourceProperties.put("user", dataSource.getUsername());
@@ -159,8 +160,18 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         {
             if (propertyName != null && extraProperties.get(propertyName) != null)
             {
-                dataSourceProperties.put(
-                    propertyName.toString(), extraProperties.get(propertyName).toString());
+                // CARGO-1597: Add the ability to change database connection pool properties
+                if (propertyName.toString().startsWith("----"))
+                {
+                    String dataSourceConnectionPoolProperty =
+                        propertyName + "=" + extraProperties.get(propertyName);
+                    dataSourceConnectionPoolProperties.add(dataSourceConnectionPoolProperty);
+                }
+                else
+                {
+                    dataSourceProperties.put(
+                        propertyName.toString(), extraProperties.get(propertyName).toString());
+                }
             }
         }
         for (Map.Entry<String, String> dataSourceProperty : dataSourceProperties.entrySet())
@@ -210,6 +221,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add(dataSource.getDriverClass());
         args.add("--property");
         args.add(dataSourcePropertyString.toString());
+        args.addAll(dataSourceConnectionPoolProperties);
         args.add(dataSourceId);
 
         // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
