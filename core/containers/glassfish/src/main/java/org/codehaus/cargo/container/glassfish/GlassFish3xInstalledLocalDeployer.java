@@ -68,6 +68,12 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             "javax.jms.QueueConnectionFactory")));
 
     /**
+     * CARGO-1598: Add the ability to create managed executor service in GlassFish
+     */
+    private static final String MANAGED_EXECUTOR_SERVICE =
+        "javax.enterprise.concurrent.ManagedExecutorService";
+
+    /**
      * Calls parent constructor, which saves the container.
      *
      * @param localContainer Container.
@@ -321,6 +327,35 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(resource.getParameter("mail.smtp.user"));
             args.add("--fromaddress");
             args.add(resource.getParameter("mail.smtp.from"));
+            if (!resource.getParameters().isEmpty())
+            {
+                args.add("--property");
+                StringBuilder propertyBuilder = new StringBuilder();
+                for (String parameterName : resource.getParameterNames())
+                {
+                    if (propertyBuilder.length() > 0)
+                    {
+                        propertyBuilder.append(":");
+                    }
+                    propertyBuilder.append(parameterName);
+                    propertyBuilder.append("=");
+                    propertyBuilder.append(resource.getParameter(parameterName)
+                            .replace("\\", "\\\\").replace(":", "\\:")
+                            .replace("=", "\\="));
+                }
+                args.add(propertyBuilder.toString());
+            }
+            args.add(resource.getName());
+            this.getLocalContainer().invokeAsAdmin(false, args);
+        }
+        else if (
+            GlassFish3xInstalledLocalDeployer.MANAGED_EXECUTOR_SERVICE.equals(resource.getType())
+            || GlassFish3xInstalledLocalDeployer.MANAGED_EXECUTOR_SERVICE
+                .replace("javax.", "jakarta.").equals(resource.getType()))
+        {
+            List<String> args = new ArrayList<String>();
+            this.addConnectOptions(args);
+            args.add("create-managed-executor-service");
             if (!resource.getParameters().isEmpty())
             {
                 args.add("--property");
