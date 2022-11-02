@@ -154,8 +154,9 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     @Override
     public void deployDatasource(DataSource dataSource)
     {
+        // CARGO-1597: Add the ability to set non transactional connections
+        boolean nonTransactionalConnections = false;
         StringBuilder dataSourcePropertyString = new StringBuilder();
-        List<String> dataSourceConnectionPoolProperties = new ArrayList<String>();
         Map<String, String> dataSourceProperties = new HashMap<String, String>();
 
         dataSourceProperties.put("user", dataSource.getUsername());
@@ -166,17 +167,14 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         {
             if (propertyName != null && extraProperties.get(propertyName) != null)
             {
-                // CARGO-1597: Add the ability to change database connection pool properties
-                if (propertyName.toString().startsWith("----"))
+                String propertyValue = extraProperties.get(propertyName).toString();
+                if ("non-transactional-connections".equals(propertyName))
                 {
-                    String dataSourceConnectionPoolProperty =
-                        propertyName + "=" + extraProperties.get(propertyName);
-                    dataSourceConnectionPoolProperties.add(dataSourceConnectionPoolProperty);
+                    nonTransactionalConnections = Boolean.parseBoolean(propertyValue);
                 }
                 else
                 {
-                    dataSourceProperties.put(
-                        propertyName.toString(), extraProperties.get(propertyName).toString());
+                    dataSourceProperties.put(propertyName.toString(), propertyValue);
                 }
             }
         }
@@ -227,11 +225,25 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add(dataSource.getDriverClass());
         args.add("--property");
         args.add(dataSourcePropertyString.toString());
-        args.addAll(dataSourceConnectionPoolProperties);
         args.add(dataSourceId);
 
         // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
+
+        if (nonTransactionalConnections)
+        {
+            args.clear();
+            this.addConnectOptions(args);
+            args.add("set");
+            args.add(
+                this.getContainer().getConfiguration().getPropertyValue(
+                    GlassFishPropertySet.DOMAIN_NAME)
+                    + ".resources.jdbc-connection-pool." + dataSourceId
+                            + ".non-transactional-connections=true");
+
+            // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+            this.getLocalContainer().invokeAsAdmin(false, args);
+        }
 
         args.clear();
         this.addConnectOptions(args);
