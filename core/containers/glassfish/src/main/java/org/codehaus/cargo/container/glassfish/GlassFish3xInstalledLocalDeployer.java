@@ -68,6 +68,29 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             "javax.jms.QueueConnectionFactory")));
 
     /**
+     * CARGO-1597: Add the ability to set connection pool attributes
+     */
+    private static final Set<String> CONNECTION_POOL_ATTRIBUTES =
+        Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
+            "non-transactional-connections",
+            "steady-pool-size",
+            "max-pool-size",
+            "pool-resize-quantity",
+            "idle-time-out-in-seconds",
+            "dynamic-reconfiguration-wait-timeout-in-seconds",
+            "init-sql",
+            "is-connection-validation-required",
+            "connection-validation-method",
+            "validation-classname",
+            "fail-all-connections",
+            "statement-leak-timeout-in-seconds",
+            "connection-leak-timeout-in-seconds",
+            "statement-leak-reclaim",
+            "statement-cache-size",
+            "sql-trace-listeners",
+            "time-to-keep-queries-in-minutes")));
+
+    /**
      * CARGO-1598: Add the ability to create managed executor service in GlassFish
      */
     private static final String MANAGED_EXECUTOR_SERVICE =
@@ -151,8 +174,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     @Override
     public void deployDatasource(DataSource dataSource)
     {
-        // CARGO-1597: Add the ability to set non transactional connections
-        boolean nonTransactionalConnections = false;
         StringBuilder dataSourcePropertyString = new StringBuilder();
         Map<String, String> dataSourceProperties = new HashMap<String, String>();
 
@@ -164,14 +185,10 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         {
             if (propertyName != null && extraProperties.get(propertyName) != null)
             {
-                String propertyValue = extraProperties.get(propertyName).toString();
-                if ("non-transactional-connections".equals(propertyName))
+                if (!CONNECTION_POOL_ATTRIBUTES.contains(propertyName))
                 {
-                    nonTransactionalConnections = Boolean.parseBoolean(propertyValue);
-                }
-                else
-                {
-                    dataSourceProperties.put(propertyName.toString(), propertyValue);
+                    dataSourceProperties.put(
+                        propertyName.toString(), extraProperties.get(propertyName).toString());
                 }
             }
         }
@@ -225,17 +242,23 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add(dataSourceId);
         this.getLocalContainer().invokeAsAdmin(false, args);
 
-        if (nonTransactionalConnections)
+        for (Object propertyName : extraProperties.keySet())
         {
-            args.clear();
-            this.addConnectOptions(args);
-            args.add("set");
-            args.add(
-                this.getContainer().getConfiguration().getPropertyValue(
-                    GlassFishPropertySet.DOMAIN_NAME)
-                    + ".resources.jdbc-connection-pool." + dataSourceId
-                            + ".non-transactional-connections=true");
-            this.getLocalContainer().invokeAsAdmin(false, args);
+            if (propertyName != null && extraProperties.get(propertyName) != null)
+            {
+                if (CONNECTION_POOL_ATTRIBUTES.contains(propertyName))
+                {
+                    args.clear();
+                    this.addConnectOptions(args);
+                    args.add("set");
+                    args.add(
+                        this.getContainer().getConfiguration().getPropertyValue(
+                            GlassFishPropertySet.DOMAIN_NAME)
+                            + ".resources.jdbc-connection-pool." + dataSourceId + "."
+                                + propertyName + "=" + extraProperties.get(propertyName));
+                    this.getLocalContainer().invokeAsAdmin(false, args);
+                }
+            }
         }
 
         args.clear();
