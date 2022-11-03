@@ -282,9 +282,11 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     }
 
     /**
-     * This will be used to deploy JavaMail and JMS resources only using
-     * <code>create-javamail-resource</code> and
-     * <code>create-jms-resource</code> respectively. {@inheritDoc}
+     * This will be used to deploy JavaMail, JMS and Managed Executor Services resources only using
+     * <code>create-javamail-resource</code>,
+     * <code>create-jms-resource</code> and <code>create-managed-executor-service</code>
+     * respectively. Other resource types will be created using
+     * <code>create-custom-resource</code>. {@inheritDoc}
      */
     @Override
     public void deployResource(Resource resource)
@@ -388,6 +390,21 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             }
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
+
+            for (Map.Entry<String, String> parameter : resource.getParameters().entrySet())
+            {
+                args.clear();
+                this.addConnectOptions(args);
+                args.add("set");
+                args.add(
+                    this.getContainer().getConfiguration().getPropertyValue(
+                        GlassFishPropertySet.DOMAIN_NAME)
+                        + ".resources.managed-executor-service." + resource.getName()
+                                + "." + parameter.getKey() + "=" + parameter.getValue());
+
+                // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
+                this.getLocalContainer().invokeAsAdmin(false, args);
+            }
         }
         else
         {
