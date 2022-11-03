@@ -123,8 +123,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         this.addDeploymentArguments(args);
         args.add(new File(deployable.getFile()).getAbsolutePath());
-
-        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
@@ -144,7 +142,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         // not too sure how asadmin determines 'name'
         args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
 
-        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
@@ -226,8 +223,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add("--property");
         args.add(dataSourcePropertyString.toString());
         args.add(dataSourceId);
-
-        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
 
         if (nonTransactionalConnections)
@@ -240,8 +235,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
                     GlassFishPropertySet.DOMAIN_NAME)
                     + ".resources.jdbc-connection-pool." + dataSourceId
                             + ".non-transactional-connections=true");
-
-            // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
 
@@ -251,8 +244,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         args.add("--connectionpoolid");
         args.add(dataSourceId);
         args.add(dataSource.getJndiLocation());
-
-        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
@@ -268,16 +259,12 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
         this.addConnectOptions(args);
         args.add("delete-jdbc-resource");
         args.add(jdbcName);
-
-        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
 
         args.clear();
         this.addConnectOptions(args);
         args.add("delete-jdbc-connection-pool");
         args.add(poolName);
-
-        // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
         this.getLocalContainer().invokeAsAdmin(false, args);
     }
 
@@ -401,8 +388,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
                         GlassFishPropertySet.DOMAIN_NAME)
                         + ".resources.managed-executor-service." + resource.getName()
                                 + "." + parameter.getKey() + "=" + parameter.getValue());
-
-                // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
                 this.getLocalContainer().invokeAsAdmin(false, args);
             }
         }

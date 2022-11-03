@@ -54,16 +54,12 @@ public class GlassFish5xInstalledLocalDeployer extends GlassFish4xInstalledLocal
             this.addConnectOptions(args);
             args.add("delete-jdbc-resource");
             args.add(jdbcName);
-
-            // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
             this.getLocalContainer().invokeAsAdmin(false, args);
 
             args.clear();
             this.addConnectOptions(args);
             args.add("delete-jdbc-connection-pool");
             args.add(poolName);
-
-            // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
         catch (Throwable t)
@@ -77,8 +73,6 @@ public class GlassFish5xInstalledLocalDeployer extends GlassFish4xInstalledLocal
             args.add("delete-jdbc-connection-pool");
             args.add("--cascade=true");
             args.add(poolName);
-
-            // The return value is checked by GlassFish3xAsAdmin.invokeAsAdmin
             this.getLocalContainer().invokeAsAdmin(false, args);
         }
     }
