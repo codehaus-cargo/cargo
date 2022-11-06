@@ -71,16 +71,30 @@ public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLoca
         {
             try
             {
-                AbstractGlassFishInstalledLocalDeployer deployer = getLocalDeployer();
+                // CARGO-1599: Only redeploy a defualt datasource if
+                //             the container configuration doesn't define one
+                boolean configurationContainsDefaultDatasource = false;
+                for (DataSource datasource : this.getConfiguration().getDataSources())
+                {
+                    if ("jdbc/__default".equals(datasource.getJndiLocation()))
+                    {
+                        configurationContainsDefaultDatasource = true;
+                        break;
+                    }
+                }
+                if (!configurationContainsDefaultDatasource)
+                {
+                    AbstractGlassFishInstalledLocalDeployer deployer = getLocalDeployer();
 
-                DataSource firstDS = this.getConfiguration().getDataSources().get(0);
-                DataSource dataSource = new DataSource("jdbc/__default",
-                    firstDS.getConnectionType(), firstDS.getTransactionSupport(),
-                        firstDS.getDriverClass(), firstDS.getUrl(), firstDS.getUsername(),
-                            firstDS.getPassword(), "DummyCargoDefaultDS-" + firstDS.getId(),
-                                new Properties(firstDS.getConnectionProperties()));
+                    DataSource firstDS = this.getConfiguration().getDataSources().get(0);
+                    DataSource dataSource = new DataSource("jdbc/__default",
+                        firstDS.getConnectionType(), firstDS.getTransactionSupport(),
+                            firstDS.getDriverClass(), firstDS.getUrl(), firstDS.getUsername(),
+                                firstDS.getPassword(), "DummyCargoDefaultDS-" + firstDS.getId(),
+                                    new Properties(firstDS.getConnectionProperties()));
 
-                deployer.deployDatasource(dataSource);
+                    deployer.deployDatasource(dataSource);
+                }
             }
             catch (Throwable t)
             {
