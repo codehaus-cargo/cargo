@@ -113,6 +113,26 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             "wrap-jdbc-objects")));
 
     /**
+     * CARGO-1598: Managed executor service attributes
+     */
+    private static final Set<String> MANAGED_EXECUTOR_SERVICE_ATTRIBUTES =
+        Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
+            "enabled",
+            "contextinfoenabled",
+            "contextinfo",
+            "threadpriority",
+            "longrunningtasks",
+            "hungafterseconds",
+            "corepoolsize",
+            "maximumpoolsize",
+            "keepaliveseconds",
+            "threadlifetimeseconds",
+            "taskqueuecapacity",
+            "description",
+            "property",
+            "target")));
+
+    /**
      * CARGO-1598: Add the ability to create managed executor service in GlassFish
      */
     private static final String MANAGED_EXECUTOR_SERVICE =
@@ -402,39 +422,43 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             List<String> args = new ArrayList<String>();
             this.addConnectOptions(args);
             args.add("create-managed-executor-service");
-            if (!resource.getParameters().isEmpty())
+
+            Map<String, String> parameters = new HashMap<String, String>(resource.getParameters());
+            for (String parameter : new ArrayList<String>(parameters.keySet()))
+            {
+                if (GlassFish3xInstalledLocalDeployer
+                    .MANAGED_EXECUTOR_SERVICE_ATTRIBUTES.contains(parameter))
+                {
+                    args.add("--" + parameter);
+                    args.add(parameters.get(parameter));
+                    parameters.remove(parameter);
+                }
+            }
+            // Let's check for remaining parameters
+            if (!parameters.isEmpty())
             {
                 args.add("--property");
                 StringBuilder propertyBuilder = new StringBuilder();
                 for (String parameterName : resource.getParameterNames())
                 {
-                    if (propertyBuilder.length() > 0)
+                    if (!GlassFish3xInstalledLocalDeployer
+                        .MANAGED_EXECUTOR_SERVICE_ATTRIBUTES.contains(parameterName))
                     {
-                        propertyBuilder.append(":");
+                        if (propertyBuilder.length() > 0)
+                        {
+                            propertyBuilder.append(":");
+                        }
+                        propertyBuilder.append(parameterName);
+                        propertyBuilder.append("=");
+                        propertyBuilder.append(resource.getParameter(parameterName)
+                                .replace("\\", "\\\\").replace(":", "\\:")
+                                .replace("=", "\\="));
                     }
-                    propertyBuilder.append(parameterName);
-                    propertyBuilder.append("=");
-                    propertyBuilder.append(resource.getParameter(parameterName)
-                            .replace("\\", "\\\\").replace(":", "\\:")
-                            .replace("=", "\\="));
                 }
                 args.add(propertyBuilder.toString());
             }
             args.add(resource.getName());
             this.getLocalContainer().invokeAsAdmin(false, args);
-
-            for (Map.Entry<String, String> parameter : resource.getParameters().entrySet())
-            {
-                args.clear();
-                this.addConnectOptions(args);
-                args.add("set");
-                args.add(
-                    this.getContainer().getConfiguration().getPropertyValue(
-                        GlassFishPropertySet.DOMAIN_NAME)
-                        + ".resources.managed-executor-service." + resource.getName()
-                                + "." + parameter.getKey() + "=" + parameter.getValue());
-                this.getLocalContainer().invokeAsAdmin(false, args);
-            }
         }
         else
         {
