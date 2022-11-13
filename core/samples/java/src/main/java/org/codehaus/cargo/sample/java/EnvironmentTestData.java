@@ -192,7 +192,10 @@ public class EnvironmentTestData
                                 "org.apache.tomcat.jakartaee.EESpecProfile");
                         Method setEESpecProfile = jakartaEeMigratorClass
                             .getMethod("setEESpecProfile", eeSpecProfileClass);
-                        Object eeSpecProfile = eeSpecProfileClass.getField("EE").get(null);
+                        Class eeSpecProfilesClass =
+                            jakartaEeMigratorClassLoader.loadClass(
+                                "org.apache.tomcat.jakartaee.EESpecProfiles");
+                        Object eeSpecProfile = eeSpecProfilesClass.getField("EE").get(null);
                         setEESpecProfile.invoke(jakartaEeMigrator, eeSpecProfile);
                         Method setSource =
                             jakartaEeMigratorClass.getMethod("setSource", File.class);
