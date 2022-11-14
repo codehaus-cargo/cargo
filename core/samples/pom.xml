@@ -866,7 +866,7 @@
 
               <property>
                 <name>cargo.tomcat9x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.68/tomcat-9.0.68.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.69/tomcat-9.0.69.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat9x.java.home</name>
