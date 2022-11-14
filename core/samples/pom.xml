@@ -878,7 +878,7 @@
                 <!--
                 <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip</value>
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.1/tomcat-10.1.1.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.2/tomcat-10.1.2.zip</value>
               </property>
               <property>
                 <name>cargo.tomcat10x.java.home</name>
