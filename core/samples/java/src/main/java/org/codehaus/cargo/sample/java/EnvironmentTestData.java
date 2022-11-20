@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +43,7 @@ public class EnvironmentTestData
     /**
      * Containers that can only use Jakarta EE deployables.
      */
-    public static final List<String> JAKARTA_EE_CONTAINERS = Arrays.asList(new String[]
+    public static List<String> jakartaEeContainers = Arrays.asList(new String[]
     {
         "jetty11x",
         "glassfish6x",
@@ -51,6 +52,33 @@ public class EnvironmentTestData
         "tomee9x",
         "wildfly27x"
     });
+
+    /**
+     * Payara 6.x onwards requires Jakarta EE.
+     */
+    static
+    {
+        String payaraUrl = System.getProperty("cargo.payara.url");
+        if (payaraUrl != null)
+        {
+            int payaraMajorVersion = payaraUrl.indexOf("/payara-");
+            if (payaraMajorVersion > 0)
+            {
+                String payaraVersionString = payaraUrl.substring(payaraMajorVersion + 8);
+                payaraVersionString =
+                    payaraVersionString.substring(0, payaraVersionString.indexOf("."));
+                payaraMajorVersion = Integer.parseInt(payaraVersionString);
+                if (payaraMajorVersion >= 6)
+                {
+                    List<String> updatedJakartaEeContainers = new ArrayList<String>(
+                        EnvironmentTestData.jakartaEeContainers.size() + 1);
+                    updatedJakartaEeContainers.addAll(EnvironmentTestData.jakartaEeContainers);
+                    updatedJakartaEeContainers.add("payara");
+                    EnvironmentTestData.jakartaEeContainers = updatedJakartaEeContainers;
+                }
+            }
+        }
+    }
 
     /**
      * Name of container to run (this is the container ID, see
@@ -157,7 +185,7 @@ public class EnvironmentTestData
                 "Property cargo.testdata.deployables does not point to a directory: "
                     + deployables);
         }
-        if (EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(containerId))
+        if (EnvironmentTestData.jakartaEeContainers.contains(containerId))
         {
             // CARGO-1514: Add the Jakarta EE converter to samples of affected containers
             File convertedDeployables =

@@ -19,9 +19,6 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.codehaus.cargo.container.InstalledLocalContainer;
 
 /**
@@ -41,39 +38,12 @@ public class GlassFish6xInstalledLocalDeployer extends GlassFish5xInstalledLocal
     }
 
     /**
-     * {@inheritDoc}
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1541">CARGO-1541</a>: GlassFish
+     * 6.x onwards uses Jakarta EE.
+     * @return <code>true</code>.
      */
-    @Override
-    public void undeployDatasource(String poolName, String jdbcName)
+    protected boolean isJakartaEe()
     {
-        List<String> args = new ArrayList<String>();
-
-        try
-        {
-            args.clear();
-            this.addConnectOptions(args);
-            args.add("delete-jdbc-resource");
-            args.add(jdbcName);
-            this.getLocalContainer().invokeAsAdmin(false, args);
-
-            args.clear();
-            this.addConnectOptions(args);
-            args.add("delete-jdbc-connection-pool");
-            args.add(poolName);
-            this.getLocalContainer().invokeAsAdmin(false, args);
-        }
-        catch (Throwable t)
-        {
-            // In some cases, asadmin returns an error:
-            //   The jdbc/__default resource cannot be deleted
-            //   as it is required to be configured in the system.
-            // In that case, delete the pool with the cascade option
-            args.clear();
-            this.addConnectOptions(args);
-            args.add("delete-jdbc-connection-pool");
-            args.add("--cascade=true");
-            args.add(poolName);
-            this.getLocalContainer().invokeAsAdmin(false, args);
-        }
+        return true;
     }
 }

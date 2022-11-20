@@ -107,7 +107,8 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
             // well as earlier versions of Payara already ship with Derby, adding the JAR twice
             // will result in a SecurityException: sealing violation: package org.apache.derby
             if (!container.getName().startsWith("GlassFish 6.0")
-                && !container.getName().startsWith("Payara 5.2"))
+                && !container.getName().startsWith("Payara 5.2")
+                && !container.getName().startsWith("Payara 6."))
             {
                 return;
             }

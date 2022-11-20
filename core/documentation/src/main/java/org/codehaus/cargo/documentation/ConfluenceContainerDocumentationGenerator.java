@@ -518,8 +518,9 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (containerId.equals("glassfish6x") || containerId.equals("glassfish7x")
-            || containerId.equals("jetty11x") || containerId.equals("tomcat10x")
-            || containerId.equals("tomee9x") || containerId.equals("wildfly27x"))
+            || containerId.equals("jetty11x") || containerId.equals("payara")
+            || containerId.equals("tomcat10x") || containerId.equals("tomee9x")
+            || containerId.equals("wildfly27x"))
         {
             String containerName;
             if (containerId.equals("jetty11x"))
@@ -529,6 +530,10 @@ public class ConfluenceContainerDocumentationGenerator
             else if (containerId.startsWith("glassfish"))
             {
                 containerName = "GlassFish 6";
+            }
+            else if (containerId.equals("payara"))
+            {
+                containerName = "Payara 6";
             }
             else if (containerId.equals("tomcat10x"))
             {
@@ -1492,6 +1497,11 @@ public class ConfluenceContainerDocumentationGenerator
                             + "https://github.com/eclipse-ee4j/glassfish/issues/23102]{_}"
                             + FileHandler.NEW_LINE
                             + "{_}Only GlassFish 6.2.1 onwards supports Java 17";
+                    }
+                    else if ("payara".equals(containerId))
+                    {
+                        javaVersion =
+                            "8 (Payara 5.x) or 11 (Payara  6.x onwards)";
                     }
                     else if ("resin3x".equals(containerId) || "resin31x".equals(containerId))
                     {

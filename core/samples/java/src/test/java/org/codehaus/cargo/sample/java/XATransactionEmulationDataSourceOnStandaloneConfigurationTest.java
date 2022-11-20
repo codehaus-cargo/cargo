@@ -100,6 +100,13 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("wildfly26x");
         excludedContainerIds.add("wildfly27x");
 
+        // Jakarta EE versions of Payara do not support XA transaction emulation
+        // the way Codehaus Cargo tests it
+        if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
+        {
+            excludedContainerIds.add("payara");
+        }
+
         suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),

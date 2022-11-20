@@ -54,7 +54,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
      */
     private static final Set<String> JMS_RESOURCE_TYPES =
         Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
-            // CARGO-1541: GlassFish 6.x onwards uses Jakarta EE
             "jakarta.jms.Topic",
             "jakarta.jms.Queue",
             "jakarta.jms.ConnectionFactory",
@@ -349,14 +348,12 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             this.addConnectOptions(args);
             args.add("create-jms-resource");
             args.add("--restype");
-            if (getContainer() instanceof GlassFish6xInstalledLocalContainer)
+            if (this.isJakartaEe())
             {
-                // CARGO-1541: GlassFish 6.x onwards uses Jakarta EE
                 args.add(resource.getType().replace("javax.", "jakarta."));
             }
             else
             {
-                // CARGO-1541: GlassFish 5.x downwards uses Java EE
                 args.add(resource.getType().replace("jakarta.", "javax."));
             }
             if (!resource.getParameters().isEmpty())
@@ -523,5 +520,14 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
     public void activateDefaultPrincipalToRoleMapping()
     {
         // nothing
+    }
+
+    /**
+     * @return <code>true</code> if the the GlassFish container deployed on is Jakarta EE,
+     * <code>false</code> in the base implementation.
+     */
+    protected boolean isJakartaEe()
+    {
+        return false;
     }
 }

@@ -78,6 +78,13 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("glassfish7x");
 
+        // Jakarta EE versions of Payara do not support transaction emulation
+        // the way Codehaus Cargo tests it
+        if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
+        {
+            excludedContainerIds.add("payara");
+        }
+
         // We exclude wildfly10x because of WFCORE-1373
         // which makes the container try to generate certain things twice
         excludedContainerIds.add("wildfly10x");

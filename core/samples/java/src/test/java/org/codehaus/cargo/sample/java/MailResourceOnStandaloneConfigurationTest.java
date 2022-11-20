@@ -78,7 +78,7 @@ public class MailResourceOnStandaloneConfigurationTest extends
         if (mail != null)
         {
             mail = container.getFileHandler().append(mail,
-                EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(container.getId())
+                EnvironmentTestData.jakartaEeContainers.contains(container.getId())
                     ? "jakarta" : "javax");
             String[] jars = container.getFileHandler().getChildren(mail);
             for (String jar : jars)

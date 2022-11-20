@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.payara;
 
 import org.codehaus.cargo.container.ContainerCapability;
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.GlassFish5xInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
@@ -71,6 +72,20 @@ public class PayaraInstalledLocalContainer extends GlassFish5xInstalledLocalCont
     public String getId()
     {
         return "payara";
+    }
+
+    /**
+     * Parses and returns current major Payara version.
+     * @return Major Payara version.
+     */
+    public int getVersion()
+    {
+        String version = getVersion("");
+        if (version.isEmpty())
+        {
+            throw new ContainerException("Cannot read Payara version");
+        }
+        return Integer.parseInt(version.substring(0, version.indexOf(".")));
     }
 
     /**

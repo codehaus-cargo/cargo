@@ -37,4 +37,24 @@ public class PayaraInstalledLocalDeployer extends GlassFish5xInstalledLocalDeplo
     {
         super(localContainer);
     }
+
+    /**
+     * <a href="https://codehaus-cargo.atlassian.net/browse/CARGO-1541">CARGO-1541</a>: GlassFish
+     * 6.x as well as Payara 6.x onwards use Jakarta EE.
+     * @return <code>true</code> if the target Payara container is version 6.x onwards.
+     */
+    @Override
+    protected boolean isJakartaEe()
+    {
+        PayaraInstalledLocalContainer container =
+            (PayaraInstalledLocalContainer) getLocalContainer();
+        if (container.getVersion() >= 6)
+        {
+            return true;
+        }
+        else
+        {
+            return super.isJakartaEe();
+        }
+    }
 }

@@ -59,7 +59,7 @@ public abstract class AbstractResourceOnStandaloneConfigurationTest extends Abst
     {
         Configuration config = getLocalContainer().getConfiguration();
         String resourcePropertyString = fixture.buildResourcePropertyString();
-        if (EnvironmentTestData.JAKARTA_EE_CONTAINERS.contains(getContainer().getId()))
+        if (EnvironmentTestData.jakartaEeContainers.contains(getContainer().getId()))
         {
             resourcePropertyString = resourcePropertyString.replace("javax.jms.", "jakarta.jms.");
             resourcePropertyString =
