@@ -1501,7 +1501,9 @@ public class ConfluenceContainerDocumentationGenerator
                     else if ("payara".equals(containerId))
                     {
                         javaVersion =
-                            "8 (Payara 5.x) or 11 (Payara  6.x onwards)";
+                            "7 (Payara 4.x), 8 (Payara 5.x) or 11 (Payara  6.x onwards)";
+                        extra = "Payara 4.x [doesn't run on Java 9 and above|"
+                            + "https://github.com/eclipse-ee4j/glassfish/issues/22130]";
                     }
                     else if ("resin3x".equals(containerId) || "resin31x".equals(containerId))
                     {
