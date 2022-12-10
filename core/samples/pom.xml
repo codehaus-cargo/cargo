@@ -696,7 +696,7 @@
 
               <property>
                 <name>cargo.glassfish7x.url</name>
-                <value>https://download.eclipse.org/ee4j/glassfish/glassfish-7.0.0-M9.zip</value>
+                <value>https://download.eclipse.org/ee4j/glassfish/glassfish-7.0.0-M10.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish7x.java.home</name>
