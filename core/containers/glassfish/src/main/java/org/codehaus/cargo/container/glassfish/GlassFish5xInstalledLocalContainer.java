@@ -71,7 +71,7 @@ public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLoca
         {
             try
             {
-                // CARGO-1599: Only redeploy a defualt datasource if
+                // CARGO-1599: Only redeploy a default datasource if
                 //             the container configuration doesn't define one
                 boolean configurationContainsDefaultDatasource = false;
                 for (DataSource datasource : this.getConfiguration().getDataSources())
