@@ -32,7 +32,6 @@ updates:
         versions: ["[1.10,)"]
       - dependency-name: "org.apache.derby:derby"
         versions: ["[10.13,)"]
-      - dependency-name: "org.apache.maven:maven-archiver"
       - dependency-name: "org.apache.maven:maven-artifact"
       - dependency-name: "org.apache.maven:maven-core"
       - dependency-name: "org.apache.maven:maven-model"
