@@ -32,6 +32,7 @@ import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -123,6 +124,12 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
      */
     @Parameter(property = "project", readonly = true, required = true)
     private MavenProject mavenProject;
+
+    /**
+     * The Maven session.
+     */
+    @Parameter(property = "session", readonly = true, required = true)
+    private MavenSession mavenSession;
 
     /**
      * The archive configuration to use. See <a
@@ -241,7 +248,7 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
             MavenArchiver mar = new MavenArchiver();
             mar.setArchiver(warArchiver);
             mar.setOutputFile(warFile);
-            mar.createArchive(mavenProject, archive);
+            mar.createArchive(mavenSession, mavenProject, archive);
 
             getProject().getArtifact().setFile(warFile);
         }
