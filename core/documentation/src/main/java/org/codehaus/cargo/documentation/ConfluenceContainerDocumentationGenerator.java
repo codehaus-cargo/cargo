@@ -564,6 +564,17 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("compatible with Open Liberty.{info}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
+            output.append("{note}WebSphere Liberty 22.x onwards comes with multiple versions, ");
+            output.append("some tagged as Java EE and others as Jakarta EE. Users of the ");
+            output.append("Jakarta EE 9 versions should be aware that, as a result of the move ");
+            output.append("from Java EE to Jakarta EE as part of the transfer of Java EE to the ");
+            output.append("Eclipse Foundation, the primary package for all implemented APIs has ");
+            output.append("changed from {{javax.\\*}} to {{jakarta.\\*}}. This will almost ");
+            output.append("certainly require code changes to enable applications to migrate to ");
+            output.append("EE 9 and later.");
+            output.append("{note}");
+            output.append(FileHandler.NEW_LINE);
+            output.append(FileHandler.NEW_LINE);
         }
 
         if (containerId.equals("wildfly22x") || containerId.equals("wildfly23x")
