@@ -108,20 +108,8 @@ public class WildFly10xInstalledLocalContainer extends WildFly9xInstalledLocalCo
      * {@inheritDoc}
      */
     @Override
-    public String getName()
+    protected String getDefaultName()
     {
-        String version = getVersion(null);
-        if (version == null)
-        {
-            return "WildFly 10.x (JBoss EAP 7.0)";
-        }
-        else if (version.startsWith("7."))
-        {
-            return "JBoss EAP " + version;
-        }
-        else
-        {
-            return "WildFly " + version;
-        }
+        return "WildFly 10.x (JBoss EAP 7.0)";
     }
 }

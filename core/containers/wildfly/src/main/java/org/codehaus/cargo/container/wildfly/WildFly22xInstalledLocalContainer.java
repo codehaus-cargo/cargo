@@ -54,20 +54,8 @@ public class WildFly22xInstalledLocalContainer extends WildFly21xInstalledLocalC
      * {@inheritDoc}
      */
     @Override
-    public String getName()
+    protected String getDefaultName()
     {
-        String version = getVersion(null);
-        if (version == null)
-        {
-            return "WildFly 22.x (JBoss EAP 7.4)";
-        }
-        else if (version.startsWith("7."))
-        {
-            return "JBoss EAP " + version;
-        }
-        else
-        {
-            return "WildFly " + version;
-        }
+        return "WildFly 22.x (JBoss EAP 7.4)";
     }
 }

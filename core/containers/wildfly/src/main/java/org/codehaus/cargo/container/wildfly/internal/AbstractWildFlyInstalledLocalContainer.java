@@ -263,13 +263,11 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
     }
 
     /**
-     * Parse installed WildFly version.
+     * Parse installed WildFly or JBoss EAP version.
      * 
-     * @param defaultVersion the version used if the exact WildFly version can't be determined
-     * @return the WildFly version, or <code>defaultVersion</code> if the version number could not
-     * be determined.
+     * @return the WildFly or JBoss EAP version.
      */
-    protected synchronized String getVersion(String defaultVersion)
+    private synchronized String getVersion()
     {
         String version = this.version;
 
@@ -336,15 +334,38 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
                     this.getClass().getName());
             }
 
-            if (version == null)
-            {
-                version = defaultVersion;
-            }
             this.version = version;
         }
 
         return version;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName()
+    {
+        String version = getVersion();
+        if (version == null)
+        {
+            return getDefaultName();
+        }
+        else if (version.startsWith("7."))
+        {
+            return "JBoss EAP " + version;
+        }
+        else
+        {
+            return "WildFly " + version;
+        }
+    }
+
+    /**
+     * @return Default name of the container, including the JBoss EAP version when relevant. For
+     * example: <code>WildFly 10.x (JBoss EAP 7.0)</code>
+     */
+    protected abstract String getDefaultName();
 
     /**
      * @return Config admin directory.

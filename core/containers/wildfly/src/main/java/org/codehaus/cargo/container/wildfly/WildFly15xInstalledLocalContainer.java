@@ -54,8 +54,8 @@ public class WildFly15xInstalledLocalContainer extends WildFly14xInstalledLocalC
      * {@inheritDoc}
      */
     @Override
-    public String getName()
+    protected String getDefaultName()
     {
-        return "WildFly " + getVersion("15.x");
+        return "WildFly 15.x";
     }
 }

@@ -55,8 +55,8 @@ public class WildFly9xInstalledLocalContainer extends AbstractWildFlyInstalledLo
      * {@inheritDoc}
      */
     @Override
-    public String getName()
+    protected String getDefaultName()
     {
-        return "WildFly " + getVersion("9.x");
+        return "WildFly 9.x";
     }
 }

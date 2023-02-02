@@ -54,8 +54,8 @@ public class WildFly8xInstalledLocalContainer extends AbstractWildFlyInstalledLo
      * {@inheritDoc}
      */
     @Override
-    public String getName()
+    protected String getDefaultName()
     {
-        return "WildFly " + getVersion("8.x");
+        return "WildFly 8.x";
     }
 }
