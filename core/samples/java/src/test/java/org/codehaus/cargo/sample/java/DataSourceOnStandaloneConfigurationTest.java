@@ -71,10 +71,6 @@ public class DataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("liberty");
 
-        // We exclude wildfly10x because of WFCORE-1373
-        // which makes the container try to generate certain things twice
-        excludedContainerIds.add("wildfly10x");
-
         suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
             new IsInstalledLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),

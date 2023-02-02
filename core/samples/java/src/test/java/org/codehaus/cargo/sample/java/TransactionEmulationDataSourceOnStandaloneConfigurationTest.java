@@ -85,10 +85,6 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             excludedContainerIds.add("payara");
         }
 
-        // We exclude wildfly10x because of WFCORE-1373
-        // which makes the container try to generate certain things twice
-        excludedContainerIds.add("wildfly10x");
-
         suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
             new Validator[] {
                 new IsInstalledLocalContainerValidator(),
