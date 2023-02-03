@@ -22,6 +22,7 @@ package org.codehaus.cargo.container.wildfly.internal;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -226,16 +227,40 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
             else
             {
                 JvmLauncher java = createJvmLauncher(false);
-
-                addCliArguments(java);
-                setProperties(java);
-
-                java.addAppArguments("--file=" + scriptFile);
-                int result = java.execute();
-                if (result != 0)
+                File scriptOutput = new File(scriptFile + ".output");
+                scriptOutput.deleteOnExit();
+                try
                 {
-                    throw new ContainerException("Failure when invoking CLI script,"
-                            + " java returned " + result);
+                    java.setOutputFile(scriptOutput);
+                    java.setAppendOutput(false);
+
+                    addCliArguments(java);
+                    setProperties(java);
+
+                    java.addAppArguments("--file=" + scriptFile);
+                    int result = java.execute();
+                    if (result != 0)
+                    {
+                        StringBuilder message =
+                            new StringBuilder("Failure when invoking CLI script: java returned ");
+                        message.append(result);
+                        try
+                        {
+                            String detail = getFileHandler().readTextFile(
+                                scriptOutput.getPath(), StandardCharsets.UTF_8);
+                            message.append(", detailed message: ");
+                            message.append(detail);
+                        }
+                        catch (Exception ignored)
+                        {
+                            // Ignored
+                        }
+                        throw new ContainerException(message.toString());
+                    }
+                }
+                finally
+                {
+                    scriptOutput.delete();
                 }
             }
         }

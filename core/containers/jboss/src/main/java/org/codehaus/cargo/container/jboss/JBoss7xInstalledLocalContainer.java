@@ -454,16 +454,40 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
             else
             {
                 JvmLauncher java = createJvmLauncher(false);
-
-                addCliArguments(java);
-                setProperties(java);
-
-                java.addAppArguments("--file=" + scriptFile);
-                int result = java.execute();
-                if (result != 0)
+                File scriptOutput = new File(scriptFile + ".output");
+                scriptOutput.deleteOnExit();
+                try
                 {
-                    throw new ContainerException("Failure when invoking CLI script,"
-                            + " java returned " + result);
+                    java.setOutputFile(scriptOutput);
+                    java.setAppendOutput(false);
+
+                    addCliArguments(java);
+                    setProperties(java);
+
+                    java.addAppArguments("--file=" + scriptFile);
+                    int result = java.execute();
+                    if (result != 0)
+                    {
+                        StringBuilder message =
+                            new StringBuilder("Failure when invoking CLI script: java returned ");
+                        message.append(result);
+                        try
+                        {
+                            String detail = getFileHandler().readTextFile(
+                                scriptOutput.getPath(), StandardCharsets.UTF_8);
+                            message.append(", detailed message: ");
+                            message.append(detail);
+                        }
+                        catch (Exception ignored)
+                        {
+                            // Ignored
+                        }
+                        throw new ContainerException(message.toString());
+                    }
+                }
+                finally
+                {
+                    scriptOutput.delete();
                 }
             }
         }

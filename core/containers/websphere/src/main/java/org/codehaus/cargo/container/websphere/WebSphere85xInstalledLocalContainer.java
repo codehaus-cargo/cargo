@@ -303,10 +303,15 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             tempFile.deleteOnExit();
             getFileHandler().writeTextFile(tempFile.getAbsolutePath(), sb.toString(), null);
 
-            executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
-
-            wsadminlibFile.delete();
-            tempFile.delete();
+            try
+            {
+                executeScriptFiles(Arrays.asList(tempFile.getAbsolutePath()));
+            }
+            finally
+            {
+                wsadminlibFile.delete();
+                tempFile.delete();
+            }
         }
         catch (Exception e)
         {

@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -262,9 +263,13 @@ public class WebLogic121xInstalledLocalContainer extends
 
             if (scriptFile.exists())
             {
+                JvmLauncher java = createJvmLauncher(false);
+                File scriptOutput = new File(scriptFile + ".output");
+                scriptOutput.deleteOnExit();
                 try
                 {
-                    JvmLauncher java = createJvmLauncher(false);
+                    java.setOutputFile(scriptOutput);
+                    java.setAppendOutput(false);
 
                     addWlstArguments(java);
 
@@ -272,13 +277,26 @@ public class WebLogic121xInstalledLocalContainer extends
                     int result = java.execute();
                     if (result != 0)
                     {
-                        throw new ContainerException("Failure when invoking WLST script,"
-                                + " java returned " + result);
+                        StringBuilder message =
+                            new StringBuilder("Failure when invoking WLST script: java returned ");
+                        message.append(result);
+                        try
+                        {
+                            String detail = getFileHandler().readTextFile(
+                                scriptOutput.getPath(), StandardCharsets.UTF_8);
+                            message.append(", detailed message: ");
+                            message.append(detail);
+                        }
+                        catch (Exception ignored)
+                        {
+                            // Ignored
+                        }
+                        throw new ContainerException(message.toString());
                     }
                 }
-                catch (Exception e)
+                finally
                 {
-                    throw new CargoException("Cannot execute WLST script.", e);
+                    scriptOutput.delete();
                 }
             }
             else
