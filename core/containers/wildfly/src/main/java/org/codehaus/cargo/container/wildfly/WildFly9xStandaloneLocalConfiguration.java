@@ -31,6 +31,7 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.jboss.JBoss7xInstalledLocalDeployer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyInstalledLocalContainer;
 import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.wildfly.internal.WildFly9xStandaloneLocalConfigurationCapability;
@@ -91,7 +92,7 @@ public class WildFly9xStandaloneLocalConfiguration
     protected void doConfigure(LocalContainer c) throws Exception
     {
         AbstractWildFlyInstalledLocalContainer container =
-                (AbstractWildFlyInstalledLocalContainer) c;
+            (AbstractWildFlyInstalledLocalContainer) c;
         super.doConfigure(c);
 
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
@@ -144,7 +145,7 @@ public class WildFly9xStandaloneLocalConfiguration
 
         container.executeScript(configurationScript);
 
-        // Execute CLI scripts
+        // execute CLI scripts
         for (Map.Entry<String, String> property : getProperties().entrySet())
         {
             String propertyName = property.getKey();
@@ -155,7 +156,29 @@ public class WildFly9xStandaloneLocalConfiguration
             }
         }
 
-        // deploy deployments
+        // CARGO-1601: Workaround for WFCORE-1373, where WildFly 10.x writes configuration changes
+        // directly into the container directory instead of the configuration directory
+        String configuration = getPropertyValue(JBossPropertySet.CONFIGURATION);
+        String configurationXmlHistory = getFileHandler().append(container.getHome(),
+            configuration + "/configuration/" + configuration + "_xml_history");
+        if (getFileHandler().isDirectory(configurationXmlHistory))
+        {
+            String configurationXmlFile = getFileHandler().append(container.getHome(),
+                configuration + "/configuration/" + configuration + ".xml");
+
+            // copy the changed configuration file into the configuration folder
+            getFileHandler().copyFile(configurationXmlFile,
+                getFileHandler().append(getHome(), "configuration/" + configuration + ".xml"),
+                    true);
+
+            // restore original configuration file in the container folder
+            String configurationXmlInitial = getFileHandler().append(
+                configurationXmlHistory, configuration + ".initial.xml");
+            getFileHandler().copyFile(configurationXmlInitial, configurationXmlFile, true);
+            getFileHandler().delete(configurationXmlHistory);
+        }
+
+        // deploy deployables
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
     }

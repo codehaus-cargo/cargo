@@ -105,7 +105,7 @@ public class WildFly8xStandaloneLocalConfiguration
         String wildFlyLogLevel = WildFlyLogUtils.getWildFlyLogLevel(
                 getPropertyValue(GeneralPropertySet.LOGGING));
 
-        // Configure ports and logging
+        // configure ports and logging
         addXmlReplacement(
             configurationXmlFile,
             "//server/socket-binding-group/socket-binding[@name='ajp']",
@@ -139,7 +139,7 @@ public class WildFly8xStandaloneLocalConfiguration
 
         configureDataSources(container, configurationXmlFile);
 
-        // deploy deployments
+        // deploy deployables
         JBoss7xInstalledLocalDeployer deployer = new JBoss7xInstalledLocalDeployer(container);
         deployer.deploy(getDeployables());
     }

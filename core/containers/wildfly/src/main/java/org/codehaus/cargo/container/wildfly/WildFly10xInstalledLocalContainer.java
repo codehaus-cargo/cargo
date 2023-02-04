@@ -20,8 +20,6 @@
 package org.codehaus.cargo.container.wildfly;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
@@ -49,7 +47,6 @@ public class WildFly10xInstalledLocalContainer extends WildFly9xInstalledLocalCo
     @Override
     protected void doStart(JvmLauncher java) throws Exception
     {
-        swapConfigurationFilesIfNecessary();
         super.doStart(java);
     }
 
@@ -60,39 +57,6 @@ public class WildFly10xInstalledLocalContainer extends WildFly9xInstalledLocalCo
     protected void doStop(JvmLauncher java) throws Exception
     {
         super.doStop(java);
-        swapConfigurationFilesIfNecessary();
-    }
-
-    /**
-     * Workaround for <a href="https://issues.redhat.com/browse/WFCORE-1373">WFCORE-1373</a>, where
-     * WildFly 10.x doesn't register custom domain directory, causing it to write configuration
-     * changes directly into the default directory. This is worked around by swapping configuration
-     * files between default and custom directories.
-     */
-    private void swapConfigurationFilesIfNecessary()
-    {
-        if (getConfiguration() instanceof StandaloneLocalConfiguration)
-        {
-            String containerName = getName();
-            if (containerName.startsWith("WildFly 10.")
-                || containerName.startsWith("JBoss EAP 7.0"))
-            {
-                String configurationXmlFile = "configuration/"
-                    + getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
-                String defaultConfigurationXmlFile = "standalone/" + configurationXmlFile;
-                String customConfigurationXml = getFileHandler().append(
-                    getConfiguration().getHome(),  configurationXmlFile);
-                String defaultConfigurationXml = getFileHandler().append(
-                    getHome(), defaultConfigurationXmlFile);
-                String backupConfigurationXml = getFileHandler().append(
-                    getConfiguration().getHome(), configurationXmlFile + ".backup");
-
-                getFileHandler().copyFile(customConfigurationXml, backupConfigurationXml);
-                getFileHandler().copyFile(defaultConfigurationXml, customConfigurationXml);
-                getFileHandler().copyFile(backupConfigurationXml, defaultConfigurationXml);
-                getFileHandler().delete(backupConfigurationXml);
-            }
-        }
     }
 
     /**
