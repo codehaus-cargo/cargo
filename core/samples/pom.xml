@@ -696,7 +696,7 @@
 
               <property>
                 <name>cargo.glassfish7x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/7.0.0/glassfish-7.0.0.zip</value>
+                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/7.0.1/glassfish-7.0.1.zip</value>
               </property>
               <property>
                 <name>cargo.glassfish7x.java.home</name>
