@@ -653,8 +653,11 @@ public final class TomcatEmbedded
 
         /**
          * Starts the container.
+         * 
+         * @param container Tomcat embedded container to start.
+         * @throws Exception if anything goes wrong.
          */
-        public void start()
+        public void start(AbstractCatalinaEmbeddedLocalContainer container) throws Exception
         {
             invoke(embeddedStart);
         }

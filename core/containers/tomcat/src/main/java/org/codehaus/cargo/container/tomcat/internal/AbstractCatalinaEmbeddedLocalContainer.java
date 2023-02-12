@@ -20,8 +20,14 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.File;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
@@ -60,6 +66,11 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * Previous value of <code>catalina.base</code>
      */
     private String previousCatalinaBase;
+
+    /**
+     * Previous log handlers of the root logger.
+     */
+    private Handler[] previousRootLoggerHandlers;
 
     /**
      * Capability of the Tomcat/Catalina container.
@@ -113,6 +124,52 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
 
         try
         {
+            // CARGO-1602: Load the Tomcat logging configuration
+            String loggingFile = getFileHandler().append(
+                getConfiguration().getHome(), "conf/logging.properties");
+            if (getFileHandler().exists(loggingFile))
+            {
+                LogManager lm = LogManager.getLogManager();
+                try (InputStream is = getFileHandler().getInputStream(loggingFile))
+                {
+                    if (System.getProperty("java.util.logging.manager") == null
+                        && System.getProperty("java.util.logging.config.file") == null)
+                    {
+                        lm.readConfiguration(is);
+                        if (getOutput() != null)
+                        {
+                            Logger root = lm.getLogger("");
+                            Handler[] handlers = saveRestoreRootLoggerHandlers(true);
+                            FileHandler fileOutput = new FileHandler(getOutput());
+                            root.addHandler(fileOutput);
+                            for (Handler handler : handlers)
+                            {
+                                fileOutput.setEncoding(handler.getEncoding());
+                                fileOutput.setErrorManager(handler.getErrorManager());
+                                fileOutput.setFilter(handler.getFilter());
+                                fileOutput.setFormatter(handler.getFormatter());
+                                fileOutput.setLevel(handler.getLevel());
+
+                                root.removeHandler(handler);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Class juliLM = getClassLoader().loadClass(
+                            "org.apache.juli.ClassLoaderLogManager");
+                        LogManager juli = (LogManager) juliLM.getConstructor().newInstance();
+                        juli.readConfiguration(is);
+                        Enumeration<String> loggerNames = juli.getLoggerNames();
+                        while (loggerNames.hasMoreElements())
+                        {
+                            String loggerName = loggerNames.nextElement();
+                            lm.addLogger(juli.getLogger(loggerName));
+                        }
+                    }
+                }
+            }
+
             TomcatEmbedded wrapper = new TomcatEmbedded(getClassLoader());
 
             controller = wrapper.new Embedded();
@@ -126,7 +183,7 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
                     + "after prepareController");
             }
 
-            controller.start();
+            controller.start(this);
 
             // We don't want Tomcat to deploy WARs by itself, else we cannot undeploy them.
             // As a result, once Tomcat is started, deploy WARs manually.
@@ -178,6 +235,7 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
             {
                 System.setProperty("catalina.base", this.previousCatalinaBase);
             }
+            saveRestoreRootLoggerHandlers(false);
             throw e;
         }
     }
@@ -225,6 +283,7 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
                 {
                     System.setProperty("catalina.base", this.previousCatalinaBase);
                 }
+                saveRestoreRootLoggerHandlers(false);
             }
         }
         else
@@ -263,4 +322,33 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * @param port HTTP port.
      */
     protected abstract void prepareController(TomcatEmbedded wrapper, File home, int port);
+
+    /**
+     * Save or restore root logger handlers.
+     * 
+     * @param toSave <code>true</code> to save, <code>false</code> to restore.
+     * @return Handlers is saved, <code>null</code> if restored.
+     */
+    private synchronized Handler[] saveRestoreRootLoggerHandlers(boolean toSave)
+    {
+        Logger root = LogManager.getLogManager().getLogger("");
+        if (toSave)
+        {
+            this.previousRootLoggerHandlers = root.getHandlers();
+        }
+        else if (this.previousRootLoggerHandlers != null)
+        {
+            Handler[] handlers = root.getHandlers();
+            for (Handler handler : handlers)
+            {
+                root.removeHandler(handler);
+            }
+            for (Handler handler : this.previousRootLoggerHandlers)
+            {
+                root.addHandler(handler);
+            }
+            this.previousRootLoggerHandlers = null;
+        }
+        return this.previousRootLoggerHandlers;
+    }
 }
