@@ -20,8 +20,13 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
@@ -60,6 +65,11 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * Previous value of <code>catalina.base</code>
      */
     private String previousCatalinaBase;
+
+    /**
+     * Previous log handlers of the root logger.
+     */
+    private Handler[] previousRootLoggerHandlers;
 
     /**
      * Capability of the Tomcat/Catalina container.
@@ -113,6 +123,48 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
 
         try
         {
+            if (Boolean.parseBoolean(getConfiguration().getPropertyValue(
+                TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING)))
+            {
+                LogManager lm = LogManager.getLogManager();
+
+                String loggingFile = getFileHandler().append(
+                    getConfiguration().getHome(), "conf/logging.properties");
+                if (getFileHandler().exists(loggingFile))
+                {
+                    getLogger().info(
+                        "Overriding Java logging with file [" + loggingFile + "]",
+                            this.getClass().getName());
+                    try (InputStream is = getFileHandler().getInputStream(loggingFile))
+                    {
+                        lm.readConfiguration(is);
+                    }
+                }
+
+                if (getOutput() != null)
+                {
+                    getLogger().info(
+                        "Overriding Java logging output to [" + getOutput() + "]",
+                            this.getClass().getName());
+                    Logger root = lm.getLogger("");
+                    this.previousRootLoggerHandlers = root.getHandlers();
+                    FileHandler fileOutput = new FileHandler(getOutput());
+                    if (this.previousRootLoggerHandlers != null)
+                    {
+                        for (Handler handler : this.previousRootLoggerHandlers)
+                        {
+                            fileOutput.setEncoding(handler.getEncoding());
+                            fileOutput.setErrorManager(handler.getErrorManager());
+                            fileOutput.setFilter(handler.getFilter());
+                            fileOutput.setFormatter(handler.getFormatter());
+                            fileOutput.setLevel(handler.getLevel());
+
+                            root.removeHandler(handler);
+                        }
+                    }
+                    root.addHandler(fileOutput);
+                }
+            }
             TomcatEmbedded wrapper = new TomcatEmbedded(getClassLoader());
 
             controller = wrapper.new Embedded();
@@ -170,14 +222,7 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
         }
         catch (Exception e)
         {
-            if (this.previousCatalinaBase == null)
-            {
-                System.clearProperty("catalina.base");
-            }
-            else
-            {
-                System.setProperty("catalina.base", this.previousCatalinaBase);
-            }
+            restoreEnvironment();
             throw e;
         }
     }
@@ -217,14 +262,7 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
             }
             finally
             {
-                if (this.previousCatalinaBase == null)
-                {
-                    System.clearProperty("catalina.base");
-                }
-                else
-                {
-                    System.setProperty("catalina.base", this.previousCatalinaBase);
-                }
+                restoreEnvironment();
             }
         }
         else
@@ -263,4 +301,45 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * @param port HTTP port.
      */
     protected abstract void prepareController(TomcatEmbedded wrapper, File home, int port);
+
+    /**
+     * Restore the <code>catalina.base</code> as well as the Java logging.
+     */
+    private void restoreEnvironment()
+    {
+        if (this.previousCatalinaBase == null)
+        {
+            System.clearProperty("catalina.base");
+        }
+        else
+        {
+            System.setProperty("catalina.base", this.previousCatalinaBase);
+        }
+
+        if (Boolean.parseBoolean(getConfiguration().getPropertyValue(
+            TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING)))
+        {
+            getLogger().info(
+                "Restoring (part of) the Java logging configuration", this.getClass().getName());
+            Logger root = LogManager.getLogManager().getLogger("");
+            Handler[] currentRootLoggerHandlers = root.getHandlers();
+            if (currentRootLoggerHandlers != null)
+            {
+                for (Handler handler : currentRootLoggerHandlers)
+                {
+                    root.removeHandler(handler);
+                }
+            }
+            if (this.previousRootLoggerHandlers != null)
+            {
+                for (Handler handler : this.previousRootLoggerHandlers)
+                {
+                    root.addHandler(handler);
+                }
+            }
+            getLogger().info(
+                "Restored (part of) the Java logging configuration", this.getClass().getName());
+            this.previousRootLoggerHandlers = null;
+        }
+    }
 }

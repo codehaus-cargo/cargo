@@ -66,8 +66,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
-    protected ConfigurationBuilder createConfigurationBuilder(
-        LocalContainer container)
+    protected ConfigurationBuilder createConfigurationBuilder(LocalContainer container)
     {
         return new Tomcat4xConfigurationBuilder();
     }

@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1451,6 +1452,11 @@ public class ConfluenceContainerDocumentationGenerator
         boolean supportsDatasourceOrResource = false;
         Map<String, Boolean> properties = this.configurationCapabilityFactory.
             createConfigurationCapability(containerId, containerType, type).getProperties();
+        if (containerId.startsWith("tomcat") && containerType.equals(ContainerType.EMBEDDED))
+        {
+            properties = new HashMap<>(properties);
+            properties.put(TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING, Boolean.TRUE);
+        }
         Set<String> sortedPropertyNames = new TreeSet<String>(properties.keySet());
         for (String property : sortedPropertyNames)
         {
@@ -1603,6 +1609,9 @@ public class ConfluenceContainerDocumentationGenerator
                 case JonasPropertySet.JONAS_SERVICES_LIST:
                     output.append(" | {_}Will be loaded from the{_} {{conf/jonas.properties}} "
                         + "{_}file in the container home directory{_} |");
+                    break;
+                case TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING:
+                    output.append(" | {{false}} |");
                     break;
                 default:
                     output.append(" | " + (slc.getPropertyValue(property) == null ? "N/A"

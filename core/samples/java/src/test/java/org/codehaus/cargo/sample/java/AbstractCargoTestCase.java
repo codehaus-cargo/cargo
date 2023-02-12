@@ -40,6 +40,8 @@ import org.codehaus.cargo.container.installer.ZipURLInstaller;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
+import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
 import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
 import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
@@ -317,6 +319,11 @@ public abstract class AbstractCargoTestCase extends TestCase
         if (container.getType() == ContainerType.EMBEDDED)
         {
             ((EmbeddedLocalContainer) container).setClassLoader(this.classLoader);
+            if (container instanceof AbstractCatalinaEmbeddedLocalContainer)
+            {
+                configuration.setProperty(
+                    TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING, "true");
+            }
         }
         else if (container.getType() == ContainerType.INSTALLED)
         {

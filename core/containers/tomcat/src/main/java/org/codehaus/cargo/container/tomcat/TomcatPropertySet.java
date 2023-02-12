@@ -167,4 +167,9 @@ public interface TomcatPropertySet
      * Setting to true removes all versions when undeploying.
      */
     String UNDEPLOY_ALL_VERSIONS = "cargo.tomcat.undeploy.allVersions";
+
+    /**
+     * Whether to override the Java logging in the embedded container.
+     */
+    String EMBEDDED_OVERRIDE_JAVA_LOGGING = "cargo.tomcat.embedded.overrideJavaLogging";
 }
