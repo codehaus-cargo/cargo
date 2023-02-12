@@ -148,13 +148,11 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
 
         // CARGO-825: Configure the logging append property
         String jbossLog4jXml = getFileHandler().append(confDir, this.log4jFileName);
+        String isAppend = "<param name=\"Append\" value=\""
+            + Boolean.toString(jbossContainer.isAppend()) + "\"/>";
         replacements = new HashMap<String, String>(2);
-        replacements.put(
-            "<param name=\"Append\" value=\"false\"/>",
-            "<param name=\"Append\" value=\"" + Boolean.toString(container.isAppend()) + "\"/>");
-        replacements.put(
-            "<param name=\"Append\" value=\"true\"/>",
-            "<param name=\"Append\" value=\"" + Boolean.toString(container.isAppend()) + "\"/>");
+        replacements.put("<param name=\"Append\" value=\"false\"/>", isAppend);
+        replacements.put("<param name=\"Append\" value=\"true\"/>", isAppend);
         getFileHandler().replaceInFile(jbossLog4jXml, replacements, StandardCharsets.UTF_8, true);
 
         // Copy the files within the JBoss Deploy directory to the cargo deploy directory
