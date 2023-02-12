@@ -76,6 +76,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
             + "or @protocol='%s']";
 
     /**
+     * Whether the logging-related configuration properties were set.
+     */
+    private boolean loggingPropertiesSet = false;
+
+    /**
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder#AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder(String)
      */
@@ -90,6 +95,20 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         setProperty(TomcatPropertySet.COPY_WARS, "true");
         setProperty(TomcatPropertySet.URI_ENCODING, StandardCharsets.ISO_8859_1.name());
         setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "webapps");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setProperty(String name, String value)
+    {
+        super.setProperty(name, value);
+
+        if (GeneralPropertySet.LOGGING.equals(name))
+        {
+            this.loggingPropertiesSet = true;
+        }
     }
 
     /**
@@ -159,6 +178,14 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
         String loggingProperties = getFileHandler().append(confDir, "logging.properties");
         getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/logging.properties",
             loggingProperties, getFileHandler(), replacements, StandardCharsets.ISO_8859_1);
+
+        if (this.loggingPropertiesSet || container.getOutput() != null)
+        {
+            getLogger().warn(
+                "The Tomcat embedded container does not support changing any of the "
+                    + "logging-related properties. Please set these in the host JVM, or use an "
+                        + "installed local container instead.", this.getClass().getName());
+        }
 
         getResourceUtils().copyResource(RESOURCE_PATH + "tomcat/context.xml",
             getFileHandler().append(confDir, "context.xml"), getFileHandler(),
