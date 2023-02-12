@@ -94,6 +94,50 @@ public class CargoMojoTest extends TestCase
     }
 
     /**
+     * Test the calculation of container artifacts.
+     */
+    public void testCalculateContainerArtifact()
+    {
+        try
+        {
+            AbstractCargoMojo.calculateArtifact(
+                "https://dllegacy.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz");
+            fail("Non Maven artifact somehow parsed");
+        }
+        catch (IllegalArgumentException expected)
+        {
+            // Expected
+        }
+
+        ArtifactInstaller installer = AbstractCargoMojo.calculateArtifact(
+            "https://repo.maven.apache.org/maven2/org/eclipse/jetty/"
+                + "jetty-home/11.0.13/jetty-home-11.0.13.tar.gz");
+        assertEquals("org.eclipse.jetty", installer.getGroupId());
+        assertEquals("jetty-home", installer.getArtifactId());
+        assertEquals("11.0.13", installer.getVersion());
+        assertEquals("tar.gz", installer.getType());
+        assertNull(installer.getClassifier());
+
+        installer = AbstractCargoMojo.calculateArtifact(
+            "https://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/"
+                + "jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz");
+        assertEquals("org.ow2.jonas.assemblies.profiles.legacy", installer.getGroupId());
+        assertEquals("jonas-full", installer.getArtifactId());
+        assertEquals("5.3.0", installer.getVersion());
+        assertEquals("tar.gz", installer.getType());
+        assertEquals("bin", installer.getClassifier());
+
+        installer = AbstractCargoMojo.calculateArtifact(
+            "https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/"
+                + "geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip");
+        assertEquals("org.apache.geronimo.assemblies", installer.getGroupId());
+        assertEquals("geronimo-tomcat7-javaee6", installer.getArtifactId());
+        assertEquals("3.0.1", installer.getVersion());
+        assertEquals("zip", installer.getType());
+        assertEquals("bin", installer.getClassifier());
+    }
+
+    /**
      * Test logger creation when a log element is specified.
      * @throws Exception If anything goes wrong.
      */

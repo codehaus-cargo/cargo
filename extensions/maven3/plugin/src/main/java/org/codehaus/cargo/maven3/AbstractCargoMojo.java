@@ -96,6 +96,11 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     public static final String CONTEXT_KEY_CLASSLOADER = "-classloader";
 
     /**
+     * URL prefix for the Maven repository.
+     */
+    private static final String MAVEN_REPOSITORY_URL = "https://repo.maven.apache.org/maven2/";
+
+    /**
      * Configures a Cargo
      * {@link org.codehaus.cargo.container.configuration.Configuration}. See the
      * <a href=
@@ -208,6 +213,49 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     public static String calculateContainerArtifactId(String containerId)
     {
         return "cargo-core-container-" + containerId.replaceAll("\\d+x", "");
+    }
+
+    /**
+     * Calculate the Maven artifact for a URL.
+     * @param url Maven URL.
+     * @return Maven artifact installer for given URL.
+     */
+    public static ArtifactInstaller calculateArtifact(String url)
+    {
+        if (!url.startsWith(AbstractCargoMojo.MAVEN_REPOSITORY_URL))
+        {
+            throw new IllegalArgumentException("URL [" + url + "] does not start with ["
+                + AbstractCargoMojo.MAVEN_REPOSITORY_URL + "]");
+        }
+
+        ArtifactInstaller installer = new ArtifactInstaller();
+        String[] urlParts =
+            url.substring(AbstractCargoMojo.MAVEN_REPOSITORY_URL.length()).split("/+");
+
+        StringBuilder groupId = new StringBuilder();
+        for (int i = 0; i < urlParts.length - 3; i++)
+        {
+            String urlPart = urlParts[i];
+            if (groupId.length() > 0)
+            {
+                groupId.append(".");
+            }
+            groupId.append(urlPart);
+        }
+        installer.setGroupId(groupId.toString());
+        installer.setArtifactId(urlParts[urlParts.length - 3]);
+        installer.setVersion(urlParts[urlParts.length - 2]);
+
+        String filePrefix = installer.getArtifactId() + "-" + installer.getVersion();
+        String file = urlParts[urlParts.length - 1];
+        installer.setType(file.substring(file.indexOf('.', filePrefix.length()) + 1));
+        if (!file.equals(filePrefix + "." + installer.getType()))
+        {
+            String classifier = file.substring(filePrefix.length() + 1);
+            installer.setClassifier(classifier.substring(0, classifier.indexOf('.')));
+        }
+
+        return installer;
     }
 
     /**
@@ -863,12 +911,30 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     + getContainerElement().getContainerId() + ".url");
                 if (url != null)
                 {
+                    if (url.startsWith(AbstractCargoMojo.MAVEN_REPOSITORY_URL))
+                    {
+                        try
+                        {
+                            ArtifactInstaller installerElement =
+                                AbstractCargoMojo.calculateArtifact(url);
+                            getContainerElement().setArtifactInstaller(installerElement);
+                            getLog().info("You did not specify a container home nor any installer. "
+                                + "Codehaus Cargo will automatically download your container's "
+                                    + "binaries as a Maven 3 artifact from [" + url + "].");
+                            return;
+                        }
+                        catch (Exception e)
+                        {
+                            getLog().debug("Cannot parse URL [" + url + "].", e);
+                        }
+                    }
+
                     ZipUrlInstaller installerElement = new ZipUrlInstaller();
                     getContainerElement().setZipUrlInstaller(installerElement);
                     installerElement.setUrl(new URL(url));
                     getLog().info("You did not specify a container home nor any installer. "
-                        + "CARGO will automatically download your container's binaries from ["
-                        + url + "].");
+                        + "Codehaus Cargo will automatically download your container's "
+                            + "binaries from [" + url + "].");
                 }
             }
         }
