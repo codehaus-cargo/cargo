@@ -73,6 +73,7 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
 import org.codehaus.cargo.sample.java.CargoTestSuite;
+import org.codehaus.cargo.sample.java.EnvironmentTestData;
 import org.codehaus.cargo.sample.java.JmsQueueResourceOnStandaloneConfigurationTest;
 import org.codehaus.cargo.sample.java.JmsTopicResourceOnStandaloneConfigurationTest;
 import org.codehaus.cargo.sample.java.MailResourceOnStandaloneConfigurationTest;
@@ -518,10 +519,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
         }
 
-        if (containerId.equals("glassfish6x") || containerId.equals("glassfish7x")
-            || containerId.equals("jetty11x") || containerId.equals("payara")
-            || containerId.equals("tomcat10x") || containerId.equals("tomee9x")
-            || containerId.equals("wildfly27x"))
+        if (EnvironmentTestData.jakartaEeContainers.contains(containerId))
         {
             String containerName;
             if (containerId.equals("jetty11x"))
@@ -536,7 +534,7 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 containerName = "Payara 6";
             }
-            else if (containerId.equals("tomcat10x"))
+            else if (containerId.equals("tomcat10x") || containerId.equals("tomcat11x"))
             {
                 containerName = "Tomcat 10";
             }
@@ -544,9 +542,14 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 containerName = "TomEE 9";
             }
-            else
+            else if (containerId.equals("wildfly27x"))
             {
                 containerName = "WildFly 27";
+            }
+            else
+            {
+                throw new IllegalStateException(
+                    "Jakarta EE container " + containerId + " not documented");
             }
             output.append("{note}Users of " + containerName + ".x onwards should be aware that, ");
             output.append("as a result of the move from Java EE to Jakarta EE as part of the ");
@@ -772,19 +775,20 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(FileHandler.NEW_LINE);
 
         if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
-            || containerId.equals("tomcat9x") || containerId.equals("tomcat10x"))
+            || containerId.equals("tomcat9x") || containerId.equals("tomcat10x")
+            || containerId.equals("tomcat11x"))
         {
             output.append("{info:title=Running multiple Tomcat 7.x / Tomcat 8.x / Tomcat 9.x / ");
-            output.append("Tomcat 10.x embedded containers within the same JVM}");
+            output.append("Tomcat 10.x / Tomcat 11.x embedded containers within the same JVM}");
             output.append(FileHandler.NEW_LINE);
             output.append("Tomcat 7.x has introduced a class called ");
             output.append("{{TomcatURLStreamHandlerFactory}} where the singleton has a static ");
             output.append("{{instance}} field and a final {{registered}} attribute which are ");
             output.append("not always in sync and cause unexpected exceptions. Due to this, it ");
-            output.append("is not possible to execute Tomcat 7.x, Tomcat 8.x, Tomcat 9.x ");
-            output.append("and / or Tomcat 10.x embedded in the same JVM, in addition running ");
-            output.append("one of these Tomcat embedded versions one after the other within the ");
-            output.append("same JVM but different classpaths might also fail.");
+            output.append("is not possible to execute Tomcat 7.x, Tomcat 8.x, Tomcat 9.x, ");
+            output.append("Tomcat 10.x and / or Tomcat 11.x embedded in the same JVM, in ");
+            output.append("addition running one of these Tomcat embedded versions one after the ");
+            output.append("other within the same JVM but different classpaths might also fail.");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
             output.append("If you want to be safe, prefer using the [Installed Container].");
@@ -1360,7 +1364,7 @@ public class ConfluenceContainerDocumentationGenerator
             }
             else if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
                 || containerId.equals("tomcat9x") || containerId.equals("tomcat10x")
-                || containerId.startsWith("tomee"))
+                || containerId.equals("tomcat11x") || containerId.startsWith("tomee"))
             {
                 output.append("{info}With ");
                 if (containerId.startsWith("tomee"))
@@ -1388,19 +1392,23 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("You can read more in the Tomcat documentation: ");
                 if (containerId.equals("tomcat7x") || containerId.equals("tomee1x"))
                 {
-                    output.append("http://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html");
+                    output.append("https://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html");
                 }
                 else if (containerId.equals("tomcat8x") || containerId.equals("tomee7x"))
                 {
-                    output.append("http://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html");
+                    output.append("https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html");
                 }
                 else if (containerId.equals("tomcat9x") || containerId.equals("tomee8x"))
                 {
-                    output.append("http://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html");
+                    output.append("https://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html");
                 }
                 else if (containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
                 {
-                    output.append("http://tomcat.apache.org/tomcat-10.0-doc/manager-howto.html");
+                    output.append("https://tomcat.apache.org/tomcat-10.0-doc/manager-howto.html");
+                }
+                else if (containerId.equals("tomcat11x"))
+                {
+                    output.append("https://tomcat.apache.org/tomcat-11.0-doc/manager-howto.html");
                 }
                 output.append("{info}");
                 output.append(FileHandler.NEW_LINE);
@@ -1662,7 +1670,8 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (ConfigurationType.STANDALONE.equals(type) && ("tomcat8x".equals(containerId)
-            || "tomcat9x".equals(containerId) || "tomcat10x".equals(containerId)))
+            || "tomcat9x".equals(containerId) || "tomcat10x".equals(containerId)
+            || "tomcat11x".equals(containerId)))
         {
             output.append("{info:title=Configuring HTTP/2 for Tomcat 8.5 and above}");
             output.append(FileHandler.NEW_LINE);

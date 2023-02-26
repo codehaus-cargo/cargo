@@ -892,6 +892,15 @@
               </property>
 
               <property>
+                <name>cargo.tomcat11x.url</name>
+                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/11.0.0-M3/tomcat-11.0.0-M3.zip</value>
+              </property>
+              <property>
+                <name>cargo.tomcat11x.java.home</name>
+                <value>${cargo.java.home.1_17}</value>
+              </property>
+
+              <property>
                 <name>cargo.tomee1x.url</name>
                 <value>https://archive.apache.org/dist/tomee/tomee-1.7.5/apache-tomee-1.7.5-plus.zip</value>
               </property>
@@ -2180,6 +2189,12 @@
       <id>tomcat10x</id>
       <properties>
         <cargo.containers>tomcat10x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomcat11x</id>
+      <properties>
+        <cargo.containers>tomcat11x</cargo.containers>
       </properties>
     </profile>
 

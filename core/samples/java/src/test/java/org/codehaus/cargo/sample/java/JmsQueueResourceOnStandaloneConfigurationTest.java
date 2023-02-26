@@ -92,6 +92,7 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("tomcat8x");
         excludedContainerIds.add("tomcat9x");
         excludedContainerIds.add("tomcat10x");
+        excludedContainerIds.add("tomcat11x");
         excludedContainerIds.add("wildfly10x");
         excludedContainerIds.add("wildfly20x");
         excludedContainerIds.add("wildfly21x");

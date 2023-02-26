@@ -24,25 +24,23 @@ import java.util.Map;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xConfigurationChecker;
 
 /**
- * Tests for the Tomcat 10 implementation of StandaloneLocalConfigurationTest
+ * Tests for the Tomcat 11 implementation of StandaloneLocalConfigurationTest
  */
-public class Tomcat10xStandaloneLocalConfigurationTest extends
-    Tomcat9xStandaloneLocalConfigurationTest
+public class Tomcat11xStandaloneLocalConfigurationTest extends
+    Tomcat10xStandaloneLocalConfigurationTest
 {
 
     /**
-     * Creates a {@link Tomcat10xStandaloneLocalConfiguration}. {@inheritDoc}
+     * Creates a {@link Tomcat11xStandaloneLocalConfiguration}. {@inheritDoc}
      * @param home Configuration home.
      * @return Local configuration for <code>home</code>.
      */
     @Override
     protected LocalConfiguration createLocalConfiguration(String home)
     {
-        return new Tomcat10xStandaloneLocalConfiguration(home)
+        return new Tomcat11xStandaloneLocalConfiguration(home)
         {
             @Override
             protected void setupConfFiles(String confDir)
@@ -61,22 +59,13 @@ public class Tomcat10xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Creates a {@link Tomcat10xInstalledLocalContainer}. {@inheritDoc}
+     * Creates a {@link Tomcat11xInstalledLocalContainer}. {@inheritDoc}
      * @param configuration Container's configuration.
      * @return Local container for <code>configuration</code>.
      */
     @Override
     protected InstalledLocalContainer createLocalContainer(LocalConfiguration configuration)
     {
-        return new Tomcat10xInstalledLocalContainer(configuration);
-    }
-
-    /**
-     * @return {@link Tomcat10x11xConfigurationChecker}.
-     */
-    @Override
-    protected ConfigurationChecker createConfigurationChecker()
-    {
-        return new Tomcat10x11xConfigurationChecker();
+        return new Tomcat11xInstalledLocalContainer(configuration);
     }
 }

@@ -22,19 +22,18 @@ package org.codehaus.cargo.container.tomcat.internal;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
- * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
+ * Capabilities of Tomcat's runtime configuration (versions 7.x onwards).
  */
-public class Tomcat8x9x10xStandaloneLocalConfigurationCapability
-        extends Tomcat7xStandaloneLocalConfigurationCapability
+public class Tomcat7x8x9x10x11xRuntimeConfigurationCapability extends
+    Tomcat4x5x6xRuntimeConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Tomcat8x9x10xStandaloneLocalConfigurationCapability()
+    public Tomcat7x8x9x10x11xRuntimeConfigurationCapability()
     {
-        this.propertySupportMap.put(
-                TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
-        this.propertySupportMap.put(
-                TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, Boolean.TRUE);
+        super();
+
+        this.propertySupportMap.put(TomcatPropertySet.UNDEPLOY_ALL_VERSIONS, Boolean.TRUE);
     }
 }

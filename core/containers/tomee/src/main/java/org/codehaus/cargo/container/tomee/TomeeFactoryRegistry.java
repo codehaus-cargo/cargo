@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8x9x10xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8x9x10x11xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.tomee.internal.TomeeContainerCapability;
 import org.codehaus.cargo.container.tomee.internal.TomeeStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -75,7 +75,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee1x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            Tomcat7x8x9x10xRuntimeConfigurationCapability.class);
+            Tomcat7x8x9x10x11xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -85,7 +85,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee7x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            Tomcat7x8x9x10xRuntimeConfigurationCapability.class);
+            Tomcat7x8x9x10x11xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -95,7 +95,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee8x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            Tomcat7x8x9x10xRuntimeConfigurationCapability.class);
+            Tomcat7x8x9x10x11xRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee9x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -105,7 +105,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee9x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
-            Tomcat7x8x9x10xRuntimeConfigurationCapability.class);
+            Tomcat7x8x9x10x11xRuntimeConfigurationCapability.class);
     }
 
     /**

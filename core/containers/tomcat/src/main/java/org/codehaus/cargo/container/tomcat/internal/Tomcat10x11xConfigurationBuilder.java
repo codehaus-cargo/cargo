@@ -23,12 +23,12 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
- * Constructs xml elements needed to configure DataSource for Tomcat 10.x. Note that this
+ * Constructs xml elements needed to configure DataSource for Tomcat 10.x onwards. Note that this
  * implementation converts DataSources into Resources and then uses an appropriate
  * {@link org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder} to create the
  * configuration.
  */
-public class Tomcat10xConfigurationBuilder extends Tomcat8x9xConfigurationBuilder
+public class Tomcat10x11xConfigurationBuilder extends Tomcat8x9xConfigurationBuilder
 {
 
     /**
@@ -44,7 +44,7 @@ public class Tomcat10xConfigurationBuilder extends Tomcat8x9xConfigurationBuilde
     /**
      * generates {@link #typeToFactory} for Jakarta EE
      */
-    public Tomcat10xConfigurationBuilder()
+    public Tomcat10x11xConfigurationBuilder()
     {
         super();
         typeToFactory.put(ConfigurationEntryType.MAIL_SESSION.replace("javax.", "jakarta."),
@@ -58,7 +58,7 @@ public class Tomcat10xConfigurationBuilder extends Tomcat8x9xConfigurationBuilde
     public String toConfigurationEntry(Resource resource)
     {
         String configurationEntry = super.toConfigurationEntry(resource);
-        for (String jakartaPackage : Tomcat10xConfigurationBuilder.JAKARTA_PACKAGES)
+        for (String jakartaPackage : Tomcat10x11xConfigurationBuilder.JAKARTA_PACKAGES)
         {
             configurationEntry = configurationEntry.replace(
                 "type='javax." + jakartaPackage, "type='jakarta." + jakartaPackage);

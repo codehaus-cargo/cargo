@@ -22,10 +22,10 @@ package org.codehaus.cargo.container.tomcat.internal;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 
 /**
- * Contains XML logic used to validate the XML output of a Tomcat 10.x Jakarta
- * EE configuration.
+ * Contains XML logic used to validate the XML output of a Tomcat 10.x onwards Jakarta EE
+ * configuration.
  */
-public class Tomcat10xConfigurationChecker extends Tomcat8x9xConfigurationChecker
+public class Tomcat10x11xConfigurationChecker extends Tomcat8x9xConfigurationChecker
 {
     /**
      * {@inheritDoc} in Tomcat 10.x, all packages moved from Java EE to Jakarta EE.
@@ -35,7 +35,7 @@ public class Tomcat10xConfigurationChecker extends Tomcat8x9xConfigurationChecke
         throws Exception
     {
         Resource jakartaEeResource = resource;
-        for (String jakartaPackage : Tomcat10xConfigurationBuilder.JAKARTA_PACKAGES)
+        for (String jakartaPackage : Tomcat10x11xConfigurationBuilder.JAKARTA_PACKAGES)
         {
             if (resource.getType().startsWith("javax." + jakartaPackage))
             {

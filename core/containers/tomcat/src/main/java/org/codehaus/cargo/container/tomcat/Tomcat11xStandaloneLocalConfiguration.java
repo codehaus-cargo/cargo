@@ -17,23 +17,30 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.tomcat.internal;
-
-import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
+package org.codehaus.cargo.container.tomcat;
 
 /**
- * Capabilities of Tomcat's runtime configuration (versions 7.x onwards).
+ * Catalina standalone
+ * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
+ * implementation.
  */
-public class Tomcat7x8x9x10xRuntimeConfigurationCapability extends
-    Tomcat4x5x6xRuntimeConfigurationCapability
+public class Tomcat11xStandaloneLocalConfiguration extends Tomcat10xStandaloneLocalConfiguration
 {
     /**
-     * Initialize the configuration-specific supports Map.
+     * {@inheritDoc}
+     * @see Tomcat10xStandaloneLocalConfiguration#Tomcat10xStandaloneLocalConfiguration(String)
      */
-    public Tomcat7x8x9x10xRuntimeConfigurationCapability()
+    public Tomcat11xStandaloneLocalConfiguration(String dir)
     {
-        super();
+        super(dir);
+    }
 
-        this.propertySupportMap.put(TomcatPropertySet.UNDEPLOY_ALL_VERSIONS, Boolean.TRUE);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "Tomcat 11.x Standalone Configuration";
     }
 }

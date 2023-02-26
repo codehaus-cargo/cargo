@@ -73,9 +73,9 @@ public class EmbeddedContainerClasspathResolver
         tomcat5xDependencies.add("common/lib/*.jar");
         tomcat5xDependencies.add("server/lib/*.jar");
 
-        List<String> tomcat6x7x8x9x10xDependencies = new ArrayList<String>();
-        tomcat6x7x8x9x10xDependencies.add("bin/*.jar");
-        tomcat6x7x8x9x10xDependencies.add("lib/*.jar");
+        List<String> tomcat6x7x8x9x10x11xDependencies = new ArrayList<String>();
+        tomcat6x7x8x9x10x11xDependencies.add("bin/*.jar");
+        tomcat6x7x8x9x10x11xDependencies.add("lib/*.jar");
 
         DEPENDENCIES.put("jetty5x", jetty5xDependencies);
         DEPENDENCIES.put("jetty6x", jetty6xDependencies);
@@ -85,11 +85,12 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty10x", jetty8x9x10x11xDependencies);
         DEPENDENCIES.put("jetty11x", jetty8x9x10x11xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
-        DEPENDENCIES.put("tomcat6x", tomcat6x7x8x9x10xDependencies);
-        DEPENDENCIES.put("tomcat7x", tomcat6x7x8x9x10xDependencies);
-        DEPENDENCIES.put("tomcat8x", tomcat6x7x8x9x10xDependencies);
-        DEPENDENCIES.put("tomcat9x", tomcat6x7x8x9x10xDependencies);
-        DEPENDENCIES.put("tomcat10x", tomcat6x7x8x9x10xDependencies);
+        DEPENDENCIES.put("tomcat6x", tomcat6x7x8x9x10x11xDependencies);
+        DEPENDENCIES.put("tomcat7x", tomcat6x7x8x9x10x11xDependencies);
+        DEPENDENCIES.put("tomcat8x", tomcat6x7x8x9x10x11xDependencies);
+        DEPENDENCIES.put("tomcat9x", tomcat6x7x8x9x10x11xDependencies);
+        DEPENDENCIES.put("tomcat10x", tomcat6x7x8x9x10x11xDependencies);
+        DEPENDENCIES.put("tomcat11x", tomcat6x7x8x9x10x11xDependencies);
     }
 
     /**

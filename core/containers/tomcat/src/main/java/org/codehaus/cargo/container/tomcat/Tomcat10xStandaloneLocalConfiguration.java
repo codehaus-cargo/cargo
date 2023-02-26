@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat10xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xConfigurationBuilder;
 import org.codehaus.cargo.util.XmlReplacement.ReplacementBehavior;
 
 /**
@@ -38,7 +38,7 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
     {
         super(dir);
 
-        configurationBuilder = new Tomcat10xConfigurationBuilder();
+        configurationBuilder = new Tomcat10x11xConfigurationBuilder();
     }
 
     /**
