@@ -785,7 +785,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("{{instance}} field and a final {{registered}} attribute which are ");
             output.append("not always in sync and cause unexpected exceptions. Due to this, it ");
             output.append("is not possible to execute Tomcat 7.x, Tomcat 8.x, Tomcat 9.x and ");
-            output.append("Tomcat 11.x embedded in the same JVM, in addition running one of ");
+            output.append("Tomcat 10.x embedded in the same JVM, in addition running one of ");
             output.append("these Tomcat embedded versions one after the other within the same ");
             output.append("JVM but different classpaths might also fail.");
             output.append(FileHandler.NEW_LINE);
