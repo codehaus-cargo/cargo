@@ -48,66 +48,67 @@
         </property>
       </activation>
       <build>
-        <!--
-          Tomcat 7.x has introduced a weird class called TomcatURLStreamHandlerFactory where the
-          singleton has a static "instance" field and a final attribute "registered" which are not
-          always in sync and cause unexpected exceptions. Due to this, we can't execute different
-          versions of Tomcat after version 7.x embedded in the same JVM. As a result, we use the
-          maven-invoker-plugin and execute the Tomcat 11.x embedded tests via Maven in a separate
-          JVM.
-          -->
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <version>${project.version}</version>
+            <configuration>
+              <container>
+                <containerId>tomcat11x</containerId>
+                <type>embedded</type>
+              </container>
+              <configuration>
+                <home>${project.build.directory}/tomcat-home</home>
+                <properties>
+                  <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+                  <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>simple-war</artifactId>
+                  <type>war</type>
+                </deployable>
+              </deployables>
+            </configuration>
             <executions>
               <execution>
-                <phase>integration-test</phase>
+                <id>start</id>
+                <phase>pre-integration-test</phase>
                 <goals>
-                  <goal>copy-resources</goal>
+                  <goal>start</goal>
                 </goals>
-                <configuration>
-                  <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${basedir}</directory>
-                      <includes>
-                        <include>src/test/java/**/*.java</include>
-                      </includes>
-                    </resource>
-                  </resources>
-                </configuration>
+              </execution>
+              <execution>
+                <id>stop</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <showErrors>true</showErrors>
-              <streamLogs>true</streamLogs>
-              <pom>${project.build.directory}/test-classes/pom.xml</pom>
-              <goals>
-                <goal>clean</goal>
-                <goal>verify</goal>
-              </goals>
-              <properties>
-                <interactiveMode>false</interactiveMode>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>${project.artifactId}-invoker</artifactId>
-                <version>${project.version}</version>
-                <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
-                <cargo.samples.rmi.port>${cargo.samples.rmi.port}</cargo.samples.rmi.port>
-                <cargo.version>${project.version}</cargo.version>
-              </properties>
-            </configuration>
+            <artifactId>maven-surefire-plugin</artifactId>
             <executions>
               <execution>
-                <id>integration-test</id>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
                 <goals>
-                  <goal>verify</goal>
-                  <goal>run</goal>
+                  <goal>test</goal>
                 </goals>
+                <configuration>
+                  <skip>false</skip>
+                  <systemProperties>
+                    <property>
+                      <name>http.port</name>
+                      <value>${cargo.samples.servlet.port}</value>
+                    </property>
+                  </systemProperties>
+                </configuration>
               </execution>
             </executions>
           </plugin>

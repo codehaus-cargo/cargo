@@ -340,7 +340,10 @@ public final class TomcatEmbedded
             engineSetRealm = engine.getMethod("setRealm", realm);
             embeddedCreateContext =
                 embedded.getMethod("addWebapp", String.class, String.class);
+        }
 
+        try
+        {
             // See Tomcat8xEmbeddedLocalContainer#getClassLoader() to understand why we do this
             Class tomcatURLStreamHandlerFactory =
                 Class.forName("org.apache.catalina.webresources.TomcatURLStreamHandlerFactory",
@@ -348,6 +351,10 @@ public final class TomcatEmbedded
             Method getInstance =
                 tomcatURLStreamHandlerFactory.getMethod("getInstance");
             getInstance.invoke(null);
+        }
+        catch (ClassNotFoundException e)
+        {
+            // Tomcat 11.x and newer don't have TomcatURLStreamHandlerFactory anymore
         }
         embeddedNew = embedded.getConstructor();
         embeddedStart = embedded.getMethod("start");

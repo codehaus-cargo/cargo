@@ -775,23 +775,23 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(FileHandler.NEW_LINE);
 
         if (containerId.equals("tomcat7x") || containerId.equals("tomcat8x")
-            || containerId.equals("tomcat9x") || containerId.equals("tomcat10x")
-            || containerId.equals("tomcat11x"))
+            || containerId.equals("tomcat9x") || containerId.equals("tomcat10x"))
         {
             output.append("{info:title=Running multiple Tomcat 7.x / Tomcat 8.x / Tomcat 9.x / ");
-            output.append("Tomcat 10.x / Tomcat 11.x embedded containers within the same JVM}");
+            output.append("Tomcat 10.x embedded containers within the same JVM}");
             output.append(FileHandler.NEW_LINE);
             output.append("Tomcat 7.x has introduced a class called ");
             output.append("{{TomcatURLStreamHandlerFactory}} where the singleton has a static ");
             output.append("{{instance}} field and a final {{registered}} attribute which are ");
             output.append("not always in sync and cause unexpected exceptions. Due to this, it ");
-            output.append("is not possible to execute Tomcat 7.x, Tomcat 8.x, Tomcat 9.x, ");
-            output.append("Tomcat 10.x and / or Tomcat 11.x embedded in the same JVM, in ");
-            output.append("addition running one of these Tomcat embedded versions one after the ");
-            output.append("other within the same JVM but different classpaths might also fail.");
+            output.append("is not possible to execute Tomcat 7.x, Tomcat 8.x, Tomcat 9.x and ");
+            output.append("Tomcat 11.x embedded in the same JVM, in addition running one of ");
+            output.append("these Tomcat embedded versions one after the other within the same ");
+            output.append("JVM but different classpaths might also fail.");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
-            output.append("If you want to be safe, prefer using the [Installed Container].");
+            output.append("If you want to be safe, prefer using the [Installed Container]. Also ");
+            output.append("note that Tomcat 11.x onwards has gotten rid of that class.");
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);
         }
