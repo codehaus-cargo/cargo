@@ -65,7 +65,7 @@
             <!-- 30 minutes -->
             <forkedProcessTimeoutInSeconds>1800</forkedProcessTimeoutInSeconds>
 
-            <systemProperties>
+            <systemPropertyVariables>
               <!--
                 As we run the tests in their separately forked JVMs, the associated properties must
                 be passed explicitly. If you're behind a proxy, set this here.
@@ -73,177 +73,64 @@
                 Alternatively, you can set the cargo.proxy.* variables in your settings.xml.
                 Scroll further down in this file to learn how!
 
-              <property>
-                <name>http.proxyHost</name>
-                <value>proxy</value>
-              </property>
+                <http.proxyHost>proxy</http.proxyHost>
+
                 -->
 
               <!--
                 Pass locations of java homes to the test classes so that they can look them up and
                 determine if a container is running on jdk 1.4, 1.5, etc.
                 -->
-              <property>
-                <name>cargo.java.home.1_4</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-              <property>
-                <name>cargo.java.home.1_5</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
-              <property>
-                <name>cargo.java.home.1_6</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-              <property>
-                <name>cargo.java.home.1_7</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
-              <property>
-                <name>cargo.java.home.1_8</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
-              <property>
-                <name>cargo.java.home.1_11</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+              <cargo.java.home.1_4>${cargo.java.home.1_4}</cargo.java.home.1_4>
+              <cargo.java.home.1_5>${cargo.java.home.1_5}</cargo.java.home.1_5>
+              <cargo.java.home.1_6>${cargo.java.home.1_6}</cargo.java.home.1_6>
+              <cargo.java.home.1_7>${cargo.java.home.1_7}</cargo.java.home.1_7>
+              <cargo.java.home.1_8>${cargo.java.home.1_8}</cargo.java.home.1_8>
+              <cargo.java.home.1_11>${cargo.java.home.1_11}</cargo.java.home.1_11>
 
-              <property>
-                <name>cargo.rmi.port</name>
-                <value>${cargo.samples.rmi.port}</value>
-              </property>
-              <property>
-                <name>cargo.servlet.port</name>
-                <value>${cargo.samples.servlet.port}</value>
-              </property>
+              <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
+              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
 
               <!-- Ports required for GlassFish domain to be created -->
-              <property>
-                <name>cargo.glassfish.admin.port</name>
-                <value>${cargo.samples.glassfish.admin.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.http.ssl.port</name>
-                <value>${cargo.samples.glassfish.http.ssl.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.java.debugger.port</name>
-                <value>${cargo.samples.glassfish.java.debugger.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.jms.port</name>
-                <value>${cargo.samples.glassfish.jms.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.orb.listener.port</name>
-                <value>${cargo.samples.glassfish.orb.listener.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.orb.mutualauth.port</name>
-                <value>${cargo.samples.glassfish.orb.mutualauth.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.orb.ssl.port</name>
-                <value>${cargo.samples.glassfish.orb.ssl.port}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish.osgi.shell.telnet.port</name>
-                <value>${cargo.samples.glassfish.osgi.shell.telnet.port}</value>
-              </property>
+              <cargo.glassfish.admin.port>${cargo.samples.glassfish.admin.port}</cargo.glassfish.admin.port>
+              <cargo.glassfish.http.ssl.port>${cargo.samples.glassfish.http.ssl.port}</cargo.glassfish.http.ssl.port>
+              <cargo.glassfish.java.debugger.port>${cargo.samples.glassfish.java.debugger.port}</cargo.glassfish.java.debugger.port>
+              <cargo.glassfish.jms.port>${cargo.samples.glassfish.jms.port}</cargo.glassfish.jms.port>
+              <cargo.glassfish.orb.listener.port>${cargo.samples.glassfish.orb.listener.port}</cargo.glassfish.orb.listener.port>
+              <cargo.glassfish.orb.mutualauth.port>${cargo.samples.glassfish.orb.mutualauth.port}</cargo.glassfish.orb.mutualauth.port>
+              <cargo.glassfish.orb.ssl.port>${cargo.samples.glassfish.orb.ssl.port}</cargo.glassfish.orb.ssl.port>
+              <cargo.glassfish.osgi.shell.telnet.port>${cargo.samples.glassfish.osgi.shell.telnet.port}</cargo.glassfish.osgi.shell.telnet.port>
 
               <!-- Ports required for JBoss tests to pass -->
-              <property>
-                <name>cargo.jboss.ajp.port</name>
-                <value>${cargo.samples.jboss.ajp.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.https.port</name>
-                <value>${cargo.samples.jboss.https.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.naming.port</name>
-                <value>${cargo.samples.jboss.naming.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.classloading.webservice.port</name>
-                <value>${cargo.samples.jboss.classloading.webservice.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.jmx.port</name>
-                <value>${cargo.samples.jboss.jmx.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.jrmp.port</name>
-                <value>${cargo.samples.jboss.jrmp.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.jrmp.invoker.port</name>
-                <value>${cargo.samples.jboss.jrmp.invoker.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.invoker.pool.port</name>
-                <value>${cargo.samples.jboss.invoker.pool.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.management-native.port</name>
-                <value>${cargo.samples.jboss.management-native.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.management-http.port</name>
-                <value>${cargo.samples.jboss.management-http.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.management-https.port</name>
-                <value>${cargo.samples.jboss.management-https.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.osgi.http.port</name>
-                <value>${cargo.samples.jboss.osgi.http.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.remoting.transport.port</name>
-                <value>${cargo.samples.jboss.remoting.transport.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.ejb3.remoting.port</name>
-                <value>${cargo.samples.jboss.ejb3.remoting.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.transaction.recoveryManager.port</name>
-                <value>${cargo.samples.jboss.transaction.recoveryManager.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.transaction.statusManager.port</name>
-                <value>${cargo.samples.jboss.transaction.statusManager.port}</value>
-              </property>
-              <property>
-                <name>cargo.jboss.remotedeploy.port</name>
-                <value>${cargo.samples.jboss.remotedeploy.port}</value>
-              </property>
+              <cargo.jboss.ajp.port>${cargo.samples.jboss.ajp.port}</cargo.jboss.ajp.port>
+              <cargo.jboss.https.port>${cargo.samples.jboss.https.port}</cargo.jboss.https.port>
+              <cargo.jboss.naming.port>${cargo.samples.jboss.naming.port}</cargo.jboss.naming.port>
+              <cargo.jboss.classloading.webservice.port>${cargo.samples.jboss.classloading.webservice.port}</cargo.jboss.classloading.webservice.port>
+              <cargo.jboss.jmx.port>${cargo.samples.jboss.jmx.port}</cargo.jboss.jmx.port>
+              <cargo.jboss.jrmp.port>${cargo.samples.jboss.jrmp.port}</cargo.jboss.jrmp.port>
+              <cargo.jboss.jrmp.invoker.port>${cargo.samples.jboss.jrmp.invoker.port}</cargo.jboss.jrmp.invoker.port>
+              <cargo.jboss.invoker.pool.port>${cargo.samples.jboss.invoker.pool.port}</cargo.jboss.invoker.pool.port>
+              <cargo.jboss.management-native.port>${cargo.samples.jboss.management-native.port}</cargo.jboss.management-native.port>
+              <cargo.jboss.management-http.port>${cargo.samples.jboss.management-http.port}</cargo.jboss.management-http.port>
+              <cargo.jboss.management-https.port>${cargo.samples.jboss.management-https.port}</cargo.jboss.management-https.port>
+              <cargo.jboss.osgi.http.port>${cargo.samples.jboss.osgi.http.port}</cargo.jboss.osgi.http.port>
+              <cargo.jboss.remoting.transport.port>${cargo.samples.jboss.remoting.transport.port}</cargo.jboss.remoting.transport.port>
+              <cargo.jboss.ejb3.remoting.port>${cargo.samples.jboss.ejb3.remoting.port}</cargo.jboss.ejb3.remoting.port>
+              <cargo.jboss.transaction.recoveryManager.port>${cargo.samples.jboss.transaction.recoveryManager.port}</cargo.jboss.transaction.recoveryManager.port>
+              <cargo.jboss.transaction.statusManager.port>${cargo.samples.jboss.transaction.statusManager.port}</cargo.jboss.transaction.statusManager.port>
+              <cargo.jboss.remotedeploy.port>${cargo.samples.jboss.remotedeploy.port}</cargo.jboss.remotedeploy.port>
 
               <!-- Avoid port number clashes in Resin -->
-              <property>
-                <name>cargo.resin.socketwait.port</name>
-                <value>${cargo.samples.resin.socketwait.port}</value>
-              </property>
+              <cargo.resin.socketwait.port>${cargo.samples.resin.socketwait.port}</cargo.resin.socketwait.port>
 
               <!-- Avoid port number clashes in Tomcat -->
-              <property>
-                <name>cargo.tomcat.ajp.port</name>
-                <value>${cargo.samples.tomcat.ajp.port}</value>
-              </property>
+              <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
 
               <!-- Use common file name for the bundle tests -->
-              <property>
-                <name>cargo.samples.bundle.targetFile</name>
-                <value>${project.build.directory}/bundle-test/output.log</value>
-              </property>
+              <cargo.samples.bundle.targetFile>${project.build.directory}/bundle-test/output.log</cargo.samples.bundle.targetFile>
 
               <!-- Set default parser -->
-              <property>
-                <name>javax.xml.parsers.SAXParserFactory</name>
-                <value>${javax.xml.parsers.SAXParserFactory}</value>
-              </property>
+              <javax.xml.parsers.SAXParserFactory>${javax.xml.parsers.SAXParserFactory}</javax.xml.parsers.SAXParserFactory>
 
               <!--
                 Default locations from where to get the container installation files.
@@ -255,86 +142,50 @@
                   For example: c:/apps/resin-3.0.19
                 -->
 
-              <property>
-                <name>cargo.jboss3x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-3.2.8.SP1.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss3x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.jboss3x.url>
+                https://repository.jboss.org/sourceforge/jboss-3.2.8.SP1.zip
+              </cargo.jboss3x.url>
+              <cargo.jboss3x.java.home>${cargo.java.home.1_4}</cargo.jboss3x.java.home>
 
-              <property>
-                <name>cargo.jboss4x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-4.0.5.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.jboss4x.url>
+                https://repository.jboss.org/sourceforge/jboss-4.0.5.GA.zip
+              </cargo.jboss4x.url>
+              <cargo.jboss4x.java.home>${cargo.java.home.1_4}</cargo.jboss4x.java.home>
 
-              <property>
-                <name>cargo.jboss42x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-4.2.3.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss42x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.jboss42x.url>
+                https://repository.jboss.org/sourceforge/jboss-4.2.3.GA.zip
+              </cargo.jboss42x.url>
+              <cargo.jboss42x.java.home>${cargo.java.home.1_5}</cargo.jboss42x.java.home>
 
-              <property>
-                <name>cargo.jboss5x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-5.0.1.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss5x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.jboss5x.url>
+                https://repository.jboss.org/sourceforge/jboss-5.0.1.GA.zip
+              </cargo.jboss5x.url>
+              <cargo.jboss5x.java.home>${cargo.java.home.1_5}</cargo.jboss5x.java.home>
 
-              <property>
-                <name>cargo.jboss51x.url</name>
-                <value>https://repository.jboss.org/sourceforge/jboss-5.1.0.GA.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss51x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.jboss51x.url>
+                https://repository.jboss.org/sourceforge/jboss-5.1.0.GA.zip
+              </cargo.jboss51x.url>
+              <cargo.jboss51x.java.home>${cargo.java.home.1_5}</cargo.jboss51x.java.home>
 
-              <property>
-                <name>cargo.jboss6x.url</name>
-                <value>https://repository.jboss.org/org/jboss/jbossas/jboss-as-distribution/6.0.0.Final/jboss-as-distribution-6.0.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss6x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.jboss6x.url>
+                https://repository.jboss.org/org/jboss/jbossas/jboss-as-distribution/6.0.0.Final/jboss-as-distribution-6.0.0.Final.zip
+              </cargo.jboss6x.url>
+              <cargo.jboss6x.java.home>${cargo.java.home.1_6}</cargo.jboss6x.java.home>
 
-              <property>
-                <name>cargo.jboss61x.url</name>
-                <value>https://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss61x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.jboss61x.url>
+                https://download.jboss.org/jbossas/6.1/jboss-as-distribution-6.1.0.Final.zip
+              </cargo.jboss61x.url>
+              <cargo.jboss61x.java.home>${cargo.java.home.1_6}</cargo.jboss61x.java.home>
 
-              <property>
-                <name>cargo.jboss7x.url</name>
-                <value>https://download.jboss.org/jbossas/7.0/jboss-as-7.0.2.Final/jboss-as-7.0.2.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss7x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.jboss7x.url>
+                https://download.jboss.org/jbossas/7.0/jboss-as-7.0.2.Final/jboss-as-7.0.2.Final.zip
+              </cargo.jboss7x.url>
+              <cargo.jboss7x.java.home>${cargo.java.home.1_6}</cargo.jboss7x.java.home>
 
-              <property>
-                <name>cargo.jboss71x.url</name>
-                <value>https://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.jboss71x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.jboss71x.url>
+                https://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
+              </cargo.jboss71x.url>
+              <cargo.jboss71x.java.home>${cargo.java.home.1_6}</cargo.jboss71x.java.home>
 
               <!--
                 JBoss 7.2 is actually called EAP 6.1.0
@@ -345,19 +196,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.jboss72x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.1.0</value>
-                  </property>
+                  <cargo.jboss72x.home>
+                    C:/Program Files/JBoss/jboss-eap-6.1.0
+                  </cargo.jboss72x.home>
                 -->
-              <property>
-                <name>cargo.jboss72x.home</name>
-                <value>${cargo.jboss72x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss72x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.jboss72x.home>${cargo.jboss72x.home}</cargo.jboss72x.home>
+              <cargo.jboss72x.java.home>${cargo.java.home.1_6}</cargo.jboss72x.java.home>
 
               <!--
                 JBoss 7.3 is actually called EAP 6.2.0
@@ -368,19 +212,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.jboss73x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.2.0</value>
-                  </property>
+                  <cargo.jboss73x.home>
+                    C:/Program Files/JBoss/jboss-eap-6.2.0
+                  </cargo.jboss73x.home>
                 -->
-              <property>
-                <name>cargo.jboss73x.home</name>
-                <value>${cargo.jboss73x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss73x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.jboss73x.home>${cargo.jboss73x.home}</cargo.jboss73x.home>
+              <cargo.jboss73x.java.home>${cargo.java.home.1_6}</cargo.jboss73x.java.home>
 
               <!--
                 JBoss 7.4 is actually called EAP 6.3.0
@@ -391,19 +228,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.jboss74x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.3.0</value>
-                  </property>
+                  <cargo.jboss74x.home>
+                    C:/Program Files/JBoss/jboss-eap-6.3.0
+                  </cargo.jboss74x.home>
                 -->
-              <property>
-                <name>cargo.jboss74x.home</name>
-                <value>${cargo.jboss74x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss74x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+              <cargo.jboss74x.home>${cargo.jboss74x.home}</cargo.jboss74x.home>
+              <cargo.jboss74x.java.home>${cargo.java.home.1_7}</cargo.jboss74x.java.home>
 
               <!--
                 JBoss 7.5 is actually called EAP 6.4.0
@@ -414,153 +244,100 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.jboss75x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-6.4.0</value>
-                  </property>
+                  <cargo.jboss75x.home>
+                    C:/Program Files/JBoss/jboss-eap-6.4.0
+                  </cargo.jboss75x.home>
                 -->
-              <property>
-                <name>cargo.jboss75x.home</name>
-                <value>${cargo.jboss75x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jboss75x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+              <cargo.jboss75x.home>${cargo.jboss75x.home}</cargo.jboss75x.home>
+              <cargo.jboss75x.java.home>${cargo.java.home.1_7}</cargo.jboss75x.java.home>
 
-              <property>
-                <name>cargo.jetty5x.url</name>
-                <value>http://web.archive.org/web/20150506142403if_/http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.15.tgz</value>
-              </property>
-              <property>
-                <name>cargo.jetty5x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.jetty5x.url>
+                http://web.archive.org/web/20150506142403if_/http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.15.tgz
+              </cargo.jetty5x.url>
+              <cargo.jetty5x.java.home>${cargo.java.home.1_4}</cargo.jetty5x.java.home>
 
-              <property>
-                <name>cargo.jetty6x.url</name>
-                <value>http://web.archive.org/web/20150506142907if_/http://dist.codehaus.org/jetty/jetty-6.1.26/jetty-6.1.26.zip</value>
-              </property>
-              <property>
-                <name>cargo.jetty6x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.jetty6x.url>
+                http://web.archive.org/web/20150506142907if_/http://dist.codehaus.org/jetty/jetty-6.1.26/jetty-6.1.26.zip
+              </cargo.jetty6x.url>
+              <cargo.jetty6x.java.home>${cargo.java.home.1_5}</cargo.jetty6x.java.home>
 
-              <property>
-                <name>cargo.jetty7x.url</name>
+              <cargo.jetty7x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.1.6.v20100715/jetty-distribution-7.1.6.v20100715.tar.gz
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.2.2.v20101205/jetty-distribution-7.2.2.v20101205.tar.gz
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.3.1.v20110307/jetty-distribution-7.3.1.v20110307.tar.gz
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.4.5.v20110725/jetty-distribution-7.4.5.v20110725.tar.gz
                   -->
                 <!--
                   Jetty 7.5.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.5.3.v20111011/jetty-distribution-7.5.3.v20111011.tar.gz
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.21.v20160908/jetty-distribution-7.6.21.v20160908.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty7x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.6.21.v20160908/jetty-distribution-7.6.21.v20160908.tar.gz
+              </cargo.jetty7x.url>
+              <cargo.jetty7x.java.home>${cargo.java.home.1_5}</cargo.jetty7x.java.home>
 
-              <property>
-                <name>cargo.jetty8x.url</name>
+              <cargo.jetty8x.url>
                 <!--
                   Jetty 8.0.4.v20111024 cannot be used due to a NPE in SelectorManager.register
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.0.3.v20111011/jetty-distribution-8.0.3.v20111011.tar.gz
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty8x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz
+              </cargo.jetty8x.url>
+              <cargo.jetty8x.java.home>${cargo.java.home.1_6}</cargo.jetty8x.java.home>
 
-              <property>
-                <name>cargo.jetty9x.url</name>
+              <cargo.jetty9x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.29.v20191105/jetty-distribution-9.2.29.v20191105.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.29.v20191105/jetty-distribution-9.2.29.v20191105.tar.gz
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.28.v20191105/jetty-distribution-9.3.28.v20191105.tar.gz</value>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.28.v20191105/jetty-distribution-9.3.28.v20191105.tar.gz
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/9.4.50.v20221201/jetty-home-9.4.50.v20221201.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty9x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/9.4.50.v20221201/jetty-home-9.4.50.v20221201.tar.gz
+              </cargo.jetty9x.url>
+              <cargo.jetty9x.java.home>${cargo.java.home.1_7}</cargo.jetty9x.java.home>
 
-              <property>
-                <name>cargo.jetty10x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.13/jetty-home-10.0.13.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty10x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+              <cargo.jetty10x.url>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.13/jetty-home-10.0.13.tar.gz
+              </cargo.jetty10x.url>
+              <cargo.jetty10x.java.home>${cargo.java.home.1_11}</cargo.jetty10x.java.home>
 
-              <property>
-                <name>cargo.jetty11x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/11.0.13/jetty-home-11.0.13.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jetty11x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+              <cargo.jetty11x.url>
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/11.0.13/jetty-home-11.0.13.tar.gz
+              </cargo.jetty11x.url>
+              <cargo.jetty11x.java.home>${cargo.java.home.1_11}</cargo.jetty11x.java.home>
 
-              <property>
-                <name>cargo.jo1x.url</name>
-                <value>https://www.tagtraum.com/download/jo1.1beta1.zip</value>
-              </property>
-              <property>
-                <name>cargo.jo1x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.jo1x.url>
+                https://www.tagtraum.com/download/jo1.1beta1.zip
+              </cargo.jo1x.url>
+              <cargo.jo1x.java.home>${cargo.java.home.1_4}</cargo.jo1x.java.home>
 
-              <property>
-                <name>cargo.jonas4x.url</name>
-                <value>https://dllegacy.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz</value>
-              </property>
-              <property>
-                <name>cargo.jonas4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
-              <property>
-                <name>cargo.samples.jonas4x.jonas.services.list</name>
-                <value>registry,jmx,security,jtm,resource,web,ear</value>
-              </property>
+              <cargo.jonas4x.url>
+                https://dllegacy.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz
+              </cargo.jonas4x.url>
+              <cargo.jonas4x.java.home>${cargo.java.home.1_4}</cargo.jonas4x.java.home>
+              <cargo.samples.jonas4x.jonas.services.list>registry,jmx,security,jtm,resource,web,ear</cargo.samples.jonas4x.jonas.services.list>
 
-              <property>
-                <name>cargo.jonas5x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.jonas5x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
-              <property>
-                <name>cargo.samples.jonas5x.jonas.services.list</name>
-                <value>resource,web,ear,depmonitor,datasource</value>
-              </property>
+              <cargo.jonas5x.url>
+                https://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz
+              </cargo.jonas5x.url>
+              <cargo.jonas5x.java.home>${cargo.java.home.1_6}</cargo.jonas5x.java.home>
+              <cargo.samples.jonas5x.jonas.services.list>resource,web,ear,depmonitor,datasource</cargo.samples.jonas5x.jonas.services.list>
 
               <!--
                 Note: There is no direct download link for JRun 4.x as the download page
@@ -571,51 +348,32 @@
                 installed using the cargo.jrun4x.home property.
                 For example:
 
-                <property>
-                  <name>cargo.jrun4x.home</name>
-                  <value>C:/JRun4</value>
-                </property>
+                <cargo.jrun4x.home>
+                  C:/JRun4
+                </cargo.jrun4x.home>
               -->
-              <property>
-                <name>cargo.jrun4x.home</name>
-                <value>${cargo.jrun4x.home}</value>
-              </property>
-              <property>
-                <name>cargo.jrun4x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.jrun4x.home>${cargo.jrun4x.home}</cargo.jrun4x.home>
+              <cargo.jrun4x.java.home>${cargo.java.home.1_5}</cargo.jrun4x.java.home>
 
-              <property>
-                <name>cargo.geronimo1x.url</name>
-                <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-                <value>https://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip</value>
-              </property>
-              <property>
-                <name>cargo.geronimo1x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
+              <cargo.geronimo1x.url>
+                https://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip
+              </cargo.geronimo1x.url>
+              <cargo.geronimo1x.java.home>${cargo.java.home.1_4}</cargo.geronimo1x.java.home>
 
-              <property>
-                <name>cargo.geronimo2x.url</name>
-                <!--
-                  DO NOT try to use version 2.2.1 because of Geronimo issue
-                  https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
-                  -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip</value>
-              </property>
-              <property>
-                <name>cargo.geronimo2x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <!--
+                DO NOT try to use version 2.2.1 because of Geronimo issue
+                https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
+                -->
+              <cargo.geronimo2x.url>
+                https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip
+              </cargo.geronimo2x.url>
+              <cargo.geronimo2x.java.home>${cargo.java.home.1_5}</cargo.geronimo2x.java.home>
 
-              <property>
-                <name>cargo.geronimo3x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip</value>
-              </property>
-              <property>
-                <name>cargo.geronimo3x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.geronimo3x.url>
+                https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip
+              </cargo.geronimo3x.url>
+              <cargo.geronimo3x.java.home>${cargo.java.home.1_6}</cargo.geronimo3x.java.home>
 
               <!--
                 GlassFish 2.x
@@ -628,85 +386,57 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.glassfish2x.home</name>
-                    <value>/Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1</value>
-                  </property>
+                  <cargo.glassfish2x.home>
+                    /Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1
+                  </cargo.glassfish2x.home>
                 -->
 
-              <property>
-                <name>cargo.glassfish2x.home</name>
-                <value>${cargo.glassfish2x.home}</value>
-              </property>
-              <property>
-                <name>cargo.glassfish2x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.glassfish2x.home>${cargo.glassfish2x.home}</cargo.glassfish2x.home>
+              <cargo.glassfish2x.java.home>${cargo.java.home.1_5}</cargo.glassfish2x.java.home>
 
-              <property>
-                <name>cargo.glassfish3x.url</name>
+              <cargo.glassfish3x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/distributions/glassfish/3.0.1/glassfish-3.0.1.zip</value>
+                https://repo.maven.apache.org/maven2/org/glassfish/distributions/glassfish/3.0.1/glassfish-3.0.1.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/3.1.2.2/glassfish-3.1.2.2.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish3x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/3.1.2.2/glassfish-3.1.2.2.zip
+              </cargo.glassfish3x.url>
+              <cargo.glassfish3x.java.home>${cargo.java.home.1_6}</cargo.glassfish3x.java.home>
 
-              <property>
-                <name>cargo.glassfish4x.url</name>
+              <cargo.glassfish4x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.0/glassfish-4.0.zip</value>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.0/glassfish-4.0.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.1.2/glassfish-4.1.2.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish4x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.1.2/glassfish-4.1.2.zip
+              </cargo.glassfish4x.url>
+              <cargo.glassfish4x.java.home>${cargo.java.home.1_7}</cargo.glassfish4x.java.home>
 
-              <property>
-                <name>cargo.glassfish5x.url</name>
+              <cargo.glassfish5x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.0.1/glassfish-5.0.1.zip</value>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.0.1/glassfish-5.0.1.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.1.0/glassfish-5.1.0.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish5x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.1.0/glassfish-5.1.0.zip
+              </cargo.glassfish5x.url>
+              <cargo.glassfish5x.java.home>${cargo.java.home.1_8}</cargo.glassfish5x.java.home>
 
-              <property>
-                <name>cargo.glassfish6x.url</name>
+              <cargo.glassfish6x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.0.0/glassfish-6.0.0.zip</value>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.0.0/glassfish-6.0.0.zip
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.1.0/glassfish-6.1.0.zip</value>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.1.0/glassfish-6.1.0.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.2.5/glassfish-6.2.5.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish6x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.2.5/glassfish-6.2.5.zip
+              </cargo.glassfish6x.url>
+              <cargo.glassfish6x.java.home>${cargo.java.home.1_11}</cargo.glassfish6x.java.home>
 
-              <property>
-                <name>cargo.glassfish7x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/7.0.1/glassfish-7.0.1.zip</value>
-              </property>
-              <property>
-                <name>cargo.glassfish7x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+              <cargo.glassfish7x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/7.0.1/glassfish-7.0.1.zip
+              </cargo.glassfish7x.url>
+              <cargo.glassfish7x.java.home>${cargo.java.home.1_11}</cargo.glassfish7x.java.home>
 
-              <property>
-                <name>cargo.liberty.url</name>
-                <value>https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/23.0.0.1/wlp-javaee8-23.0.0.1.zip</value>
-              </property>
+              <cargo.liberty.url>
+                https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/23.0.0.1/wlp-javaee8-23.0.0.1.zip
+              </cargo.liberty.url>
 
               <!--
                 OC4J 9.x
@@ -722,19 +452,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.oc4j9x.home</name>
-                    <value>c:/oracle/oc4j_extended_904</value>
-                  </property>
+                  <cargo.oc4j9x.home>
+                    c:/oracle/oc4j_extended_904
+                  </cargo.oc4j9x.home>
                 -->
-              <property>
-                <name>cargo.oc4j9x.home</name>
-                <value>${cargo.oc4j9x.home}</value>
-              </property>
-              <property>
-                <name>cargo.oc4j9x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.oc4j9x.home>${cargo.oc4j9x.home}</cargo.oc4j9x.home>
+              <cargo.oc4j9x.java.home>${cargo.java.home.1_4}</cargo.oc4j9x.java.home>
 
               <!--
                 OC4J 10.x
@@ -754,190 +477,119 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.oc4j10x.home</name>
-                    <value>c:/oracle/oc4j_extended_101340</value>
-                  </property>
+                  <cargo.oc4j10x.home>
+                    c:/oracle/oc4j_extended_101340
+                  </cargo.oc4j10x.home>
                 -->
-              <property>
-                <name>cargo.oc4j10x.home</name>
-                <value>${cargo.oc4j10x.home}</value>
-              </property>
-              <property>
-                <name>cargo.oc4j10x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.oc4j10x.home>${cargo.oc4j10x.home}</cargo.oc4j10x.home>
+              <cargo.oc4j10x.java.home>${cargo.java.home.1_5}</cargo.oc4j10x.java.home>
 
-              <property>
-                <name>cargo.payara.url</name>
+              <cargo.payara.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip</value>
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip
                   -->
                 <!--
-                <value>https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2022.5/payara-5.2022.5.zip</value>
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2022.5/payara-5.2022.5.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2023.2/payara-6.2023.2.zip</value>
-              </property>
-              <property>
-                <name>cargo.payara.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2023.2/payara-6.2023.2.zip
+              </cargo.payara.url>
+              <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
 
-              <property>
-                <name>cargo.resin3x.url</name>
-                <value>https://www.caucho.com/download/resin-3.0.27.zip</value>
-              </property>
-              <property>
-                <name>cargo.resin3x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.resin3x.url>
+                https://www.caucho.com/download/resin-3.0.27.zip
+              </cargo.resin3x.url>
+              <cargo.resin3x.java.home>${cargo.java.home.1_5}</cargo.resin3x.java.home>
 
-              <property>
-                <name>cargo.resin31x.url</name>
-                <value>https://www.caucho.com/download/resin-3.1.15.zip</value>
-              </property>
-              <property>
-                <name>cargo.resin31x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.resin31x.url>
+                https://www.caucho.com/download/resin-3.1.15.zip
+              </cargo.resin31x.url>
+              <cargo.resin31x.java.home>${cargo.java.home.1_5}</cargo.resin31x.java.home>
 
-              <property>
-                <name>cargo.resin4x.url</name>
-                <value>https://www.caucho.com/download/resin-4.0.66.zip</value>
-              </property>
-              <property>
-                <name>cargo.resin4x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.resin4x.url>
+                https://www.caucho.com/download/resin-4.0.66.zip
+              </cargo.resin4x.url>
+              <cargo.resin4x.java.home>${cargo.java.home.1_8}</cargo.resin4x.java.home>
 
-              <property>
-                <name>cargo.tomcat4x.url</name>
+              <cargo.tomcat4x.url>
                 <!--
                   Note that we want the larger download (not LE), as it contains dbcp needed for
                   database tests
                   -->
-                <value>https://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat4x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+                https://archive.apache.org/dist/tomcat/tomcat-4/v4.1.40/bin/apache-tomcat-4.1.40.zip
+              </cargo.tomcat4x.url>
+              <cargo.tomcat4x.java.home>${cargo.java.home.1_4}</cargo.tomcat4x.java.home>
 
-              <property>
-                <name>cargo.tomcat5x.url</name>
-                <value>https://archive.apache.org/dist/tomcat/tomcat-5/v5.5.34/bin/apache-tomcat-5.5.34.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat5x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.tomcat5x.url>
+                https://archive.apache.org/dist/tomcat/tomcat-5/v5.5.34/bin/apache-tomcat-5.5.34.zip
+              </cargo.tomcat5x.url>
+              <cargo.tomcat5x.java.home>${cargo.java.home.1_4}</cargo.tomcat5x.java.home>
 
-              <property>
-                <name>cargo.tomcat6x.url</name>
+              <cargo.tomcat6x.url>
                 <!--
                   Tomcat 6.0.53 cannot be used due to a ClassCastException:
                   org.apache.catalina.core.StandardContext cannot be cast to
                   org.apache.catalina.Context in the Embedded container
                   -->
                 <!--
-                <value>https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/apache-tomcat-6.0.53.zip</value>
+                https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/apache-tomcat-6.0.53.zip
                   -->
-                <value>https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat6x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+                https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip
+              </cargo.tomcat6x.url>
+              <cargo.tomcat6x.java.home>${cargo.java.home.1_5}</cargo.tomcat6x.java.home>
 
-              <property>
-                <name>cargo.tomcat7x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.109/tomcat-7.0.109.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat7x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.tomcat7x.url>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/7.0.109/tomcat-7.0.109.zip
+              </cargo.tomcat7x.url>
+              <cargo.tomcat7x.java.home>${cargo.java.home.1_6}</cargo.tomcat7x.java.home>
 
-              <property>
-                <name>cargo.tomcat8x.url</name>
+              <cargo.tomcat8x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip</value>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.86/tomcat-8.5.86.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat8x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.86/tomcat-8.5.86.zip
+              </cargo.tomcat8x.url>
+              <cargo.tomcat8x.java.home>${cargo.java.home.1_7}</cargo.tomcat8x.java.home>
 
-              <property>
-                <name>cargo.tomcat9x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.72/tomcat-9.0.72.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat9x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.tomcat9x.url>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.72/tomcat-9.0.72.zip
+              </cargo.tomcat9x.url>
+              <cargo.tomcat9x.java.home>${cargo.java.home.1_8}</cargo.tomcat9x.java.home>
 
-              <property>
-                <name>cargo.tomcat10x.url</name>
+              <cargo.tomcat10x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip</value>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.6/tomcat-10.1.6.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat10x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.6/tomcat-10.1.6.zip
+              </cargo.tomcat10x.url>
+              <cargo.tomcat10x.java.home>${cargo.java.home.1_11}</cargo.tomcat10x.java.home>
 
-              <property>
-                <name>cargo.tomcat11x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/11.0.0-M3/tomcat-11.0.0-M3.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomcat11x.java.home</name>
-                <value>${cargo.java.home.1_17}</value>
-              </property>
+              <cargo.tomcat11x.url>
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/11.0.0-M3/tomcat-11.0.0-M3.zip
+              </cargo.tomcat11x.url>
+              <cargo.tomcat11x.java.home>${cargo.java.home.1_17}</cargo.tomcat11x.java.home>
 
-              <property>
-                <name>cargo.tomee1x.url</name>
-                <value>https://archive.apache.org/dist/tomee/tomee-1.7.5/apache-tomee-1.7.5-plus.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomee1x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.tomee1x.url>
+                https://archive.apache.org/dist/tomee/tomee-1.7.5/apache-tomee-1.7.5-plus.zip
+              </cargo.tomee1x.url>
+              <cargo.tomee1x.java.home>${cargo.java.home.1_6}</cargo.tomee1x.java.home>
 
-              <property>
-                <name>cargo.tomee7x.url</name>
+              <cargo.tomee7x.url>
                 <!--
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.9/apache-tomee-7.0.9-plus.zip</value>
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.9/apache-tomee-7.0.9-plus.zip
                   -->
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.1.4/apache-tomee-7.1.4-plus.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomee7x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.1.4/apache-tomee-7.1.4-plus.zip
+              </cargo.tomee7x.url>
+              <cargo.tomee7x.java.home>${cargo.java.home.1_8}</cargo.tomee7x.java.home>
 
-              <property>
-                <name>cargo.tomee8x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/8.0.14/apache-tomee-8.0.14-plus.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomee8x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.tomee8x.url>
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/8.0.14/apache-tomee-8.0.14-plus.zip
+              </cargo.tomee8x.url>
+              <cargo.tomee8x.java.home>${cargo.java.home.1_8}</cargo.tomee8x.java.home>
 
-              <property>
-                <name>cargo.tomee9x.url</name>
-                <value>https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.0.0/apache-tomee-9.0.0-plus.zip</value>
-              </property>
-              <property>
-                <name>cargo.tomee9x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+              <cargo.tomee9x.url>
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.0.0/apache-tomee-9.0.0-plus.zip
+              </cargo.tomee9x.url>
+              <cargo.tomee9x.java.home>${cargo.java.home.1_11}</cargo.tomee9x.java.home>
 
               <!--
                 WebLogic 8.x
@@ -953,19 +605,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic8x.home</name>
-                    <value>c:/bea/weblogic81</value>
-                  </property>
+                  <cargo.weblogic8x.home>
+                    c:/bea/weblogic81
+                  </cargo.weblogic8x.home>
                 -->
-              <property>
-                <name>cargo.weblogic8x.home</name>
-                <value>${cargo.weblogic8x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic8x.java.home</name>
-                <value>${cargo.java.home.1_4}</value>
-              </property>
+              <cargo.weblogic8x.home>${cargo.weblogic8x.home}</cargo.weblogic8x.home>
+              <cargo.weblogic8x.java.home>${cargo.java.home.1_4}</cargo.weblogic8x.java.home>
 
               <!--
                 WebLogic 9.x
@@ -982,19 +627,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic9x.home</name>
-                    <value>c:/bea/weblogic92</value>
-                  </property>
+                  <cargo.weblogic9x.home>
+                    c:/bea/weblogic92
+                  </cargo.weblogic9x.home>
                 -->
-              <property>
-                <name>cargo.weblogic9x.home</name>
-                <value>${cargo.weblogic9x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic9x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.weblogic9x.home>${cargo.weblogic9x.home}</cargo.weblogic9x.home>
+              <cargo.weblogic9x.java.home>${cargo.java.home.1_5}</cargo.weblogic9x.java.home>
 
               <!--
                 WebLogic 10.x
@@ -1011,19 +649,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic10x.home</name>
-                    <value>c:/bea/wlserver_10.0</value>
-                  </property>
+                  <cargo.weblogic10x.home>
+                    c:/bea/wlserver_10.0
+                  </cargo.weblogic10x.home>
                 -->
-              <property>
-                <name>cargo.weblogic10x.home</name>
-                <value>${cargo.weblogic10x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic10x.java.home</name>
-                <value>${cargo.java.home.1_5}</value>
-              </property>
+              <cargo.weblogic10x.home>${cargo.weblogic10x.home}</cargo.weblogic10x.home>
+              <cargo.weblogic10x.java.home>${cargo.java.home.1_5}</cargo.weblogic10x.java.home>
 
               <!--
                 WebLogic 10.3.x
@@ -1039,19 +670,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic103x.home</name>
-                    <value>c:/bea/wlserver_10.3</value>
-                  </property>
+                  <cargo.weblogic103x.home>
+                    c:/bea/wlserver_10.3
+                  </cargo.weblogic103x.home>
                 -->
-              <property>
-                <name>cargo.weblogic103x.home</name>
-                <value>${cargo.weblogic103x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic103x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.weblogic103x.home>${cargo.weblogic103x.home}</cargo.weblogic103x.home>
+              <cargo.weblogic103x.java.home>${cargo.java.home.1_6}</cargo.weblogic103x.java.home>
 
               <!--
                 WebLogic 12.x
@@ -1067,19 +691,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic12x.home</name>
-                    <value>C:/Oracle/wls_12.1.3.0.0/wlserver</value>
-                  </property>
+                  <cargo.weblogic12x.home>
+                    C:/Oracle/wls_12.1.3.0.0/wlserver
+                  </cargo.weblogic12x.home>
                 -->
-              <property>
-                <name>cargo.weblogic12x.home</name>
-                <value>${cargo.weblogic12x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic12x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+              <cargo.weblogic12x.home>${cargo.weblogic12x.home}</cargo.weblogic12x.home>
+              <cargo.weblogic12x.java.home>${cargo.java.home.1_7}</cargo.weblogic12x.java.home>
 
               <!--
                 WebLogic 12.1.x
@@ -1095,19 +712,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic121x.home</name>
-                    <value>C:/Oracle/wls_12.1.3.0.0/wlserver</value>
-                  </property>
+                  <cargo.weblogic121x.home>
+                    C:/Oracle/wls_12.1.3.0.0/wlserver
+                  </cargo.weblogic121x.home>
                 -->
-              <property>
-                <name>cargo.weblogic121x.home</name>
-                <value>${cargo.weblogic121x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic121x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+              <cargo.weblogic121x.home>${cargo.weblogic121x.home}</cargo.weblogic121x.home>
+              <cargo.weblogic121x.java.home>${cargo.java.home.1_7}</cargo.weblogic121x.java.home>
 
               <!--
                 WebLogic 12.2.x
@@ -1123,19 +733,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic122x.home</name>
-                    <value>C:/Oracle/wls12210/wlserver</value>
-                  </property>
+                  <cargo.weblogic122x.home>
+                    C:/Oracle/wls12210/wlserver
+                  </cargo.weblogic122x.home>
                 -->
-              <property>
-                <name>cargo.weblogic122x.home</name>
-                <value>${cargo.weblogic122x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic122x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.weblogic122x.home>${cargo.weblogic122x.home}</cargo.weblogic122x.home>
+              <cargo.weblogic122x.java.home>${cargo.java.home.1_8}</cargo.weblogic122x.java.home>
 
               <!--
                 WebLogic 14.x
@@ -1151,19 +754,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.weblogic14x.home</name>
-                    <value>C:/Oracle/wls_14.1.1.0.0/wlserver</value>
-                  </property>
+                  <cargo.weblogic14x.home>
+                    C:/Oracle/wls_14.1.1.0.0/wlserver
+                  </cargo.weblogic14x.home>
                 -->
-              <property>
-                <name>cargo.weblogic14x.home</name>
-                <value>${cargo.weblogic14x.home}</value>
-              </property>
-              <property>
-                <name>cargo.weblogic14x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.weblogic14x.home>${cargo.weblogic14x.home}</cargo.weblogic14x.home>
+              <cargo.weblogic14x.java.home>${cargo.java.home.1_8}</cargo.weblogic14x.java.home>
 
               <!--
                 WebSphere 8.5.x
@@ -1179,19 +775,12 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.websphere85x.home</name>
-                    <value>C:/Program Files/IBM/WebSphere/AppServer</value>
-                  </property>
+                  <cargo.websphere85x.home>
+                    C:/Program Files/IBM/WebSphere/AppServer
+                  </cargo.websphere85x.home>
                 -->
-              <property>
-                <name>cargo.websphere85x.home</name>
-                <value>${cargo.websphere85x.home}</value>
-              </property>
-              <property>
-                <name>cargo.websphere85x.java.home</name>
-                <value>${cargo.java.home.1_6}</value>
-              </property>
+              <cargo.websphere85x.home>${cargo.websphere85x.home}</cargo.websphere85x.home>
+              <cargo.websphere85x.java.home>${cargo.java.home.1_6}</cargo.websphere85x.java.home>
 
               <!--
                 WebSphere 9.x
@@ -1207,43 +796,28 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.websphere9x.home</name>
-                    <value>C:/Program Files/IBM/WebSphere/AppServer</value>
-                  </property>
+                  <cargo.websphere9x.home>
+                    C:/Program Files/IBM/WebSphere/AppServer
+                  </cargo.websphere9x.home>
                 -->
-              <property>
-                <name>cargo.websphere9x.home</name>
-                <value>${cargo.websphere9x.home}</value>
-              </property>
-              <property>
-                <name>cargo.websphere9x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.websphere9x.home>${cargo.websphere9x.home}</cargo.websphere9x.home>
+              <cargo.websphere9x.java.home>${cargo.java.home.1_8}</cargo.websphere9x.java.home>
 
-              <property>
-                <name>cargo.wildfly8x.url</name>
+              <cargo.wildfly8x.url>
                 <!--
-                <value>https://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz</value>
+                https://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz
                   -->
                 <!--
-                <value>https://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz</value>
+                https://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
                   -->
-                <value>https://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.wildfly8x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+                https://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz
+              </cargo.wildfly8x.url>
+              <cargo.wildfly8x.java.home>${cargo.java.home.1_7}</cargo.wildfly8x.java.home>
 
-              <property>
-                <name>cargo.wildfly9x.url</name>
-                <value>https://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.wildfly9x.java.home</name>
-                <value>${cargo.java.home.1_7}</value>
-              </property>
+              <cargo.wildfly9x.url>
+                https://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz
+              </cargo.wildfly9x.url>
+              <cargo.wildfly9x.java.home>${cargo.java.home.1_7}</cargo.wildfly9x.java.home>
 
               <!--
                 JBoss EAP 7 is based on WildFly 10.x, as a result the WildFly 10.x container
@@ -1255,19 +829,14 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.wildfly10x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-7.0.0</value>
-                  </property>
+                  <cargo.wildfly10x.home>
+                    C:/Program Files/JBoss/jboss-eap-7.0.0
+                  </cargo.wildfly10x.home>
                 -->
-              <property>
-                <name>cargo.wildfly10x.url</name>
-                <value>https://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.tar.gz</value>
-              </property>
-              <property>
-                <name>cargo.wildfly10x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly10x.url>
+                https://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.tar.gz
+              </cargo.wildfly10x.url>
+              <cargo.wildfly10x.java.home>${cargo.java.home.1_8}</cargo.wildfly10x.java.home>
 
               <!--
                 JBoss EAP 7.1 is based on WildFly 11.x, as a result the WildFly 11.x container
@@ -1279,28 +848,19 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.wildfly11x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-7.1.0</value>
-                  </property>
+                  <cargo.wildfly11x.home>
+                    C:/Program Files/JBoss/jboss-eap-7.1.0
+                  </cargo.wildfly11x.home>
                 -->
-              <property>
-                <name>cargo.wildfly11x.url</name>
-                <value>https://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly11x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly11x.url>
+                https://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.zip
+              </cargo.wildfly11x.url>
+              <cargo.wildfly11x.java.home>${cargo.java.home.1_8}</cargo.wildfly11x.java.home>
 
-              <property>
-                <name>cargo.wildfly12x.url</name>
-                <value>https://download.jboss.org/wildfly/12.0.0.Final/wildfly-12.0.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly12x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly12x.url>
+                https://download.jboss.org/wildfly/12.0.0.Final/wildfly-12.0.0.Final.zip
+              </cargo.wildfly12x.url>
+              <cargo.wildfly12x.java.home>${cargo.java.home.1_8}</cargo.wildfly12x.java.home>
 
               <!--
                 JBoss EAP 7.2 is based on WildFly 13.x, as a result the WildFly 13.x container
@@ -1312,55 +872,34 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.wildfly13x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-7.2.0</value>
-                  </property>
+                  <cargo.wildfly13x.home>
+                    C:/Program Files/JBoss/jboss-eap-7.2.0
+                  </cargo.wildfly13x.home>
                 -->
-              <property>
-                <name>cargo.wildfly13x.url</name>
-                <value>https://download.jboss.org/wildfly/13.0.0.Final/wildfly-13.0.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly13x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly13x.url>
+                https://download.jboss.org/wildfly/13.0.0.Final/wildfly-13.0.0.Final.zip
+              </cargo.wildfly13x.url>
+              <cargo.wildfly13x.java.home>${cargo.java.home.1_8}</cargo.wildfly13x.java.home>
 
-              <property>
-                <name>cargo.wildfly14x.url</name>
-                <value>https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly14x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly14x.url>
+                https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip
+              </cargo.wildfly14x.url>
+              <cargo.wildfly14x.java.home>${cargo.java.home.1_8}</cargo.wildfly14x.java.home>
 
-              <property>
-                <name>cargo.wildfly15x.url</name>
-                <value>https://download.jboss.org/wildfly/15.0.1.Final/wildfly-15.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly15x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly15x.url>
+                https://download.jboss.org/wildfly/15.0.1.Final/wildfly-15.0.1.Final.zip
+              </cargo.wildfly15x.url>
+              <cargo.wildfly15x.java.home>${cargo.java.home.1_8}</cargo.wildfly15x.java.home>
 
-              <property>
-                <name>cargo.wildfly16x.url</name>
-                <value>https://download.jboss.org/wildfly/16.0.0.Final/wildfly-16.0.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly16x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly16x.url>
+                https://download.jboss.org/wildfly/16.0.0.Final/wildfly-16.0.0.Final.zip
+              </cargo.wildfly16x.url>
+              <cargo.wildfly16x.java.home>${cargo.java.home.1_8}</cargo.wildfly16x.java.home>
 
-              <property>
-                <name>cargo.wildfly17x.url</name>
-                <value>https://download.jboss.org/wildfly/17.0.1.Final/wildfly-17.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly17x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly17x.url>
+                https://download.jboss.org/wildfly/17.0.1.Final/wildfly-17.0.1.Final.zip
+              </cargo.wildfly17x.url>
+              <cargo.wildfly17x.java.home>${cargo.java.home.1_8}</cargo.wildfly17x.java.home>
 
               <!--
                 JBoss EAP 7.3 is based on WildFly 18.x, as a result the WildFly 18.x container
@@ -1372,46 +911,29 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.wildfly18x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-7.3.0</value>
-                  </property>
+                  <cargo.wildfly18x.home>
+                    C:/Program Files/JBoss/jboss-eap-7.3.0
+                  </cargo.wildfly18x.home>
                 -->
-              <property>
-                <name>cargo.wildfly18x.url</name>
-                <value>https://download.jboss.org/wildfly/18.0.1.Final/wildfly-18.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly18x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly18x.url>
+                https://download.jboss.org/wildfly/18.0.1.Final/wildfly-18.0.1.Final.zip
+              </cargo.wildfly18x.url>
+              <cargo.wildfly18x.java.home>${cargo.java.home.1_8}</cargo.wildfly18x.java.home>
 
-              <property>
-                <name>cargo.wildfly19x.url</name>
-                <value>https://download.jboss.org/wildfly/19.1.0.Final/wildfly-19.1.0.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly19x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly19x.url>
+                https://download.jboss.org/wildfly/19.1.0.Final/wildfly-19.1.0.Final.zip
+              </cargo.wildfly19x.url>
+              <cargo.wildfly19x.java.home>${cargo.java.home.1_8}</cargo.wildfly19x.java.home>
 
-              <property>
-                <name>cargo.wildfly20x.url</name>
-                <value>https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly20x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly20x.url>
+                https://download.jboss.org/wildfly/20.0.1.Final/wildfly-20.0.1.Final.zip
+              </cargo.wildfly20x.url>
+              <cargo.wildfly20x.java.home>${cargo.java.home.1_8}</cargo.wildfly20x.java.home>
 
-              <property>
-                <name>cargo.wildfly21x.url</name>
-                <value>https://download.jboss.org/wildfly/21.0.2.Final/wildfly-21.0.2.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly21x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly21x.url>
+                https://download.jboss.org/wildfly/21.0.2.Final/wildfly-21.0.2.Final.zip
+              </cargo.wildfly21x.url>
+              <cargo.wildfly21x.java.home>${cargo.java.home.1_8}</cargo.wildfly21x.java.home>
 
               <!--
                 JBoss EAP 7.4 is based on WildFly 22.x, as a result the WildFly 22.x container
@@ -1423,159 +945,95 @@
 
                 For example:
 
-                  <property>
-                    <name>cargo.wildfly22x.home</name>
-                    <value>C:/Program Files/JBoss/jboss-eap-7.4.0</value>
-                  </property>
+                  <cargo.wildfly22x.home>
+                    C:/Program Files/JBoss/jboss-eap-7.4.0
+                  </cargo.wildfly22x.home>
                 -->
-              <property>
-                <name>cargo.wildfly22x.url</name>
-                <value>https://download.jboss.org/wildfly/22.0.1.Final/wildfly-22.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly22x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly22x.url>
+                https://download.jboss.org/wildfly/22.0.1.Final/wildfly-22.0.1.Final.zip
+              </cargo.wildfly22x.url>
+              <cargo.wildfly22x.java.home>${cargo.java.home.1_8}</cargo.wildfly22x.java.home>
 
-              <property>
-                <name>cargo.wildfly23x.url</name>
-                <value>https://download.jboss.org/wildfly/23.0.2.Final/wildfly-23.0.2.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly23x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly23x.url>
+                https://download.jboss.org/wildfly/23.0.2.Final/wildfly-23.0.2.Final.zip
+              </cargo.wildfly23x.url>
+              <cargo.wildfly23x.java.home>${cargo.java.home.1_8}</cargo.wildfly23x.java.home>
 
-              <property>
-                <name>cargo.wildfly24x.url</name>
-                <value>https://download.jboss.org/wildfly/24.0.1.Final/wildfly-24.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly24x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly24x.url>
+                https://download.jboss.org/wildfly/24.0.1.Final/wildfly-24.0.1.Final.zip
+              </cargo.wildfly24x.url>
+              <cargo.wildfly24x.java.home>${cargo.java.home.1_8}</cargo.wildfly24x.java.home>
 
-              <property>
-                <name>cargo.wildfly25x.url</name>
-                <value>https://github.com/wildfly/wildfly/releases/download/25.0.1.Final/wildfly-25.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly25x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly25x.url>
+                https://github.com/wildfly/wildfly/releases/download/25.0.1.Final/wildfly-25.0.1.Final.zip
+              </cargo.wildfly25x.url>
+              <cargo.wildfly25x.java.home>${cargo.java.home.1_8}</cargo.wildfly25x.java.home>
 
-              <property>
-                <name>cargo.wildfly26x.url</name>
-                <value>https://github.com/wildfly/wildfly/releases/download/26.1.3.Final/wildfly-26.1.3.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly26x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
+              <cargo.wildfly26x.url>
+                https://github.com/wildfly/wildfly/releases/download/26.1.3.Final/wildfly-26.1.3.Final.zip
+              </cargo.wildfly26x.url>
+              <cargo.wildfly26x.java.home>${cargo.java.home.1_8}</cargo.wildfly26x.java.home>
 
-              <property>
-                <name>cargo.wildfly27x.url</name>
-                <value>https://github.com/wildfly/wildfly/releases/download/27.0.1.Final/wildfly-27.0.1.Final.zip</value>
-              </property>
-              <property>
-                <name>cargo.wildfly27x.java.home</name>
-                <value>${cargo.java.home.1_11}</value>
-              </property>
+              <cargo.wildfly27x.url>
+                https://github.com/wildfly/wildfly/releases/download/27.0.1.Final/wildfly-27.0.1.Final.zip
+              </cargo.wildfly27x.url>
+              <cargo.wildfly27x.java.home>${cargo.java.home.1_11}</cargo.wildfly27x.java.home>
 
-              <property>
-                <name>cargo.wildfly-swarm2017x.home</name>
-                <value>${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar</value>
-              </property>
-              <property>
-                <name>cargo.wildfly-swarm2017x.java.home</name>
-                <value>${cargo.java.home.1_8}</value>
-              </property>
-              <property>
-                <name>cargo.samples.wildfly-swarm2017x.swarm.ping.url</name>
-                <value>http://localhost:${cargo.samples.servlet.port}/simple-war/</value>
-              </property>
+              <cargo.wildfly-swarm2017x.home>
+                ${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar
+              </cargo.wildfly-swarm2017x.home>
+              <cargo.wildfly-swarm2017x.java.home>${cargo.java.home.1_8}</cargo.wildfly-swarm2017x.java.home>
+              <cargo.samples.wildfly-swarm2017x.swarm.ping.url>
+                http://localhost:${cargo.samples.servlet.port}/simple-war/
+              </cargo.samples.wildfly-swarm2017x.swarm.ping.url>
 
               <!--
                 If you're behind a proxy, you can define the following properties in your
                 settings.xml file:
 
-                  <property>
-                    <name>cargo.proxy.host</name>
-                    <value>[proxy host]</value>
-                  </property>
-                  <property>
-                    <name>cargo.proxy.servlet.port</name>
-                    <value>[proxy port]</value>
-                  </property>
-                  <property>
-                    <name>cargo.proxy.user</name>
-                    <value>[proxy user (if any)]</value>
-                  </property>
-                  <property>
-                    <name>cargo.proxy.password</name>
-                    <value>[proxy password (if any)]</value>
-                  </property>
-                  <property>
-                    <name>cargo.proxy.excludehosts</name>
-                    <value>
-                      [A list of hosts to bypass the proxy on (if any). These should be
-                      separated with the vertical bar character '|'.
-                      e.g. fozbot.corp.sun.com|*.eng.sun.com]
-                    </value>
-                  </property>
+                  <cargo.proxy.host>
+                    [proxy host]
+                  </cargo.proxy.host>
+                  <cargo.proxy.servlet.port>
+                    [proxy port]
+                  </cargo.proxy.servlet.port>
+                  <cargo.proxy.user>
+                    [proxy user (if any)]
+                  </cargo.proxy.user>
+                  <cargo.proxy.password>
+                    [proxy password (if any)]
+                  </cargo.proxy.password>
+                  <cargo.proxy.excludehosts>
+                    [A list of hosts to bypass the proxy on (if any). These should be
+                     separated with the vertical bar character '|'.
+                     e.g. fozbot.corp.sun.com|*.eng.sun.com]
+                  </cargo.proxy.excludehosts>
               -->
 
-              <property>
-                <name>cargo.target.dir</name>
-                <value>${project.build.directory}</value>
-              </property>
+              <cargo.target.dir>${project.build.directory}</cargo.target.dir>
 
-              <property>
-                <name>cargo.containers.timeout</name>
-                <value>${cargo.containers.timeout}</value>
-              </property>
+              <cargo.containers.timeout>${cargo.containers.timeout}</cargo.containers.timeout>
 
-              <property>
-                <name>cargo.testdata.mail-jars</name>
-                <value>${project.build.directory}/mail-jars</value>
-              </property>
+              <cargo.testdata.mail-jars>${project.build.directory}/mail-jars</cargo.testdata.mail-jars>
 
-              <property>
-                <name>cargo.testdata.derby-jar</name>
-                <value>${project.build.directory}/test-jars/derby.jar</value>
-              </property>
+              <cargo.testdata.derby-jar>${project.build.directory}/test-jars/derby.jar</cargo.testdata.derby-jar>
 
-              <property>
-                <name>cargo.testdata.simple-jar</name>
-                <value>${project.build.directory}/test-jars/simple.jar</value>
-              </property>
+              <cargo.testdata.simple-jar>${project.build.directory}/test-jars/simple.jar</cargo.testdata.simple-jar>
 
-              <property>
-                <name>cargo.testdata.test-jars</name>
-                <value>${project.build.directory}/test-jars</value>
-              </property>
+              <cargo.testdata.test-jars>${project.build.directory}/test-jars</cargo.testdata.test-jars>
 
-              <property>
-                <name>cargo.testdata.deployables</name>
-                <value>${project.build.directory}/deployables</value>
-              </property>
+              <cargo.testdata.deployables>${project.build.directory}/deployables</cargo.testdata.deployables>
 
               <!-- Location where to download the containers for the tests -->
-              <property>
-                <name>cargo.download.dir</name>
-                <value>${cargo.download.dir}</value>
-              </property>
+              <cargo.download.dir>${cargo.download.dir}</cargo.download.dir>
 
               <!--
                 Default list of containers to run on. If you want to shorten or change the
                 execution of 'samples', simply specify a shorter list of containers on the command
                 line or in your settings
                 -->
-              <property>
-                <name>cargo.containers</name>
-                <value>${cargo.containers}</value>
-              </property>
-            </systemProperties>
+              <cargo.containers>${cargo.containers}</cargo.containers>
+            </systemPropertyVariables>
           </configuration>
         </plugin>
       </plugins>

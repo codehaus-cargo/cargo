@@ -143,36 +143,15 @@
                 </goals>
                 <configuration>
                   <skip>false</skip>
-                  <systemProperties>
-                    <property>
-                      <name>cargo.home</name>
-                      <value>${project.build.directory}/daemon-cargo-home</value>
-                    </property>
-                    <property>
-                      <name>daemon.home</name>
-                      <value>${project.build.directory}/daemon-home</value>
-                    </property>
-                    <property>
-                      <name>daemon.port</name>
-                      <value>${cargo.daemon.itests.daemon.port}</value>
-                    </property>
-                    <property>
-                      <name>daemon.test-configurations.home</name>
-                      <value>${project.build.directory}/daemon-test-configurations-home</value>
-                    </property>
-                    <property>
-                      <name>servlet.port</name>
-                      <value>${cargo.daemon.itests.servlet.port}</value>
-                    </property>
-                    <property>
-                      <name>rmi.port</name>
-                      <value>${cargo.daemon.itests.rmi.port}</value>
-                    </property>
-                    <property>
-                      <name>artifacts.dir</name>
-                      <value>${project.build.directory}/test-artifacts</value>
-                    </property>
-                  </systemProperties>
+                  <systemPropertyVariables>
+                    <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
+                    <daemon.home>${project.build.directory}/daemon-home</daemon.home>
+                    <daemon.port>${cargo.daemon.itests.daemon.port}</daemon.port>
+                    <daemon.test-configurations.home>${project.build.directory}/daemon-test-configurations-home</daemon.test-configurations.home>
+                    <servlet.port>${cargo.daemon.itests.servlet.port}</servlet.port>
+                    <rmi.port>${cargo.daemon.itests.rmi.port}</rmi.port>
+                    <artifacts.dir>${project.build.directory}/test-artifacts</artifacts.dir>
+                  </systemPropertyVariables>
                 </configuration>
               </execution>
             </executions>

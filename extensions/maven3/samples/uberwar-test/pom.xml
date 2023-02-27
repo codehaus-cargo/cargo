@@ -88,16 +88,10 @@
                 </goals>
                 <configuration>
                   <skip>false</skip>
-                  <systemProperties>
-                    <property>
-                      <name>project.version</name>
-                      <value>${project.version}</value>
-                    </property>
-                    <property>
-                      <name>target</name>
-                      <value>${project.build.directory}</value>
-                    </property>
-                  </systemProperties>
+                  <systemPropertyVariables>
+                    <project.version>${project.version}</project.version>
+                    <target>${project.build.directory}</target>
+                  </systemPropertyVariables>
                 </configuration>
               </execution>
             </executions>

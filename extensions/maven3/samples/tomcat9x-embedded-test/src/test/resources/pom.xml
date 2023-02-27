@@ -107,12 +107,9 @@
               <goal>test</goal>
             </goals>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>http.port</name>
-                  <value>\${cargo.samples.servlet.port}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <http.port>\${cargo.samples.servlet.port}</http.port>
+              </systemPropertyVariables>
             </configuration>
           </execution>
         </executions>

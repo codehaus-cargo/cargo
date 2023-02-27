@@ -104,16 +104,10 @@
                 </goals>
                 <configuration>
                   <skip>false</skip>
-                  <systemProperties>
-                    <property>
-                      <name>http.port</name>
-                      <value>${cargo.samples.servlet.port}</value>
-                    </property>
-                    <property>
-                      <name>expandedWebapp.directory</name>
-                      <value>${expandedWebapp.directory}</value>
-                    </property>
-                  </systemProperties>
+                  <systemPropertyVariables>
+                    <http.port>${cargo.samples.servlet.port}</http.port>
+                    <expandedWebapp.directory>${expandedWebapp.directory}</expandedWebapp.directory>
+                  </systemPropertyVariables>
                 </configuration>
               </execution>
             </executions>

@@ -82,12 +82,9 @@
               <goal>integration-test</goal>
             </goals>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>servlet.port</name>
-                  <value>\${servlet.port}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <servlet.port>\${servlet.port}</servlet.port>
+              </systemPropertyVariables>
             </configuration>
           </execution>
           <execution>

@@ -165,16 +165,10 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
-          <systemProperties>
-            <property>
-              <name>http.port</name>
-              <value>${cargo.samples.servlet.port}</value>
-            </property>
-            <property>
-              <name>project.version</name>
-              <value>${project.version}</value>
-            </property>
-          </systemProperties>
+          <systemPropertyVariables>
+            <http.port>${cargo.samples.servlet.port}</http.port>
+            <project.version>${project.version}</project.version>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
       <plugin>

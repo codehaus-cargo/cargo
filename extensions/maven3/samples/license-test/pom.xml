@@ -87,12 +87,9 @@
                   <goal>test</goal>
                 </goals>
                 <configuration>
-                  <systemProperties>
-                    <property>
-                      <name>cargo-uberjar.file</name>
-                      <value>${cargo-uberjar.directory}/cargo-core-uberjar-${project.version}.jar</value>
-                    </property>
-                  </systemProperties>
+                  <systemPropertyVariables>
+                    <cargo-uberjar.file>${cargo-uberjar.directory}/cargo-core-uberjar-${project.version}.jar</cargo-uberjar.file>
+                  </systemPropertyVariables>
                 </configuration>
               </execution>
             </executions>

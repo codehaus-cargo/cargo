@@ -174,9 +174,9 @@ public class ConfluenceContainerDocumentationGenerator
     private static final String SUREFIRE_PLUGIN = "org.apache.maven.plugins:maven-surefire-plugin";
 
     /**
-     * Constant for the systemProperties node of the Surefire plugin.
+     * Constant for the systemPropertyVariables node of the Surefire plugin.
      */
-    private static final String SYSTEM_PROPERTIES = "systemProperties";
+    private static final String SYSTEM_PROPERTY_VARIABLES = "systemPropertyVariables";
 
     /**
      * Container factory.
@@ -1874,32 +1874,19 @@ public class ConfluenceContainerDocumentationGenerator
             throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
                 + " does not have any configuration.");
         }
-        Xpp3Dom systemProperties = configuration.getChild(SYSTEM_PROPERTIES);
-        if (systemProperties == null)
+        Xpp3Dom systemPropertyVariables = configuration.getChild(SYSTEM_PROPERTY_VARIABLES);
+        if (systemPropertyVariables == null)
         {
-            throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
-                + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
+            throw new IllegalStateException(
+                "Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom + " does not have any "
+                    + SYSTEM_PROPERTY_VARIABLES + " in its configuration.");
         }
-
-        String urlName = "cargo." + containerId + ".java.home";
-        for (Xpp3Dom property : systemProperties.getChildren())
+        Xpp3Dom javaHome = systemPropertyVariables.getChild("cargo." + containerId + ".java.home");
+        if (javaHome == null)
         {
-            Xpp3Dom nameChild = property.getChild("name");
-            Xpp3Dom valueChild = property.getChild("value");
-            if (nameChild == null || valueChild == null)
-            {
-                throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
-                    + "'s configuration options in pom file " + pom + " is incomplete:\n"
-                        + property);
-            }
-
-            if (urlName.equals(nameChild.getValue()))
-            {
-                return valueChild.getValue();
-            }
+            throw new IllegalArgumentException("No java.home for " + containerId);
         }
-
-        throw new IllegalArgumentException("No java.home for " + containerId);
+        return javaHome.getValue();
     }
 
     /**
@@ -1953,32 +1940,19 @@ public class ConfluenceContainerDocumentationGenerator
                 throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
                     + " does not have any configuration.");
             }
-            Xpp3Dom systemProperties = configuration.getChild(SYSTEM_PROPERTIES);
-            if (systemProperties == null)
+            Xpp3Dom systemPropertyVariables = configuration.getChild(SYSTEM_PROPERTY_VARIABLES);
+            if (systemPropertyVariables == null)
             {
-                throw new IllegalStateException("Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom
-                    + " does not have any " + SYSTEM_PROPERTIES + " in its configuration.");
+                throw new IllegalStateException(
+                    "Plugin " + SUREFIRE_PLUGIN + " in pom file " + pom + " does not have any "
+                        + SYSTEM_PROPERTY_VARIABLES + " in its configuration.");
             }
-
-            String urlName = "cargo." + containerId + ".url";
-            for (Xpp3Dom property : systemProperties.getChildren())
+            Xpp3Dom url = systemPropertyVariables.getChild("cargo." + containerId + ".url");
+            if (url == null)
             {
-                Xpp3Dom nameChild = property.getChild("name");
-                Xpp3Dom valueChild = property.getChild("value");
-                if (nameChild == null || valueChild == null)
-                {
-                    throw new IllegalStateException("One of the " + SUREFIRE_PLUGIN
-                        + "'s configuration options in pom file " + pom + " is incomplete:\n"
-                            + property);
-                }
-
-                if (urlName.equals(nameChild.getValue()))
-                {
-                    return valueChild.getValue();
-                }
+                return null;
             }
+            return url.getValue();
         }
-
-        return null;
     }
 }

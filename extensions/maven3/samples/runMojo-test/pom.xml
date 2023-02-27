@@ -86,16 +86,10 @@
                 </goals>
                 <configuration>
                   <skip>false</skip>
-                  <systemProperties>
-                    <property>
-                      <name>http.port</name>
-                      <value>${cargo.samples.servlet.port}</value>
-                    </property>
-                    <property>
-                      <name>target</name>
-                      <value>${project.build.directory}</value>
-                    </property>
-                  </systemProperties>
+                  <systemPropertyVariables>
+                    <http.port>${cargo.samples.servlet.port}</http.port>
+                    <target>${project.build.directory}</target>
+                  </systemPropertyVariables>
                 </configuration>
               </execution>
             </executions>

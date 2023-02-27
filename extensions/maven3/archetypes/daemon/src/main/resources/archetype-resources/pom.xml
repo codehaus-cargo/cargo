@@ -97,16 +97,10 @@
               <goal>integration-test</goal>
             </goals>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>servlet.port</name>
-                  <value>\${servlet.port}</value>
-                </property>
-                <property>
-                  <name>hostname</name>
-                  <value>\${hostname}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <servlet.port>\${servlet.port}</servlet.port>
+                <hostname>\${hostname}</hostname>
+              </systemPropertyVariables>
             </configuration>
           </execution>
           <execution>

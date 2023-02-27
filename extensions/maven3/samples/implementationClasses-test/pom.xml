@@ -89,16 +89,10 @@
                 </goals>
                 <configuration>
                   <skip>false</skip>
-                  <systemProperties>
-                    <property>
-                      <name>artifactId</name>
-                      <value>${project.artifactId}</value>
-                    </property>
-                    <property>
-                      <name>target</name>
-                      <value>${project.build.directory}</value>
-                    </property>
-                  </systemProperties>
+                  <systemPropertyVariables>
+                    <artifactId>${project.artifactId}</artifactId>
+                    <target>${project.build.directory}</target>
+                  </systemPropertyVariables>
                 </configuration>
               </execution>
             </executions>
