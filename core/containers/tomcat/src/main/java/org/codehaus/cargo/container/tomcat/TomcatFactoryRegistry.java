@@ -66,6 +66,10 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
             TomcatWAR.class);
         deployableFactory.registerDeployable("tomcat9x", DeployableType.WAR,
             TomcatWAR.class);
+        deployableFactory.registerDeployable("tomcat10x", DeployableType.WAR,
+            TomcatWAR.class);
+        deployableFactory.registerDeployable("tomcat11x", DeployableType.WAR,
+            TomcatWAR.class);
     }
 
     /**
