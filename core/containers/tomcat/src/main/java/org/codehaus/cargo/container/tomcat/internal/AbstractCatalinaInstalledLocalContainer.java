@@ -71,7 +71,6 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
         if (version == null)
         {
-            String catalinaJar
             try (JarFile catalinaJar = new JarFile(new File(getHome(), "lib/catalina.jar")))
             {
                 // Unfortunately, there's no safe way to find out the version of a Catalina
