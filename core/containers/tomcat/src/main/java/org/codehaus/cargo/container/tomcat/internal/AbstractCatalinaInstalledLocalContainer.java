@@ -71,7 +71,8 @@ public abstract class AbstractCatalinaInstalledLocalContainer extends
 
         if (version == null)
         {
-            try (JarFile catalinaJar = new JarFile(new File(getHome(), "server/lib/catalina.jar")))
+            String catalinaJar
+            try (JarFile catalinaJar = new JarFile(new File(getHome(), "lib/catalina.jar")))
             {
                 // Unfortunately, there's no safe way to find out the version of a Catalina
                 // installation, so we need to try multiple paths here
