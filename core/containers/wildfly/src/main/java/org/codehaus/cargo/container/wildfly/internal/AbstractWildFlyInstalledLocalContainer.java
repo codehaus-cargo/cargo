@@ -241,22 +241,26 @@ public abstract class AbstractWildFlyInstalledLocalContainer extends AbstractIns
                     int result = java.execute();
                     if (result != 0)
                     {
-                        StringBuilder message =
-                            new StringBuilder("Failure when invoking CLI script: java returned ");
-                        message.append(result);
-                        try
-                        {
-                            String detail = getFileHandler().readTextFile(
-                                scriptOutput.getPath(), StandardCharsets.UTF_8);
-                            message.append(", detailed message: ");
-                            message.append(detail);
-                        }
-                        catch (Exception ignored)
-                        {
-                            // Ignored
-                        }
-                        throw new ContainerException(message.toString());
+                        throw new ContainerException(
+                            "Failure when invoking CLI script: java returned " + result);
                     }
+                }
+                catch (RuntimeException e)
+                {
+                    StringBuilder message = new StringBuilder(e.getMessage());
+                    try
+                    {
+                        String detail = getFileHandler().readTextFile(
+                            scriptOutput.getPath(), StandardCharsets.UTF_8);
+                        message.append(", detailed message: ");
+                        message.append(detail);
+                    }
+                    catch (Exception ignored)
+                    {
+                        // If reading the detailed message failed, throw the initial exception
+                        throw e;
+                    }
+                    throw new ContainerException(message.toString());
                 }
                 finally
                 {
