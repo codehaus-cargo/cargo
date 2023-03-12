@@ -1252,6 +1252,7 @@
               -->
             <additionalJOption>--allow-script-in-comments</additionalJOption>
             <bottom>
+              &lt;br&gt;
               Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and
               2012–2023 Ali Tokmen under the Apache Software License, except for the
               WebSphere Liberty container which has been released under the MIT License.
