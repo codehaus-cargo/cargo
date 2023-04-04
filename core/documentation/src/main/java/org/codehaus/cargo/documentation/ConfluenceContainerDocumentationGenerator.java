@@ -114,6 +114,26 @@ public class ConfluenceContainerDocumentationGenerator
     });
 
     /**
+     * Names of Jakarta EE containers, i.e. starting from which version a container has moved
+     * over to Jakarta EE.
+     */
+    private static final Map<String, String> JAKARTAEE_CONTAINER_NAMES =
+        new HashMap<String, String>();
+
+    /**
+     * Initialize Jakarta EE container names.
+     */
+    static
+    {
+        JAKARTAEE_CONTAINER_NAMES.put("jetty", "Jetty 11");
+        JAKARTAEE_CONTAINER_NAMES.put("glassfish", "GlassFish 6");
+        JAKARTAEE_CONTAINER_NAMES.put("payara", "Payara 6");
+        JAKARTAEE_CONTAINER_NAMES.put("tomcat", "Tomcat 10");
+        JAKARTAEE_CONTAINER_NAMES.put("tomee", "TomEE 9");
+        JAKARTAEE_CONTAINER_NAMES.put("wildfly", "WildFly 27");
+    }
+
+    /**
      * Classes that are used to get the property names.
      */
     private static final Class[] PROPERTY_SET_CLASSES =
@@ -519,34 +539,19 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
         }
 
-        if (EnvironmentTestData.jakartaEeContainers.contains(containerId))
+        if (EnvironmentTestData.jakartaEeContainers.contains(containerId)
+            || containerId.equals("payara"))
         {
-            String containerName;
-            if (containerId.equals("jetty11x"))
+            String containerName = null;
+            for (Map.Entry<String, String> container : JAKARTAEE_CONTAINER_NAMES.entrySet())
             {
-                containerName = "Jetty 11";
+                if (containerId.startsWith(container.getKey()))
+                {
+                    containerName = container.getValue();
+                    break;
+                }
             }
-            else if (containerId.startsWith("glassfish"))
-            {
-                containerName = "GlassFish 6";
-            }
-            else if (containerId.equals("payara"))
-            {
-                containerName = "Payara 6";
-            }
-            else if (containerId.equals("tomcat10x") || containerId.equals("tomcat11x"))
-            {
-                containerName = "Tomcat 10";
-            }
-            else if (containerId.equals("tomee9x"))
-            {
-                containerName = "TomEE 9";
-            }
-            else if (containerId.equals("wildfly27x"))
-            {
-                containerName = "WildFly 27";
-            }
-            else
+            if (containerName == null)
             {
                 throw new IllegalStateException(
                     "Jakarta EE container " + containerId + " not documented");
