@@ -51,7 +51,8 @@ public class EnvironmentTestData
         "tomcat10x",
         "tomcat11x",
         "tomee9x",
-        "wildfly27x"
+        "wildfly27x",
+        "wildfly28x"
     });
 
     /**

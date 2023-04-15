@@ -99,6 +99,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
         excludedContainerIds.add("wildfly25x");
         excludedContainerIds.add("wildfly26x");
         excludedContainerIds.add("wildfly27x");
+        excludedContainerIds.add("wildfly28x");
 
         // Jakarta EE versions of Payara do not support XA transaction emulation
         // the way Codehaus Cargo tests it

@@ -466,7 +466,7 @@ public class ConfluenceContainerDocumentationGenerator
         if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
             || containerId.equals("wildfly10x") || containerId.equals("wildfly11x")
             || containerId.equals("wildfly13x") || containerId.equals("wildfly18x")
-            || containerId.equals("wildfly22x"))
+            || containerId.equals("wildfly22x") || containerId.equals("wildfly27x"))
         {
             output.append("{info}With the opening of the JBoss EAP to the public and the split ");
             output.append("between JBoss and WildFly, the below naming correspondence should be ");
@@ -514,6 +514,10 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("* The [WildFly 22.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7.4; i.e. the version released in ");
             output.append("July 2021");
+            output.append(FileHandler.NEW_LINE);
+            output.append("* The [WildFly 27.x] container can be used with the JBoss Enterprise ");
+            output.append("Application Platform (EAP) version 8.0; i.e. the version expected by ");
+            output.append("mid 2023");
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
@@ -534,7 +538,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("This does not affect the [Maven 3 plugin], as it will download the ");
             output.append("required dependencies automatically (and, since Maven downloads and ");
             output.append("stores the JOnAS Configurator JARs separately from Codehaus Cargo ");
-            output.append("you won’t run into license issues).{note}");
+            output.append("you won't run into license issues).{note}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
         }
