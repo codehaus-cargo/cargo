@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven3</artifactId>
-    <version>1.10.7-SNAPSHOT</version>
+    <version>1.10.7</version>
   </parent>
   <artifactId>cargo-sample-maven3-runMojo-test</artifactId>
   <name>Cargo Samples - Maven 3 - cargo:run MOJO test</name>
