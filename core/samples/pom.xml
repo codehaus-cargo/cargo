@@ -980,7 +980,7 @@
               <cargo.wildfly27x.java.home>${cargo.java.home.1_11}</cargo.wildfly27x.java.home>
 
               <cargo.wildfly28x.url>
-                https://github.com/wildfly/wildfly/releases/download/28.0.0.Final/wildfly-28.0.0.Final.zip
+                https://github.com/wildfly/wildfly/releases/download/28.0.1.Final/wildfly-28.0.1.Final.zip
               </cargo.wildfly28x.url>
               <cargo.wildfly28x.java.home>${cargo.java.home.1_11}</cargo.wildfly28x.java.home>
 
