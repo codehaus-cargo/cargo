@@ -81,7 +81,7 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-utils</artifactId>
+      <artifactId>plexus-utils-xml</artifactId>
     </dependency>
 
     <dependency>
