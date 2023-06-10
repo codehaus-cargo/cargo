@@ -340,8 +340,9 @@
       Require Maven 3.2.3 so access to Maven Central is done via HTTPS.
 
       The Maven compiler plugin's version 3.9.0 onwards requires Maven 3.2.5.
+      The Modello Maven plugin's version 2.1.2 requires Maven 3.5.4.
       -->
-    <maven.minimum.version>3.2.5</maven.minimum.version>
+    <maven.minimum.version>3.5.4</maven.minimum.version>
     <maven.antrun-plugin.version>3.1.0</maven.antrun-plugin.version>
     <maven.archetype-packaging.version>3.2.1</maven.archetype-packaging.version>
     <maven.compiler-plugin.version>3.11.0</maven.compiler-plugin.version>
