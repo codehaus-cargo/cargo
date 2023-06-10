@@ -125,6 +125,7 @@ blocks:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
           - sudo hostname codehaus-cargo-ci
           - checkout
+          - ls -al
           - cd cargo
           - export ORIGINAL_PWD=$PWD
           - mkdir -p /tmp/cargo
@@ -154,7 +155,7 @@ blocks:
           - mvn -version
           - cd $ORIGINAL_PWD/core/samples/java
       epilogue:
-        always:
+        on_pass:
           commands:
             - cd $ORIGINAL_PWD
             - mvn clean
