@@ -124,13 +124,14 @@ blocks:
         commands:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
           - sudo hostname codehaus-cargo-ci
+          - checkout
+          - cd cargo
           - export ORIGINAL_PWD=$PWD
           - mkdir -p /tmp/cargo
           - mkdir -p $SEMAPHORE_CACHE_DIR/cargo-installs
           - rm -f apache-maven-3.2.5-bin.tar.gz
           - 'find $SEMAPHORE_CACHE_DIR -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
           - 'find $SEMAPHORE_CACHE_DIR -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
-          - checkout
           - ln -s $SEMAPHORE_CACHE_DIR/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
           - ls -al $SEMAPHORE_CACHE_DIR
           - ls -al $SEMAPHORE_CACHE_DIR/cargo-installs
