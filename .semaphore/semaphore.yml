@@ -132,6 +132,7 @@ blocks:
           - 'find $SEMAPHORE_CACHE_DIR -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
           - ln -s $SEMAPHORE_CACHE_DIR/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
           - ls -al $SEMAPHORE_CACHE_DIR
+          - checkout
           - ls -al $SEMAPHORE_CACHE_DIR/cargo-installs
           - mkdir -p ~/.m2
           - cd ~/.m2
