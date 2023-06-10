@@ -8,8 +8,161 @@ blocks:
   - name: Maven
     task:
       jobs:
-        - name: Build
+        - name: 'Payara, Resin 4.x, Tomcat 9.x and 10.x, TomEE 7.x to 9.x'
           commands:
-            - checkout
+            - mvn clean install -o -e -Presin4x ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat9x ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomee7x ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomee8x ; echo "  Status for tomee8x is $?" >> containers.log ; RM=0
             - sem-version java 11
-            - mvn clean install
+            - mvn -version
+            - mvn clean install -o -e -Ppayara ; echo "  Status for payara is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat10x ; echo "  Status for tomcat10x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomee9x ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
+        - name: 'Jetty 9.x to 11.x, Tomcat 4.x and 6.x to 8.x, TomEE 1.x, WebSphere Liberty, WildFly 8.x and 9.x'
+          commands:
+            - mvn clean install -o -e -Pjetty9x ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pliberty ; echo "  Status for liberty is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat4x ; echo "  Status for tomcat4x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat6x ; echo "  Status for tomcat6x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat7x ; echo "  Status for tomcat7x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat8x ; echo "  Status for tomcat8x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomee1x ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly8x ; echo "  Status for wildfly8x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly9x ; echo "  Status for wildfly9x is $?" >> containers.log ; RM=0
+            - sem-version java 11
+            - mvn -version
+            - mvn clean install -o -e -Pjetty10x ; echo "  Status for jetty10x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjetty11x ; echo "  Status for jetty11x is $?" >> containers.log ; RM=0
+        - name: 'Geronimo 1.x, Glassfish 4.x to 7.x, Resin 3.1.x'
+          commands:
+            - mvn clean install -o -e -Pgeronimo1x ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pglassfish4x ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pglassfish5x ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Presin31x ; echo "  Status for resin31x is $?" >> containers.log ; RM=0
+            - sem-version java 11
+            - mvn -version
+            - mvn clean install -o -e -Pglassfish6x ; echo "  Status for glassfish6x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pglassfish7x ; echo "  Status for glassfish7x is $?" >> containers.log ; RM=0
+        - name: 'JDK 6 containers (Geronimo 3.x, Glassfish 3.x, JBoss 5.x to 7.1.x, JOnAS 4.x and 5.x, Resin 3.x, Tomcat 5.x)'
+          commands:
+            - cd $SEMAPHORE_CACHE_DIR
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
+            - cd /tmp/cargo
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -o -e -Pgeronimo3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pglassfish3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss5x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss5x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss51x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss51x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss6x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss6x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss61x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss61x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss7x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss71x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss71x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjonas4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas4x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjonas5x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas5x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Presin3x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin3x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Ptomcat5x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat5x is $?" >> containers.log ; RM=0
+        - name: WildFly 10.x to 18.x
+          commands:
+            - mvn clean install -o -e -Pwildfly10x ; echo "  Status for wildfly10x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly11x ; echo "  Status for wildfly11x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly12x ; echo "  Status for wildfly12x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly13x ; echo "  Status for wildfly13x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly14x ; echo "  Status for wildfly14x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly15x ; echo "  Status for wildfly15x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly16x ; echo "  Status for wildfly16x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly17x ; echo "  Status for wildfly17x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly18x ; echo "  Status for wildfly18x is $?" >> containers.log ; RM=0
+        - name: 'JBoss 3.x to 4.2.x, Jetty 5.x to 8.x, Jo 1.x'
+          commands:
+            - mvn clean install -o -e -Pjboss3x ; echo "  Status for jboss3x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss4x ; echo "  Status for jboss4x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjboss42x ; echo "  Status for jboss42x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjetty5x ; echo "  Status for jetty5x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjetty6x ; echo "  Status for jetty6x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjetty7x ; echo "  Status for jetty7x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjetty8x ; echo "  Status for jetty8x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pjo1x ; echo "  Status for jo1x is $?" >> containers.log ; RM=0
+        - name: 'WildFly 19.x to 28.x, WildFly Swarm'
+          commands:
+            - mvn clean install -o -e -Pwildfly19x ; echo "  Status for wildfly19x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly20x ; echo "  Status for wildfly20x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly21x ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly22x ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly23x ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly24x ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly25x ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly26x ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
+            - mvn clean install -e -Pwildfly-swarm2017x ; echo "  Status for wildfly-swarm2017x is $?" >> containers.log ; RM=0
+            - sem-version java 11
+            - mvn -version
+            - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly28x ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
+        - name: 'JDK 8 and 17 build, Javadoc check, JDK 11 deploy, Tomcat 11.x'
+          commands:
+            - cd $ORIGINAL_PWD
+            - '(mvn clean install -e && echo "  Status for first build on Java 8 is OK" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "  First build on Java 8 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
+            - sem-version java 17
+            - mvn -version
+            - '(mvn clean install -e && echo "  Status for first build on Java 17 is OK" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "  First build on Java 17 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
+            - mvn clean
+            - unset JAVA_HOME
+            - sem-version java 11
+            - mvn -version
+            - 'mvn javadoc:aggregate'
+            - mvn clean
+            - '(mvn clean deploy -e && echo "  Status for first deployment is OK" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "  First deployment failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean deploy -e)'
+            - mvn clean
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
+      prologue:
+        commands:
+          - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
+          - sudo hostname codehaus-cargo-ci
+          - export ORIGINAL_PWD=$PWD
+          - mkdir -p /tmp/cargo
+          - mkdir -p $SEMAPHORE_CACHE_DIR/cargo-installs
+          - rm -f apache-maven-3.2.5-bin.tar.gz
+          - 'find $SEMAPHORE_CACHE_DIR -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
+          - 'find $SEMAPHORE_CACHE_DIR -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+          - ln -s $SEMAPHORE_CACHE_DIR/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
+          - ls -al $SEMAPHORE_CACHE_DIR
+          - ls -al $SEMAPHORE_CACHE_DIR/cargo-installs
+          - mkdir -p ~/.m2
+          - cd ~/.m2
+          - tar -xvzf $SEMAPHORE_CACHE_DIR/m2-repository.tar.gz ; RM=0
+          - cd $SEMAPHORE_CACHE_DIR
+          - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz ; RM=0'
+          - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
+          - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
+          - export MAVEN_OPTS="-Xmx768m"
+          - 'export PATH=$MAVEN_HOME/bin:$PATH'
+          - sem-version java 11
+          - mvn -version
+          - cd $ORIGINAL_PWD
+          - (mvn clean install -e && echo "Build OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "Executing second build attempt" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
+          - mvn clean
+          - 'echo "Build status for containers:" >> $ORIGINAL_PWD/core/samples/java/containers.log'
+          - sem-version java 8
+          - mvn -version
+          - cd $ORIGINAL_PWD/core/samples/java
+      epilogue:
+        always:
+          commands:
+            - cd $ORIGINAL_PWD
+            - mvn clean
+            - cat $ORIGINAL_PWD/core/samples/java/containers.log
+            - rm -rf ~/.m2/repository/org/codehaus/cargo
+            - cd ~/.m2
+            - tar -cvzf /tmp/cargo/m2-repository.tar.gz repository ; RM=0
+            - mv -v -f /tmp/cargo/m2-repository.tar.gz $SEMAPHORE_CACHE_DIR/m2-repository.tar.gz ; RM=0
+            - cd $SEMAPHORE_CACHE_DIR
+            - ls -al $SEMAPHORE_CACHE_DIR
+            - ls -al $SEMAPHORE_CACHE_DIR/cargo-installs
+            - rm -rf ~/.cargo
+            - rm -rf ~/.m2
