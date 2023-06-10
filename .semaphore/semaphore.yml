@@ -169,8 +169,4 @@ blocks:
             - ls -al $SEMAPHORE_CACHE_DIR/cargo-installs
             - rm -rf ~/.cargo
             - rm -rf ~/.m2
-      agent:
-        machine:
-          type: e1-standard-2
-          os_image: ubuntu2004
       env_vars: []
