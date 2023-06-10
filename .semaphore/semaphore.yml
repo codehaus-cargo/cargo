@@ -120,6 +120,8 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
+        - name: 'Job #9'
+          commands: []
       prologue:
         commands:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
@@ -127,6 +129,7 @@ blocks:
           - checkout
           - export ORIGINAL_PWD=$PWD
           - mkdir -p /tmp/cargo
+          - mkdir -p $SEMAPHORE_CACHE_DIR
           - mkdir -p $SEMAPHORE_CACHE_DIR/cargo-installs
           - rm -f apache-maven-3.2.5-bin.tar.gz
           - 'find $SEMAPHORE_CACHE_DIR -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
