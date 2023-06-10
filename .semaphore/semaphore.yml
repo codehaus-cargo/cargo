@@ -130,9 +130,9 @@ blocks:
           - rm -f apache-maven-3.2.5-bin.tar.gz
           - 'find $SEMAPHORE_CACHE_DIR -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
           - 'find $SEMAPHORE_CACHE_DIR -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+          - checkout
           - ln -s $SEMAPHORE_CACHE_DIR/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
           - ls -al $SEMAPHORE_CACHE_DIR
-          - checkout
           - ls -al $SEMAPHORE_CACHE_DIR/cargo-installs
           - mkdir -p ~/.m2
           - cd ~/.m2
