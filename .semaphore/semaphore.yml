@@ -128,6 +128,7 @@ blocks:
           - sudo hostname codehaus-cargo-ci
           - checkout
           - export ORIGINAL_PWD=$PWD
+          - export SEMAPHORE_CACHE_DIR=$PWD/.semaphore-cache
           - mkdir -p /tmp/cargo
           - mkdir -p $SEMAPHORE_CACHE_DIR
           - mkdir -p $SEMAPHORE_CACHE_DIR/cargo-installs
@@ -174,6 +175,4 @@ blocks:
         machine:
           type: e1-standard-2
           os_image: ubuntu2004
-      env_vars:
-        - name: SEMAPHORE_CACHE_DIR
-          value: ~/.cache
+      env_vars: []
