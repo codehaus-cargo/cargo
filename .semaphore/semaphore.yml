@@ -19,6 +19,7 @@ blocks:
           - mkdir -p ~/.m2/semaphore-ci-binaries
           - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
           - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+          - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
           - ls -al ~/.m2/cargo-installs
           - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
           - ls -al ~/.m2/semaphore-ci-binaries
@@ -34,9 +35,12 @@ blocks:
           - (mvn clean install -e && echo "Build OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "Executing second build attempt" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
           - mvn clean
           - 'echo "Build status for containers:" >> $ORIGINAL_PWD/core/samples/java/containers.log'
-          - sem-version java 8
-          - mvn -version
+          - cd ~/.m2/semaphore-ci-binaries
+          - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+          - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+          - export JAVA_HOME=/tmp/cargo/jdk-8u202
           - cd $ORIGINAL_PWD/core/samples/java
+          - mvn -version
       jobs:
         - name: 'Geronimo 1.x, Glassfish 4.x to 7.x, Resin 3.1.x'
           commands:
@@ -44,6 +48,7 @@ blocks:
             - mvn clean install -o -e -Pglassfish4x ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pglassfish5x ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Presin31x ; echo "  Status for resin31x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
             - sem-version java 11
             - mvn -version
             - mvn clean install -o -e -Pglassfish6x ; echo "  Status for glassfish6x is $?" >> containers.log ; RM=0
@@ -83,6 +88,7 @@ blocks:
           commands:
             - cd $ORIGINAL_PWD
             - '(mvn clean install -e && echo "  Status for first build on Java 8 is OK" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "  First build on Java 8 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
+            - unset JAVA_HOME
             - sem-version java 17
             - mvn -version
             - '(mvn clean install -e && echo "  Status for first build on Java 17 is OK" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "  First build on Java 17 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
@@ -108,6 +114,7 @@ blocks:
             - mvn clean install -o -e -Ptomee1x ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly8x ; echo "  Status for wildfly8x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly9x ; echo "  Status for wildfly9x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
             - sem-version java 11
             - mvn -version
             - mvn clean install -o -e -Pjetty10x ; echo "  Status for jetty10x is $?" >> containers.log ; RM=0
@@ -118,6 +125,7 @@ blocks:
             - mvn clean install -o -e -Ptomcat9x ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomee7x ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomee8x ; echo "  Status for tomee8x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
             - sem-version java 11
             - mvn -version
             - mvn clean install -o -e -Ppayara ; echo "  Status for payara is $?" >> containers.log ; RM=0
@@ -145,6 +153,7 @@ blocks:
             - mvn clean install -o -e -Pwildfly25x ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly26x ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
             - mvn clean install -e -Pwildfly-swarm2017x ; echo "  Status for wildfly-swarm2017x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
             - sem-version java 11
             - mvn -version
             - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
