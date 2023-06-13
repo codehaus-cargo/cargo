@@ -81,6 +81,13 @@ public class RunMojoTest extends TestCase
 
                 String portOption =
                     "-Dcargo.samples.servlet.port=" + System.getProperty("http.port");
+                // Workaround Maven 3.3 onwards
+                // See https://bugs.eclipse.org/bugs/show_bug.cgi?id=462944 for details
+                if (System.getProperty("maven.multiModuleProjectDirectory") == null)
+                {
+                    System.setProperty(
+                        "maven.multiModuleProjectDirectory", target.getAbsolutePath());
+                }
                 final String[] options =
                     new String[] {portOption, "-X", "clean", "cargo:run"};
 
