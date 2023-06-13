@@ -64,6 +64,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pgeronimo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pgeronimo2x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo2x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pgeronimo3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pglassfish3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pjboss3x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss3x is $?" >> containers.log ; RM=0
