@@ -1822,8 +1822,8 @@ public class ConfluenceContainerDocumentationGenerator
             else
             {
                 output.append("This container is automatically tested by the "
-                    + "[Continous Integration system|https://semaphoreci.com/codehaus-cargo/cargo] "
-                    + "every time there is a code change.");
+                    + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
+                    + "projects/cargo] every time there is a code change.");
                 output.append(FileHandler.NEW_LINE);
                 if ("wildfly-swarm2017x".equals(containerId))
                 {
