@@ -1339,7 +1339,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
           <configuration>
             <!--
               Set this as otherwise the maven-war-plugin will delete JARs it considers "outdated",
