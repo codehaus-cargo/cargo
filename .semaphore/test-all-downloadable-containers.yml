@@ -10,7 +10,7 @@ blocks:
   - name: Maven
     task:
       jobs:
-        - name: 'Build on various JDKs, test on all downloadable containers and deploy'
+        - name: 'Test on all downloadable containers'
           commands:
             - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
             - sudo hostname codehaus-cargo-ci
@@ -45,26 +45,13 @@ blocks:
             - mvn -version
             - (mvn clean install -e && echo "Build on Java 11 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 11 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
             - mvn clean
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - '(mvn clean install -e && echo "Build on Java 8 OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 8 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
-            - unset JAVA_HOME
-            - sem-version java 17
-            - mvn -version
-            - '(mvn clean install -e && echo "Build on Java 17 OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 17 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
-            - mvn clean
-            - sem-version java 11
-            - mvn -version
-            - 'mvn javadoc:aggregate'
-            - mvn clean
 
             - cd $ORIGINAL_PWD/core/samples/java
-            - 'echo "Build status for containers:" >> $ORIGINAL_PWD/core/samples/java/containers.log'
+            - 'echo "Build status for containers:" >> containers.log'
 
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pgeronimo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Pgeronimo2x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo2x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pgeronimo3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pglassfish3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pjboss3x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss3x is $?" >> containers.log ; RM=0
@@ -138,8 +125,6 @@ blocks:
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
 
             - cd $ORIGINAL_PWD
-            - sem-version java 11
-            - '(mvn clean deploy -e && echo "Deployment OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deployment failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean deploy -e)'
             - mvn clean
 
             - cat $ORIGINAL_PWD/core/samples/java/containers.log
@@ -147,4 +132,3 @@ blocks:
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
-      env_vars: []
