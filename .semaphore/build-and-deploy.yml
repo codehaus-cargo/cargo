@@ -38,6 +38,7 @@ blocks:
             - sem-version java 11
             - mvn -version
             - (mvn clean install -e && echo "Build on Java 11 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 11 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
+            - 'mvn javadoc:aggregate ; echo "  Javadoc aggregation status is $?" >> containers.log ; RM=0'
             - mvn clean
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version

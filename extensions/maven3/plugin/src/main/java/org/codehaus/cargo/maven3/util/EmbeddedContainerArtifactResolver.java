@@ -382,29 +382,29 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat9xDependencies = new ArrayList<Dependency>();
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "9.0.76"));
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "9.0.76"));
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "9.0.76"));
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-util-scan", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-util-scan", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "9.0.76"));
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket-api", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket-api", "9.0.76"));
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket", "9.0.75"));
-        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket", "9.0.76"));
+        tomcat9xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "9.0.76"));
         tomcat9xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "9.0.75"));
+            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "9.0.76"));
         // To get to the actual ECJ version, open the MANIFEST.MF file in Tomcat's lib/ecj-xxx.jar
         tomcat9xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.26.0"));
         this.containerDependencies.put("tomcat9x", tomcat9xDependencies);
