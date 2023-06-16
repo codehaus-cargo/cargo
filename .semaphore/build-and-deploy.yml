@@ -49,10 +49,6 @@ blocks:
             - mvn clean
             - sem-version java 11
             - mvn -version
-            - 'mvn javadoc:aggregate'
-            - mvn clean
-            - cd $ORIGINAL_PWD
-            - sem-version java 11
             - '(mvn clean deploy -e && echo "Deployment OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deployment failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean deploy -e)'
             - mvn clean
 
