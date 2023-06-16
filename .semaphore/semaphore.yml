@@ -4,6 +4,8 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+execution_time_limit:
+  hours: 12
 blocks:
   - name: 'Build on various JDKs, deploy and test on all downloadable containers'
     task:
