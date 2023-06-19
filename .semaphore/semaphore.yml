@@ -66,7 +66,7 @@ blocks:
             - mvn clean install -o -e -Ptomcat7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat7x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomee1x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
             - unset JAVA_HOME
-        - name: All Java 8 containers
+        - name: All Java 8 containers (until WildFly 13.x)
           commands:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -85,6 +85,11 @@ blocks:
             - mvn clean install -o -e -Pwildfly11x ; echo "  Status for wildfly11x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly12x ; echo "  Status for wildfly12x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly13x ; echo "  Status for wildfly13x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
+        - name: All Java 8 containers (WildFly 14.x onwards)
+          commands:
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - mvn clean install -o -e -Pwildfly14x ; echo "  Status for wildfly14x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly15x ; echo "  Status for wildfly15x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly16x ; echo "  Status for wildfly16x is $?" >> containers.log ; RM=0
