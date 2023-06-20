@@ -26,7 +26,7 @@ blocks:
             - mvn -version
             - '(mvn clean deploy -e && echo "Deployment OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deployment failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean deploy -e)'
             - mvn clean
-        - name: All Java 6 containers and Java 8 containers until Resin 4.x
+        - name: All Java 6 containers and Java 8 containers until GlassFish 5.x
           commands:
             - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
             - cd ~/.m2/semaphore-ci-binaries
@@ -67,9 +67,6 @@ blocks:
             - mvn clean install -o -e -Ptomee1x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pglassfish4x ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pglassfish5x ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Pjetty9x ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Pliberty ; echo "  Status for liberty is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Presin4x ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
             - unset JAVA_HOME
         - name: Other Java 8 containers
           commands:
@@ -77,6 +74,9 @@ blocks:
             - 'echo "Build status for containers:" >> containers.log'
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
+            - mvn clean install -o -e -Pjetty9x ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pliberty ; echo "  Status for liberty is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Presin4x ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomcat8x ; echo "  Status for tomcat8x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomcat9x ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomee7x ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
@@ -94,17 +94,17 @@ blocks:
             - mvn clean install -o -e -Pwildfly18x ; echo "  Status for wildfly18x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly19x ; echo "  Status for wildfly19x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly20x ; echo "  Status for wildfly20x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly21x ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly22x ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly23x ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly24x ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
             - unset JAVA_HOME
-        - name: All Java 11 and 17 containers and Java 8 containers from WildFly 21.x
+        - name: All Java 11 and 17 containers and Java 8 containers from WildFly 25.x
           commands:
             - cd $ORIGINAL_PWD/core/samples/java
             - 'echo "Build status for containers:" >> containers.log'
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - mvn clean install -o -e -Pwildfly21x ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Pwildfly22x ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Pwildfly23x ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
-            - mvn clean install -o -e -Pwildfly24x ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly25x ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly26x ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
             - unset JAVA_HOME
