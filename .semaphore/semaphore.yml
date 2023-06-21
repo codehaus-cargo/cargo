@@ -158,3 +158,5 @@ blocks:
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
+      secrets:
+        - name: Snapshot deployment configuration
