@@ -38,10 +38,10 @@
 
   <profiles>
     <profile>
-      <!-- JDK >= 17 -->
-      <id>java17+</id>
+      <!-- JDK >= 21 -->
+      <id>java21+</id>
       <activation>
-        <jdk>[17,)</jdk>
+        <jdk>[21,)</jdk>
         <property>
           <name>skipTests</name>
           <value>!true</value>
