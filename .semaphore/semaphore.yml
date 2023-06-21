@@ -10,21 +10,21 @@ blocks:
   - name: 'Build on various JDKs, deploy and test on all downloadable containers'
     task:
       jobs:
-        - name: Build on various JDKs and deploy
+        - name: Test Javadoc generation, build on various JDKs and deploy
           commands:
-            - 'mvn javadoc:aggregate ; echo "Javadoc aggregation status is $?" >> containers.log ; RM=0'
+            - mvn javadoc:aggregate
             - mvn clean
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - '(mvn clean install -e && echo "Build on Java 8 OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 8 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
+            - mvn clean install -e
             - unset JAVA_HOME
             - sem-version java 17
             - mvn -version
-            - '(mvn clean install -e && echo "Build on Java 17 OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 17 failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean install -e)'
+            - mvn clean install -e
             - mvn clean
             - sem-version java 11
             - mvn -version
-            - '(mvn clean deploy -e && echo "Deployment OK on first attempt" >> $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deployment failed, retrying" >> $ORIGINAL_PWD/core/samples/java/containers.log && mvn clean deploy -e)'
+            - mvn clean deploy -e
             - mvn clean
         - name: All Java 6 containers and Java 8 containers until GlassFish 5.x
           commands:
@@ -99,7 +99,7 @@ blocks:
             - mvn clean install -o -e -Pwildfly23x ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly24x ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
             - unset JAVA_HOME
-        - name: All Java 11 and 17 containers and Java 8 containers from WildFly 25.x
+        - name: All Java 11 and 21 containers and Java 8 containers from WildFly 25.x
           commands:
             - cd $ORIGINAL_PWD/core/samples/java
             - 'echo "Build status for containers:" >> containers.log'
@@ -118,7 +118,7 @@ blocks:
             - mvn clean install -o -e -Ptomee9x ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly28x ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
-            - sem-version java 17
+            - sem-version java 21
             - mvn -version
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
       prologue:
@@ -148,7 +148,7 @@ blocks:
           - 'export PATH=$MAVEN_HOME/bin:$PATH'
           - sem-version java 11
           - mvn -version
-          - '(mvn clean install -e && echo "Build on Java 11 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 11 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)'
+          - mvn clean install -e
       epilogue:
         always:
           commands:
