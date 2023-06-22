@@ -118,9 +118,10 @@ blocks:
             - mvn clean install -o -e -Ptomee9x ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly28x ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
-            - sem-version java 17
+            - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
       prologue:
         commands:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
@@ -134,6 +135,7 @@ blocks:
           - mkdir -p ~/.m2/semaphore-ci-binaries
           - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
           - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+          - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21-ea+27_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
           - ls -al ~/.m2/cargo-installs
           - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
           - ls -al ~/.m2/semaphore-ci-binaries
@@ -142,6 +144,8 @@ blocks:
           - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
           - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
           - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+          - 'wget -N --continue https://download.java.net/java/early_access/jdk21/27/GPL/openjdk-21-ea+27_linux-x64_bin.tar.gz ; RM=0'
+          - tar -xvzf openjdk-21-ea+27_linux-x64_bin.tar.gz -C /tmp/cargo
           - cd $ORIGINAL_PWD
           - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
           - export MAVEN_OPTS="-Xmx768m"
