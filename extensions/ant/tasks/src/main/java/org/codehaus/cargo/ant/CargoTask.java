@@ -1103,11 +1103,10 @@ public class CargoTask extends Task
                     getContainerClass());
             }
 
+            createCargoLogger();
             container = this.containerFactory.createContainer(this.containerId, this.containerType,
                 getConfiguration().createConfiguration(
                     this.containerId, this.containerType, getProject(), getLogger()));
-
-            createCargoLogger();
         }
 
         return container;
