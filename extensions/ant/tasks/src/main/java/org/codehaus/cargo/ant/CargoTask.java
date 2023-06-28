@@ -1071,6 +1071,11 @@ public class CargoTask extends Task
                 throw new BuildException("Missing mandatory [configuration] element.");
             }
 
+            // CARGO-1608: The logger is required in many places,
+            //             including the calculateAbsoluteDirectory and createConfiguration methods
+
+            createCargoLogger();
+
             if (getHome() != null)
             {
                 setHome(calculateAbsoluteDirectory("container home", getHome()));
@@ -1099,11 +1104,10 @@ public class CargoTask extends Task
             // container factory.
             if (getContainerClass() != null)
             {
-                this.containerFactory.registerContainer(this.containerId, this.containerType,
-                    getContainerClass());
+                this.containerFactory.registerContainer(
+                    this.containerId, this.containerType, getContainerClass());
             }
 
-            createCargoLogger();
             container = this.containerFactory.createContainer(this.containerId, this.containerType,
                 getConfiguration().createConfiguration(
                     this.containerId, this.containerType, getProject(), getLogger()));
@@ -1166,15 +1170,15 @@ public class CargoTask extends Task
 
         if (getContainerId() == null && getRefid() == null)
         {
-            throw new BuildException("You must specify a [containerId] attribute or use a [refid] "
-                + "attribute");
+            throw new BuildException(
+                "You must specify a [containerId] attribute or use a [refid] attribute");
         }
 
         if (getId() == null && getAction() == null)
         {
             throw new BuildException("You must specify an [action] attribute with values "
                 + LOCAL_ACTIONS + " (for local containers) or " + DEPLOYER_ACTIONS
-                + " (for local or remote container deployments)");
+                    + " (for local or remote container deployments)");
         }
 
         if (getId() == null)
@@ -1186,8 +1190,8 @@ public class CargoTask extends Task
 
             if (!getContainer().getType().isLocal() && !DEPLOYER_ACTIONS.contains(getAction()))
             {
-                throw new BuildException("Valid actions for remote containers are: "
-                    + DEPLOYER_ACTIONS);
+                throw new BuildException(
+                    "Valid actions for remote containers are: " + DEPLOYER_ACTIONS);
             }
         }
 
@@ -1195,9 +1199,9 @@ public class CargoTask extends Task
             && getContainer().getType() == ContainerType.INSTALLED
             && ((InstalledLocalContainer) getContainer()).getHome() == null)
         {
-            throw new BuildException("You must specify either a [home] attribute pointing"
-                + " to the location where the " + getContainer().getName()
-                + " is installed, or a nested [zipurlinstaller] element");
+            throw new BuildException("You must specify either a [home] attribute pointing to the "
+                + "location where the " + getContainer().getName() + " is installed, or a nested "
+                    + "[zipurlinstaller] element");
         }
     }
 
@@ -1238,14 +1242,11 @@ public class CargoTask extends Task
         if (!directoryFile.isAbsolute())
         {
             String absoluteDirectory = directoryFile.getAbsolutePath();
-            if (getLogger() != null)
-            {
-                getLogger().warn("The provided " + type + " directory [" + directory
-                    + "] is not an absolute directory. Replacing it with its absolute directory "
-                        + "counterpart, i.e. [" + absoluteDirectory + "] To avoid this message in "
-                            + "the future, you can also use the ${basedir} variable in your "
-                                + "paths.", this.getClass().getName());
-            }
+            getLogger().warn("The provided " + type + " directory [" + directory + "] is not an "
+                + "absolute directory. Replacing it with its absolute directory counterpart, i.e. "
+                    + "[" + absoluteDirectory + "] To avoid this message in the future, feel free "
+                        + "to use the ${basedir} variable in your paths.",
+                            this.getClass().getName());
             return absoluteDirectory;
         }
         else

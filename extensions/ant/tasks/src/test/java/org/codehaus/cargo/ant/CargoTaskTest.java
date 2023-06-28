@@ -41,17 +41,17 @@ import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 public class CargoTaskTest extends TestCase
 {
     /**
-     * Cargo ANT task.
+     * Cargo Ant task.
      */
     private CargoTask task;
 
     /**
-     * Cargo ANT task configuration element.
+     * Cargo Ant task configuration element.
      */
     private ConfigurationElement configurationElement;
 
     /**
-     * Creates the various ANT task attributes. {@inheritDoc}
+     * Creates the various Ant task attributes. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
     @Override
@@ -59,8 +59,12 @@ public class CargoTaskTest extends TestCase
     {
         super.setUp();
 
+        Project antProject = new Project();
+        antProject.init();
+
         this.task = new CargoTask();
 
+        this.task.setProject(antProject);
         this.task.setContainerId(getName());
         this.task.setClass(InstalledLocalContainerStub.class);
         this.configurationElement = this.task.createConfiguration();
@@ -75,6 +79,7 @@ public class CargoTaskTest extends TestCase
     public void testMakeContainerWithOneDeployable()
     {
         CargoTask task = new CargoTask();
+        task.setProject(this.task.getProject());
         task.setContainerId("resin3x");
         task.setType(ContainerType.INSTALLED);
 
@@ -102,16 +107,12 @@ public class CargoTaskTest extends TestCase
      */
     public void testExecuteWhenUsingValidRefId()
     {
-        Project antProject = new Project();
-        antProject.init();
-
-        this.task.setProject(antProject);
         this.task.setId("testRefId");
         this.task.setHome("home");
         this.task.execute();
 
         CargoTask task2 = new CargoTask();
-        task2.setProject(antProject);
+        task2.setProject(this.task.getProject());
         task2.setRefId(new Reference("testRefId"));
         task2.setAction("start");
         task2.execute();
@@ -122,10 +123,6 @@ public class CargoTaskTest extends TestCase
      */
     public void testExecuteWhenUsingInvalidRefId()
     {
-        Project antProject = new Project();
-        antProject.init();
-
-        this.task.setProject(antProject);
         this.task.setRefId(new Reference("someInexistentReference"));
 
         try

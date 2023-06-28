@@ -85,6 +85,10 @@ public class AntLogger extends AbstractLogger
      */
     public AntLogger(Project project)
     {
+        if (project == null)
+        {
+            throw new IllegalArgumentException("Provided Ant project is null");
+        }
         this.project = project;
         initialize();
     }
