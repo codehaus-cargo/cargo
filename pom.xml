@@ -1086,6 +1086,11 @@
         <version>4.0.0</version>
       </dependency>
       <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-xml</artifactId>
+        <version>4.0.0</version>
+      </dependency>
+      <dependency>
         <groupId>org.jboss.spec.javax.rmi</groupId>
         <artifactId>jboss-rmi-api_1.0_spec</artifactId>
         <version>1.0.6.Final</version>
