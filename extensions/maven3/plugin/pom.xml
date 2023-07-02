@@ -79,6 +79,10 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-archiver</artifactId>
     </dependency>
+    <!--
+       Though we only need plexus-xml, plexus-utils needs to remain present due to
+       https://github.com/codehaus-plexus/modello/issues/346
+       -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
