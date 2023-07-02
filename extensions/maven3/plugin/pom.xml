@@ -80,8 +80,10 @@
       <artifactId>plexus-archiver</artifactId>
     </dependency>
     <!--
-       Though we only need plexus-xml, plexus-utils needs to remain present due to
-       https://github.com/codehaus-plexus/modello/issues/346
+       Though we only need plexus-xml, plexus-utils needs to remain present due to the
+       maven-artifact dependency otherwise pulling a very old version of plexus-utils.
+
+       See https://github.com/codehaus-plexus/modello/issues/346 for details.
        -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
