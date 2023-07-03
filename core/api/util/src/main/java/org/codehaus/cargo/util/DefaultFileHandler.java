@@ -88,7 +88,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         {
             if (logger != null)
             {
-                logger.info("File name [" + filename
+                logger.debug("File name [" + filename
                     + "] has trailing slashes, removing for the sanitized file name",
                         DefaultFileHandler.class.getName());
             }
@@ -99,7 +99,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         {
             if (logger != null)
             {
-                logger.info("File name [" + filename
+                logger.debug("File name [" + filename
                     + "] has ending slashes, removing for the sanitized file name",
                         DefaultFileHandler.class.getName());
             }
@@ -110,7 +110,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         {
             if (logger != null)
             {
-                logger.info("File name [" + filename
+                logger.debug("File name [" + filename
                     + "] has intermediate /../, replacing with single /",
                         DefaultFileHandler.class.getName());
             }
@@ -121,7 +121,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         {
             if (logger != null)
             {
-                logger.info("File name [" + filename
+                logger.debug("File name [" + filename
                     + "] has intermediate //, replacing with single /",
                         DefaultFileHandler.class.getName());
             }
