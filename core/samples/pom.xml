@@ -546,7 +546,7 @@
                 <!--
                 https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip
                   -->
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.90/tomcat-8.5.90.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.91/tomcat-8.5.91.zip
               </cargo.tomcat8x.url>
               <cargo.tomcat8x.java.home>${cargo.java.home.1_7}</cargo.tomcat8x.java.home>
 
