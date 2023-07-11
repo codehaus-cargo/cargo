@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -607,41 +608,85 @@ public class DefaultJvmLauncher implements JvmLauncher
         {
             return;
         }
-        if (process.getClass().getName().equals("java.lang.UNIXProcess"))
+        for (Field f : process.getClass().getDeclaredFields())
         {
-            try
+            if ("pid".equals(f.getName()))
             {
-                Field f = process.getClass().getDeclaredField("pid");
-                f.setAccessible(true);
-                int pid = f.getInt(process);
-                Runtime.getRuntime().exec(new String[] {"kill", "-9", Integer.toString(pid)});
+                makeFieldAccessible(f);
+                try
+                {
+                    int pid = f.getInt(process);
+                    Runtime.getRuntime().exec(new String[] {"kill", "-9", Integer.toString(pid)});
+                }
+                catch (Throwable e)
+                {
+                    // Ignore, we tried our best
+                }
+                break;
             }
-            catch (Throwable e)
+            else if ("handle".equals(f.getName()))
             {
-                // Ignore, we tried our best
-            }
-        }
-        else if (process.getClass().getName().equals("java.lang.Win32Process")
-            || process.getClass().getName().equals("java.lang.ProcessImpl"))
-        {
-            try
-            {
-                Field f = process.getClass().getDeclaredField("handle");
-                f.setAccessible(true);
-                long handleId = f.getLong(process);
+                makeFieldAccessible(f);
+                try
+                {
+                    long handleId = f.getLong(process);
 
-                Kernel32 kernel = Kernel32.INSTANCE;
-                HANDLE handle = new HANDLE();
-                handle.setPointer(Pointer.createConstant(handleId));
-                int pid = kernel.GetProcessId(handle);
-                Runtime.getRuntime().exec(
-                    new String[] {"taskkill", "/PID", Integer.toString(pid), "/F"});
-            }
-            catch (Throwable e)
-            {
-                // Ignore, we tried our best
+                    Kernel32 kernel = Kernel32.INSTANCE;
+                    HANDLE handle = new HANDLE();
+                    handle.setPointer(Pointer.createConstant(handleId));
+                    int pid = kernel.GetProcessId(handle);
+                    Runtime.getRuntime().exec(
+                        new String[] {"taskkill", "/PID", Integer.toString(pid), "/F"});
+                }
+                catch (Throwable e)
+                {
+                    // Ignore, we tried our best
+                }
+                break;
             }
         }
+    }
+
+    /**
+     * Sets a given (private) field accessible, while remaining compatible with Java 8 and avoiding
+     * the <code>Illegal reflective access</a> messages in Java 9 onwards.
+     * @param f Field to make accessible
+     */
+    private void makeFieldAccessible(Field f)
+    {
+        // See: https://stackoverflow.com/questions/46454995/#58834966
+        Method getModule;
+        try
+        {
+            getModule = Class.class.getMethod("getModule");
+        }
+        catch (NoSuchMethodException e)
+        {
+            // We are on Java 8
+            getModule = null;
+        }
+        if (getModule != null)
+        {
+            try
+            {
+                Object thisModule = getModule.invoke(this.getClass());
+                Method isNamed = thisModule.getClass().getMethod("isNamed");
+                if (!(boolean) isNamed.invoke(thisModule))
+                {
+                    Class fieldClass = f.getDeclaringClass().getClass();
+                    Object fieldModule = getModule.invoke(fieldClass);
+                    Method addOpens = fieldModule.getClass().getMethod(
+                        "addOpens", String.class, thisModule.getClass());
+                    Method getPackageName = fieldClass.getMethod("getPackageName");
+                    addOpens.invoke(fieldModule, getPackageName.invoke(fieldClass), thisModule);
+                }
+            }
+            catch (Throwable t)
+            {
+                throw new CargoException("Cannot set field accessibility for [" + f + "]", t);
+            }
+        }
+        f.setAccessible(true);
     }
 
     /**
