@@ -1030,8 +1030,10 @@
       </dependency>
     <!--
       The groupIds org.apache.maven and org.apache.maven.plugin-tools are part of Maven Core,
-      except for org.apache.maven:maven-archiver: this artifact is not part of Maven Core, and
-      should be org.apache.maven.shared instead. We hence upgrade versions.
+      we hence keep them at the lowest possible Maven 3 version.
+
+      The only exception to this rule is org.apache.maven:maven-archiver: this artifact is not part
+      of Maven Core, and should be org.apache.maven.shared instead. We hence upgrade versions.
 
       Ref: https://cwiki.apache.org/confluence/display/MAVEN/Notes+For+Maven+Plugin+Developers
       -->
@@ -1043,7 +1045,7 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-artifact</artifactId>
-        <version>3.0.3</version>
+        <version>3.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -1053,7 +1055,7 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-model</artifactId>
-        <version>3.0.3</version>
+        <version>3.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
