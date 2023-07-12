@@ -497,8 +497,22 @@ public class DefaultJvmLauncher implements JvmLauncher
             process.destroy();
 
             // So we call second method to kill the process to be sure
-            nativeKill();
+            try
+            {
+                nativeKill();
+            }
+            catch (NoClassDefFoundError e)
+            {
+                if (outputLogger != null)
+                {
+                    outputLogger.debug(
+                        PROCESS_ATTRIBUTE_CHANGE_MESSAGE + e.getMessage(),
+                            this.getClass().getName());
+                }
+                // This happens when the JVM is shutting down, ignore
+            }
             process = null;
+            System.gc();
         }
     }
 
@@ -663,7 +677,7 @@ public class DefaultJvmLauncher implements JvmLauncher
 
     /**
      * Sets a given (private) field accessible, while remaining compatible with Java 8 and avoiding
-     * the <code>Illegal reflective access</a> messages in Java 9 onwards.
+     * the <code>Illegal reflective access</code> messages in Java 9 onwards.
      * @param f Field to make accessible
      * @return Whether changing field accessibility fails.
      */
