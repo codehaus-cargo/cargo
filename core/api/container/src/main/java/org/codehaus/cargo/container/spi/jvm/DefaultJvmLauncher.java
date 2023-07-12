@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -683,7 +684,29 @@ public class DefaultJvmLauncher implements JvmLauncher
             }
             catch (Throwable t)
             {
-                throw new CargoException("Cannot set field accessibility for [" + f + "]", t);
+                if (t instanceof InvocationTargetException)
+                {
+                    InvocationTargetException e = (InvocationTargetException) t;
+                    if (e.getCause() != null
+                        && e.getCause().getClass().getName().endsWith("IllegalCallerException"))
+                    {
+                        if (outputLogger != null)
+                        {
+                            outputLogger.debug(
+                                "Failed changing the visibility of internal JDK process classes, "
+                                    + "required for forde killing of the Java process Codehaus "
+                                        + "Cargo has created. You could add --add-opens to your "
+                                            + "JVM arguments to allow this. "
+                                                + e.getCause().getMessage(),
+                                this.getClass().getName());
+                            t = null;
+                        }
+                    }
+                }
+                if (t != null)
+                {
+                    throw new CargoException("Cannot set field accessibility for [" + f + "]", t);
+                }
             }
         }
         f.setAccessible(true);
