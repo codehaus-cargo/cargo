@@ -45,6 +45,14 @@ import org.codehaus.cargo.util.log.Logger;
 public class DefaultJvmLauncher implements JvmLauncher
 {
     /**
+     * Information message when changing the process attribute visibility fails.
+     */
+    private static final String PROCESS_ATTRIBUTE_CHANGE_MESSAGE =
+        "Failed changing the visibility of internal JDK process classes, required for force "
+            + "killing of the Java process Codehaus Cargo has created. You could add --add-opens "
+                + "to your JVM arguments to allow this. ";
+
+    /**
      * The working directory.
      */
     private File workingDirectory;
@@ -613,35 +621,40 @@ public class DefaultJvmLauncher implements JvmLauncher
         {
             if ("pid".equals(f.getName()))
             {
-                makeFieldAccessible(f);
-                try
+                if (makeFieldAccessible(f))
                 {
-                    int pid = f.getInt(process);
-                    Runtime.getRuntime().exec(new String[] {"kill", "-9", Integer.toString(pid)});
-                }
-                catch (Throwable e)
-                {
-                    // Ignore, we tried our best
+                    try
+                    {
+                        int pid = f.getInt(process);
+                        Runtime.getRuntime().exec(
+                            new String[] {"kill", "-9", Integer.toString(pid)});
+                    }
+                    catch (Throwable e)
+                    {
+                        // Ignore, we tried our best
+                    }
                 }
                 break;
             }
             else if ("handle".equals(f.getName()))
             {
-                makeFieldAccessible(f);
-                try
+                if (makeFieldAccessible(f))
                 {
-                    long handleId = f.getLong(process);
+                    try
+                    {
+                        long handleId = f.getLong(process);
 
-                    Kernel32 kernel = Kernel32.INSTANCE;
-                    HANDLE handle = new HANDLE();
-                    handle.setPointer(Pointer.createConstant(handleId));
-                    int pid = kernel.GetProcessId(handle);
-                    Runtime.getRuntime().exec(
-                        new String[] {"taskkill", "/PID", Integer.toString(pid), "/F"});
-                }
-                catch (Throwable e)
-                {
-                    // Ignore, we tried our best
+                        Kernel32 kernel = Kernel32.INSTANCE;
+                        HANDLE handle = new HANDLE();
+                        handle.setPointer(Pointer.createConstant(handleId));
+                        int pid = kernel.GetProcessId(handle);
+                        Runtime.getRuntime().exec(
+                            new String[] {"taskkill", "/PID", Integer.toString(pid), "/F"});
+                    }
+                    catch (Throwable e)
+                    {
+                        // Ignore, we tried our best
+                    }
                 }
                 break;
             }
@@ -652,8 +665,9 @@ public class DefaultJvmLauncher implements JvmLauncher
      * Sets a given (private) field accessible, while remaining compatible with Java 8 and avoiding
      * the <code>Illegal reflective access</a> messages in Java 9 onwards.
      * @param f Field to make accessible
+     * @return Whether changing field accessibility fails.
      */
-    private void makeFieldAccessible(Field f)
+    private boolean makeFieldAccessible(Field f)
     {
         // See: https://stackoverflow.com/questions/46454995/#58834966
         Method getModule;
@@ -693,12 +707,8 @@ public class DefaultJvmLauncher implements JvmLauncher
                         if (outputLogger != null)
                         {
                             outputLogger.debug(
-                                "Failed changing the visibility of internal JDK process classes, "
-                                    + "required for forde killing of the Java process Codehaus "
-                                        + "Cargo has created. You could add --add-opens to your "
-                                            + "JVM arguments to allow this. "
-                                                + e.getCause().getMessage(),
-                                this.getClass().getName());
+                                PROCESS_ATTRIBUTE_CHANGE_MESSAGE + e.getCause().getMessage(),
+                                    this.getClass().getName());
                         }
                         t = null;
                     }
@@ -707,9 +717,32 @@ public class DefaultJvmLauncher implements JvmLauncher
                 {
                     throw new CargoException("Cannot set field accessibility for [" + f + "]", t);
                 }
+                return false;
             }
         }
-        f.setAccessible(true);
+        try
+        {
+            f.setAccessible(true);
+            return true;
+        }
+        catch (Throwable t)
+        {
+            if (t.getClass().getName().endsWith("InaccessibleObjectException"))
+            {
+                if (outputLogger != null)
+                {
+                    outputLogger.debug(
+                        PROCESS_ATTRIBUTE_CHANGE_MESSAGE + t.getMessage(),
+                            this.getClass().getName());
+                }
+                t = null;
+            }
+            if (t != null)
+            {
+                throw new CargoException("Cannot set field accessibility for [" + f + "]", t);
+            }
+            return false;
+        }
     }
 
     /**
