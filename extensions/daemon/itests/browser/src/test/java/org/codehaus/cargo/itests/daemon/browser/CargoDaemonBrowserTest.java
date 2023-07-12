@@ -212,7 +212,7 @@ public class CargoDaemonBrowserTest extends TestCase
         HtmlPage htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
 
         assertFalse("There should be no running containers",
-            htmlPage.asText().contains("started"));
+            htmlPage.asNormalizedText().contains("started"));
 
         final long timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
         boolean foundContainerToStop = true;
@@ -282,9 +282,9 @@ public class CargoDaemonBrowserTest extends TestCase
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
         assertNotNull("Container stop button did not appear. Current content: "
-            + htmlPage.asText(), stopButton);
+            + htmlPage.asNormalizedText(), stopButton);
         assertTrue("There should be running containers",
-            htmlPage.asText().contains("started"));
+            htmlPage.asNormalizedText().contains("started"));
         stopButton.click();
 
         daemonWatchdog.watchForUnavailability();
@@ -293,6 +293,6 @@ public class CargoDaemonBrowserTest extends TestCase
         webClient.close();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         assertFalse("There should be no running containers",
-            htmlPage.asText().contains("started"));
+            htmlPage.asNormalizedText().contains("started"));
     }
 }
