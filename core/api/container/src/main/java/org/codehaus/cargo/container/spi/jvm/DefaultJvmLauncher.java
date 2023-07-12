@@ -699,8 +699,8 @@ public class DefaultJvmLauncher implements JvmLauncher
                                             + "JVM arguments to allow this. "
                                                 + e.getCause().getMessage(),
                                 this.getClass().getName());
-                            t = null;
                         }
+                        t = null;
                     }
                 }
                 if (t != null)
