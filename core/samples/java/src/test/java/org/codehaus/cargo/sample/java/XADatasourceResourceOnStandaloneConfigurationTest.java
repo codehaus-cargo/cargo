@@ -99,6 +99,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly26x");
         excludedContainerIds.add("wildfly27x");
         excludedContainerIds.add("wildfly28x");
+        excludedContainerIds.add("wildfly29x");
 
         suite.addTestSuite(XADatasourceResourceOnStandaloneConfigurationTest.class,
             new Validator[] {

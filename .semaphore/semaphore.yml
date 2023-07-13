@@ -118,6 +118,7 @@ blocks:
             - mvn clean install -o -e -Ptomee9x ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pwildfly28x ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
+            - mvn clean install -o -e -Pwildfly29x ; echo "  Status for wildfly29x is $?" >> containers.log ; RM=0
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
