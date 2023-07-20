@@ -103,14 +103,13 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty-plus.xml"),
                 getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
                 getFileHandler().append(getConfiguration().getHome(), "etc/test-realm.xml"),
-                "path=" + classpath
+                classpath == null ? "" : "path=" + classpath
             };
         }
         else if (getVersion().startsWith("9.4."))
         {
             return new String[]
             {
-                "--ini",
                 "--module=console-capture",
                 "--module=server",
                 "--module=client",
@@ -122,14 +121,13 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "--module=http",
                 "--module=plus",
                 "--module=annotations",
-                "path=" + classpath
+                classpath == null ? "" : "path=" + classpath
             };
         }
         else
         {
             return new String[]
             {
-                "--ini",
                 "--module=logging",
                 "--module=server",
                 "--module=deploy",
@@ -140,7 +138,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "--module=http",
                 "--module=plus",
                 "--module=annotations",
-                "path=" + classpath
+                classpath == null ? "" : "path=" + classpath
             };
         }
     }

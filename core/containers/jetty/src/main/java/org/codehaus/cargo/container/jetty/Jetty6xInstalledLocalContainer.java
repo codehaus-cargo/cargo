@@ -198,9 +198,12 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
                 java.addAppArguments(getStartArguments(java.getClasspath()));
             }
 
-            // For Jetty to pick up on the extra classpath it needs to export
-            // the classpath as an environment variable 'CLASSPATH'
-            java.setSystemProperty("CLASSPATH", java.getClasspath());
+            if (java.getClasspath() != null)
+            {
+                // For Jetty to pick up on the extra classpath it needs to export
+                // the classpath as an environment variable 'CLASSPATH'
+                java.setSystemProperty("CLASSPATH", java.getClasspath());
+            }
         }
         else
         {

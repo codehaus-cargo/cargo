@@ -78,13 +78,15 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
             configuredModules = Jetty10xInstalledLocalContainer.DEFAULT_MODULES;
         }
         String[] modules = configuredModules.split(",");
-        String[] startArguments = new String[modules.length + 2];
-        startArguments[0] = "--ini";
+        String[] startArguments = new String[modules.length + (classpath == null ? 0 : 1)];
         for (int i = 0; i < modules.length; i++)
         {
-            startArguments[i + 1] = "--module=" + modules[i];
+            startArguments[i] = "--module=" + modules[i];
         }
-        startArguments[startArguments.length - 1] = "path=" + classpath;
+        if (classpath != null)
+        {
+            startArguments[startArguments.length - 1] = "path=" + classpath;
+        }
         return startArguments;
     }
 
