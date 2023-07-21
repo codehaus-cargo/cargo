@@ -36,7 +36,7 @@ import org.codehaus.cargo.maven3.configuration.ZipUrlInstaller;
 /**
  * Start a container using Cargo and wait until user pressed CTRL + C to stop.
  */
-@Mojo(name = "run", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
+@Mojo(name = "run", requiresDependencyResolution = ResolutionScope.TEST, threadSafe = false)
 public class ContainerRunMojo extends ContainerStartMojo
 {
     /**
@@ -133,12 +133,6 @@ public class ContainerRunMojo extends ContainerStartMojo
     protected org.codehaus.cargo.container.Container createNewContainer()
         throws MojoExecutionException
     {
-        if (containerId != null && containerUrl == null)
-        {
-            throw new MojoExecutionException(
-                "If you specify a containerId, you also need to specify a containerUrl.");
-        }
-
         Container containerElement = getContainerElement();
         if (containerId != null)
         {
