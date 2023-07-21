@@ -80,7 +80,7 @@ public final class ContainerUtils
      */
     public static void waitTillContainerIsStopped(Container container)
     {
-        while (container.getState() == State.STARTED)
+        while (container.getState() != State.STOPPED && container.getState() != State.UNKNOWN)
         {
             try
             {
