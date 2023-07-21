@@ -37,7 +37,7 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
      * @see JettyPropertySet#MODULES
      */
     public static final String DEFAULT_MODULES =
-        "console-capture,server,http,http2c,annotations,plus,websocket,jsp,ext,deploy";
+        "server,http,http2c,annotations,plus,websocket,jsp,ext,deploy";
 
     /**
      * Jetty10xInstalledLocalContainer Constructor.

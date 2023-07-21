@@ -110,7 +110,6 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
         {
             return new String[]
             {
-                "--module=console-capture",
                 "--module=server",
                 "--module=client",
                 "--module=deploy",
