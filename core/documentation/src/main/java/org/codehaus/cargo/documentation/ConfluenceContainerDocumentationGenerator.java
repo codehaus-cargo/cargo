@@ -1283,14 +1283,23 @@ public class ConfluenceContainerDocumentationGenerator
                     "Existing Local", ConfigurationType.EXISTING, containerId,
                     ContainerType.INSTALLED));
 
-                if (containerId.startsWith("jetty"))
+                if (containerId.equals("jetty6x") || containerId.equals("jetty7x")
+                    || containerId.equals("jetty8x") || containerId.equals("jetty9x"))
                 {
                     output.append(FileHandler.NEW_LINE);
                     output.append("{info}If you specify {{cargo.runtime.args}} with ");
                     output.append("{{--ini=anyfile.ini}} (where {{anyfile.ini}} points to a ");
                     output.append("Jetty INI file), any property set in the Codehaus Cargo ");
                     output.append("Jetty container will be ignored and the ones read from the ");
-                    output.append("INI file used instead.{info}");
+                    output.append("INI file used instead.");
+                    if (containerId.equals("jetty9x"))
+                    {
+                        output.append(FileHandler.NEW_LINE);
+                        output.append(FileHandler.NEW_LINE);
+                        output.append("Please note that the Jetty INI file concept doesn't ");
+                        output.append("exist anymore with Jetty 9.1.x onwards.");
+                    }
+                    output.append("{info}");
                     output.append(FileHandler.NEW_LINE);
                 }
 
