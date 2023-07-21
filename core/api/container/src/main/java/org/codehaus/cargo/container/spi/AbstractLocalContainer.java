@@ -34,6 +34,7 @@ import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncher;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.container.startup.ContainerMonitor;
 import org.codehaus.cargo.util.CargoException;
@@ -285,7 +286,24 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             // CARGO-520: Always set append to "true" when stopping
             setAppend(true);
 
-            stopInternal();
+            try
+            {
+                stopInternal();
+            }
+            catch (IllegalStateException e)
+            {
+                if (DefaultJvmLauncher.shutdownInProgress)
+                {
+                    // JVM shutdown in progress, ignore
+                    getLogger().debug(
+                        "JVM shutdown in progress, ignoring exception trying to stop: " + e,
+                            this.getClass().getName());
+                }
+                else
+                {
+                    throw e;
+                }
+            }
 
             // CARGO-712: If timeout is 0, don't wait at all
             if (getTimeout() != 0)

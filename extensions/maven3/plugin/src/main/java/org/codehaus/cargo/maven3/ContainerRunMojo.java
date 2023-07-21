@@ -28,6 +28,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncher;
 import org.codehaus.cargo.container.spi.util.ContainerUtils;
 import org.codehaus.cargo.maven3.configuration.Container;
 import org.codehaus.cargo.maven3.configuration.ZipUrlInstaller;
@@ -69,21 +70,42 @@ public class ContainerRunMojo extends ContainerStartMojo
             @Override
             public void run()
             {
+                DefaultJvmLauncher.shutdownInProgress = true;
                 try
                 {
-                    if (ContainerRunMojo.this.localContainer != null
-                        && (org.codehaus.cargo.container.State.STARTED
-                            == ContainerRunMojo.this.localContainer.getState()
-                        ||
-                            org.codehaus.cargo.container.State.STARTING
-                            == ContainerRunMojo.this.localContainer.getState()))
+                    stopContainer();
+                }
+                catch (NumberFormatException ignored)
+                {
+                    try
                     {
-                        ContainerRunMojo.this.localContainer.stop();
+                        stopContainer();
+                    }
+                    catch (Exception e)
+                    {
+                        ContainerRunMojo.this.getLog().warn("Failed stopping the container", e);
                     }
                 }
                 catch (Exception e)
                 {
                     ContainerRunMojo.this.getLog().warn("Failed stopping the container", e);
+                }
+            }
+
+            /**
+             * Stop the container
+             * @throws Exception if anything goes wrong
+             */
+            private void stopContainer() throws Exception
+            {
+                if (ContainerRunMojo.this.localContainer != null
+                    && (org.codehaus.cargo.container.State.STARTED
+                        == ContainerRunMojo.this.localContainer.getState()
+                    ||
+                        org.codehaus.cargo.container.State.STARTING
+                        == ContainerRunMojo.this.localContainer.getState()))
+                {
+                    ContainerRunMojo.this.localContainer.stop();
                 }
             }
         });

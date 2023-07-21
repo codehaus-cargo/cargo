@@ -45,6 +45,11 @@ import org.codehaus.cargo.util.log.Logger;
 public class DefaultJvmLauncher implements JvmLauncher
 {
     /**
+     * Whether a JVM shutdown is in progress.
+     */
+    public static boolean shutdownInProgress = false;
+
+    /**
      * Information message when changing the process attribute visibility fails.
      */
     private static final String PROCESS_ATTRIBUTE_CHANGE_MESSAGE =
@@ -581,6 +586,7 @@ public class DefaultJvmLauncher implements JvmLauncher
                 @Override
                 public void run()
                 {
+                    DefaultJvmLauncher.shutdownInProgress = true;
                     DefaultJvmLauncher.this.kill();
                 }
             });
