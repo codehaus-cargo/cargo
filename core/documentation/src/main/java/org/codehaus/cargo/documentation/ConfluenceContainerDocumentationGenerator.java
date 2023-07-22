@@ -1265,6 +1265,33 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append(JonasPropertySet.CONFIGURATOR_PREFIX);
                 output.append("ajpPort}} and give the value you like.{info}");
                 output.append(FileHandler.NEW_LINE);
+
+                output.append("{note:Configuring JOnAS on JDK 9 and above}");
+                output.append(FileHandler.NEW_LINE);
+                output.append("As the JOnAS base ANT tasks, used by the configurator, make ");
+                output.append("explicit use of the {{java.endorsed.dirs}} property which got ");
+                output.append("removed with Java 9, it is no more possible to create any JOnAS ");
+                output.append("configurations with newer versions of Java. You will get errors ");
+                output.append("similar to the below:");
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+                output.append("{code}");
+                output.append(FileHandler.NEW_LINE);
+                output.append("[JmsRa] Cannot make a resource adaptor on RAConfig:");
+                output.append(FileHandler.NEW_LINE);
+                output.append("    [...]");
+                output.append(FileHandler.NEW_LINE);
+                output.append("Caused by: Java returned: 1");
+                output.append(FileHandler.NEW_LINE);
+                output.append("    at org.apache.tools.ant.taskdefs.Java.execute(Java.java:113)");
+                output.append(FileHandler.NEW_LINE);
+                output.append("    at org.ow2.jonas.antmodular.jonasbase.jms.JmsRa.execute");
+                output.append("(JmsRa.java:222)");
+                output.append(FileHandler.NEW_LINE);
+                output.append("{code}");
+                output.append(FileHandler.NEW_LINE);
+                output.append("{note}");
+                output.append(FileHandler.NEW_LINE);
             }
         }
 

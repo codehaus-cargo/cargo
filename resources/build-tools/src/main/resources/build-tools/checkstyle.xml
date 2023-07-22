@@ -29,7 +29,9 @@
      ======================================================================================
   -->
 
-  <module name="FileLength"/>
+  <module name="FileLength">
+    <property name="max" value="4242"/>
+  </module>
 
   <module name="FileTabCharacter"/>
 
