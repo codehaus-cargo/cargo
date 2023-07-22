@@ -36,6 +36,10 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - cd $ORIGINAL_PWD/core/samples/java
             - 'echo "Build status for containers:" >> containers.log'
+             # We need to use Java 8 as the runtime when creating the configurations,
+             # else some containers (such as JOnAS) have awkward failures such as java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - mvn clean install -o -e -Pgeronimo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pgeronimo3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Pglassfish3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
@@ -62,6 +66,7 @@ blocks:
             - mvn clean install -o -e -Ptomcat6x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat6x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomcat7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat7x is $?" >> containers.log ; RM=0
             - mvn clean install -o -e -Ptomee1x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
+            - unset JAVA_HOME
         - name: All Java 8 containers until WildFly 20.x
           commands:
             - cd $ORIGINAL_PWD/core/samples/java
