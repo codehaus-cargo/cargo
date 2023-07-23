@@ -41,6 +41,7 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
     public Jetty12xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
         setProperty(JettyPropertySet.WEBDEFAULT, "webdefault-ee8.xml");
     }
 

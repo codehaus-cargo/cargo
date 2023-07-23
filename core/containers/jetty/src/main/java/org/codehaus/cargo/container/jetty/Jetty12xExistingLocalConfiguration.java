@@ -32,6 +32,7 @@ public class Jetty12xExistingLocalConfiguration extends Jetty11xExistingLocalCon
     public Jetty12xExistingLocalConfiguration(String dir)
     {
         super(dir);
+        setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
     }
 
 }

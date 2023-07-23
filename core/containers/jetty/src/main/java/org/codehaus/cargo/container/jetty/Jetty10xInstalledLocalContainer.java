@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Special container support for the Jetty 10.x servlet container.
@@ -75,7 +76,8 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
         String configuredModules = getConfiguration().getPropertyValue(JettyPropertySet.MODULES);
         if (configuredModules == null || configuredModules.trim().length() == 0)
         {
-            configuredModules = Jetty10xInstalledLocalContainer.DEFAULT_MODULES;
+            throw new CargoException(
+                "Configuration property [" + JettyPropertySet.MODULES + "] not set");
         }
         String[] modules = configuredModules.split(",");
         String[] startArguments = new String[modules.length + (classpath == null ? 0 : 1)];

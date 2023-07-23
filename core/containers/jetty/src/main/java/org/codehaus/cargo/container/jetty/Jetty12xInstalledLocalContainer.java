@@ -32,6 +32,13 @@ public class Jetty12xInstalledLocalContainer extends Jetty11xInstalledLocalConta
     public static final String ID = "jetty12x";
 
     /**
+     * Default list of Jetty modules to activate.
+     * @see JettyPropertySet#MODULES
+     */
+    public static final String DEFAULT_MODULES =
+        "server,http,http2c,ee8-annotations,ee8-plus,websocket,ee8-jsp,ext,deploy";
+
+    /**
      * Jetty12xInstalledLocalContainer Constructor.
      * @param configuration The configuration associated with the container
      */

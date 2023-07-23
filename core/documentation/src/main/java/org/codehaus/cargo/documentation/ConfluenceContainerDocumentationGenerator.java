@@ -544,7 +544,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (EnvironmentTestData.jakartaEeContainers.contains(containerId)
-            || containerId.equals("payara"))
+            || containerId.equals("payara") || containerId.equals("jetty12x"))
         {
             String containerName = null;
             for (Map.Entry<String, String> container : JAKARTAEE_CONTAINER_NAMES.entrySet())
@@ -560,12 +560,36 @@ public class ConfluenceContainerDocumentationGenerator
                 throw new IllegalStateException(
                     "Jakarta EE container " + containerId + " not documented");
             }
-            output.append("{note}Users of " + containerName + ".x onwards should be aware that, ");
-            output.append("as a result of the move from Java EE to Jakarta EE as part of the ");
-            output.append("transfer of Java EE to the Eclipse Foundation, the primary package ");
-            output.append("for all implemented APIs has changed from {{javax.\\*}} to ");
-            output.append("{{jakarta.\\*}}. This will almost certainly require code changes to ");
-            output.append("enable applications to migrate to " + containerName + ".x and later.");
+            output.append("{note}");
+            if (containerId.startsWith("jetty") && !containerId.equals("jetty11x"))
+            {
+                output.append("Jetty 12.x onwards support various versions of Jakarta EE, by ");
+                output.append("adapting the {{[JettyPropertySet.MODULES|https://codehaus-cargo.");
+                output.append("github.io/apidocs/org/codehaus/cargo/container/jetty/");
+                output.append("JettyPropertySet.html#MODULES]}} and {{[JettyPropertySet.");
+                output.append("WEBDEFAULT|https://codehaus-cargo.github.io/apidocs/org/");
+                output.append("codehaus/cargo/container/jetty/JettyPropertySet.html#");
+                output.append("WEBDEFAULT]}} configuration properties accordingly.");
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+                output.append("Users of the Jakarta EE 9 and above versions should be aware ");
+                output.append("that, as a result of the move from Java EE to Jakarta EE as part ");
+                output.append("of the transfer of Java EE to the Eclipse Foundation, the ");
+                output.append("primary package for all implemented APIs has changed from ");
+                output.append("{{javax.\\*}} to {{jakarta.\\*}}. This will almost certainly ");
+                output.append("require code changes to enable applications to migrate to EE 9 ");
+                output.append("and later.");
+            }
+            else
+            {
+                output.append("Users of " + containerName + ".x onwards should be aware that, ");
+                output.append("as a result of the move from Java EE to Jakarta EE as part of ");
+                output.append("the transfer of Java EE to the Eclipse Foundation, the primary ");
+                output.append("package for all implemented APIs has changed from {{javax.\\*}} ");
+                output.append("to {{jakarta.\\*}}. This will almost certainly require code ");
+                output.append("changes to enable applications to migrate to ");
+                output.append(containerName + ".x and later.");
+            }
             output.append("{note}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
