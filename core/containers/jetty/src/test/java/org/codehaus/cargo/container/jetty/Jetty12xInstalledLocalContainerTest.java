@@ -19,34 +19,22 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
+import junit.framework.TestCase;
+import org.codehaus.cargo.container.Container;
 
 /**
- * Configuration for existing local Jetty 9.x
+ * Unit tests for {@link Jetty12xInstalledLocalContainer}.
  */
-public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfiguration
+public class Jetty12xInstalledLocalContainerTest extends TestCase
 {
-
     /**
-     * {@inheritDoc}
-     * @see Jetty8xExistingLocalConfiguration#Jetty8xExistingLocalConfiguration(String)
+     * Test the <code>getName</code> method.
+     * @throws Exception If anything goes wrong.
      */
-    public Jetty9xExistingLocalConfiguration(String dir)
+    public void testGetName() throws Exception
     {
-        super(dir);
+        Container c = new Jetty12xInstalledLocalContainer(null);
+        String name = c.getName();
+        assertEquals("Jetty 12.x", name);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
-    {
-        Jetty9x10x11x12xInstalledLocalDeployer deployer =
-            new Jetty9x10x11x12xInstalledLocalDeployer((InstalledLocalContainer) container);
-        return deployer;
-    }
-
 }

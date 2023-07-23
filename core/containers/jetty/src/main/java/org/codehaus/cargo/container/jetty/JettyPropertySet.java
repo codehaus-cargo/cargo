@@ -54,4 +54,9 @@ public interface JettyPropertySet
      */
     String MODULES = "cargo.jetty.modules";
 
+    /**
+     * Which <code>webdefault-*.xml</code> file to use for the Jetty 12.x onwards configuration.
+     */
+    String WEBDEFAULT = "cargo.jetty.webdefaultXml";
+
 }

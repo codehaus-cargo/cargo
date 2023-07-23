@@ -50,12 +50,6 @@ public class Jetty6xStandaloneLocalConfiguration extends
     public Jetty6xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        addXmlReplacement(
-            "etc/webdefault.xml",
-            "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
-                + "/parent::init-param/param-value",
-            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
     /**
@@ -73,6 +67,13 @@ public class Jetty6xStandaloneLocalConfiguration extends
     @Override
     public void doConfigure(LocalContainer container) throws Exception
     {
+        // Only add the XML replacement now to allow customized getWebdefaultFile()
+        addXmlReplacement(
+            "etc/" + getWebdefaultFile(),
+            "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
+                + "/parent::init-param/param-value",
+            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
+
         super.doConfigure(container);
 
         String sessionPath = getPropertyValue(JettyPropertySet.SESSION_PATH);
@@ -86,7 +87,7 @@ public class Jetty6xStandaloneLocalConfiguration extends
                     + "  </context-param>\n";
             Map<String, String> replacements = new HashMap<String, String>(1);
             replacements.put("</web-app>", sessionContextParam + "</web-app>");
-            String webdefault = getFileHandler().append(getHome(), "etc/webdefault.xml");
+            String webdefault = getFileHandler().append(getHome(), "etc/" + getWebdefaultFile());
             getFileHandler().replaceInFile(
                 webdefault, replacements, StandardCharsets.UTF_8, false);
         }
@@ -101,6 +102,14 @@ public class Jetty6xStandaloneLocalConfiguration extends
     {
         Jetty6xInstalledLocalDeployer deployer = new Jetty6xInstalledLocalDeployer(container);
         return deployer;
+    }
+
+    /**
+     * @return Jetty <code>webdefault.xml</code> file name.
+     */
+    protected String getWebdefaultFile()
+    {
+        return "webdefault.xml";
     }
 
     /**

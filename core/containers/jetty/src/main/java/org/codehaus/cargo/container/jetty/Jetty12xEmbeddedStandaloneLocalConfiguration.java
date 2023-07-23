@@ -19,21 +19,19 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
 /**
- * Configuration for existing local Jetty 9.x
+ * A mostly canned configuration for an embedded Jetty 12.x instance.
  */
-public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfiguration
+public class Jetty12xEmbeddedStandaloneLocalConfiguration extends
+    Jetty11xEmbeddedStandaloneLocalConfiguration
 {
-
     /**
      * {@inheritDoc}
-     * @see Jetty8xExistingLocalConfiguration#Jetty8xExistingLocalConfiguration(String)
+     * @see Jetty11xEmbeddedStandaloneLocalConfiguration#Jetty11xEmbeddedStandaloneLocalConfiguration(String)
      */
-    public Jetty9xExistingLocalConfiguration(String dir)
+    public Jetty12xEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -42,11 +40,17 @@ public class Jetty9xExistingLocalConfiguration extends Jetty8xExistingLocalConfi
      * {@inheritDoc}
      */
     @Override
-    public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
+    protected void activateLogging(LocalContainer container)
     {
-        Jetty9x10x11x12xInstalledLocalDeployer deployer =
-            new Jetty9x10x11x12xInstalledLocalDeployer((InstalledLocalContainer) container);
-        return deployer;
+        getLogger().info("Jetty 12.x log configuration not implemented", this.getClass().getName());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "Jetty 12.x Embedded Standalone Configuration";
+    }
 }

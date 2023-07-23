@@ -19,26 +19,33 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * A deployer for webapps that deploys to a Jetty 9.x, 10.x and 11.x installed instance.
+ * Special container support for the Jetty 12.x servlet container.
  */
-public class Jetty9x10x11xInstalledLocalDeployer extends Jetty7x8xInstalledLocalDeployer
+public class Jetty12xInstalledLocalContainer extends Jetty11xInstalledLocalContainer
 {
     /**
-     * {@inheritDoc}
-     * @see Jetty7x8xInstalledLocalDeployer#Jetty7x8xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * Unique container id.
      */
-    public Jetty9x10x11xInstalledLocalDeployer(LocalContainer container)
+    public static final String ID = "jetty12x";
+
+    /**
+     * Jetty12xInstalledLocalContainer Constructor.
+     * @param configuration The configuration associated with the container
+     */
+    public Jetty12xInstalledLocalContainer(LocalConfiguration configuration)
     {
-        super(container);
+        super(configuration);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public String getContextsDir()
+    public String getId()
     {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
+        return ID;
     }
-
 }
