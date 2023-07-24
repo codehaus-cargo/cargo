@@ -332,7 +332,7 @@
       We use Java 6 for certain containers' tests on our CI.
       -->
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
-    <cargo.archetypes-junit.version>5.9.3</cargo.archetypes-junit.version>
+    <cargo.archetypes-junit.version>5.10.0</cargo.archetypes-junit.version>
     <!--
       The multiple-containers archetype relies on multiple profile activation conditions, which
       only works starting from Maven 3.2.2: https://issues.apache.org/jira/browse/MNG-4565
