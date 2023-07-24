@@ -566,10 +566,8 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("Jetty 12.x onwards support various versions of Jakarta EE, by ");
                 output.append("adapting the {{[JettyPropertySet.MODULES|https://codehaus-cargo.");
                 output.append("github.io/apidocs/org/codehaus/cargo/container/jetty/");
-                output.append("JettyPropertySet.html#MODULES]}} and {{[JettyPropertySet.");
-                output.append("WEBDEFAULT|https://codehaus-cargo.github.io/apidocs/org/");
-                output.append("codehaus/cargo/container/jetty/JettyPropertySet.html#");
-                output.append("WEBDEFAULT]}} configuration properties accordingly.");
+                output.append("JettyPropertySet.html#MODULES]}} configuration property ");
+                output.append("accordingly.");
                 output.append(FileHandler.NEW_LINE);
                 output.append(FileHandler.NEW_LINE);
                 output.append("Users of the Jakarta EE 9 and above versions should be aware ");

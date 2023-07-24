@@ -36,7 +36,7 @@ public class Jetty12xInstalledLocalContainer extends Jetty11xInstalledLocalConta
      * @see JettyPropertySet#MODULES
      */
     public static final String DEFAULT_MODULES =
-        "server,http,http2c,ee8-annotations,ee8-plus,websocket,ee8-jsp,ext,deploy";
+        "server,http,http2c,ee8-annotations,ee8-plus,websocket-jetty,ee8-jsp,ext,ee8-deploy";
 
     /**
      * Jetty12xInstalledLocalContainer Constructor.

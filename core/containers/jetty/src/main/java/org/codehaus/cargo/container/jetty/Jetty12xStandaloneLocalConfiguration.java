@@ -19,8 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.Jetty12xStandaloneLocalConfigurationCapability;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Jetty 12.x standalone
@@ -29,10 +29,10 @@ import org.codehaus.cargo.container.jetty.internal.Jetty12xStandaloneLocalConfig
 public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLocalConfiguration
 {
     /**
-     * Capability of the Jetty Existing local configuration.
+     * All <code>webdefault-*.xml</code> files from Jetty 12.x.
      */
-    private static ConfigurationCapability capability =
-        new Jetty12xStandaloneLocalConfigurationCapability();
+    private static final List<String> WEBDEFAULT_XML_FILES =
+        Arrays.asList("webdefault-ee8.xml", "webdefault-ee9.xml", "webdefault-ee10.xml");
 
     /**
      * {@inheritDoc}
@@ -42,25 +42,15 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
     {
         super(dir);
         setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
-        setProperty(JettyPropertySet.WEBDEFAULT, "webdefault-ee8.xml");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected String getWebdefaultFile()
+    protected List<String> getWebdefaultFiles()
     {
-        return getPropertyValue(JettyPropertySet.WEBDEFAULT);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return capability;
+        return Jetty12xStandaloneLocalConfiguration.WEBDEFAULT_XML_FILES;
     }
 
     /**

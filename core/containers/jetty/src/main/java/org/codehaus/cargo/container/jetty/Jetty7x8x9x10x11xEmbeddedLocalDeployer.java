@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDep
 /**
  * A deployer for webapps that deploys to a Jetty 7.x onwards instance running embedded.
  */
-public class Jetty7x8x9x10x11x12xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
+public class Jetty7x8x9x10x11xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
 {
     /**
      * The class representing org.eclipse.jetty.webapp.WebAppContext.
@@ -39,7 +39,7 @@ public class Jetty7x8x9x10x11x12xEmbeddedLocalDeployer extends AbstractJettyEmbe
      * {@inheritDoc}
      * @see AbstractJettyEmbeddedLocalDeployer#AbstractJettyEmbeddedLocalDeployer(EmbeddedLocalContainer)
      */
-    public Jetty7x8x9x10x11x12xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
+    public Jetty7x8x9x10x11xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
     {
         super(container);
         try
