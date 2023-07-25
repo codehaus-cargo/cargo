@@ -17,28 +17,21 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jetty;
+package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 
 /**
- * A deployer for webapps that deploys to a Jetty 9.x, 10.x, 11.x and 12.x installed instance.
+ * Capabilities of Jetty 12.x's {@link AbstractJettyExistingLocalConfiguration} configuration.
  */
-public class Jetty9x10x11x12xInstalledLocalDeployer extends Jetty7x8xInstalledLocalDeployer
+public class Jetty12xExistingLocalConfigurationCapability extends
+    Jetty10xExistingLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
-     * @see Jetty7x8xInstalledLocalDeployer#Jetty7x8xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * Initialize the configuration-specific supports Map.
      */
-    public Jetty9x10x11x12xInstalledLocalDeployer(LocalContainer container)
+    public Jetty12xExistingLocalConfigurationCapability()
     {
-        super(container);
+        this.propertySupportMap.put(JettyPropertySet.EE_VERSION, Boolean.TRUE);
     }
-
-    @Override
-    public String getContextsDir()
-    {
-        return getFileHandler().append(getContainer().getConfiguration().getHome(), "webapps");
-    }
-
 }

@@ -46,6 +46,7 @@ public class EnvironmentTestData
     public static List<String> jakartaEeContainers = Arrays.asList(new String[]
     {
         "jetty11x",
+        "jetty12x",
         "glassfish6x",
         "glassfish7x",
         "tomcat10x",

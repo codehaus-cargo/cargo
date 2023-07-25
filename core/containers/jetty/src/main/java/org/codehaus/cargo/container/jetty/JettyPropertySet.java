@@ -54,4 +54,9 @@ public interface JettyPropertySet
      */
     String MODULES = "cargo.jetty.modules";
 
+    /**
+     * EE version to use when deploying to Jetty 12.x onwards.
+     */
+    String EE_VERSION = "cargo.jetty.ee.version";
+
 }

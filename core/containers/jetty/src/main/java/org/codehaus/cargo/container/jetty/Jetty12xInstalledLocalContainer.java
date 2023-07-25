@@ -32,11 +32,19 @@ public class Jetty12xInstalledLocalContainer extends Jetty11xInstalledLocalConta
     public static final String ID = "jetty12x";
 
     /**
+     * Default EE version.
+     * @see JettyPropertySet#MODULES
+     */
+    public static final String DEFAULT_EE_VERSION = "ee10";
+
+    /**
      * Default list of Jetty modules to activate.
      * @see JettyPropertySet#MODULES
      */
     public static final String DEFAULT_MODULES =
-        "server,http,http2c,ee8-annotations,ee8-plus,websocket-jetty,ee8-jsp,ext,ee8-deploy";
+        "server,http,http2c," + DEFAULT_EE_VERSION + "-annotations,"
+            + DEFAULT_EE_VERSION + "-plus," + DEFAULT_EE_VERSION + "-websocket-jetty,"
+                + DEFAULT_EE_VERSION + "-jsp,ext," + DEFAULT_EE_VERSION + "-deploy";
 
     /**
      * Jetty12xInstalledLocalContainer Constructor.

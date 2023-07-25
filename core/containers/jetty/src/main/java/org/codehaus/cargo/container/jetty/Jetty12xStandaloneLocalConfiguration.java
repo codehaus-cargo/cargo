@@ -22,6 +22,9 @@ package org.codehaus.cargo.container.jetty;
 import java.util.Arrays;
 import java.util.List;
 
+import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
+
 /**
  * Jetty 12.x standalone
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
@@ -42,6 +45,11 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
     {
         super(dir);
         setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
+        setProperty(
+            JettyPropertySet.EE_VERSION, Jetty12xInstalledLocalContainer.DEFAULT_EE_VERSION);
+
+        // TODO: Very ugly workaround for tests to pass
+        setProperty(JettyPropertySet.CREATE_CONTEXT_XML,"false");
     }
 
     /**
@@ -51,6 +59,17 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
     protected List<String> getWebdefaultFiles()
     {
         return Jetty12xStandaloneLocalConfiguration.WEBDEFAULT_XML_FILES;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected AbstractCopyingInstalledLocalDeployer createDeployer(
+        InstalledLocalContainer container)
+    {
+        Jetty12xInstalledLocalDeployer deployer = new Jetty12xInstalledLocalDeployer(container);
+        return deployer;
     }
 
     /**
