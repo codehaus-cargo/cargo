@@ -49,7 +49,7 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
             JettyPropertySet.EE_VERSION, Jetty12xInstalledLocalContainer.DEFAULT_EE_VERSION);
 
         // TODO: Very ugly workaround for tests to pass
-        setProperty(JettyPropertySet.CREATE_CONTEXT_XML,"false");
+        setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "false");
     }
 
     /**
