@@ -32,9 +32,9 @@ import org.codehaus.cargo.util.CargoException;
 public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalDeployer
 {
     /**
-     * Supported EE versions.
+     * Supported EE versions and associated Jetty configuration XML map.
      */
-    private static final Map<String, String> SUPPORTED_EE_VERSIONS =
+    private static final Map<String, String> EE_VERSION_CONFIGURATION_XML_MAP =
         new HashMap<String, String>(3)
             {{
                 put("ee8", "");
@@ -54,13 +54,14 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
     @Override
     protected String createContextXml(WAR war)
     {
-        String eeVersion =
-            getContainer().getConfiguration().getPropertyValue(JettyPropertySet.EE_VERSION);
-        String eeConfigure = Jetty12xInstalledLocalDeployer.SUPPORTED_EE_VERSIONS.get(eeVersion);
+        String eeVersion = getContainer().getConfiguration().getPropertyValue(
+            JettyPropertySet.DEPLOYER_EE_VERSION);
+        String eeConfigure =
+            Jetty12xInstalledLocalDeployer.EE_VERSION_CONFIGURATION_XML_MAP.get(eeVersion);
         if (eeConfigure == null)
         {
             throw new CargoException("Specified EE version is invalid. Possible values: "
-                + Jetty12xInstalledLocalDeployer.SUPPORTED_EE_VERSIONS.values());
+                + Jetty12xInstalledLocalDeployer.EE_VERSION_CONFIGURATION_XML_MAP.values());
         }
 
         StringBuilder sb = new StringBuilder();

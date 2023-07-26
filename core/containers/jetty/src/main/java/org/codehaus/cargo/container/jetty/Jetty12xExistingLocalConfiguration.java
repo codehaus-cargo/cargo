@@ -33,8 +33,8 @@ public class Jetty12xExistingLocalConfiguration extends Jetty11xExistingLocalCon
     {
         super(dir);
         setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
-        setProperty(
-            JettyPropertySet.EE_VERSION, Jetty12xInstalledLocalContainer.DEFAULT_EE_VERSION);
+        setProperty(JettyPropertySet.DEPLOYER_EE_VERSION,
+            Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION);
     }
 
 }

@@ -34,6 +34,6 @@ public class Jetty12xStandaloneLocalConfigurationCapability extends
      */
     public Jetty12xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(JettyPropertySet.EE_VERSION, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.DEPLOYER_EE_VERSION, Boolean.TRUE);
     }
 }
