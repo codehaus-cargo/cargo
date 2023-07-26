@@ -37,8 +37,7 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
      * Default list of Jetty modules to activate.
      * @see JettyPropertySet#MODULES
      */
-    public static final String DEFAULT_MODULES =
-        "server,http,http2c,annotations,plus,websocket,jsp,ext,deploy";
+    public static final String DEFAULT_MODULES = "server,ext,http,annotations,plus,jsp,deploy";
 
     /**
      * Jetty10xInstalledLocalContainer Constructor.
