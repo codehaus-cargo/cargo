@@ -544,7 +544,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (EnvironmentTestData.jakartaEeContainers.contains(containerId)
-            || containerId.equals("payara") || containerId.equals("jetty12x"))
+            || containerId.equals("payara"))
         {
             String containerName = null;
             for (Map.Entry<String, String> container : JAKARTAEE_CONTAINER_NAMES.entrySet())
