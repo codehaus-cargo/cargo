@@ -131,8 +131,12 @@ blocks:
         commands:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
           - sudo hostname codehaus-cargo-ci
-          - checkout
+          - pushd ~/
+          - echo > pom.xml
           - cache restore
+          - rm -f pom.xml
+          - popd
+          - checkout
           - export ORIGINAL_PWD=$PWD
           - mkdir -p /tmp/cargo
           - mkdir -p ~/.m2
@@ -168,6 +172,10 @@ blocks:
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
+            - pushd ~/
+            - echo > pom.xml
             - cache store
+            - rm -f pom.xml
+            - popd
       secrets:
         - name: Snapshot deployment configuration
