@@ -174,6 +174,7 @@ blocks:
             - ls -al ~/.m2/semaphore-ci-binaries
             - pushd ~/
             - echo > pom.xml
+            - cache clear
             - cache store
             - rm -f pom.xml
             - popd
