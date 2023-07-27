@@ -41,8 +41,17 @@ public interface JettyPropertySet
 
     /**
      * Whether to create <code>context.xml</code> files to deploy WARs.
+     * This is useful for various purposes:
+     * <ul>
+     * <li>Ability to perform hot deployments</li>
+     * <li>Ability to tell Jetty to install the WAR under a given context name</li>
+     * <li>Ability to customise the <a
+     * href="https://codehaus-cargo.github.io/cargo/Application+Classpath.html">application
+     * classpath</a></li>
+     * <li>Accelerated deployment by avoiding an actual copy of the WAR</li>
+     * </ul>
      */
-    String CREATE_CONTEXT_XML = "cargo.jetty.createContextXml";
+    String DEPLOYER_CREATE_CONTEXT_XML = "cargo.jetty.deployer.createContextXml";
 
     /**
      * Name of the security realm for Jetty.
@@ -61,7 +70,7 @@ public interface JettyPropertySet
      * href="https://eclipse.dev/jetty/documentation/jetty-12/operations-guide/#og-deploy-jetty">
      * the <i>Deploying Jetty Context XML Files</i> chapter of the Jetty Operations Guide</a>.
      * <br><br>
-     * This parameter is used if {@link #CREATE_CONTEXT_XML} is set to <code>false</code>.
+     * This parameter is used if {@link #DEPLOYER_CREATE_CONTEXT_XML} is set to <code>false</code>.
      */
     String DEPLOYER_EE_VERSION = "cargo.jetty.deployer.ee.version";
 

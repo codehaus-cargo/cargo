@@ -38,6 +38,12 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
 public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {
     /**
+     * Deprecated property, which was renamed as
+     * {@link JettyPropertySet#DEPLOYER_CREATE_CONTEXT_XML} for clarity.
+     */
+    private static final String DEPRECATED_CREATE_CONTEXT_XML = "cargo.jetty.createContextXml";
+
+    /**
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
@@ -75,17 +81,30 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     @Override
     protected void doDeploy(String deployableDir, Deployable deployable)
     {
-        String createContextXml = getContainer().getConfiguration().getPropertyValue(
-            JettyPropertySet.CREATE_CONTEXT_XML);
+        String createContextXml =
+            getContainer().getConfiguration().getPropertyValue(
+                Jetty6xInstalledLocalDeployer.DEPRECATED_CREATE_CONTEXT_XML);
+        if (createContextXml != null)
+        {
+            getLogger().warn(
+                "You are using the deprecated property ["
+                    + Jetty6xInstalledLocalDeployer.DEPRECATED_CREATE_CONTEXT_XML
+                        + "]. Please replace it with ["
+                            + JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML
+                                + "], which was introduced with Codehaus Cargo 1.10.9.",
+                this.getClass().getName());
+        }
+        else
+        {
+            createContextXml =
+                getContainer().getConfiguration().getPropertyValue(
+                    JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML);
+        }
 
         if (DeployableType.WAR.equals(deployable.getType())
             && Boolean.parseBoolean(createContextXml))
         {
             WAR war = (WAR) deployable;
-            // Create a Jetty context file. This is useful for various purposes:
-            // - ability to hot deploy
-            // - ability to tell Jetty to install the WAR under a given context name
-            // - ability to accelerate deployment by avoiding an actual copy of the WAR
             String contextDir = getContextsDir();
             String contextFile = war.getFilename().replace('/', '-');
             if (war.isExpanded())

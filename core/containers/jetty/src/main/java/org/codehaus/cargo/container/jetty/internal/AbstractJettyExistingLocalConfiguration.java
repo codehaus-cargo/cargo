@@ -49,7 +49,7 @@ public abstract class AbstractJettyExistingLocalConfiguration
         super(dir);
 
         setProperty(GeneralPropertySet.RMI_PORT, "8079");
-        setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "true");
+        setProperty(JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML, "true");
     }
 
     /** Creation of deployer according to the container

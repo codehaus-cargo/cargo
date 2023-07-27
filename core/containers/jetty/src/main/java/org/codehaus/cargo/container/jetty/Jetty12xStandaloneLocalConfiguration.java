@@ -49,7 +49,7 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
             Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION);
 
         // TODO: Waiting for https://github.com/eclipse/jetty.project/issues/10158 to be fixed
-        setProperty(JettyPropertySet.CREATE_CONTEXT_XML, "false");
+        setProperty(JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML, "false");
     }
 
     /**
