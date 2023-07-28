@@ -131,9 +131,10 @@ blocks:
         commands:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
           - sudo hostname codehaus-cargo-ci
+          - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
           - pushd ~/
           - echo > pom.xml
-          - cache restore "cargo-$SEMAPHORE_JOB_ID"
+          - cache restore "cargo-$CARGO_BRANCH_ID"
           - rm -f pom.xml
           - popd
           - checkout
@@ -175,7 +176,7 @@ blocks:
             - pushd ~/
             - echo > pom.xml
             - cache clear
-            - cache store "cargo-$SEMAPHORE_JOB_ID"
+            - cache store "cargo-$CARGO_BRANCH_ID"
             - rm -f pom.xml
             - popd
       secrets:
