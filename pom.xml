@@ -1090,7 +1090,7 @@
       <dependency>
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.rmi</groupId>
