@@ -133,7 +133,7 @@ blocks:
           - sudo hostname codehaus-cargo-ci
           - pushd ~/
           - echo > pom.xml
-          - cache restore
+          - cache restore "cargo-$SEMAPHORE_JOB_ID"
           - rm -f pom.xml
           - popd
           - checkout
@@ -175,7 +175,7 @@ blocks:
             - pushd ~/
             - echo > pom.xml
             - cache clear
-            - cache store
+            - cache store "cargo-$SEMAPHORE_JOB_ID"
             - rm -f pom.xml
             - popd
       secrets:
