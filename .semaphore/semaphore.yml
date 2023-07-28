@@ -133,9 +133,7 @@ blocks:
           - sudo hostname codehaus-cargo-ci
           - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
           - pushd ~/
-          - echo > pom.xml
           - cache restore "cargo-$CARGO_BRANCH_ID"
-          - rm -f pom.xml
           - popd
           - checkout
           - export ORIGINAL_PWD=$PWD
@@ -168,16 +166,14 @@ blocks:
           commands:
             - cd $ORIGINAL_PWD
             - mvn clean
-            - cat $ORIGINAL_PWD/core/samples/java/containers.log
+            - cat $ORIGINAL_PWD/core/samples/java/containers.log ; RM=0
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
             - pushd ~/
-            - echo > pom.xml
             - cache clear
-            - cache store "cargo-$CARGO_BRANCH_ID"
-            - rm -f pom.xml
+            - cache store "cargo-$CARGO_BRANCH_ID" .m2
             - popd
       secrets:
         - name: Snapshot deployment configuration
