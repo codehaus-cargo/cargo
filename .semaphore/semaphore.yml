@@ -145,7 +145,7 @@ blocks:
           - mkdir -p ~/.m2/semaphore-ci-binaries
           - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
           - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
-          - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21-ea+27_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
+          - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21-ea+33_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
           - ls -al ~/.m2/cargo-installs
           - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
           - ls -al ~/.m2/semaphore-ci-binaries
@@ -154,8 +154,8 @@ blocks:
           - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
           - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
           - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
-          - 'wget -N --continue https://download.java.net/java/early_access/jdk21/27/GPL/openjdk-21-ea+27_linux-x64_bin.tar.gz ; RM=0'
-          - tar -xvzf openjdk-21-ea+27_linux-x64_bin.tar.gz -C /tmp/cargo
+          - 'wget -N --continue https://download.java.net/java/early_access/jdk21/33/GPL/openjdk-21-ea+33_linux-x64_bin.tar.gz ; RM=0'
+          - tar -xvzf openjdk-21-ea+33_linux-x64_bin.tar.gz -C /tmp/cargo
           - cd $ORIGINAL_PWD
           - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
           - export MAVEN_OPTS="-Xmx768m"
