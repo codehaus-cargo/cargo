@@ -105,21 +105,12 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             && Boolean.parseBoolean(createContextXml))
         {
             WAR war = (WAR) deployable;
-            String contextDir = getContextsDir();
-            String contextFile = war.getFilename().replace('/', '-');
-            if (war.isExpanded())
-            {
-                contextFile = contextFile + ".xml";
-            }
-            else
-            {
-                contextFile = contextFile.substring(0, contextFile.length() - 3) + "xml";
-            }
-            contextFile = getFileHandler().append(contextDir, contextFile);
+            String contextFile = getContextFilename(war, "xml");
             getFileHandler().createFile(contextFile);
 
-            getLogger().info("Deploying WAR by creating Jetty context XML file in [" + contextFile
-                + "]...", getClass().getName());
+            getLogger().info(
+                "Deploying WAR by creating Jetty context XML file in [" + contextFile + "]...",
+                    getClass().getName());
 
             try (OutputStream out = getFileHandler().getOutputStream(contextFile))
             {
@@ -127,14 +118,36 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
             }
             catch (IOException e)
             {
-                throw new ContainerException("Failed to create Jetty Context file for ["
-                    + war.getFile() + "]", e);
+                throw new ContainerException(
+                    "Failed to create Jetty Context file for [" + war.getFile() + "]", e);
             }
         }
         else
         {
             super.doDeploy(deployableDir, deployable);
         }
+    }
+
+    /**
+     * Context file name.
+     * 
+     * @param war WAR deployable.
+     * @param extension File extension, such as <code>xml</code> or <code>properties</code>.
+     * @return Context file name.
+     */
+    protected String getContextFilename(WAR war, String extension)
+    {
+        String contextDir = getContextsDir();
+        String contextFile = war.getFilename().replace('/', '-');
+        if (war.isExpanded())
+        {
+            contextFile = contextFile + "." + extension;
+        }
+        else
+        {
+            contextFile = contextFile.substring(0, contextFile.length() - 3) + extension;
+        }
+        return getFileHandler().append(contextDir, contextFile);
     }
 
     /**

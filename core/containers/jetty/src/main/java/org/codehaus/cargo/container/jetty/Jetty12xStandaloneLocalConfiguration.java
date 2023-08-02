@@ -47,9 +47,6 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
         setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
         setProperty(JettyPropertySet.DEPLOYER_EE_VERSION,
             Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION);
-
-        // TODO: Waiting for https://github.com/eclipse/jetty.project/issues/10158 to be fixed
-        setProperty(JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML, "false");
     }
 
     /**

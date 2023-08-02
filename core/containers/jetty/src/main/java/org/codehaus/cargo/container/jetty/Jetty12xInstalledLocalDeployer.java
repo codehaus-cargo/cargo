@@ -19,12 +19,17 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.FileHandler;
 
 /**
  * A deployer for webapps that deploys to a Jetty 12.x installed instance.
@@ -62,6 +67,22 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
         {
             throw new CargoException("Specified EE version is invalid. Possible values: "
                 + Jetty12xInstalledLocalDeployer.EE_VERSION_CONFIGURATION_XML_MAP.values());
+        }
+
+        // As per a .properties file is also required for Jetty 12.x
+        // See https://github.com/eclipse/jetty.project/issues/10158 for details
+        String contextPropertiesFile = getContextFilename(war, "properties");
+        getFileHandler().createFile(contextPropertiesFile);
+        try (OutputStream out = getFileHandler().getOutputStream(contextPropertiesFile))
+        {
+            out.write(
+                ("environment=" + eeVersion + FileHandler.NEW_LINE)
+                    .getBytes(StandardCharsets.UTF_8));
+        }
+        catch (IOException e)
+        {
+            throw new ContainerException(
+                "Failed to create Jetty Context properties file for [" + war.getFile() + "]", e);
         }
 
         StringBuilder sb = new StringBuilder();
