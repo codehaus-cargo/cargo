@@ -76,7 +76,7 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\"  encoding=\"UTF-8\"?>\n");
         sb.append("<!DOCTYPE Configure PUBLIC \"-//Jetty//Configure//EN\" "
-            + "\"http://www.eclipse.org/jetty/configure" + eeConfigure + ".dtd\">\n");
+            + "\"https://eclipse.dev/jetty/configure" + eeConfigure + ".dtd\">\n");
         sb.append(
             "<Configure class=\"org.eclipse.jetty." + eeVersion + ".webapp.WebAppContext\">\n");
         sb.append("  <Set name=\"contextPath\">/" + war.getContext() + "</Set>\n");
