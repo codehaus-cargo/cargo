@@ -19,11 +19,8 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -106,21 +103,11 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
         {
             WAR war = (WAR) deployable;
             String contextFile = getContextFilename(war, "xml");
-            getFileHandler().createFile(contextFile);
-
             getLogger().info(
-                "Deploying WAR by creating Jetty context XML file in [" + contextFile + "]...",
+                "Deploying WAR by creating Jetty context XML file in [" + contextFile + "]",
                     getClass().getName());
-
-            try (OutputStream out = getFileHandler().getOutputStream(contextFile))
-            {
-                out.write(createContextXml(war).getBytes(StandardCharsets.UTF_8));
-            }
-            catch (IOException e)
-            {
-                throw new ContainerException(
-                    "Failed to create Jetty Context file for [" + war.getFile() + "]", e);
-            }
+            getFileHandler().writeTextFile(
+                contextFile, createContextXml(war), StandardCharsets.UTF_8);
         }
         else
         {
