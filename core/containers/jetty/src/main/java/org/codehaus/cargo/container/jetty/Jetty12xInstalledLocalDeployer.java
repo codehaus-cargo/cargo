@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
@@ -84,6 +85,22 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
         sb.append("  <Set name=\"extractWAR\">true</Set>\n");
         sb.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault-" + eeVersion + ".xml</Set>\n");
+        // Add datasources
+        for (DataSource ds : getContainer().getConfiguration().getDataSources())
+        {
+            sb.append("  <New id=\"" + ds.getId()
+                + "\" class=\"org.eclipse.jetty." + eeVersion + ".plus.jndi.Resource\">\n");
+            sb.append("    <Arg>" + ds.getJndiLocation() + "</Arg>\n");
+            sb.append("    <Arg>\n");
+            sb.append("      <New class=\"com.mchange.v2.c3p0.ComboPooledDataSource\">\n");
+            sb.append("        <Set name=\"driverClass\">" + ds.getDriverClass() + "</Set>\n");
+            sb.append("        <Set name=\"jdbcUrl\">" + ds.getUrl() + "</Set>\n");
+            sb.append("        <Set name=\"user\">" + ds.getUsername() + "</Set>\n");
+            sb.append("        <Set name=\"password\">" + ds.getPassword() + "</Set>\n");
+            sb.append("      </New>\n");
+            sb.append("    </Arg>\n");
+            sb.append("  </New>\n");
+        }
         sb.append(getExtraClasspathXmlFragment(war));
         sb.append(getSharedClasspathXmlFragment());
         sb.append("</Configure>\n");

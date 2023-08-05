@@ -1723,6 +1723,35 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);
+            if ("jetty12x".equals(containerId))
+            {
+                output.append("{note}");
+                output.append(FileHandler.NEW_LINE);
+                output.append("Since the Jetty 12.x {{jetty-plus}} modules are specific to EE ");
+                output.append("versions, datasources and resources are deployed using each ");
+                output.append("application's {{context.xml}} file, matching the EE version.");
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+                output.append("The below are hence pre-requisites to using datasources or ");
+                output.append("resources in Jetty 12.x:");
+                output.append(FileHandler.NEW_LINE);
+                output.append("* {{[JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML|https://");
+                output.append("codehaus-cargo.github.io/apidocs/org/codehaus/cargo/container/");
+                output.append("jetty/JettyPropertySet.html#DEPLOYER_CREATE_CONTEXT_XML]}} must ");
+                output.append("must be set to {{true}}.");
+                output.append(FileHandler.NEW_LINE);
+                output.append("* {{[JettyPropertySet.MODULES|https://codehaus-cargo.github.io/");
+                output.append("apidocs/org/codehaus/cargo/container/jetty/JettyPropertySet.html#");
+                output.append("MODULES]}} must contain the right {{jetty-plus}} modules for the ");
+                output.append("application(s) in scope.");
+                output.append(FileHandler.NEW_LINE);
+                output.append("* {{[JettyPropertySet.DEPLOYER_EE_VERSION|https://codehaus-cargo.");
+                output.append("github.io/apidocs/org/codehaus/cargo/container/jetty/");
+                output.append("JettyPropertySet.html#DEPLOYER_EE_VERSION]}} must be set aligned ");
+                output.append("with the {{jetty-plus}} module EE version mentioned above.");
+                output.append(FileHandler.NEW_LINE);
+                output.append("{note}");
+            }
         }
 
         if (ConfigurationType.STANDALONE.equals(type)
@@ -1762,6 +1791,7 @@ public class ConfluenceContainerDocumentationGenerator
         if (ConfigurationType.STANDALONE.equals(type) && containerId.startsWith("weblogic"))
         {
             output.append("{note}");
+            output.append(FileHandler.NEW_LINE);
             output.append("Some versions of WebLogic require you to have a complex password, ");
             output.append("i.e. only {{weblogic}} is not enough.");
             output.append(FileHandler.NEW_LINE);

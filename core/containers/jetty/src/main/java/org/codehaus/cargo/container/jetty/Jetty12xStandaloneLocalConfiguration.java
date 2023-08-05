@@ -19,10 +19,12 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
+import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
@@ -96,6 +98,18 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
         sb.append("  </Arg>\n");
         sb.append("</Call>\n");
         return sb.toString();
+    }
+
+    /**
+     * Jetty 12.x requiring different <code>jetty-plus</code> modules for different EE versions,
+     * this implementation creates no replacements, but rather adds the <code>c3p0</code> and
+     * other JARs to the container classpath. {@inheritDoc}
+     */
+    @Override
+    protected void configureDatasource(LocalContainer container, String etcDir) throws IOException
+    {
+        StringBuilder sb = new StringBuilder();
+        createDatasourceDefinitions(sb, container);
     }
 
     /**
