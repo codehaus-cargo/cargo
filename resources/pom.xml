@@ -54,7 +54,7 @@
       </activation>
       <modules>
         <module>jetty-10-deployer</module>
-        <module>jetty-11-onwards-deployer</module>
+        <module>jetty-11-deployer</module>
       </modules>
     </profile>
   </profiles>

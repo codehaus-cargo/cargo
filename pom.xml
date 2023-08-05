@@ -717,7 +717,7 @@
       </dependency>
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-jetty-11-onwards-deployer</artifactId>
+        <artifactId>cargo-jetty-11-deployer</artifactId>
         <version>${project.version}</version>
         <type>war</type>
       </dependency>

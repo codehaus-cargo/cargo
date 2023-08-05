@@ -23,10 +23,10 @@
     <artifactId>cargo-resources</artifactId>
     <version>1.10.9-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-jetty-11-onwards-deployer</artifactId>
+  <artifactId>cargo-jetty-11-deployer</artifactId>
   <packaging>war</packaging>
-  <name>Cargo Remote Deployer for Jetty (versions 11 onwards)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (versions 11 onwards)</description>
+  <name>Cargo Remote Deployer for Jetty (version 11 only)</name>
+  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (version 11 only)</description>
   <dependencies>
     <dependency>
       <groupId>jakarta.servlet</groupId>

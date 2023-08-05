@@ -1252,10 +1252,10 @@
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-jetty-11-onwards-deployer</artifactId>
+                  <artifactId>cargo-jetty-11-deployer</artifactId>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/deployables</outputDirectory>
-                  <destFileName>cargo-jetty-11-onwards-deployer.war</destFileName>
+                  <destFileName>cargo-jetty-11-deployer.war</destFileName>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.codehaus.cargo</groupId>
