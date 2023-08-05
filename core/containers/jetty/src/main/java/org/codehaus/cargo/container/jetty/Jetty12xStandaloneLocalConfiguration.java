@@ -73,6 +73,35 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
      * {@inheritDoc}
      */
     @Override
+    protected String configureRealmXml()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<Call id=\"ResourceFactory\" "
+            + "class=\"org.eclipse.jetty.util.resource.ResourceFactory\" name=\"of\">\n");
+        sb.append("  <Arg><Ref refid=\"Server\" /></Arg>\n");
+        sb.append("  <Call id=\"realmResource\" name=\"newResource\">\n");
+        sb.append("    <Arg>\n");
+        sb.append("      <Property name=\"cargo.realm\" "
+            + "default=\"etc/cargo-realm.properties\" />\n");
+        sb.append("    </Arg>\n");
+        sb.append("  </Call>\n");
+        sb.append("</Call>\n\n");
+        sb.append("<Call name=\"addBean\">\n");
+        sb.append("  <Arg>\n");
+        sb.append("    <New class=\"org.eclipse.jetty.security.HashLoginService\">\n");
+        sb.append("      <Set name=\"name\">"
+            + getPropertyValue(JettyPropertySet.REALM_NAME) + "</Set>\n");
+        sb.append("      <Set name=\"config\"><Ref refid=\"realmResource\"/></Set>\n");
+        sb.append("    </New>\n");
+        sb.append("  </Arg>\n");
+        sb.append("</Call>\n");
+        return sb.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString()
     {
         return "Jetty 12.x Standalone Configuration";

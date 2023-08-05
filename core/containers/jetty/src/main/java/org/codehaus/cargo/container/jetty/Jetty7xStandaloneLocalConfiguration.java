@@ -82,21 +82,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
         if (getUsers() != null && !getUsers().isEmpty())
         {
             JettyUtils.createRealmFile(getUsers(), etcDir, getFileHandler());
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("<Call name=\"addBean\">\n");
-            sb.append("  <Arg>\n");
-            sb.append("    <New class=\"org.eclipse.jetty.security.HashLoginService\">\n");
-            sb.append("      <Set name=\"name\">"
-                + getPropertyValue(JettyPropertySet.REALM_NAME) + "</Set>\n");
-            sb.append("      <Set name=\"config\">"
-                + "<SystemProperty name=\"config.home\" default=\".\"/>"
-                    + "/etc/cargo-realm.properties</Set>\n");
-            sb.append("    </New>\n");
-            sb.append("  </Arg>\n");
-            sb.append("</Call>\n");
-
-            jettyXmlReplacements.put("</Configure>", sb.toString() + "</Configure>");
+            jettyXmlReplacements.put("</Configure>", configureRealmXml() + "</Configure>");
         }
 
         if (getDataSources() != null && !getDataSources().isEmpty())
@@ -117,6 +103,27 @@ public class Jetty7xStandaloneLocalConfiguration extends
     {
         Jetty7x8xInstalledLocalDeployer deployer = new Jetty7x8xInstalledLocalDeployer(container);
         return deployer;
+    }
+
+    /**
+     * Configure the XML portions for the authentication realm.
+     * @return XML portions for the authentication realm.
+     */
+    protected String configureRealmXml()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<Call name=\"addBean\">\n");
+        sb.append("  <Arg>\n");
+        sb.append("    <New class=\"org.eclipse.jetty.security.HashLoginService\">\n");
+        sb.append("      <Set name=\"name\">"
+            + getPropertyValue(JettyPropertySet.REALM_NAME) + "</Set>\n");
+        sb.append("      <Set name=\"config\">"
+            + "<SystemProperty name=\"config.home\" default=\".\"/>"
+                + "/etc/cargo-realm.properties</Set>\n");
+        sb.append("    </New>\n");
+        sb.append("  </Arg>\n");
+        sb.append("</Call>\n");
+        return sb.toString();
     }
 
     /**
