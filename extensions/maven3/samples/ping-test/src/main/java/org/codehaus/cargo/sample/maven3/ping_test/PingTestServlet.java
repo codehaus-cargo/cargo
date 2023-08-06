@@ -66,7 +66,7 @@ public class PingTestServlet extends HttpServlet
         long timeElapsed = System.currentTimeMillis() - PingTestServlet.startTime;
         if (timeElapsed < wait)
         {
-            PingTestServlet.logger.info(
+            PingTestServlet.logger.fine(
                 "PingTestServlet - remaining milliseconds before OK: " + (wait - timeElapsed));
 
             throw new IOException("The servlet is not ready yet");
