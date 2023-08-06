@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasLocalDeployerValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
@@ -86,6 +87,11 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractCargoTestCase
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/" + war.getContext()
             + "/index.jsp");
 
+        if ("jetty12x".equals(getContainer().getId()))
+        {
+            getLocalContainer().getConfiguration().setProperty(
+                GeneralPropertySet.JVMARGS, "-Djetty.deploy.scanInterval=1");
+        }
         getLocalContainer().start();
         PingUtils.assertPingFalse("simple war should not be started at this point", warPingURL,
             getLogger());
