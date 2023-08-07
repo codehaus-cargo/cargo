@@ -1895,6 +1895,12 @@
       </properties>
     </profile>
     <profile>
+      <id>wildfly29x</id>
+      <properties>
+        <cargo.containers>wildfly29x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
       <id>wildfly-swarm2017x</id>
       <properties>
         <cargo.containers>wildfly-swarm2017x</cargo.containers>
