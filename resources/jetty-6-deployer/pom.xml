@@ -41,7 +41,7 @@
         depend on different versions of same artifact. Codehaus Cargo can not simply
         use single version in dependencyManagement.
         -->
-      <version>6.0.0</version>
+      <version>6.1.23</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
