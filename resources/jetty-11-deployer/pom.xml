@@ -25,8 +25,8 @@
   </parent>
   <artifactId>cargo-jetty-11-deployer</artifactId>
   <packaging>war</packaging>
-  <name>Cargo Remote Deployer for Jetty (version 11 only)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (version 11 only)</description>
+  <name>Cargo Remote Deployer for Jetty (version 11.x)</name>
+  <description>Webapp used by Cargo to remotely deploy applications on a Jetty 11.x server</description>
   <dependencies>
     <dependency>
       <groupId>jakarta.servlet</groupId>

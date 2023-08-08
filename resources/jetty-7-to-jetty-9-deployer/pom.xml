@@ -26,7 +26,7 @@
   <artifactId>cargo-jetty-7-to-jetty-9-deployer</artifactId>
   <packaging>war</packaging>
   <name>Cargo Remote Deployer for Jetty (versions 7.x to 9.x)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (versions 7.x to 9.x)</description>
+  <description>Webapp used by Cargo to remotely deploy applications on Jetty servers version 7.x to 9.x</description>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>

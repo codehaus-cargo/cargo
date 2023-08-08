@@ -25,8 +25,8 @@
   </parent>
   <artifactId>cargo-jetty-10-deployer</artifactId>
   <packaging>war</packaging>
-  <name>Cargo Remote Deployer for Jetty (version 10 only)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty server (version 10 only)</description>
+  <name>Cargo Remote Deployer for Jetty (version 10.x)</name>
+  <description>Webapp used by Cargo to remotely deploy applications on a Jetty 10.x server</description>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>

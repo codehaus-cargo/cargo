@@ -41,7 +41,7 @@
         <jdk>(,12)</jdk>
       </activation>
       <modules>
-        <module>jetty-6-and-earlier-deployer</module>
+        <module>jetty-6-deployer</module>
         <module>jetty-7-to-jetty-9-deployer</module>
         <module>testdata</module>
       </modules>

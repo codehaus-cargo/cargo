@@ -699,7 +699,7 @@
 
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId>
+        <artifactId>cargo-jetty-6-deployer</artifactId>
         <version>${project.version}</version>
         <type>war</type>
       </dependency>

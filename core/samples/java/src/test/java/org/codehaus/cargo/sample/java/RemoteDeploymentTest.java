@@ -248,7 +248,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             {
                 jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
                     this.localContainer.getId(), getTestData().getTestDataFileFor(
-                        "cargo-jetty-6-and-earlier-deployer"), DeployableType.WAR);
+                        "cargo-jetty-6-deployer"), DeployableType.WAR);
             }
             else if (jettyVersion <= 9)
             {

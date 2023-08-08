@@ -23,10 +23,10 @@
     <artifactId>cargo-resources</artifactId>
     <version>1.10.10-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-jetty-6-and-earlier-deployer</artifactId>
+  <artifactId>cargo-jetty-6-deployer</artifactId>
   <packaging>war</packaging>
-  <name>Cargo Remote Deployer for Jetty (version 6.x and earlier)</name>
-  <description>Webapp used by Cargo to remotely deploy applications of a Jetty 6.x server</description>
+  <name>Cargo Remote Deployer for Jetty (version 6.x)</name>
+  <description>Webapp used by Cargo to remotely deploy applications on a Jetty 6.x server</description>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
