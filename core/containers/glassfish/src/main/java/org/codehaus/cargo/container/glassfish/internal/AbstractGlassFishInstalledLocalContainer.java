@@ -22,7 +22,9 @@ package org.codehaus.cargo.container.glassfish.internal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
@@ -285,13 +287,46 @@ public abstract class AbstractGlassFishInstalledLocalContainer
     @Override
     protected void doStop(JvmLauncher java) throws Exception
     {
-        this.invokeAsAdmin(false, java, new String[]
+        try
         {
-            "stop-domain",
-            "--domaindir",
-            this.getConfiguration().getHome(),
-            this.getConfiguration().getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
-        });
+            this.invokeAsAdmin(false, java, new String[]
+            {
+                "stop-domain",
+                "--domaindir",
+                this.getConfiguration().getHome(),
+                this.getConfiguration().getPropertyValue(GlassFishPropertySet.DOMAIN_NAME)
+            });
+        }
+        finally
+        {
+            try
+            {
+                String pid = getFileHandler().append(getConfiguration().getHome(), "config/pid");
+                if (getFileHandler().exists(pid))
+                {
+                    this.getLogger().debug(
+                        "Found a pid file in [" + pid + "], attempting force kill",
+                            this.getClass().getName());
+
+                    pid = getFileHandler().readTextFile(pid, StandardCharsets.UTF_8);
+                    if (System.getProperty("os.name")
+                        .toLowerCase(Locale.ENGLISH).startsWith("windows"))
+                    {
+                        Runtime.getRuntime().exec(new String[] {"taskkill", "/PID", pid, "/F"});
+                    }
+                    else
+                    {
+                        Runtime.getRuntime().exec(new String[] {"kill", "-9", pid});
+                    }
+                }
+            }
+            catch (Throwable e)
+            {
+                // Ignore, we tried our best
+                this.getLogger().debug(
+                    "Failed forceful kill: " + e.toString(), this.getClass().getName());
+            }
+        }
     }
 
     /**
