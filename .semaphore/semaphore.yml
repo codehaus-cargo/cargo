@@ -172,8 +172,9 @@ blocks:
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
             - pushd ~/
-            - cache clear
+            - cache delete "cargo-$CARGO_BRANCH_ID"
             - cache store "cargo-$CARGO_BRANCH_ID" .m2
+            - cache list
             - popd
       secrets:
         - name: Snapshot deployment configuration
