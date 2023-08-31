@@ -152,7 +152,7 @@
                   <artifactInstaller>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-home</artifactId>
-                    <version>9.4.51.v20230217</version>
+                    <version>9.4.52.v20230823</version>
                   </artifactInstaller>
                 </container>
               </configuration>
