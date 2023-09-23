@@ -23,6 +23,7 @@ package org.codehaus.cargo.container.liberty.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,11 @@ public class LibertyInstall
     private File usrDir;
 
     /**
+     * Output file.
+     */
+    private File outputFile;
+
+    /**
      * Create the LibertyInstall for this local container
      * 
      * @param container the container to create it for
@@ -55,6 +61,10 @@ public class LibertyInstall
     {
         installDir = new File(container.getHome());
         usrDir = new File(container.getConfiguration().getHome());
+        if (container.getOutput() != null)
+        {
+            outputFile = new File(container.getOutput());
+        }
     }
 
     /**
@@ -124,7 +134,7 @@ public class LibertyInstall
 
         if (scriptFile.exists())
         {
-            ProcessBuilder builder = new ProcessBuilder();
+            ProcessBuilder builder = new ProcessBuilder().redirectErrorStream(true);
             List<String> cmds = builder.command();
             if (JdkUtils.isWindows())
             {
@@ -140,6 +150,10 @@ public class LibertyInstall
             cmds.add(command);
             builder.directory(installDir);
             builder.environment().putAll(env);
+            if (outputFile != null)
+            {
+                builder.redirectOutput(Redirect.appendTo(outputFile));
+            }
             return builder.start();
         }
         else
@@ -147,7 +161,7 @@ public class LibertyInstall
             final StringBuilder builder
                 = new StringBuilder("WebSphere Liberty is not installed into ");
             builder.append(installDir);
-            builder.append("\r\nFile in dir:\r\n");
+            builder.append("\r\nFiles in directory:\r\n");
             installDir.listFiles((File pathname) ->
             {
                 builder.append(pathname.getName());

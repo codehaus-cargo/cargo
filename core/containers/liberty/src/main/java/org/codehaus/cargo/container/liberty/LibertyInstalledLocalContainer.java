@@ -23,6 +23,7 @@ package org.codehaus.cargo.container.liberty;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -31,6 +32,7 @@ import org.codehaus.cargo.container.liberty.internal.LibertyInstall;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractInstalledLocalContainer;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * This starts a WebSphere Liberty server
@@ -171,15 +173,13 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
         Process p = install.runCommand(command, env);
         if (!"run".equals(command))
         {
-            int retVal = p.waitFor();
+            p.waitFor(getTimeout(), TimeUnit.MILLISECONDS);
+            int retVal = p.exitValue();
             if (retVal != 0)
             {
-                throw new Exception("WebSphere Liberty failed to start with return code " + retVal);
+                throw new CargoException(
+                    "WebSphere Liberty command " + command + " failed, return code " + retVal);
             }
-        }
-        else
-        {
-            // TODO do something to find out when it is done
         }
     }
 }
