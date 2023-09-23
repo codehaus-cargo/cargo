@@ -152,7 +152,6 @@ blocks:
           - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
           - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
           - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
-          - rm -f openjdk-21-ea+33_linux-x64_bin.tar.gz
           - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
           - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
           - cd $ORIGINAL_PWD
