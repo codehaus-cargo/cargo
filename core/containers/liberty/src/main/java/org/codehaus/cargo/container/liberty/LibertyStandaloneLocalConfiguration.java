@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
@@ -43,6 +44,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * This class configures the WebSphere Liberty install to run cargo.
@@ -98,10 +100,21 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
         }
 
         Process p = install.runCommand("create");
-        int retVal = p.waitFor();
-        if (retVal != 0)
+        if (p.waitFor(container.getTimeout(), TimeUnit.MILLISECONDS))
         {
-            throw new Exception("The server could not be created");
+            int retVal = p.exitValue();
+            if (retVal != 0)
+            {
+                throw new CargoException(
+                    "The WebSphere Liberty configuration could not be created");
+            }
+        }
+        else
+        {
+            p.destroyForcibly();
+            throw new CargoException(
+                "The WebSphere Liberty configuration creation command did not complete after "
+                    + container.getTimeout() + " milliseconds");
         }
 
         File configDefaults = new File(serverDir, "configDropins/defaults");

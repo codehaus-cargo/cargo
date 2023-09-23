@@ -173,12 +173,21 @@ public class LibertyInstalledLocalContainer extends AbstractInstalledLocalContai
         Process p = install.runCommand(command, env);
         if (!"run".equals(command))
         {
-            p.waitFor(getTimeout(), TimeUnit.MILLISECONDS);
-            int retVal = p.exitValue();
-            if (retVal != 0)
+            if (p.waitFor(getTimeout(), TimeUnit.MILLISECONDS))
             {
+                int retVal = p.exitValue();
+                if (retVal != 0)
+                {
+                    throw new CargoException(
+                        "WebSphere Liberty command " + command + " failed, return code " + retVal);
+                }
+            }
+            else
+            {
+                p.destroyForcibly();
                 throw new CargoException(
-                    "WebSphere Liberty command " + command + " failed, return code " + retVal);
+                    "WebSphere Liberty command " + command
+                        + " did not complete after " + getTimeout() + " milliseconds");
             }
         }
     }
