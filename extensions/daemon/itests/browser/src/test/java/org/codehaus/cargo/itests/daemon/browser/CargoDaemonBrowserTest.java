@@ -237,8 +237,7 @@ public class CargoDaemonBrowserTest extends TestCase
             }
         }
 
-        // htmlPage = (HtmlPage) htmlPage.refresh();
-        webClient.close();
+        webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test-tjws");
 
@@ -277,8 +276,7 @@ public class CargoDaemonBrowserTest extends TestCase
         DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
         daemonWatchdog.watchForAvailability();
 
-        // htmlPage = (HtmlPage) htmlPage.refresh();
-        webClient.close();
+        webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
         assertNotNull("Container stop button did not appear. Current content: "
@@ -289,8 +287,7 @@ public class CargoDaemonBrowserTest extends TestCase
 
         daemonWatchdog.watchForUnavailability();
 
-        // htmlPage = (HtmlPage) htmlPage.refresh();
-        webClient.close();
+        webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         assertFalse("There should be no running containers",
             htmlPage.asNormalizedText().contains("started"));
