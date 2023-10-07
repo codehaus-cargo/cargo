@@ -26,16 +26,16 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 
 /**
- * Capabilities of the JBoss 7.x container.
+ * Capabilities of the JBoss 7.2.x container.
  */
-public class JBoss7xContainerCapability extends J2EEContainerCapability
+public class JBoss72xContainerCapability extends J2EEContainerCapability
 {
     /**
-     * The deployable types supported by the JBoss 7.x container, in addition to those specified in
-     * {@link J2EEContainerCapability}.
+     * The deployable types supported by the JBoss 7.2.x container, in addition to those specified
+     * in {@link J2EEContainerCapability}.
      */
     private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
-        .asList(DeployableType.BUNDLE, DeployableType.EJB, DeployableType.RAR, DeployableType.SAR);
+        .asList(DeployableType.EJB, DeployableType.RAR, DeployableType.SAR);
 
     /**
      * {@inheritDoc}

@@ -17,34 +17,29 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jboss.internal;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+package org.codehaus.cargo.container.wildfly;
 
 /**
- * Capabilities of the JBoss 7.x container.
+ * WildFly 30.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
+ * implementation.
  */
-public class JBoss7xContainerCapability extends J2EEContainerCapability
+public class WildFly30xExistingLocalConfiguration extends WildFly29xExistingLocalConfiguration
 {
     /**
-     * The deployable types supported by the JBoss 7.x container, in addition to those specified in
-     * {@link J2EEContainerCapability}.
+     * {@inheritDoc}
+     * @see WildFly29xExistingLocalConfiguration#WildFly29xExistingLocalConfiguration(String)
      */
-    private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
-        .asList(DeployableType.BUNDLE, DeployableType.EJB, DeployableType.RAR, DeployableType.SAR);
+    public WildFly30xExistingLocalConfiguration(String dir)
+    {
+        super(dir);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public String toString()
     {
-        return super.supportsDeployableType(type)
-            || ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES.contains(type);
+        return "WildFly 30.x Existing Configuration";
     }
-
 }

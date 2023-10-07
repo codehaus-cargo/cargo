@@ -21,7 +21,9 @@ package org.codehaus.cargo.container.jboss;
 
 import java.io.File;
 
+import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.jboss.internal.JBoss72xContainerCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
@@ -34,6 +36,11 @@ public class JBoss72xInstalledLocalContainer extends JBoss71xInstalledLocalConta
      * JBoss 7.2.x (EAP 6.1.x) series unique id.
      */
     public static final String ID = "jboss72x";
+
+    /**
+     * Capability of the JBoss container.
+     */
+    private static final ContainerCapability CAPABILITY = new JBoss72xContainerCapability();
 
     /**
      * {@inheritDoc}
@@ -60,6 +67,15 @@ public class JBoss72xInstalledLocalContainer extends JBoss71xInstalledLocalConta
     public String getName()
     {
         return "JBoss " + getVersion("7.2.x") + " (EAP 6.1.x)";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ContainerCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

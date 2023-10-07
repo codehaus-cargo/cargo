@@ -17,34 +17,27 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jboss.internal;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+package org.codehaus.cargo.container.wildfly;
 
 /**
- * Capabilities of the JBoss 7.x container.
+ * Configuration to use when using a WildFly 30.x remote container.
  */
-public class JBoss7xContainerCapability extends J2EEContainerCapability
+public class WildFly30xRuntimeConfiguration extends WildFly29xRuntimeConfiguration
 {
     /**
-     * The deployable types supported by the JBoss 7.x container, in addition to those specified in
-     * {@link J2EEContainerCapability}.
+     * Set the default values for various port numbers.
      */
-    private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
-        .asList(DeployableType.BUNDLE, DeployableType.EJB, DeployableType.RAR, DeployableType.SAR);
+    public WildFly30xRuntimeConfiguration()
+    {
+        super();
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public String toString()
     {
-        return super.supportsDeployableType(type)
-            || ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES.contains(type);
+        return "WildFly 30.x Runtime Configuration";
     }
-
 }

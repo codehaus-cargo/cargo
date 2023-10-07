@@ -17,34 +17,44 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jboss.internal;
+package org.codehaus.cargo.container.wildfly;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 
 /**
- * Capabilities of the JBoss 7.x container.
+ * Special container support for wrapping a running instance of WildFly 30.x.
  */
-public class JBoss7xContainerCapability extends J2EEContainerCapability
+public class WildFly30xRemoteContainer extends WildFly29xRemoteContainer
 {
     /**
-     * The deployable types supported by the JBoss 7.x container, in addition to those specified in
-     * {@link J2EEContainerCapability}.
+     * Unique container id.
      */
-    private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
-        .asList(DeployableType.BUNDLE, DeployableType.EJB, DeployableType.RAR, DeployableType.SAR);
+    public static final String ID = "wildfly30x";
+
+    /**
+     * {@inheritDoc}
+     * @see WildFly29xRemoteContainer#WildFly29xRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
+     */
+    public WildFly30xRemoteContainer(RuntimeConfiguration configuration)
+    {
+        super(configuration);
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public String getName()
     {
-        return super.supportsDeployableType(type)
-            || ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES.contains(type);
+        return "WildFly 30.x Remote";
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getId()
+    {
+        return ID;
+    }
 }

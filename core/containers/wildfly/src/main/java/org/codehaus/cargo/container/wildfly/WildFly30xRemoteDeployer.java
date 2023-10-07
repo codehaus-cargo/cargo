@@ -17,13 +17,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.wildfly.internal;
+package org.codehaus.cargo.container.wildfly;
 
-import org.codehaus.cargo.container.jboss.internal.JBoss72xContainerCapability;
+import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.wildfly.internal.AbstractWildFlyRemoteDeployer;
 
 /**
- * Capabilities of the WildFly container.
+ * Remote deployer that uses the remote API to deploy to WildFly 30.x.
  */
-public class WildFlyContainerCapability extends JBoss72xContainerCapability
+public class WildFly30xRemoteDeployer extends AbstractWildFlyRemoteDeployer
 {
+    /**
+     * @param container the container containing the configuration to use to find the deployer
+     * properties such as url, user name and password to use to connect to the deployer
+     */
+    public WildFly30xRemoteDeployer(RemoteContainer container)
+    {
+        super(container);
+    }
 }

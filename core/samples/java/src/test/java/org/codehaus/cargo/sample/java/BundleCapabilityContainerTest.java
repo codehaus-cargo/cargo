@@ -22,8 +22,6 @@ package org.codehaus.cargo.sample.java;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -65,41 +63,10 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         CargoTestSuite suite = new CargoTestSuite(
             "Tests that run on containers supporting OSGi deployments");
 
-        // We exclude JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x, JBoss 7.5.x and WildFly containers
-        // as the default standalone configuration XML for these servers has OSGi support disabled
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jboss72x");
-        excludedContainerIds.add("jboss73x");
-        excludedContainerIds.add("jboss74x");
-        excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("wildfly8x");
-        excludedContainerIds.add("wildfly9x");
-        excludedContainerIds.add("wildfly10x");
-        excludedContainerIds.add("wildfly11x");
-        excludedContainerIds.add("wildfly12x");
-        excludedContainerIds.add("wildfly13x");
-        excludedContainerIds.add("wildfly14x");
-        excludedContainerIds.add("wildfly15x");
-        excludedContainerIds.add("wildfly16x");
-        excludedContainerIds.add("wildfly17x");
-        excludedContainerIds.add("wildfly18x");
-        excludedContainerIds.add("wildfly19x");
-        excludedContainerIds.add("wildfly20x");
-        excludedContainerIds.add("wildfly21x");
-        excludedContainerIds.add("wildfly22x");
-        excludedContainerIds.add("wildfly23x");
-        excludedContainerIds.add("wildfly24x");
-        excludedContainerIds.add("wildfly25x");
-        excludedContainerIds.add("wildfly26x");
-        excludedContainerIds.add("wildfly27x");
-        excludedContainerIds.add("wildfly28x");
-        excludedContainerIds.add("wildfly29x");
-
         suite.addTestSuite(BundleCapabilityContainerTest.class, new Validator[] {
             new IsLocalContainerValidator(),
             new HasStandaloneConfigurationValidator(),
-            new HasBundleSupportValidator()},
-            excludedContainerIds);
+            new HasBundleSupportValidator()});
         return suite;
     }
 

@@ -997,6 +997,11 @@
               </cargo.wildfly29x.url>
               <cargo.wildfly29x.java.home>${cargo.java.home.1_11}</cargo.wildfly29x.java.home>
 
+              <cargo.wildfly30x.url>
+                https://github.com/wildfly/wildfly/releases/download/30.0.0.Beta1/wildfly-30.0.0.Beta1.zip
+              </cargo.wildfly30x.url>
+              <cargo.wildfly30x.java.home>${cargo.java.home.1_11}</cargo.wildfly30x.java.home>
+
               <cargo.wildfly-swarm2017x.home>
                 ${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar
               </cargo.wildfly-swarm2017x.home>
@@ -1898,6 +1903,12 @@
       <id>wildfly29x</id>
       <properties>
         <cargo.containers>wildfly29x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>wildfly30x</id>
+      <properties>
+        <cargo.containers>wildfly30x</cargo.containers>
       </properties>
     </profile>
     <profile>

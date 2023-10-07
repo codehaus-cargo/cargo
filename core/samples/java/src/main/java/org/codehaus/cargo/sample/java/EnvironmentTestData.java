@@ -54,7 +54,8 @@ public class EnvironmentTestData
         "tomee9x",
         "wildfly27x",
         "wildfly28x",
-        "wildfly29x"
+        "wildfly29x",
+        "wildfly30x"
     });
 
     /**
