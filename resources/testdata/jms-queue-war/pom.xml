@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.10.10-SNAPSHOT</version>
+    <version>1.10.10</version>
   </parent>
   <artifactId>jms-queue-war</artifactId>
   <name>Cargo test data for samples - JMS Queue WAR</name>
