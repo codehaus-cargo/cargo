@@ -1136,7 +1136,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-jdbc</artifactId>
-        <version>4.3.30.RELEASE</version>
+        <version>6.0.12</version>
       </dependency>
       <dependency>
         <groupId>org.tukaani</groupId>
