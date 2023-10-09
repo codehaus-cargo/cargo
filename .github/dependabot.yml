@@ -48,6 +48,6 @@ updates:
       - dependency-name: "org.slf4j:slf4j-simple"
         versions: ["[2.0,)"]
       - dependency-name: "org.springframework:spring-jdbc"
-        versions: ["[5.0.0.RELEASE,)"]
+        versions: ["[4.0.0.RELEASE,)"]
       - dependency-name: "org.springframework:spring-web"
-        versions: ["[5.0.0.RELEASE,)"]
+        versions: ["[4.0.0.RELEASE,)"]
