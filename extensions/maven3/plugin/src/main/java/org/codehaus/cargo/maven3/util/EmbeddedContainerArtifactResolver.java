@@ -413,34 +413,34 @@ public class EmbeddedContainerArtifactResolver
         tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "jakartaee-migration", "shaded", "1.0.7"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-util-scan", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-util-scan", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-catalina", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-catalina", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket-api", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket-api", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket-client-api", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket-client-api", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket", "10.1.13"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket", "10.1.14"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "10.1.14"));
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "10.1.13"));
+            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "10.1.14"));
         // To get to the actual ECJ version, open the MANIFEST.MF file in Tomcat's lib/ecj-xxx.jar
         tomcat10xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.33.0"));
         this.containerDependencies.put("tomcat10x", tomcat10xDependencies);
