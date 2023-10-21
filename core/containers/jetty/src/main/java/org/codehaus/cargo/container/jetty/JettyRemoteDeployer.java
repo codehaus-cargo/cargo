@@ -210,10 +210,12 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         else
         {
             String responseBody = response.getResponseBody();
-            if (responseBody == null || !lastLine(responseBody).startsWith("OK -"))
+            if (responseBody == null
+                || !lastLine(responseBody).startsWith("OK -")
+                    && !lastLine(responseBody).startsWith("Webapp deployed at context "))
             {
                 throw new ContainerException("The Jetty remote deployer webapp responded \""
-                    + response + "\" instead of the expected \"OK\" message");
+                    + response + "\" instead of the expected success message");
             }
             return responseBody;
         }
