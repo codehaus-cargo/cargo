@@ -10,21 +10,21 @@ blocks:
   - name: 'Build on various JDKs, deploy and test on all downloadable containers'
     task:
       jobs:
-        - name: Test Javadoc generation, build on JDK 8 and 17, deploy using JDK 11
+        - name: Test Javadoc generation, build on JDK 8 and 21, deploy using JDK 11
           commands:
             - mvn javadoc:aggregate
             - mvn clean
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - mvn clean install -e
-            - unset JAVA_HOME
-            - sem-version java 17
+            - (mvn clean install -e && echo "Build on Java 8 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 8 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
+            - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
-            - mvn clean install -e
+            - (mvn clean install -e && echo "Build on Java 21 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 21 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
+            - unset JAVA_HOME
             - mvn clean
             - sem-version java 11
             - mvn -version
-            - mvn clean deploy -e
+            - (mvn clean deploy -e && echo "Deploy OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deploy failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean deploy -e)
         - name: All Java 6 containers
           commands:
             - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
@@ -161,7 +161,7 @@ blocks:
           - 'export PATH=$MAVEN_HOME/bin:$PATH'
           - sem-version java 11
           - mvn -version
-          - mvn clean install -e
+          - (mvn clean install -e && echo "Build on Java 11 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 11 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
       epilogue:
         always:
           commands:
