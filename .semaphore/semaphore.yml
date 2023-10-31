@@ -180,3 +180,6 @@ blocks:
             - popd
       secrets:
         - name: Snapshot deployment configuration
+      env_vars:
+        - name: SEMAPHORE_AGENT_UPLOAD_JOB_LOGS
+          value: always
