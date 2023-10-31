@@ -41,31 +41,57 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pgeronimo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pgeronimo3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pglassfish3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss3x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss3x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss4x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss42x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss42x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss5x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss5x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss51x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss51x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss6x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss6x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss61x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss61x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss7x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjboss71x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss71x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty5x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty5x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty6x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty6x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty7x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty7x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty8x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty8x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jo1x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjonas4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas4x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjonas5x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas5x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Presin3x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin3x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Presin31x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin31x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat4x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat5x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat5x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat6x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat6x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat7x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomee1x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - unset JAVA_HOME
         - name: All Java 8 containers until WildFly 20.x
           commands:
@@ -74,27 +100,49 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pglassfish4x ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pglassfish5x ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty9x ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pliberty ; echo "  Status for liberty is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Presin4x ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat8x ; echo "  Status for tomcat8x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat9x ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomee7x ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomee8x ; echo "  Status for tomee8x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly8x ; echo "  Status for wildfly8x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly9x ; echo "  Status for wildfly9x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly10x ; echo "  Status for wildfly10x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly11x ; echo "  Status for wildfly11x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly12x ; echo "  Status for wildfly12x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly13x ; echo "  Status for wildfly13x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly14x ; echo "  Status for wildfly14x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly15x ; echo "  Status for wildfly15x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly16x ; echo "  Status for wildfly16x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly17x ; echo "  Status for wildfly17x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly18x ; echo "  Status for wildfly18x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly19x ; echo "  Status for wildfly19x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly20x ; echo "  Status for wildfly20x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - unset JAVA_HOME
         - name: All Java 8 containers from WildFly 21.x, all Java 11, 17 and 21 containers
           commands:
@@ -103,30 +151,49 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pwildfly21x ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly22x ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly23x ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly24x ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly25x ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly26x ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - unset JAVA_HOME
             - mvn -version
             - mvn clean install -o -e -Pglassfish6x ; echo "  Status for glassfish6x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pglassfish7x ; echo "  Status for glassfish7x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty10x ; echo "  Status for jetty10x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pjetty11x ; echo "  Status for jetty11x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ppayara ; echo "  Status for payara is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomcat10x ; echo "  Status for tomcat10x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Ptomee9x ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly28x ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly29x ; echo "  Status for wildfly29x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - mvn clean install -o -e -Pwildfly30x ; echo "  Status for wildfly30x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - sem-version java 17
             - mvn -version
             - mvn clean install -o -e -Pjetty12x ; echo "  Status for jetty12x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
+            - find . -iname "*.log" -type f | xargs artifact push job
             - unset JAVA_HOME
       prologue:
         commands:
