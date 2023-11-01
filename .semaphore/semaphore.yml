@@ -42,57 +42,57 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pgeronimo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
-            - zip -jr geronimo1x target -i "*.log" ; artifact push job geronimo1x.zip
+            - cd target ; zip -r geronimo1x geronimo1x -i "*.log" ; artifact push job geronimo1x.zip ; cd ..
             - mvn clean install -o -e -Pgeronimo3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
-            - zip -jr geronimo3x target -i "*.log" ; artifact push job geronimo3x.zip
+            - cd target ; zip -r geronimo3x geronimo3x -i "*.log" ; artifact push job geronimo3x.zip ; cd ..
             - mvn clean install -o -e -Pglassfish3x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
-            - zip -jr glassfish3x target -i "*.log" ; artifact push job glassfish3x.zip
+            - cd target ; zip -r glassfish3x glassfish3x -i "*.log" ; artifact push job glassfish3x.zip ; cd ..
             - mvn clean install -o -e -Pjboss3x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss3x is $?" >> containers.log ; RM=0
-            - zip -jr jboss3x target -i "*.log" ; artifact push job jboss3x.zip
+            - cd target ; zip -r jboss3x jboss3x -i "*.log" ; artifact push job jboss3x.zip ; cd ..
             - mvn clean install -o -e -Pjboss4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss4x is $?" >> containers.log ; RM=0
-            - zip -jr jboss4x target -i "*.log" ; artifact push job jboss4x.zip
+            - cd target ; zip -r jboss4x jboss4x -i "*.log" ; artifact push job jboss4x.zip ; cd ..
             - mvn clean install -o -e -Pjboss42x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss42x is $?" >> containers.log ; RM=0
-            - zip -jr jboss42x target -i "*.log" ; artifact push job jboss42x.zip
+            - cd target ; zip -r jboss42x jboss42x -i "*.log" ; artifact push job jboss42x.zip ; cd ..
             - mvn clean install -o -e -Pjboss5x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss5x is $?" >> containers.log ; RM=0
-            - zip -jr jboss5x target -i "*.log" ; artifact push job jboss5x.zip
+            - cd target ; zip -r jboss5x jboss5x -i "*.log" ; artifact push job jboss5x.zip ; cd ..
             - mvn clean install -o -e -Pjboss51x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss51x is $?" >> containers.log ; RM=0
-            - zip -jr jboss51x target -i "*.log" ; artifact push job jboss51x.zip
+            - cd target ; zip -r jboss51x jboss51x -i "*.log" ; artifact push job jboss51x.zip ; cd ..
             - mvn clean install -o -e -Pjboss6x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss6x is $?" >> containers.log ; RM=0
-            - zip -jr jboss6x target -i "*.log" ; artifact push job jboss6x.zip
+            - cd target ; zip -r jboss6x jboss6x -i "*.log" ; artifact push job jboss6x.zip ; cd ..
             - mvn clean install -o -e -Pjboss61x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss61x is $?" >> containers.log ; RM=0
-            - zip -jr jboss61x target -i "*.log" ; artifact push job jboss61x.zip
+            - cd target ; zip -r jboss61x jboss61x -i "*.log" ; artifact push job jboss61x.zip ; cd ..
             - mvn clean install -o -e -Pjboss7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss7x is $?" >> containers.log ; RM=0
-            - zip -jr jboss7x target -i "*.log" ; artifact push job jboss7x.zip
+            - cd target ; zip -r jboss7x jboss7x -i "*.log" ; artifact push job jboss7x.zip ; cd ..
             - mvn clean install -o -e -Pjboss71x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss71x is $?" >> containers.log ; RM=0
-            - zip -jr jboss71x target -i "*.log" ; artifact push job jboss71x.zip
+            - cd target ; zip -r jboss71x jboss71x -i "*.log" ; artifact push job jboss71x.zip ; cd ..
             - mvn clean install -o -e -Pjetty5x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty5x is $?" >> containers.log ; RM=0
-            - zip -jr jetty5x target -i "*.log" ; artifact push job jetty5x.zip
+            - cd target ; zip -r jetty5x jetty5x -i "*.log" ; artifact push job jetty5x.zip ; cd ..
             - mvn clean install -o -e -Pjetty6x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty6x is $?" >> containers.log ; RM=0
-            - zip -jr jetty6x target -i "*.log" ; artifact push job jetty6x.zip
+            - cd target ; zip -r jetty6x jetty6x -i "*.log" ; artifact push job jetty6x.zip ; cd ..
             - mvn clean install -o -e -Pjetty7x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty7x is $?" >> containers.log ; RM=0
-            - zip -jr jetty7x target -i "*.log" ; artifact push job jetty7x.zip
+            - cd target ; zip -r jetty7x jetty7x -i "*.log" ; artifact push job jetty7x.zip ; cd ..
             - mvn clean install -o -e -Pjetty8x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty8x is $?" >> containers.log ; RM=0
-            - zip -jr jetty8x target -i "*.log" ; artifact push job jetty8x.zip
+            - cd target ; zip -r jetty8x jetty8x -i "*.log" ; artifact push job jetty8x.zip ; cd ..
             - mvn clean install -o -e -Pjo1x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jo1x is $?" >> containers.log ; RM=0
-            - zip -jr jo1x target -i "*.log" ; artifact push job jo1x.zip
+            - cd target ; zip -r jo1x jo1x -i "*.log" ; artifact push job jo1x.zip ; cd ..
             - mvn clean install -o -e -Pjonas4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas4x is $?" >> containers.log ; RM=0
-            - zip -jr jonas4x target -i "*.log" ; artifact push job jonas4x.zip
+            - cd target ; zip -r jonas4x jonas4x -i "*.log" ; artifact push job jonas4x.zip ; cd ..
             - mvn clean install -o -e -Pjonas5x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas5x is $?" >> containers.log ; RM=0
-            - zip -jr jonas5x target -i "*.log" ; artifact push job jonas5x.zip
+            - cd target ; zip -r jonas5x jonas5x -i "*.log" ; artifact push job jonas5x.zip ; cd ..
             - mvn clean install -o -e -Presin3x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin3x is $?" >> containers.log ; RM=0
-            - zip -jr resin3x target -i "*.log" ; artifact push job resin3x.zip
+            - cd target ; zip -r resin3x resin3x -i "*.log" ; artifact push job resin3x.zip ; cd ..
             - mvn clean install -o -e -Presin31x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin31x is $?" >> containers.log ; RM=0
-            - zip -jr resin31x target -i "*.log" ; artifact push job resin31x.zip
+            - cd target ; zip -r resin31x resin31x -i "*.log" ; artifact push job resin31x.zip ; cd ..
             - mvn clean install -o -e -Ptomcat4x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat4x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat4x target -i "*.log" ; artifact push job tomcat4x.zip
+            - cd target ; zip -r tomcat4x tomcat4x -i "*.log" ; artifact push job tomcat4x.zip ; cd ..
             - mvn clean install -o -e -Ptomcat5x -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat5x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat5x target -i "*.log" ; artifact push job tomcat5x.zip
+            - cd target ; zip -r tomcat5x tomcat5x -i "*.log" ; artifact push job tomcat5x.zip ; cd ..
             - mvn clean install -o -e -Ptomcat6x -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat6x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat6x target -i "*.log" ; artifact push job tomcat6x.zip
+            - cd target ; zip -r tomcat6x tomcat6x -i "*.log" ; artifact push job tomcat6x.zip ; cd ..
             - mvn clean install -o -e -Ptomcat7x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat7x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat7x target -i "*.log" ; artifact push job tomcat7x.zip
+            - cd target ; zip -r tomcat7x tomcat7x -i "*.log" ; artifact push job tomcat7x.zip ; cd ..
             - mvn clean install -o -e -Ptomee1x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
-            - zip -jr tomee1x target -i "*.log" ; artifact push job tomee1x.zip
+            - cd target ; zip -r tomee1x tomee1x -i "*.log" ; artifact push job tomee1x.zip ; cd ..
             - unset JAVA_HOME
         - name: All Java 8 containers until WildFly 20.x
           commands:
@@ -101,49 +101,49 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pglassfish4x ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
-            - zip -jr glassfish4x target -i "*.log" ; artifact push job glassfish4x.zip
+            - cd target ; zip -r glassfish4x glassfish4x -i "*.log" ; artifact push job glassfish4x.zip ; cd ..
             - mvn clean install -o -e -Pglassfish5x ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
-            - zip -jr glassfish5x target -i "*.log" ; artifact push job glassfish5x.zip
+            - cd target ; zip -r glassfish5x glassfish5x -i "*.log" ; artifact push job glassfish5x.zip ; cd ..
             - mvn clean install -o -e -Pjetty9x ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
-            - zip -jr jetty9x target -i "*.log" ; artifact push job jetty9x.zip
+            - cd target ; zip -r jetty9x jetty9x -i "*.log" ; artifact push job jetty9x.zip ; cd ..
             - mvn clean install -o -e -Pliberty ; echo "  Status for liberty is $?" >> containers.log ; RM=0
-            - zip -jr liberty target -i "*.log" ; artifact push job liberty.zip
+            - cd target ; zip -r liberty liberty -i "*.log" ; artifact push job liberty.zip ; cd ..
             - mvn clean install -o -e -Presin4x ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
-            - zip -jr resin4x target -i "*.log" ; artifact push job resin4x.zip
+            - cd target ; zip -r resin4x resin4x -i "*.log" ; artifact push job resin4x.zip ; cd ..
             - mvn clean install -o -e -Ptomcat8x ; echo "  Status for tomcat8x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat8x target -i "*.log" ; artifact push job tomcat8x.zip
+            - cd target ; zip -r tomcat8x tomcat8x -i "*.log" ; artifact push job tomcat8x.zip ; cd ..
             - mvn clean install -o -e -Ptomcat9x ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat9x target -i "*.log" ; artifact push job tomcat9x.zip
+            - cd target ; zip -r tomcat9x tomcat9x -i "*.log" ; artifact push job tomcat9x.zip ; cd ..
             - mvn clean install -o -e -Ptomee7x ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
-            - zip -jr tomee7x target -i "*.log" ; artifact push job tomee7x.zip
+            - cd target ; zip -r tomee7x tomee7x -i "*.log" ; artifact push job tomee7x.zip ; cd ..
             - mvn clean install -o -e -Ptomee8x ; echo "  Status for tomee8x is $?" >> containers.log ; RM=0
-            - zip -jr tomee8x target -i "*.log" ; artifact push job tomee8x.zip
+            - cd target ; zip -r tomee8x tomee8x -i "*.log" ; artifact push job tomee8x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly8x ; echo "  Status for wildfly8x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly8x target -i "*.log" ; artifact push job wildfly8x.zip
+            - cd target ; zip -r wildfly8x wildfly8x -i "*.log" ; artifact push job wildfly8x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly9x ; echo "  Status for wildfly9x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly9x target -i "*.log" ; artifact push job wildfly9x.zip
+            - cd target ; zip -r wildfly9x wildfly9x -i "*.log" ; artifact push job wildfly9x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly10x ; echo "  Status for wildfly10x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly10x target -i "*.log" ; artifact push job wildfly10x.zip
+            - cd target ; zip -r wildfly10x wildfly10x -i "*.log" ; artifact push job wildfly10x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly11x ; echo "  Status for wildfly11x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly11x target -i "*.log" ; artifact push job wildfly11x.zip
+            - cd target ; zip -r wildfly11x wildfly11x -i "*.log" ; artifact push job wildfly11x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly12x ; echo "  Status for wildfly12x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly12x target -i "*.log" ; artifact push job wildfly12x.zip
+            - cd target ; zip -r wildfly12x wildfly12x -i "*.log" ; artifact push job wildfly12x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly13x ; echo "  Status for wildfly13x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly13x target -i "*.log" ; artifact push job wildfly13x.zip
+            - cd target ; zip -r wildfly13x wildfly13x -i "*.log" ; artifact push job wildfly13x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly14x ; echo "  Status for wildfly14x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly14x target -i "*.log" ; artifact push job wildfly14x.zip
+            - cd target ; zip -r wildfly14x wildfly14x -i "*.log" ; artifact push job wildfly14x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly15x ; echo "  Status for wildfly15x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly15x target -i "*.log" ; artifact push job wildfly15x.zip
+            - cd target ; zip -r wildfly15x wildfly15x -i "*.log" ; artifact push job wildfly15x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly16x ; echo "  Status for wildfly16x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly16x target -i "*.log" ; artifact push job wildfly16x.zip
+            - cd target ; zip -r wildfly16x wildfly16x -i "*.log" ; artifact push job wildfly16x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly17x ; echo "  Status for wildfly17x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly17x target -i "*.log" ; artifact push job wildfly17x.zip
+            - cd target ; zip -r wildfly17x wildfly17x -i "*.log" ; artifact push job wildfly17x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly18x ; echo "  Status for wildfly18x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly18x target -i "*.log" ; artifact push job wildfly18x.zip
+            - cd target ; zip -r wildfly18x wildfly18x -i "*.log" ; artifact push job wildfly18x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly19x ; echo "  Status for wildfly19x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly19x target -i "*.log" ; artifact push job wildfly19x.zip
+            - cd target ; zip -r wildfly19x wildfly19x -i "*.log" ; artifact push job wildfly19x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly20x ; echo "  Status for wildfly20x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly20x target -i "*.log" ; artifact push job wildfly20x.zip
+            - cd target ; zip -r wildfly20x wildfly20x -i "*.log" ; artifact push job wildfly20x.zip ; cd ..
             - unset JAVA_HOME
         - name: All Java 8 containers from WildFly 21.x, all Java 11, 17 and 21 containers
           commands:
@@ -152,56 +152,56 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - mvn clean install -o -e -Pwildfly21x ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly21x target -i "*.log" ; artifact push job wildfly21x.zip
+            - cd target ; zip -r wildfly21x wildfly21x -i "*.log" ; artifact push job wildfly21x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly22x ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly22x target -i "*.log" ; artifact push job wildfly22x.zip
+            - cd target ; zip -r wildfly22x wildfly22x -i "*.log" ; artifact push job wildfly22x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly23x ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly23x target -i "*.log" ; artifact push job wildfly23x.zip
+            - cd target ; zip -r wildfly23x wildfly23x -i "*.log" ; artifact push job wildfly23x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly24x ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly24x target -i "*.log" ; artifact push job wildfly24x.zip
+            - cd target ; zip -r wildfly24x wildfly24x -i "*.log" ; artifact push job wildfly24x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly25x ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly25x target -i "*.log" ; artifact push job wildfly25x.zip
+            - cd target ; zip -r wildfly25x wildfly25x -i "*.log" ; artifact push job wildfly25x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly26x ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly26x target -i "*.log" ; artifact push job wildfly26x.zip
+            - cd target ; zip -r wildfly26x wildfly26x -i "*.log" ; artifact push job wildfly26x.zip ; cd ..
             - unset JAVA_HOME
             - mvn -version
             - mvn clean install -o -e -Pglassfish6x ; echo "  Status for glassfish6x is $?" >> containers.log ; RM=0
-            - zip -jr glassfish6x target -i "*.log" ; artifact push job glassfish6x.zip
+            - cd target ; zip -r glassfish6x glassfish6x -i "*.log" ; artifact push job glassfish6x.zip ; cd ..
             - mvn clean install -o -e -Pglassfish7x ; echo "  Status for glassfish7x is $?" >> containers.log ; RM=0
-            - zip -jr glassfish7x target -i "*.log" ; artifact push job glassfish7x.zip
+            - cd target ; zip -r glassfish7x glassfish7x -i "*.log" ; artifact push job glassfish7x.zip ; cd ..
             - mvn clean install -o -e -Pjetty10x ; echo "  Status for jetty10x is $?" >> containers.log ; RM=0
-            - zip -jr jetty10x target -i "*.log" ; artifact push job jetty10x.zip
+            - cd target ; zip -r jetty10x jetty10x -i "*.log" ; artifact push job jetty10x.zip ; cd ..
             - mvn clean install -o -e -Pjetty11x ; echo "  Status for jetty11x is $?" >> containers.log ; RM=0
-            - zip -jr jetty11x target -i "*.log" ; artifact push job jetty11x.zip
+            - cd target ; zip -r jetty11x jetty11x -i "*.log" ; artifact push job jetty11x.zip ; cd ..
             - mvn clean install -o -e -Ppayara ; echo "  Status for payara is $?" >> containers.log ; RM=0
-            - zip -jr payara target -i "*.log" ; artifact push job payara.zip
+            - cd target ; zip -r payara payara -i "*.log" ; artifact push job payara.zip ; cd ..
             - mvn clean install -o -e -Ptomcat10x ; echo "  Status for tomcat10x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat10x target -i "*.log" ; artifact push job tomcat10x.zip
+            - cd target ; zip -r tomcat10x tomcat10x -i "*.log" ; artifact push job tomcat10x.zip ; cd ..
             - mvn clean install -o -e -Ptomee9x ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
-            - zip -jr tomee9x target -i "*.log" ; artifact push job tomee9x.zip
+            - cd target ; zip -r tomee9x tomee9x -i "*.log" ; artifact push job tomee9x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly27x ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly27x target -i "*.log" ; artifact push job wildfly27x.zip
+            - cd target ; zip -r wildfly27x wildfly27x -i "*.log" ; artifact push job wildfly27x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly28x ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly28x target -i "*.log" ; artifact push job wildfly28x.zip
+            - cd target ; zip -r wildfly28x wildfly28x -i "*.log" ; artifact push job wildfly28x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly29x ; echo "  Status for wildfly29x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly29x target -i "*.log" ; artifact push job wildfly29x.zip
+            - cd target ; zip -r wildfly29x wildfly29x -i "*.log" ; artifact push job wildfly29x.zip ; cd ..
             - mvn clean install -o -e -Pwildfly30x ; echo "  Status for wildfly30x is $?" >> containers.log ; RM=0
-            - zip -jr wildfly30x target -i "*.log" ; artifact push job wildfly30x.zip
+            - cd target ; zip -r wildfly30x wildfly30x -i "*.log" ; artifact push job wildfly30x.zip ; cd ..
             - sem-version java 17
             - mvn -version
             - mvn clean install -o -e -Pjetty12x ; echo "  Status for jetty12x is $?" >> containers.log ; RM=0
-            - zip -jr jetty12x target -i "*.log" ; artifact push job jetty12x.zip
+            - cd target ; zip -r jetty12x jetty12x -i "*.log" ; artifact push job jetty12x.zip ; cd ..
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - mvn clean install -o -e -Ptomcat11x ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
-            - zip -jr tomcat11x target -i "*.log" ; artifact push job tomcat11x.zip
+            - cd target ; zip -r tomcat11x tomcat11x -i "*.log" ; artifact push job tomcat11x.zip ; cd ..
             - unset JAVA_HOME
       prologue:
         commands:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
           - sudo hostname codehaus-cargo-ci
           - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
-          - pushd ~/
+          - cd ~/
           - cache restore "cargo-$CARGO_BRANCH_ID"
           - popd
           - checkout
@@ -241,7 +241,7 @@ blocks:
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
-            - pushd ~/
+            - cd ~/
             - cache delete "cargo-$CARGO_BRANCH_ID"
             - cache store "cargo-$CARGO_BRANCH_ID" .m2
             - cache list
