@@ -201,7 +201,7 @@ blocks:
           - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
           - sudo hostname codehaus-cargo-ci
           - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
-          - cd ~/
+          - pushd ~/
           - cache restore "cargo-$CARGO_BRANCH_ID"
           - popd
           - checkout
@@ -241,7 +241,7 @@ blocks:
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
-            - cd ~/
+            - pushd ~/
             - cache delete "cargo-$CARGO_BRANCH_ID"
             - cache store "cargo-$CARGO_BRANCH_ID" .m2
             - cache list
