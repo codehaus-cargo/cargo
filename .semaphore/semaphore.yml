@@ -251,3 +251,9 @@ blocks:
       env_vars:
         - name: SEMAPHORE_AGENT_UPLOAD_JOB_LOGS
           value: when-trimmed
+after_pipeline:
+  task:
+    jobs:
+      - name: Publish test results
+        commands:
+          - test-results gen-pipeline-report
