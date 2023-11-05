@@ -1,0 +1,230 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractConfiguration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractConfiguration (org.codehaus.cargo.container.spi.configuration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractConfiguration</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (16/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.configuration;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.configuration.Configuration;
+&nbsp;import org.codehaus.cargo.container.property.GeneralPropertySet;
+&nbsp;import org.codehaus.cargo.container.property.ServletPropertySet;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base implementation of
+&nbsp; * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} that can be
+&nbsp; * specialized for any type of configuration.
+&nbsp; */
+&nbsp;public abstract class AbstractConfiguration extends LoggedObject
+&nbsp;    implements ContainerConfiguration, Configuration
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * List of all configuration properties (port, logs, etc).
+&nbsp;     */
+&nbsp;    private Map&lt;String, String&gt; properties;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Default setup.
+&nbsp;     */
+&nbsp;    public AbstractConfiguration()
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.properties = new HashMap&lt;String, String&gt;();</b>
+&nbsp;
+&nbsp;        // Add all required properties that are common to all configurations
+<b class="fc">&nbsp;        setProperty(GeneralPropertySet.PROTOCOL, &quot;http&quot;);</b>
+<b class="fc">&nbsp;        setProperty(GeneralPropertySet.HOSTNAME, &quot;localhost&quot;);</b>
+<b class="fc">&nbsp;        setProperty(ServletPropertySet.PORT, &quot;8080&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setProperty(String name, String value)
+&nbsp;    {
+<b class="fc">&nbsp;        if (value != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            getLogger().debug(&quot;Setting property [&quot; + name + &quot;] = [&quot; + value + &quot;]&quot;,</b>
+<b class="fc">&nbsp;                this.getClass().getName());</b>
+<b class="fc">&nbsp;            this.properties.put(name, value);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            getLogger().debug(&quot;Removing property [&quot; + name + &quot;]&quot;, this.getClass().getName());</b>
+<b class="fc">&nbsp;            this.properties.remove(name);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Map&lt;String, String&gt; getProperties()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.properties;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getPropertyValue(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        String systemProperty = System.getProperties().getProperty(name);</b>
+<b class="fc">&nbsp;        if (systemProperty != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return systemProperty;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return this.properties.get(name);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void verify()
+&nbsp;    {
+&nbsp;        // Verify that the port is a valid number.
+<b class="nc">&nbsp;        verifyServletPortProperty();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verify that the Servlet port specified is a valid integer.
+&nbsp;     */
+&nbsp;    private void verifyServletPortProperty()
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            Integer.parseInt(getPropertyValue(ServletPropertySet.PORT));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (NumberFormatException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Invalid port number [&quot;</b>
+<b class="nc">&nbsp;                + getPropertyValue(ServletPropertySet.PORT)</b>
+&nbsp;                    + &quot;] for property &quot; + ServletPropertySet.PORT
+&nbsp;                        + &quot;. The port value must be an integer&quot;, e);
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

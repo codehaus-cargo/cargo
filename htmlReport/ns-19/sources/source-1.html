@@ -1,0 +1,273 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DefaultEjbArchive</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.ejb</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultEjbArchive (org.codehaus.cargo.module.ejb)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultEjbArchive</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.ejb;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.DefaultJarArchive;
+&nbsp;import org.codehaus.cargo.module.ejb.jboss.JBossXml;
+&nbsp;import org.codehaus.cargo.module.ejb.jboss.JBossXmlIo;
+&nbsp;import org.codehaus.cargo.module.ejb.orion.OrionEjbJarXml;
+&nbsp;import org.codehaus.cargo.module.ejb.orion.OrionEjbJarXmlIo;
+&nbsp;import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXml;
+&nbsp;import org.codehaus.cargo.module.ejb.weblogic.WeblogicEjbJarXmlIo;
+&nbsp;import org.codehaus.cargo.module.ejb.websphere.IbmEjbJarBndXmi;
+&nbsp;import org.codehaus.cargo.module.ejb.websphere.IbmEjbJarBndXmiIo;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that encapsulates access to an EJB JAR.
+&nbsp; */
+&nbsp;public class DefaultEjbArchive extends DefaultJarArchive implements EjbArchive
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The parsed deployment descriptor.
+&nbsp;     */
+&nbsp;    private EjbJarXml ejbJarXml;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     * @see DefaultJarArchive#DefaultJarArchive(String)
+&nbsp;     */
+&nbsp;    public DefaultEjbArchive(String file)
+&nbsp;    {
+<b class="nc">&nbsp;        super(file);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param theInputStream The input stream for the enterprise application archive
+&nbsp;     * @throws IOException If there was a problem reading the EJB
+&nbsp;     */
+&nbsp;    public DefaultEjbArchive(InputStream theInputStream) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        super(theInputStream);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public EjbJarXml getEjbJarXml() throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.ejbJarXml == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            try (InputStream in = getResource(&quot;META-INF/ejb-jar.xml&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                this.ejbJarXml = EjbJarXmlIo.parseEjbJarXml(in, null);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            addWeblogicDescriptor();</b>
+<b class="nc">&nbsp;            addOracleDescriptor();</b>
+<b class="nc">&nbsp;            addWebsphereDescriptor();</b>
+<b class="nc">&nbsp;            addJBossDescriptor();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return this.ejbJarXml;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Associates the ejb-jar.xml with a weblogic-ejb-jar.xml if one is present in the jar.
+&nbsp;     * 
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the EJB jar
+&nbsp;     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
+&nbsp;     */
+&nbsp;    private void addWeblogicDescriptor() throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        try (InputStream in = getResource(&quot;META-INF/weblogic-ejb-jar.xml&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (in != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(in);</b>
+<b class="nc">&nbsp;                if (descr != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.ejbJarXml.addVendorDescriptor(descr);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Associates the ejb-jar.xml with orion-ejb-jar.xml if one is present in the war.
+&nbsp;     * 
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the JAR
+&nbsp;     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
+&nbsp;     */
+&nbsp;    private void addOracleDescriptor() throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        try (InputStream in = getResource(&quot;META-INF/orion-ejb-jar.xml&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (in != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                OrionEjbJarXml descr = OrionEjbJarXmlIo.parseOracleEjbJarXml(in);</b>
+<b class="nc">&nbsp;                if (descr != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.ejbJarXml.addVendorDescriptor(descr);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Associates the ejb-jar.xml with ibm-ejb-jar-bnd.xmi if one is present in the jar.
+&nbsp;     * 
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the JAR
+&nbsp;     * @throws JDOMException If the deployment descriptor of the EJB jar could not be parsed
+&nbsp;     */
+&nbsp;    private void addWebsphereDescriptor() throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        try (InputStream in = getResource(&quot;META-INF/ibm-ejb-jar-bnd.xmi&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (in != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(in);</b>
+<b class="nc">&nbsp;                if (descr != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.ejbJarXml.addVendorDescriptor(descr);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Associates the ejb-jar.xml with jboss.xml if one is present in the jar.
+&nbsp;     * 
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the JAR
+&nbsp;     * @throws JDOMException If there is an issue with JDOM
+&nbsp;     */
+&nbsp;    private void addJBossDescriptor() throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        try (InputStream in = getResource(&quot;META-INF/jboss.xml&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (in != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                JBossXml descr = JBossXmlIo.parseJBossXml(in);</b>
+<b class="nc">&nbsp;                if (descr != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.ejbJarXml.addVendorDescriptor(descr);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,387 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ResourceUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.internal.util</a>
+</div>
+
+<h1>Coverage Summary for Class: ResourceUtils (org.codehaus.cargo.container.internal.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResourceUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    18.2%
+  </span>
+  <span class="absValue">
+    (2/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4.7%
+  </span>
+  <span class="absValue">
+    (3/64)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003-2006 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.internal.util;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLDecoder;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Utility class that provides a couple of methods for extracting files stored as resource in a JAR.
+&nbsp; */
+<b class="fc">&nbsp;public final class ResourceUtils extends LoggedObject</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Default file handler for the @link{ResourceUtils#copyResource(String, File)} and
+&nbsp;     * @link{ResourceUtils#copyResource(String, File, Map, Charset)} methods.
+&nbsp;     */
+<b class="fc">&nbsp;    private static FileHandler defaultFileHandler = new DefaultFileHandler();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Class loader used for the &lt;code&gt;getResourceAsStream&lt;/code&gt; calls.
+&nbsp;     */
+<b class="fc">&nbsp;    private static ClassLoader resourceLoader = ResourceUtils.class.getClassLoader();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return Class loader used for the &lt;code&gt;getResourceAsStream&lt;/code&gt; calls.
+&nbsp;     */
+&nbsp;    public static ClassLoader getResourceLoader()
+&nbsp;    {
+<b class="nc">&nbsp;        return ResourceUtils.resourceLoader;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param resourceLoader Class loader used for the &lt;code&gt;getResourceAsStream&lt;/code&gt; calls.
+&nbsp;     */
+&nbsp;    public static void setResourceLoader(ClassLoader resourceLoader)
+&nbsp;    {
+<b class="nc">&nbsp;        ResourceUtils.resourceLoader = resourceLoader;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overriden in order to set the logger on ancillary components.
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * @param logger the logger to set and set in the ancillary objects
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setLogger(Logger logger)
+&nbsp;    {
+<b class="nc">&nbsp;        super.setLogger(logger);</b>
+<b class="nc">&nbsp;        ResourceUtils.defaultFileHandler.setLogger(logger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copies a container resource from the JAR into the specified file.
+&nbsp;     * 
+&nbsp;     * @param resourceName The name of the resource
+&nbsp;     * @param destFile The file to which the contents of the resource should be copied
+&nbsp;     * @throws IOException If an I/O error occurs while copying the resource
+&nbsp;     */
+&nbsp;    public void copyResource(String resourceName, File destFile) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        copyResource(resourceName, destFile.getPath(), defaultFileHandler);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copies a container resource from the JAR into the specified file using the specified file
+&nbsp;     * handler.
+&nbsp;     * 
+&nbsp;     * @param resourceName The name of the resource
+&nbsp;     * @param destFile The file to which the contents of the resource should be copied
+&nbsp;     * @param handler The file handler to use
+&nbsp;     * @throws IOException If an I/O error occurs while copying the resource
+&nbsp;     */
+&nbsp;    public void copyResource(String resourceName, String destFile, FileHandler handler)
+&nbsp;        throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        InputStream in = ResourceUtils.resourceLoader.getResourceAsStream(resourceName);</b>
+<b class="nc">&nbsp;        if (in == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IOException(&quot;Resource [&quot; + resourceName</b>
+&nbsp;                + &quot;] not found in resource loader &quot; + ResourceUtils.resourceLoader);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        try (OutputStream out = handler.getOutputStream(destFile))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            byte[] buf = new byte[4096];</b>
+&nbsp;            int numBytes;
+<b class="nc">&nbsp;            while ((numBytes = in.read(buf)) &gt; 0)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                out.write(buf, 0, numBytes);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            in.close();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copies a container resource from the JAR into the specified file, thereby applying the
+&nbsp;     * specified filters.
+&nbsp;     * 
+&nbsp;     * @param resourceName The name of the resource, relative to the
+&nbsp;     * org.codehaus.cargo.container.internal.util package
+&nbsp;     * @param destFile The file to which the contents of the resource should be copied
+&nbsp;     * @param replacements The ordered list of replacements that should be applied while copying
+&nbsp;     * @param encoding The encoding that should be used when copying the resource. Use null for
+&nbsp;     * system default encoding
+&nbsp;     * @throws IOException If an I/O error occurs while copying the resource
+&nbsp;     */
+&nbsp;    public void copyResource(String resourceName, File destFile, Map&lt;String, String&gt; replacements,
+&nbsp;        Charset encoding) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        copyResource(resourceName, destFile.getPath(), defaultFileHandler, replacements, encoding);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copies a container resource from the JAR into the specified file, using the specified file
+&nbsp;     * handler thereby applying the specified filters.
+&nbsp;     * 
+&nbsp;     * @param resourceName The name of the resource, relative to the
+&nbsp;     * org.codehaus.cargo.container.internal.util package
+&nbsp;     * @param destFile The file to which the contents of the resource should be copied
+&nbsp;     * @param handler The file handler to be used for file copy
+&nbsp;     * @param replacements The ordered list of replacements that should be applied while copying
+&nbsp;     * @param encoding The encoding that should be used when copying the resource. Use null for
+&nbsp;     * system default encoding
+&nbsp;     * @throws IOException If an I/O error occurs while copying the resource
+&nbsp;     */
+&nbsp;    public void copyResource(String resourceName, String destFile, FileHandler handler,
+&nbsp;        Map&lt;String, String&gt; replacements, Charset encoding) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        handler.writeTextFile(</b>
+<b class="nc">&nbsp;            destFile, readResource(resourceName, replacements, encoding), encoding);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Search for the given resource and return the directory or archive that contains it.
+&nbsp;     * 
+&nbsp;     * @param where Class where to look for the resource (its class loader and parent class loaders
+&nbsp;     * are used recursively for the lookup).
+&nbsp;     * @param resourceName The name of the resource
+&nbsp;     * @return The directory or archive containing the specified resource
+&nbsp;     */
+&nbsp;    public File getResourceLocation(Class where, String resourceName)
+&nbsp;    {
+<b class="nc">&nbsp;        URL url = where.getResource(resourceName);</b>
+<b class="nc">&nbsp;        if (url == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot find resource [&quot; + resourceName + &quot;]&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        File file = null;</b>
+<b class="nc">&nbsp;        String urlString = url.toString();</b>
+<b class="nc">&nbsp;        if (urlString.startsWith(&quot;jar:file:&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            int pling = urlString.indexOf(&#39;!&#39;);</b>
+<b class="nc">&nbsp;            String jar = urlString.substring(9, pling);</b>
+&nbsp;            // TODO: URLDecoder.decode(String, Charset) was introduced in Java 10,
+&nbsp;            //       simplify the below code when Codehaus Cargo is on Java 10+
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                file = new File(URLDecoder.decode(jar, StandardCharsets.UTF_8.name()));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (UnsupportedEncodingException e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new IllegalStateException(&quot;UTF-8 encoding is missing&quot;, e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else if (urlString.startsWith(&quot;file:&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            int tail = urlString.indexOf(resourceName);</b>
+<b class="nc">&nbsp;            String dir = urlString.substring(5, tail);</b>
+&nbsp;            // TODO: URLDecoder.decode(String, Charset) was introduced in Java 10,
+&nbsp;            //       simplify the below code when Codehaus Cargo is on Java 10+
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                file = new File(URLDecoder.decode(dir, StandardCharsets.UTF_8.name()));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (UnsupportedEncodingException e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new IllegalStateException(&quot;UTF-8 encoding is missing&quot;, e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        getLogger().debug(&quot;Location for [&quot; + resourceName + &quot;] is [&quot; + file + &quot;]&quot;,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        return file;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reads a container resource from the JAR, applies the specified filters and returns content
+&nbsp;     * as String.
+&nbsp;     * 
+&nbsp;     * @param resourceName The name of the resource, relative to the
+&nbsp;     * &lt;code&gt;org.codehaus.cargo.container.internal.util&lt;/code&gt; package
+&nbsp;     * @param replacements The ordered list of replacements that should be applied while reading
+&nbsp;     * @param encoding The encoding that should be used when reading the resource. Use null for
+&nbsp;     * system default encoding
+&nbsp;     * @return Content of resource as String.
+&nbsp;     * @throws IOException If an I/O error occurs while reading the resource
+&nbsp;     */
+&nbsp;    public String readResource(String resourceName, Map&lt;String, String&gt; replacements,
+&nbsp;        Charset encoding) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        try (InputStream resource = ResourceUtils.resourceLoader.getResourceAsStream(resourceName))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (resource == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new CargoException(&quot;Resource [&quot; + resourceName</b>
+&nbsp;                    + &quot;] not found in resource loader &quot; + ResourceUtils.resourceLoader);
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            try (BufferedReader in = new BufferedReader(new InputStreamReader(resource, encoding)))</b>
+&nbsp;            {
+&nbsp;                String line;
+<b class="nc">&nbsp;                StringBuilder out = new StringBuilder();</b>
+<b class="nc">&nbsp;                while ((line = in.readLine()) != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if (line.isEmpty())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        out.append(FileHandler.NEW_LINE);</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (out.length() &gt; 0)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            out.append(FileHandler.NEW_LINE);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        out.append(line);</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                String output = out.toString();</b>
+<b class="nc">&nbsp;                if (replacements != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    for (Map.Entry&lt;String, String&gt; replacement : replacements.entrySet())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        String replacementKey = &quot;@&quot; + replacement.getKey() + &quot;@&quot;;</b>
+<b class="nc">&nbsp;                        output = output.replace(replacementKey, replacement.getValue());</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;                return output;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

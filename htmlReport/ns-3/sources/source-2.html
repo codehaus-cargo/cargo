@@ -1,0 +1,274 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Resource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.configuration.entry</a>
+</div>
+
+<h1>Coverage Summary for Class: Resource (org.codehaus.cargo.container.configuration.entry)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Resource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.configuration.entry;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a resource, such as a datasource.
+&nbsp; */
+&nbsp;public class Resource
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource name.
+&nbsp;     */
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource Type.
+&nbsp;     */
+&nbsp;    private String type;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource Implementation class.
+&nbsp;     */
+&nbsp;    private String className;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * id used in configuration files.
+&nbsp;     */
+&nbsp;    private String id;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource parameters.
+&nbsp;     */
+&nbsp;    private Map&lt;String, String&gt; parameters;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 
+&nbsp;     * @param name Name of resource (e.g. jdbc/myConnection).
+&nbsp;     * @param type Type of resource (e.g. javax.sql.DataSource).
+&nbsp;     */
+&nbsp;    public Resource(String name, String type)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.name = name;</b>
+<b class="fc">&nbsp;        this.type = type;</b>
+<b class="fc">&nbsp;        parameters = new HashMap&lt;String, String&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return The resource name
+&nbsp;     */
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return The resource Type
+&nbsp;     */
+&nbsp;    public String getType()
+&nbsp;    {
+<b class="fc">&nbsp;        return type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set a resource parameter. I.e. this relates in tomcat to &amp;lt;ResourceParams...&amp;gt;
+&nbsp;     * &amp;lt;parameter&amp;gt; &amp;lt;name&amp;gt;key&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;value&amp;lt;/name&amp;gt;
+&nbsp;     * &amp;lt;/parameter&amp;gt; ... &amp;lt;/ResourceParams&amp;gt;
+&nbsp;     * 
+&nbsp;     * @param name Name of the value to set.
+&nbsp;     * @param value Value to set.
+&nbsp;     */
+&nbsp;    public void setParameter(String name, String value)
+&nbsp;    {
+<b class="fc">&nbsp;        parameters.put(name, value);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get a stored parameter. Returns null if no parameter stored by this name.
+&nbsp;     * 
+&nbsp;     * @param name Name of parameter.
+&nbsp;     * @return Value of parameter.
+&nbsp;     */
+&nbsp;    public String getParameter(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        return parameters.get(name);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return A &lt;code&gt;Set&lt;/code&gt; with all parameters.
+&nbsp;     */
+&nbsp;    public Set&lt;String&gt; getParameterNames()
+&nbsp;    {
+<b class="fc">&nbsp;        return parameters.keySet();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set parameters.
+&nbsp;     * 
+&nbsp;     * @param parameters The parameters to set.
+&nbsp;     */
+&nbsp;    public void setParameters(Map&lt;String, String&gt; parameters)
+&nbsp;    {
+<b class="fc">&nbsp;        this.parameters = parameters;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get parameters.
+&nbsp;     * 
+&nbsp;     * @return parameters The parameters for this resource.
+&nbsp;     */
+&nbsp;    public Map&lt;String, String&gt; getParameters()
+&nbsp;    {
+<b class="fc">&nbsp;        return parameters;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param className the className to set
+&nbsp;     */
+&nbsp;    public void setClassName(String className)
+&nbsp;    {
+<b class="fc">&nbsp;        this.className = className;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the className
+&nbsp;     */
+&nbsp;    public String getClassName()
+&nbsp;    {
+<b class="fc">&nbsp;        return className;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param id id used in configuration files.
+&nbsp;     */
+&nbsp;    public void setId(String id)
+&nbsp;    {
+<b class="fc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The String used to identify this resource in configuration files.
+&nbsp;     * 
+&nbsp;     * @return the resource id
+&nbsp;     */
+&nbsp;    public String getId()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.id;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

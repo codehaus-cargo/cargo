@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Configuration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: Configuration (org.codehaus.cargo.container.configuration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Configuration</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.configuration;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.Loggable;
+&nbsp;
+&nbsp;/**
+&nbsp; * A configuration represents how a container is configured: where deployables are deployed,
+&nbsp; * container ports, logging levels, container authentication, etc. Cargo supports several types of
+&nbsp; * configuration:
+&nbsp; * &lt;ul&gt;
+&nbsp; * &lt;li&gt;
+&nbsp; * &lt;b&gt;local configuration&lt;/b&gt;: it represents a configuration located somewhere on the local file
+&nbsp; * system. A local configuration is activated before the container is started.&lt;/li&gt;
+&nbsp; * &lt;li&gt;
+&nbsp; * &lt;b&gt;runtime configuration&lt;/b&gt;: it represents a configuration for a container that is already
+&nbsp; * started. The settings that can be set/unset depend on the container&#39;s capability for dynamically
+&nbsp; * changing settings.&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; */
+&nbsp;public interface Configuration extends Loggable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * A property is a configuration value for the container (eg the web port, the number of
+&nbsp;     * executing threads, etc).
+&nbsp;     * 
+&nbsp;     * @param name the property name
+&nbsp;     * @param value the property value
+&nbsp;     */
+&nbsp;    void setProperty(String name, String value);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of properties set
+&nbsp;     * @see #setProperty(String, String)
+&nbsp;     */
+&nbsp;    Map&lt;String, String&gt; getProperties();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param name the property name for which to return the value
+&nbsp;     * @return the property&#39;s value
+&nbsp;     * @see #setProperty(String, String)
+&nbsp;     */
+&nbsp;    String getPropertyValue(String name);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the {@link ConfigurationCapability} of the configuration in term of properties it
+&nbsp;     * supports, etc
+&nbsp;     */
+&nbsp;    ConfigurationCapability getCapability();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the configuration type (standalone, existing, runtime, etc)
+&nbsp;     */
+&nbsp;    ConfigurationType getType();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

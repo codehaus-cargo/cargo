@@ -1,0 +1,245 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > OrionEjbJarXml</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.ejb.orion</a>
+</div>
+
+<h1>Coverage Summary for Class: OrionEjbJarXml (org.codehaus.cargo.module.ejb.orion)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OrionEjbJarXml</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.ejb.orion;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.AbstractDescriptor;
+&nbsp;import org.codehaus.cargo.module.DescriptorTag;
+&nbsp;import org.codehaus.cargo.module.DescriptorType;
+&nbsp;import org.codehaus.cargo.module.ejb.EjbDef;
+&nbsp;import org.codehaus.cargo.module.ejb.VendorEjbDescriptor;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; * Encapsulates the DOM representation of a oracle ejb deployment descriptor
+&nbsp; * &lt;code&gt;orion-ejb-jar.xml&lt;/code&gt; to provide convenience methods for easy access and manipulation.
+&nbsp; */
+&nbsp;public class OrionEjbJarXml extends AbstractDescriptor implements VendorEjbDescriptor
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param document The DOM document representing the parsed deployment descriptor
+&nbsp;     * @param type the type of the descriptor
+&nbsp;     */
+&nbsp;    public OrionEjbJarXml(Element document, DescriptorType type)
+&nbsp;    {
+<b class="nc">&nbsp;        super(document, type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFileName()
+&nbsp;    {
+<b class="nc">&nbsp;        return &quot;orion-ejb-jar.xml&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getJndiName(EjbDef ejb)
+&nbsp;    {
+<b class="nc">&nbsp;        String jndiName = null;</b>
+<b class="nc">&nbsp;        Element ejbElement = getEjb(ejb.getName());</b>
+<b class="nc">&nbsp;        if (ejbElement != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (ejb.getLocal() != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                jndiName = ejbElement.getAttribute(&quot;local-location&quot;).getValue();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (jndiName == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                jndiName = ejbElement.getAttribute(&quot;location&quot;).getValue();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return jndiName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a specific ejb.
+&nbsp;     * 
+&nbsp;     * @param ejbName the name of the ejb to get
+&nbsp;     * @return the ejb or null if no ejb with that name exists
+&nbsp;     */
+&nbsp;    private Element getEjb(String ejbName)
+&nbsp;    {
+<b class="nc">&nbsp;        Element ejbElement = getSessionEjb(ejbName);</b>
+<b class="nc">&nbsp;        if (ejbElement == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ejbElement = getEntityEjb(ejbName);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return ejbElement;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a specific ejb.
+&nbsp;     * 
+&nbsp;     * @param ejbName the name of the ejb to get
+&nbsp;     * @return the ejb or null if no ejb with that name exists
+&nbsp;     */
+&nbsp;    private Element getSessionEjb(String ejbName)
+&nbsp;    {
+<b class="nc">&nbsp;        Element ejbElement = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Element deploymentElement : getElements(new DescriptorTag(</b>
+<b class="nc">&nbsp;            OrionEjbJarXmlType.getInstance(), &quot;session-deployment&quot;, true)))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String name = deploymentElement.getAttribute(&quot;name&quot;).getValue();</b>
+<b class="nc">&nbsp;            if (name.equals(ejbName))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                ejbElement = deploymentElement;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return ejbElement;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a specific ejb.
+&nbsp;     * 
+&nbsp;     * @param ejbName the name of the ejb to get
+&nbsp;     * @return the ejb or null if no ejb with that name exists
+&nbsp;     */
+&nbsp;    private Element getEntityEjb(String ejbName)
+&nbsp;    {
+<b class="nc">&nbsp;        Element ejbElement = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Element deploymentElement : getElements(new DescriptorTag(</b>
+<b class="nc">&nbsp;            OrionEjbJarXmlType.getInstance(), &quot;entity-deployment&quot;, true)))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String name = deploymentElement.getAttribute(&quot;name&quot;).getValue();</b>
+<b class="nc">&nbsp;            if (name.equals(ejbName))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                ejbElement = deploymentElement;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return ejbElement;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

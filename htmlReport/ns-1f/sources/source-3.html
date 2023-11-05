@@ -1,0 +1,318 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > NodeMergeStrategy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.merge.tagstrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: NodeMergeStrategy (org.codehaus.cargo.module.merge.tagstrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NodeMergeStrategy</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.merge.tagstrategy;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.Descriptor;
+&nbsp;import org.codehaus.cargo.module.DescriptorElement;
+&nbsp;import org.codehaus.cargo.module.DescriptorType;
+&nbsp;import org.jdom2.Content;
+&nbsp;import org.jdom2.Element;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;import org.jdom2.Text;
+&nbsp;import org.jdom2.xpath.XPath;
+&nbsp;
+&nbsp;/**
+&nbsp; * A merging strategy that can be used to combine two XML documents together.
+&nbsp; */
+&nbsp;public class NodeMergeStrategy implements MergeStrategy
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The template for the output.
+&nbsp;     */
+&nbsp;    private Element template;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param type the descriptor type
+&nbsp;     * @param template in the template to use in the merge
+&nbsp;     */
+&nbsp;    public NodeMergeStrategy(DescriptorType type, Element template)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        if (template == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Template must not be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.template = template;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param type Descriptor Type
+&nbsp;     * @param stream content input stream
+&nbsp;     * @throws IOException if IO Exception
+&nbsp;     * @throws JDOMException if parser error
+&nbsp;     */
+&nbsp;    public NodeMergeStrategy(DescriptorType type, InputStream stream) throws
+&nbsp;        IOException, JDOMException
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.template = type.getDescriptorIo().parseXml(stream).getRootElement();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
+&nbsp;    {
+&nbsp;        // Merge common items by overwriting them
+<b class="nc">&nbsp;        int idx = target.getDocument().getRootElement().getContent().indexOf(left);</b>
+<b class="nc">&nbsp;        target.getDocument().getRootElement().removeContent(left);</b>
+&nbsp;
+<b class="nc">&nbsp;        Element newElement = (Element) this.template.clone();</b>
+<b class="nc">&nbsp;        applyValues(newElement, left, right);</b>
+<b class="nc">&nbsp;        target.getRootElement().addContent(idx, newElement);</b>
+&nbsp;
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int inLeft(Descriptor target, DescriptorElement left)
+&nbsp;    {
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int inRight(Descriptor target, DescriptorElement right)
+&nbsp;    {
+<b class="nc">&nbsp;        target.addElement(right.getTag(), right, target.getRootElement());</b>
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Apply some merge parameters on the element passed in, using the left and write elements in
+&nbsp;     * the merge pair.
+&nbsp;     * 
+&nbsp;     * @param content the content to apply to
+&nbsp;     * @param left The Left hand element to use
+&nbsp;     * @param right The Right hand element to use
+&nbsp;     */
+&nbsp;    private void applyValues(Content content, DescriptorElement left, DescriptorElement right)
+&nbsp;    {
+<b class="nc">&nbsp;        if (content instanceof Element)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Element element = (Element) content;</b>
+<b class="nc">&nbsp;            List&lt;Content&gt; childNodes = element.getContent();</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Content n : childNodes)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                applyValues(n, left, right);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        else if (content instanceof Text)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Pattern pat = Pattern.compile(&quot;\\$(left:|right:)[^ ,\\t]*&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            Text element = (Text) content;</b>
+<b class="nc">&nbsp;            Matcher m = pat.matcher(element.getText());</b>
+<b class="nc">&nbsp;            StringBuffer sb = new StringBuffer();</b>
+<b class="nc">&nbsp;            while (m.find())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String repl = replaceValue(m.group(), left, right).replaceAll(&quot;\\$&quot;, &quot;\\\\\\$&quot;);</b>
+<b class="nc">&nbsp;                m.appendReplacement(sb, repl);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            m.appendTail(sb);</b>
+&nbsp;
+<b class="nc">&nbsp;            element.setText(sb.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replace a value.
+&nbsp;     * 
+&nbsp;     * @param string - the expression
+&nbsp;     * @param left The left hand node
+&nbsp;     * @param right The right hand node
+&nbsp;     * @return the replaced string
+&nbsp;     */
+&nbsp;    private String replaceValue(String string, DescriptorElement left, DescriptorElement right)
+&nbsp;    {
+&nbsp;        String xPath;
+&nbsp;        Element element;
+&nbsp;
+<b class="nc">&nbsp;        String result = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (string.startsWith(&quot;$left:&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            xPath = string.substring(6);</b>
+<b class="nc">&nbsp;            element = left;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (string.startsWith(&quot;$right:&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            xPath = string.substring(7);</b>
+<b class="nc">&nbsp;            element = right;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+&nbsp;            // Make sure we don&#39;t loop forever!
+<b class="nc">&nbsp;            return &quot;&quot;;</b>
+&nbsp;        }
+&nbsp;        try
+&nbsp;        {
+&nbsp;            // CARGO-1175: Avoid XPath and namespace problems
+<b class="nc">&nbsp;            String nsPrefix = null;</b>
+<b class="nc">&nbsp;            if (!element.getNamespaceURI().isEmpty())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                nsPrefix = element.getNamespacePrefix();</b>
+<b class="nc">&nbsp;                if (nsPrefix.isEmpty() || !xPath.startsWith(nsPrefix))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if (nsPrefix.isEmpty())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        nsPrefix = &quot;cargo-xs&quot;;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    xPath = nsPrefix + &quot;:&quot; + xPath;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            XPath xp = XPath.newInstance(xPath);</b>
+<b class="nc">&nbsp;            if (nsPrefix != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                xp.addNamespace(nsPrefix, element.getNamespaceURI());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            Element nestedText = (Element) xp.selectSingleNode(element);</b>
+<b class="nc">&nbsp;            if (nestedText != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                result = nestedText.getText();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        catch (JDOMException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            result = e.getMessage();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

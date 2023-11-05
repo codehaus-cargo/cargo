@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DefaultJvmLauncherLoggerRedirector</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.jvm</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultJvmLauncherLoggerRedirector (org.codehaus.cargo.container.spi.jvm)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultJvmLauncherLoggerRedirector</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.jvm;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Redirects the output of a process into a {@link Logger} by periodically pumping data.
+&nbsp; */
+&nbsp;public class DefaultJvmLauncherLoggerRedirector implements Runnable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The input stream of the process
+&nbsp;     */
+&nbsp;    private final InputStream inputStream;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The logger to which the output of the JVM is redirected
+&nbsp;     */
+&nbsp;    private Logger outputLogger;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The log category to use when logging the JVM&#39;s outputs
+&nbsp;     */
+&nbsp;    private String category;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a new redirector.
+&nbsp;     * 
+&nbsp;     * @param inputStream the input stream
+&nbsp;     * @param outputLogger The logger to which the output of the JVM is redirected
+&nbsp;     * @param category the log category to use when logging the JVM&#39;s outputs
+&nbsp;     */
+&nbsp;    public DefaultJvmLauncherLoggerRedirector(
+&nbsp;        InputStream inputStream, Logger outputLogger, String category)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        if (inputStream == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Input stream should not be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.inputStream = inputStream;</b>
+<b class="nc">&nbsp;        this.outputLogger = outputLogger;</b>
+<b class="nc">&nbsp;        this.category = category;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void run()
+&nbsp;    {
+<b class="nc">&nbsp;        try (BufferedReader reader = new BufferedReader(</b>
+&nbsp;            new InputStreamReader(this.inputStream, StandardCharsets.UTF_8)))
+&nbsp;        {
+&nbsp;            String line;
+<b class="nc">&nbsp;            while ((line = reader.readLine()) != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                this.outputLogger.info(line, this.category);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            this.outputLogger.warn(&quot;Error reading process stream: &quot; + e, getClass().getName());</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            try</b>
+&nbsp;            {
+<b class="nc">&nbsp;                inputStream.close();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (IOException e)</b>
+&nbsp;            {
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

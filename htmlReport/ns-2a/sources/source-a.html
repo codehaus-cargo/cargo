@@ -1,0 +1,433 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > XmlUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: XmlUtils (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XmlUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/75)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import java.io.ByteArrayInputStream;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import javax.xml.parsers.DocumentBuilder;
+&nbsp;import javax.xml.parsers.DocumentBuilderFactory;
+&nbsp;import javax.xml.parsers.ParserConfigurationException;
+&nbsp;import javax.xml.transform.Transformer;
+&nbsp;import javax.xml.transform.TransformerFactory;
+&nbsp;import javax.xml.transform.dom.DOMSource;
+&nbsp;import javax.xml.transform.stream.StreamResult;
+&nbsp;import javax.xml.xpath.XPathConstants;
+&nbsp;import javax.xml.xpath.XPathExpression;
+&nbsp;import javax.xml.xpath.XPathFactory;
+&nbsp;import javax.xml.xpath.XPath;
+&nbsp;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.Element;
+&nbsp;import org.w3c.dom.NodeList;
+&nbsp;import org.w3c.dom.ls.DOMImplementationLS;
+&nbsp;import org.w3c.dom.ls.LSSerializer;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class offers utility methods for handling XML files.
+&nbsp; */
+&nbsp;public class XmlUtils
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * File utility class.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * XML document builder.
+&nbsp;     */
+&nbsp;    private DocumentBuilder builder;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * XPath.
+&nbsp;     */
+&nbsp;    private XPath xPath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * XML namespaces map.
+&nbsp;     */
+&nbsp;    private NamespaceContextImpl namespaceContext;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * True if XmlUtils should be namespace aware.
+&nbsp;     */
+&nbsp;    private boolean namespaceAware;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * default constructor will assign no namespaces and use a default file handler.
+&nbsp;     */
+&nbsp;    public XmlUtils()
+&nbsp;    {
+<b class="nc">&nbsp;        this(new DefaultFileHandler());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * default constructor will assign no namespaces and use a default file handler.
+&nbsp;     * 
+&nbsp;     * @param namespaceAware true if XmlUtils should be namespace aware.
+&nbsp;     */
+&nbsp;    public XmlUtils(boolean namespaceAware)
+&nbsp;    {
+<b class="nc">&nbsp;        this(new DefaultFileHandler(), namespaceAware);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor will assign no namespaces.
+&nbsp;     * 
+&nbsp;     * @param fileHandler used to read and write xml files.
+&nbsp;     */
+&nbsp;    public XmlUtils(FileHandler fileHandler)
+&nbsp;    {
+<b class="nc">&nbsp;        this(fileHandler, false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor will assign no namespaces.
+&nbsp;     * 
+&nbsp;     * @param fileHandler used to read and write xml files.
+&nbsp;     * @param namespaceAware true if XmlUtils should be namespace aware.
+&nbsp;     */
+&nbsp;    public XmlUtils(FileHandler fileHandler, boolean namespaceAware)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.fileHandler = fileHandler;</b>
+<b class="nc">&nbsp;        this.namespaceContext = new NamespaceContextImpl();</b>
+<b class="nc">&nbsp;        this.namespaceAware = namespaceAware;</b>
+<b class="nc">&nbsp;        XPathFactory xPathFactory = XPathFactory.newInstance();</b>
+<b class="nc">&nbsp;        this.xPath = xPathFactory.newXPath();</b>
+<b class="nc">&nbsp;        this.xPath.setNamespaceContext(namespaceContext);</b>
+<b class="nc">&nbsp;        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();</b>
+<b class="nc">&nbsp;        domFactory.setNamespaceAware(namespaceAware);</b>
+&nbsp;        // Do not load remote DTDS as remote servers sometimes become unreachable
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            domFactory.setFeature(</b>
+&nbsp;                &quot;http://apache.org/xml/features/nonvalidating/load-dtd-grammar&quot;, false);
+<b class="nc">&nbsp;            domFactory.setFeature(</b>
+&nbsp;                &quot;http://apache.org/xml/features/nonvalidating/load-external-dtd&quot;, false);
+&nbsp;        }
+<b class="nc">&nbsp;        catch (AbstractMethodError | ParserConfigurationException ignored)</b>
+&nbsp;        {
+&nbsp;            // Ignored
+<b class="nc">&nbsp;        }</b>
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            this.builder = domFactory.newDocumentBuilder();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot create XML DOM builder&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The following will search the given element for the specified XPath and return a list of
+&nbsp;     * nodes that match.
+&nbsp;     * 
+&nbsp;     * @param xpath - selection criteria
+&nbsp;     * @param toSearch - element to start the search at
+&nbsp;     * @return List of matching elements
+&nbsp;     */
+&nbsp;    public List&lt;Element&gt; selectElementsMatchingXPath(String xpath, Element toSearch)
+&nbsp;    {
+&nbsp;        NodeList nodelist;
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            String xpathWithoutNamespace = xpath;</b>
+<b class="nc">&nbsp;            Map&lt;String, String&gt; namespaces = namespaceContext.getNamespaces();</b>
+<b class="nc">&nbsp;            if (namespaces != null &amp;&amp; !namespaces.isEmpty() &amp;&amp; !namespaceAware)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                for (Map.Entry&lt;String, String&gt; namespace : namespaces.entrySet())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    String key = namespace.getKey() + &quot;:&quot;;</b>
+<b class="nc">&nbsp;                    while (xpathWithoutNamespace.contains(key))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        xpathWithoutNamespace = xpathWithoutNamespace.replace(key, &quot;&quot;);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;            XPathExpression xPathExpr = xPath.compile(xpathWithoutNamespace);</b>
+<b class="nc">&nbsp;            nodelist = (NodeList) xPathExpr.evaluate(toSearch, XPathConstants.NODESET);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot evaluate XPath: &quot; + xpath, e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; result = new ArrayList&lt;Element&gt;(nodelist.getLength());</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nodelist.getLength(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            result.add((Element) nodelist.item(i));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The following will search the given element for the specified XPath and return any node that
+&nbsp;     * matches.
+&nbsp;     * 
+&nbsp;     * @param xpath - selection criteria
+&nbsp;     * @param toSearch - element to start the search at
+&nbsp;     * @return a matching element
+&nbsp;     */
+&nbsp;    public Element selectElementMatchingXPath(String xpath, Element toSearch)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; results = selectElementsMatchingXPath(xpath, toSearch);</b>
+<b class="nc">&nbsp;        if (results.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ElementNotFoundException(xpath, toSearch);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Element match = results.get(0);</b>
+<b class="nc">&nbsp;        return match;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * read the specified file into a Document.
+&nbsp;     * 
+&nbsp;     * @param sourceFile file to read
+&nbsp;     * @return Document corresponding with sourceFile
+&nbsp;     */
+&nbsp;    public Document loadXmlFromFile(String sourceFile)
+&nbsp;    {
+<b class="nc">&nbsp;        if (!getFileHandler().exists(sourceFile))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot find file: &quot; + sourceFile);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (getFileHandler().isDirectory(sourceFile))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;The destination is a directory: &quot; + sourceFile);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        try (InputStream is = getFileHandler().getInputStream(sourceFile))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.builder.parse(is);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot parse XML file &quot; + sourceFile, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * write the xml document to disk, rethrowing checked exceptions as runtime.
+&nbsp;     * 
+&nbsp;     * @param document document to write to disk
+&nbsp;     * @param filename where to write the document
+&nbsp;     */
+&nbsp;    public void saveXml(Document document, String filename)
+&nbsp;    {
+<b class="nc">&nbsp;        try (OutputStream os = getFileHandler().getOutputStream(filename))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            TransformerFactory tFactory = TransformerFactory.newInstance();</b>
+<b class="nc">&nbsp;            Transformer transformer = tFactory.newTransformer();</b>
+<b class="nc">&nbsp;            transformer.transform(new DOMSource(document), new StreamResult(os));</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot modify XML file &quot; + filename, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the Cargo file utility class
+&nbsp;     */
+&nbsp;    public FileHandler getFileHandler()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
+&nbsp;     * testing with Mock objects as it can be passed a test file handler that doesn&#39;t perform any
+&nbsp;     * real file action.
+&nbsp;     */
+&nbsp;    public void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="nc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param namespaces the namespaces to set
+&nbsp;     */
+&nbsp;    public void setNamespaces(Map&lt;String, String&gt; namespaces)
+&nbsp;    {
+<b class="nc">&nbsp;        this.namespaceContext.setNamespaces(namespaces);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the namespaces
+&nbsp;     */
+&nbsp;    public Map&lt;String, String&gt; getNamespaces()
+&nbsp;    {
+<b class="nc">&nbsp;        return namespaceContext.getNamespaces();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * parse the passed string into an {@link Element Element} object.
+&nbsp;     * 
+&nbsp;     * @param elementToParse string to parse
+&nbsp;     * @return result of parsing
+&nbsp;     */
+&nbsp;    public Element parseIntoElement(String elementToParse)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            Document parsed = this.builder.parse(</b>
+<b class="nc">&nbsp;                new ByteArrayInputStream(elementToParse.getBytes(StandardCharsets.UTF_8)));</b>
+<b class="nc">&nbsp;            return parsed.getDocumentElement();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Could not parse element: &quot; + elementToParse);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a new, blank XML document.
+&nbsp;     * 
+&nbsp;     * @return New, blank XML document.
+&nbsp;     */
+&nbsp;    public Document createDocument()
+&nbsp;    {
+<b class="nc">&nbsp;        return builder.newDocument();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Output an XML node as string, without the XML header.
+&nbsp;     * 
+&nbsp;     * @param node Node to output.
+&nbsp;     * @return String representation of node.
+&nbsp;     */
+&nbsp;    public String toString(Element node)
+&nbsp;    {
+<b class="nc">&nbsp;        DOMImplementationLS implementation =</b>
+<b class="nc">&nbsp;            (DOMImplementationLS) node.getOwnerDocument().getImplementation();</b>
+<b class="nc">&nbsp;        LSSerializer serializer = implementation.createLSSerializer();</b>
+<b class="nc">&nbsp;        serializer.getDomConfig().setParameter(&quot;format-pretty-print&quot;, true);</b>
+<b class="nc">&nbsp;        serializer.getDomConfig().setParameter(&quot;xml-declaration&quot;, false);</b>
+<b class="nc">&nbsp;        return serializer.writeToString(node);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

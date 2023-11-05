@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > HttpResult</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.internal.http</a>
+</div>
+
+<h1>Coverage Summary for Class: HttpResult (org.codehaus.cargo.container.internal.http)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HttpResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.internal.http;
+&nbsp;
+&nbsp;/**
+&nbsp; * Set of common HTTP(S) utility methods.
+&nbsp; */
+<b class="nc">&nbsp;public class HttpResult</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The HTTP connection response code (eg 200).
+&nbsp;     */
+&nbsp;    private int responseCode;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The HTTP connection response message (eg &quot;Ok&quot;).
+&nbsp;     */
+&nbsp;    private String responseMessage;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The HTTP connection response body.
+&nbsp;     */
+&nbsp;    private String responseBody;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return Response body of HTTP response.
+&nbsp;     */
+&nbsp;    public String getResponseBody()
+&nbsp;    {
+<b class="nc">&nbsp;        return responseBody;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param responseBody Response body of HTTP response.
+&nbsp;     */
+&nbsp;    public void setResponseBody(String responseBody)
+&nbsp;    {
+<b class="nc">&nbsp;        this.responseBody = responseBody;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return HTTP response code.
+&nbsp;     */
+&nbsp;    public int getResponseCode()
+&nbsp;    {
+<b class="nc">&nbsp;        return responseCode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param responseCode HTTP response code.
+&nbsp;     */
+&nbsp;    public void setResponseCode(int responseCode)
+&nbsp;    {
+<b class="nc">&nbsp;        this.responseCode = responseCode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return HTTP response message.
+&nbsp;     */
+&nbsp;    public String getResponseMessage()
+&nbsp;    {
+<b class="nc">&nbsp;        return responseMessage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param responseMessage HTTP response message.
+&nbsp;     */
+&nbsp;    public void setResponseMessage(String responseMessage)
+&nbsp;    {
+<b class="nc">&nbsp;        this.responseMessage = responseMessage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return True if HTTP call is successful - its response code is 2xx.
+&nbsp;     */
+&nbsp;    public boolean isSuccessful()
+&nbsp;    {
+<b class="nc">&nbsp;        if (responseCode &gt;= 200 &amp;&amp; responseCode &lt; 300)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

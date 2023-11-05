@@ -1,0 +1,688 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractLocalContainer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractLocalContainer (org.codehaus.cargo.container.spi)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractLocalContainer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    21.7%
+  </span>
+  <span class="absValue">
+    (5/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.4%
+  </span>
+  <span class="absValue">
+    (11/149)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.InetAddress;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.net.UnknownHostException;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.LocalContainer;
+&nbsp;import org.codehaus.cargo.container.State;
+&nbsp;import org.codehaus.cargo.container.configuration.LocalConfiguration;
+&nbsp;import org.codehaus.cargo.container.deployer.DeployableMonitor;
+&nbsp;import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
+&nbsp;import org.codehaus.cargo.container.property.GeneralPropertySet;
+&nbsp;import org.codehaus.cargo.container.property.ServletPropertySet;
+&nbsp;import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
+&nbsp;import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncher;
+&nbsp;import org.codehaus.cargo.container.spi.util.ContainerUtils;
+&nbsp;import org.codehaus.cargo.container.startup.ContainerMonitor;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * Default container implementation that all local container implementations must extend.
+&nbsp; */
+&nbsp;public abstract class AbstractLocalContainer extends AbstractContainer implements LocalContainer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The file to which output of the container should be written.
+&nbsp;     */
+&nbsp;    private String output;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Whether output of the container should be appended to an existing file, or the existing file
+&nbsp;     * should be truncated.
+&nbsp;     */
+&nbsp;    private boolean append;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Default timeout for starting/stopping the container.
+&nbsp;     */
+<b class="fc">&nbsp;    private long timeout = 120000L;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The local configuration implementation to use.
+&nbsp;     */
+&nbsp;    private LocalConfiguration configuration;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Container state. Default to unknown state.
+&nbsp;     */
+<b class="fc">&nbsp;    private State state = State.UNKNOWN;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * File utility class.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Default constructor.
+&nbsp;     * @param configuration the configuration to associate to this container. It can be changed
+&nbsp;     * later on by calling {@link #setConfiguration(LocalConfiguration)}
+&nbsp;     */
+&nbsp;    public AbstractLocalContainer(LocalConfiguration configuration)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.append = false;</b>
+<b class="fc">&nbsp;        this.configuration = configuration;</b>
+<b class="fc">&nbsp;        this.fileHandler = new DefaultFileHandler();</b>
+<b class="fc">&nbsp;        this.fileHandler.setLogger(this.getLogger());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setOutput(String output)
+&nbsp;    {
+<b class="nc">&nbsp;        this.output = output;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setAppend(boolean isAppend)
+&nbsp;    {
+<b class="nc">&nbsp;        this.append = isAppend;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getOutput()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.output;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isAppend()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.append;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verify required properties have been set before executing any action.
+&nbsp;     */
+&nbsp;    protected void verify()
+&nbsp;    {
+&nbsp;        // Nothing to verify. We still need this method so that extending classes do not need to
+&nbsp;        // implement this method. Only if they have some checks to perform.
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Installed and Embedded containers do not have the same signature for their
+&nbsp;     * &lt;code&gt;doStart&lt;/code&gt; method. Thus we need to abstract it.
+&nbsp;     * 
+&nbsp;     * @throws Exception if any error is raised during the container start
+&nbsp;     */
+&nbsp;    protected abstract void startInternal() throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Installed and Embedded containers do not have the same signature for their
+&nbsp;     * &lt;code&gt;doStop&lt;/code&gt; method. Thus we need to abstract it.
+&nbsp;     * 
+&nbsp;     * @throws Exception if any error is raised during the container stop
+&nbsp;     */
+&nbsp;    protected abstract void stopInternal() throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Some containers may not fully stop and need to be forcibly stopped.
+&nbsp;     * This method should be overridden for containers that support forcibly stopping the container.
+&nbsp;     */
+&nbsp;    protected void forceStopInternal()
+&nbsp;    {
+&nbsp;        // No implementation defined here
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Some containers may require some extra steps after startup.
+&nbsp;     * 
+&nbsp;     * @throws Exception if any error is raised during these executions
+&nbsp;     */
+&nbsp;    protected void executePostStartTasks() throws Exception
+&nbsp;    {
+&nbsp;        // No implementation defined here
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public final void start()
+&nbsp;    {
+<b class="nc">&nbsp;        synchronized (this)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (State.STARTING == getState() || State.STARTED == getState())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new ContainerException(&quot;The container is already &quot; + getState()</b>
+&nbsp;                    + &quot;. If you wish to restart a running container, &quot;
+&nbsp;                        + &quot;please use the restart method instead.&quot;);
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                setState(State.STARTING);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        getLogger().info(getName() + &quot; starting...&quot;, this.getClass().getName());</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            this.getConfiguration().applyPortOffset();</b>
+&nbsp;
+<b class="nc">&nbsp;            verify();</b>
+&nbsp;
+&nbsp;            // Ensure that the configuration is done before starting the container.
+<b class="nc">&nbsp;            getConfiguration().configure(this);</b>
+&nbsp;
+&nbsp;            // CARGO-365: Check if ports are in use
+&nbsp;            for (Map.Entry&lt;String, String&gt; property
+<b class="nc">&nbsp;                : getConfiguration().getProperties().entrySet())</b>
+&nbsp;            {
+&nbsp;                // CARGO-1438: Only check ports for property names supported by the container
+<b class="nc">&nbsp;                if (property.getKey().startsWith(&quot;cargo.&quot;) &amp;&amp; property.getKey().endsWith(&quot;.port&quot;)</b>
+<b class="nc">&nbsp;                    &amp;&amp; getConfiguration().getCapability().supportsProperty(property.getKey())</b>
+<b class="nc">&nbsp;                    &amp;&amp; property.getValue() != null)</b>
+&nbsp;                {
+&nbsp;                    try
+&nbsp;                    {
+<b class="nc">&nbsp;                        int port = Integer.parseInt(property.getValue());</b>
+<b class="nc">&nbsp;                        if (!isPortShutdown(port))</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            throw new ContainerException(&quot;Port number &quot; + property.getValue()</b>
+<b class="nc">&nbsp;                                + &quot; (defined with the property &quot; + property.getKey() + &quot;) is &quot;</b>
+&nbsp;                                    + &quot;in use. Please free it on the system or set it to a &quot;
+&nbsp;                                        + &quot;different port in the container configuration.&quot;);
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                    catch (NumberFormatException e)</b>
+&nbsp;                    {
+&nbsp;                        // We do nothing
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            startInternal();</b>
+&nbsp;
+&nbsp;            // CARGO-712: If timeout is 0, don&#39;t wait at all
+<b class="nc">&nbsp;            if (getTimeout() != 0)</b>
+&nbsp;            {
+&nbsp;                // Wait until the container is fully started
+<b class="nc">&nbsp;                waitForCompletion(true);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            executePostStartTasks();</b>
+&nbsp;
+<b class="nc">&nbsp;            setState(State.STARTED);</b>
+<b class="nc">&nbsp;            getLogger().info(getName() + &quot; started on port [&quot;</b>
+<b class="nc">&nbsp;                + getConfiguration().getPropertyValue(ServletPropertySet.PORT) + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (CargoException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            setState(State.UNKNOWN);</b>
+<b class="nc">&nbsp;            getLogger().warn(e.toString(), this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;            throw e;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            setState(State.UNKNOWN);</b>
+<b class="nc">&nbsp;            getLogger().warn(t.toString(), this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Failed to start the &quot; + getName() + &quot; container.&quot;</b>
+<b class="nc">&nbsp;                + (getOutput() == null ? &quot;&quot; : &quot; Check the [&quot; + getOutput() + &quot;] file &quot;</b>
+&nbsp;                    + &quot;containing the container logs for more details.&quot;), t);
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            this.getConfiguration().revertPortOffset();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public final void stop()
+&nbsp;    {
+<b class="nc">&nbsp;        setState(State.STOPPING);</b>
+<b class="nc">&nbsp;        getLogger().info(getName() + &quot; is stopping...&quot;, this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        final boolean isAppend = isAppend();</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            this.getConfiguration().applyPortOffset();</b>
+&nbsp;
+<b class="nc">&nbsp;            verify();</b>
+&nbsp;
+&nbsp;            // CARGO-520: Always set append to &quot;true&quot; when stopping
+<b class="nc">&nbsp;            setAppend(true);</b>
+&nbsp;
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                stopInternal();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (IllegalStateException e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (DefaultJvmLauncher.shutdownInProgress)</b>
+&nbsp;                {
+&nbsp;                    // JVM shutdown in progress, ignore
+<b class="nc">&nbsp;                    getLogger().debug(</b>
+&nbsp;                        &quot;JVM shutdown in progress, ignoring exception trying to stop: &quot; + e,
+<b class="nc">&nbsp;                            this.getClass().getName());</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    throw e;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            // CARGO-712: If timeout is 0, don&#39;t wait at all
+<b class="nc">&nbsp;            if (getTimeout() != 0)</b>
+&nbsp;            {
+&nbsp;                // Wait until the container is fully stopped
+<b class="nc">&nbsp;                waitForCompletion(false);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // Force the container to stop, should it not already be stopped.
+&nbsp;            // At this point, the container should already be stopped,
+&nbsp;            // so this should have no effect if the container was properly stopped.
+<b class="nc">&nbsp;            forceStopInternal();</b>
+&nbsp;
+<b class="nc">&nbsp;            setState(State.STOPPED);</b>
+<b class="nc">&nbsp;            getLogger().info(getName() + &quot; is stopped&quot;, this.getClass().getName());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            setState(State.UNKNOWN);</b>
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Failed to stop the &quot; + getName() + &quot; container.&quot;</b>
+<b class="nc">&nbsp;                + (getOutput() == null ? &quot;&quot; : &quot; Check the [&quot; + getOutput() + &quot;] file &quot;</b>
+&nbsp;                    + &quot;containing the container logs for more details.&quot;), e);
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            setAppend(isAppend);</b>
+<b class="nc">&nbsp;            this.getConfiguration().revertPortOffset();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void restart()
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            stop();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().info(&quot;The stop phase of the restart action has failed: &quot; + t.toString(),</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Use container monitor to verify if the container is started.
+&nbsp;     * @param monitor Container monitor checking container availability.
+&nbsp;     * @throws InterruptedException if the thread sleep is interrupted.
+&nbsp;     */
+&nbsp;    protected void waitForStarting(ContainerMonitor monitor) throws InterruptedException
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            long startTime = System.currentTimeMillis();</b>
+&nbsp;            do
+&nbsp;            {
+<b class="nc">&nbsp;                if (System.currentTimeMillis() - startTime &gt; getTimeout())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    String message = &quot;Monitor [&quot; + monitor.getClass().getName()</b>
+&nbsp;                        + &quot;] failed to detect running container&quot;
+<b class="nc">&nbsp;                        + &quot; within the timeout period [&quot; + getTimeout() + &quot;].&quot;;</b>
+<b class="nc">&nbsp;                    getLogger().info(message, this.getClass().getName());</b>
+<b class="nc">&nbsp;                    throw new ContainerException(message);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                Thread.sleep(100);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            while (!monitor.isRunning());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (InterruptedException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Failed to monitor container&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ping the WAR CPC to verify if the container is started or stopped.
+&nbsp;     * 
+&nbsp;     * @param waitForStarting if &lt;code&gt;true&lt;/code&gt; then wait for container start, if
+&nbsp;     * &lt;code&gt;false&lt;/code&gt; wait for container stop
+&nbsp;     * @throws InterruptedException if the thread sleep is interrupted
+&nbsp;     */
+&nbsp;    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+&nbsp;    {
+<b class="nc">&nbsp;        LocalConfiguration config = getConfiguration();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (waitForStarting)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            DeployableMonitor monitor =</b>
+<b class="nc">&nbsp;                new URLDeployableMonitor(ContainerUtils.getCPCURL(config), getTimeout(),</b>
+&nbsp;                    &quot;Cargo Ping Component used to verify if the container is started.&quot;);
+<b class="nc">&nbsp;            monitor.setLogger(getLogger());</b>
+<b class="nc">&nbsp;            DeployerWatchdog watchdog = new DeployerWatchdog(monitor);</b>
+<b class="nc">&nbsp;            watchdog.setLogger(getLogger());</b>
+&nbsp;
+<b class="nc">&nbsp;            watchdog.watch(waitForStarting);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            long deadline = System.currentTimeMillis() + getTimeout();</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Map.Entry&lt;String, String&gt; property : getConfiguration().getProperties().entrySet())</b>
+&nbsp;            {
+&nbsp;                // CARGO-1438: Only check ports for property names supported by the container
+<b class="nc">&nbsp;                if (!property.getKey().startsWith(&quot;cargo.&quot;) || !property.getKey().endsWith(&quot;.port&quot;)</b>
+<b class="nc">&nbsp;                    || !getConfiguration().getCapability().supportsProperty(property.getKey())</b>
+<b class="nc">&nbsp;                    || property.getValue() == null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+&nbsp;                int port;
+&nbsp;                try
+&nbsp;                {
+<b class="nc">&nbsp;                    port = Integer.parseInt(property.getValue());</b>
+&nbsp;                }
+<b class="nc">&nbsp;                catch (NumberFormatException e)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    continue;</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                if (port &lt; 1 || port &gt; 65535)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                waitForPortShutdown(port, deadline);</b>
+<b class="nc">&nbsp;                getLogger().debug(&quot;Port &quot; + port + &quot; is shutdown&quot;, this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // Many container do not fully stop even after having destroyed all their sockets;
+&nbsp;            // as a result wait 5 more seconds
+<b class="nc">&nbsp;            Thread.sleep(5000);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Waits for the shutdown of the specified server port.
+&nbsp;     * 
+&nbsp;     * @param port The port number.
+&nbsp;     * @param deadline The deadline for the port to shutdown.
+&nbsp;     * @throws InterruptedException If the thread was interrupted while waiting for the port
+&nbsp;     *             shutdown.
+&nbsp;     */
+&nbsp;    protected void waitForPortShutdown(int port, long deadline) throws InterruptedException
+&nbsp;    {
+<b class="nc">&nbsp;        getLogger().debug(&quot;Waiting for port &quot; + port + &quot; to shutdown, deadline &quot; + deadline,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+&nbsp;
+&nbsp;        while (true)
+&nbsp;        {
+<b class="nc">&nbsp;            if (isPortShutdown(port))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (System.currentTimeMillis() &gt; deadline)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new ContainerException(&quot;Server port &quot; + port</b>
+<b class="nc">&nbsp;                    + &quot; did not shutdown within the timeout period [&quot; + getTimeout() + &quot;]&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            Thread.sleep(1000);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setConfiguration(LocalConfiguration configuration)
+&nbsp;    {
+<b class="nc">&nbsp;        this.configuration = configuration;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public LocalConfiguration getConfiguration()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.configuration;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setTimeout(long timeout)
+&nbsp;    {
+<b class="nc">&nbsp;        this.timeout = timeout;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public long getTimeout()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.timeout;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public State getState()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.state;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param state the container current state
+&nbsp;     */
+&nbsp;    protected void setState(State state)
+&nbsp;    {
+<b class="nc">&nbsp;        this.state = state;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the Cargo file utility class
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public FileHandler getFileHandler()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
+&nbsp;     * testing with Mock objects as it can be passed a test file handler that doesn&#39;t perform any
+&nbsp;     * real file action.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="fc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if the specified server port is shutdown.
+&nbsp;     * 
+&nbsp;     * @param port The port number.
+&nbsp;     * @return &lt;code&gt;true&lt;/code&gt; if &lt;code&gt;port&lt;/code&gt; is shut down, &lt;code&gt;false&lt;/code&gt; otherwise.
+&nbsp;     */
+&nbsp;    private boolean isPortShutdown(int port)
+&nbsp;    {
+&nbsp;        InetAddress host;
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            host = InetAddress.getByName(</b>
+<b class="nc">&nbsp;                this.getConfiguration().getPropertyValue(GeneralPropertySet.HOSTNAME));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (UnknownHostException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid GeneralPropertySet.HOSTNAME value&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        try (ServerSocket ss = new ServerSocket(port, 1, host))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ss.setReuseAddress(true);</b>
+&nbsp;
+<b class="nc">&nbsp;            getLogger().debug(&quot;Port &quot; + port + &quot; closed&quot;, this.getClass().getName());</b>
+<b class="nc">&nbsp;            return true;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().debug(&quot;Port &quot; + port + &quot; still in use&quot;, this.getClass().getName());</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

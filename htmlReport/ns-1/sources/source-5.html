@@ -1,0 +1,124 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > InstalledLocalContainer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container</a>
+</div>
+
+<h1>Coverage Summary for Class: InstalledLocalContainer (org.codehaus.cargo.container)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">InstalledLocalContainer$MockitoMock$L1uZuq1I</td>
+  </tr>
+  <tr>
+    <td class="name">InstalledLocalContainer$MockitoMock$L1uZuq1I$auxiliary$3ikisOhc</td>
+  </tr>
+  <tr>
+    <td class="name">InstalledLocalContainer$MockitoMock$L1uZuq1I$auxiliary$bdbQbUpy</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.internal.SpawnedContainer;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a local container that requires an installation to work. The installation is where the
+&nbsp; * container&#39;s runtime is located.
+&nbsp; */
+&nbsp;public interface InstalledLocalContainer extends LocalContainer, SpawnedContainer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * @return the directory where the container is installed. Note that we&#39;re returning a String
+&nbsp;     * instead of a File because we want to leave the possibility of using URIs for specifying the
+&nbsp;     * home location.
+&nbsp;     */
+&nbsp;    String getHome();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param home the directory where the container is installed. Note that we&#39;re passing a String
+&nbsp;     * instead of a File because we want to leave the possibility of using URIs for specifying the
+&nbsp;     * home location. &lt;b&gt;IMPORTANT&lt;/b&gt;: While some containers can deal with this parameter being
+&nbsp;     * set as a relative path, some others require this path to be set to an absolute directory.
+&nbsp;     * Please refer to the documentation of the server to ensure you give the path in the
+&nbsp;     * appropriate way. If in doubt, you can use absolute paths -that is known to work with all
+&nbsp;     * containers.
+&nbsp;     */
+&nbsp;    void setHome(String home);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

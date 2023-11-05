@@ -1,0 +1,388 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > User</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.property</a>
+</div>
+
+<h1>Coverage Summary for Class: User (org.codehaus.cargo.container.property)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">User</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (61/65)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.property;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represent an authenticating user for the Servlet container.
+&nbsp; */
+<b class="fc">&nbsp;public final class User</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * @see #setName(String)
+&nbsp;     */
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #setPassword(String)
+&nbsp;     */
+&nbsp;    private String password;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #addRoles(java.util.List)
+&nbsp;     */
+<b class="fc">&nbsp;    private List&lt;String&gt; roles = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param name the user name
+&nbsp;     */
+&nbsp;    public void setName(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the user name
+&nbsp;     */
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the authenticated user password.
+&nbsp;     * 
+&nbsp;     * @param password the user password
+&nbsp;     */
+&nbsp;    public void setPassword(String password)
+&nbsp;    {
+<b class="fc">&nbsp;        this.password = password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the user password
+&nbsp;     */
+&nbsp;    public String getPassword()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param role a role attached to this user
+&nbsp;     */
+&nbsp;    public void addRole(String role)
+&nbsp;    {
+<b class="fc">&nbsp;        this.roles.add(role);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param roles a list of roles attached to this user
+&nbsp;     */
+&nbsp;    public void addRoles(List&lt;String&gt; roles)
+&nbsp;    {
+<b class="fc">&nbsp;        this.roles.addAll(roles);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of roles attached to this user
+&nbsp;     */
+&nbsp;    public List&lt;String&gt; getRoles()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.roles;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object userObject)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean result = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (userObject != null &amp;&amp; userObject instanceof User)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            User user = (User) userObject;</b>
+<b class="fc">&nbsp;            if (user.getName().equals(getName()) &amp;&amp; user.getPassword().equals(getPassword()))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                result = user.getRoles().equals(getRoles());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int hashCode()
+&nbsp;    {
+<b class="nc">&nbsp;        return (getName() + getPassword()).hashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse a string representing the users (see {@link ServletPropertySet#USERS}.
+&nbsp;     * 
+&nbsp;     * @param usersAsString the string representing the users
+&nbsp;     * @return a list of {@link User} objects
+&nbsp;     */
+&nbsp;    public static List&lt;User&gt; parseUsers(String usersAsString)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;User&gt; users = new ArrayList&lt;User&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (usersAsString != null)</b>
+&nbsp;        {
+&nbsp;            // The format to parse is &quot;name1:pwd1:role11,...,role1N|name2:pwd2:role21,...,role2N|..&quot;
+<b class="fc">&nbsp;            StringTokenizer userTokens = new StringTokenizer(usersAsString, &quot;|&quot;);</b>
+<b class="fc">&nbsp;            while (userTokens.hasMoreTokens())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                users.add(parseUser(userTokens.nextToken()));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return users;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse a user defined in the format &quot;name:pwd:role1,...roleN&quot;.
+&nbsp;     * 
+&nbsp;     * @param userAsString the user defines as a string
+&nbsp;     * @return the parsed user
+&nbsp;     */
+&nbsp;    protected static User parseUser(String userAsString)
+&nbsp;    {
+<b class="fc">&nbsp;        if (userAsString.isEmpty())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ContainerException(&quot;User property has empty value.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        User user = new User();</b>
+&nbsp;
+<b class="fc">&nbsp;        StringTokenizer fieldTokens = new StringTokenizer(userAsString, &quot;:&quot;, true);</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            String userName = fieldTokens.nextToken().trim();</b>
+<b class="fc">&nbsp;            user.setName(userName);</b>
+&nbsp;
+&nbsp;            // Skip next delimiter
+<b class="fc">&nbsp;            fieldTokens.nextToken();</b>
+&nbsp;
+<b class="fc">&nbsp;            String password = fieldTokens.nextToken();</b>
+<b class="fc">&nbsp;            if (&quot;:&quot;.equals(password))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                user.setPassword(&quot;&quot;);</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                user.setPassword(password);</b>
+&nbsp;
+&nbsp;                // Consume next token if exists
+<b class="fc">&nbsp;                if (fieldTokens.hasMoreTokens())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    fieldTokens.nextToken();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (fieldTokens.hasMoreTokens())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String roles = fieldTokens.nextToken();</b>
+<b class="fc">&nbsp;                if (!&quot;:&quot;.equals(roles))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    user.addRoles(parseRoles(roles));</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new ContainerException(&quot;Invalid format for [&quot; + userAsString + &quot;]&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        catch (NoSuchElementException exception)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Invalid format for [&quot; + userAsString + &quot;]&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if (fieldTokens.hasMoreTokens())</b>
+&nbsp;        {
+&nbsp;            // We don&#39;t expect any more tokens
+<b class="fc">&nbsp;            throw new ContainerException(&quot;Invalid format for [&quot; + userAsString + &quot;]&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse roles defined as a list in the format &quot;role1,role2,...,roleN&quot;.
+&nbsp;     * 
+&nbsp;     * @param rolesAsString the roles defined as a string
+&nbsp;     * @return the parsed list of roles
+&nbsp;     */
+&nbsp;    protected static List&lt;String&gt; parseRoles(String rolesAsString)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;String&gt; roles = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        StringTokenizer roleTokens = new StringTokenizer(rolesAsString, &quot;,&quot;);</b>
+<b class="fc">&nbsp;        while (roleTokens.hasMoreTokens())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String roleToken = roleTokens.nextToken();</b>
+<b class="fc">&nbsp;            roles.add(roleToken);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return roles;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a user map indexed on the roles.
+&nbsp;     * 
+&nbsp;     * @param users list of {@link User} for which to extract roles from
+&nbsp;     * @return a map of roles containing users
+&nbsp;     */
+&nbsp;    public static Map&lt;String, List&lt;User&gt;&gt; createRoleMap(List&lt;User&gt; users)
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, List&lt;User&gt;&gt; roles = new HashMap&lt;String, List&lt;User&gt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (User user : users)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for (String role : user.getRoles())</b>
+&nbsp;            {
+&nbsp;                List&lt;User&gt; usersForRole;
+<b class="fc">&nbsp;                if (roles.containsKey(role))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    usersForRole = roles.get(role);</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    usersForRole = new ArrayList&lt;User&gt;();</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                if (!usersForRole.contains(user))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    usersForRole.add(user);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                roles.put(role, usersForRole);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return roles;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

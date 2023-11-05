@@ -1,0 +1,275 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > LogLevel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util.log</a>
+</div>
+
+<h1>Coverage Summary for Class: LogLevel (org.codehaus.cargo.util.log)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LogLevel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.5%
+  </span>
+  <span class="absValue">
+    (3/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41.4%
+  </span>
+  <span class="absValue">
+    (12/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util.log;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Definition of logging levels for Cargo&#39;s logs. A WARN level means only warnings are logged. An
+&nbsp; * INFO level means warnings and infos are logged. A DEBUG level means warnings, info and debug
+&nbsp; * messages are logged.
+&nbsp; * 
+&nbsp; * &lt;p&gt;
+&nbsp; * Note: There&#39;s no ERROR log level as all errors result in an exception being raised.
+&nbsp; * &lt;/p&gt;
+&nbsp; */
+&nbsp;public final class LogLevel implements Comparable&lt;LogLevel&gt;
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Represents a warning logging level.
+&nbsp;     */
+<b class="fc">&nbsp;    public static final LogLevel WARN = new LogLevel(&quot;warn&quot;, 0);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Represents an info logging level.
+&nbsp;     */
+<b class="fc">&nbsp;    public static final LogLevel INFO = new LogLevel(&quot;info&quot;, 1);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Represents a debug logging level.
+&nbsp;     */
+<b class="fc">&nbsp;    public static final LogLevel DEBUG = new LogLevel(&quot;debug&quot;, 2);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Log level.
+&nbsp;     */
+&nbsp;    private String level;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Volume of the logs that will be output.
+&nbsp;     */
+&nbsp;    private int logVolume;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param level the internal representation of the logging level. For example: &quot;warn&quot;, &quot;info&quot; or
+&nbsp;     * &quot;debug&quot;.
+&nbsp;     * @param logVolume the volume of logs that will be output. High numbers have higher volumes.
+&nbsp;     * This is an internal feature that allows us to have a simple {@link #compareTo(Object)}
+&nbsp;     * algorithm.
+&nbsp;     */
+&nbsp;    private LogLevel(String level, int logVolume)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.level = level;</b>
+<b class="fc">&nbsp;        this.logVolume = logVolume;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Transform a log level represented as a string into a {@link LogLevel} object.
+&nbsp;     * 
+&nbsp;     * @param levelAsString the string to transform
+&nbsp;     * @return the {@link LogLevel} object
+&nbsp;     */
+&nbsp;    public static LogLevel toLevel(String levelAsString)
+&nbsp;    {
+&nbsp;        LogLevel level;
+<b class="nc">&nbsp;        if (levelAsString.equalsIgnoreCase(INFO.getLevel()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            level = INFO;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (levelAsString.equalsIgnoreCase(WARN.getLevel()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            level = WARN;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (levelAsString.equalsIgnoreCase(DEBUG.getLevel()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            level = DEBUG;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Invalid log level [&quot; + levelAsString</b>
+&nbsp;                + &quot;]. Valid values are \&quot;debug\&quot;, \&quot;info\&quot; and \&quot;warn\&quot;.&quot;);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return level;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object object)
+&nbsp;    {
+<b class="nc">&nbsp;        boolean result = false;</b>
+<b class="nc">&nbsp;        if (object != null &amp;&amp; object instanceof LogLevel)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            LogLevel level = (LogLevel) object;</b>
+<b class="nc">&nbsp;            if (level.getLevel().equals(getLevel()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                result = true;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int hashCode()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.level.hashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int compareTo(LogLevel level)
+&nbsp;    {
+&nbsp;        int result;
+&nbsp;
+<b class="fc">&nbsp;        if (this.logVolume == level.logVolume)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            result = 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (this.logVolume &gt; level.logVolume)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            result = 1;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            result = -1;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the log level
+&nbsp;     */
+&nbsp;    public String getLevel()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.level;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString()
+&nbsp;    {
+<b class="nc">&nbsp;        return getLevel();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

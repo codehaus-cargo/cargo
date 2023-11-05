@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StandaloneLocalConfiguration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: StandaloneLocalConfiguration (org.codehaus.cargo.container.configuration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">StandaloneLocalConfiguration</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.configuration;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.XmlReplacement;
+&nbsp;
+&nbsp;/**
+&nbsp; * Using a standalone configuration allows Cargo to create a valid configuration for your container
+&nbsp; * in the directory of your choice. It uses default parameters and allows you to modify important
+&nbsp; * ones. If you find that there are parameters that you cannot modify using a standalone
+&nbsp; * configuration you should switch to an {@link ExistingLocalConfiguration}. However, doing so means
+&nbsp; * that you&#39;ll need to set up the configuration yourself on your local file system.
+&nbsp; */
+&nbsp;public interface StandaloneLocalConfiguration extends LocalConfiguration
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Adds an XML replacement.
+&nbsp;     * 
+&nbsp;     * @param xmlReplacement XML replacement to add.
+&nbsp;     */
+&nbsp;    void addXmlReplacement(XmlReplacement xmlReplacement);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds an XML replacement.
+&nbsp;     * 
+&nbsp;     * @param filename File in which to replace.
+&nbsp;     * @param xpathExpression XPath expression to look for.
+&nbsp;     * @param configurationPropertyName Name of the configuration property to set. The XML
+&nbsp;     * replacement will be ignored if the property is set to &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    void addXmlReplacement(String filename, String xpathExpression,
+&nbsp;        String configurationPropertyName);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds an XML replacement.
+&nbsp;     * 
+&nbsp;     * @param filename File in which to replace.
+&nbsp;     * @param xpathExpression XPath expression to look for.
+&nbsp;     * @param attributeName Attribute name to modify. If &lt;code&gt;null&lt;/code&gt;, the node&#39;s contents
+&nbsp;     * will be modified.
+&nbsp;     * @param configurationPropertyName Name of the configuration property to set. The XML
+&nbsp;     * replacement will be ignored if the property is set to &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+&nbsp;        String configurationPropertyName);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds an XML replacement.
+&nbsp;     * 
+&nbsp;     * @param filename File in which to replace.
+&nbsp;     * @param xpathExpression XPath expression to look for.
+&nbsp;     * @param attributeName Attribute name to modify. If &lt;code&gt;null&lt;/code&gt;, the node&#39;s contents
+&nbsp;     * will be modified.
+&nbsp;     * @param configurationPropertyName Name of the configuration property to set. The XML
+&nbsp;     * replacement will be ignored if the property is set to &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param replacementBehavior Behavior if XPath expression doesn&#39;t match anything.
+&nbsp;     */
+&nbsp;    void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+&nbsp;        String configurationPropertyName, XmlReplacement.ReplacementBehavior replacementBehavior);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes an XML replacement.
+&nbsp;     * 
+&nbsp;     * @param filename File in which to replace.
+&nbsp;     * @param xpathExpression XPath expression to look for.
+&nbsp;     */
+&nbsp;    void removeXmlReplacement(String filename, String xpathExpression);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes an XML replacement.
+&nbsp;     * 
+&nbsp;     * @param filename File in which to replace.
+&nbsp;     * @param xpathExpression XPath expression to look for.
+&nbsp;     * @param attributeName Attribute name to modify. If &lt;code&gt;null&lt;/code&gt;, the node&#39;s contents
+&nbsp;     * will be modified.
+&nbsp;     */
+&nbsp;    void removeXmlReplacement(String filename, String xpathExpression, String attributeName);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return All XML replacements.
+&nbsp;     */
+&nbsp;    List&lt;XmlReplacement&gt; getXmlReplacements();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

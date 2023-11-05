@@ -1,0 +1,340 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EjbRef</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp</a>
+</div>
+
+<h1>Coverage Summary for Class: EjbRef (org.codehaus.cargo.module.webapp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EjbRef</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a ejb-ref element of a web application descriptor.
+&nbsp; */
+&nbsp;public class EjbRef
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Constant representing an session ejb reference.
+&nbsp;     */
+&nbsp;    public static final String SESSION = &quot;Session&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constant representing an entity ejb reference.
+&nbsp;     */
+&nbsp;    public static final String ENTITY = &quot;Entity&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Name of the references. For example ejb/MyEjb.
+&nbsp;     */
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Class name of the ejb interface.
+&nbsp;     */
+&nbsp;    private String ejbInterface;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Class name of the ejb home interface.
+&nbsp;     */
+&nbsp;    private String ejbHomeInterface;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Name of the referenced ejb.
+&nbsp;     */
+&nbsp;    private String ejbName;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Jndi name of the referenced ejb.
+&nbsp;     */
+&nbsp;    private String jndiName;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Indicates if the referenced ejb is a local ejb.
+&nbsp;     */
+<b class="nc">&nbsp;    private boolean local = true;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Type of ejb. Possible value is {@link SESSION} or {@link ENTITY}.
+&nbsp;     */
+<b class="nc">&nbsp;    private String type = SESSION;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Empty constructor.
+&nbsp;     */
+&nbsp;    public EjbRef()
+<b class="nc">&nbsp;    {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construct a new ejb-ref.
+&nbsp;     * 
+&nbsp;     * @param name Name of the reference. For example ejb/MyEjb.
+&nbsp;     * @param ejbInterface Class name of the ejb interface.
+&nbsp;     * @param ejbHomeInterface Class name of the ejb home interface.
+&nbsp;     */
+&nbsp;    public EjbRef(String name, String ejbInterface, String ejbHomeInterface)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.name = name;</b>
+<b class="nc">&nbsp;        this.ejbInterface = ejbInterface;</b>
+<b class="nc">&nbsp;        this.ejbHomeInterface = ejbHomeInterface;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the ejb home inteface.
+&nbsp;     * 
+&nbsp;     * @return ejb home interface.
+&nbsp;     */
+&nbsp;    public String getEjbHomeInterface()
+&nbsp;    {
+<b class="nc">&nbsp;        return ejbHomeInterface;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the ejb home interface.
+&nbsp;     * 
+&nbsp;     * @param ejbHomeInterface the home interface of the ejb.
+&nbsp;     */
+&nbsp;    public void setEjbHomeInterface(String ejbHomeInterface)
+&nbsp;    {
+<b class="nc">&nbsp;        this.ejbHomeInterface = ejbHomeInterface;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the ejb inteface.
+&nbsp;     * 
+&nbsp;     * @return ejb interface.
+&nbsp;     */
+&nbsp;    public String getEjbInterface()
+&nbsp;    {
+<b class="nc">&nbsp;        return ejbInterface;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the ejb interface.
+&nbsp;     * 
+&nbsp;     * @param ejbInterface the interface of the ejb.
+&nbsp;     */
+&nbsp;    public void setEjbInterface(String ejbInterface)
+&nbsp;    {
+<b class="nc">&nbsp;        this.ejbInterface = ejbInterface;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the ejb name.
+&nbsp;     * 
+&nbsp;     * @return ejb name.
+&nbsp;     */
+&nbsp;    public String getEjbName()
+&nbsp;    {
+<b class="nc">&nbsp;        return ejbName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the ejb name. This will result in an ejb ref by ejb-link.
+&nbsp;     * 
+&nbsp;     * @param ejbName the name of the ejb.
+&nbsp;     */
+&nbsp;    public void setEjbName(String ejbName)
+&nbsp;    {
+<b class="nc">&nbsp;        this.ejbName = ejbName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the jndi inteface.
+&nbsp;     * 
+&nbsp;     * @return jndi interface.
+&nbsp;     */
+&nbsp;    public String getJndiName()
+&nbsp;    {
+<b class="nc">&nbsp;        return jndiName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the jndi name. This will result in an ejb ref by vendor specific mappings.
+&nbsp;     * 
+&nbsp;     * @param jndiName jndi name of the referenced ejb.
+&nbsp;     */
+&nbsp;    public void setJndiName(String jndiName)
+&nbsp;    {
+<b class="nc">&nbsp;        this.jndiName = jndiName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Indicates if the ejb referenced is a local ejb.
+&nbsp;     * 
+&nbsp;     * @return true if the ejb referenced is a local ejb.
+&nbsp;     */
+&nbsp;    public boolean isLocal()
+&nbsp;    {
+<b class="nc">&nbsp;        return local;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set if the referenced ejb is a local ejb.
+&nbsp;     * 
+&nbsp;     * @param local true if the referenced ejb is local.
+&nbsp;     */
+&nbsp;    public void setLocal(boolean local)
+&nbsp;    {
+<b class="nc">&nbsp;        this.local = local;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the name of the reference.
+&nbsp;     * 
+&nbsp;     * @return name of the reference.
+&nbsp;     */
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="nc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the name of the reference.
+&nbsp;     * 
+&nbsp;     * @param name name of the reference.
+&nbsp;     */
+&nbsp;    public void setName(String name)
+&nbsp;    {
+<b class="nc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the type of reference.
+&nbsp;     * 
+&nbsp;     * @see EjbRef#SESSION
+&nbsp;     * @see EjbRef#ENTITY
+&nbsp;     * @return type of reference.
+&nbsp;     */
+&nbsp;    public String getType()
+&nbsp;    {
+<b class="nc">&nbsp;        return type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the type of the reference.
+&nbsp;     * 
+&nbsp;     * @see EjbRef#SESSION
+&nbsp;     * @see EjbRef#ENTITY
+&nbsp;     * @param type type of reference.
+&nbsp;     */
+&nbsp;    public void setType(String type)
+&nbsp;    {
+<b class="nc">&nbsp;        this.type = type;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

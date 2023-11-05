@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MultipartFormWriter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.internal.http.writer</a>
+</div>
+
+<h1>Coverage Summary for Class: MultipartFormWriter (org.codehaus.cargo.container.internal.http.writer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MultipartFormWriter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.internal.http.writer;
+&nbsp;
+&nbsp;import java.io.DataOutputStream;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStream;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.internal.http.MultipartFormContentType;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a form writer capable of sending files and form data as multipart chunks.
+&nbsp; */
+&nbsp;public class MultipartFormWriter implements AutoCloseable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The line end characters.
+&nbsp;     */
+&nbsp;    private static final String NEWLINE = &quot;\r\n&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The boundary prefix.
+&nbsp;     */
+&nbsp;    private static final String PREFIX = &quot;--&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The output stream to write to.
+&nbsp;     */
+<b class="nc">&nbsp;    private DataOutputStream out = null;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The multipart boundary string.
+&nbsp;     */
+<b class="nc">&nbsp;    private String boundary = null;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Attaches to the outputstream and allows writing form data or files to it.
+&nbsp;     * 
+&nbsp;     * @param contentType The form content type
+&nbsp;     * @param os the output stream
+&nbsp;     */
+&nbsp;    public MultipartFormWriter(MultipartFormContentType contentType, OutputStream os)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        if (os == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Output stream is required.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.out = new DataOutputStream(os);</b>
+<b class="nc">&nbsp;        this.boundary = contentType.getBoundary();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes a string field value.
+&nbsp;     * 
+&nbsp;     * @param name the field name (required)
+&nbsp;     * @param value the field value
+&nbsp;     * @throws IOException on input/output errors
+&nbsp;     */
+&nbsp;    public void writeField(String name, String value) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        if (name == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Name cannot be null or empty.&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // write boundary
+<b class="nc">&nbsp;        out.writeBytes(PREFIX);</b>
+<b class="nc">&nbsp;        out.writeBytes(boundary);</b>
+<b class="nc">&nbsp;        out.writeBytes(NEWLINE);</b>
+&nbsp;        // write content header
+<b class="nc">&nbsp;        out.writeBytes(&quot;Content-Disposition: form-data; name=\&quot;&quot; + name + &quot;\&quot;&quot;);</b>
+<b class="nc">&nbsp;        out.writeBytes(NEWLINE);</b>
+<b class="nc">&nbsp;        out.writeBytes(NEWLINE);</b>
+&nbsp;        // write content
+<b class="nc">&nbsp;        if (value != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            out.writeBytes(value);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        out.writeBytes(NEWLINE);</b>
+<b class="nc">&nbsp;        out.flush();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes a file&#39;s contents.
+&nbsp;     * 
+&nbsp;     * @param name the field name
+&nbsp;     * @param file the file (the file must exist)
+&nbsp;     * @throws IOException on input/output errors
+&nbsp;     */
+&nbsp;    public void writeFile(String name, File file) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        writeFile(name, file, &quot;application/octet-stream&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes a input stream&#39;s contents.
+&nbsp;     * 
+&nbsp;     * @param name the field name
+&nbsp;     * @param file the file
+&nbsp;     * @param mimeType The file content type
+&nbsp;     * @throws IOException on input/output errors
+&nbsp;     */
+&nbsp;    public void writeFile(String name, File file, String mimeType) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        if (name == null || name.trim().isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Name cannot be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (file == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;File cannot be null.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!file.exists())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;File does not exist.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (file.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;File cannot be a directory.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (mimeType == null || mimeType.trim().isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;File content type cannot be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        try (InputStream fileInputStream = new FileInputStream(file))</b>
+&nbsp;        {
+&nbsp;            // write boundary
+<b class="nc">&nbsp;            out.writeBytes(PREFIX);</b>
+<b class="nc">&nbsp;            out.writeBytes(boundary);</b>
+<b class="nc">&nbsp;            out.writeBytes(NEWLINE);</b>
+&nbsp;            // write content header
+<b class="nc">&nbsp;            out.writeBytes(&quot;Content-Disposition: form-data; name=\&quot;&quot; + name + &quot;\&quot;; filename=\&quot;&quot;</b>
+<b class="nc">&nbsp;                + file.getName() + &quot;\&quot;&quot;);</b>
+<b class="nc">&nbsp;            out.writeBytes(NEWLINE);</b>
+<b class="nc">&nbsp;            out.writeBytes(&quot;Content-Type: &quot; + mimeType);</b>
+<b class="nc">&nbsp;            out.writeBytes(NEWLINE);</b>
+<b class="nc">&nbsp;            out.writeBytes(NEWLINE);</b>
+&nbsp;            // write content
+<b class="nc">&nbsp;            byte[] data = new byte[1024];</b>
+<b class="nc">&nbsp;            int r = 0;</b>
+<b class="nc">&nbsp;            while ((r = fileInputStream.read(data, 0, data.length)) != -1)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                out.write(data, 0, r);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            out.writeBytes(NEWLINE);</b>
+<b class="nc">&nbsp;            out.flush();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void close() throws IOException
+&nbsp;    {
+&nbsp;        // write final boundary
+<b class="nc">&nbsp;        out.writeBytes(PREFIX);</b>
+<b class="nc">&nbsp;        out.writeBytes(boundary);</b>
+<b class="nc">&nbsp;        out.writeBytes(PREFIX);</b>
+<b class="nc">&nbsp;        out.writeBytes(NEWLINE);</b>
+<b class="nc">&nbsp;        out.flush();</b>
+<b class="nc">&nbsp;        out.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

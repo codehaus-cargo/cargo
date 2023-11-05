@@ -1,0 +1,930 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > HttpRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.internal.http</a>
+</div>
+
+<h1>Coverage Summary for Class: HttpRequest (org.codehaus.cargo.container.internal.http)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HttpRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    18.8%
+  </span>
+  <span class="absValue">
+    (3/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.7%
+  </span>
+  <span class="absValue">
+    (16/208)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">HttpRequest$1</td>
+  </tr>
+  <tr>
+    <td class="name">HttpRequest$NonceCounter</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (3/9)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">HttpRequest$NonceCounter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">HttpRequest$PermissiveHostnameVerifier</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">HttpRequest$PermissiveTrustManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    19.2%
+  </span>
+  <span class="absValue">
+    (5/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.9%
+  </span>
+  <span class="absValue">
+    (20/225)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.internal.http;
+&nbsp;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.io.OutputStreamWriter;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.security.KeyManagementException;
+&nbsp;import java.security.MessageDigest;
+&nbsp;import java.security.NoSuchAlgorithmException;
+&nbsp;import java.util.Base64;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.LinkedHashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import javax.net.ssl.HostnameVerifier;
+&nbsp;import javax.net.ssl.HttpsURLConnection;
+&nbsp;import javax.net.ssl.SSLContext;
+&nbsp;import javax.net.ssl.SSLSession;
+&nbsp;import javax.net.ssl.TrustManager;
+&nbsp;import javax.net.ssl.X509TrustManager;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * HTTP(S) request class.
+&nbsp; */
+&nbsp;public class HttpRequest extends LoggedObject
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Size of the buffers / chunks used when sending files to the HTTP server.&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * When trying to upload large amount of data the internal connection buffer can become too
+&nbsp;     * large and exceed the heap size, leading to an {@link OutOfMemoryError}. This was fixed in
+&nbsp;     * JDK 1.5 by introducing {@link HttpURLConnection#setChunkedStreamingMode(int)}.&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * As per &lt;a href=&quot;https://codehaus-cargo.atlassian.net/browse/CARGO-1418&quot;&gt;CARGO-1418&lt;/a&gt;, use
+&nbsp;     * a sensible chunk size for fast links.
+&nbsp;     */
+&nbsp;    protected static final int BUFFER_CHUNK_SIZE = 256 * 1024;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * cache of nonce values seen
+&nbsp;     */
+<b class="fc">&nbsp;    private static final NonceCounter NONCE_COUNTER = new NonceCounter();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * URL to be called.
+&nbsp;     */
+&nbsp;    private URL url;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request timeout.
+&nbsp;     */
+&nbsp;    private long timeout;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Username to use.
+&nbsp;     */
+&nbsp;    private String username;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Password to use.
+&nbsp;     */
+&nbsp;    private String password;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request header map.
+&nbsp;     */
+&nbsp;    private Map&lt;String, String&gt; requestProperties;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * String request body.
+&nbsp;     */
+&nbsp;    private String requestBody;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param url URL to be called.
+&nbsp;     */
+&nbsp;    public HttpRequest(URL url)
+&nbsp;    {
+<b class="nc">&nbsp;        this(url, 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param url URL to be called.
+&nbsp;     * @param timeout Request timeout.
+&nbsp;     */
+&nbsp;    public HttpRequest(URL url, long timeout)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.url = url;</b>
+<b class="nc">&nbsp;        this.timeout = timeout;</b>
+<b class="nc">&nbsp;        this.requestProperties = new HashMap&lt;String, String&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param propertyName Name of request header property.
+&nbsp;     * @param propertyValue Value of request header property.
+&nbsp;     */
+&nbsp;    public void addRequestProperty(String propertyName, String propertyValue)
+&nbsp;    {
+<b class="nc">&nbsp;        this.requestProperties.put(propertyName, propertyValue);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param requestBody String request body to set.
+&nbsp;     */
+&nbsp;    public void setRequestBody(String requestBody)
+&nbsp;    {
+<b class="nc">&nbsp;        this.requestBody = requestBody;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set HTTP authentication.
+&nbsp;     * 
+&nbsp;     * @param username User name.
+&nbsp;     * @param password Password.
+&nbsp;     */
+&nbsp;    public void setAuthentication(final String username, final String password)
+&nbsp;    {
+<b class="nc">&nbsp;        this.username = username;</b>
+<b class="nc">&nbsp;        this.password = password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return Result of HTTP GET call of this connection.
+&nbsp;     * @throws IOException If connecting to the server fails.
+&nbsp;     */
+&nbsp;    public HttpResult get() throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        return connect(&quot;GET&quot;, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return Result of HTTP POST call of this connection.
+&nbsp;     * @throws IOException If connecting to the server fails.
+&nbsp;     */
+&nbsp;    public HttpResult post() throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        return connect(&quot;POST&quot;, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return Result of HTTP PUT call of this connection.
+&nbsp;     * @throws IOException If connecting to the server fails.
+&nbsp;     */
+&nbsp;    public HttpResult put() throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        return connect(&quot;PUT&quot;, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return Result of HTTP DELETE call of this connection.
+&nbsp;     * @throws IOException If connecting to the server fails.
+&nbsp;     */
+&nbsp;    public HttpResult delete() throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        return connect(&quot;DELETE&quot;, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Connect to server and execute defined HTTP method call.
+&nbsp;     * 
+&nbsp;     * @param httpMethod HTTP method to be called.
+&nbsp;     * @param digestData HTTP Digest authentication data, if available
+&nbsp;     * @return the HTTP(S) result containing -1 as response code if no connection could be
+&nbsp;     * established
+&nbsp;     * @throws IOException If connecting to the server fails.
+&nbsp;     */
+&nbsp;    private HttpResult connect(String httpMethod, String digestData) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        getLogger().debug(</b>
+<b class="nc">&nbsp;            &quot;Calling [&quot; + url + &quot;] with timeout &quot; + this.timeout, this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        HttpURLConnection connection = null;</b>
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            if (url.getProtocol().equalsIgnoreCase(&quot;https&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                TrustManager[] trustAll = {new PermissiveTrustManager()};</b>
+<b class="nc">&nbsp;                SSLContext sc = SSLContext.getInstance(&quot;SSL&quot;);</b>
+<b class="nc">&nbsp;                sc.init(null, trustAll, new java.security.SecureRandom());</b>
+<b class="nc">&nbsp;                HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());</b>
+&nbsp;
+<b class="nc">&nbsp;                connection = (HttpsURLConnection) url.openConnection();</b>
+&nbsp;
+<b class="nc">&nbsp;                HostnameVerifier verifyAll = new PermissiveHostnameVerifier();</b>
+<b class="nc">&nbsp;                ((HttpsURLConnection) connection).setHostnameVerifier(verifyAll);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                connection = (HttpURLConnection) url.openConnection();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            connection.setRequestMethod(httpMethod);</b>
+&nbsp;
+<b class="nc">&nbsp;            connection.setAllowUserInteraction(false);</b>
+<b class="nc">&nbsp;            connection.setDoInput(true);</b>
+<b class="nc">&nbsp;            connection.setUseCaches(false);</b>
+<b class="nc">&nbsp;            if (timeout != 0)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                connection.setReadTimeout((int) timeout);</b>
+<b class="nc">&nbsp;                connection.setConnectTimeout((int) timeout);</b>
+&nbsp;            }
+&nbsp;            // Do not forcibly close the connection, rather have it kept alive for efficient HTTP
+&nbsp;            // resource pooling in case of multiple requests to the same server
+&nbsp;            // connection.setRequestProperty(&quot;Connection&quot;, &quot;close&quot;);
+&nbsp;
+<b class="nc">&nbsp;            if (digestData != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                connection.setRequestProperty(&quot;Authorization&quot;, digestData);</b>
+<b class="nc">&nbsp;                getLogger().debug(&quot;Set Digest authentication&quot;, this.getClass().getName());</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                String userInfo = url.getUserInfo();</b>
+<b class="nc">&nbsp;                if (userInfo != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    userInfo = Base64.getEncoder().encodeToString(</b>
+<b class="nc">&nbsp;                        userInfo.getBytes(StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;                    connection.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot; + userInfo);</b>
+&nbsp;
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Set Basic authentication based on URL user information&quot;,</b>
+<b class="nc">&nbsp;                        this.getClass().getName());</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else if (this.username != null &amp;&amp; !this.username.isEmpty())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;                    sb.append(username).append(&#39;:&#39;);</b>
+<b class="nc">&nbsp;                    if (password != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        sb.append(password);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    userInfo = Base64.getEncoder().encodeToString(</b>
+<b class="nc">&nbsp;                        sb.toString().getBytes(StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;                    connection.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot; + userInfo);</b>
+&nbsp;
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Set Basic authentication based on username/password&quot;,</b>
+<b class="nc">&nbsp;                        this.getClass().getName());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            // Add optional request properties specified by the caller
+<b class="nc">&nbsp;            if (requestProperties != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                for (Map.Entry&lt;String, String&gt; requestProperty : requestProperties.entrySet())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    String key = requestProperty.getKey();</b>
+<b class="nc">&nbsp;                    String value = requestProperty.getValue();</b>
+&nbsp;
+<b class="nc">&nbsp;                    connection.setRequestProperty(key, value);</b>
+&nbsp;
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Added property [&quot; + key + &quot;] = [&quot; + value + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                        this.getClass().getName());</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            getLogger().debug(&quot;Sending request and writing to output stream if necessary&quot;,</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                writeOutputStream(connection);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (IOException e)</b>
+&nbsp;            {
+&nbsp;                // CARGO-1569: When there is a need for Digest authentication, certain versions of
+&nbsp;                // WildFly aggressively close the unauthenticated stream before the
+&nbsp;                // writeOutputStream method finishes, which in turn causes an IOException
+<b class="nc">&nbsp;                if (connection.getResponseCode() != 401)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw e;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                String wwwAuthenticate = connection.getHeaderField(&quot;WWW-Authenticate&quot;);</b>
+<b class="nc">&nbsp;                if (wwwAuthenticate == null || !wwwAuthenticate.startsWith(&quot;Digest &quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw e;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            int responseCode = connection.getResponseCode();</b>
+<b class="nc">&nbsp;            getLogger().debug(&quot;Got response code [&quot; + responseCode + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;            if (responseCode == 401)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String wwwAuthenticate = connection.getHeaderField(&quot;WWW-Authenticate&quot;);</b>
+<b class="nc">&nbsp;                if (digestData == null &amp;&amp; wwwAuthenticate != null</b>
+<b class="nc">&nbsp;                    &amp;&amp; wwwAuthenticate.startsWith(&quot;Digest &quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Server requests Digest authentication&quot;,</b>
+<b class="nc">&nbsp;                        getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;                    String realm = extractHeaderComponent(wwwAuthenticate, &quot;realm&quot;);</b>
+<b class="nc">&nbsp;                    String qop = extractHeaderComponent(wwwAuthenticate, &quot;qop&quot;);</b>
+<b class="nc">&nbsp;                    String nonce = extractHeaderComponent(wwwAuthenticate, &quot;nonce&quot;);</b>
+<b class="nc">&nbsp;                    String opaque = extractHeaderComponent(wwwAuthenticate, &quot;opaque&quot;);</b>
+<b class="nc">&nbsp;                    String algorithm = extractHeaderComponent(wwwAuthenticate, &quot;algorithm&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                    if (realm == null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        HttpResult result = new HttpResult();</b>
+<b class="nc">&nbsp;                        result.setResponseCode(-1);</b>
+<b class="nc">&nbsp;                        result.setResponseMessage(</b>
+&nbsp;                            &quot;The server requested a Digest authentication but the realm is not &quot;
+&nbsp;                                + &quot;provided&quot;);
+<b class="nc">&nbsp;                        return result;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    else if (nonce == null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        HttpResult result = new HttpResult();</b>
+<b class="nc">&nbsp;                        result.setResponseCode(-1);</b>
+<b class="nc">&nbsp;                        result.setResponseMessage(</b>
+&nbsp;                            &quot;The server requested a Digest authentication but the nonce is not &quot;
+&nbsp;                                + &quot;provided&quot;);
+<b class="nc">&nbsp;                        return result;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (qop != null &amp;&amp; !&quot;auth&quot;.equals(qop))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        HttpResult result = new HttpResult();</b>
+<b class="nc">&nbsp;                        result.setResponseCode(-1);</b>
+<b class="nc">&nbsp;                        result.setResponseMessage(</b>
+&nbsp;                            &quot;The server requested a Digest authentication but the qop is set to [&quot;
+&nbsp;                                + qop + &quot;] instead of [auth]&quot;);
+<b class="nc">&nbsp;                        return result;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (algorithm == null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        algorithm = &quot;MD5&quot;;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    MessageDigest digest = MessageDigest.getInstance(algorithm);</b>
+&nbsp;
+<b class="nc">&nbsp;                    String ha1 = this.username + &quot;:&quot; + realm + &quot;:&quot; + this.password;</b>
+<b class="nc">&nbsp;                    byte[] hash = digest.digest(ha1.getBytes(StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;                    StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;                    for (byte hashByte : hash)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        sb.append(String.format(&quot;%02x&quot;, hashByte));</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    ha1 = sb.toString();</b>
+&nbsp;
+&nbsp;                    String uri;
+<b class="nc">&nbsp;                    String uriPath = url.getPath();</b>
+<b class="nc">&nbsp;                    String uriQuery = url.getQuery();</b>
+<b class="nc">&nbsp;                    if (uriQuery != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        uri = uriPath + &quot;?&quot; + uriQuery;</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="nc">&nbsp;                        uri = uriPath;</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    String ha2 = httpMethod;</b>
+<b class="nc">&nbsp;                    ha2 += &quot;:&quot; + uri;</b>
+<b class="nc">&nbsp;                    hash = digest.digest(ha2.getBytes(StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;                    sb = new StringBuilder();</b>
+<b class="nc">&nbsp;                    for (byte hashByte : hash)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        sb.append(String.format(&quot;%02x&quot;, hashByte));</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    ha2 = sb.toString();</b>
+&nbsp;
+<b class="nc">&nbsp;                    String nc = NONCE_COUNTER.count(nonce);</b>
+&nbsp;
+<b class="nc">&nbsp;                    String cnonce =</b>
+<b class="nc">&nbsp;                        String.format(&quot;%08x&quot;, (long) (Math.random() * 4294967295.0));</b>
+<b class="nc">&nbsp;                    cnonce = cnonce.substring(cnonce.length() - 8);</b>
+&nbsp;
+&nbsp;                    String ha3;
+<b class="nc">&nbsp;                    if (qop != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        ha3 = ha1 + &quot;:&quot; + nonce + &quot;:&quot; + nc + &quot;:&quot; + cnonce + &quot;:&quot; + qop + &quot;:&quot; + ha2;</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="nc">&nbsp;                        ha3 = ha1 + &quot;:&quot; + nonce + &quot;:&quot; + ha2;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    hash = digest.digest(ha3.getBytes(StandardCharsets.UTF_8));</b>
+<b class="nc">&nbsp;                    sb = new StringBuilder();</b>
+<b class="nc">&nbsp;                    for (byte hashByte : hash)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        sb.append(String.format(&quot;%02x&quot;, hashByte));</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    ha3 = sb.toString();</b>
+&nbsp;
+<b class="nc">&nbsp;                    wwwAuthenticate = &quot;Digest username=\&quot;&quot; + this.username + &quot;\&quot;, &quot;</b>
+&nbsp;                        + &quot;realm=\&quot;&quot; + realm + &quot;\&quot;, &quot;
+&nbsp;                        + &quot;nonce=\&quot;&quot; + nonce + &quot;\&quot;, &quot;
+&nbsp;                        + &quot;uri=\&quot;&quot; + uri + &quot;\&quot;, &quot;
+&nbsp;                        + &quot;algorithm=&quot; + algorithm + &quot;, &quot;
+&nbsp;                        + &quot;nc=&quot; + nc + &quot;, &quot;
+&nbsp;                        + &quot;cnonce=\&quot;&quot; + cnonce + &quot;\&quot;, &quot;
+&nbsp;                        + &quot;response=\&quot;&quot; + ha3 + &quot;\&quot;&quot;;
+<b class="nc">&nbsp;                    if (qop != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        wwwAuthenticate += &quot;, qop=\&quot;&quot; + qop + &quot;\&quot;&quot;;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (opaque != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        wwwAuthenticate += &quot;, opaque=\&quot;&quot; + opaque + &quot;\&quot;&quot;;</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Digest authentication with ha=&quot; + ha1 + &quot;, ha2=&quot; + ha2,</b>
+<b class="nc">&nbsp;                        getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;                    return connect(httpMethod, wwwAuthenticate);</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Server requests [&quot; + wwwAuthenticate + &quot;] authentication&quot;,</b>
+<b class="nc">&nbsp;                        getClass().getName());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            HttpResult result = new HttpResult();</b>
+<b class="nc">&nbsp;            result.setResponseCode(responseCode);</b>
+<b class="nc">&nbsp;            result.setResponseMessage(connection.getResponseMessage());</b>
+<b class="nc">&nbsp;            result.setResponseBody(readFully(connection));</b>
+<b class="nc">&nbsp;            return result;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (KeyManagementException | NoSuchAlgorithmException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IOException(e);</b>
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            try</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (connection != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    connection.disconnect();</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Throwable ignored)</b>
+&nbsp;            {
+&nbsp;                // Ignored
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If necessary, writes to the output stream of the HTTP URL connection. By default, the
+&nbsp;     * {@link #requestBody} is written as output.
+&nbsp;     * 
+&nbsp;     * @param connection the HTTP URL connection to read from
+&nbsp;     * @exception IOException if an error happens during the connection establishment or write
+&nbsp;     */
+&nbsp;    protected void writeOutputStream(HttpURLConnection connection) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.requestBody != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            connection.setDoOutput(true);</b>
+<b class="nc">&nbsp;            try (OutputStream outputStream = connection.getOutputStream();</b>
+<b class="nc">&nbsp;                BufferedWriter httpRequestBodyWriter =</b>
+&nbsp;                    new BufferedWriter(new OutputStreamWriter(outputStream)))
+&nbsp;            {
+<b class="nc">&nbsp;                httpRequestBodyWriter.write(this.requestBody);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            connection.connect();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Fully reads the input stream from the passed HTTP URL connection to prevent (harmless)
+&nbsp;     * server-side exception.
+&nbsp;     * 
+&nbsp;     * @param connection the HTTP URL connection to read from
+&nbsp;     * @exception IOException if an error happens during the read
+&nbsp;     * @return the HTTP connection response body
+&nbsp;     */
+&nbsp;    private String readFully(HttpURLConnection connection) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        String responseBody = &quot;&quot;;</b>
+&nbsp;
+&nbsp;        // Only read if there is data to read ... The problem is that not all servers return a
+&nbsp;        // content-length header. If there is no header getContentLength() returns -1. It seems to
+&nbsp;        // work and it seems that all servers that return no content-length header also do not
+&nbsp;        // block on read() operations!
+<b class="nc">&nbsp;        if (connection.getContentLength() != 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Charset charset = extractCharset(connection.getContentType());</b>
+&nbsp;
+&nbsp;            // try getting data from the input stream for successful response,
+&nbsp;            // otherwise from the error stream
+<b class="nc">&nbsp;            int responseCode = connection.getResponseCode();</b>
+<b class="nc">&nbsp;            if (responseCode &gt;= 200 &amp;&amp; responseCode &lt; 300)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                InputStream in = connection.getInputStream();</b>
+<b class="nc">&nbsp;                if (in != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    responseBody = readStreamData(in, charset);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                InputStream in = connection.getErrorStream();</b>
+<b class="nc">&nbsp;                if (in != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    responseBody = readStreamData(in, charset);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return responseBody;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extract charset from &lt;code&gt;Content-Type&lt;/code&gt; header.
+&nbsp;     * 
+&nbsp;     * @param contentType &lt;code&gt;Content-Type&lt;/code&gt; header.
+&nbsp;     * @return Character set extracted, UTF-8 if no valid charset found.
+&nbsp;     */
+&nbsp;    protected static Charset extractCharset(String contentType)
+&nbsp;    {
+<b class="fc">&nbsp;        Charset charset = StandardCharsets.UTF_8;</b>
+<b class="fc">&nbsp;        if (contentType != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int charsetStart = contentType.indexOf(&quot;; charset=&quot;);</b>
+<b class="fc">&nbsp;            if (charsetStart &gt; 0)</b>
+&nbsp;            {
+&nbsp;                try
+&nbsp;                {
+<b class="fc">&nbsp;                    charset = Charset.forName(contentType.substring(charsetStart + 10));</b>
+&nbsp;                }
+<b class="nc">&nbsp;                catch (Exception ignored)</b>
+&nbsp;                {
+&nbsp;                    // Ignore parsing charset
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return charset;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param stream the stream from which to read data from
+&nbsp;     * @param charset the charset to use when constructing the string
+&nbsp;     * @return the stream data
+&nbsp;     * @throws IOException in case of error
+&nbsp;     */
+&nbsp;    private String readStreamData(InputStream stream, Charset charset) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        InputStreamReader reader = new InputStreamReader(stream, charset);</b>
+&nbsp;
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="nc">&nbsp;        char[] chars = new char[1024];</b>
+&nbsp;        int n;
+<b class="nc">&nbsp;        while ((n = reader.read(chars, 0, chars.length)) != -1)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            sb.append(chars, 0, n);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // See: https://codehaus-cargo.atlassian.net/browse/CARGO-1342
+<b class="nc">&nbsp;        String response = sb.toString().replaceAll(&quot;\\r\\n?&quot;, &quot;\n&quot;);</b>
+<b class="nc">&nbsp;        if (response.startsWith(&quot;HTTP/&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            int httpHeaderBodySeparation = response.indexOf(&quot;\n\n&quot;);</b>
+<b class="nc">&nbsp;            if (httpHeaderBodySeparation != -1)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String splitResponse = response.substring(httpHeaderBodySeparation + 2);</b>
+<b class="nc">&nbsp;                httpHeaderBodySeparation = splitResponse.indexOf(&#39;\n&#39;);</b>
+<b class="nc">&nbsp;                if (httpHeaderBodySeparation != -1)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    response = splitResponse.substring(httpHeaderBodySeparation + 1);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return response;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extract a component of a header.
+&nbsp;     * 
+&nbsp;     * @param header header to extract from
+&nbsp;     * @param component component to extract
+&nbsp;     * @return Extracted component, null if component doesn&#39;t exist in header
+&nbsp;     */
+&nbsp;    protected static String extractHeaderComponent(String header, String component)
+&nbsp;    {
+<b class="fc">&nbsp;        String fullComponent = component + &quot;=\&quot;&quot;;</b>
+<b class="fc">&nbsp;        int fullComponentLength = fullComponent.length();</b>
+<b class="fc">&nbsp;        int index1 = header.indexOf(fullComponent);</b>
+<b class="fc">&nbsp;        if (index1 == -1)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        int index2 = header.indexOf(&#39;&quot;&#39;, index1 + fullComponentLength);</b>
+<b class="fc">&nbsp;        if (index2 == -1)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return header.substring(index1 + fullComponentLength, index2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * NonceCounter provides a 1,000 item LRU cache counting
+&nbsp;     * the number of times a nonce has been seen.
+&nbsp;     */
+&nbsp;    private static class NonceCounter
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * LRU cache size limit.
+&nbsp;         */
+<b class="fc">&nbsp;        private final int maxLruCacheSizeLimit = 1000;</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Map holds the nonce values and their counts
+&nbsp;         */
+&nbsp;        private Map&lt;String, Integer&gt; nonces;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Nonce counter.
+&nbsp;         */
+&nbsp;        public NonceCounter()
+<b class="fc">&nbsp;        {</b>
+<b class="fc">&nbsp;            nonces = new LinkedHashMap&lt;String, Integer&gt;(maxLruCacheSizeLimit + 1, .75F, true)</b>
+<b class="fc">&nbsp;            {</b>
+&nbsp;                /**
+&nbsp;                 * {@inheritDoc}
+&nbsp;                 */
+&nbsp;                @Override
+&nbsp;                public boolean removeEldestEntry(Map.Entry&lt;String, Integer&gt; eldest)
+&nbsp;                {
+<b class="nc">&nbsp;                    return size() &gt; maxLruCacheSizeLimit;</b>
+&nbsp;                }
+&nbsp;            };
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Count returns a hexadecimal string counting the number
+&nbsp;         * of times nonce has been seen.  The first value returned
+&nbsp;         * for a nonce is 00000001.
+&nbsp;         * 
+&nbsp;         * @param nonce the nonce value to count
+&nbsp;         * @return formatted nonce value
+&nbsp;         */
+&nbsp;        public synchronized String count(String nonce)
+&nbsp;        {
+<b class="nc">&nbsp;            Integer count = nonces.get(nonce);</b>
+<b class="nc">&nbsp;            if (count == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                count = 1;</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                count = count + 1;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            nonces.put(nonce, count);</b>
+&nbsp;
+<b class="nc">&nbsp;            return String.format(&quot;%08x&quot;, count);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A TrustManager that does not validate certificate chains.
+&nbsp;     */
+<b class="nc">&nbsp;    private static class PermissiveTrustManager implements X509TrustManager</b>
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public java.security.cert.X509Certificate[] getAcceptedIssuers()
+&nbsp;        {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[],
+&nbsp;         * String)
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType)
+&nbsp;        {
+&nbsp;            // Method purposefully left empty
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[],
+&nbsp;         * String)
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType)
+&nbsp;        {
+&nbsp;            // Method purposefully left empty
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A HostnameVerifier that does not care whether the name on the certificate matches the
+&nbsp;     * hostname.
+&nbsp;     */
+<b class="nc">&nbsp;    private static class PermissiveHostnameVerifier implements HostnameVerifier</b>
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see HostnameVerifier#verify
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public boolean verify(String hostname, SSLSession session)
+&nbsp;        {
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

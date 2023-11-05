@@ -1,0 +1,641 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDescriptor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDescriptor (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDescriptor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/138)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003-2004 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.jdom2.Comment;
+&nbsp;import org.jdom2.Content;
+&nbsp;import org.jdom2.Document;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; * Encapsulates the DOM representation of a deployment descriptor to provide convenience methods for
+&nbsp; * easy access and manipulation.
+&nbsp; */
+&nbsp;public abstract class AbstractDescriptor extends Document implements Descriptor
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Grammar of the descriptor.
+&nbsp;     */
+&nbsp;    private DescriptorType descriptorType;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param rootElement The root element of the document
+&nbsp;     * @param descriptorType The type of the descriptor
+&nbsp;     */
+&nbsp;    public AbstractDescriptor(Element rootElement, DescriptorType descriptorType)
+&nbsp;    {
+<b class="nc">&nbsp;        super(rootElement);</b>
+<b class="nc">&nbsp;        if (descriptorType == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.descriptorType = descriptorType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the representation as a document.
+&nbsp;     * 
+&nbsp;     * @return JDOM Document
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Document getDocument()
+&nbsp;    {
+<b class="nc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get tags of a particular type.
+&nbsp;     * 
+&nbsp;     * @param tag type of elements to find
+&nbsp;     * @return list of tags
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;Element&gt; getTags(DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        return getRootElement().getChildren(tag.getTagName(), tag.getTagNamespace());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get tags of a particular type.
+&nbsp;     * 
+&nbsp;     * @param tagName type of elements to find
+&nbsp;     * @return list of tags
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;Element&gt; getTags(String tagName)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; elements = new ArrayList&lt;Element&gt;();</b>
+<b class="nc">&nbsp;        for (Element child : (List&lt;Element&gt;) getRootElement().getChildren())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (child.getName().equals(tagName))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                elements.add(child);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return elements;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of the elements that match the specified tag.
+&nbsp;     * 
+&nbsp;     * @param tag The descriptor tag of which the elements should be returned
+&nbsp;     * @return A list of the elements matching the tag, in the order they occur in the descriptor
+&nbsp;     */
+&nbsp;    public List&lt;Element&gt; getElements(DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        if (tag == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;tag must not be null&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return getChildElements(getRootElement(), tag, new ArrayList&lt;Element&gt;());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of the elements that match the specified tag.
+&nbsp;     * 
+&nbsp;     * @param tagName The name of a descriptor tag of which the elements should be returned
+&nbsp;     * @return A list of the elements matching the tag, in the order they occur in the descriptor
+&nbsp;     */
+&nbsp;    public List&lt;Element&gt; getElements(String tagName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (tagName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;tagName must not be null&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return getElements(getDescriptorType().getTagByName(tagName));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Recursively get elements matching a particular tag.
+&nbsp;     * 
+&nbsp;     * @param element the parent element
+&nbsp;     * @param tag the tag required
+&nbsp;     * @param items collection of items found so far
+&nbsp;     * @return List of elements
+&nbsp;     */
+&nbsp;    private List&lt;Element&gt; getChildElements(Element element, DescriptorTag tag, List&lt;Element&gt; items)
+&nbsp;    {
+<b class="nc">&nbsp;        if (element == null || tag == null || items == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Cannot pass null values to getChildElements&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        items.addAll(element.getChildren(tag.getTagName(), tag.getTagNamespace()));</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; children = element.getChildren();</b>
+<b class="nc">&nbsp;        for (Element child : children)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getChildElements(child, tag, items);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks an element whether its name matches the specified name.
+&nbsp;     * 
+&nbsp;     * @param element The element to check
+&nbsp;     * @param expectedTag The expected tag name
+&nbsp;     * @throws IllegalArgumentException If the element name doesn&#39;t match
+&nbsp;     */
+&nbsp;    protected void checkElement(Element element, DescriptorTag expectedTag)
+&nbsp;        throws IllegalArgumentException
+&nbsp;    {
+<b class="nc">&nbsp;        if (!expectedTag.getTagName().equals(element.getName()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Not a [&quot; + expectedTag + &quot;] element&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of the child elements of the specified element that match the specified tag.
+&nbsp;     * 
+&nbsp;     * @param parent The element of which the nested elements should be retrieved
+&nbsp;     * @param tag The descriptor tag of which the elements should be returned
+&nbsp;     * @return A copy of the list of the elements matching the tag, in the order they occur in the
+&nbsp;     * descriptor
+&nbsp;     */
+&nbsp;    protected List&lt;Element&gt; getNestedElements(Element parent, DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; nodeList = parent.getChildren(tag.getTagName(), tag.getTagNamespace());</b>
+<b class="nc">&nbsp;        return new ArrayList&lt;Element&gt;(nodeList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates an element that contains nested text.
+&nbsp;     * 
+&nbsp;     * @param tag The tag to create an instance of
+&nbsp;     * @param text The text that should be nested in the element
+&nbsp;     * @return The created DOM element
+&nbsp;     */
+&nbsp;    protected Element createNestedText(DescriptorTag tag, String text)
+&nbsp;    {
+<b class="nc">&nbsp;        Element element = new Element(tag.getTagName(), tag.getTagNamespace());</b>
+<b class="nc">&nbsp;        element.setText(text);</b>
+&nbsp;
+<b class="nc">&nbsp;        return element;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the text nested inside a child element of the specified element.
+&nbsp;     * 
+&nbsp;     * @param parent The element of which the nested text should be returned
+&nbsp;     * @param tag The descriptor tag in which the text is nested
+&nbsp;     * @return The text nested in the element
+&nbsp;     */
+&nbsp;    protected String getNestedText(Element parent, DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        String text = null;</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; nestedElements = parent.getChildren(tag.getTagName(), tag.getTagNamespace());</b>
+<b class="nc">&nbsp;        if (nestedElements.size() &gt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            text = getText(nestedElements.get(0));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return text;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the text value of an element.
+&nbsp;     * 
+&nbsp;     * @param element the element of wich the text value should be returned
+&nbsp;     * @return the text value of an element
+&nbsp;     */
+&nbsp;    protected String getText(Element element)
+&nbsp;    {
+<b class="nc">&nbsp;        return element.getText();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets a certain tag directly under the parent tag.
+&nbsp;     * 
+&nbsp;     * @param parent the tag to get the cild from
+&nbsp;     * @param tag name of the child tag
+&nbsp;     * @return tag directly under the parent tag.
+&nbsp;     */
+&nbsp;    protected Element getImmediateChild(Element parent, DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = null;</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; nl = parent.getChildren();</b>
+<b class="nc">&nbsp;        for (Element n : nl)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (n.getName().equals(tag.getTagName()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                e = n;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return e;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the text value from a child directly under the parent tag.
+&nbsp;     * 
+&nbsp;     * @param parent the parent tag to get the child text from
+&nbsp;     * @param tag the name of the child tag
+&nbsp;     * @return the text value of a child tag directly under the parent tag
+&nbsp;     */
+&nbsp;    protected String getChildText(Element parent, DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        String text = null;</b>
+<b class="nc">&nbsp;        Element e = getImmediateChild(parent, tag);</b>
+<b class="nc">&nbsp;        if (e != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            text = getText(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return text;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the text value from a child directly under the parent tag.
+&nbsp;     * 
+&nbsp;     * @param parent the parent tag to get the child text from
+&nbsp;     * @param tagName the name of the child tag
+&nbsp;     * @return the text value of a child tag directly under the parent tag
+&nbsp;     */
+&nbsp;    protected String getChildText(Element parent, String tagName)
+&nbsp;    {
+<b class="nc">&nbsp;        return getChildText(parent, getDescriptorType().getTagByName(tagName));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds an element of the specified tag to the descriptor.
+&nbsp;     * 
+&nbsp;     * @param tag The descriptor tag
+&nbsp;     * @param child The child element to add
+&nbsp;     * @param parent The parent element to add the child to
+&nbsp;     * @return the inserted element
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Element addElement(DescriptorTag tag, Element child, Element parent)
+&nbsp;    {
+<b class="nc">&nbsp;        Element importedNode = (Element) child.detach();</b>
+&nbsp;
+<b class="nc">&nbsp;        Element refNode = getInsertionPointFor(tag, parent.getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        int idx = parent.getContent().indexOf(refNode);</b>
+<b class="nc">&nbsp;        if (idx == -1)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (!containsElement(parent.getChildren(), importedNode))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                parent.addContent(importedNode);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+&nbsp;            // Navigate backwards if the previous item is a comment
+<b class="nc">&nbsp;            while (idx &gt; 0 &amp;&amp; parent.getContent(idx - 1) instanceof Comment)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                idx--;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (!containsElement(parent.getChildren(), importedNode))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                parent.addContent(idx, importedNode);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return importedNode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if &lt;code&gt;haystack&lt;/code&gt; contains &lt;code&gt;needle&lt;/code&gt;.
+&nbsp;     * @param haystack List of element to look into.
+&nbsp;     * @param needle Element to look for.
+&nbsp;     * @return Whether &lt;code&gt;haystack&lt;/code&gt; contains &lt;code&gt;needle&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    protected boolean containsElement(List&lt;Element&gt; haystack, Element needle)
+&nbsp;    {
+<b class="nc">&nbsp;        for (Element element : haystack)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (sameElement(element, needle))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if two elements are the same.
+&nbsp;     * @param element1 First element.
+&nbsp;     * @param element2 Second element.
+&nbsp;     * @return Whether &lt;code&gt;element1&lt;/code&gt; and &lt;code&gt;element2&lt;/code&gt; are the same.
+&nbsp;     */
+&nbsp;    protected boolean sameElement(Element element1, Element element2)
+&nbsp;    {
+<b class="nc">&nbsp;        if (!element1.getName().equals(element2.getName()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        List&lt;Element&gt; children1 = element1.getChildren();</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; children2 = element2.getChildren();</b>
+<b class="nc">&nbsp;        if (children1.size() != children2.size())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (children1.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return sameContent(element1, element2);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; children1.size(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (!sameElement(children1.get(i), children2.get(i)))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if two elements have the same content (excluding comments).
+&nbsp;     * @param element1 First element.
+&nbsp;     * @param element2 Second element.
+&nbsp;     * @return Whether &lt;code&gt;element1&lt;/code&gt; and &lt;code&gt;element2&lt;/code&gt; have the same content
+&nbsp;     * (excluding comments).
+&nbsp;     */
+&nbsp;    protected boolean sameContent(Element element1, Element element2)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Content&gt; content1 = getContentExceptComments(element1);</b>
+<b class="nc">&nbsp;        List&lt;Content&gt; content2 = getContentExceptComments(element2);</b>
+<b class="nc">&nbsp;        if (content1.size() != content2.size())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = 0; i &lt; content1.size(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String content1Value = content1.get(i).getValue();</b>
+<b class="nc">&nbsp;            String content2Value = content2.get(i).getValue();</b>
+<b class="nc">&nbsp;            if (content1Value == null || content2Value == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return content1Value == content2Value;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (!content1Value.equals(content2Value))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the content of an element (excluding comments).
+&nbsp;     * @param element Element to get the contents for.
+&nbsp;     * @return All content for &lt;code&gt;element&lt;/code&gt; (excluding comments).
+&nbsp;     */
+&nbsp;    protected List&lt;Content&gt; getContentExceptComments(Element element)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Content&gt; content = element.getContent();</b>
+<b class="nc">&nbsp;        List&lt;Content&gt; filteredContent = new ArrayList&lt;Content&gt;();</b>
+<b class="nc">&nbsp;        for (Content contentToCheck : content)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (!(contentToCheck instanceof Comment))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                filteredContent.add(contentToCheck);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return filteredContent;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the node before which the specified tag should be inserted, or &lt;code&gt;null&lt;/code&gt; if
+&nbsp;     * the node should be inserted at the end of the descriptor.
+&nbsp;     * 
+&nbsp;     * @param tag The tag that should be inserted
+&nbsp;     * @param parent name of the parent tag
+&nbsp;     * @return The node before which the tag can be inserted
+&nbsp;     */
+&nbsp;    protected Element getInsertionPointFor(DescriptorTag tag, String parent)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;DescriptorTag&gt; elementOrder =</b>
+<b class="nc">&nbsp;            this.getDescriptorType().getGrammar().getElementOrder(parent);</b>
+<b class="nc">&nbsp;        if (elementOrder == null)</b>
+&nbsp;        {
+&nbsp;            // No order required, just insert anywhere
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = 0; i &lt; elementOrder.size(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            DescriptorTag orderTag = elementOrder.get(i);</b>
+<b class="nc">&nbsp;            if (orderTag.equals(tag))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                for (int j = i + 1; j &lt; elementOrder.size(); j++)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    DescriptorTag theTag = elementOrder.get(j);</b>
+<b class="nc">&nbsp;                    List&lt;Element&gt; elements =</b>
+<b class="nc">&nbsp;                        getRootElement().getChildren(</b>
+<b class="nc">&nbsp;                            theTag.getTagName(), theTag.getTagNamespace());</b>
+<b class="nc">&nbsp;                    if (elements.size() &gt; 0)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        Element result = elements.get(0);</b>
+<b class="nc">&nbsp;                        return result;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the descriptorType
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public DescriptorType getDescriptorType()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.descriptorType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get elements of a particular descriptor tag whose identifier matches the passed parameter.
+&nbsp;     * 
+&nbsp;     * @param tag tag to search for
+&nbsp;     * @param value value for the identifier to match
+&nbsp;     * @return the element that matches
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Element getTagByIdentifier(DescriptorTag tag, String value)
+&nbsp;    {
+<b class="nc">&nbsp;        if (value == null || tag == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Identifier id = tag.getIdentifier();</b>
+<b class="nc">&nbsp;        if (id != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;Element&gt; tags = getTags(tag);</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Element e : tags)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (value.equals(id.getIdentifier(e)))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    return e;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get elements of a particular descriptor tag whose identifier matches the passed parameter.
+&nbsp;     * 
+&nbsp;     * @param tagName Name of the tag to search for
+&nbsp;     * @param value value for the identifier to match
+&nbsp;     * @return the element that matches
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Element getTagByIdentifier(String tagName, String value)
+&nbsp;    {
+<b class="nc">&nbsp;        if (value == null || tagName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        DescriptorTag tag = getDescriptorType().getTagByName(tagName);</b>
+<b class="nc">&nbsp;        Identifier id = tag.getIdentifier();</b>
+<b class="nc">&nbsp;        if (id != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;Element&gt; tags = getTags(tagName);</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Element e : tags)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (value.equals(id.getIdentifier(e)))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    return e;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

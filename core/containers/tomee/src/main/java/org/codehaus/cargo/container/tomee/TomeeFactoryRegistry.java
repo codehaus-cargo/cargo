@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.TomcatDirectoryPackager;
 import org.codehaus.cargo.container.tomcat.TomcatWAR;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;

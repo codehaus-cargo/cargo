@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > JarArchive</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: JarArchive (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">JarArchive</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provide convenient methods to read information from a Jar archive.
+&nbsp; */
+&nbsp;public interface JarArchive
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Returns whether a class of the specified name is contained in the archive.
+&nbsp;     * 
+&nbsp;     * @param className The name of the class to search for
+&nbsp;     * @return Whether the class was found
+&nbsp;     * @throws java.io.IOException If an I/O error occurred reading the archive
+&nbsp;     */
+&nbsp;    boolean containsClass(String className) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the full path of a named resource in the archive.
+&nbsp;     * 
+&nbsp;     * @param name The name of the resource
+&nbsp;     * @return The full path to the resource inside the archive
+&nbsp;     * @throws java.io.IOException If an I/O error occurred reading the archive
+&nbsp;     */
+&nbsp;    String findResource(String name) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a resource from the archive as input stream.
+&nbsp;     * 
+&nbsp;     * @param path The path to the resource in the archive
+&nbsp;     * @return An input stream containing the specified resource, or &lt;code&gt;null&lt;/code&gt; if the
+&nbsp;     * resource was not found in the JAR
+&nbsp;     * @throws java.io.IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    InputStream getResource(String path) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the list of resources in the specified directory in the archive.
+&nbsp;     * 
+&nbsp;     * @param path The directory
+&nbsp;     * @return The list of resources
+&nbsp;     * @throws java.io.IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    List&lt;String&gt; getResources(String path) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Expand the archive to the specified directory.
+&nbsp;     * @param path The path to expand to
+&nbsp;     * @throws java.io.IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    void expandToPath(String path) throws IOException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

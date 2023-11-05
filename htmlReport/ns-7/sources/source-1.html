@@ -1,0 +1,438 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Proxy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.installer</a>
+</div>
+
+<h1>Coverage Summary for Class: Proxy (org.codehaus.cargo.container.installer)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Proxy</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.5%
+  </span>
+  <span class="absValue">
+    (8/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.3%
+  </span>
+  <span class="absValue">
+    (49/87)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Proxy$1</td>
+  </tr>
+  <tr>
+    <td class="name">Proxy$ProxyAuthenticator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (8/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.8%
+  </span>
+  <span class="absValue">
+    (49/91)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.installer;
+&nbsp;
+&nbsp;import java.net.Authenticator;
+&nbsp;import java.net.PasswordAuthentication;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * Nested Ant element to specify proxy properties.
+&nbsp; */
+<b class="fc">&nbsp;public class Proxy extends LoggedObject</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * @see #getHost()
+&nbsp;     */
+&nbsp;    private String host;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #getPort()
+&nbsp;     */
+<b class="fc">&nbsp;    private int port = 80;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #getUser()
+&nbsp;     */
+&nbsp;    private String user;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #getPassword()
+&nbsp;     */
+&nbsp;    private String password;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #getExcludeHosts()
+&nbsp;     */
+<b class="fc">&nbsp;    private String excludeHosts = &quot;&quot;;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param host the proxy host
+&nbsp;     */
+&nbsp;    public void setHost(String host)
+&nbsp;    {
+<b class="fc">&nbsp;        this.host = host;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the proxy host
+&nbsp;     */
+&nbsp;    public String getHost()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.host;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param port the proxy port. Defaults to 80 if not set
+&nbsp;     */
+&nbsp;    public void setPort(int port)
+&nbsp;    {
+<b class="nc">&nbsp;        this.port = port;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the proxy port or 80 if not set
+&nbsp;     */
+&nbsp;    public int getPort()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.port;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param user the user for authenticating proxies
+&nbsp;     */
+&nbsp;    public void setUser(String user)
+&nbsp;    {
+<b class="nc">&nbsp;        this.user = user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the user for authenticating proxies
+&nbsp;     */
+&nbsp;    public String getUser()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param password the password for authenticating proxies
+&nbsp;     */
+&nbsp;    public void setPassword(String password)
+&nbsp;    {
+<b class="nc">&nbsp;        this.password = password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the password for authenticating proxies
+&nbsp;     */
+&nbsp;    public String getPassword()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of hosts which should be connected too directly and not through the proxy server. The
+&nbsp;     * value can be a list of hosts, each seperated by a |, and in addition a wildcard character (*)
+&nbsp;     * can be used for matching. For example: -Dhttp.nonProxyHosts=&quot;*.foo.com|localhost&quot;.
+&nbsp;     * 
+&nbsp;     * @param proxyExcludeHosts list of hosts that do not go through the proxy
+&nbsp;     */
+&nbsp;    public void setExcludeHosts(String proxyExcludeHosts)
+&nbsp;    {
+<b class="nc">&nbsp;        this.excludeHosts = proxyExcludeHosts;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of hosts which should be connected too directly and not through the proxy
+&nbsp;     * server
+&nbsp;     * @see #setExcludeHosts(String)
+&nbsp;     */
+&nbsp;    public String getExcludeHosts()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.excludeHosts;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the Java system properties related to proxies.
+&nbsp;     * 
+&nbsp;     * @return Previous proxy properties, to be used when {@link Proxy#clear(java.util.Map)} is
+&nbsp;     * called.
+&nbsp;     */
+&nbsp;    public Map&lt;String, String&gt; configure()
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, String&gt; previousProperties = new HashMap&lt;String, String&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (getHost() != null &amp;&amp; !getHost().trim().isEmpty())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            getLogger().debug(&quot;host : &quot; + getHost(), this.getClass().getName());</b>
+<b class="fc">&nbsp;            getLogger().debug(&quot;port : &quot; + getPort(), this.getClass().getName());</b>
+<b class="fc">&nbsp;            getLogger().debug(&quot;excludeHosts : &quot; + getExcludeHosts(), this.getClass().getName());</b>
+<b class="fc">&nbsp;            getLogger().debug(&quot;user : &quot; + getUser(), this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;            String host = getHost().trim();</b>
+<b class="fc">&nbsp;            String port = Integer.toString(getPort());</b>
+&nbsp;
+<b class="fc">&nbsp;            previousProperties.put(&quot;http.proxyHost&quot;, System.setProperty(&quot;http.proxyHost&quot;, host));</b>
+<b class="fc">&nbsp;            previousProperties.put(&quot;http.proxyPort&quot;, System.setProperty(&quot;http.proxyPort&quot;, port));</b>
+<b class="fc">&nbsp;            previousProperties.put(&quot;https.proxyHost&quot;, System.setProperty(&quot;https.proxyHost&quot;, host));</b>
+<b class="fc">&nbsp;            previousProperties.put(&quot;https.proxyPort&quot;, System.setProperty(&quot;https.proxyPort&quot;, port));</b>
+<b class="fc">&nbsp;            previousProperties.put(&quot;ftp.proxyHost&quot;, System.setProperty(&quot;ftp.proxyHost&quot;, host));</b>
+<b class="fc">&nbsp;            previousProperties.put(&quot;ftp.proxyPort&quot;, System.setProperty(&quot;ftp.proxyPort&quot;, port));</b>
+&nbsp;
+<b class="fc">&nbsp;            if (getExcludeHosts() != null &amp;&amp; !getExcludeHosts().trim().isEmpty())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String excludedHosts = getExcludeHosts().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;                previousProperties.put(&quot;http.nonProxyHosts&quot;,</b>
+<b class="nc">&nbsp;                    System.setProperty(&quot;http.nonProxyHosts&quot;, excludedHosts));</b>
+<b class="nc">&nbsp;                previousProperties.put(&quot;https.nonProxyHosts&quot;,</b>
+<b class="nc">&nbsp;                    System.setProperty(&quot;https.nonProxyHosts&quot;, excludedHosts));</b>
+<b class="nc">&nbsp;                previousProperties.put(&quot;ftp.nonProxyHosts&quot;,</b>
+<b class="nc">&nbsp;                    System.setProperty(&quot;ftp.nonProxyHosts&quot;, excludedHosts));</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                previousProperties.put(&quot;http.nonProxyHosts&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;http.nonProxyHosts&quot;));</b>
+<b class="fc">&nbsp;                previousProperties.put(&quot;https.nonProxyHosts&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;https.nonProxyHosts&quot;));</b>
+<b class="fc">&nbsp;                previousProperties.put(&quot;ftp.nonProxyHosts&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;ftp.nonProxyHosts&quot;));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (getUser() != null &amp;&amp; !getUser().trim().isEmpty())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String user = getUser().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;                previousProperties.put(&quot;http.proxyUser&quot;,</b>
+<b class="nc">&nbsp;                    System.setProperty(&quot;http.proxyUser&quot;, user));</b>
+<b class="nc">&nbsp;                previousProperties.put(&quot;https.proxyUser&quot;,</b>
+<b class="nc">&nbsp;                    System.setProperty(&quot;https.proxyUser&quot;, user));</b>
+<b class="nc">&nbsp;                previousProperties.put(&quot;ftp.proxyUser&quot;,</b>
+<b class="nc">&nbsp;                    System.setProperty(&quot;ftp.proxyUser&quot;, user));</b>
+&nbsp;
+&nbsp;                String password;
+<b class="nc">&nbsp;                if (getPassword() != null &amp;&amp; !getPassword().trim().isEmpty())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    password = getPassword().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;                    previousProperties.put(&quot;http.proxyPassword&quot;,</b>
+<b class="nc">&nbsp;                        System.setProperty(&quot;http.proxyPassword&quot;, password));</b>
+<b class="nc">&nbsp;                    previousProperties.put(&quot;https.proxyPassword&quot;,</b>
+<b class="nc">&nbsp;                        System.setProperty(&quot;https.proxyPassword&quot;, password));</b>
+<b class="nc">&nbsp;                    previousProperties.put(&quot;ftp.proxyPassword&quot;,</b>
+<b class="nc">&nbsp;                        System.setProperty(&quot;ftp.proxyPassword&quot;, password));</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    password = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;                    previousProperties.put(&quot;http.proxyPassword&quot;,</b>
+<b class="nc">&nbsp;                        System.clearProperty(&quot;http.proxyPassword&quot;));</b>
+<b class="nc">&nbsp;                    previousProperties.put(&quot;https.proxyPassword&quot;,</b>
+<b class="nc">&nbsp;                        System.clearProperty(&quot;https.proxyPassword&quot;));</b>
+<b class="nc">&nbsp;                    previousProperties.put(&quot;ftp.proxyPassword&quot;,</b>
+<b class="nc">&nbsp;                        System.clearProperty(&quot;ftp.proxyPassword&quot;));</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                Authenticator.setDefault(new ProxyAuthenticator(user, password));</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                previousProperties.put(&quot;http.proxyUser&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;http.proxyUser&quot;));</b>
+<b class="fc">&nbsp;                previousProperties.put(&quot;https.proxyUser&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;https.proxyUser&quot;));</b>
+<b class="fc">&nbsp;                previousProperties.put(&quot;ftp.proxyUser&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;ftp.proxyUser&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;                previousProperties.put(&quot;http.proxyPassword&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;http.proxyPassword&quot;));</b>
+<b class="fc">&nbsp;                previousProperties.put(&quot;https.proxyPassword&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;https.proxyPassword&quot;));</b>
+<b class="fc">&nbsp;                previousProperties.put(&quot;ftp.proxyPassword&quot;,</b>
+<b class="fc">&nbsp;                    System.clearProperty(&quot;ftp.proxyPassword&quot;));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return previousProperties;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Clear all proxy settings.
+&nbsp;     * 
+&nbsp;     * @param previousProperties Previous proxy properties, as returned by
+&nbsp;     * {@link Proxy#configure()}.
+&nbsp;     */
+&nbsp;    public void clear(Map&lt;String, String&gt; previousProperties)
+&nbsp;    {
+<b class="fc">&nbsp;        if (previousProperties != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for (Map.Entry&lt;String, String&gt; previousProperty : previousProperties.entrySet())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (previousProperty.getValue() != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    System.setProperty(previousProperty.getKey(), previousProperty.getValue());</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    System.clearProperty(previousProperty.getKey());</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            Authenticator.setDefault(null);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Authenticator for the Proxy.
+&nbsp;     */
+<b class="nc">&nbsp;    private static final class ProxyAuthenticator extends Authenticator</b>
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * Authentication using a username/password.
+&nbsp;         */
+&nbsp;        private PasswordAuthentication authentication;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * @param user the username
+&nbsp;         * @param password the password
+&nbsp;         */
+&nbsp;        private ProxyAuthenticator(String user, String password)
+<b class="nc">&nbsp;        {</b>
+<b class="nc">&nbsp;            this.authentication = new PasswordAuthentication(user, password.toCharArray());</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see java.net.Authenticator#getPasswordAuthentication()
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        protected PasswordAuthentication getPasswordAuthentication()
+&nbsp;        {
+<b class="nc">&nbsp;            return this.authentication;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

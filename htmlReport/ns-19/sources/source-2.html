@@ -1,0 +1,259 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EjbDef</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.ejb</a>
+</div>
+
+<h1>Coverage Summary for Class: EjbDef (org.codehaus.cargo.module.ejb)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EjbDef</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.ejb;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class representing an EJB definition in a ejb-jar.xml descriptor.
+&nbsp; */
+&nbsp;public class EjbDef
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Id attribute of the EJB definition element.
+&nbsp;     */
+&nbsp;    private String id;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Value of the nested name tag.
+&nbsp;     */
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Value of the nested local tag.
+&nbsp;     */
+&nbsp;    private String local;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Value of the nested local-home tag.
+&nbsp;     */
+&nbsp;    private String localHome;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     */
+&nbsp;    public EjbDef()
+<b class="nc">&nbsp;    {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param name name of the ejb
+&nbsp;     */
+&nbsp;    public EjbDef(String name)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param name name of the ejb
+&nbsp;     * @param id id of the ejb
+&nbsp;     */
+&nbsp;    public EjbDef(String name, String id)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.name = name;</b>
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Id accessor.
+&nbsp;     * 
+&nbsp;     * @return Returns the id.
+&nbsp;     */
+&nbsp;    public String getId()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Id setter.
+&nbsp;     * 
+&nbsp;     * @param id The id to set.
+&nbsp;     */
+&nbsp;    public void setId(String id)
+&nbsp;    {
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Name accessor.
+&nbsp;     * 
+&nbsp;     * @return Returns the name.
+&nbsp;     */
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Name setter.
+&nbsp;     * 
+&nbsp;     * @param name The name to set.
+&nbsp;     */
+&nbsp;    public void setName(String name)
+&nbsp;    {
+<b class="nc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Local accessor.
+&nbsp;     * 
+&nbsp;     * @return Returns the local.
+&nbsp;     */
+&nbsp;    public String getLocal()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.local;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Local setter.
+&nbsp;     * 
+&nbsp;     * @param local The local to set.
+&nbsp;     */
+&nbsp;    public void setLocal(String local)
+&nbsp;    {
+<b class="nc">&nbsp;        this.local = local;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * LocalHome accessor.
+&nbsp;     * 
+&nbsp;     * @return Returns the localHome.
+&nbsp;     */
+&nbsp;    public String getLocalHome()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.localHome;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * LocalHome setter.
+&nbsp;     * 
+&nbsp;     * @param localHome The localHome to set.
+&nbsp;     */
+&nbsp;    public void setLocalHome(String localHome)
+&nbsp;    {
+<b class="nc">&nbsp;        this.localHome = localHome;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DefaultXmlFileBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultXmlFileBuilder (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultXmlFileBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.Element;
+&nbsp;import org.w3c.dom.Node;
+&nbsp;import org.w3c.dom.NodeList;
+&nbsp;
+&nbsp;/**
+&nbsp; * {@inheritDoc} This implementation uses the {@link XmlUtils} class to manipulate XML files.
+&nbsp; */
+&nbsp;public class DefaultXmlFileBuilder implements XmlFileBuilder
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * used to access more sophisticated XML utility functions.
+&nbsp;     */
+&nbsp;    private XmlUtils xmlUtil;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the name of the file we are to load or save.
+&nbsp;     */
+&nbsp;    private String path;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * representation of the document in progress.
+&nbsp;     */
+&nbsp;    private Document document;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates the instance, which will use the specified @{link FileHandler fileHandler} to read or
+&nbsp;     * write the xml file.
+&nbsp;     * 
+&nbsp;     * @param fileHandler used for file i/o.
+&nbsp;     */
+&nbsp;    public DefaultXmlFileBuilder(FileHandler fileHandler)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        xmlUtil = new XmlUtils(fileHandler);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates the instance, which will use the specified @{link FileHandler fileHandler} to read or
+&nbsp;     * write the xml file.
+&nbsp;     * 
+&nbsp;     * @param fileHandler used for file i/o.
+&nbsp;     * @param namespaceAware true if builder should be namespace aware.
+&nbsp;     */
+&nbsp;    public DefaultXmlFileBuilder(FileHandler fileHandler, boolean namespaceAware)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        xmlUtil = new XmlUtils(fileHandler, namespaceAware);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setFile(String path)
+&nbsp;    {
+<b class="nc">&nbsp;        this.path = path;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void insertElementsUnderXPath(String elementsToParse, String xpath)
+&nbsp;    {
+<b class="nc">&nbsp;        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getDocumentElement());</b>
+&nbsp;
+<b class="nc">&nbsp;        StringBuilder nested = new StringBuilder();</b>
+<b class="nc">&nbsp;        nested.append(&quot;&lt;parent&gt;&quot;);</b>
+<b class="nc">&nbsp;        nested.append(elementsToParse);</b>
+<b class="nc">&nbsp;        nested.append(&quot;&lt;/parent&gt;&quot;);</b>
+<b class="nc">&nbsp;        Element nestedElements = xmlUtil.parseIntoElement(nested.toString());</b>
+<b class="nc">&nbsp;        NodeList children = nestedElements.getChildNodes();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; children.getLength(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Node child = children.item(i);</b>
+<b class="nc">&nbsp;            Node clone = parent.getOwnerDocument().importNode(child, true);</b>
+<b class="nc">&nbsp;            parent.appendChild(clone);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void insertElementUnderXPath(Element elementToInsert, String xpath)
+&nbsp;    {
+<b class="nc">&nbsp;        Element parent = xmlUtil.selectElementMatchingXPath(xpath, document.getDocumentElement());</b>
+&nbsp;
+<b class="nc">&nbsp;        Node clone = parent.getOwnerDocument().importNode(elementToInsert, true);</b>
+<b class="nc">&nbsp;        parent.appendChild(clone);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Document loadFile()
+&nbsp;    {
+<b class="nc">&nbsp;        this.document = xmlUtil.loadXmlFromFile(path);</b>
+<b class="nc">&nbsp;        return this.document;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void writeFile()
+&nbsp;    {
+<b class="nc">&nbsp;        xmlUtil.saveXml(document, path);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setNamespaces(Map&lt;String, String&gt; namespaces)
+&nbsp;    {
+<b class="nc">&nbsp;        xmlUtil.setNamespaces(namespaces);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

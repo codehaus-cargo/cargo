@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractEmbeddedLocalContainer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractEmbeddedLocalContainer (org.codehaus.cargo.container.spi)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractEmbeddedLocalContainer</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerType;
+&nbsp;import org.codehaus.cargo.container.EmbeddedLocalContainer;
+&nbsp;import org.codehaus.cargo.container.configuration.LocalConfiguration;
+&nbsp;
+&nbsp;/**
+&nbsp; * Default container implementation that all local embedded container implementations must extend.
+&nbsp; */
+&nbsp;public abstract class AbstractEmbeddedLocalContainer
+&nbsp;    extends AbstractLocalContainer implements EmbeddedLocalContainer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Classloader to use for loading the Embedded container&#39;s classes.
+&nbsp;     */
+&nbsp;    private ClassLoader classLoader;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     * @see AbstractLocalContainer#AbstractLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
+&nbsp;     */
+&nbsp;    public AbstractEmbeddedLocalContainer(LocalConfiguration configuration)
+&nbsp;    {
+<b class="nc">&nbsp;        super(configuration);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param classLoader the custom classloader to use for loading the Embedded container&#39;s
+&nbsp;     * classes.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setClassLoader(ClassLoader classLoader)
+&nbsp;    {
+<b class="nc">&nbsp;        this.classLoader = classLoader;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the custom classloader to use for loading the Embedded container&#39;s classes.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ClassLoader getClassLoader()
+&nbsp;    {
+<b class="nc">&nbsp;        ClassLoader cl = this.classLoader;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (this.classLoader == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            cl = getClass().getClassLoader();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return cl;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void startInternal() throws Exception
+&nbsp;    {
+<b class="nc">&nbsp;        doStart();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void stopInternal() throws Exception
+&nbsp;    {
+<b class="nc">&nbsp;        doStop();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} that all
+&nbsp;     * containers extending this class must implement.
+&nbsp;     * 
+&nbsp;     * @throws Exception if any error is raised during the container start
+&nbsp;     */
+&nbsp;    protected abstract void doStart() throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} that all
+&nbsp;     * containers extending this class must implement.
+&nbsp;     * 
+&nbsp;     * @throws Exception if any error is raised during the container stop
+&nbsp;     */
+&nbsp;    protected abstract void doStop() throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calls &lt;code&gt;System.gc()&lt;/code&gt; after container has stopped. {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void waitForCompletion(boolean waitForStarting) throws InterruptedException
+&nbsp;    {
+<b class="nc">&nbsp;        super.waitForCompletion(waitForStarting);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!waitForStarting)</b>
+&nbsp;        {
+&nbsp;            // Many container do not fully stop even after having destroyed all their sockets;
+&nbsp;            // as a result call GC for embedded containers
+<b class="nc">&nbsp;            System.gc();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ContainerType getType()
+&nbsp;    {
+<b class="nc">&nbsp;        return ContainerType.EMBEDDED;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDeployablewithSettableName</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.deployable</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDeployablewithSettableName (org.codehaus.cargo.container.spi.deployable)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDeployablewithSettableName</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (5/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.deployable;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * Common class for easy Deployable implementations with settable names.
+&nbsp; */
+&nbsp;public abstract class AbstractDeployablewithSettableName extends AbstractDeployable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The name of this deployable (it can be anything, there&#39;s no special rule). If not specified
+&nbsp;     * by user, it is computed from the EAR&#39;s file name (removing the filename extension).
+&nbsp;     */
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the location of the deployable file being wrapped.
+&nbsp;     */
+&nbsp;    public AbstractDeployablewithSettableName(String file)
+&nbsp;    {
+<b class="fc">&nbsp;        super(file);</b>
+<b class="fc">&nbsp;        this.name = super.getName();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the name of this deployable. It can be anything (there&#39;s no special rule), except
+&nbsp;     * &lt;code&gt;null&lt;/code&gt; or an empty string.
+&nbsp;     * @param name the name of this deployable
+&nbsp;     */
+&nbsp;    public void setName(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        if (name == null || DefaultFileHandler.sanitizeFilename(name, getLogger()).isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException(&quot;Custom deployable name cannot be null or empty&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * Default value is the Deployable sanitized {@link #getName()} with the deployable type as
+&nbsp;     * extension.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFilename()
+&nbsp;    {
+<b class="nc">&nbsp;        return DefaultFileHandler.sanitizeFilename(</b>
+<b class="nc">&nbsp;            getName() + &quot;.&quot; + getType().getType(), getLogger());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

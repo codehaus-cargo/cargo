@@ -20,7 +20,6 @@
 package org.codehaus.cargo.sample.java.validator;
 
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.packager.PackagerType;
 
 /**
  * Validate that the specified container has a directory packager registered.

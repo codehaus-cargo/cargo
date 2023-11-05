@@ -22,8 +22,6 @@ package org.codehaus.cargo.generic.packager;
 import java.lang.reflect.Constructor;
 
 import org.codehaus.cargo.container.ContainerException;
-import org.codehaus.cargo.container.packager.Packager;
-import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;

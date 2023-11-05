@@ -1,0 +1,547 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > FileHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: FileHandler (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FileHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">FileHandler$XmlReplacementDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5.9%
+  </span>
+  <span class="absValue">
+    (1/17)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.Loggable;
+&nbsp;
+&nbsp;/**
+&nbsp; * File operations that are performed in Cargo. All file operations must use this interface. This
+&nbsp; * interface is also useful for unit testing as it&#39;s possible to create a mock implementation of it
+&nbsp; * to prevent actual file operations from happening.
+&nbsp; */
+&nbsp;public interface FileHandler extends Loggable
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * New line character.
+&nbsp;     */
+<b class="fc">&nbsp;    String NEW_LINE = System.getProperty(&quot;line.separator&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Represents details of an XML replacement.
+&nbsp;     */
+&nbsp;    class XmlReplacementDetails
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * XPath expression.
+&nbsp;         */
+&nbsp;        private String xpathExpression;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * XML attribute name.
+&nbsp;         */
+&nbsp;        private String attributeName;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Behavior if XPath expression doesn&#39;t match anything.
+&nbsp;         */
+&nbsp;        private XmlReplacement.ReplacementBehavior replacementBehavior;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * String form.
+&nbsp;         */
+&nbsp;        private String toString;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Saves the attributes for this XML replacement.
+&nbsp;         * @param xpathExpression XPath expression.
+&nbsp;         * @param attributeName XML attribute name.
+&nbsp;         * @param replacementBehavior Behavior if XPath expression doesn&#39;t match anything.
+&nbsp;         */
+&nbsp;        public XmlReplacementDetails(String xpathExpression, String attributeName,
+&nbsp;            XmlReplacement.ReplacementBehavior replacementBehavior)
+<b class="nc">&nbsp;        {</b>
+<b class="nc">&nbsp;            this.xpathExpression = xpathExpression;</b>
+<b class="nc">&nbsp;            this.attributeName = attributeName;</b>
+<b class="nc">&nbsp;            this.replacementBehavior = replacementBehavior;</b>
+<b class="nc">&nbsp;            this.toString = &quot;XmlReplacement[xpathExpression=&#39;&quot; + xpathExpression</b>
+&nbsp;                + &quot;&#39;,attributeName=&#39;&quot; + attributeName + &quot;&#39;]&quot;;
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * @return XPath expression.
+&nbsp;         */
+&nbsp;        public String getXpathExpression()
+&nbsp;        {
+<b class="nc">&nbsp;            return xpathExpression;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * @return XML attribute name.
+&nbsp;         */
+&nbsp;        public String getAttributeName()
+&nbsp;        {
+<b class="nc">&nbsp;            return attributeName;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * @return ReplacementBehavior
+&nbsp;         */
+&nbsp;        public XmlReplacement.ReplacementBehavior getReplacementBehavior()
+&nbsp;        {
+<b class="nc">&nbsp;            return replacementBehavior;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public String toString()
+&nbsp;        {
+<b class="nc">&nbsp;            return toString;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public boolean equals(Object obj)
+&nbsp;        {
+<b class="nc">&nbsp;            if (obj == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (getClass() != obj.getClass())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            final XmlReplacementDetails other = (XmlReplacementDetails) obj;</b>
+<b class="nc">&nbsp;            return this.toString.equals(other.toString);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public int hashCode()
+&nbsp;        {
+<b class="nc">&nbsp;            return this.toString.hashCode();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy a file from a source to a destination. If destination file already exists, it is not
+&nbsp;     * overwritten.
+&nbsp;     * 
+&nbsp;     * @param source the file to copy from. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param target the file to copy to. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    void copyFile(String source, String target);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy a file from a source to a destination specifying if source files may overwrite newer
+&nbsp;     * destination files.
+&nbsp;     * 
+&nbsp;     * @param source the file to copy from. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param target the file to copy to. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param overwrite to overwrite the file if it already exists.
+&nbsp;     */
+&nbsp;    void copyFile(String source, String target, boolean overwrite);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy a file from a source to a destination using token replacement.
+&nbsp;     * 
+&nbsp;     * @param source the file to copy from. Must not be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * @param target the file to copy to. Must not be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * @param replacements the token replacements to use. Must not be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     */
+&nbsp;    void copyFile(
+&nbsp;        String source, String target, Map&lt;String, String&gt; replacements, Charset encoding);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy a directory from a source to a destination.
+&nbsp;     * 
+&nbsp;     * @param source the directory to copy from. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param target the directory to copy to. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    void copyDirectory(String source, String target);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy a directory from a source to a destination specifying files to be excluded.
+&nbsp;     * 
+&nbsp;     * @param source the directory to copy from. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param target the directory to copy to. Must not be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * @param excludes the list of files to be excluded, can be &lt;code&gt;null&lt;/code&gt;.
+&nbsp;     * Each entry in the list is an &lt;a
+&nbsp;     * href=&quot;http://ant.apache.org/manual/dirtasks.html#patterns&quot;&gt;Ant file pattern&lt;/a&gt;.
+&nbsp;     */
+&nbsp;    void copyDirectory(String source, String target, List&lt;String&gt; excludes);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy a directory from a source to a destination using a token replacement.
+&nbsp;     * 
+&nbsp;     * @param source the directory to copy from. Must not be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * @param target the directory to copy to. Must not be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * @param replacements the token replacements to use. Must not be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     */
+&nbsp;    void copyDirectory(
+&nbsp;        String source, String target, Map&lt;String, String&gt; replacements, Charset encoding);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extracts a war file into a directory.
+&nbsp;     * 
+&nbsp;     * @param war the War archive to be extracted.
+&nbsp;     * @param exploded the directory that receives files.
+&nbsp;     */
+&nbsp;    void explode(String war, String exploded);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convenience method for creating a new directory inside another one. If the directory already
+&nbsp;     * exists, it will return the already created directory.
+&nbsp;     * 
+&nbsp;     * @param parentDir The directory in which the new directory should be created
+&nbsp;     * @param name The name of the directory to create
+&nbsp;     * @return The new directory
+&nbsp;     */
+&nbsp;    String createDirectory(String parentDir, String name);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copies data from an InputStream to an OutputStream.
+&nbsp;     * 
+&nbsp;     * @param in InputStream to copy data from
+&nbsp;     * @param out OutputStream to copy data to
+&nbsp;     * @param bufSize size of the copy buffer
+&nbsp;     */
+&nbsp;    void copy(InputStream in, OutputStream out, int bufSize);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copies data from an InputStream to an OutputStream using a default buffer size.
+&nbsp;     * 
+&nbsp;     * @param in InputStream to copy data from
+&nbsp;     * @param out OutputStream to copy data to
+&nbsp;     */
+&nbsp;    void copy(InputStream in, OutputStream out);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces using a map of replacements in a given file.
+&nbsp;     * 
+&nbsp;     * @param file File to replace in.
+&nbsp;     * @param replacements Map containing replacements.
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     * @throws CargoException If anything fails, most notably if one of the replacements does not
+&nbsp;     * exist in the file.
+&nbsp;     */
+&nbsp;    void replaceInFile(String file, Map&lt;String, String&gt; replacements, Charset encoding)
+&nbsp;        throws CargoException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces using a map of replacements in a given file.
+&nbsp;     * 
+&nbsp;     * @param file File to replace in.
+&nbsp;     * @param replacements Map containing replacements.
+&nbsp;     * @param ignoreNonExistingProperties Whether to ignore if one of the keys cannot be found.
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     * @throws CargoException If anything fails, most notably if one of the replacements does not
+&nbsp;     * exist in the file.
+&nbsp;     */
+&nbsp;    void replaceInFile(String file, Map&lt;String, String&gt; replacements, Charset encoding,
+&nbsp;        boolean ignoreNonExistingProperties) throws CargoException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces using a map of XML replacements in a given file.
+&nbsp;     * 
+&nbsp;     * @param xmlReplacements Array of XML replacements.
+&nbsp;     * @throws CargoException If anything fails, most notably if one of the replacements does not
+&nbsp;     * exist in the file.
+&nbsp;     */
+&nbsp;    void replaceInXmlFile(XmlReplacement... xmlReplacements)
+&nbsp;        throws CargoException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the location of a temporary directory.
+&nbsp;     * 
+&nbsp;     * @param name The name of the directory to compute inside the tmp directory
+&nbsp;     * @return the location of the computed temporary directory
+&nbsp;     */
+&nbsp;    String getTmpPath(String name);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a unique temporary directory.
+&nbsp;     * 
+&nbsp;     * @return the newly created temporary directory
+&nbsp;     */
+&nbsp;    String createUniqueTmpDirectory();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deletes a file or directory, removing any children as appropriate.
+&nbsp;     * 
+&nbsp;     * @param path the path to the file or directory to remove
+&nbsp;     */
+&nbsp;    void delete(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the file for which to get the size
+&nbsp;     * @return long Size of the file, in bytes
+&nbsp;     */
+&nbsp;    long getSize(String file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the file for which to get an InputStream for
+&nbsp;     * @return an InputStream pointing to the file
+&nbsp;     */
+&nbsp;    InputStream getInputStream(String file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the file for which to get an OutputStream for
+&nbsp;     * @return an OutputStream pointing to the file
+&nbsp;     */
+&nbsp;    OutputStream getOutputStream(String file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Append a suffix path to an existing path.
+&nbsp;     * 
+&nbsp;     * @param path the path to append to
+&nbsp;     * @param suffixToAppend the suffix to append to the path
+&nbsp;     * @return the new full path
+&nbsp;     */
+&nbsp;    String append(String path, String suffixToAppend);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create directories for the passed path.
+&nbsp;     * 
+&nbsp;     * @param path the path for which to create all directories leading to it
+&nbsp;     */
+&nbsp;    void mkdirs(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param path the path for which to return its parent
+&nbsp;     * @return the parent path of the passed path
+&nbsp;     */
+&nbsp;    String getParent(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param path the path to check the existence for
+&nbsp;     * @return true if the path exists or false otherwise
+&nbsp;     */
+&nbsp;    boolean exists(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a file.
+&nbsp;     * 
+&nbsp;     * @param file the file to create
+&nbsp;     */
+&nbsp;    void createFile(String file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param dir the directory to check
+&nbsp;     * @return true if the passed directory is empty
+&nbsp;     */
+&nbsp;    boolean isDirectoryEmpty(String dir);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param path the path to verify
+&nbsp;     * @return true if the path passed is a directory or false otherwise
+&nbsp;     */
+&nbsp;    boolean isDirectory(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the file name for which to return the file name
+&nbsp;     * @return the file name (without path)
+&nbsp;     */
+&nbsp;    String getName(String file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param path the path for which to return the URL
+&nbsp;     * @return the URL for the passed path
+&nbsp;     */
+&nbsp;    String getURL(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param directory the directory for which to return all children
+&nbsp;     * @return the children of the passed directory
+&nbsp;     */
+&nbsp;    String[] getChildren(String directory);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param directory the directory for which to return all children
+&nbsp;     * @param filters any filters to apply when listing, can be &lt;code&gt;null&lt;/code&gt;
+&nbsp;     * Each entry in the list is an &lt;a
+&nbsp;     * href=&quot;http://ant.apache.org/manual/dirtasks.html#patterns&quot;&gt;Ant file pattern&lt;/a&gt;.
+&nbsp;     * @return the children of the passed directory
+&nbsp;     */
+&nbsp;    String[] getChildren(String directory, List&lt;String&gt; filters);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * gets the absolute path from a file that may be relative to the current directory.
+&nbsp;     * 
+&nbsp;     * @param path - what to extract the file path from
+&nbsp;     * @return - absolute path to the file
+&nbsp;     */
+&nbsp;    String getAbsolutePath(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the file for which to load into a String object.
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     * @return a String with the file&#39;s contents.
+&nbsp;     */
+&nbsp;    String readTextFile(String file, Charset encoding);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the file in which to write the String object.
+&nbsp;     * @param content String to write into the file.
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     */
+&nbsp;    void writeTextFile(String file, String content, Charset encoding);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

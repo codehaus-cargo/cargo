@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EarArchive</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.application</a>
+</div>
+
+<h1>Coverage Summary for Class: EarArchive (org.codehaus.cargo.module.application)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">EarArchive</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.application;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.JarArchive;
+&nbsp;import org.codehaus.cargo.module.ejb.EjbArchive;
+&nbsp;import org.codehaus.cargo.module.webapp.WarArchive;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that encapsulates access to an EAR.
+&nbsp; */
+&nbsp;public interface EarArchive extends JarArchive
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Returns the deployment descriptor of the web application.
+&nbsp;     * 
+&nbsp;     * @return The parsed deployment descriptor
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the EAR
+&nbsp;     * @throws JDOMException If there is an exception reading the application xml
+&nbsp;     */
+&nbsp;    ApplicationXml getApplicationXml()
+&nbsp;        throws IOException, JDOMException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the web-app archive stored in the EAR with the specified URI.
+&nbsp;     * 
+&nbsp;     * @param uri The URI of the web module
+&nbsp;     * @return The web-app archive, or &lt;code&gt;null&lt;/code&gt; if no WAR was found at the specified URI
+&nbsp;     * @throws IOException If there was an errors reading from the EAR or WAR
+&nbsp;     */
+&nbsp;    WarArchive getWebModule(String uri) throws IOException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the ejb archive stored in the EAR with the specified URI.
+&nbsp;     * 
+&nbsp;     * @param uri The URI of the ejb module
+&nbsp;     * @return The ejb archive, or &lt;code&gt;null&lt;/code&gt; if no WAR was found at the specified URI
+&nbsp;     * @throws IOException If there was an errors reading from the EAR or EJB
+&nbsp;     */
+&nbsp;    EjbArchive getEjbModule(String uri) throws IOException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

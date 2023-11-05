@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ZipCompressor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: ZipCompressor (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ZipCompressor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.zip.ZipEntry;
+&nbsp;import java.util.zip.ZipOutputStream;
+&nbsp;
+&nbsp;/**
+&nbsp; * Utility for compressing ZIP files.
+&nbsp; */
+&nbsp;public class ZipCompressor
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * File handler.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Saves the file handler.
+&nbsp;     * @param fileHandler File handler.
+&nbsp;     */
+&nbsp;    public ZipCompressor(FileHandler fileHandler)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compress a directory into a ZIP file.
+&nbsp;     * @param sourceDirectory Source directory.
+&nbsp;     * @param targetFile Target ZIP file.
+&nbsp;     * @throws IOException If any I/O exception occurs.
+&nbsp;     */
+&nbsp;    public void compress(String sourceDirectory, String targetFile) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        try (ZipOutputStream zipFile =</b>
+<b class="nc">&nbsp;            new ZipOutputStream(this.fileHandler.getOutputStream(targetFile)))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            this.compressDirectory(sourceDirectory, sourceDirectory, zipFile);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compress a (sub)directory into a ZIP file.
+&nbsp;     * @param currentDirectory Current directory being compressed.
+&nbsp;     * @param startDirectory Source directory where compression started from (for the recursion).
+&nbsp;     * @param zipFile ZIP file stream to write into.
+&nbsp;     * @throws IOException If any I/O exception occurs.
+&nbsp;     */
+&nbsp;    private void compressDirectory(String currentDirectory, String startDirectory,
+&nbsp;        ZipOutputStream zipFile) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        for (String child : this.fileHandler.getChildren(currentDirectory))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String childPath = child.replace(startDirectory, &quot;&quot;).replace(&#39;\\&#39;, &#39;/&#39;);</b>
+<b class="nc">&nbsp;            if (childPath.startsWith(&quot;/&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                childPath = childPath.substring(1);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (this.fileHandler.isDirectory(child))</b>
+&nbsp;            {
+&nbsp;                // In ZIP terminology, en entry is a directory when its name ends with a /
+<b class="nc">&nbsp;                childPath = childPath + &#39;/&#39;;</b>
+<b class="nc">&nbsp;                ZipEntry entry = new ZipEntry(childPath);</b>
+<b class="nc">&nbsp;                zipFile.putNextEntry(entry);</b>
+&nbsp;
+<b class="nc">&nbsp;                this.compressDirectory(child, startDirectory, zipFile);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                ZipEntry entry = new ZipEntry(childPath);</b>
+<b class="nc">&nbsp;                zipFile.putNextEntry(entry);</b>
+<b class="nc">&nbsp;                try (InputStream content = this.fileHandler.getInputStream(child))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.fileHandler.copy(content, zipFile);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

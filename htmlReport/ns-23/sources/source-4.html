@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WarArchiveMerger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.merge</a>
+</div>
+
+<h1>Coverage Summary for Class: WarArchiveMerger (org.codehaus.cargo.module.webapp.merge)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WarArchiveMerger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.merge;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.merge.MergeException;
+&nbsp;import org.codehaus.cargo.module.merge.MergeProcessor;
+&nbsp;import org.codehaus.cargo.module.webapp.WarArchive;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class for merging two War Archives into each other.
+&nbsp; */
+&nbsp;public class WarArchiveMerger implements MergeProcessor
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The result that we are building up.
+&nbsp;     */
+&nbsp;    private MergedWarArchive result;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor Class for merging War archives together.
+&nbsp;     */
+&nbsp;    public WarArchiveMerger()
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.result = new MergedWarArchive();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a merging processor that merges specified items witin the war files.
+&nbsp;     * 
+&nbsp;     * @param path in the path to merge to
+&nbsp;     * @param merger in the merger
+&nbsp;     */
+&nbsp;    public void addMergeProcessor(String path, MergeProcessor merger)
+&nbsp;    {
+<b class="nc">&nbsp;        if (path == null || merger == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.result.addProcessor(path, merger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addMergeItem(Object mergeItem) throws MergeException
+&nbsp;    {
+<b class="nc">&nbsp;        if (mergeItem instanceof WarArchive)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            this.result.add((WarArchive) mergeItem);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (mergeItem instanceof File)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            this.result.addJar((File) mergeItem);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            throw new MergeException(</b>
+&nbsp;                    &quot;WarArchiveMerger cannot merge things that are not WarArchives or files&quot;);
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Object performMerge()
+&nbsp;    {
+<b class="nc">&nbsp;        WarArchive merge = this.result;</b>
+<b class="nc">&nbsp;        this.result = new MergedWarArchive();</b>
+<b class="nc">&nbsp;        return merge;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Perform the archive merge, using the specified file as the output destination.
+&nbsp;     * 
+&nbsp;     * @param targetFile The target file to output to.
+&nbsp;     * @throws JDOMException If a JDOM exception occurs
+&nbsp;     * @throws IOException If an IO exception occurs
+&nbsp;     */
+&nbsp;    public void performMerge(File targetFile) throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        WarArchive output = (WarArchive) performMerge();</b>
+<b class="nc">&nbsp;        output.store(targetFile);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Control whether the merge should include JAR files.
+&nbsp;     * 
+&nbsp;     * @param doMergeJarFiles true if we do (default)
+&nbsp;     */
+&nbsp;    public void setMergeJarFiles(boolean doMergeJarFiles)
+&nbsp;    {
+<b class="nc">&nbsp;        this.result.mergeJarFiles(doMergeJarFiles);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the class used for web xml merging.
+&nbsp;     * 
+&nbsp;     * @return the Web XML Merger
+&nbsp;     */
+&nbsp;    public WebXmlMerger getWebXmlMerger()
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            return this.result.getWebXmlMerger();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception ex)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Exception getting web xml merger&quot;, ex);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

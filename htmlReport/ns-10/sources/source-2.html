@@ -1,0 +1,294 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.configuration.builder</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder (org.codehaus.cargo.container.spi.configuration.builder)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.configuration.builder;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.LocalContainer;
+&nbsp;import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.DataSource;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.DataSourceSupport;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.Resource;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.ResourceSupport;
+&nbsp;import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
+&nbsp;import org.codehaus.cargo.util.DefaultXmlFileBuilder;
+&nbsp;import org.codehaus.cargo.util.XmlFileBuilder;
+&nbsp;
+&nbsp;/**
+&nbsp; * {@inheritDoc} Convenience class that simplifies development of
+&nbsp; * {@link org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration} configurations
+&nbsp; * with {@link DataSourceSupport}. It does this by implementing {@link DataSourceSupport} and
+&nbsp; * instead asking for the inputs to this:
+&nbsp; * &lt;ol&gt;
+&nbsp; * &lt;li&gt; {@link createConfigurationBuilder}: how do we generate the xml element(s) representing the
+&nbsp; * datasource&lt;/li&gt;
+&nbsp; * &lt;li&gt; {@link getXpathForDataSourcesParent}: under which element should datasource elements be
+&nbsp; * inserted?&lt;/li&gt;
+&nbsp; * &lt;li&gt; {@link getNamespaces}: does this configuration file use namespaces?&lt;/li&gt;
+&nbsp; * &lt;li&gt; {@link getOrCreateDataSourceConfigurationFile}: where do we load and store the datasource
+&nbsp; * configuration?&lt;/li&gt;
+&nbsp; * &lt;/ol&gt;
+&nbsp; */
+&nbsp;public abstract class AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder extends
+&nbsp;    AbstractStandaloneLocalConfiguration implements DataSourceSupport, ResourceSupport
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * @param dir configuration home
+&nbsp;     */
+&nbsp;    public AbstractStandaloneLocalConfigurationWithXMLConfigurationBuilder(String dir)
+&nbsp;    {
+<b class="nc">&nbsp;        super(dir);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementations should avoid passing null, and instead pass
+&nbsp;     * &lt;code&gt;Collections.EMPTY_MAP&lt;/code&gt;, if the document is DTD bound.
+&nbsp;     * 
+&nbsp;     * @return a map of prefixes to the url namespaces used in the datasource configuration file.
+&nbsp;     */
+&nbsp;    protected abstract Map&lt;String, String&gt; getNamespaces();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * DataSource entries must be stored in the xml configuration file. Under which element do we
+&nbsp;     * insert the entries? example: //Engine/DefaultContext
+&nbsp;     * 
+&nbsp;     * @return path the the parent element datasources should be inserted under.
+&nbsp;     */
+&nbsp;    protected abstract String getXpathForDataSourcesParent();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource entries must be stored in the xml configuration file. Under which element do we
+&nbsp;     * insert the entries? example: //Engine/DefaultContext
+&nbsp;     * 
+&nbsp;     * @return path the the parent element Resources should be inserted under.
+&nbsp;     */
+&nbsp;    protected abstract String getXpathForResourcesParent();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * note that this file could hold other configuration besides datasources.
+&nbsp;     * 
+&nbsp;     * @param ds the DataSource configuration you wish to install on the container.
+&nbsp;     * @param container the container whose configuration you wish to affect.
+&nbsp;     * @return the file that holds datasource configuration.
+&nbsp;     */
+&nbsp;    protected abstract String getOrCreateDataSourceConfigurationFile(DataSource ds,
+&nbsp;        LocalContainer container);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * note that this file could hold other configuration besides Resources.
+&nbsp;     * 
+&nbsp;     * @param resource the Resource configuration you wish to install on the container.
+&nbsp;     * @param container the container whose configuration you wish to affect.
+&nbsp;     * @return the file that holds Resource configuration.
+&nbsp;     */
+&nbsp;    protected abstract String getOrCreateResourceConfigurationFile(Resource resource,
+&nbsp;        LocalContainer container);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param container Container the dataSource will be configured on.
+&nbsp;     * @return the object that produces xml entries for DataSource definitions.
+&nbsp;     */
+&nbsp;    protected abstract ConfigurationBuilder createConfigurationBuilder(LocalContainer container);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Configure the specified container.
+&nbsp;     * 
+&nbsp;     * @param container the container to configure
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void configure(LocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        super.configure(container);</b>
+<b class="nc">&nbsp;        configureDataSources(container);</b>
+<b class="nc">&nbsp;        configureResources(container);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void configureDataSources(LocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        for (DataSource dataSource : getDataSources())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            configure(dataSource, container);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void configure(Resource ds, LocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        ConfigurationBuilder builder = this.createConfigurationBuilder(container);</b>
+<b class="nc">&nbsp;        String xml = builder.toConfigurationEntry(ds);</b>
+<b class="nc">&nbsp;        String file = getOrCreateResourceConfigurationFile(ds, container);</b>
+<b class="nc">&nbsp;        writeConfigurationToXpath(file, xml, getXpathForResourcesParent());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void configureResources(LocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        for (Resource resource : getResources())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            configure(resource, container);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void configure(DataSource ds, LocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        ConfigurationBuilder builder = this.createConfigurationBuilder(container);</b>
+<b class="nc">&nbsp;        String file = getOrCreateDataSourceConfigurationFile(ds, container);</b>
+<b class="nc">&nbsp;        String xml = builder.toConfigurationEntry(ds);</b>
+<b class="nc">&nbsp;        writeConfigurationToXpath(file, xml, getXpathForDataSourcesParent());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Utility method used to write XML to an appropriate place in the configuration file.
+&nbsp;     * 
+&nbsp;     * @param file where to write the datasource configuration to.
+&nbsp;     * @param xml node you wish to write to the resources configuration file.
+&nbsp;     * @param path where in the file to write the configuration.
+&nbsp;     */
+&nbsp;    protected void writeConfigurationToXpath(String file, String xml, String path)
+&nbsp;    {
+<b class="nc">&nbsp;        XmlFileBuilder manager = new DefaultXmlFileBuilder(getFileHandler());</b>
+<b class="nc">&nbsp;        manager.setNamespaces(getNamespaces());</b>
+<b class="nc">&nbsp;        manager.setFile(file);</b>
+<b class="nc">&nbsp;        manager.loadFile();</b>
+<b class="nc">&nbsp;        manager.insertElementsUnderXPath(xml, path);</b>
+<b class="nc">&nbsp;        manager.writeFile();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

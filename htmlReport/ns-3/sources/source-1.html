@@ -1,0 +1,501 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DataSource</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.configuration.entry</a>
+</div>
+
+<h1>Coverage Summary for Class: DataSource (org.codehaus.cargo.container.configuration.entry)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DataSource</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (16/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82.5%
+  </span>
+  <span class="absValue">
+    (47/57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.configuration.entry;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Properties;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
+&nbsp;import org.codehaus.cargo.container.property.TransactionSupport;
+&nbsp;
+&nbsp;/**
+&nbsp; * A Datasource is a representation of a JDBC datasource. If supported by the container, this
+&nbsp; * property is used to setup a datasource.
+&nbsp; */
+&nbsp;public class DataSource
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * (typically &lt;code&gt;java:comp/env&lt;/code&gt;).
+&nbsp;     */
+&nbsp;    private String jndiLocation;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * &lt;code&gt;javax.sql.XADataSource&lt;/code&gt; or &lt;code&gt;javax.sql.Driver&lt;/code&gt;.
+&nbsp;     * 
+&nbsp;     * @see org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType
+&nbsp;     */
+&nbsp;    private String connectionType;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * transaction support of the datasource ex. &lt;code&gt;XA_TRANSACTION&lt;/code&gt;
+&nbsp;     */
+&nbsp;    private TransactionSupport transactionSupport;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The class name of the Driver. Example: &lt;code&gt;org.hsqldb.jdbcDriver&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    private String driverClass;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The url of the driver.
+&nbsp;     */
+&nbsp;    private String url;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The username.
+&nbsp;     */
+&nbsp;    private String username;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The password.
+&nbsp;     */
+&nbsp;    private String password;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * id used in configuration files.
+&nbsp;     */
+&nbsp;    private String id;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * extra properties passed to the jdbc driver.
+&nbsp;     */
+&nbsp;    private Properties connectionProperties;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * initializes connectionProperties to a new object.
+&nbsp;     */
+&nbsp;    public DataSource()
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        connectionProperties = new Properties();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor containing default DataSource construction rules.
+&nbsp;     * 
+&nbsp;     * @param jndiLocation Where to bind this DataSource (typically &lt;code&gt;java:comp/env&lt;/code&gt;).
+&nbsp;     * @param connectionType What to use to get a connection from the database.
+&nbsp;     *      &lt;code&gt;javax.sql.XADataSource&lt;/code&gt; or &lt;code&gt;javax.sql.Driver&lt;/code&gt;.
+&nbsp;     * @param transactionSupport Transaction support of the datasource ex.
+&nbsp;     *      &lt;code&gt;XA_TRANSACTION&lt;/code&gt;
+&nbsp;     * @param driverClass The class name of the Driver or XADataSource. Example:
+&nbsp;     *      &lt;code&gt;org.hsqldb.jdbcDriver&lt;/code&gt;.
+&nbsp;     * @param url The url of the driver.
+&nbsp;     * @param username The user to connect to the database with.
+&nbsp;     * @param password The password to {@link #username}.
+&nbsp;     * @param id Id used in configuration files.
+&nbsp;     * @param connectionProperties Extra properties passed to the jdbc driver.
+&nbsp;     */
+&nbsp;    public DataSource(String jndiLocation, String connectionType,
+&nbsp;            TransactionSupport transactionSupport, String driverClass, String url,
+&nbsp;            String username, String password, String id, Properties connectionProperties)
+<b class="fc">&nbsp;    {</b>
+&nbsp;        // Can also be implemented as Builder pattern to avoid null parameters.
+<b class="fc">&nbsp;        this.jndiLocation = jndiLocation;</b>
+<b class="fc">&nbsp;        this.connectionType = createConnectionType(connectionType);</b>
+<b class="fc">&nbsp;        this.transactionSupport =</b>
+<b class="fc">&nbsp;            createTransactionSupport(transactionSupport, this.connectionType);</b>
+<b class="fc">&nbsp;        this.driverClass = driverClass;</b>
+<b class="fc">&nbsp;        this.url = url;</b>
+<b class="fc">&nbsp;        this.username = username;</b>
+<b class="fc">&nbsp;        this.password = password;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (id == null &amp;&amp; jndiLocation != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            this.id = createIdFromJndiLocation(jndiLocation);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            this.id = id;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        this.connectionProperties = connectionProperties;</b>
+<b class="fc">&nbsp;        setCredentialsIfInsideDriverProperties();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param jndiLocation where to bind this DataSource (typically &lt;code&gt;java:comp/env&lt;/code&gt;).
+&nbsp;     */
+&nbsp;    public void setJndiLocation(String jndiLocation)
+&nbsp;    {
+<b class="nc">&nbsp;        this.jndiLocation = jndiLocation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param connectionType what to use to get a connection from the database.
+&nbsp;     * &lt;code&gt;javax.sql.XADataSource&lt;/code&gt; or &lt;code&gt;javax.sql.Driver&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    public void setConnectionType(String connectionType)
+&nbsp;    {
+<b class="nc">&nbsp;        this.connectionType = connectionType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param transactionSupport transaction support of the datasource ex.
+&nbsp;     * &lt;code&gt;XA_TRANSACTION&lt;/code&gt;
+&nbsp;     */
+&nbsp;    public void setTransactionSupport(TransactionSupport transactionSupport)
+&nbsp;    {
+<b class="nc">&nbsp;        this.transactionSupport = transactionSupport;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param driverClass The class name of the Driver or XADataSource. Example:
+&nbsp;     * &lt;code&gt;org.hsqldb.jdbcDriver&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    public void setDriverClass(String driverClass)
+&nbsp;    {
+<b class="nc">&nbsp;        this.driverClass = driverClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param url The url of the driver.
+&nbsp;     */
+&nbsp;    public void setUrl(String url)
+&nbsp;    {
+<b class="nc">&nbsp;        this.url = url;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param username the user to connect to the database with
+&nbsp;     */
+&nbsp;    public void setUsername(String username)
+&nbsp;    {
+<b class="fc">&nbsp;        this.username = username;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param password the password to {@link #username}
+&nbsp;     */
+&nbsp;    public void setPassword(String password)
+&nbsp;    {
+<b class="fc">&nbsp;        this.password = password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param id id used in configuration files.
+&nbsp;     */
+&nbsp;    public void setId(String id)
+&nbsp;    {
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param connectionProperties extra properties passed to the jdbc driver.
+&nbsp;     */
+&nbsp;    public void setConnectionProperties(Properties connectionProperties)
+&nbsp;    {
+<b class="nc">&nbsp;        this.connectionProperties = connectionProperties;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The String used to identify this datasource in configuration files.
+&nbsp;     * 
+&nbsp;     * @return the datasource id
+&nbsp;     */
+&nbsp;    public String getId()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The JNDI location that this datasource should be bound do (in the config file). Note that
+&nbsp;     * many application servers may prepend a context (typically &lt;code&gt;java:comp/env&lt;/code&gt;) to this
+&nbsp;     * context.
+&nbsp;     * 
+&nbsp;     * @return the JNDI location
+&nbsp;     */
+&nbsp;    public String getJndiLocation()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.jndiLocation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The type of the data source (typically &lt;code&gt;javax.sql.XADataSource&lt;/code&gt; or
+&nbsp;     * &lt;code&gt;javax.sql.DataSource&lt;/code&gt;).
+&nbsp;     * 
+&nbsp;     * @return the datasource type.
+&nbsp;     */
+&nbsp;    public String getConnectionType()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.connectionType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The transaction support of the underlying connections, if &lt;code&gt;javax.xml.DataSource&lt;/code&gt;.
+&nbsp;     * 
+&nbsp;     * @return transactional support of the DataSource
+&nbsp;     */
+&nbsp;    public TransactionSupport getTransactionSupport()
+&nbsp;    {
+<b class="fc">&nbsp;        return transactionSupport;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The class name of the Driver or XADataSource. Example: &lt;code&gt;org.hsqldb.jdbcDriver&lt;/code&gt;.
+&nbsp;     * 
+&nbsp;     * @return the class name of the JDBC driver
+&nbsp;     */
+&nbsp;    public String getDriverClass()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.driverClass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extra properties passed to the JDBC Driver.
+&nbsp;     * 
+&nbsp;     * @return Extra properties passed to the JDBC Driver.
+&nbsp;     */
+&nbsp;    public Properties getConnectionProperties()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.connectionProperties;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The url to connect to the database. Example: &lt;code&gt;jdbc:hsqldb:database/jiradb&lt;/code&gt;.
+&nbsp;     * 
+&nbsp;     * @return the url to connect to the database
+&nbsp;     */
+&nbsp;    public String getUrl()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.url;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The username to use when connecting to the database.
+&nbsp;     * 
+&nbsp;     * @return the username (eg &#39;sa&#39;)
+&nbsp;     */
+&nbsp;    public String getUsername()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.username;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The password to use when connecting to the database.
+&nbsp;     * 
+&nbsp;     * @return the password to use to connect to the database
+&nbsp;     */
+&nbsp;    public String getPassword()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create valid connection type based on input value.
+&nbsp;     * 
+&nbsp;     * @param connectionType Connection type value to be converted.
+&nbsp;     * @return Valid connection type.
+&nbsp;     */
+&nbsp;    private String createConnectionType(String connectionType)
+&nbsp;    {
+<b class="fc">&nbsp;        if (null == connectionType)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return ConfigurationEntryType.JDBC_DRIVER;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            switch (connectionType)</b>
+&nbsp;            {
+&nbsp;                case ConfigurationEntryType.XA_DATASOURCE:
+<b class="fc">&nbsp;                    return ConfigurationEntryType.XA_DATASOURCE;</b>
+&nbsp;                case ConfigurationEntryType.DATASOURCE:
+<b class="nc">&nbsp;                    return ConfigurationEntryType.DATASOURCE;</b>
+&nbsp;                default:
+<b class="fc">&nbsp;                    return ConfigurationEntryType.JDBC_DRIVER;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create valid transaction support value based on input values.
+&nbsp;     * 
+&nbsp;     * @param transactionSupport Configured transaction support.
+&nbsp;     * @param connectionType Valid connection type.
+&nbsp;     * @return Valid transaction support.
+&nbsp;     */
+&nbsp;    private TransactionSupport createTransactionSupport(TransactionSupport transactionSupport,
+&nbsp;            String connectionType)
+&nbsp;    {
+<b class="fc">&nbsp;        if (TransactionSupport.XA_TRANSACTION.equals(transactionSupport)</b>
+<b class="fc">&nbsp;            || ConfigurationEntryType.XA_DATASOURCE.equals(connectionType))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return TransactionSupport.XA_TRANSACTION;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (TransactionSupport.LOCAL_TRANSACTION.equals(transactionSupport))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return TransactionSupport.LOCAL_TRANSACTION;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            return TransactionSupport.NO_TRANSACTION;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get a string name for the configuration of this datasource. This should be XML and filesystem
+&nbsp;     * friendly. For example, the String returned will have no slashes or punctuation, and be as
+&nbsp;     * short as possible.
+&nbsp;     * 
+&nbsp;     * @param jndiLocation used to construct the id
+&nbsp;     * @return a string that can be used to name this configuration
+&nbsp;     */
+&nbsp;    private String createIdFromJndiLocation(String jndiLocation)
+&nbsp;    {
+&nbsp;        // using indexOf to avoid introducing a regex package dependency. when we move
+&nbsp;        // to jdk 5+, this can be more easily performed with regex.
+&nbsp;
+<b class="fc">&nbsp;        int[] delimeters =</b>
+&nbsp;            new int[] {
+&nbsp;                // jndi locations are organized by dots or slashes. In JBoss, it could have a colon
+<b class="fc">&nbsp;                jndiLocation.lastIndexOf(&#39;/&#39;), jndiLocation.lastIndexOf(&#39;.&#39;),</b>
+<b class="fc">&nbsp;                jndiLocation.lastIndexOf(&#39;:&#39;)};</b>
+<b class="fc">&nbsp;        Arrays.sort(delimeters);</b>
+&nbsp;
+<b class="fc">&nbsp;        int highestIndex = delimeters[2];</b>
+&nbsp;
+&nbsp;        // highestIndex could be -1, or a location of a character we don&#39;t want. In either case, we
+&nbsp;        // want to increase it by one
+<b class="fc">&nbsp;        return jndiLocation.substring(highestIndex + 1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * if the enclosed driver properties object is set, and also contains the user and password
+&nbsp;     * properties, set the corresponding member values.
+&nbsp;     */
+&nbsp;    private void setCredentialsIfInsideDriverProperties()
+&nbsp;    {
+<b class="fc">&nbsp;        if (getConnectionProperties() != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (getConnectionProperties().containsKey(&quot;user&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                setUsername(getConnectionProperties().getProperty(&quot;user&quot;));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (getConnectionProperties().containsKey(&quot;password&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                setPassword(getConnectionProperties().getProperty(&quot;password&quot;));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1223 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DefaultFileHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultFileHandler (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultFileHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.8%
+  </span>
+  <span class="absValue">
+    (28/39)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40.4%
+  </span>
+  <span class="absValue">
+    (149/369)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DefaultFileHandler$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (28/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40.3%
+  </span>
+  <span class="absValue">
+    (149/370)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.BufferedWriter;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.io.OutputStreamWriter;
+&nbsp;import java.io.Reader;
+&nbsp;import java.io.Writer;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Enumeration;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Random;
+&nbsp;import java.util.jar.JarEntry;
+&nbsp;import java.util.jar.JarFile;
+&nbsp;
+&nbsp;import javax.xml.xpath.XPath;
+&nbsp;import javax.xml.xpath.XPathConstants;
+&nbsp;import javax.xml.xpath.XPathExpression;
+&nbsp;import javax.xml.xpath.XPathFactory;
+&nbsp;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.Element;
+&nbsp;import org.w3c.dom.Node;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * File operations that are performed in Cargo. All file operations must use this class.
+&nbsp; */
+<b class="fc">&nbsp;public class DefaultFileHandler extends LoggedObject implements FileHandler</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Default file buffer size.
+&nbsp;     */
+&nbsp;    public static final int FILE_BUFFER_SIZE = 256 * 1024;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Counter for creating unique temp directories.
+&nbsp;     */
+<b class="fc">&nbsp;    private static int uniqueNameCounter = -1;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sanitize a given name to turn it into a safe file name, removing for example leading or
+&nbsp;     * trailing slashes, as well as intermediate parent path jumps.
+&nbsp;     * @param filename name to sanitize
+&nbsp;     * @param logger Logger to log when sanitization happens (optional)
+&nbsp;     * @return sanitized name
+&nbsp;     */
+&nbsp;    public static String sanitizeFilename(String filename, Logger logger)
+&nbsp;    {
+<b class="fc">&nbsp;        String sanitizedFilename = filename.replace(&#39;\\&#39;, &#39;/&#39;);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (sanitizedFilename.startsWith(&quot;/&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (logger != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                logger.debug(&quot;File name [&quot; + filename</b>
+&nbsp;                    + &quot;] has trailing slashes, removing for the sanitized file name&quot;,
+<b class="nc">&nbsp;                        DefaultFileHandler.class.getName());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            sanitizedFilename = sanitizedFilename.replaceAll(&quot;^\\/+&quot;, &quot;&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (sanitizedFilename.endsWith(&quot;/&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (logger != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                logger.debug(&quot;File name [&quot; + filename</b>
+&nbsp;                    + &quot;] has ending slashes, removing for the sanitized file name&quot;,
+<b class="fc">&nbsp;                        DefaultFileHandler.class.getName());</b>
+&nbsp;            }
+<b class="fc">&nbsp;            sanitizedFilename = sanitizedFilename.replaceAll(&quot;\\/+$&quot;, &quot;&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        while (sanitizedFilename.contains(&quot;/../&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (logger != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                logger.debug(&quot;File name [&quot; + filename</b>
+&nbsp;                    + &quot;] has intermediate /../, replacing with single /&quot;,
+<b class="fc">&nbsp;                        DefaultFileHandler.class.getName());</b>
+&nbsp;            }
+<b class="fc">&nbsp;            sanitizedFilename = sanitizedFilename.replace(&quot;/../&quot;, &quot;/&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        while (sanitizedFilename.contains(&quot;//&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (logger != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                logger.debug(&quot;File name [&quot; + filename</b>
+&nbsp;                    + &quot;] has intermediate //, replacing with single /&quot;,
+<b class="nc">&nbsp;                        DefaultFileHandler.class.getName());</b>
+&nbsp;            }
+<b class="nc">&nbsp;            sanitizedFilename = sanitizedFilename.replace(&quot;//&quot;, &quot;/&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return sanitizedFilename.trim();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copyFile(String source, String target)
+&nbsp;    {
+<b class="fc">&nbsp;        this.copyFile(source, target, false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copyFile(String source, String target, boolean overwrite)
+&nbsp;    {
+<b class="fc">&nbsp;        File sourceFile = new File(source);</b>
+<b class="fc">&nbsp;        if (!sourceFile.isFile())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Source file [&quot; + source + &quot;] is not a file&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        File targetFile = new File(target);</b>
+<b class="fc">&nbsp;        if (targetFile.isFile() &amp;&amp; !overwrite)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            getLogger().debug(&quot;Skipping copy of existing binary file [&quot; + target + &quot;]&quot;,</b>
+<b class="fc">&nbsp;                this.getClass().getName());</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            if (!targetFile.getParentFile().exists())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                this.mkdirs(targetFile.getParentFile().getAbsolutePath());</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (targetFile.isDirectory())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                targetFile = new File(this.append(target, getName(source)));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            try (InputStream in = new FileInputStream(sourceFile);</b>
+<b class="fc">&nbsp;                FileOutputStream out = new FileOutputStream(targetFile))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                this.copy(in, out);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="nc">&nbsp;            catch (IOException e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new CargoException(&quot;Failed to copy source file [&quot; + source + &quot;] to [&quot;</b>
+&nbsp;                    + targetFile + &quot;]&quot;, e);
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+<b class="fc">&nbsp;            long size = targetFile.length();</b>
+<b class="fc">&nbsp;            String unit = &quot;bytes&quot;;</b>
+<b class="fc">&nbsp;            if (size &gt; 1024)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                size = size / 1024;</b>
+<b class="nc">&nbsp;                unit = &quot;KB&quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (size &gt; 1024)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                size = size / 1024;</b>
+<b class="nc">&nbsp;                unit = &quot;MB&quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            getLogger().debug(&quot;Copied binary file [&quot; + source + &quot;] to [&quot; + target + &quot;] (&quot; + size</b>
+<b class="fc">&nbsp;                + &quot; &quot; + unit + &quot;)&quot;, this.getClass().getName());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copyFile(
+&nbsp;        String source, String target, Map&lt;String, String&gt; replacements, Charset encoding)
+&nbsp;    {
+<b class="fc">&nbsp;        try (BufferedReader fileReader =</b>
+<b class="fc">&nbsp;                new BufferedReader(this.newReader(this.getInputStream(source), encoding));</b>
+<b class="fc">&nbsp;                BufferedWriter out = new BufferedWriter(this.newWriter(target, encoding)))</b>
+&nbsp;        {
+&nbsp;            String line;
+<b class="fc">&nbsp;            while ((line = fileReader.readLine()) != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (line.isEmpty())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    out.newLine();</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    if (replacements != null)</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        for (Map.Entry&lt;String, String&gt; replacement : replacements.entrySet())</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            String replacementKey = &quot;@&quot; + replacement.getKey() + &quot;@&quot;;</b>
+<b class="fc">&nbsp;                            line = line.replace(replacementKey, replacement.getValue());</b>
+<b class="fc">&nbsp;                        }</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    out.write(line);</b>
+<b class="fc">&nbsp;                    out.newLine();</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to copy source file [&quot; + source + &quot;] to [&quot; + target</b>
+&nbsp;                    + &quot;] with replacements&quot;, e);
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        long size = getSize(target);</b>
+<b class="fc">&nbsp;        String unit = &quot;bytes&quot;;</b>
+<b class="fc">&nbsp;        if (size &gt; 1024)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            size = size / 1024;</b>
+<b class="nc">&nbsp;            unit = &quot;KB&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (size &gt; 1024)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            size = size / 1024;</b>
+<b class="nc">&nbsp;            unit = &quot;MB&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        getLogger().debug(&quot;Copied text file [&quot; + source + &quot;] to [&quot; + target + &quot;] (&quot; + size + &quot; &quot;</b>
+<b class="fc">&nbsp;            + unit + &quot;), encoding &quot; + encoding, this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copyDirectory(String source, String target)
+&nbsp;    {
+<b class="fc">&nbsp;        this.copyDirectory(source, target, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copyDirectory(String source, String target, List&lt;String&gt; excludes)
+&nbsp;    {
+<b class="fc">&nbsp;        File sourceDirectory = new File(source);</b>
+<b class="fc">&nbsp;        if (!sourceDirectory.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Source [&quot; + source + &quot;] is not a directory&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        File targetDirectory = new File(target);</b>
+<b class="fc">&nbsp;        if (!targetDirectory.isDirectory())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            targetDirectory.mkdirs();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!targetDirectory.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Target directory [&quot; + target + &quot;] cannot be created&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (File sourceDirectoryContent : sourceDirectory.listFiles())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String sourcePath = sourceDirectoryContent.getAbsolutePath();</b>
+<b class="fc">&nbsp;            String subtarget = this.append(target, sourceDirectoryContent.getName());</b>
+&nbsp;
+<b class="fc">&nbsp;            boolean included = true;</b>
+<b class="fc">&nbsp;            if (excludes != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                for (String exclude : excludes)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if (exclude.endsWith(&quot;/**&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (sourceDirectoryContent.isDirectory())</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            if (sourceDirectoryContent.getName().equals(</b>
+<b class="nc">&nbsp;                                exclude.substring(0, exclude.length() - 3)))</b>
+&nbsp;                            {
+&nbsp;                                // Content of the directory should be ignored,
+&nbsp;                                // nevertheless an (empty) target directory should be kept
+<b class="nc">&nbsp;                                this.mkdirs(subtarget);</b>
+&nbsp;
+<b class="nc">&nbsp;                                included = false;</b>
+<b class="nc">&nbsp;                                break;</b>
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                    else if (exclude.startsWith(&quot;**/&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (sourceDirectoryContent.isFile())</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            if (sourceDirectoryContent.getName().endsWith(exclude.substring(3)))</b>
+&nbsp;                            {
+<b class="nc">&nbsp;                                included = false;</b>
+<b class="nc">&nbsp;                                break;</b>
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                    else if (exclude.contains(&quot;*&quot;) || exclude.contains(&quot;/&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        throw new CargoException(&quot;Unsupported exclusion filter: &quot; + exclude);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (included)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (sourceDirectoryContent.isDirectory())</b>
+&nbsp;                {
+&nbsp;                    // For subdirectories, only add file exclusions into the list
+<b class="nc">&nbsp;                    List&lt;String&gt; updatedExcludes = null;</b>
+<b class="nc">&nbsp;                    if (excludes != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        for (String exclude : excludes)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            if (exclude.startsWith(&quot;**/&quot;))</b>
+&nbsp;                            {
+<b class="nc">&nbsp;                                if (updatedExcludes == null)</b>
+&nbsp;                                {
+<b class="nc">&nbsp;                                    updatedExcludes = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;                                    updatedExcludes.add(exclude);</b>
+&nbsp;                                }
+&nbsp;                            }
+<b class="nc">&nbsp;                        }</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    this.copyDirectory(sourcePath, subtarget, updatedExcludes);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    this.copyFile(sourcePath, subtarget);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        getLogger().debug(&quot;Copied directory [&quot; + source + &quot;] to [&quot; + target + &quot;] with exclusions [&quot;</b>
+<b class="fc">&nbsp;            + excludes + &quot;]&quot;, this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copyDirectory(
+&nbsp;        String source, String target, Map&lt;String, String&gt; replacements, Charset encoding)
+&nbsp;    {
+<b class="nc">&nbsp;        File sourceDirectory = new File(source);</b>
+<b class="nc">&nbsp;        if (!sourceDirectory.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Source [&quot; + source + &quot;] is not a directory&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        File targetDirectory = new File(target);</b>
+<b class="nc">&nbsp;        if (!targetDirectory.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            targetDirectory.mkdirs();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (!targetDirectory.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Target directory [&quot; + target + &quot;] cannot be created&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (File sourceDirectoryContent : sourceDirectory.listFiles())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            File targetFile = new File(targetDirectory, sourceDirectoryContent.getName());</b>
+<b class="nc">&nbsp;            if (sourceDirectoryContent.isFile())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (replacements == null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.copyFile(</b>
+<b class="nc">&nbsp;                        sourceDirectoryContent.getAbsolutePath(), targetFile.getAbsolutePath());</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    this.copyFile(sourceDirectoryContent.getAbsolutePath(),</b>
+<b class="nc">&nbsp;                        targetFile.getAbsolutePath(), replacements, encoding);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                this.copyDirectory(sourceDirectoryContent.getAbsolutePath(),</b>
+<b class="nc">&nbsp;                    targetFile.getAbsolutePath(), replacements, encoding);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        getLogger().debug(&quot;Copied directory [&quot; + source + &quot;] to [&quot; + target</b>
+<b class="nc">&nbsp;            + &quot;] with replacements [&quot; + replacements + &quot;]&quot;, this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void explode(String war, String exploded)
+&nbsp;    {
+<b class="nc">&nbsp;        if (exists(exploded))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            delete(exploded);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Path explodedPath = new File(exploded).toPath();</b>
+<b class="nc">&nbsp;        try (JarFile archive = new JarFile(new File(war).getAbsoluteFile()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Enumeration e = archive.entries();</b>
+<b class="nc">&nbsp;            while (e.hasMoreElements())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                JarEntry j = (JarEntry) e.nextElement();</b>
+<b class="nc">&nbsp;                String dst = this.append(exploded,</b>
+<b class="nc">&nbsp;                    DefaultFileHandler.sanitizeFilename(j.getName(), getLogger()));</b>
+&nbsp;
+<b class="nc">&nbsp;                if (j.isDirectory())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.mkdirs(dst);</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                this.mkdirs(getParent(dst));</b>
+&nbsp;
+<b class="nc">&nbsp;                try (InputStream in = archive.getInputStream(j);</b>
+<b class="nc">&nbsp;                    FileOutputStream out = new FileOutputStream(dst))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    this.copy(in, out);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                delete(exploded);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Exception ignored)</b>
+&nbsp;            {
+&nbsp;                // Ignored
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            throw new CargoException(</b>
+&nbsp;                &quot;Failed to extract file [&quot; + war + &quot;] to [&quot; + exploded + &quot;]&quot;, e);
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String createDirectory(String parentDir, String name)
+&nbsp;    {
+<b class="nc">&nbsp;        File dir = new File(parentDir, name);</b>
+<b class="nc">&nbsp;        this.mkdirs(dir.getAbsolutePath());</b>
+<b class="nc">&nbsp;        if (!dir.isDirectory() || !dir.exists())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Couldn&#39;t create directory &quot; + dir.getAbsolutePath());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return dir.getPath();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copy(InputStream in, OutputStream out, int bufSize)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            byte[] buf = new byte[bufSize];</b>
+&nbsp;            int length;
+<b class="fc">&nbsp;            while ((length = in.read(buf)) != -1)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                out.write(buf, 0, length);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to copy input stream [&quot; + in.toString()</b>
+<b class="nc">&nbsp;                + &quot;] to output stream [&quot; + out.toString() + &quot;]&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}. The default buffer size is {@link DefaultFileHandler#FILE_BUFFER_SIZE}.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void copy(InputStream in, OutputStream out)
+&nbsp;    {
+<b class="fc">&nbsp;        this.copy(in, out, DefaultFileHandler.FILE_BUFFER_SIZE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void replaceInFile(String file, Map&lt;String, String&gt; replacements, Charset encoding)
+&nbsp;        throws CargoException
+&nbsp;    {
+<b class="nc">&nbsp;        replaceInFile(file, replacements, encoding, false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void replaceInFile(String file, Map&lt;String, String&gt; replacements, Charset encoding,
+&nbsp;        boolean ignoreNonExistingProperties) throws CargoException
+&nbsp;    {
+<b class="nc">&nbsp;        String fileContents = readTextFile(file, encoding);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, String&gt; replacement : replacements.entrySet())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (!fileContents.contains(replacement.getKey()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String message = &quot;File &quot; + file + &quot; does not contain replacement key &quot;</b>
+<b class="nc">&nbsp;                    + replacement.getKey();</b>
+&nbsp;
+<b class="nc">&nbsp;                if (ignoreNonExistingProperties)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    getLogger().debug(message, this.getClass().getName());</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new CargoException(message);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            fileContents = fileContents.replace(replacement.getKey(), replacement.getValue());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        writeTextFile(file, fileContents, encoding);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void replaceInXmlFile(XmlReplacement... xmlReplacements) throws CargoException
+&nbsp;    {
+<b class="nc">&nbsp;        Map&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt; replacements =</b>
+&nbsp;            new HashMap&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt;();
+&nbsp;
+<b class="nc">&nbsp;        for (XmlReplacement xmlReplacement : xmlReplacements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Map&lt;XmlReplacementDetails, String&gt; replacementDetails =</b>
+<b class="nc">&nbsp;                replacements.get(xmlReplacement.getFile());</b>
+<b class="nc">&nbsp;            if (replacementDetails == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                replacementDetails = new HashMap&lt;XmlReplacementDetails, String&gt;();</b>
+<b class="nc">&nbsp;                replacements.put(xmlReplacement.getFile(), replacementDetails);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            XmlReplacementDetails xmlReplacementDetails = new XmlReplacementDetails(</b>
+<b class="nc">&nbsp;                xmlReplacement.getXpathExpression(), xmlReplacement.getAttributeName(),</b>
+<b class="nc">&nbsp;                    xmlReplacement.getReplacementBehavior());</b>
+<b class="nc">&nbsp;            replacementDetails.put(xmlReplacementDetails, xmlReplacement.getValue());</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        for (Map.Entry&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt; replacement
+<b class="nc">&nbsp;            : replacements.entrySet())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            replaceInXmlFile(replacement.getKey(), replacement.getValue());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces using a map of XML replacements in a given file.
+&nbsp;     * 
+&nbsp;     * @param file File to replace in.
+&nbsp;     * @param replacements Map containing XML replacements.
+&nbsp;     * @throws CargoException If anything fails, most notably if one of the replacements does not
+&nbsp;     * exist in the file.
+&nbsp;     */
+&nbsp;    private void replaceInXmlFile(String file, Map&lt;XmlReplacementDetails, String&gt; replacements)
+&nbsp;        throws CargoException
+&nbsp;    {
+<b class="nc">&nbsp;        XmlUtils domUtils = new XmlUtils(this);</b>
+<b class="nc">&nbsp;        Document doc = domUtils.loadXmlFromFile(file);</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            XPathFactory xPathFactory = XPathFactory.newInstance();</b>
+<b class="nc">&nbsp;            XPath xPath = xPathFactory.newXPath();</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Map.Entry&lt;XmlReplacementDetails, String&gt; replacement : replacements.entrySet())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String expression = replacement.getKey().getXpathExpression();</b>
+<b class="nc">&nbsp;                String attributeName = replacement.getKey().getAttributeName();</b>
+&nbsp;
+<b class="nc">&nbsp;                XPathExpression xPathExpr = xPath.compile(expression);</b>
+&nbsp;
+<b class="nc">&nbsp;                Node node = (Node) xPathExpr.evaluate(doc, XPathConstants.NODE);</b>
+&nbsp;
+<b class="nc">&nbsp;                if (node == null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    String message = &quot;Node &quot; + expression + &quot; not found in file &quot; + file;</b>
+&nbsp;
+<b class="nc">&nbsp;                    XmlReplacement.ReplacementBehavior replacementBehavior =</b>
+<b class="nc">&nbsp;                            replacement.getKey().getReplacementBehavior();</b>
+<b class="nc">&nbsp;                    switch (replacementBehavior)</b>
+&nbsp;                    {
+&nbsp;                        case IGNORE_IF_NON_EXISTING:
+<b class="nc">&nbsp;                            getLogger().debug(message, this.getClass().getName());</b>
+<b class="nc">&nbsp;                            continue;</b>
+&nbsp;
+&nbsp;                        case THROW_EXCEPTION:
+<b class="nc">&nbsp;                            throw new CargoException(message);</b>
+&nbsp;
+&nbsp;                        case ADD_MISSING_NODES:
+<b class="nc">&nbsp;                            node = new MissingXmlElementAppender(doc, expression).append();</b>
+<b class="nc">&nbsp;                            break;</b>
+&nbsp;
+&nbsp;                        default:
+<b class="nc">&nbsp;                            throw new IllegalStateException(&quot;Unknown ReplacementBehavior [&quot;</b>
+&nbsp;                                + replacementBehavior + &quot;]&quot;);
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                if (attributeName != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    Node attribute = node.getAttributes().getNamedItem(attributeName);</b>
+&nbsp;
+<b class="nc">&nbsp;                    if (attribute == null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        ((Element) node).setAttribute(attributeName, replacement.getValue());</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="nc">&nbsp;                        attribute.setNodeValue(replacement.getValue());</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    node.setTextContent(replacement.getValue());</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot modify XML document &quot; + file, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        domUtils.saveXml(doc, file);</b>
+&nbsp;
+<b class="nc">&nbsp;        getLogger().debug(&quot;Performed XML replacements in [&quot; + file + &quot;]&quot;,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getTmpPath(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        return new File(new File(System.getProperty(&quot;java.io.tmpdir&quot;), &quot;cargo&quot;), name).getPath();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized String createUniqueTmpDirectory()
+&nbsp;    {
+<b class="nc">&nbsp;        if (uniqueNameCounter == -1)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            uniqueNameCounter = new Random().nextInt() &amp; 0xffff;</b>
+&nbsp;        }
+&nbsp;        File tmpDir;
+&nbsp;        do
+&nbsp;        {
+<b class="nc">&nbsp;            uniqueNameCounter++;</b>
+<b class="nc">&nbsp;            tmpDir = new File(this.getTmpPath(Integer.toString(uniqueNameCounter)));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        while (tmpDir.exists());</b>
+<b class="nc">&nbsp;        tmpDir.deleteOnExit();</b>
+<b class="nc">&nbsp;        this.mkdirs(tmpDir.getAbsolutePath());</b>
+&nbsp;
+<b class="nc">&nbsp;        getLogger().debug(&quot;Created unique temporary directory [&quot; + tmpDir + &quot;]&quot;,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        return tmpDir.getPath();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void delete(String path)
+&nbsp;    {
+<b class="nc">&nbsp;        File pathAsFile = new File(path);</b>
+<b class="nc">&nbsp;        if (pathAsFile.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            File[] children = pathAsFile.listFiles();</b>
+<b class="nc">&nbsp;            for (File element : children)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                delete(element.getPath());</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        pathAsFile.delete();</b>
+&nbsp;
+<b class="nc">&nbsp;        getLogger().debug(&quot;Deleted file [&quot; + path + &quot;]&quot;, this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public long getSize(String file)
+&nbsp;    {
+<b class="fc">&nbsp;        File fileObject = new File(file).getAbsoluteFile();</b>
+<b class="fc">&nbsp;        if (!fileObject.isFile())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;File [&quot; + file + &quot;] is not a file&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return fileObject.length();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public InputStream getInputStream(String file)
+&nbsp;    {
+&nbsp;        InputStream is;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            is = new FileInputStream(new File(file).getAbsoluteFile());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (FileNotFoundException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to find file [&quot; + file + &quot;]&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return is;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public OutputStream getOutputStream(String file)
+&nbsp;    {
+<b class="fc">&nbsp;        String parent = getParent(file);</b>
+<b class="fc">&nbsp;        if (parent != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            this.mkdirs(parent);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        OutputStream os;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            os = new FileOutputStream(file);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (FileNotFoundException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to open output stream for file [&quot; + file + &quot;]&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return os;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String append(String path, String suffixToAppend)
+&nbsp;    {
+&nbsp;        String result;
+<b class="fc">&nbsp;        if (!path.endsWith(&quot;/&quot;) &amp;&amp; !path.endsWith(&quot;\\&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (path.contains(&quot;\\&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                result = path + &quot;\\&quot; + suffixToAppend;</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                result = path + &quot;/&quot; + suffixToAppend;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            result = path + suffixToAppend;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void mkdirs(String path)
+&nbsp;    {
+<b class="fc">&nbsp;        File pathFile = new File(path);</b>
+<b class="fc">&nbsp;        boolean success = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 3 &amp;&amp; !success; i++)</b>
+&nbsp;        {
+&nbsp;            // mkdirs() return false when the directory already exists so test for existence first
+<b class="fc">&nbsp;            if (pathFile.isFile())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new CargoException(&quot;Path [&quot; + pathFile + &quot;] is a file and not a directory&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (pathFile.isDirectory())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                success = true;</b>
+&nbsp;
+<b class="fc">&nbsp;                getLogger().debug(&quot;Directory [&quot; + pathFile + &quot;] exists&quot;,</b>
+<b class="fc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                getLogger().debug(&quot;Creating directory [&quot; + pathFile + &quot;] and parents&quot;,</b>
+<b class="fc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;                success = pathFile.mkdirs();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!success)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to create folders for path [&quot; + path + &quot;]&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getParent(String path)
+&nbsp;    {
+<b class="fc">&nbsp;        return new File(path).getParent();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean exists(String path)
+&nbsp;    {
+&nbsp;        // Security note: Uncontrolled data used in path expression not relevant, we don&#39;t output
+<b class="fc">&nbsp;        return new File(path).exists();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void createFile(String file)
+&nbsp;    {
+<b class="nc">&nbsp;        String parent = getParent(file);</b>
+<b class="nc">&nbsp;        if (!isDirectory(parent))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            mkdirs(parent);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+&nbsp;            // If the file already exists, createNewFile() returns false but we ignore it as
+&nbsp;            // we&#39;re just happy the file has been created in both cases.
+<b class="nc">&nbsp;            new File(file).createNewFile();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to create file [&quot; + file + &quot;]&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isDirectoryEmpty(String dir)
+&nbsp;    {
+<b class="nc">&nbsp;        File directory = new File(dir);</b>
+<b class="nc">&nbsp;        if (!directory.isDirectory())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Path [&quot; + dir + &quot;] does not exist or is not a directory&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return directory.list().length == 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getName(String file)
+&nbsp;    {
+<b class="fc">&nbsp;        return new File(file).getName();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getURL(String path)
+&nbsp;    {
+&nbsp;        URL result;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            result = new File(path).toURI().toURL();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (MalformedURLException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to return URL for [&quot; + path + &quot;]&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return result.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isDirectory(String path)
+&nbsp;    {
+<b class="fc">&nbsp;        return new File(path).isDirectory();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String[] getChildren(String directory)
+&nbsp;    {
+<b class="fc">&nbsp;        return getChildren(directory, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String[] getChildren(String directory, List&lt;String&gt; filters)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;String&gt; results = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;        // Note: we use listFiles() instead of list() because list() returns relative paths only
+&nbsp;        // and we need to return full paths.
+<b class="fc">&nbsp;        File[] files = new File(directory).listFiles();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; files.length; i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (filters != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                for (String filter : filters)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if (filter.contains(&quot;/&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        throw new CargoException(&quot;Unsupported file filter: &quot; + filter);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    else if (filter.startsWith(&quot;*&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (files[i].getName().endsWith(filter.substring(1)))</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            results.add(files[i].getPath());</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                    else if (filter.contains(&quot;*&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        throw new CargoException(&quot;Unsupported file filter: &quot; + filter);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    else if (files[i].getName().equals(filter))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        results.add(files[i].getPath());</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                results.add(files[i].getPath());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return results.toArray(new String[results.size()]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getAbsolutePath(String path)
+&nbsp;    {
+<b class="fc">&nbsp;        File file = new File(path);</b>
+<b class="fc">&nbsp;        if (!file.isAbsolute())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            file = new File(System.getProperty(&quot;user.dir&quot;), file.getPath());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return file.getAbsolutePath();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String readTextFile(String file, Charset encoding)
+&nbsp;    {
+<b class="fc">&nbsp;        try (BufferedReader in =</b>
+<b class="fc">&nbsp;            new BufferedReader(this.newReader(this.getInputStream(file), encoding)))</b>
+&nbsp;        {
+&nbsp;            String str;
+<b class="fc">&nbsp;            StringBuilder out = new StringBuilder();</b>
+<b class="fc">&nbsp;            while ((str = in.readLine()) != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (out.length() &gt; 0)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    out.append(System.getProperty(&quot;line.separator&quot;));</b>
+&nbsp;                }
+<b class="fc">&nbsp;                out.append(str);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return out.toString();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Failed to read text from file: &quot; + file, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void writeTextFile(String file, String content, Charset encoding)
+&nbsp;    {
+<b class="fc">&nbsp;        try (Writer writer = this.newWriter(file, encoding))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            writer.write(content);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Cannot write file&quot; + file, e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        getLogger().debug(&quot;Wrote text file [&quot; + file + &quot;], encoding &quot; + encoding,</b>
+<b class="fc">&nbsp;            this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param is The input stream to wrap, must not be {@code null}.
+&nbsp;     * @param encoding The character encoding, may be {@code null}.
+&nbsp;     * @return The reader, never {@code null}.
+&nbsp;     * @throws IOException If the reader could not be opened.
+&nbsp;     */
+&nbsp;    private Reader newReader(InputStream is, Charset encoding) throws IOException
+&nbsp;    {
+<b class="fc">&nbsp;        if (encoding == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return new InputStreamReader(is, StandardCharsets.UTF_8);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            return new InputStreamReader(is, encoding);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file The file to open, must not be {@code null}.
+&nbsp;     * @param encoding The character encoding, may be {@code null}.
+&nbsp;     * @return The writer, never {@code null}.
+&nbsp;     * @throws IOException If the writer could not be opened.
+&nbsp;     */
+&nbsp;    private Writer newWriter(String file, Charset encoding) throws IOException
+&nbsp;    {
+<b class="fc">&nbsp;        String parent = getParent(file);</b>
+<b class="fc">&nbsp;        if (!isDirectory(parent))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            this.mkdirs(parent);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (encoding == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return new OutputStreamWriter(getOutputStream(file), StandardCharsets.UTF_8);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            return new OutputStreamWriter(getOutputStream(file), encoding);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>
