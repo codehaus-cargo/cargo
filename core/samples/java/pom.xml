@@ -36,8 +36,8 @@
   <build>
     <plugins>
       <!--
-        CARGO-1470: Published a JAR with the test artifacts so we can add detailed information on
-        supported Resource types in the DataSource and Resource Support page
+        CARGO-1470: Publish a JAR with the test artifacts so we can add detailed information on
+        supported Resource types in the DataSource and Resource Support page.
         -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -52,4 +52,24 @@
       </plugin>
     </plugins>
   </build>
+  <!--
+    Re-running failing tests with the Maven Surefire plugin requires JUnit 4+.
+    -->
+  <profiles>
+    <profile>
+      <id>surefire.rerunFailingTestsCount</id>
+      <activation>
+        <property>
+          <name>surefire.rerunFailingTestsCount</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.13.2</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>
