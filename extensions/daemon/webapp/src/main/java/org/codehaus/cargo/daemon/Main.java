@@ -309,7 +309,7 @@ public final class Main
         catch (NullPointerException e)
         {
             LOGGER.println("An internal error (NullPointerException) occured when starting the "
-                + "CARGO Daemon server. Error details:");
+                + "Codehaus Cargo Daemon server. Error details:");
             for (StackTraceElement ste : e.getStackTrace())
             {
                 LOGGER.println("\t" + ste.toString());
@@ -317,7 +317,7 @@ public final class Main
         }
         catch (Throwable t)
         {
-            LOGGER.println("Failed starting the CARGO Daemon server: " + t.toString());
+            LOGGER.println("Failed starting the Codehaus Cargo Daemon server: " + t.toString());
         }
     }
 }
