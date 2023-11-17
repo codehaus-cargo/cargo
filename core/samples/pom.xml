@@ -564,7 +564,7 @@
                 <!--
                 https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip
                   -->
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.15/tomcat-10.1.15.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.16/tomcat-10.1.16.zip
               </cargo.tomcat10x.url>
               <cargo.tomcat10x.java.home>${cargo.java.home.1_11}</cargo.tomcat10x.java.home>
 
