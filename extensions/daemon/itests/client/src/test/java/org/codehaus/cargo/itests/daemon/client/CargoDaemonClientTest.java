@@ -55,7 +55,7 @@ import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Tests of CARGO Daemon using the Java client.
+ * Tests of Codehaus Cargo Daemon using the Java client.
  */
 public class CargoDaemonClientTest extends TestCase
 {
@@ -240,7 +240,7 @@ public class CargoDaemonClientTest extends TestCase
         configuration.setProperty(ServletPropertySet.PORT, System.getProperty("servlet.port"));
         configuration.setProperty(GeneralPropertySet.RMI_PORT, System.getProperty("rmi.port"));
         configuration.addXmlReplacement("etc/webdefault.xml", "//web-app/description",
-            "Testing XML replacements via the CARGO Daemon");
+            "Testing XML replacements via the Codehaus Cargo Daemon");
         DeployableFactory deployableFactory = new DefaultDeployableFactory();
         List<Deployable> deployables = new ArrayList<Deployable>();
         deployables.add(deployableFactory.createDeployable("jetty9x",
@@ -277,6 +277,9 @@ public class CargoDaemonClientTest extends TestCase
             new DeployerWatchdog(systemPropertyWarMonitor);
         systemPropertyWarWatchdog.watchForAvailability();
 
+        Map<String, String> handles = client.getHandles();
+        assertEquals("started", handles.get("test1"));
+
         client.stop("test1");
         cargoCpcWatchdog.watchForUnavailability();
 
@@ -295,7 +298,8 @@ public class CargoDaemonClientTest extends TestCase
         String webdefaultXml = new DefaultFileHandler().readTextFile(
             configurationDirectory.getAbsolutePath() + "/etc/webdefault.xml",
                 StandardCharsets.UTF_8);
-        assertTrue(webdefaultXml.contains("Testing XML replacements via the CARGO Daemon"));
+        assertTrue(webdefaultXml.contains(
+            "Testing XML replacements via the Codehaus Cargo Daemon"));
     }
 
 }

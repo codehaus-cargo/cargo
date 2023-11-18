@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.daemon;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -38,13 +36,8 @@ public class CargoDaemonAuthenticationFilterTest extends TestCase
     public void testParsePasswordFile() throws Exception
     {
         Map<String, PasswordWithHash> usernamePasswords =
-            CargoDaemonAuthenticationFilter.parsePasswordFile(new ByteArrayInputStream((
-                "cargo-daemon-user_=\n"
-                + "cargo-daemon-user1=cargo-password\n"
-                + "cargo-daemon-user0={cargo-password\n"
-                + "cargo-daemon-user2={MD5}9addb63b65b01292700094b0ef056036\n"
-                + "cargo-daemon-user3={SHA-1}2681c738294805939045be2a4af53b687c25bf4d")
-                .getBytes(StandardCharsets.UTF_8)));
+            CargoDaemonAuthenticationFilter.parsePasswordFile(
+                this.getClass().getResourceAsStream("/cargo-daemon-passwords-sample.properties"));
 
         assertTrue(usernamePasswords.containsKey("cargo-daemon-user_"));
         assertNull(usernamePasswords.get("cargo-daemon-user_"));

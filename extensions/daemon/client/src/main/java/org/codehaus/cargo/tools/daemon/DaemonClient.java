@@ -23,9 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -44,6 +46,8 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.LoggedObject;
 import org.codehaus.cargo.util.log.Logger;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  * Client for the Cargo daemon
@@ -765,6 +769,32 @@ public class DaemonClient extends LoggedObject
     }
 
     /**
+     * Get details of the handles in the Cargo Daemon.
+     * 
+     * @return Handle details, where the key is the handle identifier and the value the status
+     * @throws DaemonException if the Cargo daemon request fails
+     * @throws IOException if an i/o error occurs
+     */
+    public Map<String, String> getHandles() throws DaemonException, IOException
+    {
+        JSONObject handles = (JSONObject) JSONValue.parse(invoke("getHandles", null));
+        if (handles == null)
+        {
+            return Collections.emptyMap();
+        }
+        else
+        {
+            Map<String, String> result = new HashMap<String, String>(handles.size());
+            for (Map.Entry<Object, Object> handle
+                : (Set<Map.Entry<Object, Object>>) handles.entrySet())
+            {
+                result.put(handle.getKey().toString(), handle.getValue().toString());
+            }
+            return result;
+        }
+    }
+
+    /**
      * Invokes Cargo daemon with a specified command and content data.
      * 
      * @param path the Cargo daemon command to invoke
@@ -857,7 +887,7 @@ public class DaemonClient extends LoggedObject
         else
         {
             String response = result.getResponseBody();
-            if (response == null || !response.startsWith("OK -"))
+            if (response == null || !response.startsWith("OK -") && !response.startsWith("{"))
             {
                 throw new DaemonException("Failed parsing response for " + invokeURL
                     + ". Response was: " + extractErrorMessage(response));

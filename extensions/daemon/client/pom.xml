@@ -35,5 +35,9 @@
      <groupId>org.codehaus.cargo</groupId>
      <artifactId>cargo-core-api-util</artifactId>
    </dependency>
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+    </dependency>
   </dependencies>
 </project>

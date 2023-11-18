@@ -58,39 +58,48 @@ public class PasswordWithHash
                 digest = MessageDigest.getInstance(passwordWithDigest.substring(1, digestEnd));
                 password = passwordWithDigest.substring(digestEnd + 1);
             }
-            else
-            {
-                password = passwordWithDigest;
-            }
         }
-        else
+
+        if (digest == null)
         {
-            password = passwordWithDigest;
+            // Even if the password has no hashing algorithm, hash it to avoid leaks (for example,
+            // in case someone has introspection enabled on the JVM).
+            digest = MessageDigest.getInstance("SHA-256");
+            password = hash(passwordWithDigest);
         }
     }
 
     /**
      * Checks if the given password matches the stored one (or its hash).
+     * 
      * @param password Password to check.
      * @return <code>true</code> if the given password matches the stored one (or its hash),
      * <code>false</code> otherwise.
      */
     public boolean matches(String password)
     {
-        if (digest == null)
+        return this.password.equals(this.hash(password));
+    }
+
+    /**
+     * Hash the given text into a string.
+     * 
+     * @param text Text to hash.
+     * @return Hashed string.
+     */
+    private String hash(String text)
+    {
+        byte[] digest;
+        synchronized (this.digest)
         {
-            return this.password.equals(password);
+            digest = this.digest.digest(text.getBytes(StandardCharsets.UTF_8));
         }
-        else
+        BigInteger no = new BigInteger(1, digest);
+        String hashtext = no.toString(16);
+        while (hashtext.length() < 32)
         {
-            byte[] digest = this.digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            BigInteger no = new BigInteger(1, digest);
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32)
-            {
-                hashtext = "0" + hashtext;
-            }
-            return this.password.equals(hashtext);
+            hashtext = "0" + hashtext;
         }
+        return hashtext;
     }
 }

@@ -30,6 +30,7 @@
   <modules>
     <module>browser</module>
     <module>client</module>
+    <module>client-with-authentication</module>
     <module>deployable-on-jetty</module>
     <module>deployable-on-tomcat</module>
   </modules>

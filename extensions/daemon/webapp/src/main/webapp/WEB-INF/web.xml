@@ -24,7 +24,7 @@
   <description>Codehaus Cargo Daemon</description>
 
   <servlet>
-    <servlet-name>cargo</servlet-name>
+    <servlet-name>cargo-daemon-servlet</servlet-name>
     <servlet-class>org.codehaus.cargo.daemon.CargoDaemonServlet</servlet-class>
     <!--
       The load-on-startup element indicates that this servlet should be loaded on the startup of
@@ -37,12 +37,12 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
-    <servlet-name>error</servlet-name>
+    <servlet-name>cargo-daemon-error</servlet-name>
     <servlet-class>org.codehaus.cargo.daemon.CargoDaemonErrorServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>cargo</servlet-name>
+    <servlet-name>cargo-daemon-servlet</servlet-name>
     <url-pattern>/index.html</url-pattern>
     <url-pattern>/installed</url-pattern>
     <url-pattern>/start</url-pattern>
@@ -52,9 +52,32 @@
     <url-pattern>/getHandles</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>error</servlet-name>
+    <servlet-name>cargo-daemon-error</servlet-name>
     <url-pattern>/error</url-pattern>
   </servlet-mapping>
+
+  <filter>
+    <filter-name>cargo-daemon-authentication</filter-name>
+    <filter-class>org.codehaus.cargo.daemon.CargoDaemonAuthenticationFilter</filter-class>
+    <!--
+      If you are looking for an example of password properties file, please refer to:
+      https://raw.githubusercontent.com/codehaus-cargo/cargo/master/extensions/daemon/webapp/src/test/resources/cargo-daemon-passwords-sample.properties
+
+      Not initialising this parameter, and not setting it as a system property will make the
+      Cargo Daemon function without enabling its authentication. You can of course enable
+      authentication through a Jetty, Tomcat or other application server it would be running on
+      (particularly if you want to enable complex authentication mechanisms).
+
+    <init-param>
+      <param-name>cargo.daemon.passwordFile</param-name>
+      <param-value>cargo-daemon-passwords.properties</param-value>
+    </init-param>
+      -->
+  </filter>
+  <filter-mapping>
+    <filter-name>cargo-daemon-authentication</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <error-page>
     <error-code>500</error-code>

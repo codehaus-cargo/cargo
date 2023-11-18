@@ -44,7 +44,7 @@ import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Tests of CARGO Daemon using a virtual browser.
+ * Tests of Codehaus Cargo Daemon using a virtual browser.
  */
 public class CargoDaemonBrowserTest extends TestCase
 {

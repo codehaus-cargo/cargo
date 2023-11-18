@@ -143,14 +143,14 @@ public class CargoDaemonAuthenticationFilter implements Filter
     {
         boolean authorized = false;
 
-        if (usernamePasswords == null)
+        HttpServletRequest req = (HttpServletRequest) request;
+        if (usernamePasswords == null || req.getRequestURI().startsWith("/error"))
         {
             // No authentication required
             authorized = true;
         }
         else
         {
-            HttpServletRequest req = (HttpServletRequest) request;
             final String authorization = req.getHeader("Authorization");
             if (authorization != null)
             {

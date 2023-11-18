@@ -40,7 +40,7 @@ import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Tests of CARGO Daemon started on Jetty using the Java client.
+ * Tests of Codehaus Cargo Daemon started on Jetty using the Java client.
  */
 public class CargoDaemonDeployableTest extends TestCase
 {
