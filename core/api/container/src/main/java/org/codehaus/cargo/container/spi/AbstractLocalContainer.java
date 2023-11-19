@@ -263,6 +263,23 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         finally
         {
             this.getConfiguration().revertPortOffset();
+
+            if (!getState().isStarted() && !getState().isStopped())
+            {
+                getLogger().info(
+                    "Container is in the [" + getState() + "] state"
+                        + ", shutting it down now", this.getClass().getName());
+                try
+                {
+                    stop();
+                    setState(State.STOPPED_FAILED_START);
+                }
+                catch (Throwable t)
+                {
+                    getLogger().warn("Exception stopping container after failed start: " + t,
+                        this.getClass().getName());
+                }
+            }
         }
     }
 

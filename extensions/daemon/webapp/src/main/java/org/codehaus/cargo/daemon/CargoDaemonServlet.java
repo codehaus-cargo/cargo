@@ -49,7 +49,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -1091,7 +1090,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             synchronized (handle)
             {
-                if (handle.isAutostart() && handle.getContainerStatus() == State.STOPPED
+                if (handle.isAutostart() && handle.getContainerStatus().isStopped()
                     && !handle.isForceStop())
                 {
                     StartRequest startRequest = new StartRequest();

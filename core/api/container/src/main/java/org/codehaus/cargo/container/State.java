@@ -25,24 +25,30 @@ package org.codehaus.cargo.container;
 public final class State
 {
     /**
-     * State when container is started.
-     */
-    public static final State STARTED = new State("started");
-
-    /**
-     * State when container is stopped.
-     */
-    public static final State STOPPED = new State("stopped");
-
-    /**
      * State when container is starting.
      */
     public static final State STARTING = new State("starting");
 
     /**
+     * State when container is started.
+     */
+    public static final State STARTED = new State("started");
+
+    /**
+     * State when a container is stopped due to its start having failed.
+     */
+    public static final State STOPPED_FAILED_START =
+        new State("stopped due to failed start");
+
+    /**
      * State when container is stopping.
      */
     public static final State STOPPING = new State("stopping");
+
+    /**
+     * State when container is stopped.
+     */
+    public static final State STOPPED = new State("stopped");
 
     /**
      * Unknown state.
@@ -72,27 +78,19 @@ public final class State
     }
 
     /**
-     * @return true if the container is started
-     */
-    public boolean isStarted()
-    {
-        return this.stateText.equals("started");
-    }
-
-    /**
-     * @return true if the container is stopped
-     */
-    public boolean isStopped()
-    {
-        return this.stateText.equals("stopped");
-    }
-
-    /**
      * @return true if the container is starting
      */
     public boolean isStarting()
     {
-        return this.stateText.equals("starting");
+        return this.stateText.equals(State.STARTING.stateText);
+    }
+
+    /**
+     * @return true if the container is started
+     */
+    public boolean isStarted()
+    {
+        return this.stateText.equals(State.STARTED.stateText);
     }
 
     /**
@@ -101,5 +99,14 @@ public final class State
     public boolean isStopping()
     {
         return this.stateText.equals("stopping");
+    }
+
+    /**
+     * @return true if the container is stopped
+     */
+    public boolean isStopped()
+    {
+        return this.stateText.equals(State.STOPPED.stateText)
+            || this.stateText.equals(State.STOPPED_FAILED_START.stateText);
     }
 }

@@ -412,12 +412,20 @@ public abstract class AbstractCargoTestCase extends TestCase
         if (this.container != null && this.container.getType().isLocal())
         {
             LocalContainer container = (LocalContainer) this.container;
-            if (container.getState().isStarted() || container.getState().isStarting())
+            if (!container.getState().isStopped())
             {
                 getLogger().info(
                     "Container is in the [" + container.getState() + "] state"
                         + ", shutting it down now", this.getClass().getName());
-                container.stop();
+                try
+                {
+                    container.stop();
+                }
+                catch (Throwable t)
+                {
+                    getLogger().warn("Exception stopping container at end of tests: " + t,
+                        this.getClass().getName());
+                }
             }
         }
         getLogger().info("Ending test [" + getName() + "]", this.getClass().getName());
