@@ -421,7 +421,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                         filesize = fileManager.getFileSize(logFilePath);
                     }
 
-                    response.setContentType("text/html");
+                    response.setContentType("text/plain");
                     response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
                     response.setHeader("X-Text-Size", String.valueOf(filesize));
 
@@ -488,7 +488,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 break;
 
             case "getHandles":
-                response.setContentType("text/plain");
+                response.setContentType("application/json");
                 response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
                 break;
 
