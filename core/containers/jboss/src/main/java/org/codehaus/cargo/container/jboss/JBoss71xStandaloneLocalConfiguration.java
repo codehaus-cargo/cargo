@@ -54,6 +54,9 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
         getProperties().remove(GeneralPropertySet.RMI_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_JRMP_PORT);
         getProperties().remove(JBossPropertySet.JBOSS_JMX_PORT);
+
+        // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
+        setProperty(GeneralPropertySet.PORT_OFFSET, "0");
     }
 
     /**

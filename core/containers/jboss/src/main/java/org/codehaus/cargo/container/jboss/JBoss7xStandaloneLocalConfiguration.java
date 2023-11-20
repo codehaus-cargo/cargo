@@ -88,6 +88,9 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
         setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
         setProperty(JBossPropertySet.ALTERNATIVE_MODULES_DIR, "modules");
 
+        // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
+        getProperties().remove(GeneralPropertySet.PORT_OFFSET);
+
         try
         {
             md5 = MessageDigest.getInstance("md5");
