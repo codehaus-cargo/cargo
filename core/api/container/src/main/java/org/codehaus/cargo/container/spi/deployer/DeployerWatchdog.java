@@ -111,7 +111,7 @@ public class DeployerWatchdog extends LoggedObject implements DeployableMonitorL
                     throw new ContainerException(message);
                 }
 
-                Thread.sleep(100);
+                Thread.sleep(1000);
 
                 this.monitor.monitor();
 
