@@ -44,6 +44,9 @@ public class JBoss71xExistingLocalConfiguration extends JBoss7xExistingLocalConf
         super(dir);
 
         getProperties().remove(GeneralPropertySet.RMI_PORT);
+
+        // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
+        setProperty(GeneralPropertySet.PORT_OFFSET, "0");
     }
 
     /**

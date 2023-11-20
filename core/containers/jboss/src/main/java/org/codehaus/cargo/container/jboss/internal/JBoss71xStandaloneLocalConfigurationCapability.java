@@ -47,6 +47,6 @@ public class JBoss71xStandaloneLocalConfigurationCapability
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_JMX_PORT);
 
         // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
-        this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.TRUE);
     }
 }

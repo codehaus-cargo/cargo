@@ -48,5 +48,8 @@ public class JBoss7xExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+
+        // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
+        this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.FALSE);
     }
 }
