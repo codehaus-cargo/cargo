@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jboss;
 
 import java.nio.charset.StandardCharsets;
+
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
@@ -72,8 +73,28 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
      * {@inheritDoc}
      */
     @Override
+    protected void performXmlReplacements(LocalContainer container)
+    {
+        // JBoss 7.1.x onwards supports port offset
+        this.revertPortOffset();
+        super.performXmlReplacements(container);
+        this.applyPortOffset();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void configure(LocalContainer container)
     {
+        String configurationXmlFile = "configuration/"
+            + getPropertyValue(JBossPropertySet.CONFIGURATION) + ".xml";
+
+        addXmlReplacement(
+                configurationXmlFile,
+                "//server/socket-binding-group",
+                "port-offset", GeneralPropertySet.PORT_OFFSET);
+
         super.configure(container);
 
         // Add token filters for authenticated users

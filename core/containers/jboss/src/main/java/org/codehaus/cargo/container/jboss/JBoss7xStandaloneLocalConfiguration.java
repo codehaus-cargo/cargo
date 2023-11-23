@@ -115,18 +115,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
      * {@inheritDoc}
      */
     @Override
-    protected void performXmlReplacements(LocalContainer container)
-    {
-        // JBoss 7.x actually supports port offset
-        this.revertPortOffset();
-        super.performXmlReplacements(container);
-        this.applyPortOffset();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void configure(LocalContainer container)
     {
         for (Deployable deployable : getDeployables())
@@ -248,10 +236,6 @@ public class JBoss7xStandaloneLocalConfiguration extends AbstractStandaloneLocal
             configurationXmlFile,
             "//server/profile/subsystem/root-logger/level",
             "name", "cargo.jboss.logging");
-        addXmlReplacement(
-                configurationXmlFile,
-                "//server/socket-binding-group",
-                "port-offset", GeneralPropertySet.PORT_OFFSET);
 
         setupConfigurationDir();
 
