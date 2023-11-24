@@ -541,56 +541,54 @@ public class DefaultJvmLauncher implements JvmLauncher
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void start() throws JvmLauncherException
-    {
-        try
-        {
-            ProcessBuilder pb =
-                new ProcessBuilder(buildCommandLine()).directory(workingDirectory)
-                    .redirectErrorStream(true);
-            if (outputFile != null)
-            {
-                pb.redirectOutput(
-                    appendOutput ? Redirect.appendTo(outputFile) : Redirect.to(outputFile));
-            }
-            pb.environment().putAll(environmentVariables);
 
-            this.process = pb.start();
+    @Override
+    public void start() throws JvmLauncherException {
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(buildCommandLine()).directory(workingDirectory)
+                    .redirectErrorStream(true);
+
+            if (outputFile != null) {
+                processBuilder.redirectOutput(appendOutput ? Redirect.appendTo(outputFile) : Redirect.to(outputFile));
+            }
+
+            processBuilder.environment().putAll(environmentVariables);
+
+            this.process = processBuilder.start();
             process.getOutputStream().close();
 
-            if (outputFile == null)
-            {
-                if (outputLogger != null)
-                {
-                    Thread outputStreamRedirector =
-                        new Thread(new DefaultJvmLauncherLoggerRedirector(
-                            process.getInputStream(), outputLogger, category));
-                    outputStreamRedirector.start();
-                }
-                else
-                {
-                    process.getErrorStream().close();
-                    process.getInputStream().close();
+            if (outputFile == null) {
+                if (outputLogger != null) {
+                    Thread outputStreamRedirectorThread = createOutputStreamRedirectorThread();
+                    outputStreamRedirectorThread.start();
+                } else {
+                    closeStreams();
                 }
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new JvmLauncherException("Failed to launch process " + e);
+        } finally {
+            addShutdownHookForCleanup();
         }
-        finally
-        {
-            Runtime.getRuntime().addShutdownHook(new Thread()
-            {
-                @Override
-                public void run()
-                {
-                    DefaultJvmLauncher.shutdownInProgress = true;
-                    DefaultJvmLauncher.this.kill();
-                }
-            });
-        }
+    }
+
+    private Thread createOutputStreamRedirectorThread() {
+        return new Thread(new DefaultJvmLauncherLoggerRedirector(process.getInputStream(), outputLogger, category));
+    }
+
+    private void closeStreams() throws IOException {
+        process.getErrorStream().close();
+        process.getInputStream().close();
+    }
+
+    private void addShutdownHookForCleanup() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                DefaultJvmLauncher.shutdownInProgress = true;
+                DefaultJvmLauncher.this.kill();
+            }
+        });
     }
 
     /**
