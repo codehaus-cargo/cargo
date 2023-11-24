@@ -24,6 +24,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
+import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat6xStandaloneLocalConfigurationCapability;

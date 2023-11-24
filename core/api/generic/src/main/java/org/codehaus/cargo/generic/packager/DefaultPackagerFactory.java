@@ -22,6 +22,8 @@ package org.codehaus.cargo.generic.packager;
 import java.lang.reflect.Constructor;
 
 import org.codehaus.cargo.container.ContainerException;
+import org.codehaus.cargo.container.packager.Packager;
+import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.internal.util.RegistrationKey;
 import org.codehaus.cargo.generic.internal.util.SimpleContainerIdentity;
@@ -32,8 +34,7 @@ import org.codehaus.cargo.generic.spi.AbstractIntrospectionGenericHintFactory;
  * registered against their containers. It also supports registering new packagers against any
  * container.
  */
-public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory<Packager>
-    implements PackagerFactory
+public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFactory<Packager>  implements PackagerFactory
 {
     /**
      * @see org.codehaus.cargo.generic.spi.AbstractGenericHintFactory.GenericParameters
