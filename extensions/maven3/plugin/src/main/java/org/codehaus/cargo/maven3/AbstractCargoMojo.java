@@ -177,6 +177,12 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private boolean skip;
 
     /**
+     * Set this to <code>false</code> to bypass [category] log prefix.
+     */
+    @Parameter(property = "cargo.maven.useLogCategoryPrefix", defaultValue = "true")
+    private boolean useLogCategoryPrefix;
+
+    /**
      * @see org.codehaus.cargo.maven3.util.CargoProject
      */
     private CargoProject cargoProject;
@@ -971,7 +977,7 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
         }
         else
         {
-            logger = new MavenLogger(getLog());
+            logger = new MavenLogger(getLog(), useLogCategoryPrefix);
         }
 
         if (getContainerElement() != null && getContainerElement().getLogLevel() != null)
