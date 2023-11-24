@@ -155,60 +155,59 @@ public class NodeMergeStrategy implements MergeStrategy
      * @param right The right hand node
      * @return the replaced string
      */
-    private String replaceValue(String string, DescriptorElement left, DescriptorElement right)
-    {
+
+    private String replaceValue(String string, DescriptorElement left, DescriptorElement right) {
         String xPath;
         Element element;
 
-        String result = "";
-
-        if (string.startsWith("$left:"))
-        {
+        if (string.startsWith("$left:")) {
             xPath = string.substring(6);
             element = left;
-        }
-        else if (string.startsWith("$right:"))
-        {
+        } else if (string.startsWith("$right:")) {
             xPath = string.substring(7);
             element = right;
-        }
-        else
-        {
-            // Make sure we don't loop forever!
+        } else {
             return "";
         }
-        try
-        {
-            // CARGO-1175: Avoid XPath and namespace problems
-            String nsPrefix = null;
-            if (!element.getNamespaceURI().isEmpty())
-            {
-                nsPrefix = element.getNamespacePrefix();
-                if (nsPrefix.isEmpty() || !xPath.startsWith(nsPrefix))
-                {
-                    if (nsPrefix.isEmpty())
-                    {
-                        nsPrefix = "cargo-xs";
-                    }
-                    xPath = nsPrefix + ":" + xPath;
-                }
-            }
-            XPath xp = XPath.newInstance(xPath);
-            if (nsPrefix != null)
-            {
-                xp.addNamespace(nsPrefix, element.getNamespaceURI());
-            }
-            Element nestedText = (Element) xp.selectSingleNode(element);
-            if (nestedText != null)
-            {
-                result = nestedText.getText();
-            }
+
+        try {
+            String result = getValueFromXPath(element, xPath);
+            return result != null ? result : ""; // Return the result or an empty string if null
+        } catch (JDOMException e) {
+            return e.getMessage(); // Return the exception message if there's an error
         }
-        catch (JDOMException e)
-        {
-            result = e.getMessage();
-        }
-        return result;
     }
+
+    private String getValueFromXPath(Element element, String xPath) throws JDOMException {
+        String nsPrefix = getNamespacePrefix(element, xPath);
+        xPath = handleXPathNamespace(xPath, element, nsPrefix);
+
+        XPath xp = XPath.newInstance(xPath);
+        if (nsPrefix != null) {
+            xp.addNamespace(nsPrefix, element.getNamespaceURI());
+        }
+        Element nestedText = (Element) xp.selectSingleNode(element);
+        return nestedText != null ? nestedText.getText() : null;
+    }
+
+    private String getNamespacePrefix(Element element, String xPath) {
+        if (!element.getNamespaceURI().isEmpty()) {
+            String nsPrefix = element.getNamespacePrefix();
+            if (nsPrefix.isEmpty() || !xPath.startsWith(nsPrefix)) {
+                return nsPrefix.isEmpty() ? "cargo-xs" : nsPrefix;
+            }
+        }
+        return null;
+    }
+
+    private String handleXPathNamespace(String xPath, Element element, String nsPrefix) {
+        if (nsPrefix != null) {
+            if (nsPrefix.isEmpty() || !xPath.startsWith(nsPrefix)) {
+                return nsPrefix + ":" + xPath;
+            }
+        }
+        return xPath;
+    }
+
 
 }
