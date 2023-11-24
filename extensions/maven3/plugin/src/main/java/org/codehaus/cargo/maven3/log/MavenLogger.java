@@ -34,11 +34,18 @@ public class MavenLogger extends AbstractLogger
     private Log logger;
 
     /**
-     * @param logger the Maven 3 logger to send messages to
+     * If <code>false</code> the formatted category prefix will be omitted
      */
-    public MavenLogger(Log logger)
+    private boolean useLogCategoryPrefix;
+
+    /**
+     * @param logger the Maven 3 logger to send messages to
+     * @param useLogCategoryPrefix If <code>false</code> the formatted category prefix
+     */
+    public MavenLogger(Log logger, boolean useLogCategoryPrefix)
     {
         this.logger = logger;
+        this.useLogCategoryPrefix = useLogCategoryPrefix;
     }
 
     /**
@@ -72,6 +79,11 @@ public class MavenLogger extends AbstractLogger
      */
     private String formatMessage(String message, String category)
     {
+        if (!this.useLogCategoryPrefix)
+        {
+            return message;
+        }
+
         String formattedCategory = category.length() > 20
             ? category.substring(category.length() - 20) : category;
 
