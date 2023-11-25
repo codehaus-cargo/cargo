@@ -259,7 +259,10 @@ blocks:
       jobs:
         - name: GlassFish 4.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -275,7 +278,10 @@ blocks:
       jobs:
         - name: GlassFish 5.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -291,7 +297,10 @@ blocks:
       jobs:
         - name: Jetty 9.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -307,7 +316,10 @@ blocks:
       jobs:
         - name: Resin 4.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -323,7 +335,10 @@ blocks:
       jobs:
         - name: Tomcat 8.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -339,7 +354,10 @@ blocks:
       jobs:
         - name: Tomcat 9.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -355,7 +373,10 @@ blocks:
       jobs:
         - name: TomEE 7.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -371,7 +392,10 @@ blocks:
       jobs:
         - name: TomEE 8.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -387,7 +411,10 @@ blocks:
       jobs:
         - name: WebSphere Liberty
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -403,7 +430,10 @@ blocks:
       jobs:
         - name: WildFly 8.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -419,7 +449,10 @@ blocks:
       jobs:
         - name: WildFly 9.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -435,7 +468,10 @@ blocks:
       jobs:
         - name: WildFly 10.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -451,7 +487,10 @@ blocks:
       jobs:
         - name: WildFly 11.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -467,7 +506,10 @@ blocks:
       jobs:
         - name: WildFly 12.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -483,7 +525,10 @@ blocks:
       jobs:
         - name: WildFly 13.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -499,7 +544,10 @@ blocks:
       jobs:
         - name: WildFly 14.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -515,7 +563,10 @@ blocks:
       jobs:
         - name: WildFly 15.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -531,7 +582,10 @@ blocks:
       jobs:
         - name: WildFly 16.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -547,7 +601,10 @@ blocks:
       jobs:
         - name: WildFly 17.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -563,7 +620,10 @@ blocks:
       jobs:
         - name: WildFly 18.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -579,7 +639,10 @@ blocks:
       jobs:
         - name: WildFly 19.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -595,7 +658,10 @@ blocks:
       jobs:
         - name: WildFly 20.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -611,7 +677,10 @@ blocks:
       jobs:
         - name: WildFly 21.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -627,7 +696,10 @@ blocks:
       jobs:
         - name: WildFly 22.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -643,7 +715,10 @@ blocks:
       jobs:
         - name: WildFly 23.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -659,7 +734,10 @@ blocks:
       jobs:
         - name: WildFly 24.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -675,7 +753,10 @@ blocks:
       jobs:
         - name: WildFly 25.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -691,7 +772,10 @@ blocks:
       jobs:
         - name: WildFly 26.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
@@ -721,8 +805,14 @@ blocks:
       jobs:
         - name: Geronimo 1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -741,8 +831,14 @@ blocks:
       jobs:
         - name: Geronimo 3.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -761,8 +857,14 @@ blocks:
       jobs:
         - name: GlassFish 3.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -781,8 +883,14 @@ blocks:
       jobs:
         - name: JBoss 3.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -801,8 +909,14 @@ blocks:
       jobs:
         - name: JBoss 4.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -821,8 +935,14 @@ blocks:
       jobs:
         - name: JBoss 4.2.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -841,8 +961,14 @@ blocks:
       jobs:
         - name: JBoss 5.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -861,8 +987,14 @@ blocks:
       jobs:
         - name: JBoss 5.1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -881,8 +1013,14 @@ blocks:
       jobs:
         - name: JBoss 6.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -901,8 +1039,14 @@ blocks:
       jobs:
         - name: JBoss 6.1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -921,8 +1065,14 @@ blocks:
       jobs:
         - name: JBoss 7.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -941,8 +1091,14 @@ blocks:
       jobs:
         - name: JBoss 7.1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -961,8 +1117,14 @@ blocks:
       jobs:
         - name: Jetty 5.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -981,8 +1143,14 @@ blocks:
       jobs:
         - name: Jetty 6.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1001,8 +1169,14 @@ blocks:
       jobs:
         - name: Jetty 7.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1021,8 +1195,14 @@ blocks:
       jobs:
         - name: Jetty 8.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1041,8 +1221,14 @@ blocks:
       jobs:
         - name: Jo 1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1061,8 +1247,14 @@ blocks:
       jobs:
         - name: JOnAS 4.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1081,8 +1273,14 @@ blocks:
       jobs:
         - name: JOnAS 5.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1101,8 +1299,14 @@ blocks:
       jobs:
         - name: Resin 3.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1121,8 +1325,14 @@ blocks:
       jobs:
         - name: Resin 3.1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1141,8 +1351,14 @@ blocks:
       jobs:
         - name: Tomcat 4.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1161,8 +1377,14 @@ blocks:
       jobs:
         - name: Tomcat 5.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1181,8 +1403,14 @@ blocks:
       jobs:
         - name: Tomcat 6.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1201,8 +1429,14 @@ blocks:
       jobs:
         - name: Tomcat 7.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1221,8 +1455,14 @@ blocks:
       jobs:
         - name: TomEE 1.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -1282,7 +1522,10 @@ blocks:
       jobs:
         - name: Tomcat 11.x
           commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
+            - cd ~/.m2/semaphore-ci-binaries
+            - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
