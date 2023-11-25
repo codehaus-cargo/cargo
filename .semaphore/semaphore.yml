@@ -52,6 +52,9 @@ blocks:
               # Sometimes, SNAPSHOT artifact deployment fails the first time. Try twice.
             - mvn clean deploy -e || mvn clean deploy -e
             - find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;
+  - name: WildFly 26.x
+    dependencies:
+      - Prepare Java 8 builds
     task:
       jobs:
         - name: WildFly 26.x
@@ -419,9 +422,6 @@ blocks:
           commands:
             - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
             - cd target ; zip -r wildfly25x wildfly25x -i "*.log" ; artifact push job wildfly25x.zip ; cd ..
-  - name: WildFly 26.x
-    dependencies:
-      - Prepare Java 8 builds
   - name: Prepare Java 6 builds
     dependencies:
       - Prepare Java 8 builds
