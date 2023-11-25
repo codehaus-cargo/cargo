@@ -7,232 +7,782 @@ agent:
 execution_time_limit:
   hours: 12
 blocks:
-  - name: 'Build on various JDKs, deploy and test on all downloadable containers'
+  - name: Prepare environment and perform initial build on Java 11
+    dependencies: []
     task:
       jobs:
-        - name: Test Javadoc generation, build on JDK 8 and 21, deploy using JDK 11
+        - name: Prepare environment and perform initial build on Java 11
           commands:
-            - mvn javadoc:aggregate
-            - mvn clean
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - (mvn clean install -e && echo "Build on Java 8 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 8 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
-            - export JAVA_HOME=/tmp/cargo/jdk-21
-            - mvn -version
-            - (mvn clean install -e && echo "Build on Java 21 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 21 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
-            - unset JAVA_HOME
-            - mvn clean
+            - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
+            - sudo hostname codehaus-cargo-ci
+            - pushd ~/
+            - cache restore "codehaus-cargo-cache-tgz"
+            - popd
+            - checkout
+            - export ORIGINAL_PWD=$PWD
+            - mkdir -p /tmp/cargo
+            - mkdir -p ~/.m2
+            - mkdir -p ~/.m2/cargo-installs
+            - mkdir -p ~/.m2/semaphore-ci-binaries
+            - '''find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'''
+            - ls -al ~/.m2/cargo-installs
+            - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
+            - ls -al ~/.m2/semaphore-ci-binaries
+            - cd ~/.m2/semaphore-ci-binaries
+            - '''wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz ; RM=0'''
+            - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
+            - cd $ORIGINAL_PWD
+            - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
+            - export MAVEN_OPTS="-Xmx768m"
+            - '''export PATH=$MAVEN_HOME/bin:$PATH'''
             - sem-version java 11
             - mvn -version
-            - (mvn clean deploy -e && echo "Deploy OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deploy failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean deploy -e)
-            - find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;
-        - name: All Java 6 containers
+            - '(mvn clean install -e && echo "Build on Java 11 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 11 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)'
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - mvn clean
+  - name: Prepare Java 6 builds
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: Prepare Java 6 builds
           commands:
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - '''find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'''
             - cd ~/.m2/semaphore-ci-binaries
-            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
+            - '''wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'''
             - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - cd $ORIGINAL_PWD/core/samples/java
-            - 'echo "Build status for containers:" >> containers.log'
-             # We need to use Java 8 as the runtime when creating the configurations,
-             # else some containers (such as JOnAS) have awkward failures such as java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
+  - name: Geronimo 1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Geronimo 1.x
+          commands:
             - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo1x is $?" >> containers.log ; RM=0
             - cd target ; zip -r geronimo1x geronimo1x -i "*.log" ; artifact push job geronimo1x.zip ; cd ..
+  - name: Geronimo 3.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Geronimo 3.x
+          commands:
             - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for geronimo3x is $?" >> containers.log ; RM=0
             - cd target ; zip -r geronimo3x geronimo3x -i "*.log" ; artifact push job geronimo3x.zip ; cd ..
+  - name: GlassFish 3.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: GlassFish 3.x
+          commands:
             - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for glassfish3x is $?" >> containers.log ; RM=0
             - cd target ; zip -r glassfish3x glassfish3x -i "*.log" ; artifact push job glassfish3x.zip ; cd ..
+  - name: JBoss 3.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 3.x
+          commands:
             - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss3x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss3x jboss3x -i "*.log" ; artifact push job jboss3x.zip ; cd ..
+  - name: JBoss 4.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 4.x
+          commands:
             - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss4x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss4x jboss4x -i "*.log" ; artifact push job jboss4x.zip ; cd ..
+  - name: JBoss 4.2.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 4.2.x
+          commands:
             - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss42x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss42x jboss42x -i "*.log" ; artifact push job jboss42x.zip ; cd ..
+  - name: JBoss 5.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 5.x
+          commands:
             - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss5x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss5x jboss5x -i "*.log" ; artifact push job jboss5x.zip ; cd ..
+  - name: JBoss 5.1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 5.1.x
+          commands:
             - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss51x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss51x jboss51x -i "*.log" ; artifact push job jboss51x.zip ; cd ..
+  - name: JBoss 6.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 6.x
+          commands:
             - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss6x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss6x jboss6x -i "*.log" ; artifact push job jboss6x.zip ; cd ..
+  - name: JBoss 6.1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 6.1.x
+          commands:
             - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss61x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss61x jboss61x -i "*.log" ; artifact push job jboss61x.zip ; cd ..
+  - name: JBoss 7.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 7.x
+          commands:
             - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss7x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss7x jboss7x -i "*.log" ; artifact push job jboss7x.zip ; cd ..
+  - name: JBoss 7.1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JBoss 7.1.x
+          commands:
             - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jboss71x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jboss71x jboss71x -i "*.log" ; artifact push job jboss71x.zip ; cd ..
+  - name: Jetty 5.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Jetty 5.x
+          commands:
             - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty5x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jetty5x jetty5x -i "*.log" ; artifact push job jetty5x.zip ; cd ..
+  - name: Jetty 6.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Jetty 6.x
+          commands:
             - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty6x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jetty6x jetty6x -i "*.log" ; artifact push job jetty6x.zip ; cd ..
+  - name: Jetty 7.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Jetty 7.x
+          commands:
             - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty7x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jetty7x jetty7x -i "*.log" ; artifact push job jetty7x.zip ; cd ..
+  - name: Jetty 8.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Jetty 8.x
+          commands:
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jetty8x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jetty8x jetty8x -i "*.log" ; artifact push job jetty8x.zip ; cd ..
+  - name: Jo 1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Jo 1.x
+          commands:
             - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jo1x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jo1x jo1x -i "*.log" ; artifact push job jo1x.zip ; cd ..
+  - name: JOnAS 4.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JOnAS 4.x
+          commands:
             - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas4x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jonas4x jonas4x -i "*.log" ; artifact push job jonas4x.zip ; cd ..
+  - name: JOnAS 5.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: JOnAS 5.x
+          commands:
             - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for jonas5x is $?" >> containers.log ; RM=0
             - cd target ; zip -r jonas5x jonas5x -i "*.log" ; artifact push job jonas5x.zip ; cd ..
+  - name: Resin 3.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Resin 3.x
+          commands:
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin3x is $?" >> containers.log ; RM=0
             - cd target ; zip -r resin3x resin3x -i "*.log" ; artifact push job resin3x.zip ; cd ..
+  - name: Resin 3.1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Resin 3.1.x
+          commands:
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for resin31x is $?" >> containers.log ; RM=0
             - cd target ; zip -r resin31x resin31x -i "*.log" ; artifact push job resin31x.zip ; cd ..
+  - name: Tomcat 4.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Tomcat 4.x
+          commands:
             - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat4x is $?" >> containers.log ; RM=0
             - cd target ; zip -r tomcat4x tomcat4x -i "*.log" ; artifact push job tomcat4x.zip ; cd ..
+  - name: Tomcat 5.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Tomcat 5.x
+          commands:
             - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat5x is $?" >> containers.log ; RM=0
             - cd target ; zip -r tomcat5x tomcat5x -i "*.log" ; artifact push job tomcat5x.zip ; cd ..
+  - name: Tomcat 6.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Tomcat 6.x
+          commands:
             - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat6x is $?" >> containers.log ; RM=0
             - cd target ; zip -r tomcat6x tomcat6x -i "*.log" ; artifact push job tomcat6x.zip ; cd ..
+  - name: Tomcat 7.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: Tomcat 7.x
+          commands:
             - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomcat7x is $?" >> containers.log ; RM=0
             - cd target ; zip -r tomcat7x tomcat7x -i "*.log" ; artifact push job tomcat7x.zip ; cd ..
+  - name: TomEE 1.x
+    dependencies:
+      - Prepare Java 6 builds
+    task:
+      jobs:
+        - name: TomEE 1.x
+          commands:
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; echo "  Status for tomee1x is $?" >> containers.log ; RM=0
             - cd target ; zip -r tomee1x tomee1x -i "*.log" ; artifact push job tomee1x.zip ; cd ..
-            - unset JAVA_HOME
-        - name: All Java 8 containers until WildFly 20.x
+  - name: Prepare Java 8 builds
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Prepare Java 8 builds
           commands:
-            - cd $ORIGINAL_PWD/core/samples/java
-            - 'echo "Build status for containers:" >> containers.log'
+            - '''find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'''
+            - pushd ~/.m2/semaphore-ci-binaries
+            - '''wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'''
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - popd
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r glassfish4x glassfish4x -i "*.log" ; artifact push job glassfish4x.zip ; cd ..
-            - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r glassfish5x glassfish5x -i "*.log" ; artifact push job glassfish5x.zip ; cd ..
-            - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r jetty9x jetty9x -i "*.log" ; artifact push job jetty9x.zip ; cd ..
-            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for liberty is $?" >> containers.log ; RM=0
-            - cd target ; zip -r liberty liberty -i "*.log" ; artifact push job liberty.zip ; cd ..
-            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r resin4x resin4x -i "*.log" ; artifact push job resin4x.zip ; cd ..
-            - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat8x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r tomcat8x tomcat8x -i "*.log" ; artifact push job tomcat8x.zip ; cd ..
-            - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r tomcat9x tomcat9x -i "*.log" ; artifact push job tomcat9x.zip ; cd ..
-            - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r tomee7x tomee7x -i "*.log" ; artifact push job tomee7x.zip ; cd ..
-            - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomee8x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r tomee8x tomee8x -i "*.log" ; artifact push job tomee8x.zip ; cd ..
-            - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly8x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly8x wildfly8x -i "*.log" ; artifact push job wildfly8x.zip ; cd ..
-            - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly9x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly9x wildfly9x -i "*.log" ; artifact push job wildfly9x.zip ; cd ..
-            - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly10x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly10x wildfly10x -i "*.log" ; artifact push job wildfly10x.zip ; cd ..
-            - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly11x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly11x wildfly11x -i "*.log" ; artifact push job wildfly11x.zip ; cd ..
-            - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly12x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly12x wildfly12x -i "*.log" ; artifact push job wildfly12x.zip ; cd ..
-            - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly13x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly13x wildfly13x -i "*.log" ; artifact push job wildfly13x.zip ; cd ..
-            - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly14x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly14x wildfly14x -i "*.log" ; artifact push job wildfly14x.zip ; cd ..
-            - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly15x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly15x wildfly15x -i "*.log" ; artifact push job wildfly15x.zip ; cd ..
-            - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly16x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly16x wildfly16x -i "*.log" ; artifact push job wildfly16x.zip ; cd ..
-            - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly17x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly17x wildfly17x -i "*.log" ; artifact push job wildfly17x.zip ; cd ..
-            - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly18x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly18x wildfly18x -i "*.log" ; artifact push job wildfly18x.zip ; cd ..
-            - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly19x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly19x wildfly19x -i "*.log" ; artifact push job wildfly19x.zip ; cd ..
-            - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly20x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly20x wildfly20x -i "*.log" ; artifact push job wildfly20x.zip ; cd ..
-            - unset JAVA_HOME
-        - name: All Java 8 containers from WildFly 21.x, all Java 11, 17 and 21 containers
+            - '(mvn clean install -e && echo "Build on Java 8 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 8 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)'
+  - name: Prepare Java 21 builds
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Prepare Java 21 builds
           commands:
-            - cd $ORIGINAL_PWD/core/samples/java
-            - 'echo "Build status for containers:" >> containers.log'
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly21x wildfly21x -i "*.log" ; artifact push job wildfly21x.zip ; cd ..
-            - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly22x wildfly22x -i "*.log" ; artifact push job wildfly22x.zip ; cd ..
-            - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly23x wildfly23x -i "*.log" ; artifact push job wildfly23x.zip ; cd ..
-            - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly24x wildfly24x -i "*.log" ; artifact push job wildfly24x.zip ; cd ..
-            - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly25x wildfly25x -i "*.log" ; artifact push job wildfly25x.zip ; cd ..
-            - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly26x wildfly26x -i "*.log" ; artifact push job wildfly26x.zip ; cd ..
-            - unset JAVA_HOME
-            - mvn -version
-            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish6x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r glassfish6x glassfish6x -i "*.log" ; artifact push job glassfish6x.zip ; cd ..
-            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish7x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r glassfish7x glassfish7x -i "*.log" ; artifact push job glassfish7x.zip ; cd ..
-            - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty10x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r jetty10x jetty10x -i "*.log" ; artifact push job jetty10x.zip ; cd ..
-            - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty11x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r jetty11x jetty11x -i "*.log" ; artifact push job jetty11x.zip ; cd ..
-            - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for payara is $?" >> containers.log ; RM=0
-            - cd target ; zip -r payara payara -i "*.log" ; artifact push job payara.zip ; cd ..
-            - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat10x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r tomcat10x tomcat10x -i "*.log" ; artifact push job tomcat10x.zip ; cd ..
-            - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r tomee9x tomee9x -i "*.log" ; artifact push job tomee9x.zip ; cd ..
-            - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly27x wildfly27x -i "*.log" ; artifact push job wildfly27x.zip ; cd ..
-            - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly28x wildfly28x -i "*.log" ; artifact push job wildfly28x.zip ; cd ..
-            - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly29x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly29x wildfly29x -i "*.log" ; artifact push job wildfly29x.zip ; cd ..
-            - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly30x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r wildfly30x wildfly30x -i "*.log" ; artifact push job wildfly30x.zip ; cd ..
-            - sem-version java 17
-            - mvn -version
-            - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty12x is $?" >> containers.log ; RM=0
-            - cd target ; zip -r jetty12x jetty12x -i "*.log" ; artifact push job jetty12x.zip ; cd ..
+            - '''find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'''
+            - pushd ~/.m2/semaphore-ci-binaries
+            - '''wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'''
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
+            - popd
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
+            - '(mvn clean install -e && echo "Build on Java 21 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 21 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)'
+  - name: Test Javadoc generation and deploy using JDK 11
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Test Javadoc generation and deploy using JDK 11
+          commands:
+            - 'mvn javadoc:aggregate'
+            - '(mvn clean deploy -e && echo "Deploy OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First deploy failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean deploy -e)'
+            - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
+  - name: GlassFish 4.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: GlassFish 4.x
+          commands:
+            - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish4x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r glassfish4x glassfish4x -i "*.log" ; artifact push job glassfish4x.zip ; cd ..
+  - name: GlassFish 5.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: GlassFish 5.x
+          commands:
+            - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish5x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r glassfish5x glassfish5x -i "*.log" ; artifact push job glassfish5x.zip ; cd ..
+  - name: Jetty 9.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: Jetty 9.x
+          commands:
+            - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty9x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r jetty9x jetty9x -i "*.log" ; artifact push job jetty9x.zip ; cd ..
+  - name: WebSphere Liberty
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WebSphere Liberty
+          commands:
+            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for liberty is $?" >> containers.log ; RM=0
+            - cd target ; zip -r liberty liberty -i "*.log" ; artifact push job liberty.zip ; cd ..
+  - name: Resin 4.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: Resin 4.x
+          commands:
+            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for resin4x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r resin4x resin4x -i "*.log" ; artifact push job resin4x.zip ; cd ..
+  - name: Tomcat 8.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: Tomcat 8.x
+          commands:
+            - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat8x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r tomcat8x tomcat8x -i "*.log" ; artifact push job tomcat8x.zip ; cd ..
+  - name: Tomcat 9.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: Tomcat 9.x
+          commands:
+            - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat9x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r tomcat9x tomcat9x -i "*.log" ; artifact push job tomcat9x.zip ; cd ..
+  - name: TomEE 7.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: TomEE 7.x
+          commands:
+            - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomee7x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r tomee7x tomee7x -i "*.log" ; artifact push job tomee7x.zip ; cd ..
+  - name: TomEE 8.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: TomEE 8.x
+          commands:
+            - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomee8x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r tomee8x tomee8x -i "*.log" ; artifact push job tomee8x.zip ; cd ..
+  - name: WildFly 8.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 8.x
+          commands:
+            - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly8x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly8x wildfly8x -i "*.log" ; artifact push job wildfly8x.zip ; cd ..
+  - name: WildFly 9.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 9.x
+          commands:
+            - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly9x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly9x wildfly9x -i "*.log" ; artifact push job wildfly9x.zip ; cd ..
+  - name: WildFly 10.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 10.x
+          commands:
+            - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly10x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly10x wildfly10x -i "*.log" ; artifact push job wildfly10x.zip ; cd ..
+  - name: WildFly 11.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 11.x
+          commands:
+            - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly11x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly11x wildfly11x -i "*.log" ; artifact push job wildfly11x.zip ; cd ..
+  - name: WildFly 12.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 12.x
+          commands:
+            - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly12x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly12x wildfly12x -i "*.log" ; artifact push job wildfly12x.zip ; cd ..
+  - name: WildFly 13.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 13.x
+          commands:
+            - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly13x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly13x wildfly13x -i "*.log" ; artifact push job wildfly13x.zip ; cd ..
+  - name: WildFly 14.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 14.x
+          commands:
+            - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly14x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly14x wildfly14x -i "*.log" ; artifact push job wildfly14x.zip ; cd ..
+  - name: WildFly 15.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 15.x
+          commands:
+            - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly15x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly15x wildfly15x -i "*.log" ; artifact push job wildfly15x.zip ; cd ..
+  - name: WildFly 16.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 16.x
+          commands:
+            - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly16x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly16x wildfly16x -i "*.log" ; artifact push job wildfly16x.zip ; cd ..
+  - name: WildFly 17.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 17.x
+          commands:
+            - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly17x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly17x wildfly17x -i "*.log" ; artifact push job wildfly17x.zip ; cd ..
+  - name: WildFly 18.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 18.x
+          commands:
+            - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly18x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly18x wildfly18x -i "*.log" ; artifact push job wildfly18x.zip ; cd ..
+  - name: WildFly 19.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 19.x
+          commands:
+            - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly19x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly19x wildfly19x -i "*.log" ; artifact push job wildfly19x.zip ; cd ..
+  - name: WildFly 20.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 20.x
+          commands:
+            - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly20x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly20x wildfly20x -i "*.log" ; artifact push job wildfly20x.zip ; cd ..
+  - name: WildFly 21.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 21.x
+          commands:
+            - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly21x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly21x wildfly21x -i "*.log" ; artifact push job wildfly21x.zip ; cd ..
+  - name: WildFly 22.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 22.x
+          commands:
+            - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly22x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly22x wildfly22x -i "*.log" ; artifact push job wildfly22x.zip ; cd ..
+  - name: WildFly 23.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 23.x
+          commands:
+            - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly23x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly23x wildfly23x -i "*.log" ; artifact push job wildfly23x.zip ; cd ..
+  - name: WildFly 24.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 24.x
+          commands:
+            - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly24x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly24x wildfly24x -i "*.log" ; artifact push job wildfly24x.zip ; cd ..
+  - name: WildFly 25.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 25.x
+          commands:
+            - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly25x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly25x wildfly25x -i "*.log" ; artifact push job wildfly25x.zip ; cd ..
+  - name: WildFly 26.x
+    dependencies:
+      - Prepare Java 8 builds
+    task:
+      jobs:
+        - name: WildFly 26.x
+          commands:
+            - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly26x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly26x wildfly26x -i "*.log" ; artifact push job wildfly26x.zip ; cd ..
+  - name: GlassFish 6.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: GlassFish 6.x
+          commands:
+            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish6x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r glassfish6x glassfish6x -i "*.log" ; artifact push job glassfish6x.zip ; cd ..
+  - name: GlassFish 7.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: GlassFish 7.x
+          commands:
+            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for glassfish7x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r glassfish7x glassfish7x -i "*.log" ; artifact push job glassfish7x.zip ; cd ..
+  - name: Jetty 10.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Jetty 10.x
+          commands:
+            - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty10x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r jetty10x jetty10x -i "*.log" ; artifact push job jetty10x.zip ; cd ..
+  - name: Jetty 11.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Jetty 11.x
+          commands:
+            - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty11x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r jetty11x jetty11x -i "*.log" ; artifact push job jetty11x.zip ; cd ..
+  - name: Payara
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Payara
+          commands:
+            - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for payara is $?" >> containers.log ; RM=0
+            - cd target ; zip -r payara payara -i "*.log" ; artifact push job payara.zip ; cd ..
+  - name: Tomcat 10.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Tomcat 10.x
+          commands:
+            - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat10x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r tomcat10x tomcat10x -i "*.log" ; artifact push job tomcat10x.zip ; cd ..
+  - name: TomEE 9.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: TomEE 9.x
+          commands:
+            - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomee9x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r tomee9x tomee9x -i "*.log" ; artifact push job tomee9x.zip ; cd ..
+  - name: WildFly 27.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: WildFly 27.x
+          commands:
+            - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly27x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly27x wildfly27x -i "*.log" ; artifact push job wildfly27x.zip ; cd ..
+  - name: WildFly 28.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: WildFly 28.x
+          commands:
+            - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly28x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly28x wildfly28x -i "*.log" ; artifact push job wildfly28x.zip ; cd ..
+  - name: WildFly 29.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: WildFly 29.x
+          commands:
+            - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly29x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly29x wildfly29x -i "*.log" ; artifact push job wildfly29x.zip ; cd ..
+  - name: WildFly 30.x
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: WildFly 30.x
+          commands:
+            - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for wildfly30x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r wildfly30x wildfly30x -i "*.log" ; artifact push job wildfly30x.zip ; cd ..
+  - name: Prepare Java 17 builds
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
+    task:
+      jobs:
+        - name: Prepare Java 17 builds
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - mvn clean install
+  - name: Jetty 12.x
+    dependencies:
+      - Prepare Java 17 builds
+    task:
+      jobs:
+        - name: Jetty 12.x
+          commands:
+            - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for jetty12x is $?" >> containers.log ; RM=0
+            - cd target ; zip -r jetty12x jetty12x -i "*.log" ; artifact push job jetty12x.zip ; cd ..
+  - name: Tomcat 11.x
+    dependencies:
+      - Prepare Java 21 builds
+    task:
+      jobs:
+        - name: Tomcat 11.x
+          commands:
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2 ; echo "  Status for tomcat11x is $?" >> containers.log ; RM=0
             - cd target ; zip -r tomcat11x tomcat11x -i "*.log" ; artifact push job tomcat11x.zip ; cd ..
-            - unset JAVA_HOME
-      prologue:
-        commands:
-          - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
-          - sudo hostname codehaus-cargo-ci
-          - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
-          - pushd ~/
-          - cache restore "cargo-$CARGO_BRANCH_ID"
-          - popd
-          - checkout
-          - export ORIGINAL_PWD=$PWD
-          - mkdir -p /tmp/cargo
-          - mkdir -p ~/.m2
-          - mkdir -p ~/.m2/cargo-installs
-          - mkdir -p ~/.m2/semaphore-ci-binaries
-          - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
-          - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
-          - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
-          - ls -al ~/.m2/cargo-installs
-          - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
-          - ls -al ~/.m2/semaphore-ci-binaries
-          - cd ~/.m2/semaphore-ci-binaries
-          - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz ; RM=0'
-          - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
-          - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
-          - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
-          - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
-          - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
-          - cd $ORIGINAL_PWD
-          - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
-          - export MAVEN_OPTS="-Xmx768m"
-          - 'export PATH=$MAVEN_HOME/bin:$PATH'
-          - sem-version java 11
-          - mvn -version
-          - (mvn clean install -e && echo "Build on Java 11 OK on first attempt" > $ORIGINAL_PWD/core/samples/java/containers.log) || (echo "First build on Java 11 failed, retrying" > $ORIGINAL_PWD/core/samples/java/containers.log ; mvn clean install -e)
-          - find . -iname "TEST-*.xml" -type f | xargs test-results publish
-      epilogue:
-        always:
+  - name: Save artifacts and publish test results
+    dependencies:
+      - Geronimo 1.x
+      - Geronimo 3.x
+      - GlassFish 3.x
+      - GlassFish 4.x
+      - GlassFish 5.x
+      - GlassFish 6.x
+      - GlassFish 7.x
+      - JBoss 3.x
+      - JBoss 4.2.x
+      - JBoss 4.x
+      - JBoss 5.1.x
+      - JBoss 5.x
+      - JBoss 6.1.x
+      - JBoss 6.x
+      - JBoss 7.1.x
+      - JBoss 7.x
+      - JOnAS 4.x
+      - JOnAS 5.x
+      - Jetty 10.x
+      - Jetty 11.x
+      - Jetty 12.x
+      - Jetty 5.x
+      - Jetty 6.x
+      - Jetty 7.x
+      - Jetty 8.x
+      - Jetty 9.x
+      - Jo 1.x
+      - Payara
+      - Resin 3.1.x
+      - Resin 3.x
+      - Resin 4.x
+      - Test Javadoc generation and deploy using JDK 11
+      - TomEE 1.x
+      - TomEE 7.x
+      - TomEE 8.x
+      - TomEE 9.x
+      - Tomcat 10.x
+      - Tomcat 11.x
+      - Tomcat 4.x
+      - Tomcat 5.x
+      - Tomcat 6.x
+      - Tomcat 7.x
+      - Tomcat 8.x
+      - Tomcat 9.x
+      - WebSphere Liberty
+      - WildFly 10.x
+      - WildFly 11.x
+      - WildFly 12.x
+      - WildFly 13.x
+      - WildFly 14.x
+      - WildFly 15.x
+      - WildFly 16.x
+      - WildFly 17.x
+      - WildFly 18.x
+      - WildFly 19.x
+      - WildFly 20.x
+      - WildFly 21.x
+      - WildFly 22.x
+      - WildFly 23.x
+      - WildFly 24.x
+      - WildFly 25.x
+      - WildFly 26.x
+      - WildFly 27.x
+      - WildFly 28.x
+      - WildFly 29.x
+      - WildFly 30.x
+      - WildFly 8.x
+      - WildFly 9.x
+    task:
+      jobs:
+        - name: Save artifacts and publish test results
           commands:
             - cd $ORIGINAL_PWD
             - mvn clean
@@ -242,18 +792,7 @@ blocks:
             - ls -al ~/.m2/cargo-installs
             - ls -al ~/.m2/semaphore-ci-binaries
             - pushd ~/
-            - cache delete "cargo-$CARGO_BRANCH_ID"
-            - cache store "cargo-$CARGO_BRANCH_ID" .m2
+            - cache delete "codehaus-cargo-cache-tgz"
+            - cache store "codehaus-cargo-cache-tgz" .m2
             - cache list
-            - popd
-      secrets:
-        - name: Snapshot deployment configuration
-      env_vars:
-        - name: SEMAPHORE_AGENT_UPLOAD_JOB_LOGS
-          value: when-trimmed
-after_pipeline:
-  task:
-    jobs:
-      - name: Publish test results
-        commands:
-          - test-results gen-pipeline-report
+            - test-results gen-pipeline-report
