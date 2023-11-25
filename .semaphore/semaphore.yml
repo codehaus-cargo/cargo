@@ -70,6 +70,8 @@ blocks:
             - 'mvn javadoc:aggregate'
             - mvn clean deploy -e || mvn clean deploy -e
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
+      secrets:
+        - name: Snapshot deployment configuration
   - name: GlassFish 6.x
     dependencies:
       - Perform initial build on Java 11
