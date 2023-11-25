@@ -994,42 +994,44 @@ blocks:
       - GlassFish 6.x
       - GlassFish 7.x
       - JBoss 3.x
-      - JBoss 4.2.x
       - JBoss 4.x
-      - JBoss 5.1.x
+      - JBoss 4.2.x
       - JBoss 5.x
-      - JBoss 6.1.x
+      - JBoss 5.1.x
       - JBoss 6.x
-      - JBoss 7.1.x
+      - JBoss 6.1.x
       - JBoss 7.x
+      - JBoss 7.1.x
       - JOnAS 4.x
       - JOnAS 5.x
-      - Jetty 10.x
-      - Jetty 11.x
-      - Jetty 12.x
       - Jetty 5.x
       - Jetty 6.x
       - Jetty 7.x
       - Jetty 8.x
       - Jetty 9.x
+      - Jetty 10.x
+      - Jetty 11.x
+      - Jetty 12.x
       - Jo 1.x
       - Payara
-      - Resin 3.1.x
       - Resin 3.x
+      - Resin 3.1.x
       - Resin 4.x
       - TomEE 1.x
       - TomEE 7.x
       - TomEE 8.x
       - TomEE 9.x
-      - Tomcat 10.x
-      - Tomcat 11.x
       - Tomcat 4.x
       - Tomcat 5.x
       - Tomcat 6.x
       - Tomcat 7.x
       - Tomcat 8.x
       - Tomcat 9.x
+      - Tomcat 10.x
+      - Tomcat 11.x
       - WebSphere Liberty
+      - WildFly 8.x
+      - WildFly 9.x
       - WildFly 10.x
       - WildFly 11.x
       - WildFly 12.x
@@ -1051,8 +1053,6 @@ blocks:
       - WildFly 28.x
       - WildFly 29.x
       - WildFly 30.x
-      - WildFly 8.x
-      - WildFly 9.x
     task:
       jobs:
         - name: Save artifacts and publish test results
