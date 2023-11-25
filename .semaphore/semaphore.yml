@@ -6,6 +6,45 @@ agent:
     os_image: ubuntu2004
 execution_time_limit:
   hours: 12
+global_job_config:
+  prologue:
+    commands:
+      - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
+      - sudo hostname codehaus-cargo-ci
+      - pushd ~/
+      - cache restore "codehaus-cargo-cache-tgz"
+      - popd
+      - checkout
+      - export ORIGINAL_PWD=$PWD
+      - mkdir -p /tmp/cargo
+      - mkdir -p ~/.m2
+      - mkdir -p ~/.m2/cargo-installs
+      - mkdir -p ~/.m2/semaphore-ci-binaries
+      - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
+      - ls -al ~/.m2/cargo-installs
+      - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
+      - ls -al ~/.m2/semaphore-ci-binaries
+      - cd ~/.m2/semaphore-ci-binaries
+      - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz ; RM=0'
+      - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
+      - cd $ORIGINAL_PWD
+      - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
+      - export MAVEN_OPTS="-Xmx768m"
+      - 'export PATH=$MAVEN_HOME/bin:$PATH'
+  epilogue:
+    always:
+      commands:
+        - cd $ORIGINAL_PWD
+        - mvn clean
+        - rm -rf ~/.m2/repository/org/codehaus/cargo
+        - rm -rf ~/.cargo
+        - ls -al ~/.m2/cargo-installs
+        - ls -al ~/.m2/semaphore-ci-binaries
+        - pushd ~/
+        - cache restore "codehaus-cargo-cache-tgz"
+        - cache delete "codehaus-cargo-cache-tgz"
+        - cache store "codehaus-cargo-cache-tgz" .m2
+        - cache list
 blocks:
   - name: Prepare environment and perform initial build on Java 11
     dependencies: []
@@ -13,31 +52,8 @@ blocks:
       jobs:
         - name: Prepare environment and perform initial build on Java 11
           commands:
-            - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
-            - sudo hostname codehaus-cargo-ci
-            - pushd ~/
-            - cache restore "codehaus-cargo-cache-tgz"
-            - popd
-            - checkout
-            - export ORIGINAL_PWD=$PWD
-            - mkdir -p /tmp/cargo
-            - mkdir -p ~/.m2
-            - mkdir -p ~/.m2/cargo-installs
-            - mkdir -p ~/.m2/semaphore-ci-binaries
-            - find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +
-            - ls -al ~/.m2/cargo-installs
-            - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
-            - ls -al ~/.m2/semaphore-ci-binaries
-            - cd ~/.m2/semaphore-ci-binaries
-            - wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz ; RM=0
-            - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
-            - cd $ORIGINAL_PWD
-            - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
-            - export MAVEN_OPTS="-Xmx768m"
-            - export PATH=$MAVEN_HOME/bin:$PATH
             - sem-version java 11
             - mvn -version
-              # Sometimes, the very large Java build fails the first time. Try twice.
             - mvn clean install -e || mvn clean install -e
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - mvn clean
@@ -49,10 +65,9 @@ blocks:
         - name: Test Javadoc generation and deploy using Java 11
           commands:
             - cd $ORIGINAL_PWD
-            - mvn javadoc:aggregate
-              # Sometimes, SNAPSHOT artifact deployment fails the first time. Try twice.
+            - 'mvn javadoc:aggregate'
             - mvn clean deploy -e || mvn clean deploy -e
-            - find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;
+            - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
   - name: WildFly 26.x
     dependencies:
       - Prepare Java 8 builds
@@ -216,15 +231,14 @@ blocks:
       jobs:
         - name: Prepare Java 8 builds
           commands:
-            - find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-i586.tar.gz -size -150M -print -exec rm {} +'
             - pushd ~/.m2/semaphore-ci-binaries
-            - wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - popd
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
-              # Sometimes, Java builds fail the first time. Try twice.
             - mvn clean install -e || mvn clean install -e
   - name: GlassFish 4.x
     dependencies:
@@ -584,9 +598,9 @@ blocks:
       jobs:
         - name: Prepare Java 6 builds
           commands:
-            - find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
             - cd ~/.m2/semaphore-ci-binaries
-            - wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
@@ -960,15 +974,14 @@ blocks:
       jobs:
         - name: Prepare Java 21 builds
           commands:
-            - find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
             - pushd ~/.m2/semaphore-ci-binaries
-            - wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0
+            - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - popd
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
-              # Sometimes, Java builds fail the first time. Try twice.
             - mvn clean install -e || mvn clean install -e
   - name: Tomcat 11.x
     dependencies:
