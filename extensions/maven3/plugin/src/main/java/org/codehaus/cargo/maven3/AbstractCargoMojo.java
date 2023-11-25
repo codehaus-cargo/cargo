@@ -177,9 +177,10 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
     private boolean skip;
 
     /**
-     * Set this to <code>false</code> to bypass [category] log prefix.
+     * Set this to <code>true</code> to show the [category] log prefix. This was the default
+     * behaviour until the Codehaus Cargo Maven 3 plugin's version 1.10.11.
      */
-    @Parameter(property = "cargo.maven.useLogCategoryPrefix", defaultValue = "true")
+    @Parameter(property = "cargo.maven.useLogCategoryPrefix", defaultValue = "false")
     private boolean useLogCategoryPrefix;
 
     /**
