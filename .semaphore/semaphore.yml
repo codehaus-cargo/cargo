@@ -272,20 +272,6 @@ blocks:
             - cd target
             - zip -r jetty9x jetty9x -i "*.log"
             - artifact push job jetty9x.zip
-  - name: WebSphere Liberty
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WebSphere Liberty
-          commands:
-            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
-            - cd target
-            - zip -r liberty liberty -i "*.log"
-            - artifact push job liberty.zip
   - name: Resin 4.x
     dependencies:
       - Build on Java 8
@@ -356,6 +342,20 @@ blocks:
             - cd target
             - zip -r tomee8x tomee8x -i "*.log"
             - artifact push job tomee8x.zip
+  - name: WebSphere Liberty
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WebSphere Liberty
+          commands:
+            - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
+            - cd target
+            - zip -r liberty liberty -i "*.log"
+            - artifact push job liberty.zip
   - name: WildFly 8.x
     dependencies:
       - Build on Java 8
