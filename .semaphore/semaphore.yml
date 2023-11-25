@@ -160,9 +160,6 @@ blocks:
           commands:
             - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
             - cd target ; zip -r wildfly30x wildfly30x -i "*.log" ; artifact push job wildfly30x.zip ; cd ..
-  - name: Prepare Java 17 builds
-    dependencies:
-      - Prepare environment and perform initial build on Java 11
   - name: Prepare Java 8 builds
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -673,6 +670,9 @@ blocks:
           commands:
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target ; zip -r tomee1x tomee1x -i "*.log" ; artifact push job tomee1x.zip ; cd ..
+  - name: Prepare Java 17 builds
+    dependencies:
+      - Prepare environment and perform initial build on Java 11
     task:
       jobs:
         - name: Prepare Java 17 builds
