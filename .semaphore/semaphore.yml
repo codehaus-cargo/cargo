@@ -38,16 +38,17 @@ blocks:
             - sem-version java 11
             - mvn -version
               # Sometimes, the very large Java build fails the first time. Try twice.
-            - (mvn clean install -e) || (mvn clean install -e)
+            - mvn clean install -e || mvn clean install -e
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - mvn clean
-  - name: Test Javadoc generation and deploy using JDK 11
+  - name: Test Javadoc generation and deploy using Java 11
     dependencies:
       - Prepare environment and perform initial build on Java 11
     task:
       jobs:
-        - name: Test Javadoc generation and deploy using JDK 11
+        - name: Test Javadoc generation and deploy using Java 11
           commands:
+            - cd $ORIGINAL_PWD
             - mvn javadoc:aggregate
               # Sometimes, SNAPSHOT artifact deployment fails the first time. Try twice.
             - mvn clean deploy -e || mvn clean deploy -e
@@ -59,8 +60,12 @@ blocks:
       jobs:
         - name: WildFly 26.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly26x wildfly26x -i "*.log" ; artifact push job wildfly26x.zip ; cd ..
+            - cd target
+            - zip -r wildfly26x wildfly26x -i "*.log"
+            - artifact push job wildfly26x.zip
+            - popd
   - name: GlassFish 6.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -68,8 +73,12 @@ blocks:
       jobs:
         - name: GlassFish 6.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r glassfish6x glassfish6x -i "*.log" ; artifact push job glassfish6x.zip ; cd ..
+            - cd target
+            - zip -r glassfish6x glassfish6x -i "*.log"
+            - artifact push job glassfish6x.zip
+            - popd
   - name: GlassFish 7.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -77,8 +86,12 @@ blocks:
       jobs:
         - name: GlassFish 7.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r glassfish7x glassfish7x -i "*.log" ; artifact push job glassfish7x.zip ; cd ..
+            - cd target
+            - zip -r glassfish7x glassfish7x -i "*.log"
+            - artifact push job glassfish7x.zip
+            - popd
   - name: Jetty 10.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -86,8 +99,12 @@ blocks:
       jobs:
         - name: Jetty 10.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r jetty10x jetty10x -i "*.log" ; artifact push job jetty10x.zip ; cd ..
+            - cd target
+            - zip -r jetty10x jetty10x -i "*.log"
+            - artifact push job jetty10x.zip
+            - popd
   - name: Jetty 11.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -95,8 +112,12 @@ blocks:
       jobs:
         - name: Jetty 11.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r jetty11x jetty11x -i "*.log" ; artifact push job jetty11x.zip ; cd ..
+            - cd target
+            - zip -r jetty11x jetty11x -i "*.log"
+            - artifact push job jetty11x.zip
+            - popd
   - name: Payara
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -104,8 +125,12 @@ blocks:
       jobs:
         - name: Payara
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r payara payara -i "*.log" ; artifact push job payara.zip ; cd ..
+            - cd target
+            - zip -r payara payara -i "*.log"
+            - artifact push job payara.zip
+            - popd
   - name: Tomcat 10.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -113,8 +138,12 @@ blocks:
       jobs:
         - name: Tomcat 10.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomcat10x tomcat10x -i "*.log" ; artifact push job tomcat10x.zip ; cd ..
+            - cd target
+            - zip -r tomcat10x tomcat10x -i "*.log"
+            - artifact push job tomcat10x.zip
+            - popd
   - name: TomEE 9.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -122,8 +151,12 @@ blocks:
       jobs:
         - name: TomEE 9.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomee9x tomee9x -i "*.log" ; artifact push job tomee9x.zip ; cd ..
+            - cd target
+            - zip -r tomee9x tomee9x -i "*.log"
+            - artifact push job tomee9x.zip
+            - popd
   - name: WildFly 27.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -131,8 +164,12 @@ blocks:
       jobs:
         - name: WildFly 27.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly27x wildfly27x -i "*.log" ; artifact push job wildfly27x.zip ; cd ..
+            - cd target
+            - zip -r wildfly27x wildfly27x -i "*.log"
+            - artifact push job wildfly27x.zip
+            - popd
   - name: WildFly 28.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -140,8 +177,12 @@ blocks:
       jobs:
         - name: WildFly 28.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly28x wildfly28x -i "*.log" ; artifact push job wildfly28x.zip ; cd ..
+            - cd target
+            - zip -r wildfly28x wildfly28x -i "*.log"
+            - artifact push job wildfly28x.zip
+            - popd
   - name: WildFly 29.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -149,8 +190,12 @@ blocks:
       jobs:
         - name: WildFly 29.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly29x wildfly29x -i "*.log" ; artifact push job wildfly29x.zip ; cd ..
+            - cd target
+            - zip -r wildfly29x wildfly29x -i "*.log"
+            - artifact push job wildfly29x.zip
+            - popd
   - name: WildFly 30.x
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -158,8 +203,12 @@ blocks:
       jobs:
         - name: WildFly 30.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly30x wildfly30x -i "*.log" ; artifact push job wildfly30x.zip ; cd ..
+            - cd target
+            - zip -r wildfly30x wildfly30x -i "*.log"
+            - artifact push job wildfly30x.zip
+            - popd
   - name: Prepare Java 8 builds
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -173,6 +222,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - popd
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd $ORIGINAL_PWD
             - mvn -version
               # Sometimes, Java builds fail the first time. Try twice.
             - mvn clean install -e || mvn clean install -e
@@ -183,8 +233,12 @@ blocks:
       jobs:
         - name: GlassFish 4.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r glassfish4x glassfish4x -i "*.log" ; artifact push job glassfish4x.zip ; cd ..
+            - cd target
+            - zip -r glassfish4x glassfish4x -i "*.log"
+            - artifact push job glassfish4x.zip
+            - popd
   - name: GlassFish 5.x
     dependencies:
       - Prepare Java 8 builds
@@ -192,8 +246,12 @@ blocks:
       jobs:
         - name: GlassFish 5.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r glassfish5x glassfish5x -i "*.log" ; artifact push job glassfish5x.zip ; cd ..
+            - cd target
+            - zip -r glassfish5x glassfish5x -i "*.log"
+            - artifact push job glassfish5x.zip
+            - popd
   - name: Jetty 9.x
     dependencies:
       - Prepare Java 8 builds
@@ -201,8 +259,12 @@ blocks:
       jobs:
         - name: Jetty 9.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r jetty9x jetty9x -i "*.log" ; artifact push job jetty9x.zip ; cd ..
+            - cd target
+            - zip -r jetty9x jetty9x -i "*.log"
+            - artifact push job jetty9x.zip
+            - popd
   - name: WebSphere Liberty
     dependencies:
       - Prepare Java 8 builds
@@ -210,8 +272,12 @@ blocks:
       jobs:
         - name: WebSphere Liberty
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r liberty liberty -i "*.log" ; artifact push job liberty.zip ; cd ..
+            - cd target
+            - zip -r liberty liberty -i "*.log"
+            - artifact push job liberty.zip
+            - popd
   - name: Resin 4.x
     dependencies:
       - Prepare Java 8 builds
@@ -219,8 +285,12 @@ blocks:
       jobs:
         - name: Resin 4.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r resin4x resin4x -i "*.log" ; artifact push job resin4x.zip ; cd ..
+            - cd target
+            - zip -r resin4x resin4x -i "*.log"
+            - artifact push job resin4x.zip
+            - popd
   - name: Tomcat 8.x
     dependencies:
       - Prepare Java 8 builds
@@ -228,8 +298,12 @@ blocks:
       jobs:
         - name: Tomcat 8.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomcat8x tomcat8x -i "*.log" ; artifact push job tomcat8x.zip ; cd ..
+            - cd target
+            - zip -r tomcat8x tomcat8x -i "*.log"
+            - artifact push job tomcat8x.zip
+            - popd
   - name: Tomcat 9.x
     dependencies:
       - Prepare Java 8 builds
@@ -237,8 +311,12 @@ blocks:
       jobs:
         - name: Tomcat 9.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomcat9x tomcat9x -i "*.log" ; artifact push job tomcat9x.zip ; cd ..
+            - cd target
+            - zip -r tomcat9x tomcat9x -i "*.log"
+            - artifact push job tomcat9x.zip
+            - popd
   - name: TomEE 7.x
     dependencies:
       - Prepare Java 8 builds
@@ -246,8 +324,12 @@ blocks:
       jobs:
         - name: TomEE 7.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomee7x tomee7x -i "*.log" ; artifact push job tomee7x.zip ; cd ..
+            - cd target
+            - zip -r tomee7x tomee7x -i "*.log"
+            - artifact push job tomee7x.zip
+            - popd
   - name: TomEE 8.x
     dependencies:
       - Prepare Java 8 builds
@@ -255,8 +337,12 @@ blocks:
       jobs:
         - name: TomEE 8.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomee8x tomee8x -i "*.log" ; artifact push job tomee8x.zip ; cd ..
+            - cd target
+            - zip -r tomee8x tomee8x -i "*.log"
+            - artifact push job tomee8x.zip
+            - popd
   - name: WildFly 8.x
     dependencies:
       - Prepare Java 8 builds
@@ -264,8 +350,12 @@ blocks:
       jobs:
         - name: WildFly 8.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly8x wildfly8x -i "*.log" ; artifact push job wildfly8x.zip ; cd ..
+            - cd target
+            - zip -r wildfly8x wildfly8x -i "*.log"
+            - artifact push job wildfly8x.zip
+            - popd
   - name: WildFly 9.x
     dependencies:
       - Prepare Java 8 builds
@@ -273,8 +363,12 @@ blocks:
       jobs:
         - name: WildFly 9.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly9x wildfly9x -i "*.log" ; artifact push job wildfly9x.zip ; cd ..
+            - cd target
+            - zip -r wildfly9x wildfly9x -i "*.log"
+            - artifact push job wildfly9x.zip
+            - popd
   - name: WildFly 10.x
     dependencies:
       - Prepare Java 8 builds
@@ -282,8 +376,12 @@ blocks:
       jobs:
         - name: WildFly 10.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly10x wildfly10x -i "*.log" ; artifact push job wildfly10x.zip ; cd ..
+            - cd target
+            - zip -r wildfly10x wildfly10x -i "*.log"
+            - artifact push job wildfly10x.zip
+            - popd
   - name: WildFly 11.x
     dependencies:
       - Prepare Java 8 builds
@@ -291,8 +389,12 @@ blocks:
       jobs:
         - name: WildFly 11.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly11x wildfly11x -i "*.log" ; artifact push job wildfly11x.zip ; cd ..
+            - cd target
+            - zip -r wildfly11x wildfly11x -i "*.log"
+            - artifact push job wildfly11x.zip
+            - popd
   - name: WildFly 12.x
     dependencies:
       - Prepare Java 8 builds
@@ -300,8 +402,12 @@ blocks:
       jobs:
         - name: WildFly 12.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly12x wildfly12x -i "*.log" ; artifact push job wildfly12x.zip ; cd ..
+            - cd target
+            - zip -r wildfly12x wildfly12x -i "*.log"
+            - artifact push job wildfly12x.zip
+            - popd
   - name: WildFly 13.x
     dependencies:
       - Prepare Java 8 builds
@@ -309,8 +415,12 @@ blocks:
       jobs:
         - name: WildFly 13.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly13x wildfly13x -i "*.log" ; artifact push job wildfly13x.zip ; cd ..
+            - cd target
+            - zip -r wildfly13x wildfly13x -i "*.log"
+            - artifact push job wildfly13x.zip
+            - popd
   - name: WildFly 14.x
     dependencies:
       - Prepare Java 8 builds
@@ -318,8 +428,12 @@ blocks:
       jobs:
         - name: WildFly 14.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly14x wildfly14x -i "*.log" ; artifact push job wildfly14x.zip ; cd ..
+            - cd target
+            - zip -r wildfly14x wildfly14x -i "*.log"
+            - artifact push job wildfly14x.zip
+            - popd
   - name: WildFly 15.x
     dependencies:
       - Prepare Java 8 builds
@@ -327,8 +441,12 @@ blocks:
       jobs:
         - name: WildFly 15.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly15x wildfly15x -i "*.log" ; artifact push job wildfly15x.zip ; cd ..
+            - cd target
+            - zip -r wildfly15x wildfly15x -i "*.log"
+            - artifact push job wildfly15x.zip
+            - popd
   - name: WildFly 16.x
     dependencies:
       - Prepare Java 8 builds
@@ -336,8 +454,12 @@ blocks:
       jobs:
         - name: WildFly 16.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly16x wildfly16x -i "*.log" ; artifact push job wildfly16x.zip ; cd ..
+            - cd target
+            - zip -r wildfly16x wildfly16x -i "*.log"
+            - artifact push job wildfly16x.zip
+            - popd
   - name: WildFly 17.x
     dependencies:
       - Prepare Java 8 builds
@@ -345,8 +467,12 @@ blocks:
       jobs:
         - name: WildFly 17.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly17x wildfly17x -i "*.log" ; artifact push job wildfly17x.zip ; cd ..
+            - cd target
+            - zip -r wildfly17x wildfly17x -i "*.log"
+            - artifact push job wildfly17x.zip
+            - popd
   - name: WildFly 18.x
     dependencies:
       - Prepare Java 8 builds
@@ -354,8 +480,12 @@ blocks:
       jobs:
         - name: WildFly 18.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly18x wildfly18x -i "*.log" ; artifact push job wildfly18x.zip ; cd ..
+            - cd target
+            - zip -r wildfly18x wildfly18x -i "*.log"
+            - artifact push job wildfly18x.zip
+            - popd
   - name: WildFly 19.x
     dependencies:
       - Prepare Java 8 builds
@@ -363,8 +493,12 @@ blocks:
       jobs:
         - name: WildFly 19.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly19x wildfly19x -i "*.log" ; artifact push job wildfly19x.zip ; cd ..
+            - cd target
+            - zip -r wildfly19x wildfly19x -i "*.log"
+            - artifact push job wildfly19x.zip
+            - popd
   - name: WildFly 20.x
     dependencies:
       - Prepare Java 8 builds
@@ -372,8 +506,12 @@ blocks:
       jobs:
         - name: WildFly 20.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly20x wildfly20x -i "*.log" ; artifact push job wildfly20x.zip ; cd ..
+            - cd target
+            - zip -r wildfly20x wildfly20x -i "*.log"
+            - artifact push job wildfly20x.zip
+            - popd
   - name: WildFly 21.x
     dependencies:
       - Prepare Java 8 builds
@@ -381,8 +519,12 @@ blocks:
       jobs:
         - name: WildFly 21.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly21x wildfly21x -i "*.log" ; artifact push job wildfly21x.zip ; cd ..
+            - cd target
+            - zip -r wildfly21x wildfly21x -i "*.log"
+            - artifact push job wildfly21x.zip
+            - popd
   - name: WildFly 22.x
     dependencies:
       - Prepare Java 8 builds
@@ -390,8 +532,12 @@ blocks:
       jobs:
         - name: WildFly 22.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly22x wildfly22x -i "*.log" ; artifact push job wildfly22x.zip ; cd ..
+            - cd target
+            - zip -r wildfly22x wildfly22x -i "*.log"
+            - artifact push job wildfly22x.zip
+            - popd
   - name: WildFly 23.x
     dependencies:
       - Prepare Java 8 builds
@@ -399,8 +545,12 @@ blocks:
       jobs:
         - name: WildFly 23.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly23x wildfly23x -i "*.log" ; artifact push job wildfly23x.zip ; cd ..
+            - cd target
+            - zip -r wildfly23x wildfly23x -i "*.log"
+            - artifact push job wildfly23x.zip
+            - popd
   - name: WildFly 24.x
     dependencies:
       - Prepare Java 8 builds
@@ -408,8 +558,12 @@ blocks:
       jobs:
         - name: WildFly 24.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly24x wildfly24x -i "*.log" ; artifact push job wildfly24x.zip ; cd ..
+            - cd target
+            - zip -r wildfly24x wildfly24x -i "*.log"
+            - artifact push job wildfly24x.zip
+            - popd
   - name: WildFly 25.x
     dependencies:
       - Prepare Java 8 builds
@@ -417,8 +571,12 @@ blocks:
       jobs:
         - name: WildFly 25.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r wildfly25x wildfly25x -i "*.log" ; artifact push job wildfly25x.zip ; cd ..
+            - cd target
+            - zip -r wildfly25x wildfly25x -i "*.log"
+            - artifact push job wildfly25x.zip
+            - popd
   - name: Prepare Java 6 builds
     dependencies:
       - Prepare Java 8 builds
@@ -433,9 +591,6 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
-            - cd $ORIGINAL_PWD/core/samples/java
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
   - name: Geronimo 1.x
     dependencies:
       - Prepare Java 6 builds
@@ -443,8 +598,12 @@ blocks:
       jobs:
         - name: Geronimo 1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r geronimo1x geronimo1x -i "*.log" ; artifact push job geronimo1x.zip ; cd ..
+            - cd target
+            - zip -r geronimo1x geronimo1x -i "*.log"
+            - artifact push job geronimo1x.zip
+            - popd
   - name: Geronimo 3.x
     dependencies:
       - Prepare Java 6 builds
@@ -452,8 +611,12 @@ blocks:
       jobs:
         - name: Geronimo 3.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r geronimo3x geronimo3x -i "*.log" ; artifact push job geronimo3x.zip ; cd ..
+            - cd target
+            - zip -r geronimo3x geronimo3x -i "*.log"
+            - artifact push job geronimo3x.zip
+            - popd
   - name: GlassFish 3.x
     dependencies:
       - Prepare Java 6 builds
@@ -461,8 +624,12 @@ blocks:
       jobs:
         - name: GlassFish 3.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r glassfish3x glassfish3x -i "*.log" ; artifact push job glassfish3x.zip ; cd ..
+            - cd target
+            - zip -r glassfish3x glassfish3x -i "*.log"
+            - artifact push job glassfish3x.zip
+            - popd
   - name: JBoss 3.x
     dependencies:
       - Prepare Java 6 builds
@@ -470,8 +637,12 @@ blocks:
       jobs:
         - name: JBoss 3.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss3x jboss3x -i "*.log" ; artifact push job jboss3x.zip ; cd ..
+            - cd target
+            - zip -r jboss3x jboss3x -i "*.log"
+            - artifact push job jboss3x.zip
+            - popd
   - name: JBoss 4.x
     dependencies:
       - Prepare Java 6 builds
@@ -479,8 +650,12 @@ blocks:
       jobs:
         - name: JBoss 4.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss4x jboss4x -i "*.log" ; artifact push job jboss4x.zip ; cd ..
+            - cd target
+            - zip -r jboss4x jboss4x -i "*.log"
+            - artifact push job jboss4x.zip
+            - popd
   - name: JBoss 4.2.x
     dependencies:
       - Prepare Java 6 builds
@@ -488,8 +663,12 @@ blocks:
       jobs:
         - name: JBoss 4.2.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss42x jboss42x -i "*.log" ; artifact push job jboss42x.zip ; cd ..
+            - cd target
+            - zip -r jboss42x jboss42x -i "*.log"
+            - artifact push job jboss42x.zip
+            - popd
   - name: JBoss 5.x
     dependencies:
       - Prepare Java 6 builds
@@ -497,8 +676,12 @@ blocks:
       jobs:
         - name: JBoss 5.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss5x jboss5x -i "*.log" ; artifact push job jboss5x.zip ; cd ..
+            - cd target
+            - zip -r jboss5x jboss5x -i "*.log"
+            - artifact push job jboss5x.zip
+            - popd
   - name: JBoss 5.1.x
     dependencies:
       - Prepare Java 6 builds
@@ -506,8 +689,12 @@ blocks:
       jobs:
         - name: JBoss 5.1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss51x jboss51x -i "*.log" ; artifact push job jboss51x.zip ; cd ..
+            - cd target
+            - zip -r jboss51x jboss51x -i "*.log"
+            - artifact push job jboss51x.zip
+            - popd
   - name: JBoss 6.x
     dependencies:
       - Prepare Java 6 builds
@@ -515,8 +702,12 @@ blocks:
       jobs:
         - name: JBoss 6.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss6x jboss6x -i "*.log" ; artifact push job jboss6x.zip ; cd ..
+            - cd target
+            - zip -r jboss6x jboss6x -i "*.log"
+            - artifact push job jboss6x.zip
+            - popd
   - name: JBoss 6.1.x
     dependencies:
       - Prepare Java 6 builds
@@ -524,8 +715,12 @@ blocks:
       jobs:
         - name: JBoss 6.1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss61x jboss61x -i "*.log" ; artifact push job jboss61x.zip ; cd ..
+            - cd target
+            - zip -r jboss61x jboss61x -i "*.log"
+            - artifact push job jboss61x.zip
+            - popd
   - name: JBoss 7.x
     dependencies:
       - Prepare Java 6 builds
@@ -533,8 +728,12 @@ blocks:
       jobs:
         - name: JBoss 7.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss7x jboss7x -i "*.log" ; artifact push job jboss7x.zip ; cd ..
+            - cd target
+            - zip -r jboss7x jboss7x -i "*.log"
+            - artifact push job jboss7x.zip
+            - popd
   - name: JBoss 7.1.x
     dependencies:
       - Prepare Java 6 builds
@@ -542,8 +741,12 @@ blocks:
       jobs:
         - name: JBoss 7.1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jboss71x jboss71x -i "*.log" ; artifact push job jboss71x.zip ; cd ..
+            - cd target
+            - zip -r jboss71x jboss71x -i "*.log"
+            - artifact push job jboss71x.zip
+            - popd
   - name: Jetty 5.x
     dependencies:
       - Prepare Java 6 builds
@@ -551,8 +754,12 @@ blocks:
       jobs:
         - name: Jetty 5.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jetty5x jetty5x -i "*.log" ; artifact push job jetty5x.zip ; cd ..
+            - cd target
+            - zip -r jetty5x jetty5x -i "*.log"
+            - artifact push job jetty5x.zip
+            - popd
   - name: Jetty 6.x
     dependencies:
       - Prepare Java 6 builds
@@ -560,8 +767,12 @@ blocks:
       jobs:
         - name: Jetty 6.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jetty6x jetty6x -i "*.log" ; artifact push job jetty6x.zip ; cd ..
+            - cd target
+            - zip -r jetty6x jetty6x -i "*.log"
+            - artifact push job jetty6x.zip
+            - popd
   - name: Jetty 7.x
     dependencies:
       - Prepare Java 6 builds
@@ -569,8 +780,12 @@ blocks:
       jobs:
         - name: Jetty 7.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jetty7x jetty7x -i "*.log" ; artifact push job jetty7x.zip ; cd ..
+            - cd target
+            - zip -r jetty7x jetty7x -i "*.log"
+            - artifact push job jetty7x.zip
+            - popd
   - name: Jetty 8.x
     dependencies:
       - Prepare Java 6 builds
@@ -578,8 +793,12 @@ blocks:
       jobs:
         - name: Jetty 8.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jetty8x jetty8x -i "*.log" ; artifact push job jetty8x.zip ; cd ..
+            - cd target
+            - zip -r jetty8x jetty8x -i "*.log"
+            - artifact push job jetty8x.zip
+            - popd
   - name: Jo 1.x
     dependencies:
       - Prepare Java 6 builds
@@ -587,8 +806,12 @@ blocks:
       jobs:
         - name: Jo 1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jo1x jo1x -i "*.log" ; artifact push job jo1x.zip ; cd ..
+            - cd target
+            - zip -r jo1x jo1x -i "*.log"
+            - artifact push job jo1x.zip
+            - popd
   - name: JOnAS 4.x
     dependencies:
       - Prepare Java 6 builds
@@ -596,8 +819,12 @@ blocks:
       jobs:
         - name: JOnAS 4.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jonas4x jonas4x -i "*.log" ; artifact push job jonas4x.zip ; cd ..
+            - cd target
+            - zip -r jonas4x jonas4x -i "*.log"
+            - artifact push job jonas4x.zip
+            - popd
   - name: JOnAS 5.x
     dependencies:
       - Prepare Java 6 builds
@@ -605,8 +832,12 @@ blocks:
       jobs:
         - name: JOnAS 5.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r jonas5x jonas5x -i "*.log" ; artifact push job jonas5x.zip ; cd ..
+            - cd target
+            - zip -r jonas5x jonas5x -i "*.log"
+            - artifact push job jonas5x.zip
+            - popd
   - name: Resin 3.x
     dependencies:
       - Prepare Java 6 builds
@@ -614,8 +845,12 @@ blocks:
       jobs:
         - name: Resin 3.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r resin3x resin3x -i "*.log" ; artifact push job resin3x.zip ; cd ..
+            - cd target
+            - zip -r resin3x resin3x -i "*.log"
+            - artifact push job resin3x.zip
+            - popd
   - name: Resin 3.1.x
     dependencies:
       - Prepare Java 6 builds
@@ -623,8 +858,12 @@ blocks:
       jobs:
         - name: Resin 3.1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r resin31x resin31x -i "*.log" ; artifact push job resin31x.zip ; cd ..
+            - cd target
+            - zip -r resin31x resin31x -i "*.log"
+            - artifact push job resin31x.zip
+            - popd
   - name: Tomcat 4.x
     dependencies:
       - Prepare Java 6 builds
@@ -632,8 +871,12 @@ blocks:
       jobs:
         - name: Tomcat 4.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r tomcat4x tomcat4x -i "*.log" ; artifact push job tomcat4x.zip ; cd ..
+            - cd target
+            - zip -r tomcat4x tomcat4x -i "*.log"
+            - artifact push job tomcat4x.zip
+            - popd
   - name: Tomcat 5.x
     dependencies:
       - Prepare Java 6 builds
@@ -641,8 +884,12 @@ blocks:
       jobs:
         - name: Tomcat 5.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r tomcat5x tomcat5x -i "*.log" ; artifact push job tomcat5x.zip ; cd ..
+            - cd target
+            - zip -r tomcat5x tomcat5x -i "*.log"
+            - artifact push job tomcat5x.zip
+            - popd
   - name: Tomcat 6.x
     dependencies:
       - Prepare Java 6 builds
@@ -650,8 +897,12 @@ blocks:
       jobs:
         - name: Tomcat 6.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r tomcat6x tomcat6x -i "*.log" ; artifact push job tomcat6x.zip ; cd ..
+            - cd target
+            - zip -r tomcat6x tomcat6x -i "*.log"
+            - artifact push job tomcat6x.zip
+            - popd
   - name: Tomcat 7.x
     dependencies:
       - Prepare Java 6 builds
@@ -659,8 +910,12 @@ blocks:
       jobs:
         - name: Tomcat 7.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r tomcat7x tomcat7x -i "*.log" ; artifact push job tomcat7x.zip ; cd ..
+            - cd target
+            - zip -r tomcat7x tomcat7x -i "*.log"
+            - artifact push job tomcat7x.zip
+            - popd
   - name: TomEE 1.x
     dependencies:
       - Prepare Java 6 builds
@@ -668,8 +923,12 @@ blocks:
       jobs:
         - name: TomEE 1.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - cd target ; zip -r tomee1x tomee1x -i "*.log" ; artifact push job tomee1x.zip ; cd ..
+            - cd target
+            - zip -r tomee1x tomee1x -i "*.log"
+            - artifact push job tomee1x.zip
+            - popd
   - name: Prepare Java 17 builds
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -678,6 +937,7 @@ blocks:
         - name: Prepare Java 17 builds
           commands:
             - sem-version java 17
+            - cd $ORIGINAL_PWD
             - mvn -version
             - mvn clean install
   - name: Jetty 12.x
@@ -687,8 +947,12 @@ blocks:
       jobs:
         - name: Jetty 12.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r jetty12x jetty12x -i "*.log" ; artifact push job jetty12x.zip ; cd ..
+            - cd target
+            - zip -r jetty12x jetty12x -i "*.log"
+            - artifact push job jetty12x.zip
+            - popd
   - name: Prepare Java 21 builds
     dependencies:
       - Prepare environment and perform initial build on Java 11
@@ -702,6 +966,7 @@ blocks:
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - popd
             - export JAVA_HOME=/tmp/cargo/jdk-21
+            - cd $ORIGINAL_PWD
             - mvn -version
               # Sometimes, Java builds fail the first time. Try twice.
             - mvn clean install -e || mvn clean install -e
@@ -712,11 +977,15 @@ blocks:
       jobs:
         - name: Tomcat 11.x
           commands:
+            - pushd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
-            - cd target ; zip -r tomcat11x tomcat11x -i "*.log" ; artifact push job tomcat11x.zip ; cd ..
+            - cd target
+            - zip -r tomcat11x tomcat11x -i "*.log"
+            - artifact push job tomcat11x.zip
+            - popd
   - name: Save artifacts and publish test results
     dependencies:
-      - Test Javadoc generation and deploy using JDK 11
+      - Test Javadoc generation and deploy using Java 11
       - Geronimo 1.x
       - Geronimo 3.x
       - GlassFish 3.x
