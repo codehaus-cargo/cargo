@@ -236,7 +236,7 @@ blocks:
           commands:
             - cd $ORIGINAL_PWD
             - mvn clean
-            - cat $ORIGINAL_PWD/core/samples/java/containers.log ; RM=0
+            - cat $ORIGINAL_PWD/core/samples/java/containers.log ; cat $ORIGINAL_PWD/core/samples/java/containers.log | grep -c " is 1"
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - rm -rf ~/.cargo
             - ls -al ~/.m2/cargo-installs
