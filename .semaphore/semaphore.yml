@@ -80,6 +80,7 @@ blocks:
         - name: GlassFish 6.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -94,6 +95,7 @@ blocks:
         - name: GlassFish 7.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -108,6 +110,7 @@ blocks:
         - name: Jetty 10.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -122,6 +125,7 @@ blocks:
         - name: Jetty 11.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -136,6 +140,7 @@ blocks:
         - name: Payara
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -150,6 +155,7 @@ blocks:
         - name: Tomcat 10.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -164,6 +170,7 @@ blocks:
         - name: TomEE 9.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -178,6 +185,7 @@ blocks:
         - name: WildFly 27.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -192,6 +200,7 @@ blocks:
         - name: WildFly 28.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -206,6 +215,7 @@ blocks:
         - name: WildFly 29.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -220,6 +230,7 @@ blocks:
         - name: WildFly 30.x
           commands:
             - sem-version java 11
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -250,6 +261,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -265,6 +277,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -280,6 +293,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -295,6 +309,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -310,6 +325,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -325,6 +341,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -340,6 +357,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -355,6 +373,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -370,6 +389,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -385,6 +405,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -400,6 +421,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -415,6 +437,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -430,6 +453,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -445,6 +469,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -460,6 +485,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -475,6 +501,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -490,6 +517,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -505,6 +533,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -520,6 +549,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -535,6 +565,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -550,6 +581,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -565,6 +597,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -580,6 +613,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -595,6 +629,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -610,6 +645,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -625,6 +661,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -640,6 +677,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -655,6 +693,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -688,6 +727,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -707,6 +747,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -726,6 +767,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -745,6 +787,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -764,6 +807,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -783,6 +827,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -802,6 +847,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -821,6 +867,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -840,6 +887,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -859,6 +907,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -878,6 +927,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -897,6 +947,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -916,6 +967,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -935,6 +987,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -954,6 +1007,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -973,6 +1027,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -992,6 +1047,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1011,6 +1067,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1030,6 +1087,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1049,6 +1107,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1068,6 +1127,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1087,6 +1147,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1106,6 +1167,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1125,6 +1187,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1144,6 +1207,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1163,6 +1227,7 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
@@ -1188,6 +1253,7 @@ blocks:
         - name: Jetty 12.x
           commands:
             - sem-version java 17
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2
             - cd target
@@ -1218,6 +1284,7 @@ blocks:
           commands:
             - tar -xvzf ~/.m2/semaphore-ci-binaries/openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
+            - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
             - cd target
