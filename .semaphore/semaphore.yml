@@ -37,7 +37,7 @@ blocks:
             - export PATH=$MAVEN_HOME/bin:$PATH
             - sem-version java 11
             - mvn -version
-              # Sometimes, Java builds fail the first time. Try twice.
+              # Sometimes, the very large Java build fails the first time. Try twice.
             - (mvn clean install -e) || (mvn clean install -e)
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - mvn clean
@@ -49,7 +49,7 @@ blocks:
         - name: Test Javadoc generation and deploy using JDK 11
           commands:
             - mvn javadoc:aggregate
-              # Sometimes, Java builds fail the first time. Try twice.
+              # Sometimes, SNAPSHOT artifact deployment fails the first time. Try twice.
             - mvn clean deploy -e || mvn clean deploy -e
             - find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;
     task:
