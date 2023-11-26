@@ -79,9 +79,9 @@ blocks:
             - cd target
             - zip -r glassfish6x glassfish6x -i "*.log"
             - artifact push job glassfish6x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
             - mvn clean install -e -Pglassfish6x
+            - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 7.x
     dependencies:
