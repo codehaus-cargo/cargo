@@ -90,7 +90,7 @@ public class PackagerTest extends AbstractCargoTestCase
         configuration.configure(container);
 
         File targetLocation =
-            new File(new File(getTestData().targetDir).getParentFile(), "package");
+            new File(new File(getTestData().configurationHome).getParentFile(), "package");
 
         PackagerFactory factory = new DefaultPackagerFactory();
         Packager packager = factory.createPackager(getTestData().containerId,

@@ -124,7 +124,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
             throw new CargoException(
                 "Please set property [cargo.testdata.derby-jar] to a valid location of derby.jar");
         }
-        container.getSystemProperties().put("derby.system.home", getTestData().targetDir);
+        container.getSystemProperties().put("derby.system.home", getTestData().configurationHome);
         container.getSystemProperties().put("derby.stream.error.logSeverityLevel", "0");
     }
 }

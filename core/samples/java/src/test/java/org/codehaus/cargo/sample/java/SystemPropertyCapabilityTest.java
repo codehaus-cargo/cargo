@@ -86,7 +86,7 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
 
         // Copies the testdata artifact
         String artifactFile = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir), "systemproperty.war");
+            getFileHandler().getParent(getTestData().configurationHome), "systemproperty.war");
         getFileHandler().copyFile(
             getTestData().getTestDataFileFor("systemproperty-war"), artifactFile);
 

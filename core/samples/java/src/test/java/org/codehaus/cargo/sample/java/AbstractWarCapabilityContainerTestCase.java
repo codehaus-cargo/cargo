@@ -72,7 +72,7 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
         }
 
         String expandedWarDirectory = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir), "expanded-war");
+            getFileHandler().getParent(getTestData().configurationHome), "expanded-war");
         getFileHandler().explode(getTestData().getTestDataFileFor("expanded-war"),
             expandedWarDirectory);
 

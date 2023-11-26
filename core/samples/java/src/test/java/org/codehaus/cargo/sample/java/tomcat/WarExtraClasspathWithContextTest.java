@@ -117,7 +117,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         // Copies the tomcat context war in order to rename it so that it matches the context
         // path defined in its context.xml file.
         String artifactFile = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir), "tomcat-context.war");
+            getFileHandler().getParent(getTestData().configurationHome), "tomcat-context.war");
         getFileHandler().copyFile(
             getTestData().getTestDataFileFor("tomcatcontext-war"), artifactFile);
 
@@ -146,7 +146,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
     public void testLoadClassOnExpandedWarWithContextXmlFile() throws Exception
     {
         String expandedWarDirectory = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir), "tomcat-context");
+            getFileHandler().getParent(getTestData().configurationHome), "tomcat-context");
         getFileHandler().explode(getTestData().getTestDataFileFor("tomcatcontext-war"),
             expandedWarDirectory);
 

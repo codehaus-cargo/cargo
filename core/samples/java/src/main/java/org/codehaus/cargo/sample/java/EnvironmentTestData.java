@@ -128,15 +128,15 @@ public class EnvironmentTestData
     public long containerTimeout;
 
     /**
-     * Target directory where build results are stored and where container execution will happen.
+     * Directory where container execution will happen.
      */
-    public String targetDir;
+    public String configurationHome;
 
     /**
      * Home for the already installed container (in that case extractDir and installURL are
      * ignored).
      */
-    public String home;
+    public String containerHome;
 
     /**
      * Java Home used to start the container.
@@ -164,7 +164,7 @@ public class EnvironmentTestData
     {
         this.containerId = containerId;
         this.containerType = containerType;
-        this.targetDir = new File(getFileFromString(
+        this.configurationHome = new File(getFileFromString(
             getSystemProperty("cargo.target.dir")), targetDirSuffix).getPath();
         this.downloadDir = getSystemProperty("cargo.download.dir");
         this.extractDir = new File(getFileFromString(
@@ -173,7 +173,7 @@ public class EnvironmentTestData
         this.installURL = createInstallURL(containerId);
         this.port = createPort(containerId, "servlet", 8080);
         this.rmiPort = createPort(containerId, "rmi", 1099);
-        this.home = getSystemProperty("cargo." + containerId + ".home");
+        this.containerHome = getSystemProperty("cargo." + containerId + ".home");
         this.javaHome = getSystemProperty("cargo." + containerId + ".java.home");
         this.containerTimeout =
             Long.parseLong(getSystemProperty("cargo.containers.timeout", "60000"));

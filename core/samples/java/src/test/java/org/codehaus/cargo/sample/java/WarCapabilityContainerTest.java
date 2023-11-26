@@ -84,7 +84,7 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
     {
         // Copies the testdata artifact
         String artifactFile = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir), "simple.war");
+            getFileHandler().getParent(getTestData().configurationHome), "simple.war");
         getFileHandler().copyFile(
             getTestData().getTestDataFileFor("simple-war"), artifactFile);
 

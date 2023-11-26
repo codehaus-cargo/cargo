@@ -115,7 +115,7 @@ public abstract class AbstractCargoTestCase extends TestCase
         this.testData = testData;
 
         // Ensure target dir exists so that we can create the log file
-        File targetDir = new File(getTestData().targetDir);
+        File targetDir = new File(getTestData().configurationHome);
         targetDir.mkdirs();
         if (!targetDir.isDirectory())
         {
@@ -203,7 +203,7 @@ public abstract class AbstractCargoTestCase extends TestCase
      */
     public Configuration createConfiguration(ConfigurationType type)
     {
-        return createConfiguration(type, getTestData().targetDir);
+        return createConfiguration(type, getTestData().configurationHome);
     }
 
     /**
@@ -331,7 +331,8 @@ public abstract class AbstractCargoTestCase extends TestCase
             setUpClover((InstalledLocalContainer) container);
         }
 
-        File logFile = new File(new File(getTestData().targetDir).getParentFile(), "output.log");
+        File logFile = new File(
+            new File(getTestData().configurationHome).getParentFile(), "output.log");
         // delete the previous run's output, if it exists.
         logFile.delete();
         container.setOutput(logFile.getPath());
@@ -380,6 +381,8 @@ public abstract class AbstractCargoTestCase extends TestCase
     protected void setUp() throws Exception
     {
         getLogger().info("Starting test [" + getName() + "]", this.getClass().getName());
+
+        getFileHandler().delete(getTestData().configurationHome);
 
         // Set up the thread context classloader for embedded containers. We're doing this here
         // instead of in the constructor as this needs to be set for each single test as otherwise
@@ -456,9 +459,9 @@ public abstract class AbstractCargoTestCase extends TestCase
      */
     private void setUpHome(InstalledLocalContainer container)
     {
-        if (getTestData().home != null)
+        if (getTestData().containerHome != null)
         {
-            container.setHome(getTestData().home);
+            container.setHome(getTestData().containerHome);
         }
         else if (getTestData().installURL != null)
         {

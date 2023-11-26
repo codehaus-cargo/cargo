@@ -387,7 +387,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     {
         // Create the HTML file that we'll add to the WAR
         String modifiedWarDirectory = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir), "modified-war");
+            getFileHandler().getParent(getTestData().configurationHome), "modified-war");
         getFileHandler().mkdirs(modifiedWarDirectory);
         getFileHandler().explode(originalDeployable.getFile(), modifiedWarDirectory);
         String htmlFile = getFileHandler().append(modifiedWarDirectory, "some.html");
@@ -395,7 +395,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         // Copy and update the WAR to add the HTML file
         String modifiedWar = getFileHandler().append(
-            getFileHandler().getParent(getTestData().targetDir),
+            getFileHandler().getParent(getTestData().configurationHome),
                 getFileHandler().getName(originalDeployable.getFile()));
         ZipCompressor compressor = new ZipCompressor(getFileHandler());
         compressor.compress(modifiedWarDirectory, modifiedWar);
