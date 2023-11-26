@@ -33,6 +33,7 @@ import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigu
 import org.codehaus.cargo.container.jetty.internal.JettyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
