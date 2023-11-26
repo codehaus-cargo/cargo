@@ -47,11 +47,11 @@ global_job_config:
         - cache list
         - popd
 blocks:
-  - name: Perform initial build on Java 11
+  - name: Perform initial build and aggregate Javadoc on Java 11
     dependencies: []
     task:
       jobs:
-        - name: Perform initial build on Java 11
+        - name: Perform initial build and aggregate Javadoc on Java 11
           commands:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
@@ -62,23 +62,12 @@ blocks:
             - cache store "codehaus-cargo-cache-initial-build" .m2
             - popd
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
-            - mvn clean
-  - name: Test Javadoc generation and deploy using Java 11
-    dependencies:
-      - Perform initial build on Java 11
-    task:
-      jobs:
-        - name: Test Javadoc generation and deploy using Java 11
-          commands:
-            - sem-version java 11
-            - 'mvn javadoc:aggregate'
-            - mvn clean deploy -e || mvn clean deploy -e
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
-      secrets:
-        - name: Snapshot deployment configuration
+            - 'mvn javadoc:aggregate'
+            - mvn clean
   - name: GlassFish 6.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: GlassFish 6.x
@@ -93,7 +82,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 7.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: GlassFish 7.x
@@ -108,7 +97,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 10.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Jetty 10.x
@@ -123,7 +112,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 11.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Jetty 11.x
@@ -138,7 +127,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Payara
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Payara
@@ -153,7 +142,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 10.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Tomcat 10.x
@@ -168,7 +157,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 9.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: TomEE 9.x
@@ -183,7 +172,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 27.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: WildFly 27.x
@@ -198,7 +187,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 28.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: WildFly 28.x
@@ -213,7 +202,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 29.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: WildFly 29.x
@@ -228,7 +217,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 30.x
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: WildFly 30.x
@@ -243,7 +232,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 8
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Build on Java 8
@@ -1377,7 +1366,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 17
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Build on Java 17
@@ -1403,7 +1392,7 @@ blocks:
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 21
     dependencies:
-      - Perform initial build on Java 11
+      - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
         - name: Build on Java 21
@@ -1435,6 +1424,83 @@ blocks:
             - zip -r tomcat11x tomcat11x -i "*.log"
             - artifact push job tomcat11x.zip
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+  - name: Deploy using Java 11
+    dependencies:
+      - Geronimo 1.x
+      - Geronimo 3.x
+      - GlassFish 3.x
+      - GlassFish 4.x
+      - GlassFish 5.x
+      - GlassFish 6.x
+      - GlassFish 7.x
+      - JBoss 3.x
+      - JBoss 4.2.x
+      - JBoss 4.x
+      - JBoss 5.1.x
+      - JBoss 5.x
+      - JBoss 6.1.x
+      - JBoss 6.x
+      - JBoss 7.1.x
+      - JBoss 7.x
+      - Jetty 5.x
+      - Jetty 6.x
+      - Jetty 7.x
+      - Jetty 8.x
+      - Jetty 9.x
+      - Jetty 10.x
+      - Jetty 11.x
+      - Jetty 12.x
+      - Jo 1.x
+      - JOnAS 4.x
+      - JOnAS 5.x
+      - Payara
+      - Resin 3.1.x
+      - Resin 3.x
+      - Resin 4.x
+      - Tomcat 4.x
+      - Tomcat 5.x
+      - Tomcat 6.x
+      - Tomcat 7.x
+      - Tomcat 8.x
+      - Tomcat 9.x
+      - Tomcat 10.x
+      - Tomcat 11.x
+      - TomEE 1.x
+      - TomEE 7.x
+      - TomEE 8.x
+      - TomEE 9.x
+      - WebSphere Liberty
+      - WildFly 8.x
+      - WildFly 9.x
+      - WildFly 10.x
+      - WildFly 11.x
+      - WildFly 12.x
+      - WildFly 13.x
+      - WildFly 14.x
+      - WildFly 15.x
+      - WildFly 16.x
+      - WildFly 17.x
+      - WildFly 18.x
+      - WildFly 19.x
+      - WildFly 20.x
+      - WildFly 21.x
+      - WildFly 22.x
+      - WildFly 23.x
+      - WildFly 24.x
+      - WildFly 25.x
+      - WildFly 26.x
+      - WildFly 27.x
+      - WildFly 28.x
+      - WildFly 29.x
+      - WildFly 30.x
+    task:
+      jobs:
+        - name: Deploy using Java 11
+          commands:
+            - sem-version java 11
+            - mvn clean deploy -e || mvn clean deploy -e
+      secrets:
+        - name: Snapshot deployment configuration
 after_pipeline:
   task:
     jobs:
