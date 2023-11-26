@@ -1665,9 +1665,6 @@
     </profile>
     <profile>
       <id>tomcat9x</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <properties>
         <cargo.containers>tomcat9x</cargo.containers>
       </properties>
