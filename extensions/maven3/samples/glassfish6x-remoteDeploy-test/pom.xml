@@ -30,15 +30,7 @@
 
   <profiles>
     <profile>
-      <!-- JDK >= 11 -->
-      <id>java11+</id>
-      <activation>
-        <jdk>[11,)</jdk>
-        <property>
-          <name>skipTests</name>
-          <value>!true</value>
-        </property>
-      </activation>
+      <id>glassfish6x</id>
       <build>
         <plugins>
           <plugin>
