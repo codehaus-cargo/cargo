@@ -11,10 +11,13 @@ global_job_config:
     commands:
       - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
       - sudo hostname codehaus-cargo-ci
+      - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
       - pushd ~/
-      - cache restore "codehaus-cargo-cache-tgz"
       - popd
       - checkout
+      - cache restore "codehaus-cargo-cache-m2-repository"
+      - cache restore "codehaus-cargo-cache-binaries"
+      - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - export ORIGINAL_PWD=$PWD
       - mkdir -p /tmp/cargo
       - mkdir -p ~/.m2
@@ -39,9 +42,13 @@ global_job_config:
         - ls -al ~/.m2/cargo-installs
         - ls -al ~/.m2/semaphore-ci-binaries
         - pushd ~/
-        - cache restore "codehaus-cargo-cache-tgz"
-        - cache delete "codehaus-cargo-cache-tgz"
-        - cache store "codehaus-cargo-cache-tgz" .m2
+          # Merge the semaphore-ci-binaries folder across builds
+        - cache restore "codehaus-cargo-cache-binaries"
+        - cache delete "codehaus-cargo-cache-binaries"
+          # Keep the cargo-installs folder unique per branch
+        - cache store "codehaus-cargo-cache-binaries" .m2/semaphore-ci-binaries
+        - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
+        - cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs
         - cache list
         - ls -al ~/.m2/cargo-installs
         - ls -al ~/.m2/semaphore-ci-binaries
@@ -57,6 +64,8 @@ blocks:
             - sem-version java 11
             - mvn -version
             - mvn clean install -e || mvn clean install -e
+            - cache delete "codehaus-cargo-cache-m2-repository"
+            - cache store "codehaus-cargo-cache-m2-repository" .m2/repository
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - mvn clean
   - name: Test Javadoc generation and deploy using Java 11
