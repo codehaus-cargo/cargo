@@ -23,15 +23,15 @@ global_job_config:
       - mkdir -p ~/.m2
       - mkdir -p ~/.m2/cargo-installs
       - mkdir -p ~/.m2/semaphore-ci-binaries
-      - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.5.4-bin.tar.gz -size -5M -print -exec rm {} +'
+      - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
       - ls -al ~/.m2/cargo-installs
       - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
       - ls -al ~/.m2/semaphore-ci-binaries
       - cd ~/.m2/semaphore-ci-binaries
-      - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz ; RM=0'
-      - tar -xvzf apache-maven-3.5.4-bin.tar.gz -C /tmp/cargo
+      - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz ; RM=0'
+      - tar -xvzf apache-maven-3.6.3-bin.tar.gz -C /tmp/cargo
       - cd $ORIGINAL_PWD
-      - export MAVEN_HOME=/tmp/cargo/apache-maven-3.5.4
+      - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
   epilogue:
