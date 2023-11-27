@@ -55,6 +55,11 @@ public interface TomcatPropertySet
     String CONTEXT_ALLOWWEBJARS = "cargo.tomcat.context.addWebinfClassesResources";
 
     /**
+     * Whether the contexts for deployed webapplications should map JARs to WEB-INF/classes
+     */
+    String CONTEXT_MAPJARSTOWEBINFCLASSES = "cargo.tomcat.context.mapJarToWebinfClasses";
+
+    /**
      * Whether WAR deployables should be copied or referenced.
      */
     String COPY_WARS = "cargo.tomcat.copywars";
