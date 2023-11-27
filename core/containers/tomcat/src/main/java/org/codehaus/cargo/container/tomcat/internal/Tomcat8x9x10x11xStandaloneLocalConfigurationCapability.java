@@ -36,5 +36,7 @@ public class Tomcat8x9x10x11xStandaloneLocalConfigurationCapability
                 TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
         this.propertySupportMap.put(
                 TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(
+                TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES, Boolean.TRUE);
     }
 }

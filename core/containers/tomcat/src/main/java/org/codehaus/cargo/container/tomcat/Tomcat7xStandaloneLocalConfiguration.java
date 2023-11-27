@@ -62,8 +62,8 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
         super(dir);
 
         setProperty(ServletPropertySet.USERS, "admin::manager-script");
-        setProperty(TomcatPropertySet.CONTEXT_ALLOWMULTIPART, "true");
-        setProperty(TomcatPropertySet.CONTEXT_ALLOWWEBJARS, "true");
+        setProperty(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART, "true");
+        setProperty(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS, "true");
 
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
         getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
@@ -141,9 +141,9 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     {
         return new StringBuilder(" ")
             .append(CONTEXT_ALLOWMULTIPART_ATTR_NAME).append("=\"")
-            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)).append("\" ")
+            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART)).append("\" ")
             .append(CONTEXT_ALLOWWEBJARS_ATTR_NAME).append("=\"")
-            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOWWEBJARS)).append("\"")
+            .append(getPropertyValue(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS)).append("\"")
             .toString();
     }
 
@@ -157,7 +157,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
 
         removeXmlReplacement(serverXmlFileName, connectorXpath(), "emptySessionPath");
 
-        String startStopThreads = getPropertyValue(TomcatPropertySet.HOST_STARTSTOPTHREADS);
+        String startStopThreads = getPropertyValue(TomcatPropertySet.HOST_START_STOP_THREADS);
         if (startStopThreads != null)
         {
             addXmlReplacement(serverXmlFileName, "//Server/Service/Engine/Host",

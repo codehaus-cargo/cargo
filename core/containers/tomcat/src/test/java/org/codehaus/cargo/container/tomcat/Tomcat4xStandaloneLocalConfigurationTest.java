@@ -253,7 +253,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      */
     public void testConfigureSetsHostStartStopThreads() throws Exception
     {
-        configuration.setProperty(TomcatPropertySet.HOST_STARTSTOPTHREADS, "42");
+        configuration.setProperty(TomcatPropertySet.HOST_START_STOP_THREADS, "42");
         configuration.configure(container);
         String config =
             configuration.getFileHandler().readTextFile(

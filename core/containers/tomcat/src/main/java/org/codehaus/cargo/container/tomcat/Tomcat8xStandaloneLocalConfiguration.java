@@ -67,6 +67,7 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         super(dir);
 
         setProperty(TomcatPropertySet.URI_ENCODING, StandardCharsets.UTF_8.name());
+        setProperty(TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES, "false");
 
         configurationBuilder = new Tomcat8x9xConfigurationBuilder();
     }
@@ -203,16 +204,20 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(StringBuilder sb, String path)
     {
-      if (Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.CONTEXT_MAPJARSTOWEBINFCLASSES))) {
-        sb.append("className=\"" + JAR_RESOURCE_SET + "\" base=\"");
-        sb.append(path.replace("&", "&amp;"));
-        sb.append("\" webAppMount=\"/WEB-INF/classes/");
-      } else {
-        sb.append("className=\"" + FILE_RESOURCE_SET + "\" base=\"");
-        sb.append(path.replace("&", "&amp;"));
-        sb.append("\" webAppMount=\"/WEB-INF/lib/");
-        sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
-      }
+        if (Boolean.parseBoolean(
+            getPropertyValue(TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES)))
+        {
+            sb.append("className=\"" + JAR_RESOURCE_SET + "\" base=\"");
+            sb.append(path.replace("&", "&amp;"));
+            sb.append("\" webAppMount=\"/WEB-INF/classes/");
+        }
+        else
+        {
+            sb.append("className=\"" + FILE_RESOURCE_SET + "\" base=\"");
+            sb.append(path.replace("&", "&amp;"));
+            sb.append("\" webAppMount=\"/WEB-INF/lib/");
+            sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
+        }
     }
 
     /**
@@ -223,16 +228,20 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(Element postResourceEl, String path)
     {
-      if (Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.CONTEXT_MAPJARSTOWEBINFCLASSES))) {
-        postResourceEl.setAttribute("className", JAR_RESOURCE_SET);
-        postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
-        postResourceEl.setAttribute("webAppMount", "/WEB-INF/classes/");
-      } else {
-        postResourceEl.setAttribute("className", FILE_RESOURCE_SET);
-        postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
-        postResourceEl.setAttribute("webAppMount", "/WEB-INF/lib/"
-            + getFileHandler().getName(path).replace("&", "&amp;"));
-      }
+        if (Boolean.parseBoolean(
+            getPropertyValue(TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES)))
+        {
+            postResourceEl.setAttribute("className", JAR_RESOURCE_SET);
+            postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
+            postResourceEl.setAttribute("webAppMount", "/WEB-INF/classes/");
+        }
+        else
+        {
+            postResourceEl.setAttribute("className", FILE_RESOURCE_SET);
+            postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
+            postResourceEl.setAttribute("webAppMount", "/WEB-INF/lib/"
+                + getFileHandler().getName(path).replace("&", "&amp;"));
+        }
     }
 
     /**

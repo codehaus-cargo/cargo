@@ -47,17 +47,20 @@ public interface TomcatPropertySet
     /**
      * Whether the contexts for deployed Web applications should allow multipart parsing.
      */
-    String CONTEXT_ALLOWMULTIPART = "cargo.tomcat.context.allowCasualMultipartParsing";
+    String CONTEXT_ALLOW_MULTIPART = "cargo.tomcat.context.allowCasualMultipartParsing";
 
     /**
      * Whether the contexts for deployed webapplications should allow webjars support
      */
-    String CONTEXT_ALLOWWEBJARS = "cargo.tomcat.context.addWebinfClassesResources";
+    String CONTEXT_ALLOW_WEB_JARS = "cargo.tomcat.context.addWebinfClassesResources";
 
     /**
-     * Whether the contexts for deployed webapplications should map JARs to WEB-INF/classes
+     * Whether the contexts for deployed web applications should map JARs to
+     * <code>WEB-INF/classes</code>. Refer to the <i>Ordering</i> chapter of
+     * <a href="https://tomcat.apache.org/tomcat-8.0-doc/config/resources.html">the Tomcat 8.0
+     * Configuration Guide</a> for more details.
      */
-    String CONTEXT_MAPJARSTOWEBINFCLASSES = "cargo.tomcat.context.mapJarToWebinfClasses";
+    String CONTEXT_MAP_JARS_TO_WEBINF_CLASSES = "cargo.tomcat.context.mapJarToWebinfClasses";
 
     /**
      * Whether WAR deployables should be copied or referenced.
@@ -72,7 +75,7 @@ public interface TomcatPropertySet
     /**
      * Number of threads the host will use to start context elements in parallel.
      */
-    String HOST_STARTSTOPTHREADS = "cargo.tomcat.host.startStopThreads";
+    String HOST_START_STOP_THREADS = "cargo.tomcat.host.startStopThreads";
 
     /**
      * Whether the HTTP container is secured.

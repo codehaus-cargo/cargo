@@ -77,9 +77,9 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     public void testExtraContextAttributes()
     {
         assertTrue(Boolean.parseBoolean(
-            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWMULTIPART)));
+            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART)));
         assertTrue(Boolean.parseBoolean(
-            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOWWEBJARS)));
+            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS)));
     }
 
     /**
@@ -102,7 +102,7 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     @Override
     public void testConfigureSetsHostStartStopThreads() throws Exception
     {
-        configuration.setProperty(TomcatPropertySet.HOST_STARTSTOPTHREADS, "42");
+        configuration.setProperty(TomcatPropertySet.HOST_START_STOP_THREADS, "42");
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(

@@ -33,8 +33,8 @@ public class Tomcat7xStandaloneLocalConfigurationCapability extends
     public Tomcat7xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(TomcatPropertySet.CUSTOM_VALVE, Boolean.TRUE);
-        this.propertySupportMap.put(TomcatPropertySet.CONTEXT_ALLOWMULTIPART, Boolean.TRUE);
-        this.propertySupportMap.put(TomcatPropertySet.HOST_STARTSTOPTHREADS, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.HOST_START_STOP_THREADS, Boolean.TRUE);
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
         this.propertySupportMap.remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
     }
