@@ -203,10 +203,16 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(StringBuilder sb, String path)
     {
+      if (Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.CONTEXT_MAPJARSTOWEBINFCLASSES))) {
+        sb.append("className=\"" + JAR_RESOURCE_SET + "\" base=\"");
+        sb.append(path.replace("&", "&amp;"));
+        sb.append("\" webAppMount=\"/WEB-INF/classes/");
+      } else {
         sb.append("className=\"" + FILE_RESOURCE_SET + "\" base=\"");
         sb.append(path.replace("&", "&amp;"));
         sb.append("\" webAppMount=\"/WEB-INF/lib/");
         sb.append(getFileHandler().getName(path).replace("&", "&amp;"));
+      }
     }
 
     /**
@@ -217,10 +223,16 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
      */
     private void writeJarPostResource(Element postResourceEl, String path)
     {
+      if (Boolean.parseBoolean(getPropertyValue(TomcatPropertySet.CONTEXT_MAPJARSTOWEBINFCLASSES))) {
+        postResourceEl.setAttribute("className", JAR_RESOURCE_SET);
+        postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
+        postResourceEl.setAttribute("webAppMount", "/WEB-INF/classes/");
+      } else {
         postResourceEl.setAttribute("className", FILE_RESOURCE_SET);
         postResourceEl.setAttribute("base", path.replace("&", "&amp;"));
         postResourceEl.setAttribute("webAppMount", "/WEB-INF/lib/"
             + getFileHandler().getName(path).replace("&", "&amp;"));
+      }
     }
 
     /**
