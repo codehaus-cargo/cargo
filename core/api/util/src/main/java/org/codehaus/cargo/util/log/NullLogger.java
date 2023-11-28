@@ -19,7 +19,15 @@
  */
 package org.codehaus.cargo.util.log;
 
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.internal.log.AbstractLogger;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Null implementation which does nothing with log messages.
@@ -29,9 +37,28 @@ public class NullLogger extends AbstractLogger
     /**
      * {@inheritDoc}
      */
+    private final DateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
+
+    private OutputStream output;
     @Override
     protected void doLog(LogLevel level, String message, String category)
     {
-        // Do nothing
+        {
+            final String formattedCategory = category.length() > 20
+                    ? category.substring(category.length() - 20) : category;
+
+            final String msg = "[" + this.format.format(new Date()) + "]"
+                    + "[" + level.getLevel() + "][" + formattedCategory + "] " + message + "\n";
+            try
+            {
+                this.output.write(msg.getBytes(StandardCharsets.UTF_8));
+                this.output.flush();
+            }
+            catch (IOException e)
+            {
+                throw new CargoException("Failed to write log message ["
+                        + msg + "]", e);
+            }
+        }
     }
 }
