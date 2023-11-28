@@ -45,7 +45,7 @@ public class LoggerTest extends TestCase
          * @param category Category.
          */
         @Override
-        protected void doLog(LogLevel level, String message, String category)
+        public void doLog(LogLevel level, String message, String category)
         {
             this.message = "[" + level.getLevel() + "][" + category + "][" + message + "]";
         }

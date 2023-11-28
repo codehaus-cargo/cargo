@@ -23,7 +23,6 @@ import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,9 +38,9 @@ public class NullLogger extends AbstractLogger
      */
     private final DateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
 
-    private OutputStream output;
+
     @Override
-    protected void doLog(LogLevel level, String message, String category)
+    public void doLog(LogLevel level, String message, String category)
     {
         {
             final String formattedCategory = category.length() > 20

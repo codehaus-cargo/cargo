@@ -58,7 +58,7 @@ public abstract class AbstractLogger implements Logger
 
     private final DateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
 
-    private OutputStream output;
+    protected OutputStream output;
     /**
      * {@inheritDoc}
      */
