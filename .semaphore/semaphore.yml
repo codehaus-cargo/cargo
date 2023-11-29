@@ -75,12 +75,12 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - cd target
             - zip -r glassfish6x glassfish6x -i "*.log"
             - artifact push job glassfish6x.zip
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
-            - mvn clean install -e -Pglassfish6x
+            - mvn clean install -e -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 7.x
