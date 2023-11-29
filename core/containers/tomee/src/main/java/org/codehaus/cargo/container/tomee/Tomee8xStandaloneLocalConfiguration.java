@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.tomee;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.tomee.internal.Tomee7x8x9xStandaloneLocalConfigurationCapability;
+
 /**
  * Standalone local configuration for TomEE 8.x.
  */
@@ -27,11 +30,26 @@ public class Tomee8xStandaloneLocalConfiguration extends Tomee7xStandaloneLocalC
 
     /**
      * {@inheritDoc}
+     */
+    private static ConfigurationCapability capability =
+        new Tomee7x8x9xStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
      * @see Tomee7xStandaloneLocalConfiguration#Tomee7xStandaloneLocalConfiguration(String)
      */
     public Tomee8xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

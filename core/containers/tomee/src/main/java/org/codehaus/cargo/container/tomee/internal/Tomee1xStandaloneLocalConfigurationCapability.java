@@ -23,15 +23,15 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat7xStandaloneLocalConfi
 import org.codehaus.cargo.container.tomee.TomeePropertySet;
 
 /**
- * Capabilities of TomEE's standalone local configurations.
+ * Capabilities of TomEE 1.x's standalone local configurations.
  */
-public class TomeeStandaloneLocalConfigurationCapability extends
+public class Tomee1xStandaloneLocalConfigurationCapability extends
     Tomcat7xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public TomeeStandaloneLocalConfigurationCapability()
+    public Tomee1xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(TomeePropertySet.APPS_DIRECTORY, true);
     }
