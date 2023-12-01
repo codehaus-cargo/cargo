@@ -310,7 +310,7 @@
   </issueManagement>
   <ciManagement>
     <system>semaphoreci</system>
-    <url>https://semaphoreci.com/codehaus-cargo/cargo</url>
+    <url>https://codehaus-cargo.semaphoreci.com/projects/cargo</url>
   </ciManagement>
   <distributionManagement>
     <snapshotRepository>
