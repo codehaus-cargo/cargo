@@ -787,7 +787,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r geronimo1x geronimo1x -i "*.log"
             - artifact push job geronimo1x.zip
@@ -810,7 +810,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r geronimo3x geronimo3x -i "*.log"
             - artifact push job geronimo3x.zip
@@ -833,7 +833,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r glassfish3x glassfish3x -i "*.log"
             - artifact push job glassfish3x.zip
@@ -856,7 +856,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss3x jboss3x -i "*.log"
             - artifact push job jboss3x.zip
@@ -879,7 +879,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss4x jboss4x -i "*.log"
             - artifact push job jboss4x.zip
@@ -902,7 +902,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss42x jboss42x -i "*.log"
             - artifact push job jboss42x.zip
@@ -925,7 +925,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss5x jboss5x -i "*.log"
             - artifact push job jboss5x.zip
@@ -948,7 +948,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss51x jboss51x -i "*.log"
             - artifact push job jboss51x.zip
@@ -971,7 +971,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss6x jboss6x -i "*.log"
             - artifact push job jboss6x.zip
@@ -994,7 +994,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss61x jboss61x -i "*.log"
             - artifact push job jboss61x.zip
@@ -1017,7 +1017,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss7x jboss7x -i "*.log"
             - artifact push job jboss7x.zip
@@ -1040,7 +1040,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jboss71x jboss71x -i "*.log"
             - artifact push job jboss71x.zip
@@ -1063,7 +1063,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty5x jetty5x -i "*.log"
             - artifact push job jetty5x.zip
@@ -1086,7 +1086,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty6x jetty6x -i "*.log"
             - artifact push job jetty6x.zip
@@ -1109,7 +1109,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty7x jetty7x -i "*.log"
             - artifact push job jetty7x.zip
@@ -1132,7 +1132,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty8x jetty8x -i "*.log"
             - artifact push job jetty8x.zip
@@ -1155,7 +1155,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jo1x jo1x -i "*.log"
             - artifact push job jo1x.zip
@@ -1178,7 +1178,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jonas4x jonas4x -i "*.log"
             - artifact push job jonas4x.zip
@@ -1201,7 +1201,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jonas5x jonas5x -i "*.log"
             - artifact push job jonas5x.zip
@@ -1224,7 +1224,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r resin3x resin3x -i "*.log"
             - artifact push job resin3x.zip
@@ -1247,7 +1247,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r resin31x resin31x -i "*.log"
             - artifact push job resin31x.zip
@@ -1270,7 +1270,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat4x tomcat4x -i "*.log"
             - artifact push job tomcat4x.zip
@@ -1293,7 +1293,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat5x tomcat5x -i "*.log"
             - artifact push job tomcat5x.zip
@@ -1316,7 +1316,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat6x tomcat6x -i "*.log"
             - artifact push job tomcat6x.zip
@@ -1339,7 +1339,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat7x tomcat7x -i "*.log"
             - artifact push job tomcat7x.zip
@@ -1362,7 +1362,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2-Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomee1x tomee1x -i "*.log"
             - artifact push job tomee1x.zip
