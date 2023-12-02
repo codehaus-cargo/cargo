@@ -1135,20 +1135,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-      <!--
-        Spring 4 makes use of javax.transaction.TransactionSynchronizationRegistry, which is not
-        available in JBoss 3.x, 4.x nor 4.2.x.
-        -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-jdbc</artifactId>
-        <version>3.2.18.RELEASE</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>3.2.18.RELEASE</version>
-      </dependency>
       <dependency>
         <groupId>org.tukaani</groupId>
         <artifactId>xz</artifactId>

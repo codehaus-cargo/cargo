@@ -32,18 +32,28 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!--
+      Spring is only used by datasource-cmt-local-war,
+	  keep the version information here to avoid confusions.
+
+      Spring 4 makes use of javax.transaction.TransactionSynchronizationRegistry,
+	  which is not available in JBoss 3.x, 4.x nor 4.2.x.
+      -->
     <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
-      <scope>provided</scope>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>3.2.18.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-        <artifactId>spring-jdbc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
+      <artifactId>spring-web</artifactId>
+      <version>3.2.18.RELEASE</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

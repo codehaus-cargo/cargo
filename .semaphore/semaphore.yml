@@ -75,14 +75,14 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
+            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r glassfish6x glassfish6x -i "*.log"
             - artifact push job glassfish6x.zip
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
             - mvn clean install -e -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: GlassFish 7.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -93,11 +93,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r glassfish7x glassfish7x -i "*.log"
             - artifact push job glassfish7x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 10.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -108,11 +108,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty10x jetty10x -i "*.log"
             - artifact push job jetty10x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 11.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -123,11 +123,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty11x jetty11x -i "*.log"
             - artifact push job jetty11x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Payara
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -138,11 +138,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r payara payara -i "*.log"
             - artifact push job payara.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 10.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -153,11 +153,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat10x tomcat10x -i "*.log"
             - artifact push job tomcat10x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: TomEE 9.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -168,11 +168,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomee9x tomee9x -i "*.log"
             - artifact push job tomee9x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 27.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -183,11 +183,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly27x wildfly27x -i "*.log"
             - artifact push job wildfly27x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 28.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -198,11 +198,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly28x wildfly28x -i "*.log"
             - artifact push job wildfly28x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 29.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -213,11 +213,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly29x wildfly29x -i "*.log"
             - artifact push job wildfly29x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 30.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -228,11 +228,11 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly30x wildfly30x -i "*.log"
             - artifact push job wildfly30x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Build on Java 8
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -262,11 +262,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r glassfish4x glassfish4x -i "*.log"
             - artifact push job glassfish4x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: GlassFish 5.x
     dependencies:
       - Build on Java 8
@@ -280,11 +280,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r glassfish5x glassfish5x -i "*.log"
             - artifact push job glassfish5x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 9.x
     dependencies:
       - Build on Java 8
@@ -298,11 +298,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty9x jetty9x -i "*.log"
             - artifact push job jetty9x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Resin 4.x
     dependencies:
       - Build on Java 8
@@ -316,11 +316,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r resin4x resin4x -i "*.log"
             - artifact push job resin4x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 8.x
     dependencies:
       - Build on Java 8
@@ -334,11 +334,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat8x tomcat8x -i "*.log"
             - artifact push job tomcat8x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 9.x
     dependencies:
       - Build on Java 8
@@ -352,11 +352,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat9x tomcat9x -i "*.log"
             - artifact push job tomcat9x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: TomEE 7.x
     dependencies:
       - Build on Java 8
@@ -370,11 +370,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomee7x tomee7x -i "*.log"
             - artifact push job tomee7x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: TomEE 8.x
     dependencies:
       - Build on Java 8
@@ -388,11 +388,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomee8x tomee8x -i "*.log"
             - artifact push job tomee8x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WebSphere Liberty
     dependencies:
       - Build on Java 8
@@ -406,11 +406,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r liberty liberty -i "*.log"
             - artifact push job liberty.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 8.x
     dependencies:
       - Build on Java 8
@@ -424,11 +424,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly8x wildfly8x -i "*.log"
             - artifact push job wildfly8x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 9.x
     dependencies:
       - Build on Java 8
@@ -442,11 +442,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly9x wildfly9x -i "*.log"
             - artifact push job wildfly9x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 10.x
     dependencies:
       - Build on Java 8
@@ -460,11 +460,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly10x wildfly10x -i "*.log"
             - artifact push job wildfly10x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 11.x
     dependencies:
       - Build on Java 8
@@ -478,11 +478,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly11x wildfly11x -i "*.log"
             - artifact push job wildfly11x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 12.x
     dependencies:
       - Build on Java 8
@@ -496,11 +496,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly12x wildfly12x -i "*.log"
             - artifact push job wildfly12x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 13.x
     dependencies:
       - Build on Java 8
@@ -514,11 +514,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly13x wildfly13x -i "*.log"
             - artifact push job wildfly13x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 14.x
     dependencies:
       - Build on Java 8
@@ -532,11 +532,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly14x wildfly14x -i "*.log"
             - artifact push job wildfly14x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 15.x
     dependencies:
       - Build on Java 8
@@ -550,11 +550,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly15x wildfly15x -i "*.log"
             - artifact push job wildfly15x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 16.x
     dependencies:
       - Build on Java 8
@@ -568,11 +568,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly16x wildfly16x -i "*.log"
             - artifact push job wildfly16x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 17.x
     dependencies:
       - Build on Java 8
@@ -586,11 +586,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly17x wildfly17x -i "*.log"
             - artifact push job wildfly17x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 18.x
     dependencies:
       - Build on Java 8
@@ -604,11 +604,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly18x wildfly18x -i "*.log"
             - artifact push job wildfly18x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 19.x
     dependencies:
       - Build on Java 8
@@ -622,11 +622,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly19x wildfly19x -i "*.log"
             - artifact push job wildfly19x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 20.x
     dependencies:
       - Build on Java 8
@@ -640,11 +640,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly20x wildfly20x -i "*.log"
             - artifact push job wildfly20x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 21.x
     dependencies:
       - Build on Java 8
@@ -658,11 +658,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly21x wildfly21x -i "*.log"
             - artifact push job wildfly21x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 22.x
     dependencies:
       - Build on Java 8
@@ -676,11 +676,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly22x wildfly22x -i "*.log"
             - artifact push job wildfly22x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 23.x
     dependencies:
       - Build on Java 8
@@ -694,11 +694,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly23x wildfly23x -i "*.log"
             - artifact push job wildfly23x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 24.x
     dependencies:
       - Build on Java 8
@@ -712,11 +712,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly24x wildfly24x -i "*.log"
             - artifact push job wildfly24x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 25.x
     dependencies:
       - Build on Java 8
@@ -730,11 +730,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly25x wildfly25x -i "*.log"
             - artifact push job wildfly25x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: WildFly 26.x
     dependencies:
       - Build on Java 8
@@ -748,11 +748,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r wildfly26x wildfly26x -i "*.log"
             - artifact push job wildfly26x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Prepare for containers running on Java 6
     dependencies:
       - Build on Java 8
@@ -787,11 +787,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r geronimo1x geronimo1x -i "*.log"
             - artifact push job geronimo1x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Geronimo 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -810,11 +810,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r geronimo3x geronimo3x -i "*.log"
             - artifact push job geronimo3x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: GlassFish 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -833,11 +833,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r glassfish3x glassfish3x -i "*.log"
             - artifact push job glassfish3x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -856,11 +856,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss3x jboss3x -i "*.log"
             - artifact push job jboss3x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -879,11 +879,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss4x jboss4x -i "*.log"
             - artifact push job jboss4x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 4.2.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -902,11 +902,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss42x jboss42x -i "*.log"
             - artifact push job jboss42x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -925,11 +925,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss5x jboss5x -i "*.log"
             - artifact push job jboss5x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 5.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -948,11 +948,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss51x jboss51x -i "*.log"
             - artifact push job jboss51x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -971,11 +971,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss6x jboss6x -i "*.log"
             - artifact push job jboss6x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 6.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -994,11 +994,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss61x jboss61x -i "*.log"
             - artifact push job jboss61x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1017,11 +1017,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss7x jboss7x -i "*.log"
             - artifact push job jboss7x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JBoss 7.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1040,11 +1040,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jboss71x jboss71x -i "*.log"
             - artifact push job jboss71x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1063,11 +1063,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jetty5x jetty5x -i "*.log"
             - artifact push job jetty5x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1086,11 +1086,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jetty6x jetty6x -i "*.log"
             - artifact push job jetty6x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1109,11 +1109,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jetty7x jetty7x -i "*.log"
             - artifact push job jetty7x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jetty 8.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1132,11 +1132,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jetty8x jetty8x -i "*.log"
             - artifact push job jetty8x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Jo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1155,11 +1155,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jo1x jo1x -i "*.log"
             - artifact push job jo1x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JOnAS 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1178,11 +1178,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jonas4x jonas4x -i "*.log"
             - artifact push job jonas4x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: JOnAS 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1201,11 +1201,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r jonas5x jonas5x -i "*.log"
             - artifact push job jonas5x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Resin 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1224,11 +1224,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r resin3x resin3x -i "*.log"
             - artifact push job resin3x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Resin 3.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1247,11 +1247,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r resin31x resin31x -i "*.log"
             - artifact push job resin31x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1270,11 +1270,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r tomcat4x tomcat4x -i "*.log"
             - artifact push job tomcat4x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1293,11 +1293,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r tomcat5x tomcat5x -i "*.log"
             - artifact push job tomcat5x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1316,11 +1316,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r tomcat6x tomcat6x -i "*.log"
             - artifact push job tomcat6x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Tomcat 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1339,11 +1339,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r tomcat7x tomcat7x -i "*.log"
             - artifact push job tomcat7x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: TomEE 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1362,11 +1362,11 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - cd target
             - zip -r tomee1x tomee1x -i "*.log"
             - artifact push job tomee1x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Build on Java 17
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1388,11 +1388,11 @@ blocks:
             - sem-version java 17
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r jetty12x jetty12x -i "*.log"
             - artifact push job jetty12x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Build on Java 21
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1422,11 +1422,11 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2 ; CONTAINER_TEST_RESULT=$? ; RM=0
             - cd target
             - zip -r tomcat11x tomcat11x -i "*.log"
             - artifact push job tomcat11x.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish ; RM=$CONTAINER_TEST_RESULT
   - name: Deploy using Java 11
     dependencies:
       - Geronimo 1.x
