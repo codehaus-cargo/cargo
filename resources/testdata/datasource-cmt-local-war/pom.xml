@@ -58,7 +58,7 @@
   </dependencies>
   <!--
     Copy the exact commons-logging version as from the Spring core version we use.
-	-->
+    -->
   <build>
     <plugins>
       <plugin>
