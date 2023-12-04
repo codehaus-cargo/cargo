@@ -26,12 +26,6 @@
   <artifactId>datasource-cmt-local-war</artifactId>
   <name>Cargo test data for samples - Local Transaction DataSource WAR</name>
   <packaging>war</packaging>
-  <properties>
-    <!--
-      Use the exact same version of commons-logging as what Spring Core depends on.
-      -->
-    <spring-core-commons-logging-minor-version>1.3</spring-core-commons-logging-minor-version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -49,16 +43,46 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
       <version>3.2.18.RELEASE</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
       <version>3.2.18.RELEASE</version>
     </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.${spring-core-commons-logging-minor-version}</version>
-    </dependency>
   </dependencies>
+  <!--
+    Copy the exact commons-logging version as from the Spring core version we use.
+	-->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>commons-logging</groupId>
+                  <artifactId>commons-logging</artifactId>
+				  <version>1.1.3</version>
+                  <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/lib</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
