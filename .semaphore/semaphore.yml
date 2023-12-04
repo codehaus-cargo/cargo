@@ -38,8 +38,8 @@ global_job_config:
     always:
       commands:
         - cd $ORIGINAL_PWD
-        - zip -r "$CARGO_BRANCH_ID logs.zip" . -i "*.log"
-        - artifact push job "$CARGO_BRANCH_ID logs.zip"
+        - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
+        - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean
         - ls -al ~/.m2/cargo-installs
         - ls -al ~/.m2/semaphore-ci-binaries
@@ -127,7 +127,7 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Ppayarax -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 10.x
     dependencies:
