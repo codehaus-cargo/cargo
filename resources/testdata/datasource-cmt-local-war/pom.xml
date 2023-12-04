@@ -30,7 +30,7 @@
     <!--
       Use the exact same version of commons-logging as what Spring Core depends on.
       -->
-    <spring-core-commons-logging-minor-version>1.3</spring-core-commons-logging-minor-version>
+    <spring-core-commons-logging-minor-version>1.3.0</spring-core-commons-logging-minor-version>
   </properties>
   <dependencies>
     <dependency>
