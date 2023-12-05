@@ -102,6 +102,27 @@
   </profiles>
 
   <build>
+    <testResources>
+      <!--
+        Some of the samples use the maven-invoker-plugin to run a Maven instance,
+        which needs its pom.xml file populated with the Codehaus Cargo version
+        -->
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>pom.xml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>merge.xml</include>
+        </includes>
+      </testResource>
+    </testResources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
