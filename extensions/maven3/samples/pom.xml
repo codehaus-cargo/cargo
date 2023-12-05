@@ -83,13 +83,6 @@
           <include>pom.xml</include>
         </includes>
       </testResource>
-      <testResource>
-        <directory>src/test/resources</directory>
-        <filtering>true</filtering>
-        <excludes>
-          <exclude>pom.xml</exclude>
-        </excludes>
-      </testResource>
     </testResources>
 
     <pluginManagement>
