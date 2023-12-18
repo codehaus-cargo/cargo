@@ -1,0 +1,378 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractCopyingInstalledLocalDeployer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.deployer</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractCopyingInstalledLocalDeployer (org.codehaus.cargo.container.spi.deployer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractCopyingInstalledLocalDeployer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.5%
+  </span>
+  <span class="absValue">
+    (49/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.deployer;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.LocalContainer;
+&nbsp;import org.codehaus.cargo.container.deployable.Deployable;
+&nbsp;import org.codehaus.cargo.container.deployable.DeployableType;
+&nbsp;import org.codehaus.cargo.container.deployable.EAR;
+&nbsp;import org.codehaus.cargo.container.deployable.WAR;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Local deployer that deploys deployables to a &lt;code&gt;deployable&lt;/code&gt; directory of the given
+&nbsp; * installed container. Note that this deployer supports some expanded deployables by copying the
+&nbsp; * expanded deployable to the &lt;code&gt;deployable&lt;/code&gt; directory. In other words it does not
+&nbsp; * support in-place expanded deployables (e.g. expanded WARs located in a different directory).
+&nbsp; */
+&nbsp;public abstract class AbstractCopyingInstalledLocalDeployer extends
+&nbsp;    AbstractInstalledLocalDeployer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Contains those DeployableTypes that should not be deployed expanded. Default is to allow
+&nbsp;     * expanded deployment and the exceptions to that rule are set here.
+&nbsp;     */
+<b class="fc">&nbsp;    private Set&lt;DeployableType&gt; doNotDeployExpanded = new HashSet&lt;DeployableType&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deployed Deployables.
+&nbsp;     */
+&nbsp;    private List&lt;Deployable&gt; deployedDeployables;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     * @see AbstractInstalledLocalDeployer#AbstractInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+&nbsp;     */
+&nbsp;    public AbstractCopyingInstalledLocalDeployer(LocalContainer container)
+&nbsp;    {
+<b class="fc">&nbsp;        super(container);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.deployedDeployables = new ArrayList&lt;Deployable&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Decide whether some expanded deployables of the specified type should be deployed or not.
+&nbsp;     * Some classes using this deployer may not want to deploy some expanded deployables, as they
+&nbsp;     * may want to deploy them in-situ by modifying the container&#39;s configuration file to point
+&nbsp;     * to the location of the expanded deployable. This saves some copying time and make it easier
+&nbsp;     * for development round-trips.
+&nbsp;     * 
+&nbsp;     * @param type the deployable type
+&nbsp;     * @param flag whether expanded deployment of the specified deployment type should be allowed
+&nbsp;     *            or not
+&nbsp;     */
+&nbsp;    public void setShouldDeployExpanded(DeployableType type, boolean flag)
+&nbsp;    {
+<b class="fc">&nbsp;        if (flag)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            this.doNotDeployExpanded.remove(type);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            this.doNotDeployExpanded.add(type);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param type the deployable type
+&nbsp;     * @return whether expanded deployment of the specified deployment type should be done
+&nbsp;     */
+&nbsp;    protected boolean shouldDeployExpanded(DeployableType type)
+&nbsp;    {
+<b class="fc">&nbsp;        return !this.doNotDeployExpanded.contains(type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized void deploy(Deployable deployable)
+&nbsp;    {
+<b class="fc">&nbsp;        if (!canBeDeployed(deployable))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ContainerException(&quot;Failed to deploy [&quot; + deployable.getFile() + &quot;] to [&quot;</b>
+<b class="fc">&nbsp;                + getDeployableDir(deployable) + &quot;]. The required web context is already in use&quot;</b>
+&nbsp;                + &quot; by another application.&quot;);
+&nbsp;        }
+&nbsp;
+&nbsp;        // Check that the container supports the deployable type to deploy
+<b class="fc">&nbsp;        if (!getContainer().getCapability().supportsDeployableType(deployable.getType()))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ContainerException(deployable.getType().getType().toUpperCase()</b>
+<b class="fc">&nbsp;                + &quot; archives are not supported for deployment in [&quot; + getContainer().getId()</b>
+<b class="fc">&nbsp;                + &quot;]. Got [&quot; + deployable.getFile() + &quot;]&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String deployableDir = getDeployableDir(deployable);</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            if (deployable.isExpanded())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (!shouldDeployExpanded(deployable.getType()))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new ContainerException(&quot;Container &quot; + getContainer().getName()</b>
+<b class="nc">&nbsp;                        + &quot; cannot deploy expanded &quot; + deployable.getType() + &quot; deployables&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                if (!getFileHandler().isDirectory(deployable.getFile()))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new ContainerException(&quot;The deployable&#39;s file &quot; + deployable.getFile()</b>
+&nbsp;                        + &quot; is not a directory, hence cannot be deployed as expanded&quot;);
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            doDeploy(deployableDir, deployable);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ContainerException(&quot;Failed to deploy [&quot; + deployable.getFile() + &quot;] to [&quot;</b>
+&nbsp;                + deployableDir + &quot;]&quot;, e);
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        this.deployedDeployables.add(deployable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks whether the given Deployable can actually be deployed and whether a deployable has a
+&nbsp;     * web context path that already exist in another previously deployed Deployable.
+&nbsp;     * 
+&nbsp;     * @param newDeployable deployable
+&nbsp;     * @return true, if the deployable can be deployed
+&nbsp;     */
+&nbsp;    protected boolean canBeDeployed(Deployable newDeployable)
+&nbsp;    {
+<b class="fc">&nbsp;        final Set&lt;String&gt; newDeployableContextSet = getWebContextsSet(newDeployable);</b>
+<b class="fc">&nbsp;        for (Deployable deployedDeployable : this.deployedDeployables)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for (String webContext : getWebContexts(deployedDeployable))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (newDeployableContextSet.contains(webContext))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adapter method - to hide the fact that there is no unified API to retrieve web contexts from
+&nbsp;     * a deployable.
+&nbsp;     * 
+&nbsp;     * @param deployable deployable
+&nbsp;     * @return a list of all web contexts this deployable uses
+&nbsp;     */
+&nbsp;    private static List&lt;String&gt; getWebContexts(Deployable deployable)
+&nbsp;    {
+&nbsp;        List&lt;String&gt; webContexts;
+<b class="fc">&nbsp;        if (deployable.getType() == DeployableType.EAR)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            webContexts = ((EAR) deployable).getWebContexts();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (deployable.getType() == DeployableType.WAR)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            webContexts = Arrays.asList(new String[] {((WAR) deployable).getContext()});</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            webContexts = Collections.emptyList();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return webContexts;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a set of all web contexts for a Deployable.
+&nbsp;     * 
+&nbsp;     * @param deployable Deployable
+&nbsp;     * @return a set of all web contexts contained in this deployable.
+&nbsp;     */
+&nbsp;    private static Set&lt;String&gt; getWebContextsSet(Deployable deployable)
+&nbsp;    {
+<b class="fc">&nbsp;        final Set&lt;String&gt; webContextSet = new HashSet&lt;String&gt;();</b>
+<b class="fc">&nbsp;        for (String webContext : getWebContexts(deployable))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            webContextSet.add(webContext);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return webContextSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies the directory {@link org.codehaus.cargo.container.deployable.Deployable}s should be
+&nbsp;     * copied to.
+&nbsp;     * 
+&nbsp;     * @param deployable Deployable to deploy.
+&nbsp;     * @return Deployable directory
+&nbsp;     */
+&nbsp;    public abstract String getDeployableDir(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Do the actual deployment. This can be overriden.
+&nbsp;     * @param deployableDir Directory in which to deploy.
+&nbsp;     * @param deployable Deployable to deploy.
+&nbsp;     */
+&nbsp;    protected void doDeploy(String deployableDir, Deployable deployable)
+&nbsp;    {
+<b class="fc">&nbsp;        getLogger().info(&quot;Deploying [&quot; + deployable.getFile() + &quot;] to [&quot; + deployableDir + &quot;]...&quot;,</b>
+<b class="fc">&nbsp;            this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;        if (!getFileHandler().isDirectory(deployableDir))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new CargoException(&quot;Target deployable directory does not exist: &quot;</b>
+&nbsp;                + deployableDir);
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String target = getFileHandler().append(deployableDir, getDeployableName(deployable));</b>
+<b class="fc">&nbsp;        if (deployable.isExpanded())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (getFileHandler().exists(target) &amp;&amp; !getFileHandler().isDirectory(target))</b>
+&nbsp;            {
+&nbsp;                // We are trying to deploy an expanded deployable but there already exists a file
+&nbsp;                // with the same name as the deployable. Delete, else we have bug CARGO-1037.
+<b class="nc">&nbsp;                getFileHandler().delete(target);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            getFileHandler().copyDirectory(deployable.getFile(), target);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            if (getFileHandler().exists(target) &amp;&amp; getFileHandler().isDirectory(target))</b>
+&nbsp;            {
+&nbsp;                // We are trying to deploy a file deployable but there already exists a directory
+&nbsp;                // with the same name as the deployable. Delete, else we have bug CARGO-1037.
+<b class="nc">&nbsp;                getFileHandler().delete(target);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            getFileHandler().copyFile(deployable.getFile(), target, true);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the deployable name for the given &lt;code&gt;deployable&lt;/code&gt;.
+&nbsp;     * @param deployable Deployable to get the name for.
+&nbsp;     * @return Deployable name.
+&nbsp;     */
+&nbsp;    protected String getDeployableName(Deployable deployable)
+&nbsp;    {
+<b class="fc">&nbsp;        return deployable.getFilename();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

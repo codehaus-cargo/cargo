@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Deployer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.deployer</a>
+</div>
+
+<h1>Coverage Summary for Class: Deployer (org.codehaus.cargo.container.deployer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Deployer</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.deployer;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.deployable.Deployable;
+&nbsp;import org.codehaus.cargo.util.log.Loggable;
+&nbsp;
+&nbsp;/**
+&nbsp; * API to manage all deployment aspects of {@link Deployable}: deploy, undeploy, start, stop and
+&nbsp; * restart.
+&nbsp; */
+&nbsp;public interface Deployer extends Loggable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Deploy a {@link Deployable} to the running container and make it available for requests.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to deploy
+&nbsp;     */
+&nbsp;    void deploy(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deploy a {@link Deployable} to the running container and make it available for requests.
+&nbsp;     * Waits for the {@link Deployable} to be fully deployed before returning.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to deploy
+&nbsp;     * @param monitor the monitor that checks for deployment status
+&nbsp;     */
+&nbsp;    void deploy(Deployable deployable, DeployableMonitor monitor);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Undeploy a {@link Deployable} from the running container. The service becomes unavailable for
+&nbsp;     * requests.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to undeploy
+&nbsp;     */
+&nbsp;    void undeploy(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Undeploy a {@link Deployable} to the running container. Waits for the {@link Deployable} to
+&nbsp;     * be fully undeployed before returning.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to deploy
+&nbsp;     * @param monitor the monitor that checks for deployment status
+&nbsp;     */
+&nbsp;    void undeploy(Deployable deployable, DeployableMonitor monitor);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Redeploy a {@link Deployable} already deployed to the running container. The service becomes
+&nbsp;     * available for requests.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Note that this method will be unsupported by the {@link Deployer}s based on the
+&nbsp;     * {@link org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer}.
+&nbsp;     * @param deployable the {@link Deployable} to redeploy
+&nbsp;     * @see Deployer#deploy(Deployable)
+&nbsp;     * @see Deployer#undeploy(Deployable)
+&nbsp;     */
+&nbsp;    void redeploy(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Redeploy a {@link Deployable} already deployed to the running container. The service becomes
+&nbsp;     * available for requests.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Note that this method will be unsupported by the {@link Deployer}s based on the
+&nbsp;     * {@link org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer}.
+&nbsp;     * @param deployable the {@link Deployable} to redeploy
+&nbsp;     * @param monitor the monitor that checks for deployment status
+&nbsp;     * @see Deployer#deploy(Deployable)
+&nbsp;     * @see Deployer#undeploy(Deployable)
+&nbsp;     */
+&nbsp;    void redeploy(Deployable deployable, DeployableMonitor monitor);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts a {@link Deployable} that is already deployed in the running container but that is not
+&nbsp;     * servicing requests.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to start
+&nbsp;     */
+&nbsp;    void start(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts a {@link Deployable} that is already deployed in the running container but that is not
+&nbsp;     * servicing requests.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to start
+&nbsp;     * @param monitor the monitor that checks for start status
+&nbsp;     */
+&nbsp;    void start(Deployable deployable, DeployableMonitor monitor);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stop a {@link Deployable} that is already deployed in the running container in order to
+&nbsp;     * prevent it from servicing requests.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to stop
+&nbsp;     */
+&nbsp;    void stop(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stop a {@link Deployable} that is already deployed in the running container in order to
+&nbsp;     * prevent it from servicing requests.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link Deployable} to stop
+&nbsp;     * @param monitor the monitor that checks for stop status
+&nbsp;     */
+&nbsp;    void stop(Deployable deployable, DeployableMonitor monitor);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the deployer&#39;s type (local, remote, etc)
+&nbsp;     */
+&nbsp;    DeployerType getType();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

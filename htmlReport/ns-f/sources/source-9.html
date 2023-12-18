@@ -1,0 +1,470 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractStandaloneLocalConfiguration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractStandaloneLocalConfiguration (org.codehaus.cargo.container.spi.configuration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractStandaloneLocalConfiguration</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    26.7%
+  </span>
+  <span class="absValue">
+    (4/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.8%
+  </span>
+  <span class="absValue">
+    (21/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.configuration;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.LocalContainer;
+&nbsp;import org.codehaus.cargo.container.configuration.ConfigurationType;
+&nbsp;import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+&nbsp;import org.codehaus.cargo.container.property.GeneralPropertySet;
+&nbsp;import org.codehaus.cargo.container.property.LoggingLevel;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.codehaus.cargo.util.FileHandler.XmlReplacementDetails;
+&nbsp;import org.codehaus.cargo.util.XmlReplacement;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base implementation for a standalone local configuration.
+&nbsp; */
+&nbsp;public abstract class AbstractStandaloneLocalConfiguration extends AbstractLocalConfiguration
+&nbsp;    implements StandaloneLocalConfiguration
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The XML replacements for the configuration files. The first map&#39;s key is the file name,
+&nbsp;     * the inner map&#39;s key is the {@link XmlReplacementDetails} and value the configuration
+&nbsp;     * property.
+&nbsp;     */
+&nbsp;    private Map&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt; xmlReplacements;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     * @see AbstractLocalConfiguration#AbstractLocalConfiguration(String)
+&nbsp;     */
+&nbsp;    public AbstractStandaloneLocalConfiguration(String dir)
+&nbsp;    {
+<b class="fc">&nbsp;        super(dir);</b>
+&nbsp;
+&nbsp;        // Add all required properties that are common to all standalone configurations
+<b class="fc">&nbsp;        setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());</b>
+<b class="fc">&nbsp;        this.xmlReplacements = new HashMap&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Perform the XML replacements for the specified container.
+&nbsp;     * @param container the container to configure
+&nbsp;     */
+&nbsp;    protected void performXmlReplacements(LocalContainer container)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean ignoreNonExistingProperties = Boolean.parseBoolean(</b>
+<b class="fc">&nbsp;            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES));</b>
+&nbsp;
+&nbsp;        for (Map.Entry&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt; xmlReplacementDetails
+<b class="fc">&nbsp;            : this.xmlReplacements.entrySet())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Set&lt;XmlReplacement&gt; replacements = new HashSet&lt;XmlReplacement&gt;();</b>
+<b class="nc">&nbsp;            String destinationFile = getFileHandler().append(</b>
+<b class="nc">&nbsp;                container.getConfiguration().getHome(), xmlReplacementDetails.getKey());</b>
+&nbsp;
+&nbsp;            for (Map.Entry&lt;XmlReplacementDetails, String&gt; xmlReplacementDetail
+<b class="nc">&nbsp;                    : xmlReplacementDetails.getValue().entrySet())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String value = container.getConfiguration().getPropertyValue(</b>
+<b class="nc">&nbsp;                    xmlReplacementDetail.getValue());</b>
+&nbsp;
+<b class="nc">&nbsp;                if (value == null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    value = xmlReplacementDetail.getValue();</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                XmlReplacementDetails key = xmlReplacementDetail.getKey();</b>
+<b class="nc">&nbsp;                XmlReplacement xmlReplacement = new XmlReplacement(destinationFile,</b>
+<b class="nc">&nbsp;                    key.getXpathExpression(), key.getAttributeName(), key.getReplacementBehavior(),</b>
+&nbsp;                        value);
+&nbsp;
+<b class="nc">&nbsp;                if (ignoreNonExistingProperties)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    xmlReplacement.setReplacementBehavior(</b>
+&nbsp;                            XmlReplacement.ReplacementBehavior.IGNORE_IF_NON_EXISTING);
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                replacements.add(xmlReplacement);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!replacements.isEmpty())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                XmlReplacement[] replacementsArray = new XmlReplacement[replacements.size()];</b>
+<b class="nc">&nbsp;                replacementsArray = replacements.toArray(replacementsArray);</b>
+<b class="nc">&nbsp;                getFileHandler().replaceInXmlFile(replacementsArray);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set up the configuration directory (create it and clean it). We clean it because we want to
+&nbsp;     * be sure the container starts with the same set up every time and there&#39;s no side effects
+&nbsp;     * introduced by a previous run or someone modifying some files in there.
+&nbsp;     * 
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Note: We only clean the configuration directory if it&#39;s empty or if there is a Cargo
+&nbsp;     * timestamp file. This is to prevent deleting not empty directories if the user has mistakenly
+&nbsp;     * pointed the configuration dir to an existing location.
+&nbsp;     * &lt;/p&gt;
+&nbsp;     * 
+&nbsp;     * @throws IOException if the directory cannot be created
+&nbsp;     */
+&nbsp;    protected void setupConfigurationDir() throws IOException
+&nbsp;    {
+<b class="fc">&nbsp;        String timestampFile = getFileHandler().append(getHome(), &quot;.cargo&quot;);</b>
+&nbsp;
+&nbsp;        // Start by cleaning the configuration directory. Do it only if there&#39;s already a Cargo
+&nbsp;        // timestamp or if the configuration directory exists but is empty or if the configuration
+&nbsp;        // directory doesn&#39;t exist.
+<b class="fc">&nbsp;        boolean isEmpty = false;</b>
+<b class="fc">&nbsp;        if (!getFileHandler().exists(getHome()))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            isEmpty = true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (!getFileHandler().isDirectory(getHome()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            isEmpty = true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (getFileHandler().isDirectoryEmpty(getHome()))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            isEmpty = true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (getFileHandler().exists(timestampFile))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            isEmpty = true;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (isEmpty)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            getFileHandler().delete(getHome());</b>
+&nbsp;
+<b class="fc">&nbsp;            getFileHandler().mkdirs(getHome());</b>
+&nbsp;
+&nbsp;            // Create Cargo timestamp file
+<b class="fc">&nbsp;            getFileHandler().createFile(timestampFile);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ContainerException(&quot;Invalid configuration dir [&quot; + getHome() + &quot;]. &quot;</b>
+&nbsp;                + &quot;When using standalone configurations, the configuration dir must point to an &quot;
+&nbsp;                + &quot;empty directory - Except if the configuration was created by Cargo.&quot;);
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addXmlReplacement(XmlReplacement xmlReplacement)
+&nbsp;    {
+<b class="nc">&nbsp;        Map&lt;XmlReplacementDetails, String&gt; fileReplacements =</b>
+<b class="nc">&nbsp;            this.xmlReplacements.get(xmlReplacement.getFile());</b>
+<b class="nc">&nbsp;        if (fileReplacements == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            fileReplacements = new HashMap&lt;XmlReplacementDetails, String&gt;();</b>
+<b class="nc">&nbsp;            this.xmlReplacements.put(xmlReplacement.getFile(), fileReplacements);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        fileReplacements.put(new XmlReplacementDetails(xmlReplacement.getXpathExpression(),</b>
+<b class="nc">&nbsp;            xmlReplacement.getAttributeName(), xmlReplacement.getReplacementBehavior()),</b>
+<b class="nc">&nbsp;                xmlReplacement.getValue());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addXmlReplacement(String filename, String xpathExpression,
+&nbsp;        String configurationPropertyName)
+&nbsp;    {
+<b class="nc">&nbsp;        addXmlReplacement(filename, xpathExpression, null, configurationPropertyName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+&nbsp;        String configurationPropertyName)
+&nbsp;    {
+<b class="nc">&nbsp;        Map&lt;XmlReplacementDetails, String&gt; fileReplacements = this.xmlReplacements.get(filename);</b>
+<b class="nc">&nbsp;        if (fileReplacements == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            fileReplacements = new HashMap&lt;XmlReplacementDetails, String&gt;();</b>
+<b class="nc">&nbsp;            this.xmlReplacements.put(filename, fileReplacements);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName,</b>
+&nbsp;            XmlReplacement.ReplacementBehavior.THROW_EXCEPTION),
+&nbsp;                configurationPropertyName);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addXmlReplacement(String filename, String xpathExpression, String attributeName,
+&nbsp;        String configurationPropertyName, XmlReplacement.ReplacementBehavior replacementBehavior)
+&nbsp;    {
+<b class="nc">&nbsp;        Map&lt;XmlReplacementDetails, String&gt; fileReplacements = this.xmlReplacements.get(filename);</b>
+<b class="nc">&nbsp;        if (fileReplacements == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            fileReplacements = new HashMap&lt;XmlReplacementDetails, String&gt;();</b>
+<b class="nc">&nbsp;            this.xmlReplacements.put(filename, fileReplacements);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        fileReplacements.put(new XmlReplacementDetails(xpathExpression, attributeName,</b>
+&nbsp;            replacementBehavior), configurationPropertyName);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void removeXmlReplacement(String filename, String xpathExpression)
+&nbsp;    {
+<b class="nc">&nbsp;        removeXmlReplacement(filename, xpathExpression, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void removeXmlReplacement(String filename, String xpathExpression,
+&nbsp;        String attributeName)
+&nbsp;    {
+<b class="nc">&nbsp;        Map&lt;XmlReplacementDetails, String&gt; fileReplacements = this.xmlReplacements.get(filename);</b>
+<b class="nc">&nbsp;        if (fileReplacements != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            fileReplacements.remove(</b>
+&nbsp;                new XmlReplacementDetails(xpathExpression, attributeName,
+&nbsp;                    XmlReplacement.ReplacementBehavior.THROW_EXCEPTION));
+&nbsp;
+<b class="nc">&nbsp;            if (fileReplacements.isEmpty())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                this.xmlReplacements.remove(filename);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;XmlReplacement&gt; getXmlReplacements()
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;XmlReplacement&gt; xmlReplacements = new ArrayList&lt;XmlReplacement&gt;();</b>
+&nbsp;
+&nbsp;        for (Map.Entry&lt;String, Map&lt;XmlReplacementDetails, String&gt;&gt; xmlReplacementEntry
+<b class="nc">&nbsp;            : this.xmlReplacements.entrySet())</b>
+&nbsp;        {
+&nbsp;            for (Map.Entry&lt;XmlReplacementDetails, String&gt; xmlReplacementDetail
+<b class="nc">&nbsp;                : xmlReplacementEntry.getValue().entrySet())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                XmlReplacementDetails key = xmlReplacementDetail.getKey();</b>
+<b class="nc">&nbsp;                XmlReplacement xmlReplacement = new XmlReplacement(xmlReplacementEntry.getKey(),</b>
+<b class="nc">&nbsp;                    key.getXpathExpression(), key.getAttributeName(), key.getReplacementBehavior(),</b>
+<b class="nc">&nbsp;                        xmlReplacementDetail.getValue());</b>
+&nbsp;
+<b class="nc">&nbsp;                xmlReplacements.add(xmlReplacement);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return xmlReplacements;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void verify()
+&nbsp;    {
+<b class="nc">&nbsp;        super.verify();</b>
+&nbsp;
+&nbsp;        // Verify that the logging level is a valid level
+<b class="nc">&nbsp;        verifyLogging();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verify that the logging level specified is a valid level.
+&nbsp;     */
+&nbsp;    private void verifyLogging()
+&nbsp;    {
+<b class="nc">&nbsp;        String level = getPropertyValue(GeneralPropertySet.LOGGING);</b>
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            LoggingLevel.toLevel(level);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IllegalArgumentException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Invalid logging level [&quot; + level</b>
+&nbsp;                + &quot;]. Valid levels are {\&quot;low\&quot;, \&quot;medium\&quot;, &quot; + &quot;\&quot;high\&quot;}&quot;);
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ConfigurationType getType()
+&nbsp;    {
+<b class="nc">&nbsp;        return ConfigurationType.STANDALONE;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void configureFiles(Map&lt;String, String&gt; replacements, LocalContainer container)
+&nbsp;    {
+<b class="fc">&nbsp;        performXmlReplacements(container);</b>
+<b class="fc">&nbsp;        super.configureFiles(replacements, container);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces using a map of replacements in a given file.
+&nbsp;     * 
+&nbsp;     * @param file File to replace in.
+&nbsp;     * @param replacements Map containing replacements.
+&nbsp;     * @param encoding The character encoding to use, may be {@code null} or empty to use the
+&nbsp;     *            platform&#39;s default encoding.
+&nbsp;     * @throws CargoException If anything fails, most notably if one of the replacements does not
+&nbsp;     * exist in the file.
+&nbsp;     */
+&nbsp;    protected void replaceInFile(String file, Map&lt;String, String&gt; replacements, Charset encoding)
+&nbsp;        throws CargoException
+&nbsp;    {
+<b class="nc">&nbsp;        boolean ignoreNonExistingProperties = Boolean.parseBoolean(</b>
+<b class="nc">&nbsp;            getPropertyValue(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES));</b>
+&nbsp;
+<b class="nc">&nbsp;        if (replacements.isEmpty())</b>
+&nbsp;        {
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        String path = getHome() + &quot;/&quot; + file;</b>
+<b class="nc">&nbsp;        getFileHandler().replaceInFile(path, replacements, encoding, ignoreNonExistingProperties);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.ant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 import org.codehaus.cargo.util.internal.log.AbstractLogger;
 import org.codehaus.cargo.util.log.LogLevel;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Logger implementation that logs to Ant.
@@ -108,7 +108,7 @@ public class AntLogger extends AbstractLogger
      * {@inheritDoc}
      */
     @Override
-    protected void doLog(LogLevel level, String message, String category)
+    public void doLog(LogLevel level, String message, String category)
     {
         Integer antLogLevel = this.levelMapper.get(level);
 

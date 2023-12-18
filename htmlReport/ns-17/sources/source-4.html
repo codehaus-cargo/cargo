@@ -1,0 +1,385 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DefaultJarArchive</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultJarArchive (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultJarArchive</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/75)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.io.ByteArrayInputStream;
+&nbsp;import java.io.ByteArrayOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.jar.JarInputStream;
+&nbsp;import java.util.zip.ZipEntry;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provide convenient methods to read information from a Jar archive.
+&nbsp; */
+&nbsp;public class DefaultJarArchive implements JarArchive
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The content of the archive as an input stream.
+&nbsp;     */
+&nbsp;    private byte[] content;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The archive itself, if passed in as a file.
+&nbsp;     */
+&nbsp;    private String sourceFile;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * File utility class to use for performing all file I/O.
+&nbsp;     */
+<b class="nc">&nbsp;    private FileHandler fileHandler = new DefaultFileHandler();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param file The archive file
+&nbsp;     */
+&nbsp;    public DefaultJarArchive(String file)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        if (file == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.sourceFile = file;</b>
+<b class="nc">&nbsp;        this.content = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param inputStream The input stream for the archive (it will be closed after the constructor
+&nbsp;     * returns)
+&nbsp;     * @throws java.io.IOException If there was a problem reading the WAR
+&nbsp;     */
+&nbsp;    public DefaultJarArchive(InputStream inputStream) throws IOException
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.sourceFile = null;</b>
+<b class="nc">&nbsp;        this.content = streamToByteArray(inputStream);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the file utility class to use for performing all file I/O.
+&nbsp;     */
+&nbsp;    public FileHandler getFileHandler()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the file utility class to use for performing all file I/O.
+&nbsp;     */
+&nbsp;    public void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="nc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean containsClass(String className) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        String resourceName = className.replace(&#39;.&#39;, &#39;/&#39;) + &quot;.class&quot;;</b>
+<b class="nc">&nbsp;        return getResource(resourceName) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String findResource(String name) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        String result = null;</b>
+<b class="nc">&nbsp;        for (String entryPath : getResources(&quot;&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String entryName = entryPath;</b>
+&nbsp;
+<b class="nc">&nbsp;            int lastSlashIndex = entryName.lastIndexOf(&#39;/&#39;);</b>
+<b class="nc">&nbsp;            if (lastSlashIndex &gt;= 0)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                entryName = entryName.substring(lastSlashIndex + 1);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (entryName.equals(name))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                result = entryPath;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public InputStream getResource(String path) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        try (JarInputStream in = getContentAsStream())</b>
+&nbsp;        {
+&nbsp;            ZipEntry zipEntry;
+<b class="nc">&nbsp;            while ((zipEntry = in.getNextEntry()) != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (path.equals(zipEntry.getName()))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    ByteArrayOutputStream buffer = new ByteArrayOutputStream();</b>
+<b class="nc">&nbsp;                    byte[] bytes = new byte[2048];</b>
+&nbsp;                    int bytesRead;
+<b class="nc">&nbsp;                    while ((bytesRead = in.read(bytes)) != -1)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        buffer.write(bytes, 0, bytesRead);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    return new ByteArrayInputStream(buffer.toByteArray());</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getResources(String path) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        String normalizedPath = path;</b>
+<b class="nc">&nbsp;        if (!path.endsWith(&quot;/&quot;) &amp;&amp; !path.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            normalizedPath = path + &quot;/&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        List&lt;String&gt; resources = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        try (JarInputStream in = getContentAsStream())</b>
+&nbsp;        {
+&nbsp;            ZipEntry zipEntry;
+<b class="nc">&nbsp;            while ((zipEntry = in.getNextEntry()) != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (zipEntry.getName().startsWith(normalizedPath)</b>
+<b class="nc">&nbsp;                    &amp;&amp; !zipEntry.getName().equals(normalizedPath))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    resources.add(zipEntry.getName());</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return resources;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the content of the archive as &lt;code&gt;JarInputStream&lt;/code&gt;.
+&nbsp;     * 
+&nbsp;     * @return The input stream
+&nbsp;     * @throws IOException If an exception occurred reading the archive
+&nbsp;     */
+&nbsp;    protected final JarInputStream getContentAsStream() throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.content != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return new JarInputStream(new ByteArrayInputStream(this.content));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return new JarInputStream(getFileHandler().getInputStream(this.sourceFile));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void expandToPath(String path) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        try (JarInputStream inputStream = getContentAsStream())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            byte[] buffer = new byte[40960];</b>
+&nbsp;            ZipEntry entry;
+<b class="nc">&nbsp;            while ((entry = inputStream.getNextEntry()) != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String outFile = getFileHandler().append(</b>
+<b class="nc">&nbsp;                    path, DefaultFileHandler.sanitizeFilename(entry.getName(),</b>
+<b class="nc">&nbsp;                        getFileHandler().getLogger()));</b>
+<b class="nc">&nbsp;                if (entry.isDirectory())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    getFileHandler().mkdirs(outFile);</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    String parent = getFileHandler().getParent(outFile);</b>
+<b class="nc">&nbsp;                    if (!getFileHandler().exists(parent))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        getFileHandler().mkdirs(parent);</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    if (!getFileHandler().exists(outFile))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        getFileHandler().createFile(outFile);</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    try (OutputStream out = getFileHandler().getOutputStream(outFile))</b>
+&nbsp;                    {
+&nbsp;                        int read;
+<b class="nc">&nbsp;                        while ((read = inputStream.read(buffer)) &gt; 0)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            out.write(buffer, 0, read);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Read a stream into a byte array.
+&nbsp;     * @param inputStream the input stream
+&nbsp;     * @return the byte array
+&nbsp;     * @throws java.io.IOException if an IO Exception
+&nbsp;     */
+&nbsp;    protected byte[] streamToByteArray(InputStream inputStream) throws IOException
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            ByteArrayOutputStream baos = new ByteArrayOutputStream();</b>
+<b class="nc">&nbsp;            byte[] buffer = new byte[40960];</b>
+&nbsp;            int bytesRead;
+<b class="nc">&nbsp;            while ((bytesRead = inputStream.read(buffer)) != -1)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                baos.write(buffer, 0, bytesRead);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return baos.toByteArray();</b>
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            if (inputStream != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                inputStream.close();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

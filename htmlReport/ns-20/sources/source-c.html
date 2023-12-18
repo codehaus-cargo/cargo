@@ -1,0 +1,415 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WebXmlType</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp</a>
+</div>
+
+<h1>Coverage Summary for Class: WebXmlType (org.codehaus.cargo.module.webapp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebXmlType</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.AbstractDescriptorType;
+&nbsp;import org.codehaus.cargo.module.Grammar;
+&nbsp;
+&nbsp;/**
+&nbsp; * A document type for web.xml web deployment descriptors.
+&nbsp; */
+&nbsp;public abstract class WebXmlType extends AbstractDescriptorType
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Element name &#39;icon&#39;.
+&nbsp;     */
+&nbsp;    public static final String ICON = &quot;icon&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;display-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String DISPLAY_NAME = &quot;display-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;description&#39;.
+&nbsp;     */
+&nbsp;    public static final String DESCRIPTION = &quot;description&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;distributable&#39;.
+&nbsp;     */
+&nbsp;    public static final String DISTRIBUTABLE = &quot;distributable&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;context-param&#39;.
+&nbsp;     */
+&nbsp;    public static final String CONTEXT_PARAM = &quot;context-param&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;param-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String PARAM_NAME = &quot;param-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;param-value&#39;.
+&nbsp;     */
+&nbsp;    public static final String PARAM_VALUE = &quot;param-value&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;filter&#39;.
+&nbsp;     */
+&nbsp;    public static final String FILTER = &quot;filter&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;filter-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String FILTER_NAME = &quot;filter-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;filter-class&#39;.
+&nbsp;     */
+&nbsp;    public static final String FILTER_CLASS = &quot;filter-class&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;filter-mapping&#39;.
+&nbsp;     */
+&nbsp;    public static final String FILTER_MAPPING = &quot;filter-mapping&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;init-param&#39;.
+&nbsp;     */
+&nbsp;    public static final String INIT_PARAM = &quot;init-param&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;listener&#39;.
+&nbsp;     */
+&nbsp;    public static final String LISTENER = &quot;listener&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;servlet&#39;.
+&nbsp;     */
+&nbsp;    public static final String SERVLET = &quot;servlet&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;servlet-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String SERVLET_NAME = &quot;servlet-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;jsp-file&#39;.
+&nbsp;     */
+&nbsp;    public static final String JSP_FILE = &quot;jsp-file&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;servlet-class&#39;.
+&nbsp;     */
+&nbsp;    public static final String SERVLET_CLASS = &quot;servlet-class&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;load-on-startup&#39;.
+&nbsp;     */
+&nbsp;    public static final String LOAD_ON_STARTUP = &quot;load-on-startup&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;run-as&#39;.
+&nbsp;     */
+&nbsp;    public static final String RUN_AS = &quot;run-as&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;servlet-mapping&#39;.
+&nbsp;     */
+&nbsp;    public static final String SERVLET_MAPPING = &quot;servlet-mapping&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;url-pattern&#39;.
+&nbsp;     */
+&nbsp;    public static final String URL_PATTERN = &quot;url-pattern&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;session-config&#39;.
+&nbsp;     */
+&nbsp;    public static final String SESSION_CONFIG = &quot;session-config&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;mime-mapping&#39;.
+&nbsp;     */
+&nbsp;    public static final String MIME_MAPPING = &quot;mime-mapping&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;extension&#39;.
+&nbsp;     */
+&nbsp;    public static final String EXTENSION = &quot;extension&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;mime-type&#39;.
+&nbsp;     */
+&nbsp;    public static final String MIME_TYPE = &quot;mime-type&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;welcome-file-list&#39;.
+&nbsp;     */
+&nbsp;    public static final String WELCOME_FILE_LIST = &quot;welcome-file-list&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;error-page&#39;.
+&nbsp;     */
+&nbsp;    public static final String ERROR_PAGE = &quot;error-page&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;taglib&#39;.
+&nbsp;     */
+&nbsp;    public static final String TAGLIB = &quot;taglib&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;resource-env-ref&#39;.
+&nbsp;     */
+&nbsp;    public static final String RESOURCE_ENV_REF = &quot;resource-env-ref&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;resource-ref&#39;.
+&nbsp;     */
+&nbsp;    public static final String RESOURCE_REF = &quot;resource-ref&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;res-ref-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String RES_REF_NAME = &quot;res-ref-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;res-type&#39;.
+&nbsp;     */
+&nbsp;    public static final String RES_TYPE = &quot;res-type&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;security-constraint&#39;.
+&nbsp;     */
+&nbsp;    public static final String SECURITY_CONSTRAINT = &quot;security-constraint&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;web-resource-collection&#39;.
+&nbsp;     */
+&nbsp;    public static final String WEB_RESOURCE_COLLECTION = &quot;web-resource-collection&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;web-resource-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String WEB_RESOURCE_NAME = &quot;web-resource-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;auth-constraint&#39;.
+&nbsp;     */
+&nbsp;    public static final String AUTH_CONSTRAINT = &quot;auth-constraint&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;login-config&#39;.
+&nbsp;     */
+&nbsp;    public static final String LOGIN_CONFIG = &quot;login-config&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;auth-method&#39;.
+&nbsp;     */
+&nbsp;    public static final String AUTH_METHOD = &quot;auth-method&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;realm-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String REALM_NAME = &quot;realm-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;security-role&#39;.
+&nbsp;     */
+&nbsp;    public static final String SECURITY_ROLE = &quot;security-role&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;role-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String ROLE_NAME = &quot;role-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;env-entry&#39;.
+&nbsp;     */
+&nbsp;    public static final String ENV_ENTRY = &quot;env-entry&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-ref&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_REF = &quot;ejb-ref&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-local-ref&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_LOCAL_REF = &quot;ejb-local-ref&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-ref-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_REF_NAME = &quot;ejb-ref-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-ref-type&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_REF_TYPE = &quot;ejb-ref-type&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;local&#39;.
+&nbsp;     */
+&nbsp;    public static final String LOCAL = &quot;local&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;local-home&#39;.
+&nbsp;     */
+&nbsp;    public static final String LOCAL_HOME = &quot;local-home&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;remote&#39;.
+&nbsp;     */
+&nbsp;    public static final String REMOTE = &quot;remote&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;home&#39;.
+&nbsp;     */
+&nbsp;    public static final String HOME = &quot;home&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;local-home&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_LINK = &quot;ejb-link&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;dispatcher&#39;.
+&nbsp;     */
+&nbsp;    public static final String DISPATCHER = &quot;dispatcher&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Protected constructor.
+&nbsp;     * 
+&nbsp;     * @param parent Parent type if any
+&nbsp;     * @param grammar grammar to use
+&nbsp;     */
+&nbsp;    protected WebXmlType(AbstractDescriptorType parent, Grammar grammar)
+&nbsp;    {
+<b class="nc">&nbsp;        super(parent, WebXml.class, grammar);</b>
+<b class="nc">&nbsp;        setDescriptorIo(new WebXmlIo(this));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the web xml version for his type.
+&nbsp;     * @return the version for this type
+&nbsp;     */
+&nbsp;    public abstract WebXmlVersion getVersion();
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

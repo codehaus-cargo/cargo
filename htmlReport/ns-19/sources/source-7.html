@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EjbJarXmlVersion</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.ejb</a>
+</div>
+
+<h1>Coverage Summary for Class: EjbJarXmlVersion (org.codehaus.cargo.module.ejb)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EjbJarXmlVersion</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.ejb;
+&nbsp;
+&nbsp;import org.w3c.dom.DocumentType;
+&nbsp;
+&nbsp;/**
+&nbsp; * Enumerated type that represents the version of the deployment descriptor of a ejb descriptor
+&nbsp; * (ejb-jar.xml).
+&nbsp; */
+&nbsp;public final class EjbJarXmlVersion implements Comparable&lt;EjbJarXmlVersion&gt;
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Instance for version 2.0.
+&nbsp;     */
+<b class="nc">&nbsp;    public static final EjbJarXmlVersion V2_0 = new EjbJarXmlVersion(</b>
+&nbsp;        &quot;2.0&quot;,
+&nbsp;        &quot;-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN&quot;,
+&nbsp;        &quot;http://java.sun.com/dtd/ejb-jar_2_0.dtd&quot;);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The system ID of the corresponding document type.
+&nbsp;     */
+&nbsp;    private String systemId;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The version as string.
+&nbsp;     */
+&nbsp;    private String version;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The public ID of the corresponding document type.
+&nbsp;     */
+&nbsp;    private String publicId;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param version The version as string
+&nbsp;     * @param publicId The public ID of the correspondig document type
+&nbsp;     * @param systemId The system ID of the correspondig document type
+&nbsp;     */
+&nbsp;    private EjbJarXmlVersion(String version, String publicId, String systemId)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.version = version;</b>
+<b class="nc">&nbsp;        this.publicId = publicId;</b>
+<b class="nc">&nbsp;        this.systemId = systemId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int compareTo(EjbJarXmlVersion other)
+&nbsp;    {
+<b class="nc">&nbsp;        double thisVersion = this.version == null ? 0 : Double.parseDouble(this.version);</b>
+&nbsp;        double thatVersion =
+<b class="nc">&nbsp;            (other == null || other.version == null) ? 0 : Double.parseDouble(other.version);</b>
+<b class="nc">&nbsp;        return Double.compare(thisVersion, thatVersion);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the tag name.
+&nbsp;     * 
+&nbsp;     * @return The tag name
+&nbsp;     */
+&nbsp;    public String getVersion()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.version;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the public ID of the document type corresponding to the descriptor version.
+&nbsp;     * 
+&nbsp;     * @return The public ID
+&nbsp;     */
+&nbsp;    public String getPublicId()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.publicId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the system ID of the document type corresponding to the descriptor version.
+&nbsp;     * 
+&nbsp;     * @return The system ID
+&nbsp;     */
+&nbsp;    public String getSystemId()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.systemId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString()
+&nbsp;    {
+<b class="nc">&nbsp;        return getVersion();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the version corresponding to the given document type.
+&nbsp;     * 
+&nbsp;     * @param docType The document type
+&nbsp;     * @return The version that matches the document type, or &lt;code&gt;null&lt;/code&gt; if the doctype is
+&nbsp;     * not recognized
+&nbsp;     * @throws NullPointerException If the document type is &lt;code&gt;null&lt;/code&gt;
+&nbsp;     */
+&nbsp;    public static EjbJarXmlVersion valueOf(DocumentType docType) throws NullPointerException
+&nbsp;    {
+<b class="nc">&nbsp;        return valueOf(docType.getPublicId());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the version corresponding to the given public ID.
+&nbsp;     * 
+&nbsp;     * @param publicId The public ID
+&nbsp;     * @return The version that matches the public ID, or &lt;code&gt;null&lt;/code&gt; if the ID is not
+&nbsp;     * recognized
+&nbsp;     */
+&nbsp;    public static EjbJarXmlVersion valueOf(String publicId)
+&nbsp;    {
+<b class="nc">&nbsp;        EjbJarXmlVersion version = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (V2_0.getPublicId().equals(publicId))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            version = EjbJarXmlVersion.V2_0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return version;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

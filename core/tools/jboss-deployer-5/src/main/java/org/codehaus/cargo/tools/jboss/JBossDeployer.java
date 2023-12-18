@@ -21,12 +21,17 @@ package org.codehaus.cargo.tools.jboss;
 
 import java.io.File;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
 import org.codehaus.cargo.container.ContainerException;
 
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -158,42 +163,68 @@ public class JBossDeployer implements IJBossProfileManagerDeployer
      * @return The JBoss deployment manager.
      * @throws Exception If anything fails.
      */
-    private DeploymentManager getDeploymentManager() throws Exception
-    {
+
+    private DeploymentManager getDeploymentManager() throws Exception {
+        StringBuilder providerURL = createProviderURL();
+
+        Properties properties = createProperties(providerURL.toString());
+
+        LoginContext loginContext = createLoginContext(this.configuration);
+        loginContext.login();
+
+        Context ctx = createContext(properties);
+
+        ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
+
+        try {
+            return ps.getDeploymentManager();
+        } catch (Exception e) {
+            throw new ContainerException(
+                    "Cannot get the JBoss Deployment Manager on Provider URL " + providerURL, e);
+        }
+
+        // TODO: think about logout ?
+    }
+
+    private StringBuilder createProviderURL() {
         StringBuilder providerURL = new StringBuilder();
         providerURL.append("jnp://");
         providerURL.append(this.configuration.getPropertyValue(GeneralPropertySet.HOSTNAME));
         providerURL.append(':');
         providerURL.append(this.configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        return providerURL;
+    }
 
+    private Properties createProperties(String providerURL) {
         Properties properties = new Properties();
         properties.setProperty(
-            Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
-        properties.setProperty(Context.PROVIDER_URL, providerURL.toString());
+                Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+        properties.setProperty(Context.PROVIDER_URL, providerURL);
         properties.setProperty(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
+        return properties;
+    }
 
-        new LoginContext("jboss-jaas", null,
-            new UsernamePasswordCallbackHandler(this.configuration),
-            new JaasConfiguration(new AppConfigurationEntry(
-                "org.jboss.security.ClientLoginModule",
+    private AppConfigurationEntry createAppConfigEntry() {
+        String loginModuleName = "org.jboss.security.ClientLoginModule";
+        Map<String, ?> options = Collections.EMPTY_MAP;
+
+        return new AppConfigurationEntry(
+                loginModuleName,
                 AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
-                Collections.EMPTY_MAP))).login();
+                options
+        );
+    }
 
-        Context ctx = new InitialContext(properties);
+    private LoginContext createLoginContext(Configuration configuration) throws LoginException {
+        AppConfigurationEntry configEntry = createAppConfigEntry();
+        CallbackHandler callbackHandler = new UsernamePasswordCallbackHandler(configuration);
+        JaasConfiguration jaasConfig = new JaasConfiguration(configEntry);
 
-        ProfileService ps = (ProfileService) ctx.lookup("ProfileService");
+        return new LoginContext("jboss-jaas", null, callbackHandler, jaasConfig);
+    }
 
-        try
-        {
-            return ps.getDeploymentManager();
-        }
-        catch (Exception e)
-        {
-            throw new ContainerException(
-                "Cannot get the JBoss Deployment Manager on Provider URL " + providerURL, e);
-        }
-
-        // TODO: think about logout ?
+    private Context createContext(Properties properties) throws NamingException {
+        return new InitialContext(properties);
     }
 
 }

@@ -29,8 +29,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.packager.Packager;
-import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;

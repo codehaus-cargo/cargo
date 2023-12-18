@@ -30,7 +30,7 @@ public class SimpleLogger extends AbstractLogger
      * {@inheritDoc}
      */
     @Override
-    protected void doLog(LogLevel level, String message, String category)
+    public void doLog(LogLevel level, String message, String category)
     {
         System.out.println("[" + level.getLevel() + "][" + category + "] " + message);
     }

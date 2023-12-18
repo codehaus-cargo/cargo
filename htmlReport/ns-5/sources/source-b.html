@@ -1,0 +1,313 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WAR</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.deployable</a>
+</div>
+
+<h1>Coverage Summary for Class: WAR (org.codehaus.cargo.container.deployable)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WAR</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (30/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.deployable;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * Wraps a WAR file that will be deployed in the container. The root context for this WAR is taken
+&nbsp; * from the name of the WAR file (without the extension).
+&nbsp; */
+&nbsp;public class WAR extends AbstractDeployable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The web context parsed from the name of the WAR file.
+&nbsp;     */
+&nbsp;    private String context;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Additional classpath entries for the web application that usually reside outside of the WAR
+&nbsp;     * file to facilitate rapid development without fully assembling the WAR file.
+&nbsp;     */
+&nbsp;    private List&lt;String&gt; extraClasspath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param war the location of the WAR being wrapped. This must point to either a WAR file or an
+&nbsp;     * expanded WAR directory.
+&nbsp;     */
+&nbsp;    public WAR(String war)
+&nbsp;    {
+<b class="fc">&nbsp;        super(war);</b>
+<b class="fc">&nbsp;        this.extraClasspath = new ArrayList&lt;String&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param context the context name to use when deploying this WAR. If not specified by the user,
+&nbsp;     * then the default context name is computed from the name of WAR itself (without the file
+&nbsp;     * extension).
+&nbsp;     */
+&nbsp;    public synchronized void setContext(String context)
+&nbsp;    {
+&nbsp;        // Ensure the context is well-formed by removing any extra leading or ending &quot;/&quot;.
+<b class="fc">&nbsp;        String wellFormedContext = context.trim();</b>
+<b class="fc">&nbsp;        while (wellFormedContext.contains(&quot;//&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            wellFormedContext = wellFormedContext.replace(&quot;//&quot;, &quot;/&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        while (wellFormedContext.startsWith(&quot;/&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            wellFormedContext = wellFormedContext.substring(1);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        while (wellFormedContext.endsWith(&quot;/&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            wellFormedContext = wellFormedContext.substring(0, wellFormedContext.length() - 1);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.context = wellFormedContext;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extract the context name from the WAR file name (without the file extension). For example if
+&nbsp;     * the WAR is named &lt;code&gt;test.war&lt;/code&gt; then the context name is &lt;code&gt;test&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    private void parseContext()
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.context == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String ctx = getFileHandler().getName(getFile());</b>
+<b class="fc">&nbsp;            int warIndex = ctx.toLowerCase().lastIndexOf(&quot;.war&quot;);</b>
+<b class="fc">&nbsp;            if (warIndex &gt;= 0)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                ctx = ctx.substring(0, warIndex);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            getLogger().debug(&quot;Parsed web context = [&quot; + ctx + &quot;]&quot;, this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;            setContext(ctx);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the context name, either the computed name derived from the WAR file name or the name
+&nbsp;     * defined by the user. Note that this method doesn&#39;t return any leading &quot;/&quot; before the context
+&nbsp;     * name.
+&nbsp;     */
+&nbsp;    public synchronized String getContext()
+&nbsp;    {
+<b class="fc">&nbsp;        parseContext();</b>
+<b class="fc">&nbsp;        return this.context;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public DeployableType getType()
+&nbsp;    {
+<b class="fc">&nbsp;        return DeployableType.WAR;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets additional classpath entries for the web application that usually reside outside of the
+&nbsp;     * WAR file to facilitate rapid development without fully assembling the WAR file. In general,
+&nbsp;     * this feature is meant for use with exploded WARs and as such is usually not supported for
+&nbsp;     * non-expanded WARs. If this method is use with tomcat container, the configuration must set
+&nbsp;     * TomcatPropertySet#COPY_WARS to false
+&nbsp;     * 
+&nbsp;     * @param classpath The additional classpath entries for the web application, may be
+&nbsp;     *            {@code null}.
+&nbsp;     */
+&nbsp;    public synchronized void setExtraClasspath(String[] classpath)
+&nbsp;    {
+<b class="nc">&nbsp;        this.extraClasspath.clear();</b>
+<b class="nc">&nbsp;        if (classpath != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Collections.addAll(this.extraClasspath, classpath);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets additional classpath entries for the web application that usually reside outside of the
+&nbsp;     * WAR file to facilitate rapid development without fully assembling the WAR file.
+&nbsp;     * 
+&nbsp;     * @return The additional classpath entries for the web application, never {@code null}.
+&nbsp;     */
+&nbsp;    public synchronized String[] getExtraClasspath()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.extraClasspath.toArray(new String[this.extraClasspath.size()]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the name of this deployable. For WAR file it is its context.
+&nbsp;     * @return the name of this deployable
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="fc">&nbsp;        return getContext();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Similar to {@link #getFilename()}, without the &lt;code&gt;.war&lt;/code&gt; extension.
+&nbsp;     * @return The file or directory name for this WAR, taking into account the context.
+&nbsp;     */
+&nbsp;    public String getBaseFilename()
+&nbsp;    {
+<b class="fc">&nbsp;        String baseFilename = this.getContext();</b>
+&nbsp;
+&nbsp;        // First check for ROOT here, before sanitizing, in case the / path was set &quot;normally&quot;
+<b class="fc">&nbsp;        if (baseFilename == null || baseFilename.trim().isEmpty() || baseFilename.matches(&quot;/+&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().info(</b>
+&nbsp;                &quot;The WAR file has its context set to / and will therefore be &quot;
+<b class="nc">&nbsp;                    + &quot;deployed as ROOT.war&quot;, this.getClass().getName());</b>
+<b class="nc">&nbsp;            baseFilename = &quot;ROOT&quot;;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            baseFilename = DefaultFileHandler.sanitizeFilename(baseFilename, getLogger());</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Also check for ROOT after sanitizing file name
+<b class="fc">&nbsp;        if (baseFilename.trim().isEmpty() || baseFilename.matches(&quot;/+&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().info(</b>
+&nbsp;                &quot;The WAR file has its sanitized context set to [&quot; + baseFilename
+<b class="nc">&nbsp;                    + &quot;] and will therefore be deployed as ROOT.war&quot;, this.getClass().getName());</b>
+<b class="nc">&nbsp;            baseFilename = &quot;ROOT&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return baseFilename;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * Value is calculated based on the WAR context and whether it is expanded or not.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFilename()
+&nbsp;    {
+<b class="fc">&nbsp;        String filename = getBaseFilename();</b>
+<b class="fc">&nbsp;        if (!this.isExpanded())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            filename = filename + &quot;.war&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return filename;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

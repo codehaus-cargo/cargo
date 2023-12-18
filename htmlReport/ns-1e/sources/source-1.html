@@ -1,0 +1,497 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DescriptorMergerByTag</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.merge</a>
+</div>
+
+<h1>Coverage Summary for Class: DescriptorMergerByTag (org.codehaus.cargo.module.merge)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DescriptorMergerByTag</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/69)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DescriptorMergerByTag$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DescriptorMergerByTag$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DescriptorMergerByTag$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/86)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.merge;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.Descriptor;
+&nbsp;import org.codehaus.cargo.module.DescriptorElement;
+&nbsp;import org.codehaus.cargo.module.DescriptorTag;
+&nbsp;import org.codehaus.cargo.module.DescriptorType;
+&nbsp;import org.codehaus.cargo.module.Identifier;
+&nbsp;import org.codehaus.cargo.module.merge.tagstrategy.MergeStrategy;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; * Merge a descriptor by tag.
+&nbsp; */
+&nbsp;public class DescriptorMergerByTag implements DescriptorMerger
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * A default merge strategy for ignoring items.
+&nbsp;     */
+<b class="nc">&nbsp;    public static final MergeStrategy IGNORE = new MergeStrategy()</b>
+<b class="nc">&nbsp;    {</b>
+&nbsp;        @Override
+&nbsp;        public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
+&nbsp;        {
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int inLeft(Descriptor target, DescriptorElement left)
+&nbsp;        {
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int inRight(Descriptor target, DescriptorElement right)
+&nbsp;        {
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;    };
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A default merge strategy for overwriting items.
+&nbsp;     */
+<b class="nc">&nbsp;    public static final MergeStrategy OVERWRITE = new MergeStrategy()</b>
+<b class="nc">&nbsp;    {</b>
+&nbsp;        @Override
+&nbsp;        public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
+&nbsp;        {
+<b class="nc">&nbsp;            Element parent = left.getParentElement();</b>
+<b class="nc">&nbsp;            parent.removeContent(left);</b>
+<b class="nc">&nbsp;            target.addElement(right.getTag(), right, parent);</b>
+<b class="nc">&nbsp;            return 1;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int inLeft(Descriptor target, DescriptorElement left)
+&nbsp;        {
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int inRight(Descriptor target, DescriptorElement right)
+&nbsp;        {
+<b class="nc">&nbsp;            target.addElement(right.getTag(), right, target.getRootElement());</b>
+<b class="nc">&nbsp;            return 1;</b>
+&nbsp;        }
+&nbsp;    };
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A default merge strategy for preserving items.
+&nbsp;     */
+<b class="nc">&nbsp;    public static final MergeStrategy PRESERVE = new MergeStrategy()</b>
+<b class="nc">&nbsp;    {</b>
+&nbsp;        @Override
+&nbsp;        public int inBoth(Descriptor target, DescriptorElement left, DescriptorElement right)
+&nbsp;        {
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int inLeft(Descriptor target, DescriptorElement left)
+&nbsp;        {
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public int inRight(Descriptor target, DescriptorElement right)
+&nbsp;        {
+<b class="nc">&nbsp;            target.addElement(right.getTag(), right, target.getRootElement());</b>
+<b class="nc">&nbsp;            return 1;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    };
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The descriptor being merged onto.
+&nbsp;     */
+&nbsp;    private Descriptor baseDescriptor;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The descriptor tag factory.
+&nbsp;     */
+&nbsp;    private DescriptorType descriptorTagFactory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Various Strategies for merging the individual descriptor tags.
+&nbsp;     */
+&nbsp;    private Map&lt;String, MergeStrategy&gt; mapDescriptorTagToStrategy;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * the default merging strategy.
+&nbsp;     */
+<b class="nc">&nbsp;    private MergeStrategy defaultStrategyIfNoneSpecified = OVERWRITE;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     */
+&nbsp;    public DescriptorMergerByTag()
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.mapDescriptorTagToStrategy = new HashMap&lt;String, MergeStrategy&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the merging strategy for a particular tag.
+&nbsp;     * @param tag Tag to set
+&nbsp;     * @param strategy Strategy to use
+&nbsp;     */
+&nbsp;    public void setStrategy(String tag, MergeStrategy strategy)
+&nbsp;    {
+<b class="nc">&nbsp;        this.mapDescriptorTagToStrategy.put(tag, strategy);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialize.
+&nbsp;     * 
+&nbsp;     * @param base the base for the merge.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void init(Descriptor base)
+&nbsp;    {
+<b class="nc">&nbsp;        this.baseDescriptor = base;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Merge this descriptor onto another.
+&nbsp;     * @param other descriptor to merge
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void merge(Descriptor other)
+&nbsp;    {
+<b class="nc">&nbsp;        for (DescriptorTag tag : descriptorTagFactory.getAllTags())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Identifier identifier = tag.getIdentifier();</b>
+<b class="nc">&nbsp;            if (identifier != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                MergeStrategy strategy = getMergeStrategy(tag.getTagName());</b>
+&nbsp;
+<b class="nc">&nbsp;                Descriptor left = baseDescriptor;</b>
+<b class="nc">&nbsp;                Descriptor right = other;</b>
+&nbsp;
+<b class="nc">&nbsp;                List&lt;Element&gt; itemsL = new ArrayList&lt;Element&gt;(left.getTags(tag));</b>
+<b class="nc">&nbsp;                List&lt;Element&gt; itemsR = new ArrayList&lt;Element&gt;(right.getTags(tag));</b>
+&nbsp;
+&nbsp;                try
+&nbsp;                {
+<b class="nc">&nbsp;                    for (Element itemL : itemsL)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        DescriptorElement lElement = (DescriptorElement) itemL;</b>
+<b class="nc">&nbsp;                        DescriptorElement rElement =</b>
+<b class="nc">&nbsp;                            (DescriptorElement) right.getTagByIdentifier(tag.getTagName(),</b>
+<b class="nc">&nbsp;                                identifier.getIdentifier(lElement));</b>
+&nbsp;
+<b class="nc">&nbsp;                        if (rElement != null)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            strategy.inBoth(left, lElement, rElement);</b>
+&nbsp;                        }
+&nbsp;                        else
+&nbsp;                        {
+<b class="nc">&nbsp;                            strategy.inLeft(left, lElement);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+<b class="nc">&nbsp;                    for (Element itemR : itemsR)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        DescriptorElement rElement = (DescriptorElement) itemR;</b>
+<b class="nc">&nbsp;                        DescriptorElement lElement =</b>
+<b class="nc">&nbsp;                            (DescriptorElement) left.getTagByIdentifier(tag.getTagName(),</b>
+<b class="nc">&nbsp;                                identifier.getIdentifier(rElement));</b>
+&nbsp;
+<b class="nc">&nbsp;                        if (lElement == null)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            strategy.inRight(left, rElement);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;                catch (Exception e)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new CargoException(&quot;Element Merging Exception&quot;, e);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                Descriptor left = baseDescriptor;</b>
+<b class="nc">&nbsp;                Descriptor right = other;</b>
+&nbsp;
+<b class="nc">&nbsp;                List&lt;Element&gt; itemsL = left.getTags(tag);</b>
+<b class="nc">&nbsp;                List&lt;Element&gt; itemsR = new ArrayList&lt;Element&gt;(right.getTags(tag));</b>
+&nbsp;
+<b class="nc">&nbsp;                if (tag.isMultipleAllowed())</b>
+&nbsp;                {
+&nbsp;                    // If multiple items are allowed, but there&#39;s no way of
+&nbsp;                    // identifying tags
+&nbsp;                    // From each other, then the best we can do is merge them
+&nbsp;                    // together by addition...
+<b class="nc">&nbsp;                    for (Element itemR : itemsR)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        DescriptorElement rightElement = (DescriptorElement) itemR;</b>
+<b class="nc">&nbsp;                        left.addElement(tag, rightElement, left.getRootElement());</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+&nbsp;                    // It is possible that this tag is a single value item (e.g.
+&nbsp;                    // webxml display-name)
+&nbsp;                    // so either it can exist singly, or not at all.
+<b class="nc">&nbsp;                    MergeStrategy strategy = getMergeStrategy(tag.getTagName());</b>
+&nbsp;
+<b class="nc">&nbsp;                    DescriptorElement leftElement = itemsL.isEmpty() ? null</b>
+<b class="nc">&nbsp;                            : (DescriptorElement) itemsL.get(0);</b>
+<b class="nc">&nbsp;                    DescriptorElement rightElement = itemsR.isEmpty() ? null</b>
+<b class="nc">&nbsp;                            : (DescriptorElement) itemsR.get(0);</b>
+&nbsp;
+&nbsp;                    try
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (leftElement != null &amp;&amp; rightElement != null)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            strategy.inBoth(left, leftElement, rightElement);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        else if (leftElement != null)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            strategy.inLeft(left, leftElement);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        else if (rightElement != null)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            strategy.inRight(left, rightElement);</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                    catch (Exception e)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        throw new CargoException(&quot;Element Merging Exception&quot;, e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param tag tag to get the merge strategy for
+&nbsp;     * @return the merge strategy
+&nbsp;     */
+&nbsp;    protected MergeStrategy getMergeStrategy(String tag)
+&nbsp;    {
+<b class="nc">&nbsp;        MergeStrategy strategy = mapDescriptorTagToStrategy.get(tag);</b>
+<b class="nc">&nbsp;        if (strategy == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return defaultStrategyIfNoneSpecified;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return strategy;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the defaultStrategyIfNoneSpecified
+&nbsp;     */
+&nbsp;    public MergeStrategy getDefaultStrategyIfNoneSpecified()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.defaultStrategyIfNoneSpecified;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param defaultStrategyIfNoneSpecified the defaultStrategyIfNoneSpecified to set
+&nbsp;     */
+&nbsp;    public void setDefaultStrategyIfNoneSpecified(MergeStrategy defaultStrategyIfNoneSpecified)
+&nbsp;    {
+<b class="nc">&nbsp;        this.defaultStrategyIfNoneSpecified = defaultStrategyIfNoneSpecified;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the descriptorTagFactory
+&nbsp;     */
+&nbsp;    public DescriptorType getDescriptorType()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.descriptorTagFactory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param descriptorTagFactory the descriptorTagFactory to set
+&nbsp;     */
+&nbsp;    public void setDescriptorType(DescriptorType descriptorTagFactory)
+&nbsp;    {
+<b class="nc">&nbsp;        this.descriptorTagFactory = descriptorTagFactory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

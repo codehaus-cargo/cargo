@@ -1,0 +1,951 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractInstalledLocalContainer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractInstalledLocalContainer (org.codehaus.cargo.container.spi)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractInstalledLocalContainer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (24/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.8%
+  </span>
+  <span class="absValue">
+    (127/216)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003-2004 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileNotFoundException;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.ContainerType;
+&nbsp;import org.codehaus.cargo.container.InstalledLocalContainer;
+&nbsp;import org.codehaus.cargo.container.configuration.LocalConfiguration;
+&nbsp;import org.codehaus.cargo.container.internal.util.HttpUtils;
+&nbsp;import org.codehaus.cargo.container.internal.util.JdkUtils;
+&nbsp;import org.codehaus.cargo.container.internal.util.ResourceUtils;
+&nbsp;import org.codehaus.cargo.container.property.GeneralPropertySet;
+&nbsp;import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherFactory;
+&nbsp;import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
+&nbsp;import org.codehaus.cargo.container.spi.jvm.JvmLauncherFactory;
+&nbsp;import org.codehaus.cargo.container.spi.jvm.JvmLauncherRequest;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Default container implementation that all local installed container implementations must extend.
+&nbsp; */
+&nbsp;public abstract class AbstractInstalledLocalContainer extends AbstractLocalContainer implements
+&nbsp;    InstalledLocalContainer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Regular expression matcher to capture a quoted &lt;code&gt;-classpath&lt;/code&gt; or &lt;code&gt;-cp&lt;/code&gt;
+&nbsp;     * argument
+&nbsp;     */
+<b class="fc">&nbsp;    private static Pattern classpathQuotedPattern =</b>
+<b class="fc">&nbsp;        Pattern.compile(&quot;-(classpath|cp)\\s+\&quot;([^\&quot;]*)\&quot;&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Regular expression matcher to capture non-quoted &lt;code&gt;-classpath&lt;/code&gt; or
+&nbsp;     * &lt;code&gt;-cp&lt;/code&gt; argument
+&nbsp;     */
+<b class="fc">&nbsp;    private static Pattern classpathPattern =</b>
+<b class="fc">&nbsp;        Pattern.compile(&quot;-(classpath|cp)\\s+([^\\s+\&quot;]*)\\s+&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Regular expression matcher to capture non-quoted &lt;code&gt;-classpath&lt;/code&gt; or &lt;code&gt;-cp&lt;/code&gt;
+&nbsp;     * argument as the final argument
+&nbsp;     */
+<b class="fc">&nbsp;    private static Pattern classpathFinalPattern =</b>
+<b class="fc">&nbsp;        Pattern.compile(&quot;-(classpath|cp)\\s+([^\\s+\&quot;]*)&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of system properties to set in the container JVM.
+&nbsp;     */
+&nbsp;    private Map&lt;String, String&gt; systemProperties;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Additional classpath entries for the classpath that will be used to start the containers.
+&nbsp;     */
+&nbsp;    private List&lt;String&gt; extraClasspath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Additional classpath entries for the classpath that will be shared by the container
+&nbsp;     * applications.
+&nbsp;     */
+&nbsp;    private List&lt;String&gt; sharedClasspath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The container home installation directory.
+&nbsp;     */
+&nbsp;    private String home;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * HTTP utility class.
+&nbsp;     */
+&nbsp;    private HttpUtils httpUtils;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource utility class.
+&nbsp;     */
+&nbsp;    private ResourceUtils resourceUtils;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * JVM launcher factory.
+&nbsp;     */
+&nbsp;    private JvmLauncherFactory jvmLauncherFactory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * JVM launcher that started the container.
+&nbsp;     */
+&nbsp;    private JvmLauncher jvmStartLauncher;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Major JVM version
+&nbsp;     */
+<b class="fc">&nbsp;    private int jvmMajorVersion = -1;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Default constructor.
+&nbsp;     * 
+&nbsp;     * @param configuration the configuration to associate to this container. It can be changed
+&nbsp;     * later on by calling {@link #setConfiguration(LocalConfiguration)}
+&nbsp;     */
+&nbsp;    public AbstractInstalledLocalContainer(LocalConfiguration configuration)
+&nbsp;    {
+<b class="fc">&nbsp;        super(configuration);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.resourceUtils = new ResourceUtils();</b>
+<b class="fc">&nbsp;        this.httpUtils = new HttpUtils();</b>
+<b class="fc">&nbsp;        this.jvmLauncherFactory = new DefaultJvmLauncherFactory();</b>
+<b class="fc">&nbsp;        extraClasspath = new ArrayList&lt;String&gt;();</b>
+<b class="fc">&nbsp;        sharedClasspath = new ArrayList&lt;String&gt;();</b>
+<b class="fc">&nbsp;        systemProperties = new HashMap&lt;String, String&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overriden in order to set the logger on ancillary components.
+&nbsp;     * 
+&nbsp;     * @param logger the logger to set and set in the ancillary objects
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setLogger(Logger logger)
+&nbsp;    {
+<b class="nc">&nbsp;        super.setLogger(logger);</b>
+<b class="nc">&nbsp;        this.resourceUtils.setLogger(logger);</b>
+<b class="nc">&nbsp;        this.httpUtils.setLogger(logger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the HTTP utility class
+&nbsp;     */
+&nbsp;    protected final HttpUtils getHttpUtils()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.httpUtils;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the Resource utility class
+&nbsp;     */
+&nbsp;    protected final ResourceUtils getResourceUtils()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.resourceUtils;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setHome(String home)
+&nbsp;    {
+<b class="nc">&nbsp;        this.home = home;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setSystemProperties(Map&lt;String, String&gt; properties)
+&nbsp;    {
+<b class="nc">&nbsp;        Map&lt;String, String&gt; props = new HashMap&lt;String, String&gt;();</b>
+<b class="nc">&nbsp;        props.putAll(properties);</b>
+&nbsp;
+<b class="nc">&nbsp;        this.systemProperties = props;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Map&lt;String, String&gt; getSystemProperties()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.systemProperties;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setExtraClasspath(String[] classpath)
+&nbsp;    {
+<b class="fc">&nbsp;        this.extraClasspath.clear();</b>
+<b class="fc">&nbsp;        this.extraClasspath.addAll(Arrays.asList(classpath));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String[] getExtraClasspath()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.extraClasspath.toArray(new String[this.extraClasspath.size()]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setSharedClasspath(String[] classpath)
+&nbsp;    {
+<b class="fc">&nbsp;        this.sharedClasspath.clear();</b>
+<b class="fc">&nbsp;        this.sharedClasspath.addAll(Arrays.asList(classpath));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String[] getSharedClasspath()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.sharedClasspath.toArray(new String[this.sharedClasspath.size()]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getHome()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.home;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public JvmLauncherFactory getJvmLauncherFactory()
+&nbsp;    {
+<b class="nc">&nbsp;        return jvmLauncherFactory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setJvmLauncherFactory(JvmLauncherFactory jvmLauncherFactory)
+&nbsp;    {
+<b class="fc">&nbsp;        this.jvmLauncherFactory = jvmLauncherFactory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of {@link org.codehaus.cargo.container.LocalContainer#start()} that all
+&nbsp;     * containers extending this class must implement.
+&nbsp;     * 
+&nbsp;     * @param java the predefined JVM launcher to use to start the container
+&nbsp;     * @throws Exception if any error is raised during the container start
+&nbsp;     */
+&nbsp;    protected abstract void doStart(JvmLauncher java) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of {@link org.codehaus.cargo.container.LocalContainer#stop()} that all
+&nbsp;     * containers extending this class must implement.
+&nbsp;     * 
+&nbsp;     * @param java the predefined JVM launcher to use to stop the container
+&nbsp;     * @throws Exception if any error is raised during the container stop
+&nbsp;     */
+&nbsp;    protected abstract void doStop(JvmLauncher java) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void startInternal() throws Exception
+&nbsp;    {
+<b class="fc">&nbsp;        jvmStartLauncher = createJvmLauncher(true);</b>
+&nbsp;        // Due to defect in org.apache.tools.ant.taskdefs.Java#setAppend we
+&nbsp;        // can&#39;t call setAppendOutput if we want to spawn the process. If the
+&nbsp;        // output isn&#39;t null we will have already disabled process spawning
+<b class="fc">&nbsp;        if (getOutput() != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            jvmStartLauncher.setAppendOutput(isAppend());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        addMemoryArguments(jvmStartLauncher);</b>
+<b class="fc">&nbsp;        doStart(jvmStartLauncher);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void stopInternal() throws Exception
+&nbsp;    {
+<b class="nc">&nbsp;        doStop(createJvmLauncher(false));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected final void forceStopInternal()
+&nbsp;    {
+<b class="nc">&nbsp;        if (jvmStartLauncher != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            jvmStartLauncher.kill();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a preinitialized instance of a JVM launcher to be used for starting, stopping and
+&nbsp;     * controlling the container.
+&nbsp;     * 
+&nbsp;     * @param server {@code true} to launch a server process, {@code false} to launch a
+&nbsp;     * client/utility process.
+&nbsp;     * @return The created JVM launcher, never {@code null}.
+&nbsp;     */
+&nbsp;    protected JvmLauncher createJvmLauncher(boolean server)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean spawned = Boolean.parseBoolean(getConfiguration().getPropertyValue(</b>
+&nbsp;                GeneralPropertySet.SPAWN_PROCESS));
+&nbsp;
+<b class="fc">&nbsp;        if (jvmMajorVersion == -1)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            JvmLauncherRequest request = new JvmLauncherRequest(false, this);</b>
+<b class="fc">&nbsp;            JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);</b>
+<b class="fc">&nbsp;            setJvmToLaunchContainerIn(java);</b>
+&nbsp;
+&nbsp;            // Read the real JVM version
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                File jvmVersionFile = File.createTempFile(&quot;cargo-jvm-version-&quot;, &quot;.txt&quot;);</b>
+<b class="fc">&nbsp;                java.setOutputFile(jvmVersionFile);</b>
+<b class="fc">&nbsp;                java.setAppendOutput(true);</b>
+<b class="fc">&nbsp;                java.setMainClass(&quot;-version&quot;);</b>
+&nbsp;
+&nbsp;                // CARGO-1595: Wait for the process to complete (which is what java.execute does),
+&nbsp;                //             in case the command returns a lot of text back and takes time
+<b class="fc">&nbsp;                java.execute();</b>
+&nbsp;
+&nbsp;                // CARGO-1586: Read all the lines of the output (not just the first line)
+<b class="fc">&nbsp;                StringBuilder javaVersionOutput = new StringBuilder();</b>
+<b class="fc">&nbsp;                try (BufferedReader br = new BufferedReader(new FileReader(jvmVersionFile)))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    for (String line = br.readLine(); line != null; line = br.readLine())</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        if (line.startsWith(&quot;java version \&quot;&quot;)</b>
+<b class="fc">&nbsp;                            || line.startsWith(&quot;openjdk version \&quot;&quot;))</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            jvmMajorVersion = JdkUtils.parseMajorJavaVersion(</b>
+<b class="fc">&nbsp;                                line.substring(line.indexOf(&#39;&quot;&#39;) + 1));</b>
+<b class="fc">&nbsp;                            break;</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        javaVersionOutput.append(line);</b>
+<b class="fc">&nbsp;                        javaVersionOutput.append(FileHandler.NEW_LINE);</b>
+&nbsp;                    }
+&nbsp;
+<b class="fc">&nbsp;                    if (jvmMajorVersion == -1)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        throw new IOException(</b>
+&nbsp;                            &quot;Can&#39;t read JVM version from output: &quot; + javaVersionOutput);
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;                finally
+&nbsp;                {
+<b class="fc">&nbsp;                    jvmVersionFile.delete();</b>
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (IOException e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new CargoException(</b>
+&nbsp;                    &quot;Cannot read JVM version, please check that the provided execution [&quot;
+<b class="nc">&nbsp;                        + java.getCommandLine() + &quot;] is valid&quot;, e);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        JvmLauncherRequest request = new JvmLauncherRequest(server, this, spawned);</b>
+&nbsp;
+<b class="fc">&nbsp;        JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);</b>
+&nbsp;
+&nbsp;        // Most container configurations assume that the container would be started from the same
+&nbsp;        // working directory as the configuration; so set this here.
+<b class="fc">&nbsp;        java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(</b>
+<b class="fc">&nbsp;            getConfiguration().getHome())));</b>
+&nbsp;
+<b class="fc">&nbsp;        if (getOutput() == null)</b>
+&nbsp;        {
+&nbsp;            // CARGO-1596: If no output file was set, then output the Java process via the logger
+<b class="fc">&nbsp;            java.setOutputLogger(getLogger(), this.getClass().getName());</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            File outputFile = new File(getOutput());</b>
+&nbsp;
+&nbsp;            // Ensure that directories where the output file will go are created
+<b class="nc">&nbsp;            getFileHandler().mkdirs(outputFile.getAbsoluteFile().getParent());</b>
+&nbsp;
+&nbsp;            // CARGO-520: Set append to &quot;true&quot; by default
+<b class="nc">&nbsp;            java.setOutputFile(outputFile);</b>
+<b class="nc">&nbsp;            java.setAppendOutput(true);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        setJvmToLaunchContainerIn(java);</b>
+&nbsp;
+&nbsp;        // Add extra container classpath entries specified by the user.
+<b class="fc">&nbsp;        addExtraClasspath(java);</b>
+&nbsp;
+&nbsp;        // Add system properties for the container JVM
+<b class="fc">&nbsp;        addSystemProperties(java);</b>
+&nbsp;
+&nbsp;        // Add runtime arguments if present
+<b class="fc">&nbsp;        addRuntimeArgs(java);</b>
+&nbsp;
+&nbsp;        // Add JVM args if defined
+<b class="fc">&nbsp;        addJvmArgs(java, server);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (server)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            addStartJvmArgs(java);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Add spawn options if defined
+<b class="fc">&nbsp;        addSpawn(java);</b>
+&nbsp;
+<b class="fc">&nbsp;        return java;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the Java home directory to use for this container.
+&nbsp;     * 
+&nbsp;     * @return The Java home directory to use, never {@code null}.
+&nbsp;     */
+&nbsp;    protected String getJavaHome()
+&nbsp;    {
+<b class="fc">&nbsp;        String javaHome = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);</b>
+<b class="fc">&nbsp;        if (javaHome == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            javaHome = System.getProperty(&quot;java.home&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return javaHome;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Determines which java virtual machine will run the container.
+&nbsp;     * 
+&nbsp;     * @param java the java command that will start the container
+&nbsp;     */
+&nbsp;    public void setJvmToLaunchContainerIn(JvmLauncher java)
+&nbsp;    {
+<b class="fc">&nbsp;        String javaHome = getJavaHome();</b>
+<b class="fc">&nbsp;        if (javaHome != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String binDir = getFileHandler().append(javaHome, &quot;bin&quot;);</b>
+<b class="fc">&nbsp;            String javaPath = getFileHandler().append(binDir, &quot;java&quot;);</b>
+<b class="fc">&nbsp;            if (System.getProperty(&quot;os.name&quot;).toLowerCase(Locale.ENGLISH).startsWith(&quot;windows&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                javaPath += &quot;.exe&quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            java.setJvm(javaPath);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add system properties to the Ant java command used to start the container.
+&nbsp;     * 
+&nbsp;     * @param java the java command that will start the container
+&nbsp;     */
+&nbsp;    private void addSystemProperties(JvmLauncher java)
+&nbsp;    {
+<b class="fc">&nbsp;        for (Map.Entry&lt;String, String&gt; systemProperty : getSystemProperties().entrySet())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            java.setSystemProperty(systemProperty.getKey(), systemProperty.getValue());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the tools.jar to the classpath, except for Mac OSX and Java 9 or above - As these JVMs
+&nbsp;     * do not need the tools.jar.
+&nbsp;     * 
+&nbsp;     * @param java the JVM launcher to which to add the tools.jar
+&nbsp;     * @exception FileNotFoundException in case the tools.jar file cannot be found
+&nbsp;     */
+&nbsp;    protected final void addToolsJarToClasspath(JvmLauncher java) throws FileNotFoundException
+&nbsp;    {
+&nbsp;        // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
+&nbsp;        // include any tools.jar file to the classpath. On Java 9, there is no more tools.jar.
+<b class="fc">&nbsp;        if (!JdkUtils.isOSX() &amp;&amp; jvmMajorVersion &lt; 9)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            java.addClasspathEntries(JdkUtils.getToolsJar(getJavaHome()));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add extra container classpath entries specified by the user.
+&nbsp;     * 
+&nbsp;     * @param java the java command used to start/stop the container
+&nbsp;     */
+&nbsp;    protected void addExtraClasspath(JvmLauncher java)
+&nbsp;    {
+<b class="fc">&nbsp;        for (String extraClasspathItem : extraClasspath)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            java.addClasspathEntries(extraClasspathItem);</b>
+&nbsp;
+<b class="nc">&nbsp;            getLogger().debug(&quot;Adding [&quot; + extraClasspathItem + &quot;] to execution classpath&quot;,</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add command line arguments to the java command.
+&nbsp;     * @param java The java command
+&nbsp;     */
+&nbsp;    protected void addRuntimeArgs(JvmLauncher java)
+&nbsp;    {
+<b class="fc">&nbsp;        String runtimeArgs = getConfiguration().getPropertyValue(GeneralPropertySet.RUNTIME_ARGS);</b>
+<b class="fc">&nbsp;        if (runtimeArgs != null)</b>
+&nbsp;        {
+&nbsp;            // Replace new lines and tabs, so that Maven or Ant plugins can
+&nbsp;            // specify multiline runtime arguments in their XML files
+<b class="fc">&nbsp;            runtimeArgs = runtimeArgs.replace(&#39;\n&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;            runtimeArgs = runtimeArgs.replace(&#39;\r&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;            runtimeArgs = runtimeArgs.replace(&#39;\t&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;            java.addAppArgumentLine(runtimeArgs);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add the @link{GeneralPropertySet#JVMARGS} arguments to the java command.
+&nbsp;     * @param java The java command
+&nbsp;     * @param server Whether the command is for the server (as opposed to a JVM used for
+&nbsp;     * deployments or other non-server actions)
+&nbsp;     */
+&nbsp;    private void addJvmArgs(JvmLauncher java, boolean server)
+&nbsp;    {
+<b class="fc">&nbsp;        String jvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);</b>
+<b class="fc">&nbsp;        String startJmvmargs = null;</b>
+<b class="fc">&nbsp;        if (server)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            startJmvmargs = getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (jvmargs != null)</b>
+&nbsp;        {
+&nbsp;            // Replace new lines and tabs, so that Maven or Ant plugins can
+&nbsp;            // specify multiline JVM arguments in their XML files
+<b class="fc">&nbsp;            jvmargs = jvmargs.replace(&#39;\n&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;            jvmargs = jvmargs.replace(&#39;\r&#39;, &#39; &#39;);</b>
+<b class="fc">&nbsp;            jvmargs = jvmargs.replace(&#39;\t&#39;, &#39; &#39;);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (jvmargs == null || !jvmargs.contains(&quot;-Xms&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                java.addJvmArguments(&quot;-Xms128m&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (jvmargs == null || !jvmargs.contains(&quot;-Xmx&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                java.addJvmArguments(&quot;-Xmx512m&quot;);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // CARGO-1294: Warning when starting containers on Java 8
+<b class="fc">&nbsp;            if (jvmMajorVersion &gt;= 8)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                jvmargs.replaceAll(&quot;\\s*-XX:PermSize\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+<b class="fc">&nbsp;                jvmargs.replaceAll(&quot;\\s*-XX:MaxPermSize\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                if (jvmargs == null || !jvmargs.contains(&quot;-XX:PermSize&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    java.addJvmArguments(&quot;-XX:PermSize=48m&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (jvmargs == null || !jvmargs.contains(&quot;-XX:MaxPermSize&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    java.addJvmArguments(&quot;-XX:MaxPermSize=128m&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (startJmvmargs != null)</b>
+&nbsp;            {
+&nbsp;                // CARGO-1535: If in server mode and the START_JVMARGS has memory-related settings,
+&nbsp;                // then remove them from the JVMARGS
+<b class="nc">&nbsp;                if (startJmvmargs.contains(&quot;-Xms&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    jvmargs.replaceAll(&quot;\\s*-Xms\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (startJmvmargs.contains(&quot;-Xmx&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    jvmargs.replaceAll(&quot;\\s*-Xmx\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (startJmvmargs.contains(&quot;-XX:PermSize&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    jvmargs.replaceAll(&quot;\\s*-XX:PermSize\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (startJmvmargs.contains(&quot;-XX:MaxPermSize&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    jvmargs.replaceAll(&quot;\\s*-XX:MaxPermSize\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            // CARGO-1556: Allow setting the JVM classpath using a -classpath or -cp argument set
+&nbsp;            // as GeneralPropertySet.JVMARGS
+<b class="fc">&nbsp;            jvmargs = addJvmClasspathArguments(java, jvmargs);</b>
+<b class="fc">&nbsp;            java.addJvmArgumentLine(jvmargs);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add the @link{GeneralPropertySet#START_JVMARGS} arguments to the java command.
+&nbsp;     * @param java The java command
+&nbsp;     */
+&nbsp;    private void addStartJvmArgs(JvmLauncher java)
+&nbsp;    {
+<b class="fc">&nbsp;        String startJmvmargs =</b>
+<b class="fc">&nbsp;            getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);</b>
+<b class="fc">&nbsp;        if (startJmvmargs != null)</b>
+&nbsp;        {
+&nbsp;            // Replace new lines and tabs, so that Maven or Ant plugins can
+&nbsp;            // specify multiline JVM arguments in their XML files
+<b class="nc">&nbsp;            startJmvmargs = startJmvmargs.replace(&#39;\n&#39;, &#39; &#39;);</b>
+<b class="nc">&nbsp;            startJmvmargs = startJmvmargs.replace(&#39;\r&#39;, &#39; &#39;);</b>
+<b class="nc">&nbsp;            startJmvmargs = startJmvmargs.replace(&#39;\t&#39;, &#39; &#39;);</b>
+&nbsp;
+&nbsp;            // CARGO-1294: Warning when starting containers on Java 8
+<b class="nc">&nbsp;            if (jvmMajorVersion &gt;= 8)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                startJmvmargs.replaceAll(&quot;\\s*-XX:PermSize\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+<b class="nc">&nbsp;                startJmvmargs.replaceAll(&quot;\\s*-XX:MaxPermSize\\d+\\w\\s*&quot;, &quot; &quot;);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // CARGO-1556: Allow setting the JVM classpath using a -classpath or -cp argument set
+&nbsp;            // as GeneralPropertySet.START_JVMARGS
+<b class="nc">&nbsp;            startJmvmargs = addJvmClasspathArguments(java, startJmvmargs);</b>
+&nbsp;
+<b class="nc">&nbsp;            java.addJvmArgumentLine(startJmvmargs);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts the &lt;code&gt;-classpath&lt;/code&gt; or &lt;code&gt;-cp&lt;/code&gt; JVM arguments into classpath
+&nbsp;     * entries.
+&nbsp;     * 
+&nbsp;     * @param java the predefined JVM launcher on which to add classpath entries
+&nbsp;     * @param jvmArgs JVM arguments line
+&nbsp;     * @return JVM arguments line with &lt;code&gt;-classpath&lt;/code&gt; and &lt;code&gt;-cp&lt;/code&gt; entries removed
+&nbsp;     */
+&nbsp;    private String addJvmClasspathArguments(JvmLauncher java, String jvmArgs)
+&nbsp;    {
+<b class="fc">&nbsp;        String jvmargs = jvmArgs;</b>
+<b class="fc">&nbsp;        if (jvmargs.contains(&quot;-classpath&quot;) || jvmargs.contains(&quot;-cp&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String classpath = null;</b>
+<b class="nc">&nbsp;            Matcher classpathQuotedMatcher =</b>
+<b class="nc">&nbsp;                AbstractInstalledLocalContainer.classpathQuotedPattern.matcher(jvmargs);</b>
+<b class="nc">&nbsp;            if (classpathQuotedMatcher.find())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                classpath = classpathQuotedMatcher.group(2);</b>
+<b class="nc">&nbsp;                jvmargs = classpathQuotedMatcher.replaceAll(&quot; &quot;);</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                Matcher classpathMatcher =</b>
+<b class="nc">&nbsp;                    AbstractInstalledLocalContainer.classpathPattern.matcher(jvmargs);</b>
+<b class="nc">&nbsp;                if (classpathMatcher.find())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    classpath = classpathMatcher.group(2);</b>
+<b class="nc">&nbsp;                    jvmargs = classpathMatcher.replaceAll(&quot; &quot;);</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    Matcher classpathFinalMatcher =</b>
+<b class="nc">&nbsp;                        AbstractInstalledLocalContainer.classpathFinalPattern.matcher(jvmargs);</b>
+<b class="nc">&nbsp;                    if (classpathFinalMatcher.find())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        classpath = classpathFinalMatcher.group(2);</b>
+<b class="nc">&nbsp;                        jvmargs = classpathFinalMatcher.replaceAll(&quot;&quot;);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            if (classpath == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new ContainerException(</b>
+&nbsp;                    &quot;The JVM arguments contains a classpath entry but none of the classpath &quot;
+&nbsp;                        + &quot;matchers matched&quot;);
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                getLogger().debug(&quot;Adding [&quot; + classpath + &quot;] to execution classpath&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+<b class="nc">&nbsp;                java.addClasspathEntries(classpath.split(File.pathSeparator));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return jvmargs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the JVM memory arguments.
+&nbsp;     * 
+&nbsp;     * @param java the predefined JVM launcher on which to add memory-related arguments
+&nbsp;     */
+&nbsp;    protected void addMemoryArguments(JvmLauncher java)
+&nbsp;    {
+&nbsp;        // If the jvmArgs don&#39;t already contain memory settings add the default
+<b class="fc">&nbsp;        String jvmArgs = getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);</b>
+<b class="fc">&nbsp;        String startJvmargs =</b>
+<b class="fc">&nbsp;            getConfiguration().getPropertyValue(GeneralPropertySet.START_JVMARGS);</b>
+<b class="fc">&nbsp;        if (startJvmargs != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (jvmArgs == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                jvmArgs = startJvmargs;</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                jvmArgs += &quot; &quot; + startJvmargs;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (jvmArgs == null || !jvmArgs.contains(&quot;-Xms&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            java.addJvmArguments(&quot;-Xms128m&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (jvmArgs == null || !jvmArgs.contains(&quot;-Xmx&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            java.addJvmArguments(&quot;-Xmx512m&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // CARGO-1294: Warning when starting containers on Java 8
+<b class="fc">&nbsp;        if (jvmMajorVersion &lt; 8)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (jvmArgs == null || !jvmArgs.contains(&quot;-XX:PermSize&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                java.addJvmArguments(&quot;-XX:PermSize=48m&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (jvmArgs == null || !jvmArgs.contains(&quot;-XX:MaxPermSize&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                java.addJvmArguments(&quot;-XX:MaxPermSize=128m&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add option of spawn if property exists
+&nbsp;     * 
+&nbsp;     * @param java the predefined JVM launcher which will spawn
+&nbsp;     */
+&nbsp;    private void addSpawn(JvmLauncher java)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean spawnProcess = Boolean.parseBoolean(getConfiguration().getPropertyValue(</b>
+&nbsp;            GeneralPropertySet.SPAWN_PROCESS));
+<b class="fc">&nbsp;        if (spawnProcess)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (getOutput() == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                java.setSpawn(spawnProcess);</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                getLogger().warn(&quot;Process cannot be spawned unless output is null&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    protected void verify()
+&nbsp;    {
+<b class="nc">&nbsp;        super.verify();</b>
+<b class="nc">&nbsp;        verifyHome();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verify that the home property has been set.
+&nbsp;     */
+&nbsp;    private void verifyHome()
+&nbsp;    {
+<b class="nc">&nbsp;        if (getHome() == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;You must set the mandatory [home] property&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (!getFileHandler().isDirectory(getHome()))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;[&quot; + getHome() + &quot;] is not a directory. It must point &quot;</b>
+&nbsp;                + &quot;to the container home directory.&quot;);
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ContainerType getType()
+&nbsp;    {
+<b class="nc">&nbsp;        return ContainerType.INSTALLED;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addExtraClasspath(String location)
+&nbsp;    {
+<b class="fc">&nbsp;        ifPresentAddPathToList(location, extraClasspath);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addSharedClasspath(String location)
+&nbsp;    {
+<b class="fc">&nbsp;        ifPresentAddPathToList(location, sharedClasspath);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * adds the location to the list, if the file exists.
+&nbsp;     * 
+&nbsp;     * @param location path to add to the list
+&nbsp;     * @param list where to append this path
+&nbsp;     */
+&nbsp;    public void ifPresentAddPathToList(String location, List&lt;String&gt; list)
+&nbsp;    {
+<b class="fc">&nbsp;        if (location == null || !this.getFileHandler().exists(location)</b>
+<b class="fc">&nbsp;            || this.getFileHandler().isDirectory(location))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Invalid file path: &quot; + location);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        list.add(location);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,225 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > LocalConfiguration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: LocalConfiguration (org.codehaus.cargo.container.configuration)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">LocalConfiguration$MockitoMock$Fz52IvB0</td>
+  </tr>
+  <tr>
+    <td class="name">LocalConfiguration$MockitoMock$Fz52IvB0$auxiliary$fNZ0ImR2</td>
+  </tr>
+  <tr>
+    <td class="name">LocalConfiguration$MockitoMock$Fz52IvB0$auxiliary$iZqniWOI</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.configuration;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.LocalContainer;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.DataSource;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.Resource;
+&nbsp;import org.codehaus.cargo.container.deployable.Deployable;
+&nbsp;import org.codehaus.cargo.container.property.User;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * A local configuration represents a container configuration located somewhere on the local file
+&nbsp; * system. A local configuration is activated before the container is started. In addition, a local
+&nbsp; * configuration allows you to deploy {@link Deployable}s before the container is started.
+&nbsp; */
+&nbsp;public interface LocalConfiguration extends Configuration
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * @return the configuration home directory. Note that we&#39;re returning a String instead of a
+&nbsp;     * File because we want to leave the possibility of using URIs for specifying the home location.
+&nbsp;     */
+&nbsp;    String getHome();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param handler means by which we affect local files.
+&nbsp;     */
+&nbsp;    void setFileHandler(FileHandler handler);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the means by which we affect local files.
+&nbsp;     */
+&nbsp;    FileHandler getFileHandler();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set the config file property for a configuration.
+&nbsp;     * 
+&nbsp;     * @param fileConfig The FileConfig to use
+&nbsp;     */
+&nbsp;    void setConfigFileProperty(FileConfig fileConfig);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set the file property for a configuration.
+&nbsp;     * @param fileConfig The FileConfig to use
+&nbsp;     */
+&nbsp;    void setFileProperty(FileConfig fileConfig);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the file configurations.
+&nbsp;     * 
+&nbsp;     * @return The configuration file properies
+&nbsp;     */
+&nbsp;    List&lt;FileConfig&gt; getFileProperties();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deploy a {@link Deployable} in the container. It installs the {@link Deployable} in the
+&nbsp;     * container&#39;s configuration directory.
+&nbsp;     * 
+&nbsp;     * @param deployable the {@link org.codehaus.cargo.container.deployable.Deployable} to deploy
+&nbsp;     */
+&nbsp;    void addDeployable(Deployable deployable);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of {@link Deployable}s that are going to be deployed in the container when
+&nbsp;     * it is started
+&nbsp;     */
+&nbsp;    List&lt;Deployable&gt; getDeployables();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add resources the container can take advantage of. I.e. datasources.
+&nbsp;     * 
+&nbsp;     * @param resource the {@link Resource} to add.
+&nbsp;     */
+&nbsp;    void addResource(Resource resource);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of {@link Resource}s that are going to be added to the container when it is
+&nbsp;     * started.
+&nbsp;     */
+&nbsp;    List&lt;Resource&gt; getResources();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add user to container.
+&nbsp;     * 
+&nbsp;     * @param user the {@link User} to add.
+&nbsp;     */
+&nbsp;    void addUser(User user);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of {@link User}s that are going to be added to the container.
+&nbsp;     */
+&nbsp;    List&lt;User&gt; getUsers();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add data source the container can take advantage of.
+&nbsp;     * 
+&nbsp;     * @param dataSource the {@link DataSource} to add.
+&nbsp;     */
+&nbsp;    void addDataSource(DataSource dataSource);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the configured DataSources for this container.
+&nbsp;     */
+&nbsp;    List&lt;DataSource&gt; getDataSources();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Apply the port offset to the configuration port properties.
+&nbsp;     */
+&nbsp;    void applyPortOffset();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Revert the port offset on the configuration port properties.
+&nbsp;     */
+&nbsp;    void revertPortOffset();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks whether the offset is already applied or not.
+&nbsp;     * @return &lt;code&gt;true&lt;/code&gt; if the offset is already applied
+&nbsp;     */
+&nbsp;    boolean isOffsetApplied();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setup the container which means setting up a valid directory structure, setting up
+&nbsp;     * configuration files and deploying static deployables.
+&nbsp;     * 
+&nbsp;     * @param container the container to configure
+&nbsp;     */
+&nbsp;    void configure(LocalContainer container);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

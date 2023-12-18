@@ -1,0 +1,332 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PropertyUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.internal.util</a>
+</div>
+
+<h1>Coverage Summary for Class: PropertyUtils (org.codehaus.cargo.container.internal.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PropertyUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (38/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.internal.util;
+&nbsp;
+&nbsp;import java.io.ByteArrayInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Properties;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * A class to convert properties to strings and back.
+&nbsp; */
+&nbsp;public final class PropertyUtils
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The default delimiter that separates the properties in a string.
+&nbsp;     */
+&nbsp;    private static final char PIPE = &#39;|&#39;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The default delimiter that separates the properties in a string.
+&nbsp;     */
+&nbsp;    private static final char SEMICOLON = &#39;;&#39;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Private constructor to prevent getting an instance.
+&nbsp;     */
+&nbsp;    private PropertyUtils()
+&nbsp;    {
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construct a Properties object from a single string, converting &#39;|&#39; symbols to end of line
+&nbsp;     * characters for parsing.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Example: &quot;abc=def|car=bmw&quot; gets converted to &quot;abc&quot; -&amp;gt; &quot;def&quot;, and &quot;car&quot; -&amp;gt; &quot;bmw&quot;
+&nbsp;     * &lt;/p&gt;
+&nbsp;     * 
+&nbsp;     * @param toSplit The string value to convert to properties, pipe separated
+&nbsp;     * @return the list of properties
+&nbsp;     * {@link #splitPropertiesOnDelimiter}
+&nbsp;     */
+&nbsp;    public static Properties splitPropertiesOnPipe(String toSplit)
+&nbsp;    {
+<b class="fc">&nbsp;        return splitPropertiesOnDelimiter(toSplit, PIPE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construct a Properties object from a single string, converting &#39;;&#39; symbols to end of line
+&nbsp;     * characters for parsing.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Example: &quot;abc=def;car=bmw&quot; gets converted to &quot;abc&quot; -&amp;gt; &quot;def&quot;, and &quot;car&quot; -&amp;gt; &quot;bmw&quot;
+&nbsp;     * &lt;/p&gt;
+&nbsp;     * 
+&nbsp;     * @param toSplit The string value to convert to properties, semicolon separated
+&nbsp;     * @return the list of properties
+&nbsp;     * {@link #splitPropertiesOnDelimiter}
+&nbsp;     */
+&nbsp;    public static Properties splitPropertiesOnSemicolon(String toSplit)
+&nbsp;    {
+<b class="fc">&nbsp;        return splitPropertiesOnDelimiter(toSplit, SEMICOLON);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construct a Properties object from a single string, by splitting it on a specified delimiter.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Example: &quot;abc=def;car=bmw&quot; gets converted to &quot;abc&quot; -&amp;gt; &quot;def&quot;, and &quot;car&quot; -&amp;gt; &quot;bmw&quot; where:
+&nbsp;     * delimiter = ;
+&nbsp;     * &lt;/p&gt;
+&nbsp;     * 
+&nbsp;     * @param toSplit The string value to convert to properties
+&nbsp;     * @param delimiter The delimiter of the string
+&nbsp;     * @return the list of properties
+&nbsp;     */
+&nbsp;    public static Properties splitPropertiesOnDelimiter(String toSplit, char delimiter)
+&nbsp;    {
+<b class="fc">&nbsp;        Properties properties = new Properties();</b>
+&nbsp;
+&nbsp;        // Be careful on double-escapes since escapeBackSlashesIfNotNull is always called before.
+<b class="fc">&nbsp;        String toSplitHalfEscaped = toSplit.replace(&quot;\\\\&quot; + delimiter, &quot;\\&quot; + delimiter);</b>
+&nbsp;
+&nbsp;        // CARGO-829: Allow escaping of delimiter in property values using the \ character.
+<b class="fc">&nbsp;        String newLineSeparated = toSplitHalfEscaped.replaceAll(&quot;([^\\\\])&quot;</b>
+<b class="fc">&nbsp;            + Pattern.quote(String.valueOf(delimiter)), &quot;$1\n&quot;);</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            properties.load(</b>
+<b class="fc">&nbsp;                new ByteArrayInputStream(newLineSeparated.getBytes(StandardCharsets.ISO_8859_1)));</b>
+<b class="fc">&nbsp;            return properties;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+&nbsp;            // this should never happen!
+<b class="nc">&nbsp;            throw new IllegalArgumentException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convert properties to a string representation.
+&nbsp;     * 
+&nbsp;     * @param toJoin A list of properties to convert
+&nbsp;     * @return the properties as a string, pipe delimited
+&nbsp;     */
+&nbsp;    public static String joinOnPipe(Map&lt;String, String&gt; toJoin)
+&nbsp;    {
+<b class="fc">&nbsp;        return joinOnDelimiter(toJoin, PIPE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convert properties to a string representation.
+&nbsp;     * 
+&nbsp;     * @param toJoin A list of properties to convert
+&nbsp;     * @return the properties as a string, pipe delimited
+&nbsp;     */
+&nbsp;    public static String joinOnSemicolon(Map&lt;String, String&gt; toJoin)
+&nbsp;    {
+<b class="fc">&nbsp;        return joinOnDelimiter(toJoin, SEMICOLON);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convert properties to a string representation, based on the specified delimiter.
+&nbsp;     * 
+&nbsp;     * @param toJoin object to serialize as a string
+&nbsp;     * @param delimiter how to separate entries from each other
+&nbsp;     * @return the properties as a string, delimited by the above
+&nbsp;     */
+&nbsp;    public static String joinOnDelimiter(Map&lt;String, String&gt; toJoin, char delimiter)
+&nbsp;    {
+<b class="fc">&nbsp;        StringBuilder buf = new StringBuilder();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Iterator&lt;Map.Entry&lt;String, String&gt;&gt; it = toJoin.entrySet().iterator(); it.hasNext();)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            Map.Entry&lt;String, String&gt; e = it.next();</b>
+<b class="fc">&nbsp;            String key = e.getKey();</b>
+<b class="fc">&nbsp;            String value = e.getValue();</b>
+<b class="fc">&nbsp;            if (value.indexOf(delimiter) != -1)</b>
+&nbsp;            {
+&nbsp;                // CARGO-829: Delimiter in property values are escaped using the \ character.
+<b class="fc">&nbsp;                value = value.replace(String.valueOf(delimiter), &quot;\\&quot; + delimiter);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            buf.append(key);</b>
+<b class="fc">&nbsp;            buf.append(&quot;=&quot;);</b>
+<b class="fc">&nbsp;            buf.append(value);</b>
+<b class="fc">&nbsp;            if (it.hasNext())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                buf.append(delimiter);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return buf.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets a property value if the property is not null.
+&nbsp;     * 
+&nbsp;     * @param properties the properties object to store the property into
+&nbsp;     * @param property the property to set
+&nbsp;     * @param value the value to set
+&nbsp;     */
+&nbsp;    public static void setPropertyIfNotNull(Properties properties, String property, Object value)
+&nbsp;    {
+<b class="fc">&nbsp;        if (value != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            properties.setProperty(property, value.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Escapes backslashes so that they can parse properly.
+&nbsp;     * 
+&nbsp;     * @param in - string with backslashes
+&nbsp;     * @return string with backslashes escaped, or null, if passed null
+&nbsp;     */
+&nbsp;    public static String escapeBackSlashesIfNotNull(String in)
+&nbsp;    {
+<b class="fc">&nbsp;        if (in != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return in.replace(&quot;\\&quot;, &quot;\\\\&quot;);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a &lt;code&gt;Map&amp;lt;String, String&amp;gt;&lt;/code&gt; out of a Java Properties object.
+&nbsp;     * 
+&nbsp;     * @param properties the properties object to convert
+&nbsp;     * @return Java Map corresponding to the Java Properties object.
+&nbsp;     */
+&nbsp;    public static Map&lt;String, String&gt; toMap(Properties properties)
+&nbsp;    {
+<b class="fc">&nbsp;        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;(properties.size());</b>
+<b class="fc">&nbsp;        for (Map.Entry&lt;Object, Object&gt; parameter : properties.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String value = null;</b>
+<b class="fc">&nbsp;            if (parameter.getValue() != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                value = parameter.getValue().toString();</b>
+&nbsp;            }
+<b class="fc">&nbsp;            result.put(parameter.getKey().toString(), value);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

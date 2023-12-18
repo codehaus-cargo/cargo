@@ -19,8 +19,16 @@
  */
 package org.codehaus.cargo.util.internal.log;
 
+import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Base clas for all Loggers.
@@ -48,6 +56,9 @@ public abstract class AbstractLogger implements Logger
         // Do nothing. The default logging level is then WARN.
     }
 
+    private final DateFormat format = new SimpleDateFormat("HH:mm:ss.SSS");
+
+    protected OutputStream output;
     /**
      * {@inheritDoc}
      */
@@ -116,5 +127,23 @@ public abstract class AbstractLogger implements Logger
      * @param message the message to log
      * @param category the log category
      */
-    protected abstract void doLog(LogLevel level, String message, String category);
+    @Override
+    public void doLog(LogLevel level, String message, String category)
+    {
+        final String formattedCategory = category.length() > 20
+                ? category.substring(category.length() - 20) : category;
+
+        final String msg = "[" + this.format.format(new Date()) + "]"
+                + "[" + level.getLevel() + "][" + formattedCategory + "] " + message + "\n";
+        try
+        {
+            this.output.write(msg.getBytes(StandardCharsets.UTF_8));
+            this.output.flush();
+        }
+        catch (IOException e)
+        {
+            throw new CargoException("Failed to write log message ["
+                    + msg + "]", e);
+        }
+    }
 }

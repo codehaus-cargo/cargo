@@ -20,7 +20,6 @@
 package org.codehaus.cargo.maven3.configuration;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 

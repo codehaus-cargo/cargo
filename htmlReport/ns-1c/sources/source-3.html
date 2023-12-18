@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WeblogicEjbJarXmlTag</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.ejb.weblogic</a>
+</div>
+
+<h1>Coverage Summary for Class: WeblogicEjbJarXmlTag (org.codehaus.cargo.module.ejb.weblogic)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WeblogicEjbJarXmlTag</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.ejb.weblogic;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.DescriptorTag;
+&nbsp;import org.codehaus.cargo.module.DescriptorType;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents the various tags in a weblogic ejb jar deployment descriptor.
+&nbsp; */
+&nbsp;public class WeblogicEjbJarXmlTag extends DescriptorTag
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_NAME = &quot;ejb-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;local-jndi-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String LOCAL_JNDI_NAME = &quot;local-jndi-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;jndi-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String JNDI_NAME = &quot;jndi-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;dispatch-policy&#39;.
+&nbsp;     */
+&nbsp;    public static final String DISPATCH_POLICY = &quot;dispatch-policy&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param type Descriptor type
+&nbsp;     * @param tagName The tag name of the element
+&nbsp;     * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
+&nbsp;     */
+&nbsp;    protected WeblogicEjbJarXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
+&nbsp;    {
+<b class="nc">&nbsp;        super(type, tagName, isMultipleAllowed);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param type Descriptor type
+&nbsp;     * @param tagName The tag name of the element
+&nbsp;     */
+&nbsp;    protected WeblogicEjbJarXmlTag(DescriptorType type, String tagName)
+&nbsp;    {
+<b class="nc">&nbsp;        this(type, tagName, true);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

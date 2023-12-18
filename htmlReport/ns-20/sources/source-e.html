@@ -1,0 +1,1236 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WebXmlUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp</a>
+</div>
+
+<h1>Coverage Summary for Class: WebXmlUtils (org.codehaus.cargo.module.webapp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebXmlUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/376)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.Descriptor;
+&nbsp;import org.codehaus.cargo.module.DescriptorElement;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.ContextParam;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.Filter;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.FilterMapping;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.InitParam;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.Servlet;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.ServletMapping;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
+&nbsp;import org.jdom2.Element;
+&nbsp;import org.jdom2.filter.ElementFilter;
+&nbsp;
+&nbsp;/**
+&nbsp; */
+&nbsp;public final class WebXmlUtils
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Private no-args constructor.
+&nbsp;     */
+&nbsp;    private WebXmlUtils()
+&nbsp;    {
+&nbsp;        // No constructor
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of names of filters that are mapped to the specified class.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param className The fully qualified name of the filter class
+&nbsp;     * @return A list of the names of the filters mapped to the class
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getFilterNamesForClass(WebXml webXml, String className)
+&nbsp;    {
+<b class="nc">&nbsp;        if (className == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; filterNames = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        for (Element element : webXml.getTags(WebXmlType.FILTER))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Filter filterElement = (Filter) element;</b>
+<b class="nc">&nbsp;            if (className.equals(filterElement.getFilterClass()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                filterNames.add(filterElement.getFilterName());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return filterNames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the URL-patterns that the specified filter is mapped to in an ordered list. If there
+&nbsp;     * are no mappings for the specified filter, an empty list is returned.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
+&nbsp;     * @return An ordered list of the URL-patterns
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getFilterMappings(WebXml webXml, String theFilterName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theFilterName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; filterUrlPatterns = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; filterMappingElements = webXml.getElements(WebXmlType.FILTER_MAPPING);</b>
+<b class="nc">&nbsp;        for (Element filterMappingElement : filterMappingElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (theFilterName.equals(filterMappingElement.getChild(</b>
+<b class="nc">&nbsp;                WebXmlType.FILTER_NAME, filterMappingElement.getNamespace()).getText()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                List&lt;Element&gt; urlPatternElements = filterMappingElement.getChildren(</b>
+<b class="nc">&nbsp;                    WebXmlType.URL_PATTERN, filterMappingElement.getNamespace());</b>
+<b class="nc">&nbsp;                for (Element urlPatternElement : urlPatternElements)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    filterUrlPatterns.add(urlPatternElement.getText());</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return filterUrlPatterns;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the dispatchers that the specified filter is mapped to in an ordered list. If there
+&nbsp;     * are no mappings for the specified filter, an empty list is returned.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
+&nbsp;     * @return An ordered list of the dispatchers
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getFilterDispatchers(WebXml webXml, String theFilterName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theFilterName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; filterDispatchers = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; filterMappingElements = webXml.getElements(WebXmlType.FILTER_MAPPING);</b>
+<b class="nc">&nbsp;        for (Element filterMappingElement : filterMappingElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (theFilterName.equals(filterMappingElement.getChild(</b>
+<b class="nc">&nbsp;                WebXmlType.FILTER_NAME, filterMappingElement.getNamespace()).getText()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                List&lt;Element&gt; urlPatternElements = filterMappingElement.getChildren(</b>
+<b class="nc">&nbsp;                    WebXmlType.DISPATCHER, filterMappingElement.getNamespace());</b>
+<b class="nc">&nbsp;                for (Element urlPatternElement : urlPatternElements)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    filterDispatchers.add(urlPatternElement.getText());</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return filterDispatchers;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the filter mappings that the specified filter is mapped to in an ordered list. If
+&nbsp;     * there are no mappings for the specified filter, an empty list is returned.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theFilterName The name of the servlet filter of which the mappings should be retrieved
+&nbsp;     * @return An ordered list of the filter elements
+&nbsp;     */
+&nbsp;    public static List&lt;FilterMapping&gt; getFilterMappingElements(WebXml webXml, String theFilterName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theFilterName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;FilterMapping&gt; filterMappings = new ArrayList&lt;FilterMapping&gt;();</b>
+<b class="nc">&nbsp;        for (Element element : webXml.getTags(WebXmlType.FILTER_MAPPING))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            FilterMapping filterMappingElement = (FilterMapping) element;</b>
+<b class="nc">&nbsp;            if (theFilterName.equals(filterMappingElement.getFilterName()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                filterMappings.add(filterMappingElement);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return filterMappings;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns whether a context param by the specified name is defined in the deployment
+&nbsp;     * descriptor.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theParamName The name of the context param
+&nbsp;     * @return &lt;code&gt;true&lt;/code&gt; if the context param is defined, &lt;code&gt;false&lt;/code&gt; otherwise
+&nbsp;     */
+&nbsp;    public static boolean hasContextParam(WebXml webXml, String theParamName)
+&nbsp;    {
+<b class="nc">&nbsp;        return getContextParam(webXml, theParamName) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the element that contains the definition of a specific context param, or
+&nbsp;     * &lt;code&gt;null&lt;/code&gt; if a context param of the specified name is not defined in the descriptor.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param paramName The context param name
+&nbsp;     * @return The DOM element representing the context param definition
+&nbsp;     */
+&nbsp;    public static Element getContextParam(WebXml webXml, String paramName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (paramName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return webXml.getTagByIdentifier(WebXmlType.CONTEXT_PARAM, paramName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns whether a servlet filter by the specified name is defined in the deployment
+&nbsp;     * descriptor.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theFilterName The name of the filter
+&nbsp;     * @return &lt;code&gt;true&lt;/code&gt; if the filter is defined, &lt;code&gt;false&lt;/code&gt; otherwise
+&nbsp;     */
+&nbsp;    public static boolean hasFilter(WebXml webXml, String theFilterName)
+&nbsp;    {
+<b class="nc">&nbsp;        return webXml.getTagByIdentifier(WebXmlType.FILTER, theFilterName) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * For a named servlet, return the run-as role name.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName the name of the servlet
+&nbsp;     * @return the run-as role name
+&nbsp;     */
+&nbsp;    public static String getServletRunAsRoleName(WebXml webXml, String theServletName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theServletName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String roleName = null;</b>
+<b class="nc">&nbsp;        Servlet servlet = getServlet(webXml, theServletName);</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; nodeList = servlet.getChildren(WebXmlType.RUN_AS, servlet.getNamespace());</b>
+<b class="nc">&nbsp;        if (nodeList != null &amp;&amp; nodeList.size() &gt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Element e = nodeList.get(0);</b>
+<b class="nc">&nbsp;            if (e != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                roleName = e.getChildText(WebXmlType.ROLE_NAME, e.getNamespace());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return roleName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add an init-param to the web xml.
+&nbsp;     * @param itemElement The the parent element to add to
+&nbsp;     * @param name The name of the param
+&nbsp;     * @param value The value for the param
+&nbsp;     */
+&nbsp;    public static void addTagInitParam(WebXmlElement itemElement, String name, String value)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlTag tag = (WebXmlTag) itemElement.getTag().getDescriptorType().getTagByName(</b>
+&nbsp;                &quot;init-param&quot;);
+<b class="nc">&nbsp;        InitParam init = new InitParam(tag, name, value);</b>
+<b class="nc">&nbsp;        itemElement.getChildren().add(init);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the init parameter names for a filter.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param name The name of the filter to use
+&nbsp;     * @return a list of the param names
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getFilterInitParamNames(WebXml webXml, String name)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlElement element =</b>
+<b class="nc">&nbsp;            (WebXmlElement) webXml.getTagByIdentifier(WebXmlType.FILTER, name);</b>
+<b class="nc">&nbsp;        if (element != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;Element&gt; items =</b>
+<b class="nc">&nbsp;                element.getChildren(&quot;init-param&quot;, element.getTag().getTagNamespace());</b>
+<b class="nc">&nbsp;            List&lt;String&gt; result = new ArrayList&lt;String&gt;(items.size());</b>
+<b class="nc">&nbsp;            for (Element item : items)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                InitParam ip = (InitParam) item;</b>
+<b class="nc">&nbsp;                result.add(ip.getParamName());</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            return result;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            return Collections.emptyList();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add an init param to a filter.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param name The name of the filter
+&nbsp;     * @param paramName The name of the parameter
+&nbsp;     * @param paramValue The value of the parameter
+&nbsp;     */
+&nbsp;    public static void addFilterInitParam(WebXml webXml, String name, String paramName,
+&nbsp;        String paramValue)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlElement element =</b>
+<b class="nc">&nbsp;            (WebXmlElement) webXml.getTagByIdentifier(WebXmlType.FILTER, name);</b>
+<b class="nc">&nbsp;        addTagInitParam(element, paramName, paramValue);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Does the web xml have a named servlet.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param servletName The name of the servlet
+&nbsp;     * @return &lt;code&gt;true&lt;/code&gt; if it does, &lt;code&gt;false&lt;/code&gt; if not.
+&nbsp;     */
+&nbsp;    public static boolean hasServlet(WebXml webXml, String servletName)
+&nbsp;    {
+<b class="nc">&nbsp;        return webXml.getTagByIdentifier(WebXmlType.SERVLET, servletName) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a servlet to the descriptor.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param servletName The servlet name
+&nbsp;     * @param servletClass The servlet class name
+&nbsp;     */
+&nbsp;    public static void addServlet(WebXml webXml, String servletName, String servletClass)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName(&quot;servlet&quot;);</b>
+<b class="nc">&nbsp;        Servlet servlet = new Servlet(tag, servletName, servletClass);</b>
+<b class="nc">&nbsp;        webXml.addTag(servlet);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the names that this servlet uses.
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param className the name of the class
+&nbsp;     * @return a list of the servlet names
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getServletNamesForClass(WebXml webXml, String className)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; items = webXml.getTags(WebXmlType.SERVLET);</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;String&gt; result = new ArrayList&lt;String&gt;(items.size());</b>
+<b class="nc">&nbsp;        for (Element item : items)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Servlet servlet = (Servlet) item;</b>
+<b class="nc">&nbsp;            if (servlet.getServletClass().equals(className))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                result.add(servlet.getServletName());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of names of servlets that are mapped to the specified JSP file.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theJspFile The path to the JSP file, relative to the root of the web-application
+&nbsp;     * @return A list of the names of the servlets mapped to the JSP file
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getServletNamesForJspFile(WebXml webXml, String theJspFile)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theJspFile == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;Element&gt; servletElements = webXml.getElements(WebXmlType.SERVLET);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; servletNames = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        for (Element servletElement : servletElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Element thisElement =</b>
+<b class="nc">&nbsp;                servletElement.getChild(WebXmlType.JSP_FILE, servletElement.getNamespace());</b>
+<b class="nc">&nbsp;            if (thisElement != null &amp;&amp; theJspFile.equals(thisElement.getText()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                servletNames.add(servletElement.getChild(</b>
+<b class="nc">&nbsp;                    WebXmlType.SERVLET_NAME, servletElement.getNamespace()).getText());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return servletNames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get a list of the servlet names in the web xml.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @return list of the servlet names in the web xml
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getServletNames(WebXml webXml)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; items = webXml.getTags(WebXmlType.SERVLET);</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;String&gt; result = new ArrayList&lt;String&gt;(items.size());</b>
+<b class="nc">&nbsp;        for (Element item : items)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Servlet servlet = (Servlet) item;</b>
+<b class="nc">&nbsp;            result.add(servlet.getServletName());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the servlet mappings to the named servlet.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet
+&nbsp;     * @return A list of the mappings
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getServletMappings(WebXml webXml, String theServletName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theServletName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;String&gt; servletMappings = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; servletMappingElements = webXml.getElements(WebXmlType.SERVLET_MAPPING);</b>
+<b class="nc">&nbsp;        for (Element servletMappingElement : servletMappingElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (theServletName.equals(servletMappingElement.getChild(</b>
+<b class="nc">&nbsp;                WebXmlType.SERVLET_NAME, servletMappingElement.getNamespace()).getText()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                List&lt;Element&gt; urlPatternElements = servletMappingElement.getChildren(</b>
+<b class="nc">&nbsp;                    WebXmlType.URL_PATTERN, servletMappingElement.getNamespace());</b>
+<b class="nc">&nbsp;                for (Element urlPatternElement : urlPatternElements)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    servletMappings.add(urlPatternElement.getText());</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return servletMappings;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the servlet mappings that the specified servlet is mapped to in an ordered list. If
+&nbsp;     * there are no mappings for the specified servlet, an empty list is returned.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet of which the mappings should be retrieved
+&nbsp;     * @return An ordered list of the servlet elements
+&nbsp;     */
+&nbsp;    public static List&lt;ServletMapping&gt; getServletMappingElements(
+&nbsp;        WebXml webXml, String theServletName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theServletName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;ServletMapping&gt; servletMappings = new ArrayList&lt;ServletMapping&gt;();</b>
+<b class="nc">&nbsp;        for (Element element : webXml.getTags(WebXmlType.SERVLET_MAPPING))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ServletMapping servletMappingElement = (ServletMapping) element;</b>
+<b class="nc">&nbsp;            if (theServletName.equals(servletMappingElement.getServletName()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                servletMappings.add(servletMappingElement);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return servletMappings;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a servlet to the web xml.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param element The servlet element
+&nbsp;     */
+&nbsp;    public static void addServlet(WebXml webXml, Servlet element)
+&nbsp;    {
+<b class="nc">&nbsp;        if (element == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        webXml.addTag(element);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add an init param to a servlet.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet
+&nbsp;     * @param name The name of the init param
+&nbsp;     * @param value The value for the init param
+&nbsp;     */
+&nbsp;    public static void addServletInitParam(WebXml webXml, String theServletName, String name,
+&nbsp;        String value)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName(&quot;init-param&quot;);</b>
+<b class="nc">&nbsp;        Servlet servletElement = getServlet(webXml, theServletName);</b>
+<b class="nc">&nbsp;        if (servletElement == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Servlet &#39;&quot; + theServletName + &quot;&#39; not defined&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        InitParam ip = new InitParam(tag);</b>
+<b class="nc">&nbsp;        ip.setParamName(name);</b>
+<b class="nc">&nbsp;        ip.setParamValue(value);</b>
+&nbsp;
+<b class="nc">&nbsp;        Element loadOnStartupElements =</b>
+<b class="nc">&nbsp;            servletElement.getChild(WebXmlType.LOAD_ON_STARTUP, servletElement.getNamespace());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (loadOnStartupElements != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            servletElement.addContent(loadOnStartupElements.getParentElement().getChildren()</b>
+<b class="nc">&nbsp;                .indexOf(loadOnStartupElements), ip);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            servletElement.addContent(ip);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the names of all the servlet init parameters.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet
+&nbsp;     * @return A list of the parameter names
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getServletInitParamNames(WebXml webXml, String theServletName)
+&nbsp;    {
+<b class="nc">&nbsp;        return getInitParamNames(webXml, getServlet(webXml, theServletName));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the names of all the servlet init parameters.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theElement The element containing the servlet
+&nbsp;     * @return A list of the parameter names
+&nbsp;     */
+&nbsp;    private static List&lt;String&gt; getInitParamNames(WebXml webXml, Element theElement)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;String&gt; initParamNames = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        if (theElement != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;Element&gt; initParamElements =</b>
+<b class="nc">&nbsp;                theElement.getChildren(WebXmlType.INIT_PARAM, theElement.getNamespace());</b>
+<b class="nc">&nbsp;            for (Element initParamElement : initParamElements)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String paramName =</b>
+<b class="nc">&nbsp;                    initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());</b>
+<b class="nc">&nbsp;                if (paramName != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    initParamNames.add(paramName);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return initParamNames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a security constraint.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theWebResourceName The name of the web resource
+&nbsp;     * @param theUrlPattern The URL Pattern
+&nbsp;     * @param theRoles the Roles to Allow
+&nbsp;     */
+&nbsp;    public static void addSecurityConstraint(WebXml webXml, String theWebResourceName,
+&nbsp;        String theUrlPattern, List&lt;String&gt; theRoles)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theWebResourceName == null || theUrlPattern == null || theRoles == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (hasSecurityConstraint(webXml, theUrlPattern))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Security constraint for URL &quot; + &quot;pattern &quot;</b>
+&nbsp;                + theUrlPattern + &quot; already defined&quot;);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        WebXmlElement securityConstraintElement =</b>
+<b class="nc">&nbsp;            (WebXmlElement) webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.SECURITY_CONSTRAINT).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        Element webResourceCollectionElement =</b>
+<b class="nc">&nbsp;            webXml.getDescriptorType().getTagByName(WebXmlType.WEB_RESOURCE_COLLECTION).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        webResourceCollectionElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.WEB_RESOURCE_NAME).create().setText(theWebResourceName));</b>
+&nbsp;
+<b class="nc">&nbsp;        webResourceCollectionElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.URL_PATTERN).create().setText(theUrlPattern));</b>
+&nbsp;
+<b class="nc">&nbsp;        securityConstraintElement.addContent(webResourceCollectionElement);</b>
+&nbsp;
+<b class="nc">&nbsp;        Element authConstraintElement = webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.AUTH_CONSTRAINT).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String theRole : theRoles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            authConstraintElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.ROLE_NAME).create().setText(theRole));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        securityConstraintElement.addContent(authConstraintElement);</b>
+<b class="nc">&nbsp;        webXml.addTag(securityConstraintElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a JSP file.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet
+&nbsp;     * @param theJspFile The name of the JSP file
+&nbsp;     */
+&nbsp;    public static void addJspFile(WebXml webXml, String theServletName, String theJspFile)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theServletName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (hasFilter(webXml, theServletName))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Servlet &#39;&quot; + theServletName + &quot;&#39; already defined&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        WebXmlElement servletElement = (WebXmlElement) webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.SERVLET).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        servletElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.SERVLET_NAME).create().setText(theServletName));</b>
+&nbsp;
+<b class="nc">&nbsp;        servletElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.JSP_FILE).create().setText(theJspFile));</b>
+&nbsp;
+<b class="nc">&nbsp;        webXml.addTag(servletElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Does the descriptor have a security constraint for a URL?
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theUrlPattern The URL pattern to query
+&nbsp;     * @return boolean
+&nbsp;     */
+&nbsp;    public static boolean hasSecurityConstraint(WebXml webXml, String theUrlPattern)
+&nbsp;    {
+<b class="nc">&nbsp;        return getSecurityConstraint(webXml, theUrlPattern) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Does the descriptor have a login config?
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @return boolean
+&nbsp;     */
+&nbsp;    public static boolean hasLoginConfig(WebXml webXml)
+&nbsp;    {
+<b class="nc">&nbsp;        return getLoginConfig(webXml) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the login config.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @return The element containing the login config
+&nbsp;     */
+&nbsp;    private static Element getLoginConfig(WebXml webXml)
+&nbsp;    {
+<b class="nc">&nbsp;        return webXml.getTag(WebXmlType.LOGIN_CONFIG);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the login config.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theAuthMethod The authorization method
+&nbsp;     * @param theRealmName The realm name
+&nbsp;     */
+&nbsp;    public static void setLoginConfig(WebXml webXml, String theAuthMethod,
+&nbsp;        String theRealmName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theRealmName == null || theAuthMethod == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        DescriptorElement loginConfigElement =</b>
+<b class="nc">&nbsp;            webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.LOGIN_CONFIG).create();</b>
+<b class="nc">&nbsp;        loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.AUTH_METHOD).create().setText(theAuthMethod));</b>
+&nbsp;
+<b class="nc">&nbsp;        loginConfigElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.REALM_NAME).create().setText(theRealmName));</b>
+&nbsp;
+<b class="nc">&nbsp;        webXml.getRootElement().removeContent(new ElementFilter(WebXmlType.LOGIN_CONFIG));</b>
+<b class="nc">&nbsp;        webXml.addTag(loginConfigElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the login config authorization method.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @return the auth method
+&nbsp;     */
+&nbsp;    public static String getLoginConfigAuthMethod(WebXml webXml)
+&nbsp;    {
+<b class="nc">&nbsp;        DescriptorElement de = (DescriptorElement) getLoginConfig(webXml);</b>
+<b class="nc">&nbsp;        return de.getChildText(WebXmlType.AUTH_METHOD, de.getNamespace());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get a security constraint by URL.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theUrlPattern The URL Pattern
+&nbsp;     * @return Security Constraint
+&nbsp;     */
+&nbsp;    public static SecurityConstraint getSecurityConstraint(WebXml webXml, String theUrlPattern)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theUrlPattern == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;Element&gt; securityConstraintElements = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);</b>
+<b class="nc">&nbsp;        SecurityConstraint result = null;</b>
+<b class="nc">&nbsp;        for (Element securityConstraintElement : securityConstraintElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;Element&gt; webResourceCollectionElements = securityConstraintElement.getChildren(</b>
+<b class="nc">&nbsp;                    WebXmlType.WEB_RESOURCE_COLLECTION, securityConstraintElement.getNamespace());</b>
+<b class="nc">&nbsp;            if (!webResourceCollectionElements.isEmpty())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                for (Element webResourceCollectionElement : webResourceCollectionElements)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    String url =</b>
+<b class="nc">&nbsp;                        webResourceCollectionElement.getChildText(WebXmlType.URL_PATTERN,</b>
+<b class="nc">&nbsp;                            securityConstraintElement.getNamespace());</b>
+&nbsp;
+<b class="nc">&nbsp;                    if (theUrlPattern.equals(url))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (result != null)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            throw new IllegalStateException(&quot;Security constraint for URL pattern &#39;&quot;</b>
+&nbsp;                                + theUrlPattern + &quot;&#39; is defined twice&quot;);
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        result = (SecurityConstraint) securityConstraintElement;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Does the role have a security definition?
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theRoleName The name of the role
+&nbsp;     * @return boolean
+&nbsp;     */
+&nbsp;    public static boolean hasSecurityRole(WebXml webXml, String theRoleName)
+&nbsp;    {
+<b class="nc">&nbsp;        return getSecurityRole(webXml, theRoleName) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the security role names.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @return a list of the role names
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getSecurityRoleNames(WebXml webXml)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;String&gt; securityRoleNames = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; securityRoleElements = webXml.getElements(WebXmlType.SECURITY_ROLE);</b>
+<b class="nc">&nbsp;        for (Element securityRoleElement : securityRoleElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Element securityRoleName =</b>
+<b class="nc">&nbsp;                securityRoleElement.getChild(WebXmlType.ROLE_NAME,</b>
+<b class="nc">&nbsp;                    securityRoleElement.getNamespace());</b>
+&nbsp;
+<b class="nc">&nbsp;            if (securityRoleName != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                securityRoleNames.add(securityRoleName.getText());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return securityRoleNames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the security role by name.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theRoleName The name of the role
+&nbsp;     * @return Element containing the security role
+&nbsp;     */
+&nbsp;    public static Element getSecurityRole(WebXml webXml, String theRoleName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theRoleName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;Element&gt; securityRoleElements = webXml.getTags(WebXmlType.SECURITY_ROLE);</b>
+<b class="nc">&nbsp;        for (Element element : securityRoleElements)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            DescriptorElement securityRoleElement = (DescriptorElement) element;</b>
+<b class="nc">&nbsp;            if (theRoleName.equals(securityRoleElement.getChildText(</b>
+<b class="nc">&nbsp;                WebXmlType.ROLE_NAME, securityRoleElement.getNamespace())))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return securityRoleElement;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add an EJB Reference.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param ref the EJB Reference element to add
+&nbsp;     */
+&nbsp;    public static void addEjbRef(WebXml webXml, EjbRef ref)
+&nbsp;    {
+<b class="nc">&nbsp;        DescriptorElement ejbRefElement = webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.EJB_LOCAL_REF).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        ejbRefElement.setAttribute(&quot;id&quot;, ref.getName().replace(&#39;/&#39;, &#39;_&#39;));</b>
+<b class="nc">&nbsp;        ejbRefElement</b>
+<b class="nc">&nbsp;            .addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.EJB_REF_NAME).create().setText(ref.getName()));</b>
+<b class="nc">&nbsp;        ejbRefElement</b>
+<b class="nc">&nbsp;            .addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.EJB_REF_TYPE).create().setText(ref.getType()));</b>
+<b class="nc">&nbsp;        if (ref.isLocal())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.LOCAL_HOME).create().setText(</b>
+<b class="nc">&nbsp;                ref.getEjbHomeInterface()));</b>
+<b class="nc">&nbsp;            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.LOCAL).create().setText(</b>
+<b class="nc">&nbsp;                ref.getEjbInterface()));</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(WebXmlType.HOME)</b>
+<b class="nc">&nbsp;                    .create().setText(</b>
+<b class="nc">&nbsp;                        ref.getEjbHomeInterface()));</b>
+<b class="nc">&nbsp;            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.REMOTE).create().setText(</b>
+<b class="nc">&nbsp;                ref.getEjbInterface()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ref.getEjbName() != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ejbRefElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.EJB_LINK).create().setText(</b>
+<b class="nc">&nbsp;                ref.getEjbName()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (ref.getJndiName() != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            for (Descriptor d : webXml.getVendorDescriptors())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                VendorWebAppDescriptor descr = (VendorWebAppDescriptor) d;</b>
+<b class="nc">&nbsp;                descr.addEjbReference(ref);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Either ejbName or jndiName must be set.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        webXml.addTag(ejbRefElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theRoleName The role name to use
+&nbsp;     */
+&nbsp;    public static void addSecurityRole(WebXml webXml, String theRoleName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theRoleName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (hasSecurityRole(webXml, theRoleName))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Security role &#39;&quot; + theRoleName + &quot;&#39; already defined&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Element securityRoleElement = webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.SECURITY_ROLE).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        securityRoleElement.addContent(webXml.getDescriptorType()</b>
+<b class="nc">&nbsp;                .getTagByName(WebXmlType.ROLE_NAME).create()</b>
+<b class="nc">&nbsp;            .setText(theRoleName));</b>
+&nbsp;
+<b class="nc">&nbsp;        webXml.getRootElement().addContent(securityRoleElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param theWebXml The webXml file to use
+&nbsp;     * @param servletName The name of the servlet to get
+&nbsp;     * @return the servlet
+&nbsp;     */
+&nbsp;    public static Servlet getServlet(WebXml theWebXml, String servletName)
+&nbsp;    {
+<b class="nc">&nbsp;        return (Servlet) theWebXml.getTagByIdentifier(WebXmlType.SERVLET, servletName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @return filter names
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; getFilterNames(WebXml webXml)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; items = webXml.getTags(WebXmlType.FILTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;String&gt; result = new ArrayList&lt;String&gt;(items.size());</b>
+<b class="nc">&nbsp;        for (Element item : items)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Filter filter = (Filter) item;</b>
+<b class="nc">&nbsp;            result.add(filter.getFilterName());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param theWebXml The webXml file to use
+&nbsp;     * @param filterName The name of the filter
+&nbsp;     * @return Filter
+&nbsp;     */
+&nbsp;    public static Filter getFilter(WebXml theWebXml, String filterName)
+&nbsp;    {
+<b class="nc">&nbsp;        return (Filter) theWebXml.getTagByIdentifier(WebXmlType.FILTER, filterName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theFilterName The name of the filter
+&nbsp;     * @param theUrlPattern the URL Pattern to add
+&nbsp;     */
+&nbsp;    public static void addFilterMapping(WebXml webXml, String theFilterName,
+&nbsp;        String theUrlPattern)
+&nbsp;    {
+<b class="nc">&nbsp;        if (!hasFilter(webXml, theFilterName))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Filter &#39;&quot; + theFilterName + &quot;&#39; not defined&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;FilterMapping&gt; filterMappings =</b>
+<b class="nc">&nbsp;            WebXmlUtils.getFilterMappingElements(webXml, theFilterName);</b>
+&nbsp;        DescriptorElement filterMappingElement;
+<b class="nc">&nbsp;        if (filterMappings.size() &gt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            filterMappingElement = filterMappings.get(0);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            filterMappingElement =</b>
+<b class="nc">&nbsp;                webXml.getDescriptorType().getTagByName(WebXmlType.FILTER_MAPPING).create();</b>
+<b class="nc">&nbsp;            filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.FILTER_NAME).create().setText(theFilterName));</b>
+<b class="nc">&nbsp;            webXml.addElement(</b>
+<b class="nc">&nbsp;                filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.URL_PATTERN).create().setText(theUrlPattern));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theFilterName The name of the filter
+&nbsp;     * @param theDispatcher the dispatcher to add
+&nbsp;     */
+&nbsp;    public static void addFilterDispatcher(WebXml webXml, String theFilterName,
+&nbsp;        String theDispatcher)
+&nbsp;    {
+<b class="nc">&nbsp;        if (!hasFilter(webXml, theFilterName))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Filter &#39;&quot; + theFilterName + &quot;&#39; not defined&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;FilterMapping&gt; filterMappings =</b>
+<b class="nc">&nbsp;            WebXmlUtils.getFilterMappingElements(webXml, theFilterName);</b>
+&nbsp;        DescriptorElement filterMappingElement;
+<b class="nc">&nbsp;        if (filterMappings.size() &gt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            filterMappingElement = filterMappings.get(0);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            filterMappingElement =</b>
+<b class="nc">&nbsp;                webXml.getDescriptorType().getTagByName(WebXmlType.DISPATCHER).create();</b>
+<b class="nc">&nbsp;            filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.FILTER_NAME).create().setText(theFilterName));</b>
+<b class="nc">&nbsp;            webXml.addElement(</b>
+<b class="nc">&nbsp;                filterMappingElement.getTag(), filterMappingElement, webXml.getRootElement());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        filterMappingElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.DISPATCHER).create().setText(theDispatcher));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param theWebXml The webXml file to use
+&nbsp;     * @param servletName The servlet name
+&nbsp;     * @param paramName The parameter Name
+&nbsp;     * @return The value of the init param
+&nbsp;     */
+&nbsp;    public static String getServletInitParam(WebXml theWebXml, String servletName,
+&nbsp;        String paramName)
+&nbsp;    {
+<b class="nc">&nbsp;        return getInitParam(theWebXml, getServlet(theWebXml, servletName), paramName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param theWebXml The webXml file to use
+&nbsp;     * @param theElement The element to get the parameter from
+&nbsp;     * @param theParamName The name of the parameter
+&nbsp;     * @return The value of the init param
+&nbsp;     */
+&nbsp;    private static String getInitParam(WebXml theWebXml, Element theElement,
+&nbsp;        String theParamName)
+&nbsp;    {
+<b class="nc">&nbsp;        if (theElement != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;Element&gt; initParamElements =</b>
+<b class="nc">&nbsp;                theElement.getChildren(WebXmlType.INIT_PARAM, theElement.getNamespace());</b>
+<b class="nc">&nbsp;            for (Element initParamElement : initParamElements)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String paramName =</b>
+<b class="nc">&nbsp;                    initParamElement.getChildText(WebXmlType.PARAM_NAME, theElement.getNamespace());</b>
+<b class="nc">&nbsp;                if (theParamName.equals(paramName))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    return initParamElement.getChildText(WebXmlType.PARAM_VALUE, theElement</b>
+<b class="nc">&nbsp;                            .getNamespace());</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet
+&nbsp;     * @param theRoleName The role name to add
+&nbsp;     */
+&nbsp;    public static void addServletRunAsRoleName(WebXml webXml, String theServletName,
+&nbsp;        String theRoleName)
+&nbsp;    {
+<b class="nc">&nbsp;        Element servlet = getServlet(webXml, theServletName);</b>
+<b class="nc">&nbsp;        Element runAsElement = webXml.getDescriptorType().getTagByName(WebXmlType.RUN_AS).create();</b>
+&nbsp;
+<b class="nc">&nbsp;        runAsElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.ROLE_NAME).create().setText(theRoleName));</b>
+&nbsp;
+<b class="nc">&nbsp;        servlet.addContent(runAsElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param theServletName The name of the servlet
+&nbsp;     * @param theUrlPattern the URL Pattern to add
+&nbsp;     */
+&nbsp;    public static void addServletMapping(WebXml webXml, String theServletName,
+&nbsp;        String theUrlPattern)
+&nbsp;    {
+<b class="nc">&nbsp;        if (!hasServlet(webXml, theServletName))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Servlet &#39;&quot; + theServletName + &quot;&#39; not defined&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;ServletMapping&gt; servletMappings =</b>
+<b class="nc">&nbsp;            WebXmlUtils.getServletMappingElements(webXml, theServletName);</b>
+&nbsp;        DescriptorElement servletMappingElement;
+<b class="nc">&nbsp;        if (servletMappings.size() &gt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            servletMappingElement = servletMappings.get(0);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            servletMappingElement =</b>
+<b class="nc">&nbsp;                webXml.getDescriptorType().getTagByName(WebXmlType.SERVLET_MAPPING).create();</b>
+<b class="nc">&nbsp;            servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;                WebXmlType.SERVLET_NAME).create().setText(theServletName));</b>
+<b class="nc">&nbsp;            webXml.addElement(</b>
+<b class="nc">&nbsp;                servletMappingElement.getTag(), servletMappingElement, webXml.getRootElement());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        servletMappingElement.addContent(webXml.getDescriptorType().getTagByName(</b>
+<b class="nc">&nbsp;            WebXmlType.URL_PATTERN).create().setText(theUrlPattern));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param theWebXml The webXml file to use
+&nbsp;     * @param filterName The name of the filter
+&nbsp;     * @param paramName The name of the parameter
+&nbsp;     * @return the init parameter value
+&nbsp;     */
+&nbsp;    public static String getFilterInitParam(WebXml theWebXml,
+&nbsp;        String filterName, String paramName)
+&nbsp;    {
+<b class="nc">&nbsp;        Filter filter =</b>
+<b class="nc">&nbsp;            (Filter) theWebXml.getTagByIdentifier(</b>
+&nbsp;                WebXmlType.FILTER, filterName);
+<b class="nc">&nbsp;        if (filter == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Filter &#39;&quot; + filterName + &quot;&#39; not defined&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        InitParam initParam = filter.getInitParam(paramName);</b>
+<b class="nc">&nbsp;        if (initParam == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Filter &#39;&quot; + filterName</b>
+&nbsp;                    + &quot;&#39; Initialization parameter &#39;&quot; + paramName + &quot;&#39; not defined&quot;);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return initParam.getParamValue();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param filter The filter to add
+&nbsp;     */
+&nbsp;    public static void addFilter(WebXml webXml, Filter filter)
+&nbsp;    {
+<b class="nc">&nbsp;        webXml.addTag(filter);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a filter to the descriptor.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml file to use
+&nbsp;     * @param filterName The servlet name
+&nbsp;     * @param filterClass The servlet class name
+&nbsp;     */
+&nbsp;    public static void addFilter(WebXml webXml, String filterName, String filterClass)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName(&quot;filter&quot;);</b>
+<b class="nc">&nbsp;        Filter filter = new Filter(tag, filterName, filterClass);</b>
+<b class="nc">&nbsp;        webXml.addTag(filter);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a new context-param element to the descriptor.
+&nbsp;     * 
+&nbsp;     * @param webXml The webXml containing the descriptor
+&nbsp;     * @param name The context name
+&nbsp;     * @param value The context value
+&nbsp;     */
+&nbsp;    public static void addContextParam(WebXml webXml, String name, String value)
+&nbsp;    {
+<b class="nc">&nbsp;        WebXmlTag tag = (WebXmlTag) webXml.getDescriptorType().getTagByName(&quot;context-param&quot;);</b>
+<b class="nc">&nbsp;        ContextParam contextParam = new ContextParam(tag, name, value);</b>
+<b class="nc">&nbsp;        webXml.addTag(contextParam);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

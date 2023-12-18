@@ -63,4 +63,6 @@ public interface Logger
      * it can be anything)
      */
     void debug(String message, String category);
+
+    void doLog(LogLevel level, String message, String category);
 }

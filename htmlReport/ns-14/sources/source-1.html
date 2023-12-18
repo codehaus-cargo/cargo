@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDirectoryPackager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.packager</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDirectoryPackager (org.codehaus.cargo.container.spi.packager)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDirectoryPackager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.packager;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.InstalledLocalContainer;
+&nbsp;import org.codehaus.cargo.container.packager.Packager;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Package a container distribution and its local configuration in a directory.
+&nbsp; */
+&nbsp;public abstract class AbstractDirectoryPackager extends LoggedObject implements Packager
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The portion of that we by default exclude from packaging.
+&nbsp;     */
+<b class="nc">&nbsp;    private static final List&lt;String&gt; EXCLUDED_FROM_CONFIGURATION =</b>
+<b class="nc">&nbsp;        Arrays.asList(&quot;**/cargocpc.war&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see #getTargetDirectory()
+&nbsp;     */
+&nbsp;    private String targetDirectory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * File utility class.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param targetDirectory the directory where the container distribution and its local
+&nbsp;     * configuration will be packaged
+&nbsp;     */
+&nbsp;    public AbstractDirectoryPackager(String targetDirectory)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.fileHandler = new DefaultFileHandler();</b>
+<b class="nc">&nbsp;        this.targetDirectory = targetDirectory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the directory where the container distribution and its local configuration will be
+&nbsp;     * packaged
+&nbsp;     */
+&nbsp;    public String getTargetDirectory()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.targetDirectory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the Cargo file utility class
+&nbsp;     */
+&nbsp;    protected FileHandler getFileHandler()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
+&nbsp;     * testing with Mock objects as it can be passed a test file handler that doesn&#39;t perform any
+&nbsp;     * real file action.
+&nbsp;     */
+&nbsp;    protected void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="nc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overriden in order to set the logger on ancillary components.
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * @param logger the logger to set and set in the ancillary objects
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setLogger(Logger logger)
+&nbsp;    {
+<b class="nc">&nbsp;        super.setLogger(logger);</b>
+<b class="nc">&nbsp;        this.fileHandler.setLogger(logger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void packageContainer(InstalledLocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        getFileHandler().copyDirectory(container.getHome(), getTargetDirectory(),</b>
+<b class="nc">&nbsp;            getDistributionExclusions());</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;String&gt; configurationExclusions = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        configurationExclusions.addAll(getDefaultConfigurationExclusions());</b>
+<b class="nc">&nbsp;        configurationExclusions.addAll(getConfigurationExclusions());</b>
+&nbsp;
+<b class="nc">&nbsp;        getFileHandler().copyDirectory(container.getConfiguration().getHome(),</b>
+<b class="nc">&nbsp;            getTargetDirectory(), configurationExclusions);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of files to exclude by default from the configuration.
+&nbsp;     * @see #getConfigurationExclusions()
+&nbsp;     */
+&nbsp;    private List&lt;String&gt; getDefaultConfigurationExclusions()
+&nbsp;    {
+<b class="nc">&nbsp;        return AbstractDirectoryPackager.EXCLUDED_FROM_CONFIGURATION;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of distribution files (specified as &lt;a
+&nbsp;     * href=&quot;http://ant.apache.org/manual/dirtasks.html#patterns&quot;&gt;Ant File patterns&lt;/a&gt;) which will
+&nbsp;     * not be present in the generated package. These files are files found in
+&nbsp;     * {@link org.codehaus.cargo.container.InstalledLocalContainer#getHome()}.
+&nbsp;     */
+&nbsp;    protected abstract List&lt;String&gt; getDistributionExclusions();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of configuration files (specified as &lt;a
+&nbsp;     * href=&quot;http://ant.apache.org/manual/dirtasks.html#patterns&quot;&gt;Ant File patterns&lt;/a&gt;) which will
+&nbsp;     * not be present in the generated package. These files are files found in
+&nbsp;     * {@link org.codehaus.cargo.container.configuration.LocalConfiguration#getHome()}.
+&nbsp;     */
+&nbsp;    protected abstract List&lt;String&gt; getConfigurationExclusions();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

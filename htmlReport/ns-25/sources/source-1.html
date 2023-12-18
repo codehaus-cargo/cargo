@@ -1,0 +1,237 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ResinWebXml</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.resin</a>
+</div>
+
+<h1>Coverage Summary for Class: ResinWebXml (org.codehaus.cargo.module.webapp.resin)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ResinWebXml</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.resin;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.AbstractDescriptor;
+&nbsp;import org.codehaus.cargo.module.DescriptorType;
+&nbsp;import org.codehaus.cargo.module.webapp.EjbRef;
+&nbsp;import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; * Encapsulates the DOM representation of a web deployment descriptor &lt;code&gt;resin-web.xml&lt;/code&gt; to
+&nbsp; * provide convenience methods for easy access and manipulation.
+&nbsp; */
+&nbsp;public class ResinWebXml extends AbstractDescriptor implements VendorWebAppDescriptor
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * File name of this descriptor.
+&nbsp;     */
+&nbsp;    private static final String FILE_NAME = &quot;resin-web.xml&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param rootElement The descriptor root element
+&nbsp;     * @param type The descriptor type
+&nbsp;     */
+&nbsp;    public ResinWebXml(Element rootElement, DescriptorType type)
+&nbsp;    {
+<b class="nc">&nbsp;        super(rootElement, type);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a ejb reference.
+&nbsp;     * 
+&nbsp;     * @param ref reference to add
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addEjbReference(EjbRef ref)
+&nbsp;    {
+&nbsp;        // This file doesn&#39;t have EJB references in it
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFileName()
+&nbsp;    {
+<b class="nc">&nbsp;        return FILE_NAME;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the system properties.
+&nbsp;     * 
+&nbsp;     * @return the system properties
+&nbsp;     */
+&nbsp;    public List&lt;Element&gt; getSystemProperties()
+&nbsp;    {
+<b class="nc">&nbsp;        return getTags(ResinWebXmlTag.SYSTEM_PROPERTY);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the resource references.
+&nbsp;     * 
+&nbsp;     * @return the resource refs
+&nbsp;     */
+&nbsp;    public List&lt;Element&gt; getResourceRefs()
+&nbsp;    {
+<b class="nc">&nbsp;        return getTags(ResinWebXmlTag.RESOURCE_REFERENCE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the jndi links.
+&nbsp;     * 
+&nbsp;     * @return the jndi links
+&nbsp;     */
+&nbsp;    public List&lt;Element&gt; getJndiLinks()
+&nbsp;    {
+<b class="nc">&nbsp;        return getTags(ResinWebXmlTag.JNDI_LINK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the session config element.
+&nbsp;     * 
+&nbsp;     * @return session config element
+&nbsp;     */
+&nbsp;    public Element getSessionConfig()
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; elements = getElements(ResinWebXmlTag.SESSION_CONFIG);</b>
+<b class="nc">&nbsp;        if (elements.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return elements.get(0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the directory servlet.
+&nbsp;     * 
+&nbsp;     * @return directory servlet element
+&nbsp;     */
+&nbsp;    public Element getDirectoryServlet()
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; elements = getElements(ResinWebXmlTag.DIRECTORY_SERVLET);</b>
+<b class="nc">&nbsp;        if (elements.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return elements.get(0);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

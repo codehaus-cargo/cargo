@@ -1,0 +1,272 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDeployable</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.deployable</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDeployable (org.codehaus.cargo.container.spi.deployable)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDeployable</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63.6%
+  </span>
+  <span class="absValue">
+    (7/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60.9%
+  </span>
+  <span class="absValue">
+    (14/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.deployable;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.deployable.Deployable;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Common class for easy Deployable implementations.
+&nbsp; */
+&nbsp;public abstract class AbstractDeployable extends LoggedObject implements Deployable
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The location of the Deployable file being wrapped.
+&nbsp;     */
+&nbsp;    private String file;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * File utility class.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param file the location of the deployable file being wrapped.
+&nbsp;     */
+&nbsp;    public AbstractDeployable(String file)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.file = file;</b>
+<b class="fc">&nbsp;        this.fileHandler = new DefaultFileHandler();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFile()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.file;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the Cargo file utility class
+&nbsp;     */
+&nbsp;    public FileHandler getFileHandler()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the Cargo file utility class to use. This method is useful for unit
+&nbsp;     * testing with Mock objects as it can be passed a test file handler that doesn&#39;t perform any
+&nbsp;     * real file action.
+&nbsp;     */
+&nbsp;    public void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="fc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overriden in order to set the logger on ancillary components.
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * @param logger the logger to set and set in the ancillary objects
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setLogger(Logger logger)
+&nbsp;    {
+<b class="fc">&nbsp;        super.setLogger(logger);</b>
+<b class="fc">&nbsp;        this.fileHandler.setLogger(logger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isExpanded()
+&nbsp;    {
+<b class="fc">&nbsp;        return getFileHandler().isDirectory(getFile());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString()
+&nbsp;    {
+<b class="nc">&nbsp;        if (getFileHandler() != null &amp;&amp; getFile() != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return this.getClass().getName() + &quot;[&quot; + getFileHandler().getName(getFile()) + &quot;]&quot;;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            return this.getClass().getName() + &quot;[File not set]&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the name of this deployable. Default value is computed from the
+&nbsp;     * Deployable file name (removing the filename extension).
+&nbsp;     * @return the name of this deployable
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getName()
+&nbsp;    {
+<b class="fc">&nbsp;        String name = getFileHandler().getName(getFile());</b>
+<b class="fc">&nbsp;        int nameIndex = name.lastIndexOf(&#39;.&#39;);</b>
+<b class="fc">&nbsp;        if (nameIndex &gt;= 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            name = name.substring(0, nameIndex);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * Default value is the Deployable file name.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getFilename()
+&nbsp;    {
+<b class="nc">&nbsp;        return getFileHandler().getName(getFile());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object object)
+&nbsp;    {
+<b class="nc">&nbsp;        boolean result = false;</b>
+<b class="nc">&nbsp;        if (object != null &amp;&amp; object instanceof AbstractDeployable)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return object.toString().equals(this.toString());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int hashCode()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.toString().hashCode();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

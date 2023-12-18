@@ -19,19 +19,14 @@
  */
 package org.codehaus.cargo.util.log;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import org.codehaus.cargo.util.CargoException;
+import org.codehaus.cargo.util.internal.log.AbstractLogger;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.codehaus.cargo.util.CargoException;
-import org.codehaus.cargo.util.internal.log.AbstractLogger;
 
 /**
  * File implementation which sends logged messages to a file.
@@ -83,7 +78,7 @@ public class FileLogger extends AbstractLogger
      * {@inheritDoc}
      */
     @Override
-    protected void doLog(LogLevel level, String message, String category)
+    public void doLog(LogLevel level, String message, String category)
     {
         final String formattedCategory = category.length() > 20
             ? category.substring(category.length() - 20) : category;

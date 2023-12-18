@@ -1,0 +1,263 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > XmlEntityResolver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: XmlEntityResolver (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">XmlEntityResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.1%
+  </span>
+  <span class="absValue">
+    (37/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.StringReader;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.xml.sax.EntityResolver;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Implementation of the SAX EntityResolver interface that looks up the web-app DTDs from the JAR.
+&nbsp; */
+<b class="fc">&nbsp;public class XmlEntityResolver implements EntityResolver</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Properties containing mappings of public identifiers to system identifiers.
+&nbsp;     */
+&nbsp;    private static Map&lt;String, String&gt; publicIdentifiers;
+&nbsp;
+&nbsp;    static
+&nbsp;    {
+<b class="fc">&nbsp;        publicIdentifiers = new HashMap&lt;String, String&gt;();</b>
+&nbsp;        // application.xml
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//Sun Microsystems, Inc.//DTD J2EE Application 1.2//EN&quot;,</b>
+&nbsp;                              &quot;application_1_2.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN&quot;,</b>
+&nbsp;                              &quot;application_1_3.dtd&quot;);
+&nbsp;        // ejb-jar.xml
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN&quot;,</b>
+&nbsp;                              &quot;ejb-jar_2_0.dtd&quot;);
+&nbsp;        // web.xml
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN&quot;,</b>
+&nbsp;                              &quot;web-app_2_2.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN&quot;,</b>
+&nbsp;                              &quot;web-app_2_3.dtd&quot;);
+&nbsp;
+&nbsp;        // orion
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//ORACLE//DTD OC4J Enterprise JavaBeans runtime 9.04//EN&quot;,</b>
+&nbsp;                              &quot;orion-ejb-jar-9_04.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//ORACLE//DTD OC4J Web Application 9.04//EN&quot;,</b>
+&nbsp;                              &quot;orion-web-9_04.dtd&quot;);
+&nbsp;
+&nbsp;        // weblogic
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//BEA Systems, Inc.//DTD WebLogic 8.1.0 EJB//EN&quot;,</b>
+&nbsp;                              &quot;weblogic-ejb-jar.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//BEA Systems, Inc.//DTD Web Application 8.1//EN&quot;,</b>
+&nbsp;                              &quot;weblogic810-web-jar.dtd&quot;);
+&nbsp;
+&nbsp;        // jboss
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD JBOSS 4.0//EN&quot;,</b>
+&nbsp;                              &quot;jboss_4_0.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD Web Service Reference 4.0//EN&quot;,</b>
+&nbsp;                              &quot;service-ref_4_0.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD Web Application 2.4//EN&quot;,</b>
+&nbsp;                              &quot;jboss-web_4_0.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD JBOSS 4.2//EN&quot;,</b>
+&nbsp;                              &quot;jboss_4_2.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD Web Service Reference 4.2//EN&quot;,</b>
+&nbsp;                              &quot;service-ref_4_2.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD Web Application 4.2//EN&quot;,</b>
+&nbsp;                              &quot;jboss-web_4_2.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD JBOSS 5.0//EN&quot;,</b>
+&nbsp;                              &quot;jboss_5_0.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD Web Service Reference 5.0//EN&quot;,</b>
+&nbsp;                              &quot;service-ref_5_0.dtd&quot;);
+<b class="fc">&nbsp;        publicIdentifiers.put(&quot;-//JBoss//DTD Web Application 5.0//EN&quot;,</b>
+&nbsp;                              &quot;jboss-web_5_0.dtd&quot;);
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public InputSource resolveEntity(String thePublicId, String theSystemId)
+&nbsp;        throws SAXException, IOException
+&nbsp;    {
+<b class="fc">&nbsp;        InputSource inSource = null;</b>
+<b class="fc">&nbsp;        String fileName = getDtdFileName(thePublicId, theSystemId);</b>
+&nbsp;
+<b class="fc">&nbsp;        InputStream in = this.getClass().getResourceAsStream(</b>
+&nbsp;            &quot;/org/codehaus/cargo/module/internal/resource/&quot; + fileName);
+&nbsp;
+<b class="fc">&nbsp;        if (in == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            URL url = new URL(theSystemId);</b>
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                in = url.openStream();</b>
+&nbsp;            }
+<b class="fc">&nbsp;            catch (IOException ignored)</b>
+&nbsp;            {
+&nbsp;                // Failed to connect to remote resource, is internet down?
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (in != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            inSource = new InputSource(in);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            inSource = new InputSource(new StringReader(&quot;&quot;));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        inSource.setPublicId(thePublicId);</b>
+<b class="fc">&nbsp;        inSource.setSystemId(theSystemId);</b>
+<b class="fc">&nbsp;        return inSource;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Tries to decide the file name of a DTD from the public and system id.
+&nbsp;     * 
+&nbsp;     * @param thePublicId the publid id
+&nbsp;     * @param theSystemId the system id
+&nbsp;     * @return the file name
+&nbsp;     */
+&nbsp;    public String getDtdFileName(String thePublicId, String theSystemId)
+&nbsp;    {
+<b class="fc">&nbsp;        String fileName = null;</b>
+<b class="fc">&nbsp;        if (thePublicId != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String mappedValue = publicIdentifiers.get(thePublicId);</b>
+<b class="nc">&nbsp;            if (mappedValue != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                fileName = mappedValue;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (fileName == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            fileName = theSystemId.substring(theSystemId.lastIndexOf(&#39;/&#39;) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return fileName;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

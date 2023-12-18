@@ -1,0 +1,987 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DefaultJvmLauncher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.jvm</a>
+</div>
+
+<h1>Coverage Summary for Class: DefaultJvmLauncher (org.codehaus.cargo.container.spi.jvm)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefaultJvmLauncher</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.6%
+  </span>
+  <span class="absValue">
+    (19/33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60.8%
+  </span>
+  <span class="absValue">
+    (141/232)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DefaultJvmLauncher$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (21/35)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.3%
+  </span>
+  <span class="absValue">
+    (144/235)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.jvm;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.lang.ProcessBuilder.Redirect;
+&nbsp;import java.lang.reflect.Field;
+&nbsp;import java.lang.reflect.InvocationTargetException;
+&nbsp;import java.lang.reflect.Method;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;import com.sun.jna.Pointer;
+&nbsp;import com.sun.jna.platform.win32.Kernel32;
+&nbsp;import com.sun.jna.platform.win32.WinNT.HANDLE;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * A JVM launcher that launches a new Process, that can be forcibly killed if needed.
+&nbsp; */
+&nbsp;public class DefaultJvmLauncher implements JvmLauncher
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Whether a JVM shutdown is in progress.
+&nbsp;     */
+<b class="fc">&nbsp;    public static boolean shutdownInProgress = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Information message when changing the process attribute visibility fails.
+&nbsp;     */
+&nbsp;    private static final String PROCESS_ATTRIBUTE_CHANGE_MESSAGE =
+&nbsp;        &quot;Failed changing the visibility of internal JDK process classes, required for force &quot;
+&nbsp;            + &quot;killing of the Java process Codehaus Cargo has created. You could add --add-opens &quot;
+&nbsp;                + &quot;to your JVM arguments to allow this. &quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The working directory.
+&nbsp;     */
+&nbsp;    private File workingDirectory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The executable to run.
+&nbsp;     */
+&nbsp;    private String executable;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The vm arguments.
+&nbsp;     */
+<b class="fc">&nbsp;    private final List&lt;String&gt; jvmArguments = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The vm classpath.
+&nbsp;     */
+&nbsp;    private String classpath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The vm jar path.
+&nbsp;     */
+&nbsp;    private String jarPath;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The main class to run.
+&nbsp;     */
+&nbsp;    private String mainClass;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The vm system properties.
+&nbsp;     */
+<b class="fc">&nbsp;    private final List&lt;String&gt; systemProperties = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The extra environment variables.
+&nbsp;     */
+<b class="fc">&nbsp;    private final Map&lt;String, String&gt; environmentVariables = new HashMap&lt;String, String&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The application arguments.
+&nbsp;     */
+<b class="fc">&nbsp;    private final List&lt;String&gt; applicationArguments = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Timeout while waiting for {@link #execute()} command to complete.
+&nbsp;     */
+<b class="fc">&nbsp;    private long timeout = 60 * 1000;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The running process.
+&nbsp;     */
+&nbsp;    private Process process;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Output file.
+&nbsp;     */
+&nbsp;    private File outputFile;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Append output.
+&nbsp;     */
+<b class="fc">&nbsp;    private boolean appendOutput = false;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The logger to which the output of the JVM is redirected
+&nbsp;     */
+&nbsp;    private Logger outputLogger;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The log category to use when logging the JVM&#39;s outputs
+&nbsp;     */
+&nbsp;    private String category;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a new launcher.
+&nbsp;     */
+&nbsp;    public DefaultJvmLauncher()
+<b class="fc">&nbsp;    {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Build the complete command line.
+&nbsp;     * 
+&nbsp;     * @return the array representing the tokens of the command line
+&nbsp;     */
+&nbsp;    private List&lt;String&gt; buildCommandLine()
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;String&gt; commandLine = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (executable == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Java executable not set&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        commandLine.add(executable);</b>
+&nbsp;
+<b class="fc">&nbsp;        commandLine.addAll(jvmArguments);</b>
+<b class="fc">&nbsp;        commandLine.addAll(systemProperties);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (classpath != null &amp;&amp; jarPath == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            commandLine.add(&quot;-classpath&quot;);</b>
+<b class="nc">&nbsp;            commandLine.add(classpath);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (jarPath != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            commandLine.add(&quot;-jar&quot;);</b>
+<b class="nc">&nbsp;            commandLine.add(jarPath);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (jarPath == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            commandLine.add(mainClass);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        commandLine.addAll(applicationArguments);</b>
+&nbsp;
+<b class="fc">&nbsp;        return commandLine;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a path to the classpath.
+&nbsp;     * 
+&nbsp;     * @param path the path to add to the classpath
+&nbsp;     */
+&nbsp;    private void addClasspath(String path)
+&nbsp;    {
+<b class="nc">&nbsp;        if (classpath == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            classpath = path;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            classpath += File.pathSeparator + path;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setWorkingDirectory(File workingDirectory)
+&nbsp;    {
+<b class="fc">&nbsp;        this.workingDirectory = workingDirectory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setJvm(String command)
+&nbsp;    {
+<b class="fc">&nbsp;        if (command == null || command.isEmpty())</b>
+&nbsp;        {
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        if (!new File(command).isFile())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new JvmLauncherException(&quot;JVM executable file [&quot; + command + &quot;] doesn&#39;t exist&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.executable =</b>
+<b class="fc">&nbsp;            command.replace(&#39;/&#39;, File.separatorChar).replace(&#39;\\&#39;, File.separatorChar);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addJvmArgument(File file)
+&nbsp;    {
+<b class="nc">&nbsp;        if (file != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            jvmArguments.add(file.getAbsolutePath());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addJvmArguments(String... values)
+&nbsp;    {
+<b class="fc">&nbsp;        if (values != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for (String value : values)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                jvmArguments.add(value);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addJvmArgumentLine(String line)
+&nbsp;    {
+<b class="fc">&nbsp;        if (line != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String[] args = DefaultJvmLauncher.translateCommandline(line);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (args != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                for (String arg : args)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    jvmArguments.add(arg);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addClasspathEntries(String... paths)
+&nbsp;    {
+<b class="nc">&nbsp;        if (paths != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            for (String path : paths)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                addClasspath(path);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds additional classpath entries.
+&nbsp;     * 
+&nbsp;     * @param paths The additional classpath entries.
+&nbsp;     */
+&nbsp;    public void addClasspathEntries(List&lt;String&gt; paths)
+&nbsp;    {
+<b class="nc">&nbsp;        if (paths != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            for (String path : paths)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                addClasspath(path);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addClasspathEntries(File... paths)
+&nbsp;    {
+<b class="nc">&nbsp;        if (paths != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            for (File path : paths)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                addClasspath(path.getAbsolutePath());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getClasspath()
+&nbsp;    {
+<b class="nc">&nbsp;        return classpath;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setSystemProperty(String name, String value)
+&nbsp;    {
+<b class="nc">&nbsp;        if (name != null &amp;&amp; !name.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            systemProperties.add(&quot;-D&quot; + name + &quot;=&quot; + value);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setEnvironmentVariable(String name, String value)
+&nbsp;    {
+<b class="nc">&nbsp;        if (name != null &amp;&amp; !name.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            environmentVariables.put(name, value);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getEnvironmentVariable(String name)
+&nbsp;    {
+<b class="nc">&nbsp;        String value = environmentVariables.get(name);</b>
+<b class="nc">&nbsp;        if (value == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            value = System.getenv(name);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return value;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setJarFile(File jarFile)
+&nbsp;    {
+<b class="nc">&nbsp;        if (jarFile != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            jarPath = jarFile.getAbsolutePath();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setMainClass(String mainClass)
+&nbsp;    {
+<b class="fc">&nbsp;        if (mainClass != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            this.mainClass = mainClass;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addAppArgument(File file)
+&nbsp;    {
+<b class="nc">&nbsp;        if (file != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            applicationArguments.add(file.getAbsolutePath());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addAppArguments(String... values)
+&nbsp;    {
+<b class="nc">&nbsp;        if (values != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            for (String value : values)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                applicationArguments.add(value);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addAppArgumentLine(String line)
+&nbsp;    {
+<b class="fc">&nbsp;        if (line != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String[] args = DefaultJvmLauncher.translateCommandline(line);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (args != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                for (String arg : args)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    applicationArguments.add(arg);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}. This takes precendence over {@link #setOutputLogger(Logger, String)}.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setOutputFile(File outputFile)
+&nbsp;    {
+<b class="fc">&nbsp;        this.outputFile = outputFile;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setAppendOutput(boolean appendOutput)
+&nbsp;    {
+<b class="fc">&nbsp;        this.appendOutput = appendOutput;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}. If {@link #setOutputFile(File)} is set, that will take precedence.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setOutputLogger(Logger outputLogger, String category)
+&nbsp;    {
+<b class="fc">&nbsp;        this.outputLogger = outputLogger;</b>
+<b class="fc">&nbsp;        if (category == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Logger category should not be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.category = category;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getCommandLine()
+&nbsp;    {
+<b class="fc">&nbsp;        StringBuilder result = new StringBuilder();</b>
+<b class="fc">&nbsp;        List&lt;String&gt; commandLine = buildCommandLine();</b>
+<b class="fc">&nbsp;        if (commandLine != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for (int i = 0; i &lt; commandLine.size(); i++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (i != 0)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    result.append(&#39; &#39;);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                result.append(commandLine.get(i));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return result.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void kill()
+&nbsp;    {
+<b class="fc">&nbsp;        if (process != null)</b>
+&nbsp;        {
+&nbsp;            // Call first method to kill the process
+&nbsp;            // This is cleanest in code, but no guarantees by the JVM...
+<b class="fc">&nbsp;            process.destroy();</b>
+&nbsp;
+&nbsp;            // So we call second method to kill the process to be sure
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                nativeKill();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (NoClassDefFoundError e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (outputLogger != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    outputLogger.debug(</b>
+<b class="nc">&nbsp;                        PROCESS_ATTRIBUTE_CHANGE_MESSAGE + e.getMessage(),</b>
+<b class="nc">&nbsp;                            this.getClass().getName());</b>
+&nbsp;                }
+&nbsp;                // This happens when the JVM is shutting down, ignore
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            process = null;</b>
+<b class="fc">&nbsp;            System.gc();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setTimeout(long millis)
+&nbsp;    {
+<b class="nc">&nbsp;        this.timeout = millis;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setSpawn(boolean spawn)
+&nbsp;    {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void start() throws JvmLauncherException
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            ProcessBuilder pb =</b>
+<b class="fc">&nbsp;                new ProcessBuilder(buildCommandLine()).directory(workingDirectory)</b>
+<b class="fc">&nbsp;                    .redirectErrorStream(true);</b>
+<b class="fc">&nbsp;            if (outputFile != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                pb.redirectOutput(</b>
+<b class="fc">&nbsp;                    appendOutput ? Redirect.appendTo(outputFile) : Redirect.to(outputFile));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            pb.environment().putAll(environmentVariables);</b>
+&nbsp;
+<b class="fc">&nbsp;            this.process = pb.start();</b>
+<b class="fc">&nbsp;            process.getOutputStream().close();</b>
+&nbsp;
+<b class="fc">&nbsp;            if (outputFile == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (outputLogger != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    Thread outputStreamRedirector =</b>
+&nbsp;                        new Thread(new DefaultJvmLauncherLoggerRedirector(
+<b class="nc">&nbsp;                            process.getInputStream(), outputLogger, category));</b>
+<b class="nc">&nbsp;                    outputStreamRedirector.start();</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                else
+&nbsp;                {
+<b class="nc">&nbsp;                    process.getErrorStream().close();</b>
+<b class="nc">&nbsp;                    process.getInputStream().close();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new JvmLauncherException(&quot;Failed to launch process &quot; + e);</b>
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="fc">&nbsp;            Runtime.getRuntime().addShutdownHook(new Thread()</b>
+<b class="fc">&nbsp;            {</b>
+&nbsp;                @Override
+&nbsp;                public void run()
+&nbsp;                {
+<b class="fc">&nbsp;                    DefaultJvmLauncher.shutdownInProgress = true;</b>
+<b class="fc">&nbsp;                    DefaultJvmLauncher.this.kill();</b>
+&nbsp;                }
+&nbsp;            });
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int execute() throws JvmLauncherException
+&nbsp;    {
+<b class="fc">&nbsp;        start();</b>
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            if (this.process.waitFor(DefaultJvmLauncher.this.timeout, TimeUnit.MILLISECONDS))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                return this.process.exitValue();</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+&nbsp;                try
+&nbsp;                {
+<b class="nc">&nbsp;                    this.kill();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                catch (Throwable e)</b>
+&nbsp;                {
+&nbsp;                    // Ignore, we tried our best
+<b class="nc">&nbsp;                }</b>
+&nbsp;
+<b class="nc">&nbsp;                throw new JvmLauncherException(&quot;Java command [&quot; + this.getCommandLine()</b>
+&nbsp;                    + &quot;] did not complete after &quot; + DefaultJvmLauncher.this.timeout
+&nbsp;                        + &quot; milliseconds&quot;);
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        catch (InterruptedException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new JvmLauncherException(&quot;Failed waiting for process to end&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Forcefully kill the launched process using platform specific methods.
+&nbsp;     */
+&nbsp;    private void nativeKill()
+&nbsp;    {
+<b class="fc">&nbsp;        if (process == null)</b>
+&nbsp;        {
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        for (Field f : process.getClass().getDeclaredFields())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (&quot;pid&quot;.equals(f.getName()))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (makeFieldAccessible(f))</b>
+&nbsp;                {
+&nbsp;                    try
+&nbsp;                    {
+<b class="nc">&nbsp;                        int pid = f.getInt(process);</b>
+<b class="nc">&nbsp;                        Runtime.getRuntime().exec(</b>
+<b class="nc">&nbsp;                            new String[] {&quot;kill&quot;, &quot;-9&quot;, Integer.toString(pid)});</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    catch (Throwable e)</b>
+&nbsp;                    {
+&nbsp;                        // Ignore, we tried our best
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;            }
+<b class="fc">&nbsp;            else if (&quot;handle&quot;.equals(f.getName()))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (makeFieldAccessible(f))</b>
+&nbsp;                {
+&nbsp;                    try
+&nbsp;                    {
+<b class="nc">&nbsp;                        long handleId = f.getLong(process);</b>
+&nbsp;
+<b class="nc">&nbsp;                        Kernel32 kernel = Kernel32.INSTANCE;</b>
+<b class="nc">&nbsp;                        HANDLE handle = new HANDLE();</b>
+<b class="nc">&nbsp;                        handle.setPointer(Pointer.createConstant(handleId));</b>
+<b class="nc">&nbsp;                        int pid = kernel.GetProcessId(handle);</b>
+<b class="nc">&nbsp;                        Runtime.getRuntime().exec(</b>
+<b class="nc">&nbsp;                            new String[] {&quot;taskkill&quot;, &quot;/PID&quot;, Integer.toString(pid), &quot;/F&quot;});</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    catch (Throwable e)</b>
+&nbsp;                    {
+&nbsp;                        // Ignore, we tried our best
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets a given (private) field accessible, while remaining compatible with Java 8 and avoiding
+&nbsp;     * the &lt;code&gt;Illegal reflective access&lt;/code&gt; messages in Java 9 onwards.
+&nbsp;     * @param f Field to make accessible
+&nbsp;     * @return Whether changing field accessibility fails.
+&nbsp;     */
+&nbsp;    private boolean makeFieldAccessible(Field f)
+&nbsp;    {
+&nbsp;        // See: https://stackoverflow.com/questions/46454995/#58834966
+&nbsp;        Method getModule;
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            getModule = Class.class.getMethod(&quot;getModule&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (NoSuchMethodException e)</b>
+&nbsp;        {
+&nbsp;            // We are on Java 8
+<b class="nc">&nbsp;            getModule = null;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if (getModule != null)</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                Object thisModule = getModule.invoke(this.getClass());</b>
+<b class="fc">&nbsp;                Method isNamed = thisModule.getClass().getMethod(&quot;isNamed&quot;);</b>
+<b class="fc">&nbsp;                if (!(boolean) isNamed.invoke(thisModule))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    Class fieldClass = f.getDeclaringClass().getClass();</b>
+<b class="fc">&nbsp;                    Object fieldModule = getModule.invoke(fieldClass);</b>
+<b class="fc">&nbsp;                    Method addOpens = fieldModule.getClass().getMethod(</b>
+<b class="fc">&nbsp;                        &quot;addOpens&quot;, String.class, thisModule.getClass());</b>
+<b class="fc">&nbsp;                    Method getPackageName = fieldClass.getMethod(&quot;getPackageName&quot;);</b>
+<b class="fc">&nbsp;                    addOpens.invoke(fieldModule, getPackageName.invoke(fieldClass), thisModule);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            catch (Throwable t)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (t instanceof InvocationTargetException)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    InvocationTargetException e = (InvocationTargetException) t;</b>
+<b class="fc">&nbsp;                    if (e.getCause() != null</b>
+<b class="fc">&nbsp;                        &amp;&amp; e.getCause().getClass().getName().endsWith(&quot;IllegalCallerException&quot;))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        if (outputLogger != null)</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            outputLogger.debug(</b>
+<b class="fc">&nbsp;                                PROCESS_ATTRIBUTE_CHANGE_MESSAGE + e.getCause().getMessage(),</b>
+<b class="fc">&nbsp;                                    this.getClass().getName());</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                        t = null;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                if (t != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new CargoException(&quot;Cannot set field accessibility for [&quot; + f + &quot;]&quot;, t);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                return false;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            f.setAccessible(true);</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (t.getClass().getName().endsWith(&quot;InaccessibleObjectException&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (outputLogger != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    outputLogger.debug(</b>
+<b class="nc">&nbsp;                        PROCESS_ATTRIBUTE_CHANGE_MESSAGE + t.getMessage(),</b>
+<b class="nc">&nbsp;                            this.getClass().getName());</b>
+&nbsp;                }
+<b class="nc">&nbsp;                t = null;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (t != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new CargoException(&quot;Cannot set field accessibility for [&quot; + f + &quot;]&quot;, t);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Turn a string command line to an array of arguments. The logic takes into account the spaces
+&nbsp;     * between arguments, as well as single/double quotes for escaping arguments with spaces in
+&nbsp;     * them.
+&nbsp;     * @param toProcess the command line to process.
+&nbsp;     * @return the command line broken into strings.
+&nbsp;     * An empty or null toProcess parameter results in a zero sized array.
+&nbsp;     */
+&nbsp;    public static String[] translateCommandline(String toProcess)
+&nbsp;    {
+<b class="fc">&nbsp;        if (toProcess == null || toProcess.isEmpty())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return new String[0];</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        final int normal = 0;</b>
+<b class="fc">&nbsp;        final int inQuote = 1;</b>
+<b class="fc">&nbsp;        final int inDoubleQuote = 2;</b>
+<b class="fc">&nbsp;        int state = normal;</b>
+<b class="fc">&nbsp;        final StringTokenizer tok = new StringTokenizer(toProcess, &quot;\&quot;&#39; &quot;, true);</b>
+<b class="fc">&nbsp;        final List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        final StringBuilder current = new StringBuilder();</b>
+<b class="fc">&nbsp;        boolean lastTokenHasBeenQuoted = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        while (tok.hasMoreTokens())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String nextTok = tok.nextToken();</b>
+<b class="fc">&nbsp;            switch (state)</b>
+&nbsp;            {
+&nbsp;                case inQuote:
+<b class="fc">&nbsp;                    if (&quot;&#39;&quot;.equals(nextTok))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        lastTokenHasBeenQuoted = true;</b>
+<b class="fc">&nbsp;                        state = normal;</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="fc">&nbsp;                        current.append(nextTok);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                case inDoubleQuote:
+<b class="fc">&nbsp;                    if (&quot;\&quot;&quot;.equals(nextTok))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        lastTokenHasBeenQuoted = true;</b>
+<b class="fc">&nbsp;                        state = normal;</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="fc">&nbsp;                        current.append(nextTok);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;
+&nbsp;                default:
+<b class="fc">&nbsp;                    if (&quot;&#39;&quot;.equals(nextTok))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        state = inQuote;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    else if (&quot;\&quot;&quot;.equals(nextTok))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        state = inDoubleQuote;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    else if (&quot; &quot;.equals(nextTok))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        if (lastTokenHasBeenQuoted || current.length() &gt; 0)</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            result.add(current.toString());</b>
+<b class="fc">&nbsp;                            current.setLength(0);</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="fc">&nbsp;                        current.append(nextTok);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    lastTokenHasBeenQuoted = false;</b>
+&nbsp;                    break;
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if (lastTokenHasBeenQuoted || current.length() &gt; 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            result.add(current.toString());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (state == inQuote || state == inDoubleQuote)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new CargoException(&quot;unbalanced quotes in &quot; + toProcess);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return result.toArray(new String[result.size()]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

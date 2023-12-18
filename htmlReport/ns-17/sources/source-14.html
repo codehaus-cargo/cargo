@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DescriptorType</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: DescriptorType (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">DescriptorType</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.util.Collection;
+&nbsp;
+&nbsp;import org.jdom2.JDOMFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a &quot;type&quot; of descriptor - e.g. web.xml
+&nbsp; */
+&nbsp;public interface DescriptorType
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * @return XML Grammar for this descriptor.
+&nbsp;     */
+&nbsp;    Grammar getGrammar();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return JDOM Factory that can create typed descriptor elements.
+&nbsp;     */
+&nbsp;    JDOMFactory getJDOMFactory();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return class for serializing descriptors of this type.
+&nbsp;     */
+&nbsp;    DescriptorIo getDescriptorIo();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get a descriptor tag by name.
+&nbsp;     * 
+&nbsp;     * @param name the name of the tag
+&nbsp;     * @return the descriptor tag, or null if not found
+&nbsp;     */
+&nbsp;    DescriptorTag getTagByName(String name);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get all defined tags for this descriptor.
+&nbsp;     * 
+&nbsp;     * @return a collection of all the tags
+&nbsp;     */
+&nbsp;    Collection&lt;DescriptorTag&gt; getAllTags();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a descriptor tag into this descriptor.
+&nbsp;     * 
+&nbsp;     * @param tag the tag to add
+&nbsp;     */
+&nbsp;    void addTag(DescriptorTag tag);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

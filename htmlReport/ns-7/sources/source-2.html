@@ -1,0 +1,703 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ZipURLInstaller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.installer</a>
+</div>
+
+<h1>Coverage Summary for Class: ZipURLInstaller (org.codehaus.cargo.container.installer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ZipURLInstaller</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.2%
+  </span>
+  <span class="absValue">
+    (16/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.3%
+  </span>
+  <span class="absValue">
+    (128/193)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.installer;
+&nbsp;
+&nbsp;import java.io.BufferedInputStream;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.net.HttpURLConnection;
+&nbsp;import java.net.URL;
+&nbsp;import java.net.URLConnection;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.Base64;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.apache.commons.compress.archivers.ArchiveEntry;
+&nbsp;import org.apache.commons.compress.archivers.ArchiveInputStream;
+&nbsp;import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+&nbsp;import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry;
+&nbsp;import org.apache.commons.compress.archivers.sevenz.SevenZFile;
+&nbsp;import org.apache.commons.compress.compressors.CompressorException;
+&nbsp;import org.apache.commons.compress.compressors.CompressorStreamFactory;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Installs a compressed container file from a URL to a location on your local disk.&lt;br&gt;
+&nbsp; * &lt;br&gt;
+&nbsp; * Though the name of this class is &lt;code&gt;ZipURLInstaller&lt;/code&gt;, all formats supported by
+&nbsp; * &lt;a href=&quot;https://commons.apache.org/proper/commons-compress/&quot;
+&nbsp; * target=&quot;_blank&quot;&gt;commons-compress&lt;/a&gt; are supported.
+&nbsp; */
+&nbsp;public class ZipURLInstaller extends LoggedObject implements Installer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * URL where the compressed container is located.
+&nbsp;     */
+&nbsp;    private URL remoteLocation;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Destination directory where the compressed container install will be downloaded.
+&nbsp;     */
+&nbsp;    private String downloadDir;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Destination directory where the compressed container install will be extracted.
+&nbsp;     */
+&nbsp;    private String extractDir;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Proxy settings to use when downloading distributions.
+&nbsp;     */
+&nbsp;    private Proxy proxy;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * File utility class.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param remoteLocation URL where the compressed container is located
+&nbsp;     */
+&nbsp;    public ZipURLInstaller(URL remoteLocation)
+&nbsp;    {
+<b class="fc">&nbsp;        this(remoteLocation, null, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param remoteLocation URL where the compressed container is located
+&nbsp;     * @param downloadDir directory where the compressed container install will be downloaded.
+&nbsp;     * @param extractDir directory where the compressed container install will be extracted.
+&nbsp;     */
+&nbsp;    public ZipURLInstaller(URL remoteLocation, String downloadDir, String extractDir)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.remoteLocation = remoteLocation;</b>
+<b class="fc">&nbsp;        this.downloadDir = downloadDir;</b>
+<b class="fc">&nbsp;        this.extractDir = extractDir;</b>
+<b class="fc">&nbsp;        this.fileHandler = new DefaultFileHandler();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overriden in order to set the logger on ancillary components.
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * @param logger the logger to set and set in the ancillary objects
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setLogger(Logger logger)
+&nbsp;    {
+<b class="nc">&nbsp;        super.setLogger(logger);</b>
+<b class="nc">&nbsp;        this.fileHandler.setLogger(logger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param downloadDir the destination directory where the compressed container install will be
+&nbsp;     * downloaded.
+&nbsp;     */
+&nbsp;    public void setDownloadDir(String downloadDir)
+&nbsp;    {
+<b class="nc">&nbsp;        this.downloadDir = downloadDir;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param extractDir the destination directory where the compressed container install will be
+&nbsp;     * installed.
+&nbsp;     */
+&nbsp;    public void setExtractDir(String extractDir)
+&nbsp;    {
+<b class="fc">&nbsp;        this.extractDir = extractDir;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return The destination directory where the compressed container install will be downloaded.
+&nbsp;     */
+&nbsp;    public String getDownloadDir()
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.downloadDir == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return getFileHandler().getTmpPath(&quot;installs&quot;);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            return this.downloadDir;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return The destination file where the compressed container install will be downloaded.
+&nbsp;     */
+&nbsp;    public String getDownloadFile()
+&nbsp;    {
+<b class="nc">&nbsp;        return getFileHandler().append(getDownloadDir(), getSourceFileName());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return The destination directory where the compressed container install will be extracted.
+&nbsp;     */
+&nbsp;    public String getExtractDir()
+&nbsp;    {
+&nbsp;        String extractDir;
+&nbsp;
+<b class="fc">&nbsp;        if (this.extractDir == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            extractDir = getFileHandler().getTmpPath(&quot;installs&quot;);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            extractDir = this.extractDir;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String name = getSourceFileName();</b>
+&nbsp;
+<b class="fc">&nbsp;        int dotPos = name.lastIndexOf(&quot;.&quot;);</b>
+<b class="fc">&nbsp;        if (dotPos &gt; -1)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            name = name.substring(0, dotPos);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (name.endsWith(&quot;.tar&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            name = name.substring(0, name.length() - 4);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return getFileHandler().append(extractDir, name);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the file utility class to use for performing all file I/O.
+&nbsp;     */
+&nbsp;    public FileHandler getFileHandler()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the file utility class to use for performing all file I/O.
+&nbsp;     */
+&nbsp;    public void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="fc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see Installer#install()
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void install()
+&nbsp;    {
+<b class="fc">&nbsp;        if (!isAlreadyExtracted())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            getLogger().debug(&quot;Container [&quot; + getSourceFileName() + &quot;] is not yet installed.&quot;,</b>
+<b class="fc">&nbsp;                this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;            String targetFile = getFileHandler().append(getDownloadDir(), getSourceFileName());</b>
+<b class="fc">&nbsp;            if (getFileHandler().isDirectory(targetFile))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new ContainerException(</b>
+&nbsp;                    &quot;Target file [&quot; + targetFile + &quot;] already exists as a directory, either &quot;
+&nbsp;                        + &quot;delete it or change the ZipURLInstaller target folder or file name&quot;);
+&nbsp;            }
+<b class="fc">&nbsp;            if (!getFileHandler().exists(targetFile))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                getLogger().debug(&quot;Container [&quot; + getSourceFileName() + &quot;] is not yet downloaded.&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;                download();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                getLogger().debug(&quot;Container [&quot; + getSourceFileName()</b>
+<b class="fc">&nbsp;                    + &quot;] is downloaded, now unpacking.&quot;, this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;                unpack();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Exception e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                getLogger().debug(&quot;Container [&quot; + getSourceFileName() + &quot;] is broken.&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;                getFileHandler().delete(targetFile);</b>
+<b class="nc">&nbsp;                download();</b>
+&nbsp;                try
+&nbsp;                {
+<b class="nc">&nbsp;                    getLogger().debug(&quot;As the container was broken, also deleting [&quot;</b>
+<b class="nc">&nbsp;                        + getExtractDir() + &quot;] before extraction.&quot;, this.getClass().getName());</b>
+<b class="nc">&nbsp;                    getFileHandler().delete(getExtractDir());</b>
+&nbsp;
+<b class="nc">&nbsp;                    unpack();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                catch (Exception ee)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new ContainerException(</b>
+<b class="nc">&nbsp;                        &quot;Failed to unpack [&quot; + getSourceFileName() + &quot;]&quot;, ee);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+<b class="fc">&nbsp;            getLogger().debug(&quot;Container [&quot; + getSourceFileName()</b>
+<b class="fc">&nbsp;                + &quot;] is unpacked, now registering.&quot;, this.getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;            registerInstallation();</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().debug(&quot;Container [&quot; + getSourceFileName() + &quot;] is already installed&quot;,</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+<b class="nc">&nbsp;            getLogger().debug(&quot;Using container installation dir [&quot; + getExtractDir() + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                getClass().getName());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create timestamp file to register that the installation has been successful. This allows to
+&nbsp;     * prevent installing again next time. If the remote URL changes, then the container will be
+&nbsp;     * reinstalled.
+&nbsp;     */
+&nbsp;    public void registerInstallation()
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            getFileHandler().writeTextFile(getFileHandler().append(getExtractDir(), &quot;.cargo&quot;),</b>
+&nbsp;                &quot;Do not remove this file&quot;, StandardCharsets.UTF_8);
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+&nbsp;            // Failed to write timestamp. Too bad.
+&nbsp;            // The application will be installed again next time.
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if the container has already been downloaded, false otherwise
+&nbsp;     */
+&nbsp;    public boolean isAlreadyDownloaded()
+&nbsp;    {
+<b class="nc">&nbsp;        boolean isDownloaded = false;</b>
+<b class="nc">&nbsp;        String targetFile = getFileHandler().append(getDownloadDir(), getSourceFileName());</b>
+<b class="nc">&nbsp;        if (getFileHandler().exists(targetFile))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            isDownloaded = true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return isDownloaded;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return true if the container has already been extracted, false otherwise
+&nbsp;     */
+&nbsp;    public boolean isAlreadyExtracted()
+&nbsp;    {
+<b class="fc">&nbsp;        boolean isExtracted = false;</b>
+<b class="fc">&nbsp;        String timestampFile = getFileHandler().append(getExtractDir(), &quot;.cargo&quot;);</b>
+<b class="fc">&nbsp;        if (getFileHandler().exists(timestampFile))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            isExtracted = true;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return isExtracted;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getHome()
+&nbsp;    {
+&nbsp;        String home;
+&nbsp;
+<b class="fc">&nbsp;        if (!isAlreadyExtracted())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ContainerException(&quot;Failed to get container installation home as the &quot;</b>
+&nbsp;                + &quot;container has not yet been installed. Please call install() first.&quot;);
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String targetDir = getExtractDir();</b>
+<b class="fc">&nbsp;        String[] files = getFileHandler().getChildren(targetDir);</b>
+<b class="fc">&nbsp;        int nbDirectories = 0;</b>
+<b class="fc">&nbsp;        String foundDirectory = null;</b>
+<b class="fc">&nbsp;        for (String file : files)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (getFileHandler().isDirectory(file)</b>
+<b class="fc">&nbsp;                &amp;&amp; !&quot;PaxHeaders.X&quot;.equals(getFileHandler().getName(file)))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                nbDirectories++;</b>
+<b class="fc">&nbsp;                foundDirectory = file;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        // If the unpacking has revealed only 1 directory, then it&#39;s the home dir. Otherwise, it
+&nbsp;        // means the packing of the compressed files did not have a root dir.
+<b class="fc">&nbsp;        if (nbDirectories != 1)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            home = targetDir;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            home = foundDirectory;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return home;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Unpacks the compressed file containing the container files.
+&nbsp;     * @throws Exception If the compressed file is broken
+&nbsp;     */
+&nbsp;    private void unpack() throws Exception
+&nbsp;    {
+<b class="fc">&nbsp;        String source = getFileHandler().append(getDownloadDir(), getSourceFileName());</b>
+<b class="fc">&nbsp;        getLogger().info(</b>
+<b class="fc">&nbsp;            &quot;Installing container [&quot; + source + &quot;] in [&quot; + getExtractDir() + &quot;]&quot;,</b>
+<b class="fc">&nbsp;                getClass().getName());</b>
+&nbsp;
+<b class="fc">&nbsp;        if (source.endsWith(&quot;.7z&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            SevenZFile sevenZFile = new SevenZFile(new File(source));</b>
+&nbsp;            SevenZArchiveEntry sevenZEntry;
+<b class="fc">&nbsp;            while ((sevenZEntry = sevenZFile.getNextEntry()) != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String destinationEntry =</b>
+<b class="fc">&nbsp;                    getFileHandler().append(getExtractDir(),</b>
+<b class="fc">&nbsp;                        DefaultFileHandler.sanitizeFilename(sevenZEntry.getName(), getLogger()));</b>
+<b class="fc">&nbsp;                if (sevenZEntry.isDirectory())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    getFileHandler().mkdirs(destinationEntry);</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    String parent = getFileHandler().getParent(destinationEntry);</b>
+<b class="fc">&nbsp;                    if (!getFileHandler().isDirectory(parent))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        getFileHandler().mkdirs(parent);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    try (OutputStream destinationFileOutputStream =</b>
+<b class="fc">&nbsp;                        getFileHandler().getOutputStream(destinationEntry))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        byte[] sevenZContent = new byte[DefaultFileHandler.FILE_BUFFER_SIZE];</b>
+&nbsp;                        int length;
+<b class="fc">&nbsp;                        while ((length = sevenZFile.read(sevenZContent)) != -1)</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            destinationFileOutputStream.write(sevenZContent, 0, length);</b>
+&nbsp;                        }
+<b class="fc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            try (BufferedInputStream sourceInputStream =</b>
+<b class="fc">&nbsp;                new BufferedInputStream(getFileHandler().getInputStream(source)))</b>
+&nbsp;            {
+&nbsp;                boolean compressedStream;
+&nbsp;                try
+&nbsp;                {
+<b class="fc">&nbsp;                    CompressorStreamFactory.detect(sourceInputStream);</b>
+<b class="fc">&nbsp;                    compressedStream = true;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                catch (CompressorException e)</b>
+&nbsp;                {
+&nbsp;                    // Source is not a compressed stream
+<b class="fc">&nbsp;                    compressedStream = false;</b>
+<b class="fc">&nbsp;                }</b>
+&nbsp;
+<b class="fc">&nbsp;                if (compressedStream)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    CompressorStreamFactory csf = new CompressorStreamFactory();</b>
+<b class="fc">&nbsp;                    try (BufferedInputStream decompressedInputStream =</b>
+&nbsp;                        new BufferedInputStream(
+<b class="fc">&nbsp;                            csf.createCompressorInputStream(sourceInputStream)))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        unpackStream(decompressedInputStream);</b>
+<b class="fc">&nbsp;                    }</b>
+<b class="fc">&nbsp;                }</b>
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    unpackStream(sourceInputStream);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handles the unpacking of the stream.
+&nbsp;     * @param sourceInputStream Source input stream, must be decompressed (if TAR.GZ for example).
+&nbsp;     * @throws Exception If the compressed file is broken
+&nbsp;     */
+&nbsp;    private void unpackStream(InputStream sourceInputStream) throws Exception
+&nbsp;    {
+<b class="fc">&nbsp;        ArchiveStreamFactory asf = new ArchiveStreamFactory();</b>
+<b class="fc">&nbsp;        try (ArchiveInputStream dearchivedInputStream =</b>
+<b class="fc">&nbsp;            asf.createArchiveInputStream(sourceInputStream))</b>
+&nbsp;        {
+&nbsp;            ArchiveEntry archiveEntry;
+<b class="fc">&nbsp;            while ((archiveEntry = dearchivedInputStream.getNextEntry()) != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String destinationEntry =</b>
+<b class="fc">&nbsp;                    getFileHandler().append(getExtractDir(),</b>
+<b class="fc">&nbsp;                        DefaultFileHandler.sanitizeFilename(archiveEntry.getName(), getLogger()));</b>
+<b class="fc">&nbsp;                if (archiveEntry.isDirectory())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    getFileHandler().mkdirs(destinationEntry);</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    String parent = getFileHandler().getParent(destinationEntry);</b>
+<b class="fc">&nbsp;                    if (!getFileHandler().isDirectory(parent))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        getFileHandler().mkdirs(parent);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    try (OutputStream destinationFileOutputStream =</b>
+<b class="fc">&nbsp;                        getFileHandler().getOutputStream(destinationEntry))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        getFileHandler().copy(dearchivedInputStream, destinationFileOutputStream);</b>
+<b class="fc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Downloads the compressed file containing the container files.
+&nbsp;     */
+&nbsp;    public void download()
+&nbsp;    {
+&nbsp;        // Try once with the proxy settings on (if set up by the user) and if it doesn&#39;t work,
+&nbsp;        // try again with the previous proxy settings
+<b class="fc">&nbsp;        Map&lt;String, String&gt; previousProperties = null;</b>
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            if (this.proxy != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                previousProperties = this.proxy.configure();</b>
+&nbsp;            }
+<b class="fc">&nbsp;            doDownload();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (this.proxy != null)</b>
+&nbsp;            {
+&nbsp;                try
+&nbsp;                {
+<b class="fc">&nbsp;                    this.proxy.clear(previousProperties);</b>
+<b class="fc">&nbsp;                    doDownload();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                catch (Exception ee)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    throw new ContainerException(</b>
+&nbsp;                        &quot;Failed to download [&quot; + this.remoteLocation + &quot;]&quot;, ee);
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                throw new ContainerException(</b>
+&nbsp;                    &quot;Failed to download [&quot; + this.remoteLocation + &quot;]&quot;, e);
+&nbsp;            }
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="fc">&nbsp;            if (this.proxy != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                this.proxy.clear(previousProperties);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Perform the actual HTTP download.
+&nbsp;     * @throws IOException if any I/O exception occurs (with the URL connection or file streams)
+&nbsp;     */
+&nbsp;    protected void doDownload() throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        String downloadDir = getDownloadDir();</b>
+<b class="nc">&nbsp;        if (!getFileHandler().exists(downloadDir))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getFileHandler().mkdirs(downloadDir);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String target = getFileHandler().append(downloadDir, getSourceFileName());</b>
+&nbsp;
+<b class="nc">&nbsp;        getLogger().info(&quot;Downloading container from [&quot; + this.remoteLocation + &quot;] to [&quot;</b>
+<b class="nc">&nbsp;            + target + &quot;]&quot;, getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        final URLConnection connection = this.remoteLocation.openConnection();</b>
+<b class="nc">&nbsp;        connection.addRequestProperty(&quot;Accept&quot;, &quot;*/*&quot;);</b>
+<b class="nc">&nbsp;        connection.addRequestProperty(&quot;Accept-Encoding&quot;, &quot;identity&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        connection.setUseCaches(false);</b>
+<b class="nc">&nbsp;        if (connection instanceof HttpURLConnection)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            HttpURLConnection httpConnection = (HttpURLConnection) connection;</b>
+<b class="nc">&nbsp;            httpConnection.setInstanceFollowRedirects(true);</b>
+&nbsp;
+<b class="nc">&nbsp;            String userInfo = this.remoteLocation.getUserInfo();</b>
+<b class="nc">&nbsp;            if (userInfo != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                connection.setRequestProperty(&quot;Authorization&quot;, &quot;Basic &quot;</b>
+<b class="nc">&nbsp;                    + Base64.getEncoder().encodeToString(</b>
+<b class="nc">&nbsp;                        userInfo.getBytes(StandardCharsets.UTF_8)));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        try (InputStream httpStream = connection.getInputStream();</b>
+<b class="nc">&nbsp;            OutputStream fileStream = getFileHandler().getOutputStream(target))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getFileHandler().copy(httpStream, fileStream);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        final long remoteTimestamp = connection.getLastModified();</b>
+<b class="nc">&nbsp;        if (remoteTimestamp != 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            File targetFile = new File(target);</b>
+<b class="nc">&nbsp;            targetFile.setLastModified(remoteTimestamp);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the name of the source compressed file (without the path)
+&nbsp;     */
+&nbsp;    protected String getSourceFileName()
+&nbsp;    {
+<b class="fc">&nbsp;        int slashPos = this.remoteLocation.getPath().lastIndexOf(&#39;/&#39;);</b>
+<b class="fc">&nbsp;        String name = this.remoteLocation.getPath();</b>
+<b class="fc">&nbsp;        if (slashPos &gt; -1)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            name = this.remoteLocation.getPath().substring(slashPos + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets proxy details.
+&nbsp;     * 
+&nbsp;     * @param proxy the proxy configuration to set
+&nbsp;     */
+&nbsp;    public void setProxy(Proxy proxy)
+&nbsp;    {
+<b class="fc">&nbsp;        this.proxy = proxy;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

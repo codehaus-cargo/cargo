@@ -1,0 +1,287 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > JvmLauncher</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.jvm</a>
+</div>
+
+<h1>Coverage Summary for Class: JvmLauncher (org.codehaus.cargo.container.spi.jvm)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">JvmLauncher</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.jvm;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * A JVM launcher is responsible to fork a JVM.
+&nbsp; */
+&nbsp;public interface JvmLauncher
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Sets the working directory for the forked JVM.
+&nbsp;     * 
+&nbsp;     * @param workingDirectory The working directory for the forked JVM, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setWorkingDirectory(File workingDirectory);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the command to launch the JVM.
+&nbsp;     * 
+&nbsp;     * @param command The command to lauch the JVM, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setJvm(String command);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified pathname as an argument to the JVM.
+&nbsp;     * 
+&nbsp;     * @param file The pathname to add, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addJvmArgument(File file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified values as arguments to the JVM.
+&nbsp;     * 
+&nbsp;     * @param values The values to add, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addJvmArguments(String... values);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified comma separated argument line as arguments to the JVM.
+&nbsp;     * 
+&nbsp;     * @param line The arguments to add, may be be {@code null}.
+&nbsp;     */
+&nbsp;    void addJvmArgumentLine(String line);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified paths to the system classpath of the JVM.
+&nbsp;     * 
+&nbsp;     * @param paths The classpath entries, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addClasspathEntries(String... paths);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified paths to the system classpath of the JVM.
+&nbsp;     * 
+&nbsp;     * @param paths The classpath entries, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addClasspathEntries(File... paths);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the currently configured system classpath.
+&nbsp;     * 
+&nbsp;     * @return The currently configured system classpath, never {@code null}.
+&nbsp;     */
+&nbsp;    String getClasspath();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets a system property for the JVM.
+&nbsp;     * 
+&nbsp;     * @param name The property name, may be {@code null}.
+&nbsp;     * @param value The property value, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setSystemProperty(String name, String value);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets an environment variable for the JVM.
+&nbsp;     * 
+&nbsp;     * @param name The variable name, may be {@code null}.
+&nbsp;     * @param value The property value, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setEnvironmentVariable(String name, String value);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets an environment variable, as configured for the JVM. In case of manipulation of an
+&nbsp;     * existing variable, instead of replacing it (eg: when adding an additional directory to PATH)
+&nbsp;     * it is recommended to retrieve the value using this method instead of using
+&nbsp;     * {@link java.lang.System#getenv(java.lang.String)}.
+&nbsp;     * 
+&nbsp;     * @param name The variable name, may be {@code null}.
+&nbsp;     * @return Either the previously set value, the system value or null.
+&nbsp;     */
+&nbsp;    String getEnvironmentVariable(String name);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the JAR file containing the main class to execute. Only one of {@link #setJarFile(File)}
+&nbsp;     * and {@link #setMainClass(String)} may be invoked.
+&nbsp;     * 
+&nbsp;     * @param jarFile The JAR file to execute, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setJarFile(File jarFile);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the qualified name of the Java class to execute. Only one of {@link #setJarFile(File)}
+&nbsp;     * and {@link #setMainClass(String)} may be invoked.
+&nbsp;     * 
+&nbsp;     * @param mainClass The qualified name of the Java class to execute, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setMainClass(String mainClass);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified pathname as an argument to the application.
+&nbsp;     * 
+&nbsp;     * @param file The pathname to add, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addAppArgument(File file);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified values as arguments to the application.
+&nbsp;     * 
+&nbsp;     * @param values The values to add, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addAppArguments(String... values);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the specified comma separated argument line as arguments to the application.
+&nbsp;     * 
+&nbsp;     * @param line The arguments to add, may be {@code null}.
+&nbsp;     */
+&nbsp;    void addAppArgumentLine(String line);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the file to which the output of the JVM is redirected.
+&nbsp;     * 
+&nbsp;     * @param outputFile The file to which the output of the JVM is redirected, may be {@code null}.
+&nbsp;     */
+&nbsp;    void setOutputFile(File outputFile);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Controls whether the redirected output should be appended to an existing output file (if
+&nbsp;     * any).
+&nbsp;     * 
+&nbsp;     * @param appendOutput {@code true} to append the output, {@code false} to overwrite the file.
+&nbsp;     * @see #setOutputFile(File)
+&nbsp;     */
+&nbsp;    void setAppendOutput(boolean appendOutput);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the logger to which the output of the JVM is redirected.
+&nbsp;     * 
+&nbsp;     * @param outputLogger The logger to which the output of the JVM is redirected, may be
+&nbsp;     * {@code null}.
+&nbsp;     * @param category the log category to use when logging the JVM&#39;s outputs, should not be
+&nbsp;     * {@code null}.
+&nbsp;     */
+&nbsp;    void setOutputLogger(Logger outputLogger, String category);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets a string representation of the currently configured command line.
+&nbsp;     * 
+&nbsp;     * @return The currently configured command line, never {@code null}.
+&nbsp;     */
+&nbsp;    String getCommandLine();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Forcibly kill the process that was launched, if supported by the JvmLauncher implementation.
+&nbsp;     */
+&nbsp;    void kill();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the timeout in milliseconds after which the process will be killed if still running.
+&nbsp;     * 
+&nbsp;     * @param millis The timeout, may be non-positive to disable process watching.
+&nbsp;     */
+&nbsp;    void setTimeout(long millis);
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  Sets whether the JVM should be launched in spawn mode
+&nbsp;     * 
+&nbsp;     * @param spawn {@code true} to launch JVM in spawn, {@code false} to launch normal JVM.
+&nbsp;     */
+&nbsp;    void setSpawn(boolean spawn);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Launches a JVM according to the configuration of this launcher. The method returns as soon as
+&nbsp;     * the JVM got launched and does not wait for its termination.
+&nbsp;     * 
+&nbsp;     * @throws JvmLauncherException If the JVM could not be launched.
+&nbsp;     */
+&nbsp;    void start() throws JvmLauncherException;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Launches a JVM according to the configuration of this launcher and waits for its termination.
+&nbsp;     * 
+&nbsp;     * @return The exit code of the JVM.
+&nbsp;     * @throws JvmLauncherException If the JVM could not be launched.
+&nbsp;     */
+&nbsp;    int execute() throws JvmLauncherException;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

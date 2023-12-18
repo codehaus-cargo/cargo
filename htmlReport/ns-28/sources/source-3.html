@@ -1,0 +1,294 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WeblogicXmlTag</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.weblogic</a>
+</div>
+
+<h1>Coverage Summary for Class: WeblogicXmlTag (org.codehaus.cargo.module.webapp.weblogic)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WeblogicXmlTag</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.weblogic;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.DescriptorTag;
+&nbsp;import org.codehaus.cargo.module.DescriptorType;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents the various top-level tags in a web deployment descriptor as a typesafe enumeration.
+&nbsp; */
+&nbsp;public class WeblogicXmlTag extends DescriptorTag
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Element name &#39;description&#39;.
+&nbsp;     */
+&nbsp;    public static final String DESCRIPTION = &quot;description&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;weblogic-version&#39;.
+&nbsp;     */
+&nbsp;    public static final String WEBLOGIC_VERSION = &quot;weblogic-version&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;security-role-assignment&#39;.
+&nbsp;     */
+&nbsp;    public static final String SECURITY_ROLE_ASSIGNMENT =
+&nbsp;        &quot;security-role-assignment&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;run-as-role-assignment&#39;.
+&nbsp;     */
+&nbsp;    public static final String RUN_AS_ROLE_ASSIGNMENT =
+&nbsp;        &quot;run-as-role-assignment&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;reference-descriptor&#39;.
+&nbsp;     */
+&nbsp;    public static final String REFERENCE_DESCRIPTOR =
+&nbsp;        &quot;reference-descriptor&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;session-descriptor&#39;.
+&nbsp;     */
+&nbsp;    public static final String SESSION_DESCRIPTOR =
+&nbsp;        &quot;session-descriptor&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;jsp-descriptor&#39;.
+&nbsp;     */
+&nbsp;    public static final String JSP_DESCRIPTOR = &quot;jsp-descriptor&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;auth-filter&#39;.
+&nbsp;     */
+&nbsp;    public static final String AUTH_FILTER = &quot;auth-filter&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;container-descriptor&#39;.
+&nbsp;     */
+&nbsp;    public static final String CONTAINER_DESCRIPTOR =
+&nbsp;        &quot;container-descriptor&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;charset-params&#39;.
+&nbsp;     */
+&nbsp;    public static final String CHARSET_PARAMS = &quot;charset-params&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;virtual-directory-mapping&#39;.
+&nbsp;     */
+&nbsp;    public static final String VIRTUAL_DIRECTORY_MAPPING =
+&nbsp;        &quot;virtual-directory-mapping&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;url-match-map&#39;.
+&nbsp;     */
+&nbsp;    public static final String URL_MATCH_MAP = &quot;url-match-map&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;preprocessor&#39;.
+&nbsp;     */
+&nbsp;    public static final String PREPROCESSOR = &quot;preprocessor&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;preprocessor-mapping&#39;.
+&nbsp;     */
+&nbsp;    public static final String PREPROCESSOR_MAPPING =
+&nbsp;        &quot;preprocessor-mapping&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;security-permission&#39;.
+&nbsp;     */
+&nbsp;    public static final String SECURITY_PERMISSION =
+&nbsp;        &quot;security-permission&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;context-root&#39;.
+&nbsp;     */
+&nbsp;    public static final String CONTEXT_ROOT = &quot;context-root&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;wl-dispatch-policy&#39;.
+&nbsp;     */
+&nbsp;    public static final String WL_DISPATCH_POLICY =
+&nbsp;        &quot;wl-dispatch-policy&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;servlet-descriptor&#39;.
+&nbsp;     */
+&nbsp;    public static final String SERVLET_DESCRIPTOR =
+&nbsp;        &quot;servlet-descriptor&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;init-as&#39;.
+&nbsp;     */
+&nbsp;    public static final String INIT_AS = &quot;init-as&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;destroy-as&#39;.
+&nbsp;     */
+&nbsp;    public static final String DESTROY_AS = &quot;destroy-as&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;resource-description&#39;.
+&nbsp;     */
+&nbsp;    public static final String RESOURCE_DESCRIPTION =
+&nbsp;        &quot;resource-description&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;resource-env-description&#39;.
+&nbsp;     */
+&nbsp;    public static final String RESOURCE_ENV_DESCRIPTION =
+&nbsp;        &quot;resource-env-description&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-reference-description&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_REFERENCE_DESCRIPTION =
+&nbsp;        &quot;ejb-reference-description&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;ejb-ref-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String EJB_REF_NAME = &quot;ejb-ref-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Element name &#39;jndi-name&#39;.
+&nbsp;     */
+&nbsp;    public static final String JNDI_NAME = &quot;jndi-name&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param type Descriptor type
+&nbsp;     * @param tagName The tag name of the element
+&nbsp;     * @param isMultipleAllowed Whether the element may occur multiple times in the descriptor
+&nbsp;     */
+&nbsp;    protected WeblogicXmlTag(DescriptorType type, String tagName, boolean isMultipleAllowed)
+&nbsp;    {
+<b class="nc">&nbsp;        super(type, tagName, isMultipleAllowed);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param type Descriptor type
+&nbsp;     * @param tagName The tag name of the element
+&nbsp;     */
+&nbsp;    protected WeblogicXmlTag(DescriptorType type, String tagName)
+&nbsp;    {
+<b class="nc">&nbsp;        this(type, tagName, true);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

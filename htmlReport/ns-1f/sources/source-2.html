@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ChooseByNameMergeStrategy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.merge.tagstrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: ChooseByNameMergeStrategy (org.codehaus.cargo.module.merge.tagstrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChooseByNameMergeStrategy</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.merge.tagstrategy;
+&nbsp;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.Descriptor;
+&nbsp;import org.codehaus.cargo.module.DescriptorElement;
+&nbsp;import org.codehaus.cargo.module.Identifier;
+&nbsp;
+&nbsp;/**
+&nbsp; * A merging strategy that is determined by name.
+&nbsp; */
+&nbsp;public class ChooseByNameMergeStrategy extends AbstractChoiceMergeStrategy
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The default strategy to use.
+&nbsp;     */
+&nbsp;    private MergeStrategy defaultStrategy;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Map of named values to use.
+&nbsp;     */
+&nbsp;    private Map&lt;String, MergeStrategy&gt; strategyMap;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param defaultStrategy in the default strategy to use
+&nbsp;     */
+&nbsp;    public ChooseByNameMergeStrategy(MergeStrategy defaultStrategy)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.defaultStrategy = defaultStrategy;</b>
+<b class="nc">&nbsp;        this.strategyMap = new HashMap&lt;String, MergeStrategy&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If the element has this name, then use this strategy.
+&nbsp;     * 
+&nbsp;     * @param name in the name
+&nbsp;     * @param strategy in the strategy
+&nbsp;     */
+&nbsp;    public void addStrategyForName(String name, MergeStrategy strategy)
+&nbsp;    {
+<b class="nc">&nbsp;        this.strategyMap.put(name, strategy);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    MergeStrategy getApplicableStrategy(Descriptor set, DescriptorElement element)
+&nbsp;    {
+<b class="nc">&nbsp;        Identifier id = element.getTag().getIdentifier();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (id != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String identityValue = id.getIdentifier(element);</b>
+<b class="nc">&nbsp;            if (this.strategyMap.containsKey(identityValue))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return this.strategyMap.get(identityValue);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return this.defaultStrategy;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

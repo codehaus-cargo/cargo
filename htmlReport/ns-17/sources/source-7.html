@@ -1,0 +1,314 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Dtd</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: Dtd (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Dtd</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.2%
+  </span>
+  <span class="absValue">
+    (13/18)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Dtd$1</td>
+  </tr>
+  <tr>
+    <td class="name">Dtd$DtdHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13%
+  </span>
+  <span class="absValue">
+    (3/23)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    37.5%
+  </span>
+  <span class="absValue">
+    (3/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    39%
+  </span>
+  <span class="absValue">
+    (16/41)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.io.ByteArrayInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;
+&nbsp;import javax.xml.parsers.ParserConfigurationException;
+&nbsp;import javax.xml.parsers.SAXParser;
+&nbsp;import javax.xml.parsers.SAXParserFactory;
+&nbsp;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;import org.xml.sax.SAXNotRecognizedException;
+&nbsp;import org.xml.sax.XMLReader;
+&nbsp;import org.xml.sax.ext.DeclHandler;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contains methods for getting information from a dtd.
+&nbsp; */
+&nbsp;public class Dtd implements Grammar
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Map containing all possible tag name as keys and the tags that they can contain as a List of
+&nbsp;     * {@link DescriptorTag}s. The list is ordered in the order that the tag can appear accordingly
+&nbsp;     * to the DTD.
+&nbsp;     */
+&nbsp;    private Map&lt;String, List&lt;DescriptorTag&gt;&gt; elementOrders;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of the SAX DeclHandler interface for parsing the DTD.
+&nbsp;     */
+<b class="fc">&nbsp;    private static class DtdHandler implements DeclHandler</b>
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * Map containing all possible tag name as keys and the tags that they can contain as a List
+&nbsp;         * of {@link DescriptorTag}s. The list is ordered in the order that the tag can appear
+&nbsp;         * accordingly to the DTD.
+&nbsp;         */
+<b class="fc">&nbsp;        private Map&lt;String, List&lt;DescriptorTag&gt;&gt; elementOrders =</b>
+&nbsp;            new HashMap&lt;String, List&lt;DescriptorTag&gt;&gt;();
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see org.xml.sax.ext.DeclHandler#attributeDecl(java.lang.String, java.lang.String,
+&nbsp;         * java.lang.String, java.lang.String, java.lang.String)
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void attributeDecl(String eName, String aName, String type, String mode,
+&nbsp;            String value)
+&nbsp;        {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see org.xml.sax.ext.DeclHandler#elementDecl(java.lang.String, java.lang.String)
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void elementDecl(String name, String model)
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;DescriptorTag&gt; elements = new ArrayList&lt;DescriptorTag&gt;();</b>
+<b class="nc">&nbsp;            if (!model.equals(&quot;EMPTY&quot;)</b>
+<b class="nc">&nbsp;                &amp;&amp; !model.equals(&quot;(#PCDATA)&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                StringTokenizer st = new StringTokenizer(model, &quot;,()| &quot;);</b>
+<b class="nc">&nbsp;                while (st.hasMoreTokens())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    boolean multipleAllowed = false;</b>
+<b class="nc">&nbsp;                    String element = st.nextToken();</b>
+<b class="nc">&nbsp;                    if (element.endsWith(&quot;*&quot;)</b>
+<b class="nc">&nbsp;                        || element.endsWith(&quot;+&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        element = element.substring(0, element.length() - 1);</b>
+<b class="nc">&nbsp;                        multipleAllowed = true;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if (element.endsWith(&quot;?&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        element = element.substring(0, element.length() - 1);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    DescriptorTag tag = new DescriptorTag(null, element, multipleAllowed);</b>
+<b class="nc">&nbsp;                    elements.add(tag);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;            this.elementOrders.put(name, elements);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see org.xml.sax.ext.DeclHandler#externalEntityDecl(java.lang.String, java.lang.String,
+&nbsp;         * java.lang.String)
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void externalEntityDecl(String name, String publicId, String systemId)
+&nbsp;        {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see org.xml.sax.ext.DeclHandler#internalEntityDecl(java.lang.String, java.lang.String)
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void internalEntityDecl(String name, String value)
+&nbsp;        {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * @return Returns the elementOrders.
+&nbsp;         */
+&nbsp;        public Map&lt;String, List&lt;DescriptorTag&gt;&gt; getElementOrders()
+&nbsp;        {
+<b class="fc">&nbsp;            return this.elementOrders;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Contructor.
+&nbsp;     * 
+&nbsp;     * @param dtdPath path (URL) of the dtd to parse
+&nbsp;     */
+&nbsp;    public Dtd(String dtdPath)
+<b class="fc">&nbsp;    {</b>
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            SAXParserFactory factory = SAXParserFactory.newInstance();</b>
+<b class="fc">&nbsp;            SAXParser parser = factory.newSAXParser();</b>
+<b class="fc">&nbsp;            XMLReader reader = parser.getXMLReader();</b>
+<b class="fc">&nbsp;            reader.setEntityResolver(new XmlEntityResolver());</b>
+<b class="fc">&nbsp;            DtdHandler dtdHandler = new DtdHandler();</b>
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                reader.setProperty(</b>
+&nbsp;                    &quot;http://xml.org/sax/properties/declaration-handler&quot;, dtdHandler);
+&nbsp;            }
+<b class="nc">&nbsp;            catch (SAXNotRecognizedException e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new SAXException(e);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+<b class="fc">&nbsp;            String xml = &quot;&lt;!DOCTYPE dummy SYSTEM \&quot;&quot; + dtdPath + &quot;\&quot;&gt;&lt;dummy/&gt;&quot;;</b>
+<b class="fc">&nbsp;            reader.parse(</b>
+<b class="fc">&nbsp;                new InputSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));</b>
+<b class="fc">&nbsp;            this.elementOrders = dtdHandler.getElementOrders();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException | ParserConfigurationException | SAXException e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new DtdParseException(&quot;Failed to read dtd&quot;, e);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;DescriptorTag&gt; getElementOrder(String tagName)
+&nbsp;    {
+<b class="nc">&nbsp;        return this.elementOrders.get(tagName);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

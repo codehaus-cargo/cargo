@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EjbJarXmlIo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.ejb</a>
+</div>
+
+<h1>Coverage Summary for Class: EjbJarXmlIo (org.codehaus.cargo.module.ejb)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EjbJarXmlIo</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">EjbJarXmlIo$1</td>
+  </tr>
+  <tr>
+    <td class="name">EjbJarXmlIo$EjbJarXmlEntityResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.ejb;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.AbstractDescriptorIo;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;import org.jdom2.input.SAXBuilder;
+&nbsp;import org.xml.sax.EntityResolver;
+&nbsp;import org.xml.sax.InputSource;
+&nbsp;import org.xml.sax.SAXException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provides convenience methods for reading and writing ejb deployment descriptors (ejb-jar.xml).
+&nbsp; */
+&nbsp;public class EjbJarXmlIo extends AbstractDescriptorIo
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Protected constructor.
+&nbsp;     */
+&nbsp;    protected EjbJarXmlIo()
+&nbsp;    {
+<b class="nc">&nbsp;        super(EjbJarXmlType.getInstance());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of the SAX EntityResolver interface that looks up the application DTDs from
+&nbsp;     * the JAR.
+&nbsp;     */
+<b class="nc">&nbsp;    private static class EjbJarXmlEntityResolver implements EntityResolver</b>
+&nbsp;    {
+&nbsp;        /**
+&nbsp;         * {@inheritDoc}
+&nbsp;         * @see org.xml.sax.EntityResolver#resolveEntity
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public InputSource resolveEntity(String thePublicId, String theSystemId)
+&nbsp;            throws SAXException, IOException
+&nbsp;        {
+<b class="nc">&nbsp;            EjbJarXmlVersion version = EjbJarXmlVersion.valueOf(thePublicId);</b>
+<b class="nc">&nbsp;            if (version != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String fileName = version.getSystemId().substring(</b>
+<b class="nc">&nbsp;                    version.getSystemId().lastIndexOf(&#39;/&#39;));</b>
+<b class="nc">&nbsp;                InputStream in = this.getClass().getResourceAsStream(</b>
+&nbsp;                    &quot;/org/codehaus/cargo/module/internal/resource&quot; + fileName);
+<b class="nc">&nbsp;                if (in != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    return new InputSource(in);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a deployment descriptor provided as input stream.
+&nbsp;     * 
+&nbsp;     * @param input The input stream
+&nbsp;     * @param entityResolver A SAX entity resolver, or &lt;code&gt;null&lt;/code&gt; to use the default
+&nbsp;     * @return The parsed descriptor
+&nbsp;     * @throws IOException If an I/O error occurs
+&nbsp;     * @throws JDOMException If the XML parser was not correctly configured
+&nbsp;     */
+&nbsp;    public static EjbJarXml parseEjbJarXml(InputStream input,
+&nbsp;        EntityResolver entityResolver)
+&nbsp;        throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        EjbJarXmlIo io = new EjbJarXmlIo();</b>
+<b class="nc">&nbsp;        SAXBuilder builder = io.createDocumentBuilder();</b>
+<b class="nc">&nbsp;        if (entityResolver != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            builder.setEntityResolver(entityResolver);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            builder.setEntityResolver(new EjbJarXmlEntityResolver());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return (EjbJarXml) builder.build(input);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

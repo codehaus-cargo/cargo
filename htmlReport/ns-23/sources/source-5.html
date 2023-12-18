@@ -1,0 +1,509 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WebXmlMerger</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.merge</a>
+</div>
+
+<h1>Coverage Summary for Class: WebXmlMerger (org.codehaus.cargo.module.webapp.merge)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebXmlMerger</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/150)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Copyright 2003-2004 The Apache Software Foundation. Code from this file
+&nbsp; * was originally imported from the Jakarta Cactus project.
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.merge;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.Descriptor;
+&nbsp;import org.codehaus.cargo.module.XmlMerger;
+&nbsp;import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
+&nbsp;import org.codehaus.cargo.module.merge.MergeException;
+&nbsp;import org.codehaus.cargo.module.merge.tagstrategy.MergeStrategy;
+&nbsp;import org.codehaus.cargo.module.webapp.VendorWebAppDescriptor;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXml;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlType;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlUtils;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlVersion;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.MimeMapping;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; * Helper class that can merge two web deployment descriptors.
+&nbsp; */
+&nbsp;public class WebXmlMerger extends XmlMerger
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The original, authorative descriptor onto which the merges are performed.
+&nbsp;     */
+&nbsp;    private WebXml webXml;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Our merger.
+&nbsp;     */
+&nbsp;    private DescriptorMergerByTag descriptorMergerByTag;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     */
+&nbsp;    public WebXmlMerger()
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        descriptorMergerByTag = new DescriptorMergerByTag();</b>
+&nbsp;
+&nbsp;        // Default behaviours
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(</b>
+&nbsp;            WebXmlType.LOGIN_CONFIG, DescriptorMergerByTag.OVERWRITE);
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(</b>
+&nbsp;            WebXmlType.FILTER, DescriptorMergerByTag.IGNORE);
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(</b>
+&nbsp;            WebXmlType.FILTER_MAPPING, DescriptorMergerByTag.IGNORE);
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(</b>
+&nbsp;            WebXmlType.SERVLET, DescriptorMergerByTag.IGNORE);
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(</b>
+&nbsp;            WebXmlType.SERVLET_MAPPING, DescriptorMergerByTag.IGNORE);
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(</b>
+&nbsp;            WebXmlType.MIME_MAPPING, DescriptorMergerByTag.IGNORE);
+&nbsp;
+<b class="nc">&nbsp;        addMerger(descriptorMergerByTag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * @param base Descriptor to use
+&nbsp;     */
+&nbsp;    public WebXmlMerger(Descriptor base)
+&nbsp;    {
+<b class="nc">&nbsp;        this();</b>
+<b class="nc">&nbsp;        init(base);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void init(Descriptor base)
+&nbsp;    {
+<b class="nc">&nbsp;        this.webXml = (WebXml) base;</b>
+<b class="nc">&nbsp;        descriptorMergerByTag.setDescriptorType(base.getDescriptorType());</b>
+<b class="nc">&nbsp;        super.init(base);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the merging strategy for a particular tag.
+&nbsp;     * 
+&nbsp;     * @param tag Tag to set
+&nbsp;     * @param strategy Strategy to use
+&nbsp;     */
+&nbsp;    public void setMergeStrategy(String tag, MergeStrategy strategy)
+&nbsp;    {
+<b class="nc">&nbsp;        descriptorMergerByTag.setStrategy(tag, strategy);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void merge(Descriptor theMerge)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            WebXml theMergeWebXml = (WebXml) theMerge;</b>
+<b class="nc">&nbsp;            checkServletVersions(theMergeWebXml);</b>
+&nbsp;
+<b class="nc">&nbsp;            super.merge(theMerge);</b>
+&nbsp;
+<b class="nc">&nbsp;            WebXmlVersion version = this.webXml.getVersion();</b>
+<b class="nc">&nbsp;            if (version == null || WebXmlVersion.V2_3.compareTo(version) &lt;= 0)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                mergeFilters(theMergeWebXml);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            mergeServlets(theMergeWebXml);</b>
+&nbsp;
+<b class="nc">&nbsp;            mergeSecurityRoles(theMergeWebXml);</b>
+&nbsp;
+<b class="nc">&nbsp;            mergeMimeMappings(theMergeWebXml);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new MergeException(&quot;Exception merging web.xml files&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves merged descriptor.
+&nbsp;     * @return WebXml object
+&nbsp;     */
+&nbsp;    public WebXml getResult()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.webXml;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the vendor web app descriptor out of the web xml.
+&nbsp;     * 
+&nbsp;     * @param theWebXml in the web xml
+&nbsp;     * @param clazz the class of vendor descriptor
+&nbsp;     * @return the VendorWebAppDescriptor, or null if it does not exist in theWebXml
+&nbsp;     */
+&nbsp;    protected VendorWebAppDescriptor getVendorWebAppDescriptor(WebXml theWebXml, Class clazz)
+&nbsp;    {
+<b class="nc">&nbsp;        for (Descriptor d : theWebXml.getVendorDescriptors())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            VendorWebAppDescriptor descriptor = (VendorWebAppDescriptor) d;</b>
+<b class="nc">&nbsp;            if (clazz.isInstance(descriptor))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return descriptor;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks the versions of the servlet API in each descriptor, and logs a warning if a mismatch
+&nbsp;     * might result in the loss of definitions.
+&nbsp;     * 
+&nbsp;     * @param theWebXml The descriptor that will be merged with the original
+&nbsp;     */
+&nbsp;    protected final void checkServletVersions(WebXml theWebXml)
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.webXml.getVersion() != null</b>
+<b class="nc">&nbsp;            &amp;&amp; this.webXml.getVersion().compareTo(theWebXml.getVersion()) &lt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().warn(&quot;Merging elements from a version &quot; + theWebXml.getVersion()</b>
+<b class="nc">&nbsp;                + &quot; descriptor into a version &quot; + this.webXml.getVersion()</b>
+<b class="nc">&nbsp;                + &quot;, some elements may be skipped&quot;, this.getClass().getName());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Merges the filter definitions from the specified descriptor into the original descriptor.
+&nbsp;     * 
+&nbsp;     * @param theWebXml The descriptor that contains the filter definitions that are to be merged
+&nbsp;     * into the original descriptor
+&nbsp;     */
+&nbsp;    protected final void mergeFilters(WebXml theWebXml)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;String&gt; filterNames = WebXmlUtils.getFilterNames(theWebXml);</b>
+<b class="nc">&nbsp;            int count = 0;</b>
+<b class="nc">&nbsp;            for (String filterName : filterNames)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (!WebXmlUtils.hasFilter(this.webXml, filterName))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    WebXmlUtils.addFilter(this.webXml,</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getFilter(theWebXml, filterName));</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+&nbsp;                    // merge the parameters
+<b class="nc">&nbsp;                    List&lt;String&gt; existingInitParams =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getFilterInitParamNames(this.webXml, filterName);</b>
+<b class="nc">&nbsp;                    List&lt;String&gt; filterInitParamNames =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getFilterInitParamNames(theWebXml, filterName);</b>
+<b class="nc">&nbsp;                    for (String paramName : filterInitParamNames)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (!existingInitParams.contains(paramName))</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            String paramValue =</b>
+<b class="nc">&nbsp;                                WebXmlUtils.getFilterInitParam(theWebXml, filterName, paramName);</b>
+<b class="nc">&nbsp;                            WebXmlUtils.addFilterInitParam(</b>
+&nbsp;                                this.webXml, filterName, paramName, paramValue);
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;                // merge the URL patterns
+<b class="nc">&nbsp;                List&lt;String&gt; existingFilterMappings =</b>
+<b class="nc">&nbsp;                    WebXmlUtils.getFilterMappings(this.webXml, filterName);</b>
+<b class="nc">&nbsp;                List&lt;String&gt; filterMappings =</b>
+<b class="nc">&nbsp;                    WebXmlUtils.getFilterMappings(theWebXml, filterName);</b>
+<b class="nc">&nbsp;                for (String urlPattern : filterMappings)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if (!existingFilterMappings.contains(urlPattern))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        WebXmlUtils.addFilterMapping(this.webXml, filterName, urlPattern);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                WebXmlVersion version = this.webXml.getVersion();</b>
+<b class="nc">&nbsp;                if (version == null || WebXmlVersion.V2_4.compareTo(version) &lt;= 0)</b>
+&nbsp;                {
+&nbsp;                    // merge the dispatchers
+<b class="nc">&nbsp;                    List&lt;String&gt; existingFilterDispatchers =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getFilterDispatchers(this.webXml, filterName);</b>
+<b class="nc">&nbsp;                    List&lt;String&gt; filterDispatchers =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getFilterDispatchers(theWebXml, filterName);</b>
+<b class="nc">&nbsp;                    for (String dispatcher : filterDispatchers)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (!existingFilterDispatchers.contains(dispatcher))</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            WebXmlUtils.addFilterDispatcher(this.webXml, filterName, dispatcher);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;                count++;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            getLogger().debug(&quot;Merged &quot; + count + &quot; filter definition&quot;</b>
+<b class="nc">&nbsp;                + (count != 1 ? &quot;s &quot; : &quot; &quot;) + &quot;into the descriptor&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Exception merging filter definitions&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Merges the servlet definitions from the specified descriptor into the original descriptor.
+&nbsp;     * 
+&nbsp;     * @param theWebXml The descriptor that contains the servlet definitions that are to be merged
+&nbsp;     * into the original descriptor
+&nbsp;     * @throws CargoException if there is any merge problem
+&nbsp;     */
+&nbsp;    protected final void mergeServlets(WebXml theWebXml) throws CargoException
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            List&lt;String&gt; servletNames = WebXmlUtils.getServletNames(theWebXml);</b>
+<b class="nc">&nbsp;            int count = 0;</b>
+<b class="nc">&nbsp;            for (String servletName : servletNames)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (!WebXmlUtils.hasServlet(this.webXml, servletName))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    WebXmlUtils.addServlet(this.webXml,</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getServlet(theWebXml, servletName));</b>
+&nbsp;                }
+&nbsp;                else
+&nbsp;                {
+&nbsp;                    // merge the parameters
+<b class="nc">&nbsp;                    List&lt;String&gt; existingInitParams =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getServletInitParamNames(this.webXml, servletName);</b>
+<b class="nc">&nbsp;                    List&lt;String&gt; servletInitParamNames =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getServletInitParamNames(theWebXml, servletName);</b>
+<b class="nc">&nbsp;                    for (String paramName : servletInitParamNames)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        if (!existingInitParams.contains(paramName))</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            String paramValue =</b>
+<b class="nc">&nbsp;                                WebXmlUtils.getServletInitParam(theWebXml, servletName, paramName);</b>
+<b class="nc">&nbsp;                            WebXmlUtils.addServletInitParam(</b>
+&nbsp;                                this.webXml, servletName, paramName, paramValue);
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                    String roleName =</b>
+<b class="nc">&nbsp;                        WebXmlUtils.getServletRunAsRoleName(theWebXml, servletName);</b>
+<b class="nc">&nbsp;                    if (roleName != null)</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        WebXmlUtils.addServletRunAsRoleName(this.webXml, servletName, roleName);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;                // merge the mappings
+<b class="nc">&nbsp;                List&lt;String&gt; existingServletMappings =</b>
+<b class="nc">&nbsp;                    WebXmlUtils.getServletMappings(this.webXml, servletName);</b>
+<b class="nc">&nbsp;                List&lt;String&gt; servletMappings =</b>
+<b class="nc">&nbsp;                    WebXmlUtils.getServletMappings(theWebXml, servletName);</b>
+<b class="nc">&nbsp;                for (String urlPattern : servletMappings)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if (!existingServletMappings.contains(urlPattern))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        WebXmlUtils.addServletMapping(this.webXml, servletName, urlPattern);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                count++;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            getLogger().debug(&quot;Merged &quot; + count + &quot; servlet definition&quot;</b>
+<b class="nc">&nbsp;                + (count != 1 ? &quot;s &quot; : &quot; &quot;) + &quot;into the descriptor&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new CargoException(&quot;Exception merging servlet definitions&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Merges the security roles from the provided descriptor into the original descriptor.
+&nbsp;     * 
+&nbsp;     * @param theWebXml The descriptor that contains the security roles that are to be merged into
+&nbsp;     * the original descriptor
+&nbsp;     */
+&nbsp;    protected final void mergeSecurityRoles(WebXml theWebXml)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;String&gt; securityRoleNames = WebXmlUtils.getSecurityRoleNames(theWebXml);</b>
+<b class="nc">&nbsp;        int count = 0;</b>
+<b class="nc">&nbsp;        for (String securityRoleName : securityRoleNames)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (!WebXmlUtils.hasSecurityRole(this.webXml, securityRoleName))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                WebXmlUtils.addSecurityRole(this.webXml, securityRoleName);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if (count &gt; 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().debug(&quot;Merged &quot; + count + &quot; security roles into the descriptor&quot;,</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Merges the servlet definitions from the specified descriptor into the original descriptor.
+&nbsp;     * 
+&nbsp;     * @param theWebXml The descriptor that contains the filter definitions that are to be merged
+&nbsp;     * into the original descriptor
+&nbsp;     */
+&nbsp;    protected final void mergeMimeMappings(WebXml theWebXml)
+&nbsp;    {
+<b class="nc">&nbsp;        int count = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        List&lt;Element&gt; srcItems = webXml.getTags(WebXmlType.MIME_MAPPING);</b>
+<b class="nc">&nbsp;        List&lt;Element&gt; targetItems = theWebXml.getTags(WebXmlType.MIME_MAPPING);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Element targetItem : targetItems)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            boolean foundItem = false;</b>
+&nbsp;
+<b class="nc">&nbsp;            MimeMapping targetMimeMapping = (MimeMapping) targetItem;</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Element srcItem : srcItems)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                MimeMapping srcMimeMapping = (MimeMapping) srcItem;</b>
+&nbsp;
+<b class="nc">&nbsp;                if (targetMimeMapping.getExtension().equals(srcMimeMapping.getExtension()))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    foundItem = true;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!foundItem)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                MimeMapping mimeMappingElement = (MimeMapping) webXml.getDescriptorType().</b>
+<b class="nc">&nbsp;                    getTagByName(WebXmlType.MIME_MAPPING).create();</b>
+&nbsp;
+<b class="nc">&nbsp;                mimeMappingElement.setExtension(targetMimeMapping.getExtension());</b>
+<b class="nc">&nbsp;                mimeMappingElement.setMimeType(targetMimeMapping.getMimeType());</b>
+&nbsp;
+<b class="nc">&nbsp;                this.webXml.addElement(mimeMappingElement.getTag(), mimeMappingElement,</b>
+<b class="nc">&nbsp;                    this.webXml.getRootElement());</b>
+<b class="nc">&nbsp;                this.webXml.addTag(mimeMappingElement);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        getLogger().debug(&quot;Merged &quot; + count + &quot; mime mapping definition&quot;</b>
+<b class="nc">&nbsp;            + (count != 1 ? &quot;s &quot; : &quot; &quot;) + &quot;into the descriptor&quot;,</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

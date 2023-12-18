@@ -1,0 +1,258 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractConfigurationBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.configuration.builder</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractConfigurationBuilder (org.codehaus.cargo.container.spi.configuration.builder)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractConfigurationBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.configuration.builder;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
+&nbsp;import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.DataSource;
+&nbsp;import org.codehaus.cargo.container.property.TransactionSupport;
+&nbsp;
+&nbsp;/**
+&nbsp; * {@inheritDoc}
+&nbsp; */
+<b class="nc">&nbsp;public abstract class AbstractConfigurationBuilder implements ConfigurationBuilder</b>
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * {@inheritDoc} Detects the type of &lt;code&gt;DataSource&lt;/code&gt; to configure based on transactional
+&nbsp;     * properties and implementation class.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toConfigurationEntry(DataSource ds)
+&nbsp;    {
+<b class="nc">&nbsp;        String returnVal = &quot; &quot;;</b>
+<b class="nc">&nbsp;        switch (ds.getConnectionType())</b>
+&nbsp;        {
+&nbsp;            case ConfigurationEntryType.JDBC_DRIVER:
+<b class="nc">&nbsp;                returnVal = buildEntryForDriverConfiguredDataSource(ds);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case ConfigurationEntryType.XA_DATASOURCE:
+<b class="nc">&nbsp;                returnVal = buildConfigurationEntryForXADataSourceConfiguredDataSource(ds);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                throw new IllegalArgumentException(&quot;Connection Type: &quot; + ds.getConnectionType()</b>
+&nbsp;                    + &quot; not supported&quot;);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return returnVal;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method looks at the transactional support for the DataSource and builds an appropriate
+&nbsp;     * configuration entry.
+&nbsp;     * 
+&nbsp;     * @param ds the {@link DataSource} with the following state:
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getJndiLocation()} is set to a unique path for the container.&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getDriverClass()} is an implementation of
+&nbsp;     * &lt;code&gt;java.sql.Driver&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     * @return configuration binding a container provided implementation of type
+&nbsp;     * &lt;code&gt;javax.sql.DataSource&lt;/code&gt; to the JNDI path specified at
+&nbsp;     * {@link DataSource#getJndiLocation()}.
+&nbsp;     */
+&nbsp;    private String buildEntryForDriverConfiguredDataSource(DataSource ds)
+&nbsp;    {
+<b class="nc">&nbsp;        String returnVal = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (ds.getTransactionSupport().equals(TransactionSupport.NO_TRANSACTION))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            returnVal = buildEntryForDriverConfiguredDataSourceWithNoTx(ds);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (ds.getTransactionSupport().equals(TransactionSupport.LOCAL_TRANSACTION))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            returnVal = buildEntryForDriverConfiguredDataSourceWithLocalTx(ds);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        else if (ds.getTransactionSupport().equals(TransactionSupport.XA_TRANSACTION))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            returnVal = buildEntryForDriverConfiguredDataSourceWithXaTx(ds);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Transaction support: &quot;</b>
+<b class="nc">&nbsp;                + ds.getTransactionSupport() + &quot; not supported&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return returnVal;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param ds the {@link DataSource} with the following state:
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getJndiLocation()} is set to a unique path for the container.&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getDriverClass()} is an implementation of
+&nbsp;     * &lt;code&gt;java.sql.Driver&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getTransactionSupport()} is
+&nbsp;     * &lt;code&gt;TransactionSupport.XA_TRANSACTION&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     * @return configuration binding a container provided implementation of type
+&nbsp;     * &lt;code&gt;javax.sql.DataSource&lt;/code&gt; to the JNDI path specified at
+&nbsp;     * {@link DataSource#getJndiLocation()}.
+&nbsp;     */
+&nbsp;    public abstract String buildEntryForDriverConfiguredDataSourceWithXaTx(DataSource ds);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param ds the {@link DataSource} with the following state:
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getJndiLocation()} is set to a unique path for the container.&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getDriverClass()} is an implementation of
+&nbsp;     * &lt;code&gt;java.sql.Driver&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getTransactionSupport()} is
+&nbsp;     * &lt;code&gt;TransactionSupport.LOCAL_TRANSACTION&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     * @return configuration binding a container provided implementation of type
+&nbsp;     * &lt;code&gt;javax.sql.DataSource&lt;/code&gt; to the JNDI path specified at
+&nbsp;     * {@link DataSource#getJndiLocation()}.
+&nbsp;     */
+&nbsp;    public abstract String buildEntryForDriverConfiguredDataSourceWithLocalTx(DataSource ds);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param ds the {@link DataSource} with the following state:
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getJndiLocation()} is set to a unique path for the container.&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getDriverClass()} is an implementation of
+&nbsp;     * &lt;code&gt;java.sql.Driver&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getTransactionSupport()} is
+&nbsp;     * &lt;code&gt;TransactionSupport.NO_TRANSACTION&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     * @return configuration binding a container provided implementation of type
+&nbsp;     * &lt;code&gt;javax.sql.DataSource&lt;/code&gt; to the JNDI path specified at
+&nbsp;     * {@link DataSource#getJndiLocation()}.
+&nbsp;     */
+&nbsp;    public abstract String buildEntryForDriverConfiguredDataSourceWithNoTx(DataSource ds);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param ds the {@link DataSource} with the following state:
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getJndiLocation()} is set to a unique path for the container.&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getConnectionType()} is &lt;code&gt;javax.sql.XADataSource&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;li&gt;{@link DataSource#getDriverClass()} is an implementation of
+&nbsp;     * &lt;code&gt;javax.sql.XADataSource&lt;/code&gt;&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     * @return configuration binding a container provided implementation of type
+&nbsp;     * &lt;code&gt;javax.sql.DataSource&lt;/code&gt; to the JNDI path specified at
+&nbsp;     * {@link DataSource#getJndiLocation()}. This container will provide XA support through the
+&nbsp;     * third party implementation specified at {@link DataSource#getDriverClass()}.
+&nbsp;     */
+&nbsp;    public abstract String buildConfigurationEntryForXADataSourceConfiguredDataSource(
+&nbsp;        DataSource ds);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

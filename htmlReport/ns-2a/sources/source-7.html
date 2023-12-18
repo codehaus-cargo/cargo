@@ -1,0 +1,282 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MissingXmlElementAppender</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: MissingXmlElementAppender (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MissingXmlElementAppender</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.Element;
+&nbsp;import org.w3c.dom.Node;
+&nbsp;
+&nbsp;import javax.xml.xpath.XPath;
+&nbsp;import javax.xml.xpath.XPathConstants;
+&nbsp;import javax.xml.xpath.XPathExpression;
+&nbsp;import javax.xml.xpath.XPathExpressionException;
+&nbsp;import javax.xml.xpath.XPathFactory;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Matcher;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class detects missing nodes of a DOM document based on an XPath expression and
+&nbsp; * appends the missing branch.
+&nbsp; */
+&nbsp;public class MissingXmlElementAppender
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Document that may have missing nodes
+&nbsp;     */
+&nbsp;    private final Document document;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * XPath, split up into path elements
+&nbsp;     */
+<b class="nc">&nbsp;    private final LinkedList&lt;String&gt; expressionNodes = new LinkedList&lt;String&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 
+&nbsp;     * @param document Document that may have missing nodes
+&nbsp;     * @param xPathString XPath that needs to be present in the document
+&nbsp;     */
+&nbsp;    public MissingXmlElementAppender(Document document, String xPathString)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.document = document;</b>
+&nbsp;
+<b class="nc">&nbsp;        String regex = &quot;/(?=(?:[^&#39;]*&#39;[^&#39;]*&#39;)*[^&#39;]*$)&quot;;</b>
+<b class="nc">&nbsp;        this.expressionNodes.addAll(Arrays.asList(xPathString.split(regex)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Getter
+&nbsp;     * @return documnet given via the constructor
+&nbsp;     */
+&nbsp;    public Document getDocument()
+&nbsp;    {
+<b class="nc">&nbsp;        return document;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Appends the missing nodes.
+&nbsp;     * 
+&nbsp;     * @return the common node of document and XPath
+&nbsp;     * @throws XPathExpressionException if anything goes wrong
+&nbsp;     */
+&nbsp;    public Node append() throws XPathExpressionException
+&nbsp;    {
+<b class="nc">&nbsp;        LinkedList&lt;String&gt; missingNodes = new LinkedList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        Node evaluate = getMostCommonNode(missingNodes);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (evaluate != null &amp;&amp; !missingNodes.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            evaluate = appendMissingElements(missingNodes, evaluate);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return evaluate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find the common node of the given document and the XPath.
+&nbsp;     * Based on this node the hierarchy will be appended.
+&nbsp;     * 
+&nbsp;     * @param missingNodes as a side effect the node elements are collected
+&nbsp;     * @return common node of the given document and the XPath
+&nbsp;     * @throws XPathExpressionException if anything goes wrong
+&nbsp;     */
+&nbsp;    private Node getMostCommonNode(LinkedList&lt;String&gt; missingNodes) throws XPathExpressionException
+&nbsp;    {
+<b class="nc">&nbsp;        XPath xPath = XPathFactory.newInstance().newXPath();</b>
+&nbsp;
+&nbsp;        Object evaluate;
+&nbsp;        do
+&nbsp;        {
+<b class="nc">&nbsp;            String expression = toXPathString(expressionNodes);</b>
+<b class="nc">&nbsp;            XPathExpression xPathExpression = xPath.compile(expression);</b>
+<b class="nc">&nbsp;            evaluate = xPathExpression.evaluate(document, XPathConstants.NODE);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (evaluate == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String lastNode = expressionNodes.removeLast();</b>
+<b class="nc">&nbsp;                missingNodes.addFirst(lastNode);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        while (evaluate == null &amp;&amp; !expressionNodes.isEmpty());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (evaluate != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return (Node) evaluate;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Assemble a XPath string based on a list of elements
+&nbsp;     * @param expressionNodes split up XPath elements
+&nbsp;     * @return XPath string
+&nbsp;     */
+&nbsp;    private String toXPathString(List&lt;String&gt; expressionNodes)
+&nbsp;    {
+<b class="nc">&nbsp;        StringBuilder stringBuilder = new StringBuilder();</b>
+<b class="nc">&nbsp;        for (Iterator&lt;String&gt; iterator = expressionNodes.iterator(); iterator.hasNext();)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String expressionNode = iterator.next();</b>
+<b class="nc">&nbsp;            stringBuilder.append(expressionNode);</b>
+<b class="nc">&nbsp;            if (iterator.hasNext())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                stringBuilder.append(&quot;/&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return stringBuilder.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds the elements of missingNodes as element hierarchy to the node
+&nbsp;     * @param missingNodes collected list of the missing elements
+&nbsp;     * @param node target of the additions
+&nbsp;     * @return the last node added to the document
+&nbsp;     */
+&nbsp;    private Node appendMissingElements(List&lt;String&gt; missingNodes, Node node)
+&nbsp;    {
+<b class="nc">&nbsp;        Pattern elementOnlyPattern = Pattern.compile(&quot;([^\\[]+)\\[.+&quot;);</b>
+<b class="nc">&nbsp;        Node result = node;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (String missingNode : missingNodes)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (!missingNode.startsWith(&quot;@&quot;))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                Matcher matcher = elementOnlyPattern.matcher(missingNode);</b>
+<b class="nc">&nbsp;                if (matcher.matches())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    missingNode = matcher.group(1);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                Element newElement = document.createElement(missingNode);</b>
+<b class="nc">&nbsp;                result.appendChild(newElement);</b>
+<b class="nc">&nbsp;                result = newElement;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

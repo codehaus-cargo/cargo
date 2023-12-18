@@ -1,0 +1,231 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > URLDeployableMonitor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.deployer</a>
+</div>
+
+<h1>Coverage Summary for Class: URLDeployableMonitor (org.codehaus.cargo.container.deployer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">URLDeployableMonitor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.deployer;
+&nbsp;
+&nbsp;import java.net.URL;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.internal.util.HttpUtils;
+&nbsp;
+&nbsp;/**
+&nbsp; * Monitor that verifies if a {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+&nbsp; * by pinging a URL provided by the user.
+&nbsp; */
+&nbsp;public class URLDeployableMonitor extends AbstractDeployableMonitor
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The URL to ping.
+&nbsp;     */
+&nbsp;    private URL pingURL;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Useful HTTP methods (specifically the ping method).
+&nbsp;     */
+<b class="nc">&nbsp;    private HttpUtils httpUtils = new HttpUtils();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * String that must be contained in the HTTP response.
+&nbsp;     */
+&nbsp;    private String contains;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param pingURL the URL to be pinged and which will tell when the
+&nbsp;     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+&nbsp;     */
+&nbsp;    public URLDeployableMonitor(URL pingURL)
+&nbsp;    {
+<b class="nc">&nbsp;        super();</b>
+<b class="nc">&nbsp;        this.pingURL = pingURL;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param pingURL the URL to be pinged and which will tell when the
+&nbsp;     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+&nbsp;     * @param timeout the timeout after which we stop monitoring the deployment
+&nbsp;     */
+&nbsp;    public URLDeployableMonitor(URL pingURL, long timeout)
+&nbsp;    {
+<b class="nc">&nbsp;        super(timeout);</b>
+<b class="nc">&nbsp;        this.pingURL = pingURL;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param pingURL the URL to be pinged and which will tell when the
+&nbsp;     * {@link org.codehaus.cargo.container.deployable.Deployable} is deployed
+&nbsp;     * @param timeout the timeout after which we stop monitoring the deployment
+&nbsp;     * @param contains a string that must be contained
+&nbsp;     */
+&nbsp;    public URLDeployableMonitor(URL pingURL, long timeout, String contains)
+&nbsp;    {
+<b class="nc">&nbsp;        super(timeout);</b>
+<b class="nc">&nbsp;        this.pingURL = pingURL;</b>
+<b class="nc">&nbsp;        this.contains = contains;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getDeployableName()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.pingURL.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void monitor()
+&nbsp;    {
+<b class="nc">&nbsp;        getLogger().debug(&quot;Checking URL [&quot; + this.pingURL + &quot;] for status using a timeout of [&quot;</b>
+<b class="nc">&nbsp;            + getTimeout() + &quot;] ms...&quot;, this.getClass().getName());</b>
+&nbsp;
+&nbsp;        // We check if the deployable is servicing requests by pinging a URL specified by the user
+<b class="nc">&nbsp;        HttpUtils.HttpResult result = new HttpUtils.HttpResult();</b>
+<b class="nc">&nbsp;        boolean isDeployed = this.httpUtils.ping(this.pingURL, result, getTimeout());</b>
+<b class="nc">&nbsp;        if (isDeployed &amp;&amp; this.contains != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (result.responseBody != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                isDeployed = result.responseBody.contains(this.contains);</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                isDeployed = false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String msg = &quot;URL [&quot; + this.pingURL + &quot;] is &quot;;</b>
+<b class="nc">&nbsp;        if (isDeployed)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            msg += &quot;responding...&quot;;</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            msg += &quot;not responding: &quot; + result.responseCode + &quot; &quot; + result.responseMessage;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        getLogger().debug(msg, this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        notifyListeners(isDeployed);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

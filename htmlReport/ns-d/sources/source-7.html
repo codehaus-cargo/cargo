@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GeneralPropertySet</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.property</a>
+</div>
+
+<h1>Coverage Summary for Class: GeneralPropertySet (org.codehaus.cargo.container.property)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GeneralPropertySet</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.property;
+&nbsp;
+&nbsp;/**
+&nbsp; * Gathers all general container properties valid for all types of containers.
+&nbsp; */
+&nbsp;public interface GeneralPropertySet
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Protocol on which the container is listening to.
+&nbsp;     */
+&nbsp;    String PROTOCOL = &quot;cargo.protocol&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Hostname on which the container is listening to.&lt;br&gt;&lt;br&gt;
+&nbsp;     * Note: In order to listen to all IP addresses, you can set this to &lt;code&gt;0.0.0.0&lt;/code&gt;,
+&nbsp;     * in that case the container will be set up to use that address but the Cargo ping component
+&nbsp;     * will still ping on &lt;code&gt;localhost&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    String HOSTNAME = &quot;cargo.hostname&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Logging level for logging container information.
+&nbsp;     * 
+&nbsp;     * @see LoggingLevel
+&nbsp;     */
+&nbsp;    String LOGGING = &quot;cargo.logging&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * JVM args to be used when starting/stopping containers (ex: &lt;code&gt;-Xmx500m&lt;/code&gt;).
+&nbsp;     */
+&nbsp;    String JVMARGS = &quot;cargo.jvmargs&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * JVM args to be used when starting containers
+&nbsp;     */
+&nbsp;    String START_JVMARGS = &quot;cargo.start.jvmargs&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Runtime args to be used when starting/stopping containers (ex: &lt;code&gt;-userThreads&lt;/code&gt;).
+&nbsp;     */
+&nbsp;    String RUNTIME_ARGS = &quot;cargo.runtime.args&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The port to use when communicating with this server, for example to start and stop it.
+&nbsp;     */
+&nbsp;    String RMI_PORT = &quot;cargo.rmi.port&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The location of the jvm to use when starting/stopping containers.
+&nbsp;     */
+&nbsp;    String JAVA_HOME = &quot;cargo.java.home&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specify if the process should run spawned; i.e. outlive CARGO&#39;s process and that the started
+&nbsp;     * container keeps running even after CARGO itself has terminated.
+&nbsp;     */
+&nbsp;    String SPAWN_PROCESS = &quot;cargo.process.spawn&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specify if CARGO&#39;s configuration generator for standalone containers should ignore when a
+&nbsp;     * property cannot be replaced because it does not exist in the source file.
+&nbsp;     */
+&nbsp;    String IGNORE_NON_EXISTING_PROPERTIES = &quot;cargo.standalone.ignoreNonExistingProperties&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The port offset to apply to the container ports.
+&nbsp;     */
+&nbsp;    String PORT_OFFSET = &quot;cargo.port.offset&quot;;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

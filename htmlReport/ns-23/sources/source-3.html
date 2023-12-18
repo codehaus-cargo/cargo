@@ -1,0 +1,455 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MergedWarArchive</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.merge</a>
+</div>
+
+<h1>Coverage Summary for Class: MergedWarArchive (org.codehaus.cargo.module.webapp.merge)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MergedWarArchive</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/85)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.merge;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.AbstractDescriptorIo;
+&nbsp;import org.codehaus.cargo.module.merge.MergeException;
+&nbsp;import org.codehaus.cargo.module.merge.MergeProcessor;
+&nbsp;import org.codehaus.cargo.module.webapp.WarArchive;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXml;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.JarUtils;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Subclass representing the merged WAR file.
+&nbsp; */
+&nbsp;public class MergedWarArchive implements WarArchive
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * War files making up this merged war, or type MergeWarFileDetails.
+&nbsp;     */
+&nbsp;    private List&lt;MergeWarFileDetails&gt; warFiles;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Extra JAR files to appear in WEB-INF/lib.
+&nbsp;     */
+&nbsp;    private List&lt;File&gt; jarFiles;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Whether the JAR files contained WEB-INF/lib should be merged.
+&nbsp;     */
+<b class="nc">&nbsp;    private boolean mergeJarFiles = true;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The merged web xml, once generated.
+&nbsp;     */
+&nbsp;    private WebXml mergedWebXml;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Additional processors to apply.
+&nbsp;     */
+&nbsp;    private List&lt;ArchiveResourceMerger&gt; mergeProcessors;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The Web XML Merger class.
+&nbsp;     */
+&nbsp;    private WebXmlMerger webXmlMerger;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     */
+&nbsp;    MergedWarArchive()
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.warFiles = new ArrayList&lt;MergeWarFileDetails&gt;();</b>
+<b class="nc">&nbsp;        this.jarFiles = new ArrayList&lt;File&gt;();</b>
+<b class="nc">&nbsp;        this.mergeProcessors = new ArrayList&lt;ArchiveResourceMerger&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the first war file in the merge list
+&nbsp;     */
+&nbsp;    protected WarArchive firstWarFile()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.warFiles.get(0).getWarFile();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param path in the path to merge to
+&nbsp;     * @param merger in the processor to add
+&nbsp;     */
+&nbsp;    public void addProcessor(String path, MergeProcessor merger)
+&nbsp;    {
+<b class="nc">&nbsp;        this.mergeProcessors.add(new ArchiveResourceMerger(path, merger));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param warFile in a warfile to add to the merge
+&nbsp;     */
+&nbsp;    void add(WarArchive warFile)
+&nbsp;    {
+<b class="nc">&nbsp;        this.warFiles.add(new MergeWarFileDetails(warFile));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param jarFile is a jar file to add to the merge.
+&nbsp;     */
+&nbsp;    void addJar(File jarFile)
+&nbsp;    {
+<b class="nc">&nbsp;        this.jarFiles.add(jarFile);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the web XML merger.
+&nbsp;     * 
+&nbsp;     * @return the WebXml merger
+&nbsp;     * @throws IOException on an IO Exception
+&nbsp;     * @throws JDOMException on a XML Parse Exception
+&nbsp;     */
+&nbsp;    public WebXmlMerger getWebXmlMerger() throws IOException,
+&nbsp;        JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.webXmlMerger == null)</b>
+&nbsp;        {
+&nbsp;            // TODO: consider cloning the web.xml instead of in-place editing
+<b class="nc">&nbsp;            this.webXmlMerger = new WebXmlMerger(firstWarFile().getWebXml());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return this.webXmlMerger;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public WebXml getWebXml() throws IOException,
+&nbsp;        JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.mergedWebXml == null)</b>
+&nbsp;        {
+&nbsp;            // The merger is based on the first WAR file
+<b class="nc">&nbsp;            WebXmlMerger wxm = getWebXmlMerger();</b>
+&nbsp;
+&nbsp;            // Merge the rest of web.xml files
+<b class="nc">&nbsp;            for (int cnt = 1; cnt &lt; this.warFiles.size(); cnt++)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                MergeWarFileDetails details = this.warFiles.get(cnt);</b>
+<b class="nc">&nbsp;                WarArchive wa = details.getWarFile();</b>
+<b class="nc">&nbsp;                wxm.merge(wa.getWebXml());</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            this.mergedWebXml = wxm.getResult();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return this.mergedWebXml;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param assembleDir in the directory to output the merge data to
+&nbsp;     * @throws MergeException when there is a problem
+&nbsp;     * @throws IOException if an IO exception
+&nbsp;     */
+&nbsp;    protected void executeMergeProcessors(File assembleDir) throws MergeException, IOException
+&nbsp;    {
+<b class="nc">&nbsp;        for (ArchiveResourceMerger processor : this.mergeProcessors)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            for (MergeWarFileDetails details : this.warFiles)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                WarArchive wa = details.getWarFile();</b>
+&nbsp;
+<b class="nc">&nbsp;                processor.addMergeItem(wa);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            processor.execute(assembleDir);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Here we do actual merge and store resulting war file into the new location. {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void store(File warFile) throws MergeException, IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        DefaultFileHandler fileHandler = new DefaultFileHandler();</b>
+&nbsp;
+&nbsp;        // Create place for merge
+<b class="nc">&nbsp;        String assembleDir = fileHandler.createUniqueTmpDirectory();</b>
+&nbsp;
+&nbsp;        // Do actual merge
+<b class="nc">&nbsp;        merge(assembleDir);</b>
+&nbsp;
+&nbsp;        // Create a jar file
+<b class="nc">&nbsp;        new JarUtils().createJarFromDirectory(assembleDir, warFile);</b>
+&nbsp;
+&nbsp;        // Delete temp directory.
+<b class="nc">&nbsp;        fileHandler.delete(assembleDir);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Here we write combined archive file structure out into the new location.
+&nbsp;     * @param assembleDir target directory to write to
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+&nbsp;     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
+&nbsp;     * @throws MergeException If one of merge processors fails
+&nbsp;     */
+&nbsp;    public void merge(String assembleDir) throws MergeException, IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        DefaultFileHandler fileHandler = new DefaultFileHandler();</b>
+&nbsp;
+&nbsp;        // 1: Merge together the web XML items
+<b class="nc">&nbsp;        WebXml mergedWebXml = getWebXml();</b>
+&nbsp;
+&nbsp;        // 2. Expand everything in order somewhere temporary
+<b class="nc">&nbsp;        expandToPath(assembleDir);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (!mergeJarFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            File f = new File(assembleDir);</b>
+<b class="nc">&nbsp;            File webInfLib = new File(f, &quot;WEB-INF/lib&quot;);</b>
+<b class="nc">&nbsp;            File[] files = webInfLib.listFiles();</b>
+<b class="nc">&nbsp;            for (File file : files)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if (!file.isDirectory() &amp;&amp; file.getName().toLowerCase().endsWith(&quot;.jar&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    fileHandler.delete(file.getAbsolutePath());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        copyJars(assembleDir);</b>
+&nbsp;
+&nbsp;        // (over)write the web-inf configs
+<b class="nc">&nbsp;        AbstractDescriptorIo.writeAll(mergedWebXml, fileHandler.append(new File(assembleDir)</b>
+<b class="nc">&nbsp;            .getAbsolutePath(), File.separator + &quot;WEB-INF&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        executeMergeProcessors(new File(assembleDir));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param assembleDir directory to copy JAR files to
+&nbsp;     */
+&nbsp;    private void copyJars(String assembleDir)
+&nbsp;    {
+<b class="nc">&nbsp;        FileHandler fileHandler = new DefaultFileHandler();</b>
+&nbsp;
+<b class="nc">&nbsp;        File f = new File(assembleDir);</b>
+<b class="nc">&nbsp;        File webInfLib = new File(f, &quot;WEB-INF/lib&quot;);</b>
+<b class="nc">&nbsp;        fileHandler.mkdirs(webInfLib.getAbsolutePath());</b>
+<b class="nc">&nbsp;        for (File sourceFile : this.jarFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            fileHandler.copyFile(sourceFile.getAbsolutePath(), new File(webInfLib, sourceFile</b>
+<b class="nc">&nbsp;                    .getName()).getAbsolutePath());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean containsClass(String theClassName) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        for (MergeWarFileDetails details : this.warFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            WarArchive wa = details.getWarFile();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (wa.containsClass(theClassName))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String findResource(String theName) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        for (MergeWarFileDetails details : this.warFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            WarArchive wa = details.getWarFile();</b>
+&nbsp;
+<b class="nc">&nbsp;            String res = wa.findResource(theName);</b>
+<b class="nc">&nbsp;            if (res != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return res;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public InputStream getResource(String thePath) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        for (MergeWarFileDetails details : this.warFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            WarArchive wa = details.getWarFile();</b>
+<b class="nc">&nbsp;            InputStream is = wa.getResource(thePath);</b>
+<b class="nc">&nbsp;            if (is != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return is;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;String&gt; getResources(String thePath) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;String&gt; results = new ArrayList&lt;String&gt;();</b>
+<b class="nc">&nbsp;        for (MergeWarFileDetails details : this.warFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            WarArchive wa = details.getWarFile();</b>
+<b class="nc">&nbsp;            results.addAll(wa.getResources(thePath));</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return results;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void expandToPath(String path) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        for (MergeWarFileDetails details : this.warFiles)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            WarArchive wa = details.getWarFile();</b>
+<b class="nc">&nbsp;            wa.expandToPath(path);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Control whether to also merge the JAR files.
+&nbsp;     * 
+&nbsp;     * @param mergeJarFiles true if we do (default)
+&nbsp;     */
+&nbsp;    public void mergeJarFiles(boolean mergeJarFiles)
+&nbsp;    {
+<b class="nc">&nbsp;        this.mergeJarFiles = mergeJarFiles;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

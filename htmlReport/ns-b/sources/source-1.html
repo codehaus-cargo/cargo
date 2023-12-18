@@ -1,0 +1,240 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ComplexPropertyUtils</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.internal.util</a>
+</div>
+
+<h1>Coverage Summary for Class: ComplexPropertyUtils (org.codehaus.cargo.container.internal.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ComplexPropertyUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (31/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.internal.util;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.StringTokenizer;
+&nbsp;
+&nbsp;/**
+&nbsp; * Parser used for processing complexly defined properties
+&nbsp; * like WebSpherePropertySet.EJB_TO_RES_REF_BINDING.
+&nbsp; */
+&nbsp;public final class ComplexPropertyUtils
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     */
+&nbsp;    private ComplexPropertyUtils()
+&nbsp;    {
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse provided property using property delimiter | and property value delimiter : .
+&nbsp;     * @param property Property to be parsed.
+&nbsp;     * @return List of properties containing list of property values.
+&nbsp;     */
+&nbsp;    public static List&lt;List&lt;String&gt;&gt; parseProperty(String property)
+&nbsp;    {
+<b class="fc">&nbsp;        return parseProperty(property, &quot;|&quot;, &quot;:&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse provided property using defined property delimiter and property value delimiter.
+&nbsp;     * @param property Property to be parsed.
+&nbsp;     * @param propertyDelimiter Property delimiter.
+&nbsp;     * @param propertyElementDelimiter Property value delimiter.
+&nbsp;     * @return List of properties containing list of property values.
+&nbsp;     */
+&nbsp;    public static List&lt;List&lt;String&gt;&gt; parseProperty(String property, String propertyDelimiter,
+&nbsp;            String propertyElementDelimiter)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;List&lt;String&gt;&gt; parsedProperty = new ArrayList&lt;List&lt;String&gt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (property != null &amp;&amp; !property.isEmpty())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            StringTokenizer propertyEntries = new StringTokenizer(property, propertyDelimiter);</b>
+<b class="fc">&nbsp;            while (propertyEntries.hasMoreTokens())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String propertyEntry = propertyEntries.nextToken().trim();</b>
+<b class="fc">&nbsp;                if (propertyEntry != null &amp;&amp; !propertyEntry.isEmpty())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    List&lt;String&gt; propertyValueList = new ArrayList&lt;String&gt;();</b>
+<b class="fc">&nbsp;                    StringTokenizer propertyValues = new StringTokenizer(propertyEntry,</b>
+&nbsp;                            propertyElementDelimiter);
+&nbsp;
+<b class="fc">&nbsp;                    while (propertyValues.hasMoreTokens())</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        propertyValueList.add(propertyValues.nextToken().trim());</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    parsedProperty.add(propertyValueList);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return parsedProperty;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse provided property using defined property delimiter.
+&nbsp;     * @param property Property to be parsed.
+&nbsp;     * @param propertyDelimiter Property delimiter.
+&nbsp;     * @return List of properties containing list of property values.
+&nbsp;     */
+&nbsp;    public static List&lt;String&gt; parseProperty(String property, String propertyDelimiter)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;String&gt; parsedProperty = new ArrayList&lt;String&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (property != null &amp;&amp; !property.isEmpty())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            StringTokenizer propertyEntries = new StringTokenizer(property, propertyDelimiter);</b>
+<b class="fc">&nbsp;            while (propertyEntries.hasMoreTokens())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String propertyEntry = propertyEntries.nextToken().trim();</b>
+<b class="fc">&nbsp;                if (propertyEntry != null &amp;&amp; !propertyEntry.isEmpty())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    parsedProperty.add(propertyEntry);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return parsedProperty;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convert list of properties to a string representation, based on the specified delimiter.
+&nbsp;     * 
+&nbsp;     * @param toJoin object to serialize as a string
+&nbsp;     * @param delimiter how to separate entries from each other
+&nbsp;     * @return the properties as a string, delimited by the above
+&nbsp;     */
+&nbsp;    public static String joinOnDelimiter(List&lt;String&gt; toJoin, char delimiter)
+&nbsp;    {
+<b class="fc">&nbsp;        StringBuilder buf = new StringBuilder();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Iterator&lt;String&gt; it = toJoin.iterator(); it.hasNext();)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String value = it.next();</b>
+<b class="fc">&nbsp;            buf.append(value);</b>
+<b class="fc">&nbsp;            if (it.hasNext())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                buf.append(delimiter);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return buf.toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

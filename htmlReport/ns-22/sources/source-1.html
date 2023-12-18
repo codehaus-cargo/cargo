@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > JBossWarArchive</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.jboss</a>
+</div>
+
+<h1>Coverage Summary for Class: JBossWarArchive (org.codehaus.cargo.module.webapp.jboss)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JBossWarArchive</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.jboss;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.JarArchive;
+&nbsp;import org.codehaus.cargo.module.JarArchiveIo;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that encapsulates access to a WAR.
+&nbsp; */
+&nbsp;public class JBossWarArchive
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The file representing either the WAR file or the expanded WAR directory.
+&nbsp;     */
+&nbsp;    private File warFile;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The parsed deployment descriptor.
+&nbsp;     */
+&nbsp;    private JBossWebXml jbossWebXml;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param warFile The web application archive
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+&nbsp;     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
+&nbsp;     */
+&nbsp;    public JBossWarArchive(File warFile)
+&nbsp;        throws IOException, JDOMException
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.warFile = warFile;</b>
+<b class="nc">&nbsp;        this.jbossWebXml = parseJBossWebXml();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the parsed &lt;code&gt;WEB-INF/jboss-web.xml&lt;/code&gt; descriptor or null if none exists
+&nbsp;     * @throws IOException If there was a problem reading the deployment descriptor in the WAR
+&nbsp;     * @throws JDOMException If the deployment descriptor of the WAR could not be parsed
+&nbsp;     */
+&nbsp;    private JBossWebXml parseJBossWebXml()
+&nbsp;        throws IOException, JDOMException
+&nbsp;    {
+<b class="nc">&nbsp;        JBossWebXml webXml = null;</b>
+&nbsp;
+<b class="nc">&nbsp;        InputStream in = null;</b>
+&nbsp;        try
+&nbsp;        {
+&nbsp;            // Are we manipulating a WAR file or an expanded WAR directory?
+<b class="nc">&nbsp;            if (this.warFile.isDirectory())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                File contextXmlFile = new File(this.warFile, &quot;WEB-INF/jboss-web.xml&quot;);</b>
+<b class="nc">&nbsp;                if (contextXmlFile.exists())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    in = new FileInputStream(contextXmlFile);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                JarArchive jarArchive = JarArchiveIo.open(this.warFile);</b>
+<b class="nc">&nbsp;                in = jarArchive.getResource(&quot;WEB-INF/jboss-web.xml&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (in != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                webXml = JBossWebXmlIo.parseJBossWebXml(in);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        finally
+&nbsp;        {
+<b class="nc">&nbsp;            if (in != null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                in.close();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return webXml;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the &lt;code&gt;jboss-web.xml&lt;/code&gt; deployment descriptor of the web application.
+&nbsp;     * 
+&nbsp;     * @return The parsed deployment descriptor
+&nbsp;     */
+&nbsp;    public JBossWebXml getJBossWebXml()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.jbossWebXml;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,342 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDescriptorType</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDescriptorType (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDescriptorType</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.lang.reflect.Constructor;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.jdom2.DefaultJDOMFactory;
+&nbsp;import org.jdom2.Document;
+&nbsp;import org.jdom2.Element;
+&nbsp;import org.jdom2.JDOMFactory;
+&nbsp;import org.jdom2.Namespace;
+&nbsp;
+&nbsp;/**
+&nbsp; */
+&nbsp;public class AbstractDescriptorType extends DefaultJDOMFactory implements DescriptorType
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parent descriptor.
+&nbsp;     */
+&nbsp;    private DescriptorType parent;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Grammar of the descriptor.
+&nbsp;     */
+&nbsp;    private Grammar grammar;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of descriptor tags.
+&nbsp;     */
+&nbsp;    private List&lt;DescriptorTag&gt; tags;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Descriptor class.
+&nbsp;     */
+&nbsp;    private Class descriptorClass;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Class used for I/O.
+&nbsp;     */
+&nbsp;    private DescriptorIo descriptorIo;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param parent the parent of this type
+&nbsp;     * @param descriptorClass the class that implements this descriptor
+&nbsp;     * @param grammar grammar for this type (or null if none).
+&nbsp;     */
+&nbsp;    protected AbstractDescriptorType(DescriptorType parent, Class descriptorClass,
+&nbsp;        Grammar grammar)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        this.parent = parent;</b>
+<b class="nc">&nbsp;        this.grammar = grammar;</b>
+<b class="nc">&nbsp;        this.descriptorClass = descriptorClass;</b>
+&nbsp;
+<b class="nc">&nbsp;        tags = new ArrayList&lt;DescriptorTag&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the IO class for this descriptor type.
+&nbsp;     * 
+&nbsp;     * @return the IO class
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public DescriptorIo getDescriptorIo()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.descriptorIo;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the IO class for this descriptor type.
+&nbsp;     * 
+&nbsp;     * @param descriptorIo the IO class
+&nbsp;     */
+&nbsp;    protected void setDescriptorIo(DescriptorIo descriptorIo)
+&nbsp;    {
+<b class="nc">&nbsp;        this.descriptorIo = descriptorIo;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the grammar for this descriptor type.
+&nbsp;     * 
+&nbsp;     * @return grammar
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Grammar getGrammar()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.grammar;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a descriptor tag to this descriptor type.
+&nbsp;     * 
+&nbsp;     * @param tag the tag to add.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addTag(DescriptorTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        this.tags.add(tag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param name name of the tag
+&nbsp;     * @return the matching descriptor tag
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public DescriptorTag getTagByName(String name)
+&nbsp;    {
+<b class="nc">&nbsp;        for (DescriptorTag tag : tags)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (tag.getTagName().equals(name))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return tag;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return parent != null ? parent.getTagByName(name) : null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return a collection of all tags
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Collection&lt;DescriptorTag&gt; getAllTags()
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;DescriptorTag&gt; items = new ArrayList&lt;DescriptorTag&gt;(tags);</b>
+<b class="nc">&nbsp;        if (parent != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            items.addAll(parent.getAllTags());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Element element(int line, int col, String name)
+&nbsp;    {
+<b class="nc">&nbsp;        DescriptorTag tag = getTagByName(name);</b>
+<b class="nc">&nbsp;        if (tag != null)</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                return tag.create();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Exception ignored)</b>
+&nbsp;            {
+&nbsp;                // Ignored
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return super.element(line, col, name);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Element element(int line, int col, String name, Namespace namespace)
+&nbsp;    {
+<b class="nc">&nbsp;        DescriptorTag tag = getTagByName(name);</b>
+<b class="nc">&nbsp;        if (tag != null)</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                DescriptorElement element = tag.create();</b>
+<b class="nc">&nbsp;                if (element.getNamespace() == null &amp;&amp; namespace != null)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    element.setNamespace(namespace);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                return element;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Exception ignored)</b>
+&nbsp;            {
+&nbsp;                // Ignored
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return super.element(line, col, name, namespace);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a JDOM Document.
+&nbsp;     * @param rootElement the root element for the document
+&nbsp;     * @return the document created
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Document document(Element rootElement)
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.descriptorClass != null)</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                Constructor constructor =</b>
+<b class="nc">&nbsp;                    this.descriptorClass.getConstructor(Element.class, DescriptorType.class);</b>
+<b class="nc">&nbsp;                Document doc = (Document) constructor.newInstance(rootElement, this);</b>
+<b class="nc">&nbsp;                return doc;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Exception ex)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new CargoException(&quot;Error constructing document type&quot;, ex);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return new Document(rootElement);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public JDOMFactory getJDOMFactory()
+&nbsp;    {
+&nbsp;        // This class is itself the JDOMFactory
+<b class="nc">&nbsp;        return this;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

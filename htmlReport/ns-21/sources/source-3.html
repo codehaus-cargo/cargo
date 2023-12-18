@@ -1,0 +1,227 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Filter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.elements</a>
+</div>
+
+<h1>Coverage Summary for Class: Filter (org.codehaus.cargo.module.webapp.elements)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Filter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.elements;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlTag;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlType;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; */
+&nbsp;public class Filter extends WebXmlElement
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * @param tag XML tag definition
+&nbsp;     */
+&nbsp;    public Filter(WebXmlTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        super(tag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * @param tag XML tag definition
+&nbsp;     * @param filterName name of the filter
+&nbsp;     * @param filterClass filter class
+&nbsp;     */
+&nbsp;    public Filter(WebXmlTag tag, String filterName, String filterClass)
+&nbsp;    {
+<b class="nc">&nbsp;        super(tag);</b>
+<b class="nc">&nbsp;        setFilterName(filterName);</b>
+<b class="nc">&nbsp;        setFilterClass(filterClass);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the filter class.
+&nbsp;     * @return filter class
+&nbsp;     */
+&nbsp;    public String getFilterClass()
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.FILTER_CLASS);</b>
+<b class="nc">&nbsp;        return e.getText();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the filter class.
+&nbsp;     * @param filterClass The classname to use
+&nbsp;     */
+&nbsp;    public void setFilterClass(String filterClass)
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.FILTER_CLASS);</b>
+<b class="nc">&nbsp;        e.setText(filterClass);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the filter name.
+&nbsp;     * @return The filter name
+&nbsp;     */
+&nbsp;    public String getFilterName()
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.FILTER_NAME);</b>
+<b class="nc">&nbsp;        return e.getText();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param filterName Name of the filter to use
+&nbsp;     */
+&nbsp;    public void setFilterName(String filterName)
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.FILTER_NAME);</b>
+<b class="nc">&nbsp;        e.setText(filterName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return List of init params
+&nbsp;     */
+&nbsp;    public List&lt;InitParam&gt; getInitParams()
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Element&gt; children = getChildren(&quot;init-param&quot;, getTag().getTagNamespace());</b>
+<b class="nc">&nbsp;        List&lt;InitParam&gt; result = new ArrayList&lt;InitParam&gt;(children.size());</b>
+<b class="nc">&nbsp;        for (Element child : children)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            result.add((InitParam) child);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param name Name of the Init param
+&nbsp;     * @return InitParam
+&nbsp;     */
+&nbsp;    public InitParam getInitParam(String name)
+&nbsp;    {
+<b class="nc">&nbsp;        for (InitParam initParam : getInitParams())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (initParam.getParamName().equals(name))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                return initParam;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

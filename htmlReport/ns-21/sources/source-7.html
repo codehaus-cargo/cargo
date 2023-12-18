@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MimeMapping</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp.elements</a>
+</div>
+
+<h1>Coverage Summary for Class: MimeMapping (org.codehaus.cargo.module.webapp.elements)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MimeMapping</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp.elements;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlTag;
+&nbsp;import org.codehaus.cargo.module.webapp.WebXmlType;
+&nbsp;import org.jdom2.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; */
+&nbsp;public class MimeMapping extends WebXmlElement
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * @param tag Web Xml Tag definition
+&nbsp;     */
+&nbsp;    public MimeMapping(WebXmlTag tag)
+&nbsp;    {
+<b class="nc">&nbsp;        super(tag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the Extension.
+&nbsp;     * @return Extension
+&nbsp;     */
+&nbsp;    public String getExtension()
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.EXTENSION);</b>
+<b class="nc">&nbsp;        return e.getText();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the Extension.
+&nbsp;     * @param extension The Extension
+&nbsp;     */
+&nbsp;    public void setExtension(String extension)
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.EXTENSION);</b>
+<b class="nc">&nbsp;        e.setText(extension);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the mime type.
+&nbsp;     * @return The mime type
+&nbsp;     */
+&nbsp;    public String getMimeType()
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.MIME_TYPE);</b>
+<b class="nc">&nbsp;        return e.getText();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the mime type.
+&nbsp;     * @param mimeType The mime type
+&nbsp;     */
+&nbsp;    public void setMimeType(String mimeType)
+&nbsp;    {
+<b class="nc">&nbsp;        Element e = child(WebXmlType.MIME_TYPE);</b>
+<b class="nc">&nbsp;        e.setText(mimeType);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

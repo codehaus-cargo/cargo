@@ -1,0 +1,352 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDeployer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.deployer</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDeployer (org.codehaus.cargo.container.spi.deployer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDeployer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    15.4%
+  </span>
+  <span class="absValue">
+    (2/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (7/63)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.deployer;
+&nbsp;
+&nbsp;import java.io.PrintWriter;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.io.Writer;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.Container;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.deployable.Deployable;
+&nbsp;import org.codehaus.cargo.container.deployer.DeployableMonitor;
+&nbsp;import org.codehaus.cargo.container.deployer.Deployer;
+&nbsp;import org.codehaus.cargo.util.log.LogLevel;
+&nbsp;import org.codehaus.cargo.util.log.LoggedObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base deployer for local and remote deployments.
+&nbsp; */
+&nbsp;public abstract class AbstractDeployer extends LoggedObject implements Deployer
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * @param container the container into which to perform deployment operations
+&nbsp;     */
+&nbsp;    public AbstractDeployer(Container container)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        setLogger(container.getLogger());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Helper method to deploy multiple deployables at a time.
+&nbsp;     * @see Deployer#deploy(Deployable)
+&nbsp;     * @param deployables Deployables to deploy.
+&nbsp;     */
+&nbsp;    public void deploy(List&lt;Deployable&gt; deployables)
+&nbsp;    {
+<b class="nc">&nbsp;        for (Deployable deployable : deployables)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            deploy(deployable);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void deploy(Deployable deployable, DeployableMonitor monitor)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="fc">&nbsp;            deploy(deployable);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+&nbsp;            // CARGO-1100: When the deployment action has failed, log the failure and then wait for
+&nbsp;            // the watchdog to return. If deployment was indeed complete, the watchdog will detect
+&nbsp;            // it; else it will make the method fail.
+<b class="nc">&nbsp;            getLogger().info(&quot;The deployment has failed: &quot; + t.toString(),</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+<b class="nc">&nbsp;            if (getLogger().getLevel() == LogLevel.DEBUG)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                Writer stackTrace = new StringWriter();</b>
+<b class="nc">&nbsp;                t.printStackTrace(new PrintWriter(stackTrace));</b>
+<b class="nc">&nbsp;                getLogger().debug(stackTrace.toString(), this.getClass().getName());</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // Wait for the Deployable to be deployed
+<b class="fc">&nbsp;        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);</b>
+<b class="fc">&nbsp;        watchdog.setLogger(getLogger());</b>
+<b class="fc">&nbsp;        watchdog.watchForAvailability();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void undeploy(Deployable deployable, DeployableMonitor monitor)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            undeploy(deployable);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+&nbsp;            // CARGO-1100: When the undeployment action has failed, log the failure and then wait
+&nbsp;            // for the watchdog to return. If undeployment was indeed complete, the watchdog will
+&nbsp;            // detect it; else it will make the method fail.
+<b class="nc">&nbsp;            getLogger().info(&quot;The undeployment has failed: &quot; + t.toString(),</b>
+<b class="nc">&nbsp;                this.getClass().getName());</b>
+<b class="nc">&nbsp;            if (getLogger().getLevel() == LogLevel.DEBUG)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                Writer stackTrace = new StringWriter();</b>
+<b class="nc">&nbsp;                t.printStackTrace(new PrintWriter(stackTrace));</b>
+<b class="nc">&nbsp;                getLogger().debug(stackTrace.toString(), this.getClass().getName());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // Wait for the Deployable to be undeployed
+<b class="nc">&nbsp;        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);</b>
+<b class="nc">&nbsp;        watchdog.setLogger(getLogger());</b>
+<b class="nc">&nbsp;        watchdog.watchForUnavailability();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Helper method to redeploy multiple deployables at a time.
+&nbsp;     * @see Deployer#redeploy(Deployable)
+&nbsp;     * @param deployables Deployables to redeploy.
+&nbsp;     */
+&nbsp;    public void redeploy(List&lt;Deployable&gt; deployables)
+&nbsp;    {
+<b class="nc">&nbsp;        for (Deployable deployable : deployables)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            redeploy(deployable);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void redeploy(Deployable deployable, DeployableMonitor monitor)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            undeploy(deployable);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().info(&quot;The undeployment phase of the redeploy action has failed: &quot;</b>
+<b class="nc">&nbsp;                + t.toString(), this.getClass().getName());</b>
+<b class="nc">&nbsp;            if (getLogger().getLevel() == LogLevel.DEBUG)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                Writer stackTrace = new StringWriter();</b>
+<b class="nc">&nbsp;                t.printStackTrace(new PrintWriter(stackTrace));</b>
+<b class="nc">&nbsp;                getLogger().debug(stackTrace.toString(), this.getClass().getName());</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // Wait for the Deployable to be undeployed
+<b class="nc">&nbsp;        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);</b>
+<b class="nc">&nbsp;        watchdog.setLogger(getLogger());</b>
+<b class="nc">&nbsp;        watchdog.watchForUnavailability();</b>
+&nbsp;
+<b class="nc">&nbsp;        deploy(deployable, monitor);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void start(Deployable deployable, DeployableMonitor monitor)
+&nbsp;    {
+<b class="nc">&nbsp;        start(deployable);</b>
+&nbsp;
+&nbsp;        // Wait for the Deployable to be started
+<b class="nc">&nbsp;        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);</b>
+<b class="nc">&nbsp;        watchdog.setLogger(getLogger());</b>
+<b class="nc">&nbsp;        watchdog.watchForAvailability();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void stop(Deployable deployable, DeployableMonitor monitor)
+&nbsp;    {
+<b class="nc">&nbsp;        stop(deployable);</b>
+&nbsp;
+&nbsp;        // Wait for the Deployable to be stopped
+<b class="nc">&nbsp;        DeployerWatchdog watchdog = new DeployerWatchdog(monitor);</b>
+<b class="nc">&nbsp;        watchdog.setLogger(getLogger());</b>
+<b class="nc">&nbsp;        watchdog.watchForUnavailability();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void deploy(Deployable deployable)
+&nbsp;    {
+<b class="nc">&nbsp;        throw new ContainerException(&quot;Not supported&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void start(Deployable deployable)
+&nbsp;    {
+<b class="nc">&nbsp;        throw new ContainerException(&quot;Not supported&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void stop(Deployable deployable)
+&nbsp;    {
+<b class="nc">&nbsp;        throw new ContainerException(&quot;Not supported&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void undeploy(Deployable deployable)
+&nbsp;    {
+<b class="nc">&nbsp;        throw new ContainerException(&quot;Not supported&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void redeploy(Deployable deployable)
+&nbsp;    {
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            undeploy(deployable);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Throwable t)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().info(&quot;The undeployment phase of the redeploy action has failed: &quot;</b>
+<b class="nc">&nbsp;                + t.toString(), this.getClass().getName());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        deploy(deployable);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

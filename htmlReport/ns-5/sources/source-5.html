@@ -1,0 +1,236 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EAR</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.deployable</a>
+</div>
+
+<h1>Coverage Summary for Class: EAR (org.codehaus.cargo.container.deployable)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EAR</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.7%
+  </span>
+  <span class="absValue">
+    (2/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.deployable;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.spi.deployable.AbstractDeployablewithSettableName;
+&nbsp;import org.codehaus.cargo.module.application.ApplicationXml;
+&nbsp;import org.codehaus.cargo.module.application.DefaultEarArchive;
+&nbsp;import org.codehaus.cargo.module.application.EarArchive;
+&nbsp;
+&nbsp;/**
+&nbsp; * Wraps an EAR file that will be deployed in the container.
+&nbsp; */
+&nbsp;public class EAR extends AbstractDeployablewithSettableName
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * List of webapps that have been found during parsing inside the wrapped EAR.
+&nbsp;     */
+&nbsp;    private Map&lt;String, String&gt; webapps;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param ear the location of the EAR being wrapped.
+&nbsp;     */
+&nbsp;    public EAR(String ear)
+&nbsp;    {
+<b class="fc">&nbsp;        super(ear);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse the EAR to find out the web apps it contains.
+&nbsp;     */
+&nbsp;    private void parseWebApps()
+&nbsp;    {
+<b class="nc">&nbsp;        if (this.webapps == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            Map&lt;String, String&gt; webapps = new HashMap&lt;String, String&gt;();</b>
+&nbsp;            try
+&nbsp;            {
+<b class="nc">&nbsp;                EarArchive ear = new DefaultEarArchive(getFile());</b>
+<b class="nc">&nbsp;                ApplicationXml applicationXml = ear.getApplicationXml();</b>
+<b class="nc">&nbsp;                for (String webUri : applicationXml.getWebModuleUris())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    String context = applicationXml.getWebModuleContextRoot(webUri);</b>
+&nbsp;
+<b class="nc">&nbsp;                    if (context == null)</b>
+&nbsp;                    {
+&nbsp;                        // The application.xml does not define a &lt;context-root&gt;
+&nbsp;                        // element. This is wrong!
+<b class="nc">&nbsp;                        throw new ContainerException(&quot;Your application.xml must define a &quot;</b>
+&nbsp;                            + &quot;&lt;context-root&gt; element in the &lt;web&gt; module definition.&quot;);
+&nbsp;                    }
+&nbsp;
+&nbsp;                    // Remove leading &quot;/&quot; if there is one.
+<b class="nc">&nbsp;                    if (context.startsWith(&quot;/&quot;))</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        context = context.substring(1);</b>
+&nbsp;                    }
+&nbsp;
+<b class="nc">&nbsp;                    getLogger().debug(&quot;Found Web URI [&quot; + webUri + &quot;], context [&quot; + context + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                        this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;                    webapps.put(context, webUri);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (Exception e)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new ContainerException(&quot;Failed to parse webapps from [&quot; + getFile()</b>
+&nbsp;                    + &quot;] EAR.&quot;, e);
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            this.webapps = webapps;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of Web contexts of all WAR files contained in the wrapped EAR
+&nbsp;     */
+&nbsp;    public synchronized List&lt;String&gt; getWebContexts()
+&nbsp;    {
+<b class="nc">&nbsp;        parseWebApps();</b>
+<b class="nc">&nbsp;        return new ArrayList&lt;String&gt;(this.webapps.keySet());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the list of Web URIs of all WAR files contained in the wrapped EAR
+&nbsp;     */
+&nbsp;    public synchronized List&lt;String&gt; getWebUris()
+&nbsp;    {
+<b class="nc">&nbsp;        parseWebApps();</b>
+<b class="nc">&nbsp;        return new ArrayList&lt;String&gt;(this.webapps.values());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param context the context for which we want to find out the web URI
+&nbsp;     * @return the web URI for the WAR matching the context passed as parameter
+&nbsp;     */
+&nbsp;    public synchronized String getWebUri(String context)
+&nbsp;    {
+<b class="nc">&nbsp;        parseWebApps();</b>
+<b class="nc">&nbsp;        return this.webapps.get(context);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public DeployableType getType()
+&nbsp;    {
+<b class="fc">&nbsp;        return DeployableType.EAR;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

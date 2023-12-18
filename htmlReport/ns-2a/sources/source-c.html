@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > XmlFileBuilder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.util</a>
+</div>
+
+<h1>Coverage Summary for Class: XmlFileBuilder (org.codehaus.cargo.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">XmlFileBuilder</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.util;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import org.w3c.dom.Document;
+&nbsp;import org.w3c.dom.Element;
+&nbsp;
+&nbsp;/**
+&nbsp; * This interface intends to remove hard-bindings to a specific xml api.&lt;br&gt;
+&nbsp; * &lt;br&gt;
+&nbsp; * Implementations of this interface will: 1. optionally load a file 2. insert some elements into
+&nbsp; * the current document 3. write the file to disk
+&nbsp; */
+&nbsp;public interface XmlFileBuilder
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sets the name of the file we will read and write.
+&nbsp;     * 
+&nbsp;     * @param path - where the xml file will be read from or written to.
+&nbsp;     */
+&nbsp;    void setFile(String path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * assign prefix to namespace mappings used for xpath and other xml operations. Leave alone, or
+&nbsp;     * set to null, if you have no namespaces.
+&nbsp;     * 
+&nbsp;     * @param namespaces - key is prefix value is url
+&nbsp;     */
+&nbsp;    void setNamespaces(Map&lt;String, String&gt; namespaces);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * load the current xml file into a Document.
+&nbsp;     * 
+&nbsp;     * @return loaded file, represented as a Document.
+&nbsp;     */
+&nbsp;    Document loadFile();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * this will parse one or more elements from elementToParse and insert them under the xpath.
+&nbsp;     * note: elementsToParse may not be well formed, but only in one way. The elements may be
+&nbsp;     * missing a parent. Example: the following is acceptable by this method elementsToParse =
+&nbsp;     * &amp;lt;child1 /&amp;gt; &amp;lt;child2 /&amp;gt; xpath = //parent In this case, both elements child1 and
+&nbsp;     * child2 would be placed under the first match for parent. s
+&nbsp;     * 
+&nbsp;     * @param elementsToParse String containing one or more elements in textual format
+&nbsp;     * @param xpath where to place the above elements.
+&nbsp;     */
+&nbsp;    void insertElementsUnderXPath(String elementsToParse, String xpath);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This will take element from elementToInsert and insert it under the xpath.
+&nbsp;     * 
+&nbsp;     * @param elementToInsert Element to insert
+&nbsp;     * @param xpath where to place the above element.
+&nbsp;     */
+&nbsp;    void insertElementUnderXPath(Element elementToInsert, String xpath);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * write the current xml to disk.
+&nbsp;     */
+&nbsp;    void writeFile();
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

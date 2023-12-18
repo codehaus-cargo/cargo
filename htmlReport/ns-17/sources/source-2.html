@@ -1,0 +1,354 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractDescriptorIo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractDescriptorIo (org.codehaus.cargo.module)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractDescriptorIo</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import org.jdom2.Document;
+&nbsp;import org.jdom2.JDOMException;
+&nbsp;import org.jdom2.input.SAXBuilder;
+&nbsp;import org.jdom2.output.Format;
+&nbsp;import org.jdom2.output.XMLOutputter;
+&nbsp;import org.xml.sax.EntityResolver;
+&nbsp;
+&nbsp;/**
+&nbsp; * Provides convenience methods for reading and writing descriptors.
+&nbsp; */
+&nbsp;public abstract class AbstractDescriptorIo implements DescriptorIo
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The type of this descriptor IO.
+&nbsp;     */
+&nbsp;    private DescriptorType factory;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor.
+&nbsp;     * 
+&nbsp;     * @param descriptorType the descriptor type.
+&nbsp;     */
+&nbsp;    protected AbstractDescriptorIo(DescriptorType descriptorType)
+<b class="nc">&nbsp;    {</b>
+&nbsp;        // Voluntarily empty constructor as utility classes should not have a public or default
+&nbsp;        // constructor
+<b class="nc">&nbsp;        this.factory = descriptorType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a document builder.
+&nbsp;     * @return new document builder
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public SAXBuilder createDocumentBuilder()
+&nbsp;    {
+<b class="nc">&nbsp;        return createDocumentBuilder(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param theEntityResolver entity resolver or null
+&nbsp;     * @return a new non-validating, non-namespace-aware {@link javax.xml.parsers.DocumentBuilder}
+&nbsp;     * instance
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public SAXBuilder createDocumentBuilder(EntityResolver theEntityResolver)
+&nbsp;    {
+<b class="nc">&nbsp;        SAXBuilder factory = new SAXBuilder();</b>
+<b class="nc">&nbsp;        factory.setValidation(false);</b>
+<b class="nc">&nbsp;        factory.setFactory(this.factory.getJDOMFactory());</b>
+&nbsp;
+<b class="nc">&nbsp;        EntityResolver resolver = theEntityResolver;</b>
+<b class="nc">&nbsp;        if (resolver == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            resolver = getEntityResolver();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (resolver != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            factory.setEntityResolver(resolver);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return factory;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the default entity resolver for this type.
+&nbsp;     * @return default resolver, or null if none
+&nbsp;     */
+&nbsp;    protected EntityResolver getEntityResolver()
+&nbsp;    {
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param input the input stream
+&nbsp;     * @return JDOM Document
+&nbsp;     * @throws IOException if problem reading the stream
+&nbsp;     * @throws JDOMException if problem parsing the stream
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Document parseXml(InputStream input) throws JDOMException, IOException
+&nbsp;    {
+<b class="nc">&nbsp;        return parseXml(input, new XmlEntityResolver());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a document from the input stream and resolver.
+&nbsp;     * 
+&nbsp;     * @param input the input stream
+&nbsp;     * @param resolver entity resolver, or null
+&nbsp;     * @return JDOM Document
+&nbsp;     * @throws IOException if problem reading the stream
+&nbsp;     * @throws JDOMException if problem parsing the stream
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Document parseXml(InputStream input, EntityResolver resolver)
+&nbsp;        throws JDOMException, IOException
+&nbsp;    {
+<b class="nc">&nbsp;        SAXBuilder builder = createDocumentBuilder(resolver);</b>
+<b class="nc">&nbsp;        return builder.build(input);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes the specified document to a file.
+&nbsp;     * 
+&nbsp;     * @param descriptor The descriptor to serialize
+&nbsp;     * @param file The file to write to
+&nbsp;     * 
+&nbsp;     * @throws IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    public static void writeDescriptor(Descriptor descriptor, File file) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        writeDescriptor(descriptor, file, StandardCharsets.UTF_8, false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes the specified document to a file.
+&nbsp;     * 
+&nbsp;     * @param descriptor The descriptor to serialize
+&nbsp;     * @param file The file to write to
+&nbsp;     * @param encoding The character encoding to use
+&nbsp;     * @throws IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    public static void writeDescriptor(Descriptor descriptor, File file, Charset encoding)
+&nbsp;        throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        writeDescriptor(descriptor, file, encoding, false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes the specified document to a file.
+&nbsp;     * 
+&nbsp;     * @param descriptor The descriptor to serialize
+&nbsp;     * @param file The file to write to
+&nbsp;     * @param encoding The character encoding to use
+&nbsp;     * @param isIndent Whether the written XML should be indented
+&nbsp;     * @throws IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    public static void writeDescriptor(Descriptor descriptor, File file, Charset encoding,
+&nbsp;        boolean isIndent) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        try (OutputStream out = new FileOutputStream(file))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            writeDescriptor(descriptor, out, encoding, isIndent);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes the specified document to an output stream.
+&nbsp;     * 
+&nbsp;     * @param descriptor The descriptor to serialize
+&nbsp;     * @param out The output stream to write to
+&nbsp;     * @param encoding The character encoding to use
+&nbsp;     * @param isIndent Whether the written XML should be indented
+&nbsp;     * 
+&nbsp;     * @throws IOException If an I/O error occurs
+&nbsp;     */
+&nbsp;    public static void writeDescriptor(Descriptor descriptor, OutputStream out, Charset encoding,
+&nbsp;        boolean isIndent) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        if (encoding == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Encoding must not be null&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        XMLOutputter serializer = new XMLOutputter();</b>
+<b class="nc">&nbsp;        Format format = Format.getPrettyFormat();</b>
+<b class="nc">&nbsp;        format.setEncoding(encoding.name());</b>
+&nbsp;
+&nbsp;        // First, output as a String so we can fix some known issues with output
+<b class="nc">&nbsp;        serializer.setFormat(format);</b>
+<b class="nc">&nbsp;        StringWriter writer = new StringWriter();</b>
+<b class="nc">&nbsp;        serializer.output((Document) descriptor, writer);</b>
+<b class="nc">&nbsp;        String result = writer.toString();</b>
+&nbsp;
+&nbsp;        // Save the root tag (including namespace) and replace all other xmlns attributes
+<b class="nc">&nbsp;        String root = descriptor.getRootElement().getName();</b>
+<b class="nc">&nbsp;        int startRoot = result.indexOf(root);</b>
+<b class="nc">&nbsp;        int endRoot = result.indexOf(&#39;&gt;&#39;, startRoot);</b>
+&nbsp;
+<b class="nc">&nbsp;        String subString = result.substring(endRoot + 1);</b>
+<b class="nc">&nbsp;        subString = subString.replaceAll(&quot; xmlns=\&quot;.*\&quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        StringBuilder sb = new StringBuilder(result.substring(0, endRoot + 1));</b>
+<b class="nc">&nbsp;        sb.append(subString);</b>
+<b class="nc">&nbsp;        result = sb.toString();</b>
+&nbsp;
+&nbsp;        // Remove empty extension tags
+<b class="nc">&nbsp;        result = result.replace(&quot;&lt;extension /&gt;&quot;, &quot;&quot;);</b>
+&nbsp;
+&nbsp;        // Then, output the String into the OutputStream
+<b class="nc">&nbsp;        out.write(result.getBytes(encoding));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Writes the WebXml and its associated vendor descriptors to the specified directory.
+&nbsp;     * 
+&nbsp;     * @param descriptor The descriptor to serialize
+&nbsp;     * @param dir Directory to store the descriptors in
+&nbsp;     * @return Array of files for every created file
+&nbsp;     * @throws IOException if a I/O error occurs
+&nbsp;     */
+&nbsp;    public static File[] writeAll(J2eeDescriptor descriptor, String dir) throws IOException
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;File&gt; files = new ArrayList&lt;File&gt;();</b>
+<b class="nc">&nbsp;        File webXmlFile = new File(dir, &quot;web.xml&quot;);</b>
+<b class="nc">&nbsp;        writeDescriptor(descriptor, webXmlFile, StandardCharsets.UTF_8, true);</b>
+<b class="nc">&nbsp;        files.add(webXmlFile);</b>
+<b class="nc">&nbsp;        for (Descriptor descr : descriptor.getVendorDescriptors())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            File file = new File(dir, descr.getFileName());</b>
+<b class="nc">&nbsp;            AbstractDescriptorIo.writeDescriptor(descr, file, StandardCharsets.UTF_8, true);</b>
+<b class="nc">&nbsp;            files.add(file);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return files.toArray(new File[files.size()]);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

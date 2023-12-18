@@ -1,0 +1,903 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AbstractLocalConfiguration</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.container.spi.configuration</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractLocalConfiguration (org.codehaus.cargo.container.spi.configuration)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractLocalConfiguration</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60.5%
+  </span>
+  <span class="absValue">
+    (23/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    67.5%
+  </span>
+  <span class="absValue">
+    (141/209)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.container.spi.configuration;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import org.codehaus.cargo.container.ContainerException;
+&nbsp;import org.codehaus.cargo.container.LocalContainer;
+&nbsp;import org.codehaus.cargo.container.configuration.FileConfig;
+&nbsp;import org.codehaus.cargo.container.configuration.LocalConfiguration;
+&nbsp;import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.DataSource;
+&nbsp;import org.codehaus.cargo.container.configuration.entry.Resource;
+&nbsp;import org.codehaus.cargo.container.deployable.Deployable;
+&nbsp;import org.codehaus.cargo.container.internal.util.ResourceUtils;
+&nbsp;import org.codehaus.cargo.container.property.DataSourceConverter;
+&nbsp;import org.codehaus.cargo.container.property.DatasourcePropertySet;
+&nbsp;import org.codehaus.cargo.container.property.GeneralPropertySet;
+&nbsp;import org.codehaus.cargo.container.property.ResourceConverter;
+&nbsp;import org.codehaus.cargo.container.property.ResourcePropertySet;
+&nbsp;import org.codehaus.cargo.container.property.ServletPropertySet;
+&nbsp;import org.codehaus.cargo.container.property.TransactionSupport;
+&nbsp;import org.codehaus.cargo.container.property.User;
+&nbsp;import org.codehaus.cargo.util.CargoException;
+&nbsp;import org.codehaus.cargo.util.DefaultFileHandler;
+&nbsp;import org.codehaus.cargo.util.FileHandler;
+&nbsp;import org.codehaus.cargo.util.log.Logger;
+&nbsp;
+&nbsp;/**
+&nbsp; * Base implementation of
+&nbsp; * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} that can be
+&nbsp; * specialized for standalone configuration, existing configuration or other local configurations.
+&nbsp; */
+&nbsp;public abstract class AbstractLocalConfiguration extends AbstractConfiguration implements
+&nbsp;    LocalConfiguration
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * The path under which the container resources are stored in the JAR.
+&nbsp;     */
+&nbsp;    public static final String RESOURCE_PATH = &quot;org/codehaus/cargo/container/internal/resources/&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Property key to flag ports which have already an offset applied.
+&nbsp;     */
+<b class="fc">&nbsp;    private static final String PORT_OFFSET_APPLIED_PREFIX = LocalConfiguration.class.getName()</b>
+&nbsp;        + &quot;_portOffsetApplied_&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of {@link Deployable}s to deploy into the container.
+&nbsp;     */
+&nbsp;    private List&lt;Deployable&gt; deployables;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of {@link FileConfig}s to use for the container.
+&nbsp;     */
+&nbsp;    private List&lt;FileConfig&gt; files;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The replacements for the configuration files. This contains the tokens and what values they
+&nbsp;     * should be replaced with.
+&nbsp;     */
+&nbsp;    private Map&lt;String, String&gt; replacements;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The home directory for the configuration. This is where the associated container will be set
+&nbsp;     * up to start and where it will deploy its deployables.
+&nbsp;     */
+&nbsp;    private String home;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Resource utility class.
+&nbsp;     */
+&nbsp;    private ResourceUtils resourceUtils;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * File utility class.
+&nbsp;     */
+&nbsp;    private FileHandler fileHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of {@link Resource}s to add to a container.
+&nbsp;     */
+&nbsp;    private List&lt;Resource&gt; resources;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of {@link DataSource}s to add to a container.
+&nbsp;     */
+&nbsp;    private List&lt;DataSource&gt; dataSources;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * List of {@link User}s to add to a container.
+&nbsp;     */
+&nbsp;    private List&lt;User&gt; users;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param home the home directory where the container will be set up to start and where it will
+&nbsp;     * deploy its deployables. &lt;b&gt;IMPORTANT&lt;/b&gt;: While some containers can deal with this parameter
+&nbsp;     * being set as a relative path, some others require this path to be set to an absolute
+&nbsp;     * directory. Please refer to the documentation of the server to ensure you give the path in
+&nbsp;     * the appropriate way. If in doubt, you can use absolute paths -that is known to work with all
+&nbsp;     * containers.
+&nbsp;     */
+&nbsp;    public AbstractLocalConfiguration(String home)
+&nbsp;    {
+<b class="fc">&nbsp;        super();</b>
+&nbsp;
+<b class="fc">&nbsp;        this.deployables = new ArrayList&lt;Deployable&gt;();</b>
+<b class="fc">&nbsp;        this.fileHandler = new DefaultFileHandler();</b>
+<b class="fc">&nbsp;        this.resourceUtils = new ResourceUtils();</b>
+<b class="fc">&nbsp;        this.resources = new ArrayList&lt;Resource&gt;();</b>
+<b class="fc">&nbsp;        this.dataSources = new ArrayList&lt;DataSource&gt;();</b>
+<b class="fc">&nbsp;        this.files = new ArrayList&lt;FileConfig&gt;();</b>
+<b class="fc">&nbsp;        this.users = new ArrayList&lt;User&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        this.home = home;</b>
+&nbsp;
+<b class="fc">&nbsp;        setProperty(GeneralPropertySet.PORT_OFFSET, &quot;0&quot;);</b>
+<b class="fc">&nbsp;        setProperty(GeneralPropertySet.SPAWN_PROCESS, &quot;false&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overriden in order to set the logger on ancillary components.
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * @param logger the logger to set and set in the ancillary objects
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setLogger(Logger logger)
+&nbsp;    {
+<b class="nc">&nbsp;        super.setLogger(logger);</b>
+<b class="nc">&nbsp;        this.fileHandler.setLogger(logger);</b>
+<b class="nc">&nbsp;        this.resourceUtils.setLogger(logger);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the file utility class to use for performing all file I/O.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public FileHandler getFileHandler()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param fileHandler the file utility class to use for performing all file I/O.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setFileHandler(FileHandler fileHandler)
+&nbsp;    {
+<b class="fc">&nbsp;        this.fileHandler = fileHandler;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the Resource utility class
+&nbsp;     */
+&nbsp;    protected final ResourceUtils getResourceUtils()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.resourceUtils;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setFileProperty(FileConfig fileConfig)
+&nbsp;    {
+<b class="fc">&nbsp;        this.files.add(fileConfig);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void setConfigFileProperty(FileConfig fileConfig)
+&nbsp;    {
+&nbsp;        // a configuration file should always overwrite the previous file if it exists
+&nbsp;        // since the token value could have changed during.
+<b class="fc">&nbsp;        fileConfig.setOverwrite(true);</b>
+<b class="fc">&nbsp;        fileConfig.setConfigfile(true);</b>
+<b class="fc">&nbsp;        this.setFileProperty(fileConfig);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;FileConfig&gt; getFileProperties()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.files;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public synchronized void addDeployable(Deployable newDeployable)
+&nbsp;    {
+<b class="nc">&nbsp;        this.deployables.add(newDeployable);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;Deployable&gt; getDeployables()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.deployables;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String getHome()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.home;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getPropertyValue(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        if (isOffsetApplied(name))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            return super.getProperties().get(name);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="fc">&nbsp;            return super.getPropertyValue(name);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void configure(LocalContainer container)
+&nbsp;    {
+<b class="nc">&nbsp;        if (getPropertyValue(GeneralPropertySet.JAVA_HOME) == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            setProperty(GeneralPropertySet.JAVA_HOME, System.getProperty(&quot;java.home&quot;));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        parsePropertiesForPendingConfiguration();</b>
+<b class="nc">&nbsp;        verify();</b>
+&nbsp;
+&nbsp;        try
+&nbsp;        {
+<b class="nc">&nbsp;            doConfigure(container);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new ContainerException(&quot;Failed to create a &quot; + container.getName() + &quot; &quot;</b>
+<b class="nc">&nbsp;                + getType().getType() + &quot; configuration: &quot; + e.getMessage(), e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        configureFiles(getReplacements(), container);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns (while, if necessary, creating) the default filter chain that should be applied
+&nbsp;     * while copying container configuration files to the working directory from which the
+&nbsp;     * container is started.
+&nbsp;     * 
+&nbsp;     * @return The default filter chain
+&nbsp;     */
+&nbsp;    protected Map&lt;String, String&gt; getReplacements()
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.replacements == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            this.replacements = new HashMap&lt;String, String&gt;(getProperties());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return this.replacements;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy the customized configuration files into the cargo home directory.
+&nbsp;     * @param replacements the replacements to use during the copy
+&nbsp;     * @param container local container
+&nbsp;     */
+&nbsp;    protected void configureFiles(Map&lt;String, String&gt; replacements, LocalContainer container)
+&nbsp;    {
+<b class="fc">&nbsp;        List&lt;FileConfig&gt; files = this.files;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (FileConfig fileConfig : files)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            boolean isDirectory = false;</b>
+&nbsp;
+<b class="fc">&nbsp;            if (fileConfig.getFile() == null)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;File cannot be null&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            File origFile = new File(fileConfig.getFile());</b>
+<b class="fc">&nbsp;            if (origFile.isDirectory())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                isDirectory = true;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            String destFile = getDestFileLocation(fileConfig.getFile(),</b>
+<b class="fc">&nbsp;                    fileConfig.getToDir(), fileConfig.getToFile());</b>
+&nbsp;
+&nbsp;            // we don&#39;t want to do anything if the file exists and overwrite is false
+<b class="fc">&nbsp;            if (!origFile.exists() || fileConfig.getOverwrite())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (isDirectory)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    String destDir = getDestDirectoryLocation(fileConfig.getFile(), fileConfig</b>
+<b class="fc">&nbsp;                            .getToDir());</b>
+&nbsp;
+<b class="fc">&nbsp;                    if (fileConfig.getConfigfile())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir, replacements,</b>
+<b class="nc">&nbsp;                            fileConfig.getEncodingAsCharset());</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="fc">&nbsp;                        getFileHandler().copyDirectory(fileConfig.getFile(), destDir);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;                else
+&nbsp;                {
+<b class="fc">&nbsp;                    if (fileConfig.getConfigfile())</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        getFileHandler().copyFile(fileConfig.getFile(), destFile, replacements,</b>
+<b class="fc">&nbsp;                            fileConfig.getEncodingAsCharset());</b>
+&nbsp;                    }
+&nbsp;                    else
+&nbsp;                    {
+<b class="fc">&nbsp;                        getFileHandler().copyFile(fileConfig.getFile(), destFile,</b>
+<b class="fc">&nbsp;                                fileConfig.getOverwrite());</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Determines the correct path for the destination file.
+&nbsp;     * @param file The path of the original file
+&nbsp;     * @param toDir The directory for the copied file
+&nbsp;     * @param toFile The file name for the copied file
+&nbsp;     * @return The path for the destination file
+&nbsp;     */
+&nbsp;    protected String getDestFileLocation(String file, String toDir, String toFile)
+&nbsp;    {
+<b class="fc">&nbsp;        String fileName = file;</b>
+<b class="fc">&nbsp;        String finalFile = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (fileName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;file cannot be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (toFile == null &amp;&amp; toDir != null)</b>
+&nbsp;        {
+&nbsp;            // get the filename and add it in the todir directory name
+<b class="fc">&nbsp;            String filename = new File(fileName).getName();</b>
+<b class="fc">&nbsp;            finalFile = getHome() + &quot;/&quot; + toDir + &quot;/&quot; + filename;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        else if (toFile != null &amp;&amp; toDir == null)</b>
+&nbsp;        {
+&nbsp;            // just use the tofile filename as the final file
+<b class="fc">&nbsp;            finalFile = getHome() + &quot;/&quot; + toFile;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (toFile == null &amp;&amp; toDir == null)</b>
+&nbsp;        {
+&nbsp;            // use the filename and add it into the conf directory
+<b class="fc">&nbsp;            String filename = new File(fileName).getName();</b>
+<b class="fc">&nbsp;            finalFile = getHome() + &quot;/&quot; + filename;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        else if (toFile != null &amp;&amp; toDir != null)</b>
+&nbsp;        {
+&nbsp;            // tofile means what name to call the file in the todir directory
+<b class="fc">&nbsp;            finalFile = getHome() + &quot;/&quot; + toDir + &quot;/&quot; + toFile;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // replace all double slashes with a single slash
+<b class="fc">&nbsp;        while (finalFile.contains(&quot;//&quot;))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            finalFile = finalFile.replaceAll(&quot;//&quot;, &quot;/&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return finalFile;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Determines the correct path for the destination directory.
+&nbsp;     * @param file The path of the original file
+&nbsp;     * @param toDir The directory for the copied file
+&nbsp;     * @return The path for the destination file
+&nbsp;     */
+&nbsp;    protected String getDestDirectoryLocation(String file, String toDir)
+&nbsp;    {
+<b class="fc">&nbsp;        String fileName = file;</b>
+<b class="fc">&nbsp;        String finalDir = null;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (fileName == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;file cannot be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (toDir != null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            finalDir = getHome() + &quot;/&quot; + toDir;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if (toDir == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            finalDir = getHome();</b>
+&nbsp;        }
+&nbsp;        // replace all double slashes with a single slash
+<b class="fc">&nbsp;        while (finalDir.contains(&quot;//&quot;))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            finalDir = finalDir.replaceAll(&quot;//&quot;, &quot;/&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return finalDir;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void verify()
+&nbsp;    {
+<b class="nc">&nbsp;        collectUnsupportedResourcesAndThrowException();</b>
+<b class="nc">&nbsp;        collectUnsupportedDataSourcesAndThrowException();</b>
+<b class="nc">&nbsp;        super.verify();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Warn user and throw an Exception if any unsupported {@link Resource}s are setup for this
+&nbsp;     * configuration.
+&nbsp;     */
+&nbsp;    public void collectUnsupportedResourcesAndThrowException()
+&nbsp;    {
+<b class="fc">&nbsp;        if (!getResources().isEmpty()</b>
+<b class="fc">&nbsp;            &amp;&amp; !this.getCapability().supportsProperty(ResourcePropertySet.RESOURCE))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            StringBuilder errorMessage = new StringBuilder();</b>
+<b class="fc">&nbsp;            for (Resource resource : getResources())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String message =</b>
+&nbsp;                    &quot;This configuration does not support Resource configuration! JndiName: &quot;
+<b class="fc">&nbsp;                        + resource.getName();</b>
+<b class="fc">&nbsp;                getLogger().warn(message, getClass().getName());</b>
+<b class="fc">&nbsp;                if (!errorMessage.toString().isEmpty())</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    errorMessage.append(&quot;\n&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                errorMessage.append(message);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            throw new CargoException(errorMessage.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Warn user and throw an Exception if any unsupported {@link DataSource}s are setup for this
+&nbsp;     * configuration.
+&nbsp;     */
+&nbsp;    public void collectUnsupportedDataSourcesAndThrowException()
+&nbsp;    {
+<b class="fc">&nbsp;        StringBuilder errorMessage = new StringBuilder();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (DataSource dataSource : getDataSources())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String reason = null;</b>
+<b class="fc">&nbsp;            if (!this.getCapability().supportsProperty(DatasourcePropertySet.DATASOURCE))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                reason = &quot;This configuration does not support DataSource configuration! &quot;;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if (ConfigurationEntryType.XA_DATASOURCE.equals(dataSource.getConnectionType())</b>
+<b class="fc">&nbsp;                &amp;&amp; !this.getCapability().supportsProperty(DatasourcePropertySet.CONNECTION_TYPE))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                reason =</b>
+&nbsp;                    &quot;This configuration does not support XADataSource configured DataSources! &quot;;
+&nbsp;            }
+<b class="fc">&nbsp;            else if (!ConfigurationEntryType.XA_DATASOURCE.equals(dataSource.getConnectionType())</b>
+<b class="fc">&nbsp;                &amp;&amp; !TransactionSupport.NO_TRANSACTION.equals(dataSource.getTransactionSupport())</b>
+<b class="fc">&nbsp;                &amp;&amp; !this.getCapability().supportsProperty(</b>
+&nbsp;                    DatasourcePropertySet.TRANSACTION_SUPPORT))
+&nbsp;            {
+<b class="fc">&nbsp;                reason =</b>
+&nbsp;                    &quot;This configuration does not support Transactions on Driver configured &quot;
+&nbsp;                        + &quot;DataSources! &quot;;
+&nbsp;            }
+<b class="fc">&nbsp;            if (reason != null)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                String message = reason + &quot;JndiName: &quot; + dataSource.getJndiLocation();</b>
+<b class="fc">&nbsp;                if (errorMessage.length() &gt; 0)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    errorMessage.append(&quot;\n&quot;);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                errorMessage.append(message);</b>
+<b class="fc">&nbsp;                getLogger().warn(message, getClass().getName());</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if (errorMessage.length() &gt; 0)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new CargoException(errorMessage.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Some configuration can be specified as encoded properties. Parse properties and apply what is
+&nbsp;     * found to the appropriate pending configuration list.
+&nbsp;     */
+&nbsp;    public void parsePropertiesForPendingConfiguration()
+&nbsp;    {
+<b class="nc">&nbsp;        addResourcesFromProperties();</b>
+<b class="nc">&nbsp;        addDataSourcesFromProperties();</b>
+<b class="nc">&nbsp;        addUsersFromProperties();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse properties and add any Resources to pending configuration. Resources will be found if
+&nbsp;     * their property name starts with: {@link ResourcePropertySet#RESOURCE}
+&nbsp;     */
+&nbsp;    protected void addResourcesFromProperties()
+&nbsp;    {
+<b class="nc">&nbsp;        getLogger().debug(&quot;Searching properties for Resource definitions&quot;,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, String&gt; property : getProperties().entrySet())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String propertyName = property.getKey();</b>
+<b class="nc">&nbsp;            if (propertyName.startsWith(ResourcePropertySet.RESOURCE))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String resourceProperty = property.getValue();</b>
+<b class="nc">&nbsp;                getLogger().debug(&quot;Found Resource definition: value [&quot; + resourceProperty + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+<b class="nc">&nbsp;                Resource resource = new ResourceConverter().fromPropertyString(resourceProperty);</b>
+<b class="nc">&nbsp;                getResources().add(resource);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse properties and add any DataSources to pending configuration. DataSources will be found
+&nbsp;     * if their property name starts with: {@link DatasourcePropertySet#DATASOURCE}
+&nbsp;     */
+&nbsp;    protected void addDataSourcesFromProperties()
+&nbsp;    {
+<b class="nc">&nbsp;        getLogger().debug(&quot;Searching properties for DataSource definitions&quot;,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+<b class="nc">&nbsp;        for (Map.Entry&lt;String, String&gt; property : getProperties().entrySet())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            String propertyName = property.getKey();</b>
+<b class="nc">&nbsp;            if (propertyName.startsWith(DatasourcePropertySet.DATASOURCE))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                String dataSourceProperty = property.getValue();</b>
+<b class="nc">&nbsp;                getLogger().debug(</b>
+&nbsp;                    &quot;Found DataSource definition: value [&quot; + dataSourceProperty + &quot;]&quot;,
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+<b class="nc">&nbsp;                DataSource dataSource =</b>
+<b class="nc">&nbsp;                    new DataSourceConverter().fromPropertyString(dataSourceProperty);</b>
+<b class="nc">&nbsp;                getDataSources().add(dataSource);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parse properties and add any users to pending configuration. Users will be retrieved from
+&nbsp;     * their property: {@link ServletPropertySet#USERS}
+&nbsp;     */
+&nbsp;    protected void addUsersFromProperties()
+&nbsp;    {
+<b class="nc">&nbsp;        getLogger().debug(&quot;Searching properties for User definition&quot;,</b>
+<b class="nc">&nbsp;            this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;        String usersProperty = getPropertyValue(ServletPropertySet.USERS);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (usersProperty != null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            getLogger().debug(&quot;Found User definition: value [&quot; + usersProperty + &quot;]&quot;,</b>
+<b class="nc">&nbsp;                    this.getClass().getName());</b>
+&nbsp;
+<b class="nc">&nbsp;            List&lt;User&gt; usersFromProp = User.parseUsers(usersProperty);</b>
+<b class="nc">&nbsp;            getUsers().addAll(usersFromProp);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Implementation of {@link LocalConfiguration#configure(LocalContainer)} that all local
+&nbsp;     * configuration using this class must implement. This provides the ability to perform generic
+&nbsp;     * actions before and after the container-specific implementation. Another way would be to use
+&nbsp;     * AOP...
+&nbsp;     * 
+&nbsp;     * @param container the container to configure
+&nbsp;     * @throws Exception if any error is raised during the configuration
+&nbsp;     */
+&nbsp;    protected abstract void doConfigure(LocalContainer container) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addResource(Resource resource)
+&nbsp;    {
+<b class="nc">&nbsp;        this.resources.add(resource);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the configured resources for this container.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;Resource&gt; getResources()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.resources;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addUser(User user)
+&nbsp;    {
+<b class="nc">&nbsp;        this.users.add(user);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;User&gt; getUsers()
+&nbsp;    {
+<b class="nc">&nbsp;        return users;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void addDataSource(DataSource dataSource)
+&nbsp;    {
+<b class="nc">&nbsp;        this.dataSources.add(dataSource);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;DataSource&gt; getDataSources()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.dataSources;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method should only be called once all the properties has been set. {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void applyPortOffset()
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null</b>
+<b class="fc">&nbsp;            &amp;&amp; !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals(&quot;0&quot;))</b>
+&nbsp;        {
+&nbsp;            // Since the properties hashmap is impacted by the revert we must
+&nbsp;            // use a copy of the keys
+<b class="fc">&nbsp;            Set&lt;String&gt; keysCopy = new HashSet&lt;String&gt;(this.getProperties().keySet());</b>
+<b class="fc">&nbsp;            for (String key : keysCopy)</b>
+&nbsp;            {
+&nbsp;                // CARGO-1438: Only update numbers for properties prefixed with &quot;cargo.&quot;
+<b class="fc">&nbsp;                if (key.startsWith(&quot;cargo.&quot;) &amp;&amp; key.endsWith(&quot;.port&quot;))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    this.applyPortOffset(key);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     * 
+&nbsp;     * This method should only be called once all the properties has been set.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void revertPortOffset()
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null</b>
+<b class="fc">&nbsp;            &amp;&amp; !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals(&quot;0&quot;))</b>
+&nbsp;        {
+&nbsp;            // We need to shift the ports
+&nbsp;
+&nbsp;            // Since the properties hashmap is impacted by the revert we must
+&nbsp;            // use a copy of the keys
+<b class="fc">&nbsp;            Set&lt;String&gt; keysCopy = new HashSet&lt;String&gt;(this.getProperties().keySet());</b>
+<b class="fc">&nbsp;            for (String key : keysCopy)</b>
+&nbsp;            {
+&nbsp;                // CARGO-1438: Only update numbers for properties prefixed with &quot;cargo.&quot;
+<b class="fc">&nbsp;                if (key.startsWith(&quot;cargo.&quot;) &amp;&amp; key.endsWith(&quot;.port&quot;))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    this.revertPortOffset(key);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Apply the port offset on the specified property
+&nbsp;     * @param name the property name
+&nbsp;     */
+&nbsp;    protected void applyPortOffset(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null</b>
+<b class="fc">&nbsp;            &amp;&amp; this.getPropertyValue(name) != null</b>
+<b class="fc">&nbsp;            &amp;&amp; !isOffsetApplied(name))</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                int portOffset = Integer.parseInt(this.getPropertyValue(</b>
+&nbsp;                    GeneralPropertySet.PORT_OFFSET));
+<b class="fc">&nbsp;                int value = Integer.parseInt(this.getPropertyValue(name));</b>
+<b class="fc">&nbsp;                this.setProperty(name, Integer.toString(value + portOffset));</b>
+<b class="fc">&nbsp;                flagOffsetApplied(name, true);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (NumberFormatException e)</b>
+&nbsp;            {
+&nbsp;                // We do nothing
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Revert the port offset on the specified property
+&nbsp;     * 
+&nbsp;     * @param name the property name
+&nbsp;     */
+&nbsp;    protected void revertPortOffset(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null</b>
+<b class="fc">&nbsp;                &amp;&amp; this.getPropertyValue(name) != null</b>
+<b class="fc">&nbsp;                &amp;&amp; isOffsetApplied(name))</b>
+&nbsp;        {
+&nbsp;            try
+&nbsp;            {
+<b class="fc">&nbsp;                int portOffset = Integer.parseInt(this.getPropertyValue(</b>
+&nbsp;                    GeneralPropertySet.PORT_OFFSET));
+<b class="fc">&nbsp;                int value = Integer.parseInt(this.getPropertyValue(name));</b>
+<b class="fc">&nbsp;                this.setProperty(name, Integer.toString(value - portOffset));</b>
+<b class="fc">&nbsp;                flagOffsetApplied(name, false);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (NumberFormatException e)</b>
+&nbsp;            {
+&nbsp;                // We do nothing
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * {@inheritDoc}
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isOffsetApplied()
+&nbsp;    {
+&nbsp;        // Servlet port should be available in all containers, so we can use it
+&nbsp;        // to check if offset was applied.
+<b class="fc">&nbsp;        return isOffsetApplied(ServletPropertySet.PORT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks whether the offset is already applied or not
+&nbsp;     * @param name the name of the property to be checked
+&nbsp;     * @return &lt;code&gt;true&lt;/code&gt; if the offset is already applied
+&nbsp;     */
+&nbsp;    protected boolean isOffsetApplied(String name)
+&nbsp;    {
+<b class="fc">&nbsp;        return super.getPropertyValue(PORT_OFFSET_APPLIED_PREFIX + name) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Flags whether offset has been applied to a given property or not.
+&nbsp;     * @param name name of the property to be flagged.
+&nbsp;     * @param offsetApplied &lt;code&gt;true&lt;/code&gt; if the offset is applied, else &lt;code&gt;false&lt;/code&gt;.
+&nbsp;     */
+&nbsp;    protected void flagOffsetApplied(String name, boolean offsetApplied)
+&nbsp;    {
+<b class="fc">&nbsp;        this.setProperty(PORT_OFFSET_APPLIED_PREFIX + name,</b>
+<b class="fc">&nbsp;            offsetApplied ? String.valueOf(offsetApplied) : null);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>

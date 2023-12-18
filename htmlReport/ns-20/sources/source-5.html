@@ -1,0 +1,243 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > WebXml22Type</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.codehaus.cargo.module.webapp</a>
+</div>
+
+<h1>Coverage Summary for Class: WebXml22Type (org.codehaus.cargo.module.webapp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebXml22Type</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * ========================================================================
+&nbsp; *
+&nbsp; * Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+&nbsp; * you may not use this file except in compliance with the License.
+&nbsp; * You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *   http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software
+&nbsp; * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+&nbsp; * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+&nbsp; * See the License for the specific language governing permissions and
+&nbsp; * limitations under the License.
+&nbsp; *
+&nbsp; * ========================================================================
+&nbsp; */
+&nbsp;package org.codehaus.cargo.module.webapp;
+&nbsp;
+&nbsp;import org.codehaus.cargo.module.AbstractDescriptorType;
+&nbsp;import org.codehaus.cargo.module.Dtd;
+&nbsp;import org.codehaus.cargo.module.Identifier;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.AuthConstraint;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.ContextParam;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.Filter;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.FilterMapping;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.InitParam;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.Listener;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.MimeMapping;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.Servlet;
+&nbsp;import org.codehaus.cargo.module.webapp.elements.ServletMapping;
+&nbsp;
+&nbsp;/**
+&nbsp; * Web 2.2 Descriptor.
+&nbsp; */
+&nbsp;public class WebXml22Type extends WebXmlType
+&nbsp;{
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Single instance.
+&nbsp;     */
+<b class="nc">&nbsp;    private static WebXml22Type instance = new WebXml22Type();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ensure all tags constructed.&lt;br&gt;
+&nbsp;     * The warning &lt;i&gt;value of the field is not used&lt;/i&gt; is irrelevant: the
+&nbsp;     * &lt;code&gt;DescriptorTag&lt;/code&gt; constructor performs the registrations.
+&nbsp;     */
+<b class="nc">&nbsp;    private WebXmlTag[] tags =</b>
+&nbsp;        new WebXmlTag[] {
+&nbsp;            new WebXmlTag(this, &quot;icon&quot;, false),
+&nbsp;            new WebXmlTag(this, &quot;display-name&quot;, false),
+&nbsp;            new WebXmlTag(this, &quot;description&quot;, false),
+&nbsp;            new WebXmlTag(this, &quot;distributable&quot;, false),
+&nbsp;            new WebXmlTag(this, &quot;context-param&quot;, true, new Identifier(&quot;param-name&quot;),
+&nbsp;                ContextParam.class),
+&nbsp;            new WebXmlTag(this, &quot;param-name&quot;),
+&nbsp;            new WebXmlTag(this, &quot;param-value&quot;),
+&nbsp;            new WebXmlTag(this, &quot;filter&quot;, true, new Identifier(&quot;filter-name&quot;), Filter.class),
+&nbsp;            new WebXmlTag(this, &quot;filter-name&quot;),
+&nbsp;            new WebXmlTag(this, &quot;filter-class&quot;),
+&nbsp;            new WebXmlTag(this, &quot;filter-mapping&quot;, true, new Identifier(&quot;filter-name&quot;),
+&nbsp;                FilterMapping.class),
+&nbsp;            new WebXmlTag(this, &quot;init-param&quot;, true, new Identifier(&quot;param-name&quot;), InitParam.class),
+&nbsp;            new WebXmlTag(this, &quot;listener&quot;, true, new Identifier(&quot;listener-class&quot;), Listener.class),
+&nbsp;            new WebXmlTag(this, &quot;listener-class&quot;),
+&nbsp;            new WebXmlTag(this, &quot;servlet&quot;, true, new Identifier(&quot;servlet-name&quot;), Servlet.class),
+&nbsp;            new WebXmlTag(this, &quot;servlet-name&quot;),
+&nbsp;            new WebXmlTag(this, &quot;jsp-file&quot;),
+&nbsp;            new WebXmlTag(this, &quot;servlet-class&quot;),
+&nbsp;            new WebXmlTag(this, &quot;load-on-startup&quot;),
+&nbsp;            new WebXmlTag(this, &quot;run-as&quot;),
+&nbsp;            new WebXmlTag(this, &quot;servlet-mapping&quot;, true, new Identifier(&quot;servlet-name&quot;),
+&nbsp;                ServletMapping.class),
+&nbsp;            new WebXmlTag(this, &quot;url-pattern&quot;),
+&nbsp;            new WebXmlTag(this, &quot;session-config&quot;, false),
+&nbsp;            new WebXmlTag(this, &quot;mime-mapping&quot;, false, null, MimeMapping.class),
+&nbsp;            new WebXmlTag(this, &quot;welcome-file-list&quot;, false),
+&nbsp;            new WebXmlTag(this, &quot;error-page&quot;, true, new Identifier(
+&nbsp;                &quot;concat(error-code,&#39;&gt;&#39;,exception-type)&quot;), null), new WebXmlTag(this, &quot;taglib&quot;),
+&nbsp;            new WebXmlTag(this, &quot;resource-env-ref&quot;), new WebXmlTag(this, &quot;resource-ref&quot;),
+&nbsp;            new WebXmlTag(this, &quot;security-constraint&quot;, true, null, SecurityConstraint.class),
+&nbsp;            new WebXmlTag(this, &quot;web-resource-collection&quot;),
+&nbsp;            new WebXmlTag(this, &quot;web-resource-name&quot;),
+&nbsp;            new WebXmlTag(this, &quot;auth-constraint&quot;, false, null, AuthConstraint.class),
+&nbsp;            new WebXmlTag(this, &quot;login-config&quot;, false), new WebXmlTag(this, &quot;auth-method&quot;),
+&nbsp;            new WebXmlTag(this, &quot;realm-name&quot;),
+&nbsp;            new WebXmlTag(this, &quot;security-role&quot;, true, new Identifier(&quot;role-name&quot;), null),
+&nbsp;            new WebXmlTag(this, &quot;role-name&quot;), new WebXmlTag(this, &quot;env-entry&quot;),
+&nbsp;            new WebXmlTag(this, &quot;ejb-ref&quot;, true, new Identifier(&quot;ejb-ref-name&quot;), null),
+&nbsp;            new WebXmlTag(this, &quot;ejb-local-ref&quot;), new WebXmlTag(this, &quot;ejb-ref-name&quot;),
+&nbsp;            new WebXmlTag(this, &quot;ejb-ref-type&quot;), new WebXmlTag(this, &quot;local&quot;),
+&nbsp;            new WebXmlTag(this, &quot;local-home&quot;), new WebXmlTag(this, &quot;remote&quot;),
+&nbsp;            new WebXmlTag(this, &quot;home&quot;), new WebXmlTag(this, &quot;ejb-link&quot;)
+&nbsp;        };
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Protected Constructor.
+&nbsp;     */
+&nbsp;    protected WebXml22Type()
+&nbsp;    {
+<b class="nc">&nbsp;        super(null, new Dtd(&quot;http://java.sun.com/j2ee/dtds/web-app_2_2.dtd&quot;));</b>
+<b class="nc">&nbsp;        setDescriptorIo(new WebXmlIo(this));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Protected constructor.
+&nbsp;     * 
+&nbsp;     * @param parent Parent type if any
+&nbsp;     * @param grammar grammar to use
+&nbsp;     */
+&nbsp;    protected WebXml22Type(AbstractDescriptorType parent, Dtd grammar)
+&nbsp;    {
+<b class="nc">&nbsp;        super(parent, grammar);</b>
+<b class="nc">&nbsp;        setDescriptorIo(new WebXmlIo(this));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the instance of the WEB XML Type.
+&nbsp;     * @return WebXmlType
+&nbsp;     */
+&nbsp;    public static WebXmlType getInstance()
+&nbsp;    {
+<b class="nc">&nbsp;        return instance;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the web xml version for his type.
+&nbsp;     * @return the version for this type
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public WebXmlVersion getVersion()
+&nbsp;    {
+<b class="nc">&nbsp;        return WebXmlVersion.V2_2;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-04 23:32</div>
+</div>
+</body>
+</html>
