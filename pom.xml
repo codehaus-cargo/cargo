@@ -346,7 +346,7 @@
     <maven.minimum.version>3.6.3</maven.minimum.version>
     <maven.antrun-plugin.version>3.1.0</maven.antrun-plugin.version>
     <maven.archetype-packaging.version>3.2.1</maven.archetype-packaging.version>
-    <maven.compiler-plugin.version>3.11.0</maven.compiler-plugin.version>
+    <maven.compiler-plugin.version>3.12.0</maven.compiler-plugin.version>
     <maven.compiler-java.version>1.8</maven.compiler-java.version>
     <maven.compiler-java.release>8</maven.compiler-java.release>
     <maven.dependency-plugin.version>3.6.1</maven.dependency-plugin.version>
