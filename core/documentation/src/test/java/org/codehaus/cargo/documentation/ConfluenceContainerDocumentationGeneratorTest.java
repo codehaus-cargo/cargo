@@ -45,7 +45,7 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      * {@inheritDoc}
      */
     @Override
-    protected void setUp()
+    protected void setUp() throws Exception
     {
         this.generator = new ConfluenceContainerDocumentationGenerator();
     }

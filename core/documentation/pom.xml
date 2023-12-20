@@ -40,6 +40,11 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.bsc.maven</groupId>
+      <artifactId>confluence-reporting-maven-plugin</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-xml</artifactId>
       <scope>provided</scope>
@@ -91,6 +96,15 @@
             <include>org/codehaus/cargo/documentation/*.log</include>
             <include>org/codehaus/cargo/documentation/container-urls.properties</include>
           </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <cargo.confluenceCredentialsPath>${cargo.confluenceCredentialsPath}</cargo.confluenceCredentialsPath>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
     </plugins>

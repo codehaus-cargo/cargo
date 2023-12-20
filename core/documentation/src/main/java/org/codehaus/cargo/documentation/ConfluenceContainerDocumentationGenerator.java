@@ -20,13 +20,16 @@
 package org.codehaus.cargo.documentation;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -36,6 +39,14 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.project.MavenProject;
+import org.bsc.confluence.ConfluenceService;
+import org.bsc.confluence.ConfluenceServiceFactory;
+import org.bsc.confluence.ConfluenceService.Credentials;
+import org.bsc.confluence.ConfluenceService.Storage;
+import org.bsc.confluence.ConfluenceService.Model.Page;
+import org.bsc.confluence.ConfluenceService.Storage.Representation;
+import org.bsc.mojo.configuration.ScrollVersionsInfo;
+import org.bsc.ssl.SSLCertificateInfo;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -224,6 +235,34 @@ public class ConfluenceContainerDocumentationGenerator
      */
     private ConfigurationCapabilityFactory configurationCapabilityFactory =
         new DefaultConfigurationCapabilityFactory();
+
+    /**
+     * If configured, the Confluence service for updating the Wiki.
+     */
+    private ConfluenceService confluence = null;
+
+    /**
+     * Initialize the Confluence service, if necessary.
+     * @throws Exception If reading the Confluence service credentials fails.
+     */
+    public ConfluenceContainerDocumentationGenerator() throws Exception
+    {
+        String confluenceCredentialsPath = System.getProperty("cargo.confluenceCredentialsPath");
+        if (confluenceCredentialsPath != null && confluenceCredentialsPath.trim().length() > 0)
+        {
+            try (InputStream input = new FileInputStream(confluenceCredentialsPath.trim()))
+            {
+                Properties confluenceCredentials = new Properties();
+                confluenceCredentials.load(input);
+                Credentials credentials = new Credentials(
+                    confluenceCredentials.getProperty("cargo.confluence.username"),
+                        confluenceCredentials.getProperty("cargo.confluence.apiKey"));
+                confluence = ConfluenceServiceFactory.createInstance(
+                    "https://codehaus-cargo.atlassian.net/wiki/rest/api", credentials,
+                        null, new SSLCertificateInfo(), new ScrollVersionsInfo());
+            }
+        }
+    }
 
     /**
      * Generate documentation for a datasources.
@@ -435,6 +474,13 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(FileHandler.NEW_LINE);
         output.append("* ^M^: Mail resources are not supported by this container");
         output.append(FileHandler.NEW_LINE);
+
+        if (confluence != null)
+        {
+            Page page = confluence.getPage(
+                "CARGO", "Containers with DataSource and Resource support").get().get();
+            confluence.storePage(page, Storage.of(output.toString(), Representation.WIKI));
+        }
 
         return output.toString();
     }
@@ -681,6 +727,21 @@ public class ConfluenceContainerDocumentationGenerator
         output.append(FileHandler.NEW_LINE);
         output.append(generateSamplesInfoText(containerId));
         output.append(FileHandler.NEW_LINE);
+
+        if (confluence != null)
+        {
+            String containerName = getContainerName(containerId);
+            try
+            {
+                Page page = confluence.getPage("CARGO", containerName).get().get();
+                confluence.storePage(page, Storage.of(output.toString(), Representation.WIKI));
+            }
+            catch (Exception e)
+            {
+                throw new Exception(
+                    "Cannot update documentation for container: " + containerName, e);
+            }
+        }
 
         return output.toString();
     }
@@ -1642,27 +1703,13 @@ public class ConfluenceContainerDocumentationGenerator
 
                     if (JAVA7_MAX_CONTAINERS_JSP.contains(containerId))
                     {
-                        Configuration configuration =
-                            this.configurationFactory.createConfiguration(containerId,
-                                ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-                        InstalledLocalContainer container = (InstalledLocalContainer)
-                            this.containerFactory.createContainer(
-                                containerId, ContainerType.INSTALLED, configuration);
-
                         extra = "Due to incompatibilities with its JSP environment, "
-                            + container.getName() + " doesn't run on Java 8 and above";
+                            + getContainerName(containerId) + " doesn't run on Java 8 and above";
                     }
                     else if (JAVA7_MAX_CONTAINERS_OSGI.contains(containerId))
                     {
-                        Configuration configuration =
-                            this.configurationFactory.createConfiguration(containerId,
-                                ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-                        InstalledLocalContainer container = (InstalledLocalContainer)
-                            this.containerFactory.createContainer(
-                                containerId, ContainerType.INSTALLED, configuration);
-
                         extra = "Due to incompatibilities with its OSGi environment, "
-                            + container.getName() + " doesn't run on Java 8 and above";
+                            + getContainerName(containerId) + " doesn't run on Java 8 and above";
                     }
                     else if ("resin3x".equals(containerId))
                     {
@@ -1841,6 +1888,41 @@ public class ConfluenceContainerDocumentationGenerator
     {
         return "o.c.c.c" + className.substring(
             className.substring(0, className.lastIndexOf('.')).lastIndexOf('.'));
+    }
+
+    /**
+     * Name of a given container.
+     * @param containerId Container ID.
+     * @return Name of the container.
+     */
+    protected String getContainerName(String containerId)
+    {
+        ContainerType containerType;
+        if (this.containerFactory.isContainerRegistered(containerId, ContainerType.INSTALLED))
+        {
+            containerType = ContainerType.INSTALLED;
+        }
+        else
+        {
+            containerType = ContainerType.EMBEDDED;
+        }
+        Configuration configuration;
+        if (this.configurationFactory.isConfigurationRegistered(
+            containerId, containerType, ConfigurationType.STANDALONE))
+        {
+            configuration = this.configurationFactory.createConfiguration(
+                containerId, containerType, ConfigurationType.STANDALONE);
+        }
+        else
+        {
+            configuration = this.configurationFactory.createConfiguration(
+                containerId, containerType, ConfigurationType.EXISTING);
+        }
+        return this.containerFactory.createContainer(
+            containerId, containerType, configuration).getName()
+                .replace(" Embedded", "")
+                    .replaceAll("WildFly Swarm.*", "WildFly Swarm")
+                        .replaceAll(" \\((JBoss )?EAP .*\\)", "");
     }
 
     /**
