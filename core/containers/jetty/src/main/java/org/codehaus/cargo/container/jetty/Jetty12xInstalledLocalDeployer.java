@@ -22,6 +22,8 @@ package org.codehaus.cargo.container.jetty;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -44,6 +46,11 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
                 put("ee9", "_9_0");
                 put("ee10", "_10_0");
             }};
+
+    /**
+     * Pattern for matchin version numbers.
+     */
+    private static final Pattern VERSION_NUMBER_PATTERN = Pattern.compile("(\\d+(\\.\\d+)*).*");
 
     /**
      * {@inheritDoc}
@@ -86,10 +93,11 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
         sb.append("  <Set name=\"defaultsDescriptor\"><SystemProperty name=\"config.home\" "
             + "default=\".\"/>/etc/webdefault-" + eeVersion + ".xml</Set>\n");
         // Add datasources
+        String resourceClassName = getJettyResourceClassname(
+            ((Jetty12xInstalledLocalContainer) getContainer()).getVersion(), eeVersion);
         for (DataSource ds : getContainer().getConfiguration().getDataSources())
         {
-            sb.append("  <New id=\"" + ds.getId()
-                + "\" class=\"org.eclipse.jetty." + eeVersion + ".plus.jndi.Resource\">\n");
+            sb.append("  <New id=\"" + ds.getId() + "\" class=\"" + resourceClassName + "\">\n");
             sb.append("    <Arg>" + ds.getJndiLocation() + "</Arg>\n");
             sb.append("    <Arg>\n");
             sb.append("      <New class=\"com.mchange.v2.c3p0.ComboPooledDataSource\">\n");
@@ -107,4 +115,28 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
         return sb.toString();
     }
 
+    /**
+     * Returns the Jetty resource class name given the Jetty version.
+     * @param jettyVersion Jetty version.
+     * @param eeVersion EE version.
+     * @return Jetty resource class name.
+     */
+    public static String getJettyResourceClassname(String jettyVersion, String eeVersion)
+    {
+        Matcher matcher = VERSION_NUMBER_PATTERN.matcher(jettyVersion);
+        if (!matcher.matches())
+        {
+            throw new IllegalArgumentException(
+                "Version [" + jettyVersion + "] doesn't match " + VERSION_NUMBER_PATTERN);
+        }
+        String[] versionParts = matcher.group(1).split("\\.");
+
+        StringBuilder resourceClassName = new StringBuilder("org.eclipse.jetty.");
+        if (versionParts.length > 2 && Integer.parseInt(versionParts[0]) == 12
+            && Integer.parseInt(versionParts[1]) == 0 &&  Integer.parseInt(versionParts[2]) < 5)
+        {
+            resourceClassName.append(eeVersion + ".");
+        }
+        return resourceClassName.append("plus.jndi.Resource").toString();
+    }
 }
