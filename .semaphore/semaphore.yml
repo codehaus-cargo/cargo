@@ -28,6 +28,7 @@ global_job_config:
       - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
       - ls -al ~/.m2/semaphore-ci-binaries
       - cd ~/.m2/semaphore-ci-binaries
+      - rm -f apache-maven-3.5.4-bin.tar.gz ; RM=0'
       - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz ; RM=0'
       - tar -xvzf apache-maven-3.6.3-bin.tar.gz -C /tmp/cargo
       - cd $ORIGINAL_PWD
@@ -200,6 +201,18 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+  - name: WildFly 31.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 31.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -e -Pwildfly31x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 8
     dependencies:
@@ -1309,6 +1322,7 @@ blocks:
       - WildFly 28.x
       - WildFly 29.x
       - WildFly 30.x
+      - WildFly 31.x
     task:
       jobs:
         - name: Deploy using Java 11
