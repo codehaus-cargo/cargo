@@ -49,6 +49,7 @@ public class EnvironmentTestData
         "jetty12x",
         "glassfish6x",
         "glassfish7x",
+        "glassfish8x",
         "tomcat10x",
         "tomcat11x",
         "tomee9x",

@@ -1184,6 +1184,18 @@ blocks:
             - cd $ORIGINAL_PWD
             - mvn -version
             - mvn clean install
+  - name: GlassFish 8.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: GlassFish 8.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 12.x
     dependencies:
       - Build on Java 17
@@ -1236,6 +1248,7 @@ blocks:
       - GlassFish 5.x
       - GlassFish 6.x
       - GlassFish 7.x
+      - GlassFish 8.x
       - JBoss 3.x
       - JBoss 4.2.x
       - JBoss 4.x

@@ -64,10 +64,11 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             new CargoTestSuite("Tests that run on local containers supporting XADataSource "
                 + "configured DataSources and WAR deployments");
 
-        // We exclude GlassFish 7.x (at least, during its current milestone phase) as it doesn't
-        // support XA transaction emulation the way Codehaus Cargo tests it
+        // We exclude GlassFish 7.x and 8.x as these doesn't support XA transaction emulation the
+        // way Codehaus Cargo tests it (using an old version of Spring)
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("glassfish7x");
+        excludedContainerIds.add("glassfish8x");
 
         // Jakarta EE versions of Payara do not support XA transaction emulation
         // the way Codehaus Cargo tests it

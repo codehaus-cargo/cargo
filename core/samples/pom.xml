@@ -439,6 +439,11 @@
               </cargo.glassfish7x.url>
               <cargo.glassfish7x.java.home>${cargo.java.home.1_11}</cargo.glassfish7x.java.home>
 
+              <cargo.glassfish8x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/8.0.0-M1/glassfish-8.0.0-M1.zip
+              </cargo.glassfish8x.url>
+              <cargo.glassfish8x.java.home>${cargo.java.home.1_17}</cargo.glassfish8x.java.home>
+
               <cargo.liberty.url>
                 https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/23.0.0.11/wlp-javaee8-23.0.0.11.zip
               </cargo.liberty.url>

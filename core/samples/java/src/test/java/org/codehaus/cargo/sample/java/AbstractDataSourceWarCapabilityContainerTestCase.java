@@ -101,7 +101,8 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
     {
         if ("glassfish3x".equals(container.getId()) || "glassfish4x".equals(container.getId())
             || "glassfish5x".equals(container.getId()) || "glassfish6x".equals(container.getId())
-            || "glassfish7x".equals(container.getId()) || "payara".equals(container.getId()))
+            || "glassfish7x".equals(container.getId()) || "glassfish8x".equals(container.getId())
+            || "payara".equals(container.getId()))
         {
             // GlassFish 3.x, 4.x, 5.x and 6.1.x onwards (interestingly, not GlassFish 6.0.0) as
             // well as earlier versions of Payara already ship with Derby, adding the JAR twice

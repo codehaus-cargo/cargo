@@ -65,8 +65,8 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
             new CargoTestSuite(
                 "Tests that run on local containers supporting Resource and WAR deployments");
 
-        // JBoss 7.5.x, GlassFish 3.x, GlassFish 4.x, GlassFish 5.x, GlassFish 6.x, GlassFish 7.x,
-        // Payara, the WebLogic WSLT deployer and WildFly cannot deploy XA datasources as resource
+        // JBoss 7.5.x, GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara, the WebLogic WSLT
+        // deployer and WildFly cannot deploy XA datasources as resource
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("glassfish3x");
@@ -74,6 +74,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("glassfish5x");
         excludedContainerIds.add("glassfish6x");
         excludedContainerIds.add("glassfish7x");
+        excludedContainerIds.add("glassfish8x");
         excludedContainerIds.add("payara");
         excludedContainerIds.add("weblogic121x");
         excludedContainerIds.add("weblogic122x");

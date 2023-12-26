@@ -17,15 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.payara.internal;
+package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.glassfish.internal.GlassFish4x5x6x7x8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 
 /**
- * Payara standalone local configuration capability.
+ * GlassFish 8.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
+ * applications.
  */
-public class PayaraStandaloneLocalConfigurationCapability extends
-    GlassFish4x5x6x7x8xStandaloneLocalConfigurationCapability
+public class GlassFish8xInstalledLocalDeployer extends GlassFish7xInstalledLocalDeployer
 {
-    // Nothing compared to GlassFish 4.x onwards configuration capabilities
+    /**
+     * Calls parent constructor, which saves the container.
+     * 
+     * @param localContainer Container.
+     */
+    public GlassFish8xInstalledLocalDeployer(InstalledLocalContainer localContainer)
+    {
+        super(localContainer);
+    }
 }

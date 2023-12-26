@@ -66,8 +66,8 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
                 "Tests that run on local containers supporting DataSource and WAR deployments");
 
         // We exclude Geronimo 2.x, JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x,
-        // JBoss 7.5.x and GlassFish 7.x (at least, during its current milestone phase) as these
-        // don't support transaction emulation the way Codehaus Cargo tests it
+        // JBoss 7.5.x and GlassFish 7.x and 8.x as these don't support transaction emulation the
+        // way Codehaus Cargo tests it (using an old version of Spring)
         Set<String> excludedContainerIds = new TreeSet<String>();
         excludedContainerIds.add("geronimo2x");
         excludedContainerIds.add("jboss7x");
@@ -77,6 +77,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("jboss74x");
         excludedContainerIds.add("jboss75x");
         excludedContainerIds.add("glassfish7x");
+        excludedContainerIds.add("glassfish8x");
 
         // Jakarta EE versions of Payara do not support transaction emulation
         // the way Codehaus Cargo tests it
