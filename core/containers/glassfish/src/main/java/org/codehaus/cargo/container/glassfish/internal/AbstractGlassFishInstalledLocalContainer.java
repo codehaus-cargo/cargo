@@ -302,6 +302,12 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             try
             {
                 String pid = getFileHandler().append(getConfiguration().getHome(), "config/pid");
+                if (!getFileHandler().exists(pid))
+                {
+                    pid = getFileHandler().append(getFileHandler().append(
+                            getConfiguration().getHome(), getConfiguration().getPropertyValue(
+                                GlassFishPropertySet.DOMAIN_NAME)), "config/pid");
+                }
                 if (getFileHandler().exists(pid))
                 {
                     this.getLogger().debug(

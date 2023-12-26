@@ -48,7 +48,7 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
             }};
 
     /**
-     * Pattern for matchin version numbers.
+     * Pattern for matching version numbers, excluding non digits (alpha, dash, etc.).
      */
     private static final Pattern VERSION_NUMBER_PATTERN = Pattern.compile("(\\d+(\\.\\d+)*).*");
 
