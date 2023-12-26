@@ -1591,6 +1591,12 @@
         <cargo.containers>glassfish7x</cargo.containers>
       </properties>
     </profile>
+    <profile>
+      <id>glassfish8x</id>
+      <properties>
+        <cargo.containers>glassfish8x</cargo.containers>
+      </properties>
+    </profile>
 
     <profile>
       <id>liberty</id>
