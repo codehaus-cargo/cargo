@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2023 Ali Tokmen.
+  Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2024 Ali Tokmen.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -1269,7 +1269,7 @@
             <bottom>
               &lt;br&gt;
               Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and
-              2012–2023 Ali Tokmen under the Apache Software License, except for the
+              2012–2024 Ali Tokmen under the Apache Software License, except for the
               WebSphere Liberty container which has been released under the MIT License.
               &lt;a href="https://codehaus-cargo.github.io/cargo/License.html"&gt;Click here for
               more details&lt;/a&gt;.
