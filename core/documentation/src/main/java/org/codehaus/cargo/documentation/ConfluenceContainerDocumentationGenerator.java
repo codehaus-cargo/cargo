@@ -562,8 +562,8 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("July 2021");
             output.append(FileHandler.NEW_LINE);
             output.append("* The [WildFly 27.x] container can be used with the JBoss Enterprise ");
-            output.append("Application Platform (EAP) version 8.0; i.e. the version expected by ");
-            output.append("mid 2023");
+            output.append("Application Platform (EAP) version 8.0; i.e. the version expected in ");
+            output.append("2024, with its last public beta released December 2022");
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
