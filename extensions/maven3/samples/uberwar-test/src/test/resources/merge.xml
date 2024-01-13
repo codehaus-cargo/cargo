@@ -21,4 +21,24 @@
     <war>org.codehaus.cargo:authentication-war</war>
     <war>org.codehaus.cargo:datasource-war</war>
   </wars>
+  <merges>
+    <merge>
+      <type>web.xml</type>
+      <parameters>
+        <default>
+          <tag name="display-name">
+            <strategy name="Overwrite"/>
+          </tag>
+          <tag name="welcome-file-list">
+            <strategy name="NodeMerge">
+              <welcome-file-list>
+                <welcome-file>$left:welcome-file</welcome-file>
+                <welcome-file>$right:welcome-file</welcome-file>
+              </welcome-file-list>
+            </strategy>
+          </tag>
+        </default>
+      </parameters>
+    </merge>
+  </merges>
 </uberwar>
