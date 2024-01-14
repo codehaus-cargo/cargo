@@ -26,8 +26,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.maven.Maven;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
@@ -42,10 +47,10 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
+import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
 import org.apache.maven.shared.transfer.artifact.install.ArtifactInstaller;
 import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
 import org.apache.maven.shared.transfer.dependencies.resolve.DependencyResolver;
-import org.codehaus.cargo.maven3.io.xpp3.UberWarXpp3Reader;
 import org.codehaus.cargo.maven3.merge.MergeWebXml;
 import org.codehaus.cargo.maven3.merge.MergeXslt;
 import org.codehaus.cargo.module.merge.DocumentStreamAdapter;
@@ -59,6 +64,7 @@ import org.codehaus.plexus.context.Context;
 import org.codehaus.plexus.context.ContextException;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Contextualizable;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.codehaus.plexus.classworlds.realm.ClassRealm;
 
 /**
  * Builds an uber war.
@@ -68,6 +74,12 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
     requiresDependencyResolution = ResolutionScope.TEST, threadSafe = true)
 public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 {
+    /**
+     * The path of the Plexus Utils properties file.
+     */
+    private static final String PLEXUS_UTILS_POM_PROPERTIES =
+        "META-INF/maven/org.codehaus.plexus/plexus-utils/pom.properties";
+
     /**
      * The directory for the generated WAR.
      */
@@ -197,8 +209,58 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 
         try
         {
-            UberWarXpp3Reader reader = new UberWarXpp3Reader();
-            MergeRoot root = reader.read(r);
+            Class uberWarXpp3ReaderClass = null;
+            Method read;
+            try
+            {
+                uberWarXpp3ReaderClass = this.getClass().getClassLoader().loadClass(
+                    "org.codehaus.cargo.maven3.io.xpp3.UberWarXpp3Reader");
+                // DO NOT "optimise" the below: the ClassNotFoundException or NoClassDefFoundError
+                // is ACTUALLY thrown getting the "read" method of the UberWarXpp3Reader
+                read = uberWarXpp3ReaderClass.getMethod("read", Reader.class);
+            }
+            catch (ClassNotFoundException | NoClassDefFoundError e)
+            {
+                ClassRealm classLoader = (ClassRealm) this.getClass().getClassLoader();
+
+                // CARGO-1624: Maven 3 has plexus-utils-3.x in the "lib" folder, but doesn't want
+                //             to make it accessible to the plugins, hence the plexus-utils-4.x
+                //             dependency (we use) gets "partially overridden" by Maven's.
+                //             As a workaround, re-include the same plexus-utils version.
+                DefaultArtifactCoordinate plexusCoordinate = new DefaultArtifactCoordinate();
+                plexusCoordinate.setGroupId("org.codehaus.plexus");
+                plexusCoordinate.setArtifactId("plexus-utils");
+                plexusCoordinate.setExtension("jar");
+
+                // Get the Plexus Utils version from the Maven libraries
+                ClassLoader mavenCore = Maven.class.getClassLoader();
+                if (mavenCore.getResource(UberWarMojo.PLEXUS_UTILS_POM_PROPERTIES) != null)
+                {
+                    try (InputStream plexusUtilsStream = mavenCore.getResourceAsStream(
+                        UberWarMojo.PLEXUS_UTILS_POM_PROPERTIES))
+                    {
+                        Properties plexusUtilsProperties = new Properties();
+                        plexusUtilsProperties.load(plexusUtilsStream);
+                        plexusCoordinate.setVersion(plexusUtilsProperties.getProperty("version"));
+                    }
+                }
+                else
+                {
+                    throw new ClassNotFoundException("Cannot load the Uberwar library", e);
+                }
+
+                // Add the Plexus Utils version from the Maven libraries back into the plugin's
+                // classloader, to avoid awkward ClassNotFound and other similar exceptions
+                Artifact plexusArtifact = artifactResolver.resolveArtifact(
+                    projectBuildingRequest, plexusCoordinate).getArtifact();
+                URL plexusArtifactUrl = plexusArtifact.getFile().toURI().toURL();
+                classLoader.addURL(plexusArtifactUrl);
+                uberWarXpp3ReaderClass = this.getClass().getClassLoader().loadClass(
+                    "org.codehaus.cargo.maven3.io.xpp3.UberWarXpp3Reader");
+                read = uberWarXpp3ReaderClass.getMethod("read", Reader.class);
+            }
+            Object reader = uberWarXpp3ReaderClass.getConstructor().newInstance();
+            MergeRoot root = (MergeRoot) read.invoke(reader, r);
 
             // Add the war files
             WarArchiveMerger wam = new WarArchiveMerger();
@@ -252,9 +314,17 @@ public class UberWarMojo extends AbstractUberWarMojo implements Contextualizable
 
             getProject().getArtifact().setFile(warFile);
         }
-        catch (XmlPullParserException e)
+        catch (InvocationTargetException e)
         {
-            throw new MojoExecutionException("Invalid XML descriptor", e);
+            Throwable t = e.getCause();
+            if (t instanceof XmlPullParserException)
+            {
+                throw new MojoExecutionException("Invalid XML descriptor", t);
+            }
+            else
+            {
+                throw new MojoExecutionException("Exception creating Uberwar", t);
+            }
         }
         catch (Exception e)
         {
