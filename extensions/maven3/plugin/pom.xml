@@ -75,23 +75,27 @@
       <groupId>org.apache.maven.shared</groupId>
       <artifactId>maven-artifact-transfer</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-archiver</artifactId>
-    </dependency>
+
     <!--
        Though we only need plexus-xml, plexus-utils needs to remain present due to the
        maven-artifact dependency otherwise pulling a very old version of plexus-utils.
 
        See https://github.com/codehaus-plexus/modello/issues/346 for details.
+
+       Due to CARGO-1624, we prefer to have "provided" as scope, so we get whatever version of
+       Plexus XML Maven provides.
+
+       See https://github.com/codehaus-plexus/modello/issues/407 for details.
        -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-xml</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

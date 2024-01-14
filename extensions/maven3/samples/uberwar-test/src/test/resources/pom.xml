@@ -49,17 +49,6 @@
         <configuration>
           <descriptor>merge.xml</descriptor>
         </configuration>
-		<!--
-          Ugly workaround against CARGO-1624: cargo-maven3-plugin Uberwar feature does not work
-                                              since 1.10.9 when <merges> are specified.
-          -->
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>3.5.1</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
