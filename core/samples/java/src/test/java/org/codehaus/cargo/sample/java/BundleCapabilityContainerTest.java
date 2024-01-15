@@ -92,7 +92,11 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
 
         File bundleOutput = new File(targetFile);
 
-        assertFalse(bundleOutput + " already exists!", bundleOutput.isFile());
+        if (bundleOutput.exists())
+        {
+            bundleOutput.delete();
+            assertFalse("Cannot delete " + bundleOutput, bundleOutput.exists());
+        }
 
         Deployable bundle = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
             getTestData().getTestDataFileFor("simple-bundle"), DeployableType.BUNDLE);
