@@ -509,18 +509,27 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
         }
 
+        // See https://access.redhat.com/solutions/21906 for the exact versions
         if (containerId.startsWith("jboss6") || containerId.startsWith("jboss7")
             || containerId.equals("wildfly10x") || containerId.equals("wildfly11x")
-            || containerId.equals("wildfly13x") || containerId.equals("wildfly18x")
-            || containerId.equals("wildfly22x") || containerId.equals("wildfly27x"))
+            || containerId.equals("wildfly14x") || containerId.equals("wildfly18x")
+            || containerId.equals("wildfly23x") || containerId.equals("wildfly28x"))
         {
             output.append("{info}With the opening of the JBoss EAP to the public and the split ");
             output.append("between JBoss and WildFly, the below naming correspondence should be ");
             output.append("used with JBoss EAP containers:");
             output.append(FileHandler.NEW_LINE);
+            output.append("* What Cargo calls [JBoss 6.x] is what JBoss refers to as JBoss ");
+            output.append("Application Server version 6; i.e. the version released in December ");
+            output.append("2010");
             output.append("* What Cargo calls [JBoss 6.1.x] is what JBoss refers to as JBoss ");
             output.append("Application Server version 6.1; i.e. the version released in August ");
             output.append("2011");
+            output.append(FileHandler.NEW_LINE);
+            output.append("* What Cargo calls [JBoss 7.1.x] is what JBoss refers to as JBoss ");
+            output.append("Enterprise Application Platform (EAP) version 6.0; i.e. the build ");
+            output.append("from JBoss Application Server (AS) version 7.1 released in February ");
+            output.append("2012");
             output.append(FileHandler.NEW_LINE);
             output.append("* What Cargo calls [JBoss 7.2.x] is what JBoss refers to as JBoss ");
             output.append("Enterprise Application Platform (EAP) version 6.1; i.e. the build ");
@@ -549,7 +558,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("Application Platform (EAP) version 7.1; i.e. the version released in ");
             output.append("December 2017");
             output.append(FileHandler.NEW_LINE);
-            output.append("* The [WildFly 13.x] container can be used with the JBoss Enterprise ");
+            output.append("* The [WildFly 14.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7.2; i.e. the version released in ");
             output.append("January 2019");
             output.append(FileHandler.NEW_LINE);
@@ -557,13 +566,13 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("Application Platform (EAP) version 7.3; i.e. the version released in ");
             output.append("March 2020");
             output.append(FileHandler.NEW_LINE);
-            output.append("* The [WildFly 22.x] container can be used with the JBoss Enterprise ");
+            output.append("* The [WildFly 23.x] container can be used with the JBoss Enterprise ");
             output.append("Application Platform (EAP) version 7.4; i.e. the version released in ");
             output.append("July 2021");
             output.append(FileHandler.NEW_LINE);
-            output.append("* The [WildFly 27.x] container can be used with the JBoss Enterprise ");
-            output.append("Application Platform (EAP) version 8.0; i.e. the version expected in ");
-            output.append("2024, with its last public beta released December 2022");
+            output.append("* The [WildFly 28.x] container can be used with the JBoss Enterprise ");
+            output.append("Application Platform (EAP) version 8.0; i.e. the version released in ");
+            output.append("February 2024");
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
