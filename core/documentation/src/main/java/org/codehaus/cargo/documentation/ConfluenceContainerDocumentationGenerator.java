@@ -522,6 +522,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("* What Cargo calls [JBoss 6.x] is what JBoss refers to as JBoss ");
             output.append("Application Server version 6; i.e. the version released in December ");
             output.append("2010");
+            output.append(FileHandler.NEW_LINE);
             output.append("* What Cargo calls [JBoss 6.1.x] is what JBoss refers to as JBoss ");
             output.append("Application Server version 6.1; i.e. the version released in August ");
             output.append("2011");
