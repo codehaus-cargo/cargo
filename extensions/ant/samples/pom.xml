@@ -98,6 +98,10 @@
                       <artifactId>commons-discovery</artifactId>
                     </artifactItem>
                     <artifactItem>
+                      <groupId>commons-io</groupId>
+                      <artifactId>commons-io</artifactId>
+                    </artifactItem>
+                    <artifactItem>
                       <groupId>commons-logging</groupId>
                       <artifactId>commons-logging</artifactId>
                     </artifactItem>
