@@ -21,6 +21,8 @@ updates:
     schedule:
       interval: "daily"
     ignore:
+      - dependency-name: "com.mchange:c3p0"
+        versions: ["[0.10.0-pre3,)"]
       - dependency-name: "com.puppycrawl.tools:checkstyle"
         versions: ["[10.0,)"]
       - dependency-name: "jakarta:servlet-api"
