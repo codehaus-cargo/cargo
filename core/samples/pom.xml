@@ -501,7 +501,7 @@
                 <!--
                 https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2022.5/payara-5.2022.5.zip
                   -->
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2024.1/payara-6.2024.1.zip
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2024.2/payara-6.2024.2.zip
               </cargo.payara.url>
               <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
 
