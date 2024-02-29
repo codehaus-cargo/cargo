@@ -30,6 +30,9 @@ import java.util.Map;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherLoggerRedirector;
+import org.codehaus.cargo.util.log.Logger;
 
 /**
  * This class encapsulate information about a WebSphere Liberty install
@@ -48,9 +51,19 @@ public class LibertyInstall
     private File usrDir;
 
     /**
+     * Java home.
+     */
+    private String javaHome;
+
+    /**
      * Output file.
      */
     private File outputFile;
+
+    /**
+     * Output logger.
+     */
+    private Logger outputLogger;
 
     /**
      * Create the LibertyInstall for this local container
@@ -61,9 +74,15 @@ public class LibertyInstall
     {
         installDir = new File(container.getHome());
         usrDir = new File(container.getConfiguration().getHome());
+        javaHome = container.getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
+        if (javaHome == null)
+        {
+            javaHome = System.getProperty("java.home");
+        }
         if (container.getOutput() != null)
         {
             outputFile = new File(container.getOutput());
+            outputLogger = container.getLogger();
         }
     }
 
@@ -114,7 +133,9 @@ public class LibertyInstall
      */
     public Process runCommand(String command) throws Exception
     {
-        return runCommand(command, new HashMap<String, String>());
+        Map<String, String> envWithJavaHome = new HashMap<String, String>(1);
+        envWithJavaHome.put("JAVA_HOME", javaHome);
+        return runCommand(command, envWithJavaHome);
     }
 
     /**
@@ -135,6 +156,10 @@ public class LibertyInstall
         if (scriptFile.exists())
         {
             ProcessBuilder builder = new ProcessBuilder().redirectErrorStream(true);
+            if (outputFile != null)
+            {
+                builder.redirectOutput(Redirect.appendTo(outputFile));
+            }
             List<String> cmds = builder.command();
             if (JdkUtils.isWindows())
             {
@@ -145,7 +170,6 @@ public class LibertyInstall
             {
                 cmds.add("sh");
             }
-
             cmds.add(scriptFile.getAbsolutePath());
             cmds.add(command);
             builder.directory(installDir);
@@ -154,7 +178,31 @@ public class LibertyInstall
             {
                 builder.redirectOutput(Redirect.appendTo(outputFile));
             }
-            return builder.start();
+            if (outputLogger != null)
+            {
+                outputLogger.debug(
+                    "Executing command: " + String.join(" ", cmds), this.getClass().getName());
+            }
+            Process process = builder.start();
+            process.getOutputStream().close();
+
+            if (outputFile == null)
+            {
+                if (outputLogger != null)
+                {
+                    Thread outputStreamRedirector =
+                        new Thread(new DefaultJvmLauncherLoggerRedirector(
+                            process.getInputStream(), outputLogger, this.getClass().getName()));
+                    outputStreamRedirector.start();
+                }
+                else
+                {
+                    process.getErrorStream().close();
+                    process.getInputStream().close();
+                }
+            }
+
+            return process;
         }
         else
         {
