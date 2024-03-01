@@ -23,7 +23,6 @@ package org.codehaus.cargo.container.liberty.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.ProcessBuilder.Redirect;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,6 @@ import java.util.Map;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherLoggerRedirector;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
