@@ -82,8 +82,8 @@ public class LibertyInstall
         if (container.getOutput() != null)
         {
             outputFile = new File(container.getOutput());
-            outputLogger = container.getLogger();
         }
+        outputLogger = container.getLogger();
     }
 
     /**
@@ -156,10 +156,6 @@ public class LibertyInstall
         if (scriptFile.exists())
         {
             ProcessBuilder builder = new ProcessBuilder().redirectErrorStream(true);
-            if (outputFile != null)
-            {
-                builder.redirectOutput(Redirect.appendTo(outputFile));
-            }
             List<String> cmds = builder.command();
             if (JdkUtils.isWindows())
             {
@@ -170,39 +166,17 @@ public class LibertyInstall
             {
                 cmds.add("sh");
             }
+
             cmds.add(scriptFile.getAbsolutePath());
             cmds.add(command);
             builder.directory(installDir);
             builder.environment().putAll(env);
-            if (outputFile != null)
-            {
-                builder.redirectOutput(Redirect.appendTo(outputFile));
-            }
             if (outputLogger != null)
             {
                 outputLogger.debug(
                     "Executing command: " + String.join(" ", cmds), this.getClass().getName());
             }
-            Process process = builder.start();
-            process.getOutputStream().close();
-
-            if (outputFile == null)
-            {
-                if (outputLogger != null)
-                {
-                    Thread outputStreamRedirector =
-                        new Thread(new DefaultJvmLauncherLoggerRedirector(
-                            process.getInputStream(), outputLogger, this.getClass().getName()));
-                    outputStreamRedirector.start();
-                }
-                else
-                {
-                    process.getErrorStream().close();
-                    process.getInputStream().close();
-                }
-            }
-
-            return process;
+            return builder.start();
         }
         else
         {
