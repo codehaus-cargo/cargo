@@ -1253,7 +1253,10 @@ blocks:
       jobs:
         - name: GlassFish 8.x
           commands:
-            - sem-version java 21
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-21"
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
