@@ -22,7 +22,9 @@ package org.codehaus.cargo.maven3;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
@@ -52,6 +54,12 @@ public class ContainerRunMojo extends ContainerStartMojo
     private String containerUrl;
 
     /**
+     * Current Maven session, used to determine if we're in interactive mpode.
+     */
+    @Component
+    private MavenSession session;
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -64,7 +72,8 @@ public class ContainerRunMojo extends ContainerStartMojo
             throw new MojoExecutionException("Only local containers can be started");
         }
 
-        // When Ctrl-C is pressed, stop the container
+        // When a TERM signal is received (either from the OS or when Ctrl-C is pressed,
+        // then stop the container
         Runtime.getRuntime().addShutdownHook(new Thread()
         {
             @Override
@@ -122,7 +131,16 @@ public class ContainerRunMojo extends ContainerStartMojo
             getLog().error("Starting container [" + this.localContainer + "] failed", t);
         }
 
-        getLog().info("Press Ctrl-C to stop the container...");
+        if (this.session != null && this.session.getRequest().isInteractiveMode())
+        {
+            getLog().info("Press Ctrl-C to stop the container...");
+        }
+        else
+        {
+            getLog().info(
+                "The cargo:run mojo will wait until a TERM signal is received, "
+                    + "container will also be stopped at that point.");
+        }
         ContainerUtils.waitTillContainerIsStopped(this.localContainer);
     }
 
