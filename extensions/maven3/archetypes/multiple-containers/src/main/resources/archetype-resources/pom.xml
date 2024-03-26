@@ -83,7 +83,7 @@
                 <artifactItem>
                   <groupId>org.apache.tomcat</groupId>
                   <artifactId>tomcat</artifactId>
-                  <version>8.5.99</version>
+                  <version>8.5.100</version>
                   <type>zip</type>
                   <outputDirectory>\${project.build.directory}/cargo/containers</outputDirectory>
                 </artifactItem>
@@ -117,7 +117,7 @@
               <target>
                 <taskdef resource="cargo.tasks"/>
 
-                <cargo containerId="tomcat8x" action="start" home="\${project.build.directory}/cargo/containers/apache-tomcat-8.5.99">
+                <cargo containerId="tomcat8x" action="start" home="\${project.build.directory}/cargo/containers/apache-tomcat-8.5.100">
                   <configuration home="\${project.build.directory}/cargo/configurations/tomcat8x">
                     <property name="cargo.servlet.port" value="\${servlet.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
@@ -150,7 +150,7 @@
               <target>
                 <taskdef resource="cargo.tasks"/>
 
-                <cargo containerId="tomcat8x" action="stop" home="\${project.build.directory}/cargo/containers/apache-tomcat-8.5.99">
+                <cargo containerId="tomcat8x" action="stop" home="\${project.build.directory}/cargo/containers/apache-tomcat-8.5.100">
                   <configuration home="\${project.build.directory}/cargo/configurations/tomcat8x">
                     <property name="cargo.servlet.port" value="\${servlet.port}"/>
                     <property name="cargo.rmi.port" value="\${rmi.port}"/>
