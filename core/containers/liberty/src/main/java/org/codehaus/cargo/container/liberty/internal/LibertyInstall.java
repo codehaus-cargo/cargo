@@ -23,6 +23,7 @@ package org.codehaus.cargo.container.liberty.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,6 +155,10 @@ public class LibertyInstall
         if (scriptFile.exists())
         {
             ProcessBuilder builder = new ProcessBuilder().redirectErrorStream(true);
+            if (outputFile != null)
+            {
+                builder.redirectOutput(Redirect.appendTo(outputFile));
+            }
             List<String> cmds = builder.command();
             if (JdkUtils.isWindows())
             {
