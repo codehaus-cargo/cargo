@@ -821,7 +821,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
             {
                 success = true;
 
-                getLogger().debug("Directory [" + pathFile + "] exists",
+                getLogger().debug("Directory [" + pathFile + "] exists, no need to create",
                     this.getClass().getName());
             }
             else
