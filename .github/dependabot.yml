@@ -37,7 +37,9 @@ updates:
       - dependency-name: "org.apache.derby:derby"
         versions: ["[10.13,)"]
       - dependency-name: "org.apache.maven:maven-artifact"
+      - dependency-name: "org.apache.maven:maven-compat"
       - dependency-name: "org.apache.maven:maven-core"
+      - dependency-name: "org.apache.maven:maven-embedder"
       - dependency-name: "org.apache.maven:maven-model"
       - dependency-name: "org.apache.maven:maven-plugin-api"
       - dependency-name: "org.apache.maven:maven-settings"
