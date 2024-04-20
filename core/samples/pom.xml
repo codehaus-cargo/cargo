@@ -603,7 +603,7 @@
                 <!--
                 https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.0.0/apache-tomee-9.0.0-plus.zip
                   -->
-                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.1.2/apache-tomee-9.1.2-plus.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/9.1.3/apache-tomee-9.1.3-plus.zip
               </cargo.tomee9x.url>
               <cargo.tomee9x.java.home>${cargo.java.home.1_11}</cargo.tomee9x.java.home>
 
