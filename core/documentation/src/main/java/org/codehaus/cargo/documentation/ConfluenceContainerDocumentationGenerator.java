@@ -1666,8 +1666,11 @@ public class ConfluenceContainerDocumentationGenerator
                     }
                     else if ("payara".equals(containerId))
                     {
-                        javaVersion = "7 (Payara 4.x), 8 (Payara 5.x), 11 (Payara  6.x onwards) "
-                            + "or 21 (Payara 7.x onwards)";
+                        javaVersion = "{_}" + FileHandler.NEW_LINE
+                            + "* {_}7 (Payara 4.x){_}" + FileHandler.NEW_LINE
+                            + "* {_}8 (Payara 5.x){_}" + FileHandler.NEW_LINE
+                            + "* {_}11 (Payara  6.x onwards){_}" + FileHandler.NEW_LINE
+                            + "* {_}21 (Payara 7.x onwards){_}" + FileHandler.NEW_LINE + "{_}";
                         extra = "Payara 4.x [doesn't run on Java 9 and above|"
                             + "https://github.com/eclipse-ee4j/glassfish/issues/22130]";
                     }
@@ -1741,10 +1744,15 @@ public class ConfluenceContainerDocumentationGenerator
                     }
                     if (!extra.isEmpty())
                     {
-                        extra = FileHandler.NEW_LINE + "{_}" + extra + "{_}";
+                        extra = FileHandler.NEW_LINE + "&nbsp;" + FileHandler.NEW_LINE
+                            + "{_}" + extra + "{_}";
+                    }
+                    if (javaVersion.charAt(0) != '{')
+                    {
+                        javaVersion = " " + javaVersion + " ";
                     }
                     output.append(
-                        " | {_}JAVA_HOME version " + javaVersion + " or newer{_}" + extra + " |");
+                        " | {_}JAVA_HOME version" + javaVersion + "or newer{_}" + extra + " |");
                     break;
                 case JonasPropertySet.JONAS_SERVICES_LIST:
                     output.append(" | {_}Will be loaded from the{_} {{conf/jonas.properties}} "
