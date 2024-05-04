@@ -234,7 +234,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfiguration extends
      * 
      * @param container the container to configure
      */
-    private void setupWebApps(LocalContainer container)
+    protected void setupWebApps(LocalContainer container)
     {
         try
         {

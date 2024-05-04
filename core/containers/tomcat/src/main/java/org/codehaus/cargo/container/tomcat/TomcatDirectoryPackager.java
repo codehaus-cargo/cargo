@@ -32,8 +32,8 @@ public class TomcatDirectoryPackager extends AbstractDirectoryPackager
     /**
      * The portion of Tomcat's distribution to exclude from packaging.
      */
-    private static final List<String> EXCLUDED_FROM_DISTRIBUTION =
-        Arrays.asList("conf/**", "logs/**", "temp/**", "webapps/**", "work/**");
+    private static final List<String> EXCLUDED_FROM_DISTRIBUTION = Arrays.asList(
+        "conf/**", "logs/**", "temp/**", "webapps/**", "webapps-javaee/**", "work/**");
 
     /**
      * The portion of Tomcat's configuration to exclude from packaging.<br>

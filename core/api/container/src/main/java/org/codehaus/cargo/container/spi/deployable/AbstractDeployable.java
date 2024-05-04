@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.spi.deployable;
 
 import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableVersion;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.LoggedObject;
@@ -41,6 +42,11 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     private FileHandler fileHandler;
 
     /**
+     * Deployable's version (j2ee, javaee, jakartaee, etc)
+     */
+    private DeployableVersion version;
+
+    /**
      * @param file the location of the deployable file being wrapped.
      */
     public AbstractDeployable(String file)
@@ -56,6 +62,23 @@ public abstract class AbstractDeployable extends LoggedObject implements Deploya
     public String getFile()
     {
         return this.file;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DeployableVersion getVersion()
+    {
+        return version;
+    }
+
+    /**
+     * @param version Deployable's version (j2ee, javaee, jakartaee, etc)
+     */
+    public void setVersion(DeployableVersion version)
+    {
+        this.version = version;
     }
 
     /**

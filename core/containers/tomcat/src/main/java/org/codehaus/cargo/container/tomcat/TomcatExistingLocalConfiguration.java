@@ -106,6 +106,13 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
             }
 
             setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, attribute.getNodeValue());
+
+            attribute = node.getAttributes().getNamedItem("legacyAppBase");
+
+            if (attribute != null)
+            {
+                setProperty(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, attribute.getNodeValue());
+            }
         }
         catch (Exception e)
         {
@@ -153,6 +160,12 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
             // Deploy the CPC (Cargo Ping Component) to the webapps directory.
             getResourceUtils().copyResource(RESOURCE_PATH + "cargocpc.war",
                 new File(webappsDir, "cargocpc.war"));
+
+            if (container instanceof Tomcat10xInstalledLocalContainer
+                && getPropertyValue(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY) == null)
+            {
+                setProperty(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, "webapps-javaee");
+            }
         }
     }
 

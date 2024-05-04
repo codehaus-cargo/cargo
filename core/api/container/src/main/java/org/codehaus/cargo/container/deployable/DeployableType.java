@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.deployable;
 
 /**
- * Type of Depoyable. Can be WAR, EAR, EXPANDED_WAR, etc.
+ * Type of Deployable. Can be WAR, EAR, EXPANDED_WAR, etc.
  */
 public final class DeployableType
 {

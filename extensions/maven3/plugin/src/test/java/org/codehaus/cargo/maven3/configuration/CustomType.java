@@ -21,6 +21,7 @@ package org.codehaus.cargo.maven3.configuration;
 
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.DeployableVersion;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
@@ -42,6 +43,15 @@ public class CustomType implements Deployable
      */
     @Override
     public String getFile()
+    {
+        return null;
+    }
+
+    /**
+     * @return <code>null</code>
+     */
+    @Override
+    public DeployableVersion getVersion()
     {
         return null;
     }

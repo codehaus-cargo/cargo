@@ -54,6 +54,7 @@
     <module>tomcat8x-embedded-test</module>
     <module>tomcat9x-embedded-test</module>
     <module>tomcat10x-embedded-test</module>
+    <module>tomcat10x-legacyWar-test</module>
     <module>tomcat11x-embedded-test</module>
     <module>uberwar-test</module>
     <module>users-test</module>

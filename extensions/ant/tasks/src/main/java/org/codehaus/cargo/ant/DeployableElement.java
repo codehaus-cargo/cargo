@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.DeployableVersion;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -249,22 +250,40 @@ public class DeployableElement
         {
             // If we reach this line, it means there is no String setter for the given property
             // name with a String argument. Check if there is a setter with String[] argument; if
-            // there is one split the value at each line and call the setter.
-            method = deployable.getClass().getMethod(setterMethodName, String[].class);
-
-            List<String> valueList = new ArrayList<String>();
-            StringTokenizer commaSeparatedValue = new StringTokenizer(property.getValue(), ",");
-            while (commaSeparatedValue.hasMoreTokens())
+            // there is one split the value at each comma and call the setter.
+            try
             {
-                String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
-                if (!commaSeparatedLine.isEmpty())
+                method = deployable.getClass().getMethod(setterMethodName, String[].class);
+
+                List<String> valueList = new ArrayList<String>();
+                StringTokenizer commaSeparatedValue =
+                    new StringTokenizer(property.getValue(), ",");
+                while (commaSeparatedValue.hasMoreTokens())
                 {
-                    valueList.add(commaSeparatedLine);
+                    String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
+                    if (!commaSeparatedLine.isEmpty())
+                    {
+                        valueList.add(commaSeparatedLine);
+                    }
+                }
+                String[] valueArray = new String[valueList.size()];
+                valueArray = valueList.toArray(valueArray);
+                argument = valueArray;
+            }
+            catch (NoSuchMethodException e2)
+            {
+                try
+                {
+                    method =
+                        deployable.getClass().getMethod(setterMethodName, DeployableVersion.class);
+                    argument = DeployableVersion.toVersion(property.getValue());
+                }
+                catch (Throwable t)
+                {
+                    throw new IllegalArgumentException(
+                        "Unknown Deployable property: " + property.getName(), e);
                 }
             }
-            String[] valueArray = new String[valueList.size()];
-            valueArray = valueList.toArray(valueArray);
-            argument = valueArray;
         }
 
         method.invoke(deployable, argument);

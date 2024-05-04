@@ -20,7 +20,9 @@
 package org.codehaus.cargo.container.tomcat;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.util.XmlReplacement.ReplacementBehavior;
 
 /**
@@ -32,13 +34,41 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
 {
     /**
      * {@inheritDoc}
+     */
+    private static ConfigurationCapability capability =
+        new Tomcat10x11xStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
      * @see Tomcat9xStandaloneLocalConfiguration#Tomcat9xStandaloneLocalConfiguration(String)
      */
     public Tomcat10xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
 
+        setProperty(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, "webapps-javaee");
+
         configurationBuilder = new Tomcat10x11xConfigurationBuilder();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setupWebApps(LocalContainer container)
+    {
+        getFileHandler().createDirectory(getHome(),
+            getPropertyValue(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY));
+        super.setupWebApps(container);
     }
 
     /**

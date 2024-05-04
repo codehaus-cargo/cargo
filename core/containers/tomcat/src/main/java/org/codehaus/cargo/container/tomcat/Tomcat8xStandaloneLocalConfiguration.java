@@ -21,8 +21,10 @@ package org.codehaus.cargo.container.tomcat;
 
 import java.nio.charset.StandardCharsets;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationBuilder;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.w3c.dom.Element;
@@ -60,6 +62,12 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
 
     /**
      * {@inheritDoc}
+     */
+    private static ConfigurationCapability capability =
+        new Tomcat8x9xStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
      * @see Tomcat7xStandaloneLocalConfiguration#Tomcat7xStandaloneLocalConfiguration(String)
      */
     public Tomcat8xStandaloneLocalConfiguration(String dir)
@@ -70,6 +78,15 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         setProperty(TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES, "false");
 
         configurationBuilder = new Tomcat8x9xConfigurationBuilder();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return capability;
     }
 
     /**

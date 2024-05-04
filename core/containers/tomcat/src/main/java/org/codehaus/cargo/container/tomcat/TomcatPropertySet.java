@@ -73,6 +73,13 @@ public interface TomcatPropertySet
     String WEBAPPS_DIRECTORY = "cargo.tomcat.webappsDirectory";
 
     /**
+     * The <code>webapps-javaee</code> directory of Tomcat, which with Toncat 10.x onwards is used
+     * for storing legacy J2EE and Java EE applications which Tomcat transforms to Jakarta EE
+     * before deployment.
+     */
+    String WEBAPPS_LEGACY_DIRECTORY = "cargo.tomcat.webappsLegacyDirectory";
+
+    /**
      * Number of threads the host will use to start context elements in parallel.
      */
     String HOST_START_STOP_THREADS = "cargo.tomcat.host.startStopThreads";

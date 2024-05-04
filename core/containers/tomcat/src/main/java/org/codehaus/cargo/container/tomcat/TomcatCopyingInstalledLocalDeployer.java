@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.DeployableVersion;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
@@ -56,9 +57,17 @@ public class TomcatCopyingInstalledLocalDeployer extends AbstractCopyingInstalle
     @Override
     public String getDeployableDir(Deployable deployable)
     {
+        String propertyName = TomcatPropertySet.WEBAPPS_DIRECTORY;
+        if (getContainer() instanceof Tomcat10xInstalledLocalContainer)
+        {
+            if (deployable.getVersion() == DeployableVersion.J2EE
+                || deployable.getVersion() == DeployableVersion.JAVA_EE)
+            {
+                propertyName = TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY;
+            }
+        }
         return getFileHandler().append(getContainer().getConfiguration().getHome(),
-            getContainer().getConfiguration().getPropertyValue(
-                TomcatPropertySet.WEBAPPS_DIRECTORY));
+            getContainer().getConfiguration().getPropertyValue(propertyName));
     }
 
     /**

@@ -30,6 +30,7 @@ import java.util.StringTokenizer;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.DeployableVersion;
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
@@ -448,22 +449,38 @@ public class Deployable extends AbstractDependency
         {
             // If we reach this line, it means there is no String setter for the given property
             // name with a String argument. Check if there is a setter with String[] argument; if
-            // there is one split the value at each line and call the setter.
-            method = deployable.getClass().getMethod(setterMethodName, String[].class);
-
-            List<String> valueList = new ArrayList<String>();
-            StringTokenizer commaSeparatedValue = new StringTokenizer(value, ",");
-            while (commaSeparatedValue.hasMoreTokens())
+            // there is one split the value at each comma and call the setter.
+            try
             {
-                String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
-                if (!commaSeparatedLine.isEmpty())
+                method = deployable.getClass().getMethod(setterMethodName, String[].class);
+
+                List<String> valueList = new ArrayList<String>();
+                StringTokenizer commaSeparatedValue = new StringTokenizer(value, ",");
+                while (commaSeparatedValue.hasMoreTokens())
                 {
-                    valueList.add(commaSeparatedLine);
+                    String commaSeparatedLine = commaSeparatedValue.nextToken().trim();
+                    if (!commaSeparatedLine.isEmpty())
+                    {
+                        valueList.add(commaSeparatedLine);
+                    }
+                }
+                String[] valueArray = new String[valueList.size()];
+                valueArray = valueList.toArray(valueArray);
+                argument = valueArray;
+            }
+            catch (NoSuchMethodException e2)
+            {
+                try
+                {
+                    method =
+                        deployable.getClass().getMethod(setterMethodName, DeployableVersion.class);
+                    argument = DeployableVersion.toVersion(value);
+                }
+                catch (Throwable t)
+                {
+                    throw new IllegalArgumentException("Unknown Deployable property: " + name, e);
                 }
             }
-            String[] valueArray = new String[valueList.size()];
-            valueArray = valueList.toArray(valueArray);
-            argument = valueArray;
         }
 
         project.getLog().debug("Invoking setter method " + method + " for deployable "

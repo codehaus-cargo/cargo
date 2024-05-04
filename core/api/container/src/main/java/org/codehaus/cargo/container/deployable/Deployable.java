@@ -37,6 +37,11 @@ public interface Deployable extends Loggable
     DeployableType getType();
 
     /**
+     * @return the deployable's version (j2ee, javaee, jakartaee, etc)
+     */
+    DeployableVersion getVersion();
+
+    /**
      * @return If the deployable is a directory or not
      */
     boolean isExpanded();

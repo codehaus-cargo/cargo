@@ -24,13 +24,13 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
-public class Tomcat8x9x10x11xStandaloneLocalConfigurationCapability
+public class Tomcat8x9xStandaloneLocalConfigurationCapability
         extends Tomcat7xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Tomcat8x9x10x11xStandaloneLocalConfigurationCapability()
+    public Tomcat8x9xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(
                 TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
