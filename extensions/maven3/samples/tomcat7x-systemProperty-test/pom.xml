@@ -26,7 +26,7 @@
   <artifactId>cargo-sample-maven3-tomcat7-systemProperty-test</artifactId>
   <name>Cargo Samples - Maven 3 - Tomcat 7.x system property test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo Maven 3 plugin with a Tomcat 7.x container and a user-defined system properties</description>
+  <description>Sample application that exercises the Cargo Maven 3 plugin with a Tomcat 7.x container and user-defined system properties</description>
 
   <dependencies>
     <dependency>
