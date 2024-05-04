@@ -30,7 +30,7 @@ public class Jetty10xExistingLocalConfiguration extends Jetty9xExistingLocalConf
     /**
      * Capability of the Jetty Existing local configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Jetty10xExistingLocalConfigurationCapability();
 
     /**
@@ -49,7 +49,7 @@ public class Jetty10xExistingLocalConfiguration extends Jetty9xExistingLocalConf
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
 }

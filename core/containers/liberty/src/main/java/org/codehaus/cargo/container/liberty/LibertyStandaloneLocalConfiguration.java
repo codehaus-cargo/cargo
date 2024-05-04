@@ -55,8 +55,8 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     /**
      * The configuration capability for WebSphere Liberty
      */
-    private ConfigurationCapability capability
-        = new LibertyStandaloneLocalConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new LibertyStandaloneLocalConfigurationCapability();
 
     /**
      * Configures Liberty at the specified install
@@ -74,7 +74,7 @@ public class LibertyStandaloneLocalConfiguration extends AbstractStandaloneLocal
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

@@ -42,7 +42,7 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
     /**
      * Capability of the OC4J existing configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Oc4jExistingLocalConfigurationCapability();
 
     /**
@@ -107,6 +107,6 @@ public class Oc4j10xExistingLocalConfiguration extends AbstractExistingLocalConf
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 }

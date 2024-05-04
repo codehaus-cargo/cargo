@@ -31,7 +31,7 @@ public class WebSphere9xExistingLocalConfiguration extends WebSphere85xExistingL
     /**
      * Capability of the WebSphere existing configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new WebSphere9xExistingLocalConfigurationCapability();
 
     /**
@@ -49,7 +49,7 @@ public class WebSphere9xExistingLocalConfiguration extends WebSphere85xExistingL
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

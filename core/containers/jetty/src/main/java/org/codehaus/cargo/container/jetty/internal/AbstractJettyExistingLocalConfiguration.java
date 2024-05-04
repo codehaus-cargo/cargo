@@ -37,7 +37,7 @@ public abstract class AbstractJettyExistingLocalConfiguration
     /**
      * Capability of the Jetty Existing local configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
             new JettyExistingLocalConfigurationCapability();
 
     /**
@@ -87,7 +87,7 @@ public abstract class AbstractJettyExistingLocalConfiguration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

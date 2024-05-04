@@ -40,7 +40,7 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     /**
      * {@inheritDoc}
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Tomee1xStandaloneLocalConfigurationCapability();
 
     /**
@@ -60,7 +60,7 @@ public class Tomee1xStandaloneLocalConfiguration extends Tomcat7xStandaloneLocal
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

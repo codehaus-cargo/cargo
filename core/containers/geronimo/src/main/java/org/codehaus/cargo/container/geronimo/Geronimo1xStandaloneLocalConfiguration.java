@@ -39,7 +39,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends
     /**
      * Geronimo configuration capability.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Geronimo1xStandaloneLocalConfigurationCapability();
 
     /**
@@ -57,7 +57,7 @@ public class Geronimo1xStandaloneLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

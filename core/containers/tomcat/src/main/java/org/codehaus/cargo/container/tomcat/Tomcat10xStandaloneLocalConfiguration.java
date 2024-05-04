@@ -35,7 +35,7 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
     /**
      * {@inheritDoc}
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Tomcat10x11xStandaloneLocalConfigurationCapability();
 
     /**
@@ -57,7 +57,7 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

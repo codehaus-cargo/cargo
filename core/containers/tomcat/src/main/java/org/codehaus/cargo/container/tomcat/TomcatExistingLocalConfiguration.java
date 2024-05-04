@@ -46,7 +46,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
     /**
      * Capability of the Tomcat existing configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new TomcatExistingLocalConfigurationCapability();
 
     /**
@@ -126,7 +126,7 @@ public class TomcatExistingLocalConfiguration extends AbstractExistingLocalConfi
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

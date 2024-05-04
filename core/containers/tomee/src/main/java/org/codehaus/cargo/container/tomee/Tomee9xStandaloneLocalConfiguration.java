@@ -29,7 +29,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.tomcat.Tomcat10xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.tomcat.TomcatCopyingInstalledLocalDeployer;
-import org.codehaus.cargo.container.tomee.internal.Tomee7x8x9xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomee.internal.Tomee9x10xStandaloneLocalConfigurationCapability;
 
 /**
  * Standalone local configuration for TomEE 9.x.
@@ -40,8 +40,8 @@ public class Tomee9xStandaloneLocalConfiguration extends Tomcat10xStandaloneLoca
     /**
      * {@inheritDoc}
      */
-    private static ConfigurationCapability capability =
-        new Tomee7x8x9xStandaloneLocalConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new Tomee9x10xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -60,7 +60,7 @@ public class Tomee9xStandaloneLocalConfiguration extends Tomcat10xStandaloneLoca
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

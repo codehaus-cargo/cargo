@@ -17,30 +17,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.payara;
+package org.codehaus.cargo.container.tomee.internal;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.glassfish.GlassFish5xRuntimeConfiguration;
-import org.codehaus.cargo.container.payara.internal.PayaraRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomee.TomeePropertySet;
 
 /**
- * Configuration to use when using a Payara remote container.
+ * Capabilities of TomEE 9.x and 10.x's standalone local configurations.
  */
-public class PayaraRuntimeConfiguration extends GlassFish5xRuntimeConfiguration
+public class Tomee9x10xStandaloneLocalConfigurationCapability extends
+    Tomcat10x11xStandaloneLocalConfigurationCapability
 {
     /**
-     * Capability of the Payara runtime configuration.
+     * Initialize the configuration-specific supports Map.
      */
-    private static final ConfigurationCapability CAPABILITY =
-        new PayaraRuntimeConfigurationCapability();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
+    public Tomee9x10xStandaloneLocalConfigurationCapability()
     {
-        return CAPABILITY;
+        this.propertySupportMap.put(TomeePropertySet.APPS_DIRECTORY, true);
     }
-
 }

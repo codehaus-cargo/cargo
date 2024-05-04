@@ -33,7 +33,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
     /**
      * Capability of the GlassFish runtime configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new GlassFish3x4x5xRuntimeConfigurationCapability();
 
     /**
@@ -57,7 +57,7 @@ public class GlassFish3xRuntimeConfiguration extends AbstractRuntimeConfiguratio
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

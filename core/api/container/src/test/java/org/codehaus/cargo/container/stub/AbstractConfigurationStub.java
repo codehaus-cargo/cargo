@@ -36,12 +36,12 @@ public abstract class AbstractConfigurationStub implements Configuration
     /**
      * Null capability.
      */
-    private static ConfigurationCapability capability = new NullConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY = new NullConfigurationCapability();
 
     /**
      * Null logger.
      */
-    private static Logger logger = new NullLogger();
+    private static final Logger LOGGER = new NullLogger();
 
     /**
      * Properties.
@@ -65,7 +65,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return AbstractConfigurationStub.capability;
+        return AbstractConfigurationStub.CAPABILITY;
     }
 
     /**
@@ -75,7 +75,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     @Override
     public Logger getLogger()
     {
-        return AbstractConfigurationStub.logger;
+        return AbstractConfigurationStub.LOGGER;
     }
 
     /**

@@ -35,7 +35,8 @@ public class Jonas4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the JOnAS runtime configuration.
      */
-    private static ConfigurationCapability capability = new Jonas4xRuntimeConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new Jonas4xRuntimeConfigurationCapability();
 
     /**
      * Creates the configuration and saves the default values of options.
@@ -54,7 +55,7 @@ public class Jonas4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

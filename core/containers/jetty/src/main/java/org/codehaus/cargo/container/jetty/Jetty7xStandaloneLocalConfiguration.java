@@ -44,7 +44,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
     /**
      * Capability of the Jetty 7.x standalone local configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Jetty7xStandaloneLocalConfigurationCapability();
 
     /**
@@ -63,7 +63,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

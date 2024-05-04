@@ -32,7 +32,7 @@ public class WebSphere9xStandaloneLocalConfiguration
     /**
      * Capability of the WebSphere standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new WebSphere9xStandaloneLocalConfigurationCapability();
 
     /**
@@ -50,7 +50,7 @@ public class WebSphere9xStandaloneLocalConfiguration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

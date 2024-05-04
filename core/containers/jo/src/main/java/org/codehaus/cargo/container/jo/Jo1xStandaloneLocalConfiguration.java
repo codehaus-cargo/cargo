@@ -64,7 +64,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     /**
      * Capability of the jo! standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Jo1xStandaloneLocalConfigurationCapability();
 
     /**
@@ -84,7 +84,7 @@ public class Jo1xStandaloneLocalConfiguration extends AbstractStandaloneLocalCon
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

@@ -35,7 +35,7 @@ public class GeronimoExistingLocalConfiguration extends AbstractExistingLocalCon
     /**
      * Geronimo configuration capability.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new GeronimoExistingLocalConfigurationCapability();
 
     /**
@@ -57,7 +57,7 @@ public class GeronimoExistingLocalConfiguration extends AbstractExistingLocalCon
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

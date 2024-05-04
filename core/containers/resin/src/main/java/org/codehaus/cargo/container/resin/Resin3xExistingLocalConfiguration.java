@@ -37,7 +37,7 @@ public class Resin3xExistingLocalConfiguration extends AbstractExistingLocalConf
     /**
      * Capability of the Resin standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Resin3xExistingLocalConfigurationCapability();
 
     /**
@@ -58,7 +58,7 @@ public class Resin3xExistingLocalConfiguration extends AbstractExistingLocalConf
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

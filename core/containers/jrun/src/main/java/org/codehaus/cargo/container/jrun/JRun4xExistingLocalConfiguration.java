@@ -37,7 +37,7 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
     /**
      * Capability of the JRun standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new JRun4xExistingLocalConfigurationCapability();
 
     /**
@@ -59,7 +59,7 @@ public class JRun4xExistingLocalConfiguration extends AbstractExistingLocalConfi
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

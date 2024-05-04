@@ -37,7 +37,7 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     /**
      * capabilities supported by this config.
      */
-    private static Jetty6xEmbeddedStandaloneLocalConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Jetty6xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
@@ -61,7 +61,7 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

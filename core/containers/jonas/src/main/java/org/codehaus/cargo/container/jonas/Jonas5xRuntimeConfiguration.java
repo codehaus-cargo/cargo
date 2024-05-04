@@ -33,7 +33,8 @@ public class Jonas5xRuntimeConfiguration extends Jonas4xRuntimeConfiguration
     /**
      * Capability of the JOnAS runtime configuration.
      */
-    private static ConfigurationCapability capability = new Jonas5xRuntimeConfigurationCapability();
+    private static final ConfigurationCapability CAPABILITY =
+        new Jonas5xRuntimeConfigurationCapability();
 
     /**
      * Creates the configuration and saves the default values of options.
@@ -51,6 +52,6 @@ public class Jonas5xRuntimeConfiguration extends Jonas4xRuntimeConfiguration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 }

@@ -38,7 +38,7 @@ public class Tomcat4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the Tomcat runtime configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Tomcat4x5x6xRuntimeConfigurationCapability();
 
     /**
@@ -59,7 +59,7 @@ public class Tomcat4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

@@ -38,7 +38,7 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
     /**
      * Capability of the JOnAS existing configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new JonasExistingLocalConfigurationCapability();
 
     /**
@@ -71,7 +71,7 @@ public abstract class AbstractJonasExistingLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

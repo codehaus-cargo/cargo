@@ -50,7 +50,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     /**
      * {@inheritDoc}
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new Tomcat7xStandaloneLocalConfigurationCapability();
 
     /**
@@ -87,7 +87,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

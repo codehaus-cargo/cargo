@@ -58,7 +58,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     /**
      * Capability of the Orion standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new OrionStandaloneLocalConfigurationCapability();
 
     /**
@@ -102,7 +102,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

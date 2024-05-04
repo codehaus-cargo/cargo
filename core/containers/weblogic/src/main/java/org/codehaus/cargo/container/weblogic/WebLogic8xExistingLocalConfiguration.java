@@ -40,7 +40,7 @@ public class WebLogic8xExistingLocalConfiguration extends
     /**
      * Capability of the WebLogic standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new WebLogicExistingLocalConfigurationCapability();
 
     /**
@@ -73,7 +73,7 @@ public class WebLogic8xExistingLocalConfiguration extends
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

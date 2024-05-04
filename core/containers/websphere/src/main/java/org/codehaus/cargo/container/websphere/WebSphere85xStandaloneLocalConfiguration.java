@@ -60,7 +60,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     /**
      * Capability of the WebSphere standalone configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new WebSphere85xStandaloneLocalConfigurationCapability();
 
     /**
@@ -110,7 +110,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

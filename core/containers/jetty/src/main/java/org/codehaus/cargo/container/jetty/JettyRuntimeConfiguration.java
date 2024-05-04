@@ -33,7 +33,7 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Capability of the Jetty runtime configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new JettyRuntimeConfigurationCapability();
 
     /**
@@ -53,7 +53,7 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**

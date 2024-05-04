@@ -30,7 +30,8 @@ import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigura
 import org.codehaus.cargo.container.tomcat.internal.Tomcat7x8x9x10x11xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.tomee.internal.TomeeContainerCapability;
 import org.codehaus.cargo.container.tomee.internal.Tomee1xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomee.internal.Tomee7x8x9xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomee.internal.Tomee7x8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomee.internal.Tomee9x10xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
 import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -80,7 +81,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee7x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomee7x8x9xStandaloneLocalConfigurationCapability.class);
+            Tomee7x8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee7x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -90,7 +91,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomee7x8x9xStandaloneLocalConfigurationCapability.class);
+            Tomee7x8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee8x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -100,7 +101,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomee9x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomee7x8x9xStandaloneLocalConfigurationCapability.class);
+            Tomee9x10xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee9x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);

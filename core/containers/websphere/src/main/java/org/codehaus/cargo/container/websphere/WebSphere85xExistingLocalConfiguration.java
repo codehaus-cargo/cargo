@@ -47,7 +47,7 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
     /**
      * Capability of the WebSphere existing configuration.
      */
-    private static ConfigurationCapability capability =
+    private static final ConfigurationCapability CAPABILITY =
         new WebSphere85xExistingLocalConfigurationCapability();
 
     /**
@@ -91,7 +91,7 @@ public class WebSphere85xExistingLocalConfiguration extends AbstractExistingLoca
     @Override
     public ConfigurationCapability getCapability()
     {
-        return capability;
+        return CAPABILITY;
     }
 
     /**
