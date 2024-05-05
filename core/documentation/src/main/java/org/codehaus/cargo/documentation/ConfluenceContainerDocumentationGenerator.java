@@ -646,6 +646,15 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("changes to enable applications to migrate to ");
                 output.append(containerName + ".x and later.");
             }
+            if (containerId.startsWith("tomcat") || containerId.startsWith("tomee"))
+            {
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+                output.append(containerName + " has an integrated functionality for ");
+                output.append("automatically migrating J2EE / Java EE WARs to Jakarta EE. ");
+                output.append("You can follow the instructions on [Deploying legacy WARs to ");
+                output.append("Tomcat 10.x onwards] to make use of it.");
+            }
             output.append("{note}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
