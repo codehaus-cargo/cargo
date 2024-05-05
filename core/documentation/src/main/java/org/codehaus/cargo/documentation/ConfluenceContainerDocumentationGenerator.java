@@ -650,7 +650,7 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append(FileHandler.NEW_LINE);
                 output.append(FileHandler.NEW_LINE);
-                output.append(containerName + ".x has an integrated functionality for ");
+                output.append(containerName + ".x onwards has an integrated functionality for ");
                 output.append("automatically migrating J2EE / Java EE WARs to Jakarta EE. ");
                 output.append("You can follow the instructions on [Deploying legacy WARs to ");
                 output.append("Tomcat 10.x onwards] to make use of it.");
