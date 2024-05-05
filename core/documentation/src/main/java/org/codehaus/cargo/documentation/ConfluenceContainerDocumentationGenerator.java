@@ -1552,7 +1552,8 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     output.append("https://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html");
                 }
-                else if (containerId.equals("tomcat10x") || containerId.equals("tomee9x"))
+                else if (containerId.equals("tomcat10x") || containerId.equals("tomee9x")
+                    || containerId.equals("tomee10x"))
                 {
                     output.append("https://tomcat.apache.org/tomcat-10.0-doc/manager-howto.html");
                 }

@@ -59,6 +59,7 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
         deployableFactory.registerDeployable("tomee7x", DeployableType.WAR, TomcatWAR.class);
         deployableFactory.registerDeployable("tomee8x", DeployableType.WAR, TomcatWAR.class);
         deployableFactory.registerDeployable("tomee9x", DeployableType.WAR, TomcatWAR.class);
+        deployableFactory.registerDeployable("tomee10x", DeployableType.WAR, TomcatWAR.class);
     }
 
     /**
@@ -106,6 +107,16 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomee9x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            Tomcat7x8x9x10x11xRuntimeConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("tomee10x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Tomee9x10xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("tomee10x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            TomcatExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("tomee10x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             Tomcat7x8x9x10x11xRuntimeConfigurationCapability.class);
     }
@@ -157,6 +168,16 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("tomee9x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             Tomee9xRuntimeConfiguration.class);
+
+        configurationFactory.registerConfiguration("tomee10x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            Tomee10xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("tomee10x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            TomeeExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("tomee10x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            Tomee10xRuntimeConfiguration.class);
     }
 
     /**
@@ -186,6 +207,11 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomeeCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("tomee9x", DeployerType.REMOTE,
             Tomee9xRemoteDeployer.class);
+
+        deployerFactory.registerDeployer("tomee10x", DeployerType.INSTALLED,
+            TomeeCopyingInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("tomee10x", DeployerType.REMOTE,
+            Tomee10xRemoteDeployer.class);
     }
 
     /**
@@ -204,6 +230,8 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             TomcatDirectoryPackager.class);
         packagerFactory.registerPackager("tomee9x", PackagerType.DIRECTORY,
             TomcatDirectoryPackager.class);
+        packagerFactory.registerPackager("tomee10x", PackagerType.DIRECTORY,
+            TomcatDirectoryPackager.class);
     }
 
     /**
@@ -221,6 +249,8 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
         containerCapabilityFactory.registerContainerCapability("tomee8x",
             TomeeContainerCapability.class);
         containerCapabilityFactory.registerContainerCapability("tomee9x",
+            TomeeContainerCapability.class);
+        containerCapabilityFactory.registerContainerCapability("tomee10x",
             TomeeContainerCapability.class);
     }
 
@@ -251,5 +281,10 @@ public class TomeeFactoryRegistry extends AbstractFactoryRegistry
             Tomee9xInstalledLocalContainer.class);
         containerFactory.registerContainer("tomee9x", ContainerType.REMOTE,
             Tomee9xRemoteContainer.class);
+
+        containerFactory.registerContainer("tomee10x", ContainerType.INSTALLED,
+            Tomee10xInstalledLocalContainer.class);
+        containerFactory.registerContainer("tomee10x", ContainerType.REMOTE,
+            Tomee10xRemoteContainer.class);
     }
 }

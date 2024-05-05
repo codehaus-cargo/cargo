@@ -53,6 +53,7 @@ public class EnvironmentTestData
         "tomcat10x",
         "tomcat11x",
         "tomee9x",
+        "tomee10x",
         "wildfly27x",
         "wildfly28x",
         "wildfly29x",

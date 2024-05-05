@@ -607,6 +607,11 @@
               </cargo.tomee9x.url>
               <cargo.tomee9x.java.home>${cargo.java.home.1_11}</cargo.tomee9x.java.home>
 
+              <cargo.tomee10x.url>
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/10.0.0-M1/apache-tomee-10.0.0-M1-plus.zip
+              </cargo.tomee10x.url>
+              <cargo.tomee10x.java.home>${cargo.java.home.1_11}</cargo.tomee10x.java.home>
+
               <!--
                 WebLogic 8.x
 
@@ -1728,6 +1733,12 @@
       <id>tomee9x</id>
       <properties>
         <cargo.containers>tomee9x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>tomee10x</id>
+      <properties>
+        <cargo.containers>tomee10x</cargo.containers>
       </properties>
     </profile>
 
