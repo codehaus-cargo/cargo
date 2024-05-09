@@ -19,41 +19,20 @@
  */
 package org.codehaus.cargo.sample.java.validator;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 
 /**
  * Validator, that check if the container supports port offset.
  */
-public class HasPortOffsetValidator implements Validator
+public class HasPortOffsetValidator extends SupportsPropertyValidator
 {
-    /**
-     * Configuration capability factory.
-     */
-    private final ConfigurationCapabilityFactory factory;
-
-    /**
-     * Configuration type.
-     */
-    private final ConfigurationType configurationType;
-
     /**
      * Check if the container supports port offset.
      * @param configurationType Configuration type.
      */
     public HasPortOffsetValidator(ConfigurationType configurationType)
     {
-        factory = new DefaultConfigurationCapabilityFactory();
-        this.configurationType = configurationType;
-    }
-
-    @Override
-    public boolean validate(String containerId, ContainerType type)
-    {
-        return this.factory.createConfigurationCapability(containerId, type,
-                configurationType).supportsProperty(GeneralPropertySet.PORT_OFFSET);
+        super(configurationType, GeneralPropertySet.PORT_OFFSET);
     }
 }

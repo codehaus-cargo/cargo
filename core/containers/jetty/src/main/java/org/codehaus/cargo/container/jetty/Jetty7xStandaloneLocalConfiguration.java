@@ -30,7 +30,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
-import org.codehaus.cargo.container.jetty.internal.Jetty7xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty7x8x9xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.JettyUtils;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
@@ -45,7 +45,7 @@ public class Jetty7xStandaloneLocalConfiguration extends
      * Capability of the Jetty 7.x standalone local configuration.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new Jetty7xStandaloneLocalConfigurationCapability();
+        new Jetty7x8x9xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

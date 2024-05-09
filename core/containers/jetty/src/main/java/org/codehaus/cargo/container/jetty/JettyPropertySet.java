@@ -74,4 +74,24 @@ public interface JettyPropertySet
      */
     String DEPLOYER_EE_VERSION = "cargo.jetty.deployer.ee.version";
 
+    /**
+     * The port for HTTPS.
+     */
+    String CONNECTOR_HTTPS_PORT = "cargo.jetty.connector.httpsPort";
+
+    /**
+     * The file path for the key store file.
+     */
+    String CONNECTOR_KEY_STORE_FILE = "cargo.jetty.connector.keystoreFile";
+
+    /**
+     * The type of the key store file.
+     */
+    String CONNECTOR_KEY_STORE_TYPE = "cargo.jetty.connector.keystoreType";
+
+    /**
+     * The password for the server key store.
+     */
+    String CONNECTOR_KEY_STORE_PASSWORD = "cargo.jetty.connector.keystorePass";
+
 }

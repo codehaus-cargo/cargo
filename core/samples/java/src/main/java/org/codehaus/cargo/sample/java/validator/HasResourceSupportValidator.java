@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 /**
  * Validate that a container supports Resource configuration.
  */
-public class HasResourceSupportValidator extends AbstractConfigurationCapabilityAndTypeValidator
+public class HasResourceSupportValidator extends SupportsPropertyValidator
 {
     /**
      * Saves configuration type.

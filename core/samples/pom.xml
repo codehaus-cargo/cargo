@@ -120,6 +120,9 @@
               <cargo.jboss.transaction.statusManager.port>${cargo.samples.jboss.transaction.statusManager.port}</cargo.jboss.transaction.statusManager.port>
               <cargo.jboss.remotedeploy.port>${cargo.samples.jboss.remotedeploy.port}</cargo.jboss.remotedeploy.port>
 
+              <!-- Avoid port number clashes in Jetty -->
+              <cargo.jetty.connector.httpsPort>${cargo.samples.jetty.connector.httpsPort}</cargo.jetty.connector.httpsPort>
+
               <!-- Avoid port number clashes in Resin -->
               <cargo.resin.socketwait.port>${cargo.samples.resin.socketwait.port}</cargo.resin.socketwait.port>
 
@@ -1355,6 +1358,7 @@
                 <portName>cargo.samples.jboss.management-http.port</portName>
                 <portName>cargo.samples.jboss.management-https.port</portName>
                 <portName>cargo.samples.jboss.osgi.http.port</portName>
+                <portName>cargo.samples.jetty.connector.httpsPort</portName>
                 <portName>cargo.samples.resin.socketwait.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
               </portNames>

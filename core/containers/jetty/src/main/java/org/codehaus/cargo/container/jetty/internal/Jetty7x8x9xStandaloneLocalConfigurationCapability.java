@@ -23,17 +23,17 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
- * Capabilities of the Jetty 7.x and onward's
+ * Capabilities of the Jetty 7.x, 8.x and 9.x's
  * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
  * configuration for installed containers.
  */
-public class Jetty7xStandaloneLocalConfigurationCapability extends
+public class Jetty7x8x9xStandaloneLocalConfigurationCapability extends
     JettyStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Jetty7xStandaloneLocalConfigurationCapability()
+    public Jetty7x8x9xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);

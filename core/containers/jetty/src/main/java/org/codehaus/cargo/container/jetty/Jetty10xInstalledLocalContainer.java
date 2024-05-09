@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -80,9 +81,21 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
         }
         String[] modules = configuredModules.split(",");
         String[] startArguments = new String[modules.length + (classpath == null ? 0 : 1)];
+        boolean httpsModule = false;
         for (int i = 0; i < modules.length; i++)
         {
             startArguments[i] = "--module=" + modules[i];
+            if ("https".equals(modules[i]))
+            {
+                httpsModule = true;
+            }
+        }
+        boolean keystoreFile = getConfiguration().getPropertyValue(
+            JettyPropertySet.CONNECTOR_KEY_STORE_FILE) != null;
+        if ((httpsModule || keystoreFile) && !(httpsModule && keystoreFile))
+        {
+            throw new CargoException("To enable HTTPS, you need to BOTH add the https module and "
+                + "provide the configuration value " + JettyPropertySet.CONNECTOR_KEY_STORE_FILE);
         }
         if (classpath != null)
         {
@@ -102,5 +115,35 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
             "STOP.PORT=" + getConfiguration().getPropertyValue(GeneralPropertySet.RMI_PORT),
             "STOP.KEY=secret"
         };
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
+    {
+        String keystoreFile =
+            getConfiguration().getPropertyValue(JettyPropertySet.CONNECTOR_KEY_STORE_FILE);
+        if (keystoreFile != null)
+        {
+            java.setSystemProperty("jetty.ssl.port",
+                getConfiguration().getPropertyValue(JettyPropertySet.CONNECTOR_HTTPS_PORT));
+            java.setSystemProperty("jetty.sslContext.keyStorePath", keystoreFile);
+            String keystorePassword =
+                getConfiguration().getPropertyValue(JettyPropertySet.CONNECTOR_KEY_STORE_PASSWORD);
+            if (keystorePassword != null)
+            {
+                java.setSystemProperty("jetty.sslContext.keyStorePassword", keystorePassword);
+            }
+            String keystoreType =
+                getConfiguration().getPropertyValue(JettyPropertySet.CONNECTOR_KEY_STORE_TYPE);
+            if (keystoreType != null)
+            {
+                java.setSystemProperty("jetty.sslContext.keyStoreType", keystoreType);
+            }
+        }
+
+        super.invoke(java, isGettingStarted);
     }
 }

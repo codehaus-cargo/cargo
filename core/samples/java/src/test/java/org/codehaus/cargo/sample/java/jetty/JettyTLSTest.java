@@ -17,12 +17,10 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.java.tomcat;
+package org.codehaus.cargo.sample.java.jetty;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Test;
 
@@ -31,8 +29,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
 import org.codehaus.cargo.sample.java.CargoTestSuite;
@@ -41,12 +38,13 @@ import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
+import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
- * Test for Tomcat TLS configuration options.
+ * Test for Jetty TLS configuration options.
  */
-public class TomcatTLSTest extends AbstractCargoTestCase
+public class JettyTLSTest extends AbstractCargoTestCase
 {
     /**
      * Initializes the test case.
@@ -54,7 +52,7 @@ public class TomcatTLSTest extends AbstractCargoTestCase
      * @param testData Test environment data.
      * @throws Exception If anything goes wrong.
      */
-    public TomcatTLSTest(String testName, EnvironmentTestData testData) throws Exception
+    public JettyTLSTest(String testName, EnvironmentTestData testData) throws Exception
     {
         super(testName, testData);
     }
@@ -66,18 +64,14 @@ public class TomcatTLSTest extends AbstractCargoTestCase
      */
     public static Test suite() throws Exception
     {
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        // Tomcat 4.x does not support TLS
-        excludedContainerIds.add("tomcat4x");
-        // Tomcat 5.x is too old to handle our (modern) HTTPS setup
-        excludedContainerIds.add("tomcat5x");
-
-        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
+        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Jetty "
             + "containers supporting TLS configuration.");
-        suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat", "tomee"),
+        suite.addTestSuite(JettyTLSTest.class, new Validator[] {
+            new StartsWithContainerValidator("jetty"),
             new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
+            new HasStandaloneConfigurationValidator(),
+            new SupportsPropertyValidator(
+                ConfigurationType.STANDALONE, JettyPropertySet.CONNECTOR_HTTPS_PORT)});
         return suite;
     }
 
@@ -94,17 +88,12 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         // then put a WAR on it, finally start it and test for it to be running.
         StandaloneLocalConfiguration configuration =
             (StandaloneLocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
-        configuration.setProperty(GeneralPropertySet.PROTOCOL, "https");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE,
+        configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_FILE,
             localhostJksFile.getAbsolutePath());
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, "password");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, "jks");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_ALIAS, "localhost");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE,
-            localhostJksFile.getAbsolutePath());
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, "password");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE, "jks");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, "want");
+        configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_PASSWORD, "password");
+        configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_TYPE, "jks");
+        configuration.setProperty(JettyPropertySet.MODULES, configuration.getPropertyValue(
+            JettyPropertySet.MODULES).replace("http,", "http,https,"));
 
         InstalledLocalContainer container =
             (InstalledLocalContainer) createContainer(configuration);
@@ -113,8 +102,9 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         configuration.addDeployable(war);
         configuration.configure(container);
 
-        URL warPingURL =
-            new URL("https://localhost:" + getTestData().port + "/simple-war/index.jsp");
+        URL warPingURL = new URL("https://localhost:"
+            + configuration.getPropertyValue(JettyPropertySet.CONNECTOR_HTTPS_PORT)
+                + "/simple-war/index.jsp");
 
         container.start();
         PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());

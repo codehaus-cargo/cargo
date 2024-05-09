@@ -23,11 +23,9 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
- * Abstract validator, that overrides {@link AbstractConfigurationCapabilityValidator} and also
- * takes into account {@link ConfigurationType}.
+ * Validator, that check if the container supports a given property.
  */
-public abstract class AbstractConfigurationCapabilityAndTypeValidator
-    extends AbstractConfigurationCapabilityValidator
+public class SupportsPropertyValidator extends AbstractConfigurationCapabilityValidator
 {
     /**
      * Configuration type to check.
@@ -44,8 +42,7 @@ public abstract class AbstractConfigurationCapabilityAndTypeValidator
      * @param type Configuration type to check.
      * @param supportsProperty Property support to check.
      */
-    public AbstractConfigurationCapabilityAndTypeValidator(ConfigurationType type,
-        String supportsProperty)
+    public SupportsPropertyValidator(ConfigurationType type, String supportsProperty)
     {
         this.type = type;
         this.supportsProperty = supportsProperty;

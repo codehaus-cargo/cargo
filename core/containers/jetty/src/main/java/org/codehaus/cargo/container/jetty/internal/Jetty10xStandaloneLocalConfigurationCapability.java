@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.jetty.JettyPropertySet;
  * configuration for installed containers.
  */
 public class Jetty10xStandaloneLocalConfigurationCapability extends
-    Jetty7xStandaloneLocalConfigurationCapability
+    Jetty7x8x9xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
@@ -35,5 +35,10 @@ public class Jetty10xStandaloneLocalConfigurationCapability extends
     public Jetty10xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(JettyPropertySet.MODULES, Boolean.TRUE);
+
+        this.propertySupportMap.put(JettyPropertySet.CONNECTOR_HTTPS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
+        this.propertySupportMap.put(JettyPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);
     }
 }

@@ -26,7 +26,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
  * Validate that a container supports authentication configuration.
  */
 public class HasAuthenticationSupportValidator
-    extends AbstractConfigurationCapabilityAndTypeValidator
+    extends SupportsPropertyValidator
 {
     /**
      * Saves configuration type.

@@ -66,9 +66,7 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
     }
 
     /**
-     * @param java the predefined JVM launcher to use to start the container, passed by Cargo
-     * @param isGettingStarted if true then start the container, stop it otherwise
-     * @throws Exception in case of startup or shutdown error
+     * {@inheritDoc}
      */
     @Override
     protected void invoke(JvmLauncher java, boolean isGettingStarted) throws Exception
