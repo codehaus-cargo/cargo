@@ -34,7 +34,7 @@ public abstract class AbstractLocalConfigurationCapability extends AbstractConfi
      */
     public AbstractLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.HOSTNAME, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);

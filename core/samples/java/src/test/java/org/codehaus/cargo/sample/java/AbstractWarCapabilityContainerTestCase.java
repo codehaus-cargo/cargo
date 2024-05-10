@@ -48,15 +48,7 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
      */
     public void testDeployWarStatically() throws Exception
     {
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
-
-        getLocalContainer().getConfiguration().addDeployable(war);
-
-        URL warPingURL =
-            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
-
-        startAndStop(warPingURL);
+        testWar("simple");
     }
 
     /**

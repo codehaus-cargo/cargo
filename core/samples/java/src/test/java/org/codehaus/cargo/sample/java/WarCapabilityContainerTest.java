@@ -82,7 +82,7 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
      */
     public void testDeployWarDefinedWithRelativePath() throws Exception
     {
-        // Copies the testdata artifact
+        // Copies the testdata artifact, as we want to use a WAR with relative path
         String artifactFile = getFileHandler().append(
             getFileHandler().getParent(getTestData().configurationHome), "simple.war");
         getFileHandler().copyFile(

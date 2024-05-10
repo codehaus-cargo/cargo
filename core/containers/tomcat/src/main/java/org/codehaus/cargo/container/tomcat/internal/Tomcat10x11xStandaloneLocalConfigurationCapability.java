@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
 public class Tomcat10x11xStandaloneLocalConfigurationCapability
-        extends Tomcat8x9xStandaloneLocalConfigurationCapability
+    extends Tomcat8x9xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
@@ -33,6 +33,6 @@ public class Tomcat10x11xStandaloneLocalConfigurationCapability
     public Tomcat10x11xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(
-                TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, Boolean.TRUE);
+            TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, Boolean.TRUE);
     }
 }

@@ -101,9 +101,9 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
+            configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathNotExists(
-                "//Server/Service/Connector[@port='8080']/@protocol", config);
+            "//Server/Service/Connector[@port='8080']/@protocol", config);
     }
 
     /**
@@ -113,14 +113,14 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     public void testConfigureSetsConnectorProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
-                "org.apache.coyote.http11.Http11NioProtocol");
+            "org.apache.coyote.http11.Http11NioProtocol");
 
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
+            configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11NioProtocol",
-                "//Server/Service/Connector[@port='8080']/@protocol", config);
+            "//Server/Service/Connector[@port='8080']/@protocol", config);
     }
 
     /**
@@ -131,14 +131,14 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     public void testConfigureSetsAprConnectorProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
-                "org.apache.coyote.http11.Http11AprProtocol");
+            "org.apache.coyote.http11.Http11AprProtocol");
 
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
+            configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11AprProtocol",
-                "//Server/Service/Connector[@port='8080']/@protocol", config);
+            "//Server/Service/Connector[@port='8080']/@protocol", config);
     }
 
     /**
@@ -149,16 +149,13 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     public void testConfigurationSetsAprConnectorProtocolWithSslProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
-                "org.apache.coyote.http11.Http11AprProtocol");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_SSL_PROTOCOL, "TLSv1.2");
+            "org.apache.coyote.http11.Http11AprProtocol");
 
         configuration.configure(container);
 
         String config = configuration.getFileHandler().readTextFile(
-                configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
+            configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
         XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11AprProtocol",
-                "//Server/Service/Connector[@port='8080']/@protocol", config);
-        XMLAssert.assertXpathEvaluatesTo("TLSv1.2",
-                "//Server/Service/Connector[@port='8080']/@sslProtocol", config);
+            "//Server/Service/Connector[@port='8080']/@protocol", config);
     }
 }

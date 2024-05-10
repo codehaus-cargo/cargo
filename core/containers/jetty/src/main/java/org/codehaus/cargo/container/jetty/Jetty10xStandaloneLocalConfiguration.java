@@ -41,6 +41,7 @@ public class Jetty10xStandaloneLocalConfiguration extends Jetty9xStandaloneLocal
     public Jetty10xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
         setProperty(JettyPropertySet.MODULES, Jetty10xInstalledLocalContainer.DEFAULT_MODULES);
         setProperty(JettyPropertySet.CONNECTOR_HTTPS_PORT, "9443");
     }

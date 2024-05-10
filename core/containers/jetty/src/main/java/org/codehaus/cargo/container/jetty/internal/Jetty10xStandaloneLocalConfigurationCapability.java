@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.jetty.internal;
 
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Capabilities of the Jetty 10.x and onward's
@@ -36,6 +37,7 @@ public class Jetty10xStandaloneLocalConfigurationCapability extends
     {
         this.propertySupportMap.put(JettyPropertySet.MODULES, Boolean.TRUE);
 
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(JettyPropertySet.CONNECTOR_HTTPS_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JettyPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
         this.propertySupportMap.put(JettyPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);

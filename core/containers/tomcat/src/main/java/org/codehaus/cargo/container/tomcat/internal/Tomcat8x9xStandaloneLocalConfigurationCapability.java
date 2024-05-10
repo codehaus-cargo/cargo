@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
 public class Tomcat8x9xStandaloneLocalConfigurationCapability
-        extends Tomcat7xStandaloneLocalConfigurationCapability
+    extends Tomcat7xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
@@ -33,10 +33,8 @@ public class Tomcat8x9xStandaloneLocalConfigurationCapability
     public Tomcat8x9xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(
-                TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME, Boolean.TRUE);
+            TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(
-                TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, Boolean.TRUE);
-        this.propertySupportMap.put(
-                TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES, Boolean.TRUE);
+            TomcatPropertySet.CONTEXT_MAP_JARS_TO_WEBINF_CLASSES, Boolean.TRUE);
     }
 }

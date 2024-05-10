@@ -21,32 +21,29 @@ package org.codehaus.cargo.sample.java.tomcat;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
 import junit.framework.Test;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
+import org.codehaus.cargo.sample.java.AbstractWarTestCase;
 import org.codehaus.cargo.sample.java.CargoTestSuite;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
+import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
 import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for Tomcat TLS configuration options.
  */
-public class TomcatTLSTest extends AbstractCargoTestCase
+public class TomcatTLSTest extends AbstractWarTestCase
 {
     /**
      * Initializes the test case.
@@ -66,18 +63,14 @@ public class TomcatTLSTest extends AbstractCargoTestCase
      */
     public static Test suite() throws Exception
     {
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        // Tomcat 4.x does not support TLS
-        excludedContainerIds.add("tomcat4x");
-        // Tomcat 5.x is too old to handle our (modern) HTTPS setup
-        excludedContainerIds.add("tomcat5x");
-
         CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
             + "containers supporting TLS configuration.");
         suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
             new StartsWithContainerValidator("tomcat", "tomee"),
             new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
+            new HasStandaloneConfigurationValidator(),
+            new SupportsPropertyValidator(
+                ConfigurationType.STANDALONE, TomcatPropertySet.CONNECTOR_HTTPS_PORT)});
         return suite;
     }
 
@@ -90,35 +83,32 @@ public class TomcatTLSTest extends AbstractCargoTestCase
         File localhostJksFile = new File("target/test-classes/localhost.jks");
         assertTrue(localhostJksFile.isFile());
 
+        LocalConfiguration configuration =
+            (LocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
+        setContainer(createContainer(configuration));
+
         // First, create a configuration using the SSL configuration options,
         // then put a WAR on it, finally start it and test for it to be running.
-        StandaloneLocalConfiguration configuration =
-            (StandaloneLocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
-        configuration.setProperty(GeneralPropertySet.PROTOCOL, "https");
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE,
             localhostJksFile.getAbsolutePath());
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, "password");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, "jks");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_ALIAS, "localhost");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE,
-            localhostJksFile.getAbsolutePath());
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD, "password");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE, "jks");
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_CLIENT_AUTH, "want");
 
-        InstalledLocalContainer container =
-            (InstalledLocalContainer) createContainer(configuration);
-        Deployable war = new DefaultDeployableFactory().createDeployable(container.getId(),
-            getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
+        Deployable war =
+            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
+                .getTestDataFileFor("simple-war"), DeployableType.WAR);
         configuration.addDeployable(war);
-        configuration.configure(container);
 
-        URL warPingURL =
-            new URL("https://localhost:" + getTestData().port + "/simple-war/index.jsp");
+        URL warHttpPingURL =
+            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
+        URL warHttpsPingURL = new URL("https://localhost:"
+            + configuration.getPropertyValue(TomcatPropertySet.CONNECTOR_HTTPS_PORT)
+                + "/simple-war/index.jsp");
 
-        container.start();
-        PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
-        container.stop();
-        PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
+        getLocalContainer().start();
+        PingUtils.assertPingTrue("simple war not started on HTTP", warHttpPingURL, getLogger());
+        PingUtils.assertPingTrue("simple war not started on HTTPS", warHttpsPingURL, getLogger());
+        getLocalContainer().stop();
+        PingUtils.assertPingFalse("simple war not stopped on HTTP", warHttpPingURL, getLogger());
+        PingUtils.assertPingFalse("simple war not stopped on HTTPS", warHttpsPingURL, getLogger());
     }
 }

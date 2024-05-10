@@ -19,13 +19,16 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.util.CargoException;
 import org.w3c.dom.Element;
@@ -39,11 +42,28 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
 {
     /**
      * {@inheritDoc}
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new Tomcat6xStandaloneLocalConfigurationCapability();
+
+    /**
+     * {@inheritDoc}
      * @see Tomcat5xStandaloneLocalConfiguration#Tomcat5xStandaloneLocalConfiguration(String)
      */
     public Tomcat6xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(TomcatPropertySet.CONNECTOR_HTTPS_PORT, "8443");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**
@@ -167,8 +187,6 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
     @Override
     protected void performXmlReplacements(LocalContainer container)
     {
-        addXmlReplacement("conf/server.xml", connectorXpath(), "SSLEnabled",
-            TomcatPropertySet.HTTP_SECURE);
         String connectorProtocolClass = getPropertyValue(
             TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS);
         if (connectorProtocolClass != null)
@@ -176,10 +194,46 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             addXmlReplacement("conf/server.xml", connectorXpath(), "protocol",
                 connectorProtocolClass);
         }
+        else
+        {
+            connectorProtocolClass = "org.apache.coyote.http11.Http11NioProtocol";
+        }
 
         super.performXmlReplacements(container);
+
+        if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
+        {
+            Map<String, String> replacements = new HashMap<String, String>(1);
+            replacements.put("</Service>",
+                "  " + getHttpsConnectorXml(connectorProtocolClass) + "\n  </Service>");
+            getFileHandler().replaceInFile(getFileHandler().append(getHome(), "conf/server.xml"),
+                replacements, StandardCharsets.UTF_8);
+        }
     }
 
+    /**
+     * Get HTTPS connector.
+     * @param connectorProtocolClass Connector protocol class.
+     * @return HTTPS connector XML.
+     */
+    protected String getHttpsConnectorXml(String connectorProtocolClass)
+    {
+        return
+            "<Connector"
+                + "\n      protocol=\"" + connectorProtocolClass + "\""
+                + "\n      port=\""
+                    + getPropertyValue(TomcatPropertySet.CONNECTOR_HTTPS_PORT) + "\" "
+                    + "scheme=\"https\" secure=\"true\" SSLEnabled=\"true\""
+                + "\n      keystoreFile=\""
+                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE)
+                    + "\" keystorePass=\""
+                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) + "\""
+                + "\n      clientAuth=\"false\" sslProtocol=\"TLS\"/>";
+    }
+
+    /**
+     * Create the SSL configuration XML.
+     */
     /**
      * {@inheritDoc}
      */

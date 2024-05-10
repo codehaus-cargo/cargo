@@ -92,7 +92,9 @@ public class Jetty10xInstalledLocalContainer extends Jetty9xInstalledLocalContai
         }
         boolean keystoreFile = getConfiguration().getPropertyValue(
             JettyPropertySet.CONNECTOR_KEY_STORE_FILE) != null;
-        if ((httpsModule || keystoreFile) && !(httpsModule && keystoreFile))
+        if ((httpsModule || keystoreFile
+            || "https".equals(getConfiguration().getPropertyValue(GeneralPropertySet.PROTOCOL)))
+            && !(httpsModule && keystoreFile))
         {
             throw new CargoException("To enable HTTPS, you need to BOTH add the https module and "
                 + "provide the configuration value " + JettyPropertySet.CONNECTOR_KEY_STORE_FILE);

@@ -84,19 +84,13 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
     {
         String random = UUID.randomUUID().toString();
 
-        // Copies the testdata artifact
-        String artifactFile = getFileHandler().append(
-            getFileHandler().getParent(getTestData().configurationHome), "systemproperty.war");
-        getFileHandler().copyFile(
-            getTestData().getTestDataFileFor("systemproperty-war"), artifactFile);
-
         Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            artifactFile, DeployableType.WAR);
+            getTestData().getTestDataFileFor("systemproperty-war"), DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
         URL pingURL = new URL("http://localhost:" + getTestData().port
-            + "/systemproperty/test?systemPropertyName=random");
+            + "/systemproperty-war/test?systemPropertyName=random");
 
         getInstalledLocalContainer().getSystemProperties().put("random", random);
         getLocalContainer().start();

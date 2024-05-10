@@ -237,25 +237,12 @@ public abstract class AbstractCargoTestCase extends TestCase
         {
             if (property.getKey() != null && property.getValue() != null)
             {
-                String key = property.getKey().toString();
-                String value = property.getValue().toString();
-                String containerIdentifier = "cargo.samples." + getTestData().containerId;
+                String key = property.getKey().toString().replace("cargo.samples.", "cargo.");
 
-                if (key.startsWith(containerIdentifier))
+                // Only set the properties that the container actually supports / uses
+                if (configuration.getCapability().supportsProperty(key))
                 {
-                    key = key.replace(containerIdentifier, "cargo");
-                }
-                if (key.endsWith(".port"))
-                {
-                    // Only set the ports that the container actually supports / uses
-                    if (configuration.getProperties().get(key) != null)
-                    {
-                        configuration.setProperty(key, value);
-                    }
-                }
-                else
-                {
-                    configuration.setProperty(key, value);
+                    configuration.setProperty(key, property.getValue().toString());
                 }
             }
         }

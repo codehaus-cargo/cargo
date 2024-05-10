@@ -85,11 +85,6 @@ public interface TomcatPropertySet
     String HOST_START_STOP_THREADS = "cargo.tomcat.host.startStopThreads";
 
     /**
-     * Whether the HTTP container is secured.
-     */
-    String HTTP_SECURE = "cargo.tomcat.httpSecure";
-
-    /**
      * Whether to use use http only.
      */
     String USE_HTTP_ONLY = "cargo.tomcat.useHttpOnly";
@@ -100,54 +95,19 @@ public interface TomcatPropertySet
     String CONNECTOR_PROTOCOL_CLASS = "cargo.tomcat.connector.protocolClass";
 
     /**
+     * HTTPS port for Tomcat.
+     */
+    String CONNECTOR_HTTPS_PORT = "cargo.tomcat.connector.https.port";
+
+    /**
      * The file path for the key store file.
      */
     String CONNECTOR_KEY_STORE_FILE = "cargo.tomcat.connector.keystoreFile";
 
     /**
-     * The type of the key store file.
-     */
-    String CONNECTOR_KEY_STORE_TYPE = "cargo.tomcat.connector.keystoreType";
-
-    /**
      * The password for the server key store.
      */
     String CONNECTOR_KEY_STORE_PASSWORD = "cargo.tomcat.connector.keystorePass";
-
-    /**
-     * The alias of the key in the key store.
-     */
-    String CONNECTOR_KEY_ALIAS = "cargo.tomcat.connector.keyAlias";
-
-    /**
-     * The file path for the trust store file.
-     */
-    String CONNECTOR_TRUST_STORE_FILE = "cargo.tomcat.connector.truststoreFile";
-
-    /**
-     * The type of the trust store file.
-     */
-    String CONNECTOR_TRUST_STORE_TYPE = "cargo.tomcat.connector.truststoreType";
-
-    /**
-     * The password for the server trust store.
-     */
-    String CONNECTOR_TRUST_STORE_PASSWORD = "cargo.tomcat.connector.truststorePass";
-
-    /**
-     * The requirements for client authentication.
-     */
-    String CONNECTOR_CLIENT_AUTH = "cargo.tomcat.connector.clientAuth";
-
-    /**
-     * The class name of the SSL implementation to use.
-     */
-    String CONNECTOR_SSL_IMPLEMENTATION_NAME = "cargo.tomcat.connector.sslImplementationName";
-
-    /**
-     * The SSL protocol the connector is using. If not specified, the default is TLS.
-     */
-    String CONNECTOR_SSL_PROTOCOL = "cargo.tomcat.connector.sslProtocol";
 
     /**
      * To enable HTTP/2 support for an HTTP connector.

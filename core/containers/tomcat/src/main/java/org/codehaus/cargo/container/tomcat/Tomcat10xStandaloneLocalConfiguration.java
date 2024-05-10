@@ -23,7 +23,6 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.util.XmlReplacement.ReplacementBehavior;
 
 /**
  * Catalina standalone
@@ -75,29 +74,22 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
      * {@inheritDoc}
      */
     @Override
-    protected void performXmlReplacements(LocalContainer container)
+    protected String getHttpsConnectorXml(String connectorProtocolClass)
     {
-        if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
-        {
-            String certificateXpath = connectorXpath() + "/SSLHostConfig/Certificate";
-            addXmlReplacement("conf/server.xml", certificateXpath,
-                "certificateKeystoreFile", TomcatPropertySet.CONNECTOR_KEY_STORE_FILE,
-                    ReplacementBehavior.ADD_MISSING_NODES);
-            if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
-            {
-                addXmlReplacement("conf/server.xml", certificateXpath,
-                    "certificateKeystoreType", TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE,
-                        ReplacementBehavior.ADD_MISSING_NODES);
-            }
-            if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
-            {
-                addXmlReplacement("conf/server.xml", certificateXpath,
-                    "certificateKeystorePassword", TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD,
-                        ReplacementBehavior.ADD_MISSING_NODES);
-            }
-        }
-
-        super.performXmlReplacements(container);
+        return
+            "<Connector"
+                + "\n      protocol=\"" + connectorProtocolClass + "\""
+                + "\n      port=\""
+                    + getPropertyValue(TomcatPropertySet.CONNECTOR_HTTPS_PORT) + "\" "
+                    + "SSLEnabled=\"true\">"
+                + "\n      <SSLHostConfig>"
+                + "\n        <Certificate"
+                + "\n          certificateKeystoreFile=\""
+                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) + "\""
+                + "\n          certificateKeystorePassword=\""
+                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) + "\"/>"
+                + "\n      </SSLHostConfig>"
+                + "\n    </Connector>";
     }
 
     /**

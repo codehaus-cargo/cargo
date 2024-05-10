@@ -88,46 +88,47 @@
               <cargo.java.home.1_8>${cargo.java.home.1_8}</cargo.java.home.1_8>
               <cargo.java.home.1_11>${cargo.java.home.1_11}</cargo.java.home.1_11>
 
-              <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
-              <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
+              <cargo.samples.rmi.port>${cargo.samples.rmi.port}</cargo.samples.rmi.port>
+              <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
 
               <!-- Ports required for GlassFish domain to be created -->
-              <cargo.glassfish.admin.port>${cargo.samples.glassfish.admin.port}</cargo.glassfish.admin.port>
-              <cargo.glassfish.http.ssl.port>${cargo.samples.glassfish.http.ssl.port}</cargo.glassfish.http.ssl.port>
-              <cargo.glassfish.java.debugger.port>${cargo.samples.glassfish.java.debugger.port}</cargo.glassfish.java.debugger.port>
-              <cargo.glassfish.jms.port>${cargo.samples.glassfish.jms.port}</cargo.glassfish.jms.port>
-              <cargo.glassfish.orb.listener.port>${cargo.samples.glassfish.orb.listener.port}</cargo.glassfish.orb.listener.port>
-              <cargo.glassfish.orb.mutualauth.port>${cargo.samples.glassfish.orb.mutualauth.port}</cargo.glassfish.orb.mutualauth.port>
-              <cargo.glassfish.orb.ssl.port>${cargo.samples.glassfish.orb.ssl.port}</cargo.glassfish.orb.ssl.port>
-              <cargo.glassfish.osgi.shell.telnet.port>${cargo.samples.glassfish.osgi.shell.telnet.port}</cargo.glassfish.osgi.shell.telnet.port>
+              <cargo.samples.glassfish.admin.port>${cargo.samples.glassfish.admin.port}</cargo.samples.glassfish.admin.port>
+              <cargo.samples.glassfish.http.ssl.port>${cargo.samples.glassfish.http.ssl.port}</cargo.samples.glassfish.http.ssl.port>
+              <cargo.samples.glassfish.java.debugger.port>${cargo.samples.glassfish.java.debugger.port}</cargo.samples.glassfish.java.debugger.port>
+              <cargo.samples.glassfish.jms.port>${cargo.samples.glassfish.jms.port}</cargo.samples.glassfish.jms.port>
+              <cargo.samples.glassfish.orb.listener.port>${cargo.samples.glassfish.orb.listener.port}</cargo.samples.glassfish.orb.listener.port>
+              <cargo.samples.glassfish.orb.mutualauth.port>${cargo.samples.glassfish.orb.mutualauth.port}</cargo.samples.glassfish.orb.mutualauth.port>
+              <cargo.samples.glassfish.orb.ssl.port>${cargo.samples.glassfish.orb.ssl.port}</cargo.samples.glassfish.orb.ssl.port>
+              <cargo.samples.glassfish.osgi.shell.telnet.port>${cargo.samples.glassfish.osgi.shell.telnet.port}</cargo.samples.glassfish.osgi.shell.telnet.port>
 
               <!-- Ports required for JBoss tests to pass -->
-              <cargo.jboss.ajp.port>${cargo.samples.jboss.ajp.port}</cargo.jboss.ajp.port>
-              <cargo.jboss.https.port>${cargo.samples.jboss.https.port}</cargo.jboss.https.port>
-              <cargo.jboss.naming.port>${cargo.samples.jboss.naming.port}</cargo.jboss.naming.port>
-              <cargo.jboss.classloading.webservice.port>${cargo.samples.jboss.classloading.webservice.port}</cargo.jboss.classloading.webservice.port>
-              <cargo.jboss.jmx.port>${cargo.samples.jboss.jmx.port}</cargo.jboss.jmx.port>
-              <cargo.jboss.jrmp.port>${cargo.samples.jboss.jrmp.port}</cargo.jboss.jrmp.port>
-              <cargo.jboss.jrmp.invoker.port>${cargo.samples.jboss.jrmp.invoker.port}</cargo.jboss.jrmp.invoker.port>
-              <cargo.jboss.invoker.pool.port>${cargo.samples.jboss.invoker.pool.port}</cargo.jboss.invoker.pool.port>
-              <cargo.jboss.management-native.port>${cargo.samples.jboss.management-native.port}</cargo.jboss.management-native.port>
-              <cargo.jboss.management-http.port>${cargo.samples.jboss.management-http.port}</cargo.jboss.management-http.port>
-              <cargo.jboss.management-https.port>${cargo.samples.jboss.management-https.port}</cargo.jboss.management-https.port>
-              <cargo.jboss.osgi.http.port>${cargo.samples.jboss.osgi.http.port}</cargo.jboss.osgi.http.port>
-              <cargo.jboss.remoting.transport.port>${cargo.samples.jboss.remoting.transport.port}</cargo.jboss.remoting.transport.port>
-              <cargo.jboss.ejb3.remoting.port>${cargo.samples.jboss.ejb3.remoting.port}</cargo.jboss.ejb3.remoting.port>
-              <cargo.jboss.transaction.recoveryManager.port>${cargo.samples.jboss.transaction.recoveryManager.port}</cargo.jboss.transaction.recoveryManager.port>
-              <cargo.jboss.transaction.statusManager.port>${cargo.samples.jboss.transaction.statusManager.port}</cargo.jboss.transaction.statusManager.port>
-              <cargo.jboss.remotedeploy.port>${cargo.samples.jboss.remotedeploy.port}</cargo.jboss.remotedeploy.port>
+              <cargo.samples.jboss.ajp.port>${cargo.samples.jboss.ajp.port}</cargo.samples.jboss.ajp.port>
+              <cargo.samples.jboss.https.port>${cargo.samples.jboss.https.port}</cargo.samples.jboss.https.port>
+              <cargo.samples.jboss.naming.port>${cargo.samples.jboss.naming.port}</cargo.samples.jboss.naming.port>
+              <cargo.samples.jboss.classloading.webservice.port>${cargo.samples.jboss.classloading.webservice.port}</cargo.samples.jboss.classloading.webservice.port>
+              <cargo.samples.jboss.jmx.port>${cargo.samples.jboss.jmx.port}</cargo.samples.jboss.jmx.port>
+              <cargo.samples.jboss.jrmp.port>${cargo.samples.jboss.jrmp.port}</cargo.samples.jboss.jrmp.port>
+              <cargo.samples.jboss.jrmp.invoker.port>${cargo.samples.jboss.jrmp.invoker.port}</cargo.samples.jboss.jrmp.invoker.port>
+              <cargo.samples.jboss.invoker.pool.port>${cargo.samples.jboss.invoker.pool.port}</cargo.samples.jboss.invoker.pool.port>
+              <cargo.samples.jboss.management-native.port>${cargo.samples.jboss.management-native.port}</cargo.samples.jboss.management-native.port>
+              <cargo.samples.jboss.management-http.port>${cargo.samples.jboss.management-http.port}</cargo.samples.jboss.management-http.port>
+              <cargo.samples.jboss.management-https.port>${cargo.samples.jboss.management-https.port}</cargo.samples.jboss.management-https.port>
+              <cargo.samples.jboss.osgi.http.port>${cargo.samples.jboss.osgi.http.port}</cargo.samples.jboss.osgi.http.port>
+              <cargo.samples.jboss.remoting.transport.port>${cargo.samples.jboss.remoting.transport.port}</cargo.samples.jboss.remoting.transport.port>
+              <cargo.samples.jboss.ejb3.remoting.port>${cargo.samples.jboss.ejb3.remoting.port}</cargo.samples.jboss.ejb3.remoting.port>
+              <cargo.samples.jboss.transaction.recoveryManager.port>${cargo.samples.jboss.transaction.recoveryManager.port}</cargo.samples.jboss.transaction.recoveryManager.port>
+              <cargo.samples.jboss.transaction.statusManager.port>${cargo.samples.jboss.transaction.statusManager.port}</cargo.samples.jboss.transaction.statusManager.port>
+              <cargo.samples.jboss.remotedeploy.port>${cargo.samples.jboss.remotedeploy.port}</cargo.samples.jboss.remotedeploy.port>
 
               <!-- Avoid port number clashes in Jetty -->
-              <cargo.jetty.connector.httpsPort>${cargo.samples.jetty.connector.httpsPort}</cargo.jetty.connector.httpsPort>
+              <cargo.samples.jetty.connector.https.port>${cargo.samples.jetty.connector.https.port}</cargo.samples.jetty.connector.https.port>
 
               <!-- Avoid port number clashes in Resin -->
-              <cargo.resin.socketwait.port>${cargo.samples.resin.socketwait.port}</cargo.resin.socketwait.port>
+              <cargo.samples.resin.socketwait.port>${cargo.samples.resin.socketwait.port}</cargo.samples.resin.socketwait.port>
 
               <!-- Avoid port number clashes in Tomcat -->
-              <cargo.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.tomcat.ajp.port>
+              <cargo.samples.tomcat.ajp.port>${cargo.samples.tomcat.ajp.port}</cargo.samples.tomcat.ajp.port>
+              <cargo.samples.tomcat.connector.https.port>${cargo.samples.tomcat.connector.https.port}</cargo.samples.tomcat.connector.https.port>
 
               <!-- Use common file name for the bundle tests -->
               <cargo.samples.bundle.targetFile>${project.build.directory}/bundle-test/output.log</cargo.samples.bundle.targetFile>
@@ -1358,9 +1359,10 @@
                 <portName>cargo.samples.jboss.management-http.port</portName>
                 <portName>cargo.samples.jboss.management-https.port</portName>
                 <portName>cargo.samples.jboss.osgi.http.port</portName>
-                <portName>cargo.samples.jetty.connector.httpsPort</portName>
+                <portName>cargo.samples.jetty.connector.https.port</portName>
                 <portName>cargo.samples.resin.socketwait.port</portName>
                 <portName>cargo.samples.tomcat.ajp.port</portName>
+                <portName>cargo.samples.tomcat.connector.https.port</portName>
               </portNames>
               <!-- Leave enough space for the port offset tests -->
               <minPortNumber>10000</minPortNumber>

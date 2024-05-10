@@ -24,14 +24,14 @@ import java.net.URL;
 
 import junit.framework.Test;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
+import org.codehaus.cargo.sample.java.AbstractWarTestCase;
 import org.codehaus.cargo.sample.java.CargoTestSuite;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 import org.codehaus.cargo.sample.java.PingUtils;
@@ -44,7 +44,7 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 /**
  * Test for Jetty TLS configuration options.
  */
-public class JettyTLSTest extends AbstractCargoTestCase
+public class JettyTLSTest extends AbstractWarTestCase
 {
     /**
      * Initializes the test case.
@@ -76,39 +76,68 @@ public class JettyTLSTest extends AbstractCargoTestCase
     }
 
     /**
-     * Create an package Tomcat container.
+     * Configure Jetty for HTTPS.
      * @throws Exception If anything goes wrong.
      */
-    public void testTlsConfigContainer() throws Exception
+    protected void configureHttps() throws Exception
     {
         File localhostJksFile = new File("target/test-classes/localhost.jks");
         assertTrue(localhostJksFile.isFile());
 
-        // First, create a configuration using the SSL configuration options,
-        // then put a WAR on it, finally start it and test for it to be running.
-        StandaloneLocalConfiguration configuration =
-            (StandaloneLocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
+        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+
+        LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_FILE,
             localhostJksFile.getAbsolutePath());
         configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_PASSWORD, "password");
         configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_TYPE, "jks");
+    }
+
+    /**
+     * Test Jetty with both HTTP and HTTPS ports active.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testJettyWithHttpAndHttps() throws Exception
+    {
+        configureHttps();
+
+        LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.MODULES, configuration.getPropertyValue(
             JettyPropertySet.MODULES).replace("http,", "http,https,"));
 
-        InstalledLocalContainer container =
-            (InstalledLocalContainer) createContainer(configuration);
-        Deployable war = new DefaultDeployableFactory().createDeployable(container.getId(),
-            getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
+        Deployable war =
+            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
+                .getTestDataFileFor("simple-war"), DeployableType.WAR);
         configuration.addDeployable(war);
-        configuration.configure(container);
 
-        URL warPingURL = new URL("https://localhost:"
+        URL warHttpPingURL =
+            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
+        URL warHttpsPingURL = new URL("https://localhost:"
             + configuration.getPropertyValue(JettyPropertySet.CONNECTOR_HTTPS_PORT)
                 + "/simple-war/index.jsp");
 
-        container.start();
-        PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
-        container.stop();
-        PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
+        getLocalContainer().start();
+        PingUtils.assertPingTrue("simple war not started on HTTP", warHttpPingURL, getLogger());
+        PingUtils.assertPingTrue("simple war not started on HTTPS", warHttpsPingURL, getLogger());
+        getLocalContainer().stop();
+        PingUtils.assertPingFalse("simple war not stopped on HTTP", warHttpPingURL, getLogger());
+        PingUtils.assertPingFalse("simple war not stopped on HTTPS", warHttpsPingURL, getLogger());
+    }
+
+    /**
+     * Test Jetty with only HTTPS active.
+     * @throws Exception If anything goes wrong.
+     */
+    public void testJettyWithHttpsOnly() throws Exception
+    {
+        configureHttps();
+
+        LocalConfiguration configuration = getLocalContainer().getConfiguration();
+        configuration.setProperty(JettyPropertySet.MODULES, configuration.getPropertyValue(
+            JettyPropertySet.MODULES).replace("http,", "https,"));
+        configuration.setProperty(GeneralPropertySet.PROTOCOL, "https");
+        configuration.setProperty(JettyPropertySet.CONNECTOR_HTTPS_PORT, "" + getTestData().port);
+
+        testWar("simple");
     }
 }

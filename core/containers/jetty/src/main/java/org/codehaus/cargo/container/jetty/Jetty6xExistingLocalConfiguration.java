@@ -47,7 +47,7 @@ public class Jetty6xExistingLocalConfiguration extends AbstractJettyExistingLoca
     public AbstractInstalledLocalDeployer createDeployer(LocalContainer container)
     {
         Jetty6xInstalledLocalDeployer deployer =
-                new Jetty6xInstalledLocalDeployer((InstalledLocalContainer) container);
+            new Jetty6xInstalledLocalDeployer((InstalledLocalContainer) container);
         return deployer;
     }
 

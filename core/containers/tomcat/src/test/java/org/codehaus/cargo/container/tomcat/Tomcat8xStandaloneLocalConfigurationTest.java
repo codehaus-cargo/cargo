@@ -107,25 +107,6 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Assert that the attribute 'sslImplementationName' is overidden with the property's value.
-     *
-     * @throws Exception If anything does wrong.
-     */
-    public void testConfigureSetsSslImplementationName() throws Exception
-    {
-        configuration.setProperty(TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME,
-            "org.apache.tomcat.util.net.openssl.OpenSSLImplementation");
-
-        configuration.configure(container);
-
-        String config = configuration.getFileHandler().readTextFile(
-            configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("org.apache.tomcat.util.net.openssl.OpenSSLImplementation",
-            Tomcat8xStandaloneLocalConfigurationTest.CONNECTOR_XPATH + "/@sslImplementationName",
-                config);
-    }
-
-    /**
      * Assert that the element 'UpgradeProtocol' isn't present if the property isn't set.
      *
      * @throws Exception If anything does wrong.

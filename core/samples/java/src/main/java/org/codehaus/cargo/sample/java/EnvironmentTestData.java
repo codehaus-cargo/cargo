@@ -281,10 +281,11 @@ public class EnvironmentTestData
      */
     private int createPort(String containerId, String type, int defaultValue)
     {
-        String portString = getSystemProperty("cargo." + containerId + "." + type + ".port");
+        String portString =
+            getSystemProperty("cargo.samples." + containerId + "." + type + ".port");
         if (portString == null)
         {
-            portString = getSystemProperty("cargo." + type + ".port");
+            portString = getSystemProperty("cargo.samples." + type + ".port");
         }
         if (portString == null)
         {

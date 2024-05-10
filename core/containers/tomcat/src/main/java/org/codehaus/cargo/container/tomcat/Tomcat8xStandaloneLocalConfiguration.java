@@ -300,14 +300,6 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
     {
         String serverXmlFileName = "conf/server.xml";
 
-        String sslImplementationName = getPropertyValue(
-            TomcatPropertySet.CONNECTOR_SSL_IMPLEMENTATION_NAME);
-        if (sslImplementationName != null)
-        {
-            addXmlReplacement(serverXmlFileName, connectorXpath(), "sslImplementationName",
-                sslImplementationName);
-        }
-
         if (Boolean.parseBoolean(
                 getPropertyValue(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL)))
         {

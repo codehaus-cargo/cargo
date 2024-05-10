@@ -70,7 +70,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         super(dir);
 
         setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, "true");
-        setProperty(TomcatPropertySet.HTTP_SECURE, "false");
         configurationBuilder = new Tomcat5x6x7xConfigurationBuilder();
 
         addXmlReplacements();
@@ -122,10 +121,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
     protected void performXmlReplacements(LocalContainer container)
     {
         addXmlReplacement("conf/server.xml", connectorXpath(), "port", ServletPropertySet.PORT);
-        addXmlReplacement("conf/server.xml", connectorXpath(), "scheme",
-            GeneralPropertySet.PROTOCOL);
-        addXmlReplacement("conf/server.xml", connectorXpath(), "secure",
-            TomcatPropertySet.HTTP_SECURE);
         addXmlReplacement("conf/server.xml", connectorXpath(), "emptySessionPath",
             TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
         addXmlReplacement("conf/server.xml", connectorXpath(), "URIEncoding",
@@ -138,11 +133,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         }
         else
         {
-            setProperty(TomcatPropertySet.HTTP_SECURE,
-                String.valueOf("https".equalsIgnoreCase(
-                    container.getConfiguration().getPropertyValue(
-                        GeneralPropertySet.PROTOCOL))));
-
             addOptionalXmlReplacements(container);
 
             super.performXmlReplacements(container);
@@ -354,69 +344,6 @@ public class Tomcat5xStandaloneLocalConfiguration extends
         {
             addXmlReplacement("conf/context.xml", "//Context", "useHttpOnly",
                 TomcatPropertySet.USE_HTTP_ONLY);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "keystoreFile",
-                TomcatPropertySet.CONNECTOR_KEY_STORE_FILE);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "keystorePass",
-                TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "keystoreType",
-                TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_KEY_ALIAS) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "keyAlias",
-                TomcatPropertySet.CONNECTOR_KEY_ALIAS);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_CLIENT_AUTH) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "clientAuth",
-                TomcatPropertySet.CONNECTOR_CLIENT_AUTH);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "truststoreFile",
-                TomcatPropertySet.CONNECTOR_TRUST_STORE_FILE);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "truststorePass",
-                TomcatPropertySet.CONNECTOR_TRUST_STORE_PASSWORD);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "truststoreType",
-                TomcatPropertySet.CONNECTOR_TRUST_STORE_TYPE);
-        }
-
-        if (container.getConfiguration().getPropertyValue(
-            TomcatPropertySet.CONNECTOR_SSL_PROTOCOL) != null)
-        {
-            addXmlReplacement("conf/server.xml", connectorXpath(), "sslProtocol",
-                TomcatPropertySet.CONNECTOR_SSL_PROTOCOL);
         }
 
         if (container.getConfiguration().getPropertyValue(

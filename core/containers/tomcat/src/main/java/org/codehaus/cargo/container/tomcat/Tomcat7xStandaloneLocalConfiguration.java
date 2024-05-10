@@ -73,21 +73,21 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
      * {@inheritDoc}
      */
     @Override
-    protected void doConfigure(LocalContainer container) throws Exception
+    public ConfigurationCapability getCapability()
     {
-        super.doConfigure(container);
-
-        // CARGO-1272: Starting Tomcat generates warnings on not existing folders in classloader
-        getFileHandler().createDirectory(getHome(), "common/lib");
+        return CAPABILITY;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ConfigurationCapability getCapability()
+    protected void doConfigure(LocalContainer container) throws Exception
     {
-        return CAPABILITY;
+        super.doConfigure(container);
+
+        // CARGO-1272: Starting Tomcat generates warnings on not existing folders in classloader
+        getFileHandler().createDirectory(getHome(), "common/lib");
     }
 
     /**

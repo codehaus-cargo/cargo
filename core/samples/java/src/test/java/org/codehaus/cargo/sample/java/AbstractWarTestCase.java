@@ -21,8 +21,11 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 
 /**
@@ -53,10 +56,20 @@ public abstract class AbstractWarTestCase extends AbstractCargoTestCase
             new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
                 .getTestDataFileFor(type + "-war"), DeployableType.WAR);
 
-        getLocalContainer().getConfiguration().addDeployable(war);
+        String page;
+        if ("simple".equals(type))
+        {
+            page = "index.jsp";
+        }
+        else
+        {
+            page = "test";
+        }
 
-        URL warPingURL =
-            new URL("http://localhost:" + getTestData().port + "/" + type + "-war/test");
+        LocalConfiguration configuration = getLocalContainer().getConfiguration();
+        configuration.addDeployable(war);
+        URL warPingURL = new URL(configuration.getPropertyValue(GeneralPropertySet.PROTOCOL)
+            + "://localhost:" + getTestData().port + "/" + type + "-war/" + page);
 
         startAndStop(warPingURL);
     }

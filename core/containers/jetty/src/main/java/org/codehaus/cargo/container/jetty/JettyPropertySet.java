@@ -77,7 +77,7 @@ public interface JettyPropertySet
     /**
      * The port for HTTPS.
      */
-    String CONNECTOR_HTTPS_PORT = "cargo.jetty.connector.httpsPort";
+    String CONNECTOR_HTTPS_PORT = "cargo.jetty.connector.https.port";
 
     /**
      * The file path for the key store file.

@@ -99,6 +99,8 @@ public class JonasDeploymentPlanTest extends AbstractCargoTestCase
     {
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
 
+        // Copies the simple war in order to rename it so that it matches the deployable path
+        // defined in its jonas-deploymentplan.xml file.
         String urlInternal = this.fileHandler.createDirectory(
             getInstalledLocalContainer().getHome(), "repositories/url-internal");
         this.fileHandler.copyFile(getTestData().getTestDataFileFor("simple-war"),
@@ -106,7 +108,7 @@ public class JonasDeploymentPlanTest extends AbstractCargoTestCase
 
         Deployable deploymentPlan = new DefaultDeployableFactory().createDeployable(
             getContainer().getId(), "target/test-classes/jonas-deploymentplan.xml",
-            DeployableType.FILE);
+                DeployableType.FILE);
 
         URL warPingURL = new URL("http://localhost:" + getTestData().port
             + "/cargo-simple-war/index.jsp");

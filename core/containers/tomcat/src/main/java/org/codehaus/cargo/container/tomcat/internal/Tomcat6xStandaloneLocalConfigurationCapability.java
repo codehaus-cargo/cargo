@@ -25,13 +25,16 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
 public class Tomcat6xStandaloneLocalConfigurationCapability extends
-        Tomcat5xStandaloneLocalConfigurationCapability
+    Tomcat5xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
     public Tomcat6xStandaloneLocalConfigurationCapability()
     {
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_HTTPS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS, Boolean.TRUE);
     }
 
