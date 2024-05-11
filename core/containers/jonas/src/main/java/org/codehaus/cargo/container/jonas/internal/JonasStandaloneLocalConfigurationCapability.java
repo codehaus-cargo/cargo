@@ -35,7 +35,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 public class JonasStandaloneLocalConfigurationCapability extends
     AbstractStandaloneLocalConfigurationCapability
 {
-
     /**
      * Initialize Jonas-specific configuration Map.
      */
@@ -54,5 +53,21 @@ public class JonasStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
         this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean supportsProperty(String property)
+    {
+        if (property != null && property.startsWith(JonasPropertySet.CONFIGURATOR_PREFIX))
+        {
+            return true;
+        }
+        else
+        {
+            return super.supportsProperty(property);
+        }
     }
 }
