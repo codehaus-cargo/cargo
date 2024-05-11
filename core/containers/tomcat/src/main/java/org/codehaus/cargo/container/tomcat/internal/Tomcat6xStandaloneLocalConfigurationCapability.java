@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 
 /**
@@ -32,7 +33,7 @@ public class Tomcat6xStandaloneLocalConfigurationCapability extends
      */
     public Tomcat6xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_HTTPS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS, Boolean.TRUE);

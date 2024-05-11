@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +27,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.util.CargoException;
@@ -53,8 +53,6 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
     public Tomcat6xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
-
-        setProperty(TomcatPropertySet.CONNECTOR_HTTPS_PORT, "8443");
     }
 
     /**
@@ -194,46 +192,39 @@ public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLoca
             addXmlReplacement("conf/server.xml", connectorXpath(), "protocol",
                 connectorProtocolClass);
         }
-        else
+        if ("https".equals(getPropertyValue(GeneralPropertySet.PROTOCOL)))
         {
-            connectorProtocolClass = "org.apache.coyote.http11.Http11NioProtocol";
+            if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
+            {
+                configureHttpsConnectorXml();
+            }
+            else
+            {
+                throw new CargoException("To enable HTTPS, you need to BOTH specify https as "
+                    + GeneralPropertySet.PROTOCOL + " and provide the configuration value "
+                        + TomcatPropertySet.CONNECTOR_KEY_STORE_FILE);
+            }
         }
 
         super.performXmlReplacements(container);
-
-        if (getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) != null)
-        {
-            Map<String, String> replacements = new HashMap<String, String>(1);
-            replacements.put("</Service>",
-                "  " + getHttpsConnectorXml(connectorProtocolClass) + "\n  </Service>");
-            getFileHandler().replaceInFile(getFileHandler().append(getHome(), "conf/server.xml"),
-                replacements, StandardCharsets.UTF_8);
-        }
     }
 
     /**
-     * Get HTTPS connector.
-     * @param connectorProtocolClass Connector protocol class.
-     * @return HTTPS connector XML.
+     * Configure HTTPS connector.
      */
-    protected String getHttpsConnectorXml(String connectorProtocolClass)
+    protected void configureHttpsConnectorXml()
     {
-        return
-            "<Connector"
-                + "\n      protocol=\"" + connectorProtocolClass + "\""
-                + "\n      port=\""
-                    + getPropertyValue(TomcatPropertySet.CONNECTOR_HTTPS_PORT) + "\" "
-                    + "scheme=\"https\" secure=\"true\" SSLEnabled=\"true\""
-                + "\n      keystoreFile=\""
-                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE)
-                    + "\" keystorePass=\""
-                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) + "\""
-                + "\n      clientAuth=\"false\" sslProtocol=\"TLS\"/>";
+        addXmlReplacement("conf/server.xml", connectorXpath(), "scheme", "https");
+        addXmlReplacement("conf/server.xml", connectorXpath(), "secure", "true");
+        addXmlReplacement("conf/server.xml", connectorXpath(), "SSLEnabled", "true");
+        addXmlReplacement("conf/server.xml", connectorXpath(), "keystoreFile",
+            getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE));
+        addXmlReplacement("conf/server.xml", connectorXpath(), "keystorePass",
+            getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD));
+        addXmlReplacement("conf/server.xml", connectorXpath(), "clientAuth", "false");
+        addXmlReplacement("conf/server.xml", connectorXpath(), "sslProtocol", "TLS");
     }
 
-    /**
-     * Create the SSL configuration XML.
-     */
     /**
      * {@inheritDoc}
      */

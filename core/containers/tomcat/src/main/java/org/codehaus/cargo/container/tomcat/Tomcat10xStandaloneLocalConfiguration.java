@@ -23,6 +23,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xConfigurationBuilder;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.util.XmlReplacement.ReplacementBehavior;
 
 /**
  * Catalina standalone
@@ -74,22 +75,17 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
      * {@inheritDoc}
      */
     @Override
-    protected String getHttpsConnectorXml(String connectorProtocolClass)
+    protected void configureHttpsConnectorXml()
     {
-        return
-            "<Connector"
-                + "\n      protocol=\"" + connectorProtocolClass + "\""
-                + "\n      port=\""
-                    + getPropertyValue(TomcatPropertySet.CONNECTOR_HTTPS_PORT) + "\" "
-                    + "SSLEnabled=\"true\">"
-                + "\n      <SSLHostConfig>"
-                + "\n        <Certificate"
-                + "\n          certificateKeystoreFile=\""
-                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_FILE) + "\""
-                + "\n          certificateKeystorePassword=\""
-                    + getPropertyValue(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD) + "\"/>"
-                + "\n      </SSLHostConfig>"
-                + "\n    </Connector>";
+        addXmlReplacement("conf/server.xml", connectorXpath(), "SSLEnabled", "true");
+
+        String certificateXpath = connectorXpath() + "/SSLHostConfig/Certificate";
+        addXmlReplacement("conf/server.xml", certificateXpath,
+            "certificateKeystoreFile", TomcatPropertySet.CONNECTOR_KEY_STORE_FILE,
+                ReplacementBehavior.ADD_MISSING_NODES);
+        addXmlReplacement("conf/server.xml", certificateXpath,
+            "certificateKeystorePassword", TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD,
+                ReplacementBehavior.ADD_MISSING_NODES);
     }
 
     /**

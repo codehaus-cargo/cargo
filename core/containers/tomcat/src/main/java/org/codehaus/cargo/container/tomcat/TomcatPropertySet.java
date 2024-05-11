@@ -95,11 +95,6 @@ public interface TomcatPropertySet
     String CONNECTOR_PROTOCOL_CLASS = "cargo.tomcat.connector.protocolClass";
 
     /**
-     * HTTPS port for Tomcat.
-     */
-    String CONNECTOR_HTTPS_PORT = "cargo.tomcat.connector.https.port";
-
-    /**
      * The file path for the key store file.
      */
     String CONNECTOR_KEY_STORE_FILE = "cargo.tomcat.connector.keystoreFile";

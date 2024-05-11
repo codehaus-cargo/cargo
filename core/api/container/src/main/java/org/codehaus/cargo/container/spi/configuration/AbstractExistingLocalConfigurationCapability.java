@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
+
 /**
  * Base implementation of {@link org.codehaus.cargo.container.configuration.ConfigurationCapability}
  * that needs to be extended by each existing configuration's implementation.
@@ -34,6 +36,6 @@ public abstract class AbstractExistingLocalConfigurationCapability
     {
         super();
 
-        // Nothing to add
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
     }
 }
