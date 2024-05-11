@@ -35,11 +35,10 @@ public abstract class AbstractStandaloneLocalConfigurationCapability
      */
     public AbstractStandaloneLocalConfigurationCapability()
     {
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
-
         this.propertySupportMap.put(GeneralPropertySet.IGNORE_NON_EXISTING_PROPERTIES,
             Boolean.TRUE);
-
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
     }
 }

@@ -49,9 +49,10 @@ public abstract class AbstractConfiguration extends LoggedObject
         this.properties = new HashMap<String, String>();
 
         // Add all required properties that are common to all configurations
-        setProperty(GeneralPropertySet.PROTOCOL, "http");
-        setProperty(GeneralPropertySet.HOSTNAME, "localhost");
-        setProperty(ServletPropertySet.PORT, "8080");
+        // Do not use setProperty to avoid unsupported warnings
+        this.properties.put(GeneralPropertySet.PROTOCOL, "http");
+        this.properties.put(GeneralPropertySet.HOSTNAME, "localhost");
+        this.properties.put(ServletPropertySet.PORT, "8080");
     }
 
     /**
@@ -62,6 +63,16 @@ public abstract class AbstractConfiguration extends LoggedObject
     {
         if (value != null)
         {
+            if (getCapability() != null && getCapability().getProperties() != null)
+            {
+                Boolean supports = getCapability().getProperties().get(name);
+                if (Boolean.FALSE.equals(supports))
+                {
+                    getLogger().warn(
+                        "Property [" + name + "] is not supported by " + this.toString(),
+                            this.getClass().getName());
+                }
+            }
             getLogger().debug("Setting property [" + name + "] = [" + value + "]",
                 this.getClass().getName());
             this.properties.put(name, value);
