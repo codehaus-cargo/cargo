@@ -105,6 +105,11 @@ public interface TomcatPropertySet
     String CONNECTOR_KEY_STORE_PASSWORD = "cargo.tomcat.connector.keystorePass";
 
     /**
+     * The type of the key store file.
+     */
+    String CONNECTOR_KEY_STORE_TYPE = "cargo.tomcat.connector.keystoreType";
+
+    /**
      * To enable HTTP/2 support for an HTTP connector.
      */
     String CONNECTOR_HTTP_UPGRADE_PROTOCOL = "cargo.tomcat.connector.httpUpgradeProtocol";

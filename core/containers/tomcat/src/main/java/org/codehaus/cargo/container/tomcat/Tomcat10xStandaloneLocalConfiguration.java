@@ -46,6 +46,7 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
     {
         super(dir);
 
+        setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, "RSA");
         setProperty(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, "webapps-javaee");
 
         configurationBuilder = new Tomcat10x11xConfigurationBuilder();
@@ -85,6 +86,9 @@ public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLoc
                 ReplacementBehavior.ADD_MISSING_NODES);
         addXmlReplacement("conf/server.xml", certificateXpath,
             "certificateKeystorePassword", TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD,
+                ReplacementBehavior.ADD_MISSING_NODES);
+        addXmlReplacement("conf/server.xml", certificateXpath,
+            "type", TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE,
                 ReplacementBehavior.ADD_MISSING_NODES);
     }
 
