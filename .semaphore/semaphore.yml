@@ -887,7 +887,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss6x -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 6.1.x
     dependencies:
