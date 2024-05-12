@@ -369,6 +369,17 @@ public abstract class AbstractCargoTestCase extends TestCase
     {
         getLogger().info("Starting test [" + getName() + "]", this.getClass().getName());
 
+        if (getFileHandler().exists(getTestData().configurationHome))
+        {
+            String configurationHomeNoSlash = getTestData().configurationHome;
+            while (configurationHomeNoSlash.endsWith("/"))
+            {
+                configurationHomeNoSlash =
+                    configurationHomeNoSlash.substring(0, configurationHomeNoSlash.length() - 1);
+            }
+            new File(getTestData().configurationHome).renameTo(
+                new File(configurationHomeNoSlash + "-renamed-" + System.currentTimeMillis()));
+        }
         getFileHandler().delete(getTestData().configurationHome);
 
         // Set up the thread context classloader for embedded containers. We're doing this here
