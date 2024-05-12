@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss4xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss4xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xContainerCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss6xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss71xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss71xStandaloneLocalConfigurationCapability;
@@ -141,7 +142,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBoss6xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss6x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            JBossExistingLocalConfigurationCapability.class);
+            JBoss6xExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss6x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JBoss5xRuntimeConfigurationCapability.class);
@@ -151,7 +152,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
             JBoss6xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss61x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            JBossExistingLocalConfigurationCapability.class);
+            JBoss6xExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss61x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JBoss5xRuntimeConfigurationCapability.class);
@@ -261,14 +262,14 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("jboss6x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, JBoss6xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss6x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, JBossExistingLocalConfiguration.class);
+            ConfigurationType.EXISTING, JBoss6xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss6x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, JBoss5xRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jboss61x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, JBoss6xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss61x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, JBossExistingLocalConfiguration.class);
+            ConfigurationType.EXISTING, JBoss6xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss61x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, JBoss5xRuntimeConfiguration.class);
 

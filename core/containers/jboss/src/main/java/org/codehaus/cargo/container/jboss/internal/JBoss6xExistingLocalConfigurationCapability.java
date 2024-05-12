@@ -20,26 +20,20 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration. We do
- * not inherit JBoss 6.x, as JBoss 7.x doesn't support the AJP and JMX ports.
+ * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration.
  */
-public class JBoss7xExistingLocalConfigurationCapability extends
+public class JBoss6xExistingLocalConfigurationCapability extends
     JBossExistingLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.
      */
-    public JBoss7xExistingLocalConfigurationCapability()
+    public JBoss6xExistingLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
-
-        // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
-        this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.TRUE);
     }
 }
