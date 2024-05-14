@@ -20,20 +20,12 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss73xStandaloneLocalConfigurationCapability;
 
 /**
  * JBoss 7.3.x (EAP 6.2.x) standalone local configuration.
  */
 public class JBoss73xStandaloneLocalConfiguration extends JBoss72xStandaloneLocalConfiguration
 {
-
-    /**
-     * JBoss 7.3.x (EAP 6.2.x) container capability.
-     */
-    private static final ConfigurationCapability CAPABILITY =
-        new JBoss73xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -44,15 +36,6 @@ public class JBoss73xStandaloneLocalConfiguration extends JBoss72xStandaloneLoca
         super(dir);
 
         getProperties().remove(JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return CAPABILITY;
     }
 
     /**

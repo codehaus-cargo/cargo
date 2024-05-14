@@ -23,17 +23,16 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBoss3x4xStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss75xStandaloneLocalConfiguration} configuration.
  */
 public class JBoss75xStandaloneLocalConfigurationCapability
-    extends JBoss73xStandaloneLocalConfigurationCapability
+    extends JBoss72xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.
      */
     public JBoss75xStandaloneLocalConfigurationCapability()
     {
-        super();
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
     }
 }

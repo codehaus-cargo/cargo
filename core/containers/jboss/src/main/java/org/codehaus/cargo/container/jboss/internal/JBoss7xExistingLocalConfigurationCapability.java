@@ -20,24 +20,45 @@
 package org.codehaus.cargo.container.jboss.internal;
 
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
+import org.codehaus.cargo.container.property.RemotePropertySet;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBoss3x4xExistingLocalConfiguration} configuration. We
- * do not inherit JBoss 6.x, as JBoss 7.x doesn't support the AJP and JMX ports.
+ * {@link org.codehaus.cargo.container.jboss.JBoss7xExistingLocalConfiguration} configuration. We
+ * do not inherit previous JBoss capabilities as JBoss 7.x came with major architecture changes.
  */
 public class JBoss7xExistingLocalConfigurationCapability extends
-    JBoss5xExistingLocalConfigurationCapability
+    AbstractExistingLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.
      */
     public JBoss7xExistingLocalConfigurationCapability()
     {
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
+        this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
+        this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_HTTPS_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.FALSE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_DEPLOYMENT_DIR, Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.CLI_ONLINE_SCRIPT, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
 
         // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
         this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.FALSE);

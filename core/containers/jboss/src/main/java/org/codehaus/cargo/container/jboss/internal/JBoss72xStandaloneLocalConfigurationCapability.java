@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBoss3x4xStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss72xStandaloneLocalConfiguration} configuration.
  */
 public class JBoss72xStandaloneLocalConfigurationCapability
     extends JBoss71xStandaloneLocalConfigurationCapability
@@ -33,8 +33,6 @@ public class JBoss72xStandaloneLocalConfigurationCapability
      */
     public JBoss72xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.remove(JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
     }
 }

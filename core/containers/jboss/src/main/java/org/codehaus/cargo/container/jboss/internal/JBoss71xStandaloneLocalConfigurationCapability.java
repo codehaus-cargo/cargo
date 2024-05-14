@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBoss3x4xStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss71xStandaloneLocalConfiguration} configuration.
  */
 public class JBoss71xStandaloneLocalConfigurationCapability
     extends JBoss7xStandaloneLocalConfigurationCapability
@@ -35,8 +35,6 @@ public class JBoss71xStandaloneLocalConfigurationCapability
      */
     public JBoss71xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
 
         this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);

@@ -19,11 +19,12 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBoss3x4xExistingLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss71xExistingLocalConfiguration} configuration.
  */
 public class JBoss71xExistingLocalConfigurationCapability
     extends JBoss7xExistingLocalConfigurationCapability
@@ -33,9 +34,12 @@ public class JBoss71xExistingLocalConfigurationCapability
      */
     public JBoss71xExistingLocalConfigurationCapability()
     {
-        super();
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_MANAGEMENT_HTTPS_PORT, Boolean.TRUE);
 
         this.propertySupportMap.remove(GeneralPropertySet.RMI_PORT);
+        this.propertySupportMap.remove(JBossPropertySet.JBOSS_JRMP_PORT);
+        this.propertySupportMap.remove(JBossPropertySet.JBOSS_JMX_PORT);
 
         // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
         this.propertySupportMap.put(GeneralPropertySet.PORT_OFFSET, Boolean.TRUE);
