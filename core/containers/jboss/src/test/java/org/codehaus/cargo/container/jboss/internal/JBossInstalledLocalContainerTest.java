@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBoss4xInstalledLocalContainer;
 import org.codehaus.cargo.container.jboss.JBossInstalledLocalDeployer;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
-import org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.jboss.JBoss3x4xStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -88,7 +88,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
         this.fileHandler.createDirectory(CONTAINER_HOME + "/server", SERVER_CONFIG);
 
         LocalConfiguration configuration =
-            new JBossStandaloneLocalConfiguration(CONFIGURATION_HOME);
+            new JBoss3x4xStandaloneLocalConfiguration(CONFIGURATION_HOME);
         configuration.setProperty(JBossPropertySet.CONFIGURATION, SERVER_CONFIG);
 
         this.container = new JBoss4xInstalledLocalContainer(configuration);

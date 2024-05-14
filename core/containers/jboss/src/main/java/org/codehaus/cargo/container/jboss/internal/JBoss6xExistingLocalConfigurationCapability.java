@@ -23,10 +23,10 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss3x4xExistingLocalConfiguration} configuration.
  */
 public class JBoss6xExistingLocalConfigurationCapability extends
-    JBossExistingLocalConfigurationCapability
+    JBoss5xExistingLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.

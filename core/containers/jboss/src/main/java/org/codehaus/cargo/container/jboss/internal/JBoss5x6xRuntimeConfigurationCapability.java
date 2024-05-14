@@ -25,13 +25,13 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 /**
  * Capabilities of JBoss's runtime configuration.
  */
-public class JBoss5xRuntimeConfigurationCapability extends
+public class JBoss5x6xRuntimeConfigurationCapability extends
     AbstractJBossRuntimeConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public JBoss5xRuntimeConfigurationCapability()
+    public JBoss5x6xRuntimeConfigurationCapability()
     {
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);

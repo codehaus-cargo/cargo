@@ -34,7 +34,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.jboss.internal.JBossInstalledLocalContainer;
-import org.codehaus.cargo.container.jboss.internal.JBossStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss3x4xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.TransactionSupport;
@@ -45,14 +45,14 @@ import org.codehaus.cargo.util.CargoException;
  * Implementation of a standalone {@link org.codehaus.cargo.container.configuration.Configuration}
  * for JBoss 3.x series and JBoss 4.x series.
  */
-public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
+public class JBoss3x4xStandaloneLocalConfiguration extends AbstractStandaloneLocalConfiguration
 {
 
     /**
      * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBossStandaloneLocalConfigurationCapability();
+        new JBoss3x4xStandaloneLocalConfigurationCapability();
 
     /**
      * JBoss container instance.
@@ -68,7 +68,7 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
      * {@inheritDoc}
      * @see AbstractStandaloneLocalConfiguration#AbstractStandaloneLocalConfiguration(String)
      */
-    public JBossStandaloneLocalConfiguration(String dir)
+    public JBoss3x4xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
 
@@ -81,9 +81,6 @@ public class JBossStandaloneLocalConfiguration extends AbstractStandaloneLocalCo
         setProperty(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, "4444");
         setProperty(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, "4445");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4446");
-        setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
-        setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
-        setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
     }
 
     /**

@@ -17,21 +17,31 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jboss.internal;
+package org.codehaus.cargo.container.jboss;
 
-import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.RemoteContainer;
 
 /**
- * Capabilities of the JBoss 4.x and onwards containers.
+ * Remote deployer that uses the Profile Service to deploy to JBoss.
  */
-public class JBoss4xContainerCapability extends JBoss3xContainerCapability
+public class JBoss51x6xRemoteDeployer extends JBoss5xRemoteDeployer
 {
+
+    /**
+     * @param container the container containing the configuration to use to find the deployer
+     * properties such as url, user name and password to use to connect to the deployer
+     */
+    public JBoss51x6xRemoteDeployer(RemoteContainer container)
+    {
+        super(container);
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean supportsDeployableType(DeployableType type)
+    protected String getJBossRemoteDeployerJarName()
     {
-        return super.supportsDeployableType(type) || DeployableType.HAR.equals(type);
+        return "jboss-deployer-5.1-and-6";
     }
 }

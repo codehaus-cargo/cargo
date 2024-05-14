@@ -19,32 +19,24 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 
 /**
- * Capabilities of the JBoss container.
+ * Capabilities of the JBoss's
+ * {@link org.codehaus.cargo.container.jboss.JBoss3x4xExistingLocalConfiguration} configuration.
  */
-public class JBossContainerCapability extends J2EEContainerCapability
+public class JBoss5xExistingLocalConfigurationCapability extends
+    JBoss3x4xExistingLocalConfigurationCapability
 {
     /**
-     * The deployable types supported by the JBoss container, in addition to those specified in
-     * <code>J2EEContainerCapability</code>.
+     * Initialize JBoss-specific configuration Map.
      */
-    private static final List<DeployableType> ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES = Arrays
-        .asList(DeployableType.EJB, DeployableType.RAR, DeployableType.SAR);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean supportsDeployableType(DeployableType type)
+    public JBoss5xExistingLocalConfigurationCapability()
     {
-        return super.supportsDeployableType(type)
-            || ADDITIONAL_SUPPORTED_DEPLOYABLE_TYPES.contains(type);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, Boolean.TRUE);
     }
-
 }

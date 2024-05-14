@@ -25,26 +25,26 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBossExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss3x4xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfiguration;
 
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  */
-public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfiguration
+public class JBoss3x4xExistingLocalConfiguration extends AbstractExistingLocalConfiguration
 {
     /**
      * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBossExistingLocalConfigurationCapability();
+        new JBoss3x4xExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
      * @see AbstractExistingLocalConfiguration#AbstractExistingLocalConfiguration(String)
      */
-    public JBossExistingLocalConfiguration(String dir)
+    public JBoss3x4xExistingLocalConfiguration(String dir)
     {
         super(dir);
 
@@ -57,9 +57,6 @@ public class JBossExistingLocalConfiguration extends AbstractExistingLocalConfig
         setProperty(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, "4444");
         setProperty(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, "4445");
         setProperty(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, "4446");
-        setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
-        setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
-        setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
     }
 
     /**

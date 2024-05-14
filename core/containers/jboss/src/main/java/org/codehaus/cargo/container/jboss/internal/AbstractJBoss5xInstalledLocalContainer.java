@@ -34,7 +34,7 @@ public abstract class AbstractJBoss5xInstalledLocalContainer extends
     /**
      * Capability of the JBoss container.
      */
-    private static final ContainerCapability CAPABILITY = new JBoss5xContainerCapability();
+    private static final ContainerCapability CAPABILITY = new JBoss5x6xContainerCapability();
 
     /**
      * {@inheritDoc}

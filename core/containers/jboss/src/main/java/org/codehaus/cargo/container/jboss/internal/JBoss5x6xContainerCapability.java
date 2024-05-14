@@ -22,9 +22,9 @@ package org.codehaus.cargo.container.jboss.internal;
 import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
- * Capabilities of the JBoss 4.x and onwards containers.
+ * Capabilities of the JBoss 5.x and 6.x containers.
  */
-public class JBoss4xContainerCapability extends JBoss3xContainerCapability
+public class JBoss5x6xContainerCapability extends JBoss4xContainerCapability
 {
     /**
      * {@inheritDoc}
@@ -32,6 +32,6 @@ public class JBoss4xContainerCapability extends JBoss3xContainerCapability
     @Override
     public boolean supportsDeployableType(DeployableType type)
     {
-        return super.supportsDeployableType(type) || DeployableType.HAR.equals(type);
+        return super.supportsDeployableType(type) || DeployableType.AOP.equals(type);
     }
 }

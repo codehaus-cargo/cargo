@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss6xExistingLocalConfigura
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  */
-public class JBoss6xExistingLocalConfiguration extends JBossExistingLocalConfiguration
+public class JBoss6xExistingLocalConfiguration extends JBoss5xExistingLocalConfiguration
 {
     /**
      * JBoss container capability.
@@ -35,7 +35,7 @@ public class JBoss6xExistingLocalConfiguration extends JBossExistingLocalConfigu
 
     /**
      * {@inheritDoc}
-     * @see JBossExistingLocalConfiguration#JBossExistingLocalConfiguration(String)
+     * @see JBoss5xExistingLocalConfiguration#JBoss5xExistingLocalConfiguration(String)
      */
     public JBoss6xExistingLocalConfiguration(String dir)
     {

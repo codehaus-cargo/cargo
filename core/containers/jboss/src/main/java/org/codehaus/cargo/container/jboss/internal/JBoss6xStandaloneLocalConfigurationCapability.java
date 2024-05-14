@@ -23,18 +23,16 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss3x4xStandaloneLocalConfiguration} configuration.
  */
 public class JBoss6xStandaloneLocalConfigurationCapability extends
-    JBossStandaloneLocalConfigurationCapability
+    JBoss5xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.
      */
     public JBoss6xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.put(JBossPropertySet.JBOSS_AJP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JMX_PORT, Boolean.TRUE);
     }

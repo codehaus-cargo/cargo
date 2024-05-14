@@ -17,31 +17,26 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jboss;
+package org.codehaus.cargo.container.jboss.internal;
 
-import org.codehaus.cargo.container.RemoteContainer;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
 
 /**
- * Remote deployer that uses the Profile Service to deploy to JBoss.
+ * Capabilities of the JBoss's
+ * {@link org.codehaus.cargo.container.jboss.JBoss3x4xStandaloneLocalConfiguration} configuration.
  */
-public class JBoss51xRemoteDeployer extends JBoss5xRemoteDeployer
+public class JBoss5xStandaloneLocalConfigurationCapability extends
+    JBoss3x4xStandaloneLocalConfigurationCapability
 {
-
     /**
-     * @param container the container containing the configuration to use to find the deployer
-     * properties such as url, user name and password to use to connect to the deployer
+     * Initialize JBoss-specific configuration Map.
      */
-    public JBoss51xRemoteDeployer(RemoteContainer container)
+    public JBoss5xStandaloneLocalConfigurationCapability()
     {
-        super(container);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String getJBossRemoteDeployerJarName()
-    {
-        return "jboss-deployer-5.1-and-6";
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(
+            JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, Boolean.TRUE);
     }
 }

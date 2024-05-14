@@ -24,11 +24,11 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBossExistingLocalConfiguration} configuration. We do
- * not inherit JBoss 6.x, as JBoss 7.x doesn't support the AJP and JMX ports.
+ * {@link org.codehaus.cargo.container.jboss.JBoss3x4xExistingLocalConfiguration} configuration. We
+ * do not inherit JBoss 6.x, as JBoss 7.x doesn't support the AJP and JMX ports.
  */
 public class JBoss7xExistingLocalConfigurationCapability extends
-    JBossExistingLocalConfigurationCapability
+    JBoss5xExistingLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.

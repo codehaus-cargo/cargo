@@ -24,24 +24,23 @@ import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.spi.configuration.AbstractExistingLocalConfigurationCapability;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBossStandaloneLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss3x4xExistingLocalConfiguration} configuration.
  */
-public class JBossStandaloneLocalConfigurationCapability extends
-    AbstractStandaloneLocalConfigurationCapability
+public class JBoss3x4xExistingLocalConfigurationCapability extends
+    AbstractExistingLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.
      */
-    public JBossStandaloneLocalConfigurationCapability()
+    public JBoss3x4xExistingLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
-        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.FALSE);
-        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
+        this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_NAMING_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_INVOKER_POOL_PORT, Boolean.TRUE);
         this.propertySupportMap.put(
@@ -49,16 +48,16 @@ public class JBossStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_JRMP_INVOKER_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JBossPropertySet.JBOSS_REMOTING_TRANSPORT_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(
-            JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(
-            JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
-        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);
         this.propertySupportMap.put(
             JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.ALTERNATIVE_MODULES_DIR, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.USERNAME, Boolean.TRUE);
+        this.propertySupportMap.put(RemotePropertySet.PASSWORD, Boolean.TRUE);
+
+        // We don't support this property since it's not required as the configuration home already
+        // points to the JBoss configuration to use
+        this.propertySupportMap.put(JBossPropertySet.CONFIGURATION, Boolean.FALSE);
     }
 }

@@ -20,25 +20,25 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss5xRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss5x6xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfiguration;
 
 /**
  * Configuration to use when using a JBoss remote container.
  */
-public class JBoss5xRuntimeConfiguration extends AbstractRuntimeConfiguration
+public class JBoss5x6xRuntimeConfiguration extends AbstractRuntimeConfiguration
 {
     /**
      * Capability of the JBoss runtime configuration.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBoss5xRuntimeConfigurationCapability();
+        new JBoss5x6xRuntimeConfigurationCapability();
 
     /**
      * Set the default values for various port numbers.
      */
-    public JBoss5xRuntimeConfiguration()
+    public JBoss5x6xRuntimeConfiguration()
     {
         setProperty(GeneralPropertySet.HOSTNAME, "localhost");
         setProperty(GeneralPropertySet.RMI_PORT, "1099");

@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.container.jboss;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.AbstractJBoss5xStandaloneLocalConfiguration;
+import org.codehaus.cargo.container.jboss.internal.JBoss5xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 
@@ -29,6 +31,12 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 public class JBoss5xStandaloneLocalConfiguration
     extends AbstractJBoss5xStandaloneLocalConfiguration
 {
+
+    /**
+     * JBoss container capability.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new JBoss5xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -127,6 +135,15 @@ public class JBoss5xStandaloneLocalConfiguration
             "//deployment/bean[@name='org.jboss.ejb3.RemotingConnector']/property/value-factory"
                 + "/parameter[last()]", null,
             JBossPropertySet.JBOSS_EJB3_REMOTING_PORT);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
 }

@@ -48,7 +48,7 @@ public abstract class AbstractJBossInstalledLocalContainer extends
     /**
      * Capability of the JBoss container.
      */
-    private static final ContainerCapability CAPABILITY = new JBossContainerCapability();
+    private static final ContainerCapability CAPABILITY = new JBoss3xContainerCapability();
 
     /**
      * JBoss version.
