@@ -23,19 +23,16 @@ import org.codehaus.cargo.container.jboss.JBossPropertySet;
 
 /**
  * Capabilities of the JBoss's
- * {@link org.codehaus.cargo.container.jboss.JBoss5xExistingLocalConfiguration} configuration.
+ * {@link org.codehaus.cargo.container.jboss.JBoss42xExistingLocalConfiguration} configuration.
  */
-public class JBoss5xExistingLocalConfigurationCapability extends
-    JBoss42xExistingLocalConfigurationCapability
+public class JBoss42xExistingLocalConfigurationCapability extends
+    JBoss3x4xExistingLocalConfigurationCapability
 {
     /**
      * Initialize JBoss-specific configuration Map.
      */
-    public JBoss5xExistingLocalConfigurationCapability()
+    public JBoss42xExistingLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(
-            JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, Boolean.TRUE);
-        this.propertySupportMap.put(
-            JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, Boolean.TRUE);
+        this.propertySupportMap.put(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, Boolean.TRUE);
     }
 }

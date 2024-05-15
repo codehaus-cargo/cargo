@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss5xExistingLocalConfigura
 /**
  * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  */
-public class JBoss5xExistingLocalConfiguration extends JBoss3x4xExistingLocalConfiguration
+public class JBoss5xExistingLocalConfiguration extends JBoss42xExistingLocalConfiguration
 {
     /**
      * JBoss container capability.
@@ -35,13 +35,12 @@ public class JBoss5xExistingLocalConfiguration extends JBoss3x4xExistingLocalCon
 
     /**
      * {@inheritDoc}
-     * @see JBoss3x4xExistingLocalConfiguration#JBossExistingLocalConfiguration(String)
+     * @see JBoss42xExistingLocalConfiguration#JBoss42xExistingLocalConfiguration(String)
      */
     public JBoss5xExistingLocalConfiguration(String dir)
     {
         super(dir);
 
-        setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
     }

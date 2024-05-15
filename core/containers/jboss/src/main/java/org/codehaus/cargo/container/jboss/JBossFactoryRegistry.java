@@ -42,6 +42,8 @@ import org.codehaus.cargo.container.jboss.internal.JBoss7xExistingLocalConfigura
 import org.codehaus.cargo.container.jboss.internal.JBoss7xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss7xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss3xContainerCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss42xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss42xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss3x4xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jboss.internal.JBoss3x4xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -110,10 +112,10 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jboss42x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            JBoss3x4xStandaloneLocalConfigurationCapability.class);
+            JBoss42xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss42x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            JBoss3x4xExistingLocalConfigurationCapability.class);
+            JBoss42xExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jboss42x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             JBoss4xRuntimeConfigurationCapability.class);
@@ -242,7 +244,7 @@ public class JBossFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("jboss42x", ContainerType.INSTALLED,
             ConfigurationType.STANDALONE, JBoss42xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss42x", ContainerType.INSTALLED,
-            ConfigurationType.EXISTING, JBoss3x4xExistingLocalConfiguration.class);
+            ConfigurationType.EXISTING, JBoss42xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("jboss42x", ContainerType.REMOTE,
             ConfigurationType.RUNTIME, JBoss4xRuntimeConfiguration.class);
 

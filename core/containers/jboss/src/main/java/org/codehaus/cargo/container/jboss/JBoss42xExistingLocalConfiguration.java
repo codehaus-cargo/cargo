@@ -20,30 +20,28 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss42xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss42xExistingLocalConfigurationCapability;
 
 /**
- * JBoss 4.2.x standalone local configuration.
+ * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
  */
-public class JBoss42xStandaloneLocalConfiguration
-    extends JBoss3x4xStandaloneLocalConfiguration
+public class JBoss42xExistingLocalConfiguration extends JBoss3x4xExistingLocalConfiguration
 {
-
     /**
      * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBoss42xStandaloneLocalConfigurationCapability();
+        new JBoss42xExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see JBoss3x4xStandaloneLocalConfiguration#JBossStandaloneLocalConfiguration(String)
+     * @see JBoss3x4xExistingLocalConfiguration#JBossExistingLocalConfiguration(String)
      */
-    public JBoss42xStandaloneLocalConfiguration(String dir)
+    public JBoss42xExistingLocalConfiguration(String dir)
     {
         super(dir);
 
-        this.log4jFileName = "jboss-log4j.xml";
+        setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
     }
 
     /**
@@ -55,4 +53,12 @@ public class JBoss42xStandaloneLocalConfiguration
         return CAPABILITY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString()
+    {
+        return "JBoss 4.2.x Existing Configuration";
+    }
 }
