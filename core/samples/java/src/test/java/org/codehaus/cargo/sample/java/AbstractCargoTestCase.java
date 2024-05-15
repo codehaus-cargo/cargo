@@ -116,6 +116,17 @@ public abstract class AbstractCargoTestCase extends TestCase
 
         // Ensure target dir exists so that we can create the log file
         File targetDir = new File(getTestData().configurationHome);
+        if (targetDir.exists())
+        {
+            String configurationHomeNoSlash = getTestData().configurationHome;
+            while (configurationHomeNoSlash.endsWith("/"))
+            {
+                configurationHomeNoSlash =
+                    configurationHomeNoSlash.substring(0, configurationHomeNoSlash.length() - 1);
+            }
+            targetDir.renameTo(
+                new File(configurationHomeNoSlash + "-renamed-" + System.currentTimeMillis()));
+        }
         targetDir.mkdirs();
         if (!targetDir.isDirectory())
         {
@@ -368,19 +379,6 @@ public abstract class AbstractCargoTestCase extends TestCase
     protected void setUp() throws Exception
     {
         getLogger().info("Starting test [" + getName() + "]", this.getClass().getName());
-
-        if (getFileHandler().exists(getTestData().configurationHome))
-        {
-            String configurationHomeNoSlash = getTestData().configurationHome;
-            while (configurationHomeNoSlash.endsWith("/"))
-            {
-                configurationHomeNoSlash =
-                    configurationHomeNoSlash.substring(0, configurationHomeNoSlash.length() - 1);
-            }
-            new File(getTestData().configurationHome).renameTo(
-                new File(configurationHomeNoSlash + "-renamed-" + System.currentTimeMillis()));
-        }
-        getFileHandler().delete(getTestData().configurationHome);
 
         // Set up the thread context classloader for embedded containers. We're doing this here
         // instead of in the constructor as this needs to be set for each single test as otherwise
