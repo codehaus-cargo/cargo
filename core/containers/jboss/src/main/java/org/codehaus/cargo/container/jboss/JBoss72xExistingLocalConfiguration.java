@@ -20,28 +20,29 @@
 package org.codehaus.cargo.container.jboss;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jboss.internal.JBoss42xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.jboss.internal.JBoss72xExistingLocalConfigurationCapability;
 
 /**
- * JBoss existing {@link org.codehaus.cargo.container.configuration.Configuration} implementation.
+ * JBoss 7.2.x existing local configuration.
  */
-public class JBoss42xExistingLocalConfiguration extends JBoss3x4xExistingLocalConfiguration
+public class JBoss72xExistingLocalConfiguration extends JBoss71xExistingLocalConfiguration
 {
+
     /**
      * JBoss container capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new JBoss42xExistingLocalConfigurationCapability();
+        new JBoss72xExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
-     * @see JBoss3x4xExistingLocalConfiguration#JBoss3x4xExistingLocalConfiguration(String)
+     * @see JBoss71xExistingLocalConfiguration#JBoss71xExistingLocalConfiguration(String)
      */
-    public JBoss42xExistingLocalConfiguration(String dir)
+    public JBoss72xExistingLocalConfiguration(String dir)
     {
         super(dir);
 
-        setProperty(JBossPropertySet.JBOSS_EJB3_REMOTING_PORT, "3873");
+        getProperties().remove(JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
     }
 
     /**
@@ -53,12 +54,4 @@ public class JBoss42xExistingLocalConfiguration extends JBoss3x4xExistingLocalCo
         return CAPABILITY;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString()
-    {
-        return "JBoss 4.2.x Existing Configuration";
-    }
 }

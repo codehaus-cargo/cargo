@@ -25,8 +25,7 @@ import org.codehaus.cargo.container.jboss.internal.JBoss42xStandaloneLocalConfig
 /**
  * JBoss 4.2.x standalone local configuration.
  */
-public class JBoss42xStandaloneLocalConfiguration
-    extends JBoss3x4xStandaloneLocalConfiguration
+public class JBoss42xStandaloneLocalConfiguration extends JBoss3x4xStandaloneLocalConfiguration
 {
 
     /**
@@ -37,7 +36,7 @@ public class JBoss42xStandaloneLocalConfiguration
 
     /**
      * {@inheritDoc}
-     * @see JBoss3x4xStandaloneLocalConfiguration#JBossStandaloneLocalConfiguration(String)
+     * @see JBoss3x4xStandaloneLocalConfiguration#JBoss3x4xStandaloneLocalConfiguration(String)
      */
     public JBoss42xStandaloneLocalConfiguration(String dir)
     {
