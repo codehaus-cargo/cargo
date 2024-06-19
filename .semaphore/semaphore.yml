@@ -31,7 +31,6 @@ global_job_config:
       - pushd ~/
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
-      - [ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 30s && cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - popd
       - checkout
@@ -71,6 +70,9 @@ blocks:
     task:
       jobs:
         - name: Perform initial build and aggregate Javadoc on Java 11
+          priority:
+          - value: 100
+            when: true
           commands:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
