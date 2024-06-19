@@ -31,6 +31,7 @@ global_job_config:
       - pushd ~/
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
+      - [ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 30s && cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - popd
       - checkout
