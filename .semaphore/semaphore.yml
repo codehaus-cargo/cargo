@@ -31,12 +31,6 @@ global_job_config:
       - pushd ~/
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 10s && cache restore "codehaus-cargo-cache-initial-build"'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 10s && cache restore "codehaus-cargo-cache-initial-build"'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 10s && cache restore "codehaus-cargo-cache-initial-build"'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 10s && cache restore "codehaus-cargo-cache-initial-build"'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 10s && cache restore "codehaus-cargo-cache-initial-build"'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sleep 10s && cache restore "codehaus-cargo-cache-initial-build"'
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - popd
       - checkout
@@ -56,6 +50,7 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
+      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sem-version java 11 && mvn -version && mvn clean install && mvn clean'
   epilogue:
     always:
       commands:
