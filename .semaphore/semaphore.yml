@@ -50,7 +50,7 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sem-version java 11 && mvn -version && mvn clean install -pl :cargo-ping-component,:simple-ear,:cargo-core-tools-jboss-deployer-5,:cargo-core-tools-jboss-deployer-5.1-and-6,:cargo-core-tools-jboss-deployer-7,:cargo-sample-java -am -T 1C && mvn clean'
+      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sem-version java 11 && mvn -version && mvn clean install -pl :cargo-sample-java -am -T 1C && mvn clean'
   epilogue:
     always:
       commands:
@@ -75,7 +75,7 @@ blocks:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
-            - mvn clean install -e -Dsurefire.rerunFailingTestsCount=0 || mvn clean install -e -Dsurefire.rerunFailingTestsCount=0
+            - mvn clean install || mvn clean install -e
             - pushd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2
@@ -271,7 +271,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
-            - mvn clean install -e || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e
   - name: GlassFish 4.x
     dependencies:
       - Build on Java 8
@@ -1285,7 +1285,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
-            - mvn clean install -e || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e
   - name: GlassFish 8.x
     dependencies:
       - Build on Java 21
