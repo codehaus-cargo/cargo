@@ -1,19 +1,3 @@
-# -------------------------------------------------------------------
-# Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2024 Ali Tokmen.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# -------------------------------------------------------------------
-
 version: v1.0
 name: Codehaus Cargo Java build on Ubuntu
 agent:
@@ -50,7 +34,7 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
-      - '[ ! -d "~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar" ] && sem-version java 11 && mvn -version && mvn clean install -pl :cargo-ping-component,:simple-ear,:cargo-core-tools-jboss-deployer-5,:cargo-core-tools-jboss-deployer-5.1-and-6,:cargo-core-tools-jboss-deployer-7,:cargo-sample-java -am -T 1C && mvn clean'
+      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && mvn clean install -pl :cargo-sample-java -am -T 1C && mvn clean'
   epilogue:
     always:
       commands:
