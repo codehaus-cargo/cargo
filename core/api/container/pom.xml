@@ -66,7 +66,8 @@
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-ping-component</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

@@ -50,149 +50,151 @@
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-jar</artifactId>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>empty-ear</artifactId>
       <type>ear</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>authentication-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>expanded-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ear</artifactId>
       <type>ear</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>datasource-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>two-datasources-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>xadatasource-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>mailsession-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>datasource-cmt-local-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>jms-queue-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>jms-topic-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>classpath-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-ejb</artifactId>
-      <scope>import</scope>
+      <type>jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>tomcatcontext-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>tomcatcontext-war-link-simple-jar</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-bundle</artifactId>
-      <scope>import</scope>
+      <type>jar</type>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-jetty-6-deployer</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-jetty-7-to-jetty-9-deployer</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-jetty-10-deployer</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-jetty-11-deployer</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-har</artifactId>
       <type>har</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>simple-aop</artifactId>
       <type>aop</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>systemproperty-war</artifactId>
       <type>war</type>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

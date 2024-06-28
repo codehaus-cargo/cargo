@@ -798,7 +798,8 @@ public class ConfluenceContainerDocumentationGenerator
                     + "| Changing the the container classpath is not supported on "
                     + "Apache Geronimo 1.x |");
             }
-            else if (containerId.startsWith("jboss7") || containerId.startsWith("wildfly"))
+            else if (containerId.startsWith("jboss7")
+                || containerId.startsWith("wildfly") && !containerId.equals("wildfly-swarm"))
             {
                 output.append("| &nbsp; [Container Classpath] | (/) | (/) | (/) "
                     + "| Read more on [JBoss 7.x onwards and WildFly container classpath] |");

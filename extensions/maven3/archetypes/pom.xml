@@ -43,13 +43,13 @@
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-core-uberjar</artifactId>
       <version>${project.version}</version>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
       <artifactId>cargo-maven3-plugin</artifactId>
       <version>${project.version}</version>
-      <scope>import</scope>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
