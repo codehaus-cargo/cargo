@@ -692,6 +692,21 @@ blocks:
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+  - name: WildFly Swarm
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly Swarm
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Prepare for containers running on Java 6
     dependencies:
       - Build on Java 8
@@ -1374,6 +1389,7 @@ blocks:
       - WildFly 30.x
       - WildFly 31.x
       - WildFly 32.x
+      - WildFly Swarm
     task:
       jobs:
         - name: Deploy using Java 11
