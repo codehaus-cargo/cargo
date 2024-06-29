@@ -59,7 +59,7 @@ blocks:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
-            - mvn clean install -e -Dsurefire.rerunFailingTestsCount=0 || mvn clean install -e -Dsurefire.rerunFailingTestsCount=0
+            - mvn clean install || mvn clean install -e
             - pushd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2
@@ -255,7 +255,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
-            - mvn clean install -e || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e
   - name: GlassFish 4.x
     dependencies:
       - Build on Java 8
@@ -1254,7 +1254,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
-            - mvn clean install -e || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e
   - name: GlassFish 8.x
     dependencies:
       - Build on Java 21
