@@ -830,7 +830,6 @@
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>simple-ejb</artifactId>
         <version>${project.version}</version>
-        <type>jar</type>
       </dependency>
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
