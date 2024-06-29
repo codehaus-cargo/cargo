@@ -60,6 +60,15 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+
+    <!-- Repeat the dependencies to copy so that multithreaded builds work correctly -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-ping-component</artifactId>
+      <type>war</type>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

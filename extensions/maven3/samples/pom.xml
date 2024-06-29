@@ -69,6 +69,20 @@
       <artifactId>cargo-sample-java</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!-- Repeat the dependencies to copy so that multithreaded builds work correctly -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-uberjar</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-maven3-plugin</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
