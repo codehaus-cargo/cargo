@@ -34,7 +34,7 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
-      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && mvn clean install -pl :cargo-sample-java -am -T 1C && mvn clean ; RM=0'
+      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && ( mvn clean install -pl :cargo-sample-java -am -T 1C || mvn clean install -e ) && mvn clean ; RM=0'
   epilogue:
     always:
       commands:
