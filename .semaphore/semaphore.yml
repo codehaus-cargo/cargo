@@ -1,3 +1,19 @@
+# -------------------------------------------------------------------
+# Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2024 Ali Tokmen.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# -------------------------------------------------------------------
+
 version: v1.0
 name: Codehaus Cargo Java build on Ubuntu
 agent:
@@ -34,7 +50,7 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
-      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && ( mvn clean install -pl :cargo-sample-java -am -T 1C || mvn clean install -e ) && mvn clean ; RM=0'
+      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && ( mvn clean install -pl :cargo-sample-java -am -T 1C || mvn clean install -e ) ; mvn clean'
   epilogue:
     always:
       commands:
@@ -66,7 +82,7 @@ blocks:
             - popd
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
-            - 'mvn javadoc:aggregate'
+            - 'mvn javadoc:aggregate -T 1C || mvn javadoc:aggregate -e'
   - name: GlassFish 6.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -675,6 +691,21 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+  - name: WildFly Swarm
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly Swarm
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Prepare for containers running on Java 6
     dependencies:
@@ -1358,6 +1389,7 @@ blocks:
       - WildFly 30.x
       - WildFly 31.x
       - WildFly 32.x
+      - WildFly Swarm
     task:
       jobs:
         - name: Deploy using Java 11
