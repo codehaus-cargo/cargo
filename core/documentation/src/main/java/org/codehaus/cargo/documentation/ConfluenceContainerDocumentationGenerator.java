@@ -799,7 +799,7 @@ public class ConfluenceContainerDocumentationGenerator
                     + "Apache Geronimo 1.x |");
             }
             else if (containerId.startsWith("jboss7")
-                || containerId.startsWith("wildfly") && !containerId.equals("wildfly-swarm"))
+                || containerId.startsWith("wildfly") && !containerId.startsWith("wildfly-swarm"))
             {
                 output.append("| &nbsp; [Container Classpath] | (/) | (/) | (/) "
                     + "| Read more on [JBoss 7.x onwards and WildFly container classpath] |");
@@ -1482,7 +1482,7 @@ public class ConfluenceContainerDocumentationGenerator
                 }
                 output.append(" remote deployer, please read: [JSR88]{info}");
             }
-            if (containerId.startsWith("wildfly"))
+            if (containerId.startsWith("wildfly") && !containerId.startsWith("wildfly-swarm"))
             {
                 output.append(FileHandler.NEW_LINE);
                 output.append(FileHandler.NEW_LINE);
@@ -2032,7 +2032,7 @@ public class ConfluenceContainerDocumentationGenerator
                     + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
                     + "projects/cargo] every time there is a code change.");
                 output.append(FileHandler.NEW_LINE);
-                if ("wildfly-swarm2017x".equals(containerId))
+                if (containerId.startsWith("wildfly-swarm"))
                 {
                     output.append("The WildFly Swarm version used during tests is: {{");
                     output.append(url);
@@ -2114,7 +2114,7 @@ public class ConfluenceContainerDocumentationGenerator
     public String getContainerServerDownloadUrl(String containerId)
     {
         File pom;
-        if ("wildfly-swarm2017x".equals(containerId))
+        if (containerId.startsWith("wildfly-swarm"))
         {
             pom = new File(CARGO_ROOT_DIRECTORY, POM).getAbsoluteFile();
         }
@@ -2136,7 +2136,7 @@ public class ConfluenceContainerDocumentationGenerator
         MavenProject project = new MavenProject(model);
         project.setFile(pom);
 
-        if ("wildfly-swarm2017x".equals(containerId))
+        if (containerId.startsWith("wildfly-swarm"))
         {
             return project.getProperties().getProperty("wildfly-swarm.version");
         }
