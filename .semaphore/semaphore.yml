@@ -57,7 +57,7 @@ global_job_config:
         - cd $ORIGINAL_PWD
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
-        - mvn clean
+        - mvn clean -T 1C
         - ls -al ~/.m2/cargo-installs
         - ls -al ~/.m2/semaphore-ci-binaries
         - pushd ~/
@@ -95,7 +95,7 @@ blocks:
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
-            - mvn clean install -e -Pglassfish6x || mvn clean install -e -Pglassfish6x
+            - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 7.x
