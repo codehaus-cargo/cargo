@@ -1396,9 +1396,13 @@ blocks:
           commands:
             - sem-version java 11
             - mvn clean deploy -e || mvn clean deploy -e
+            - pushd ~/
             - 'wget https://raw.githubusercontent.com/alitokmen/maven-repository-cleaner/main/maven-repository-cleaner.sh'
             - chmod +x maven-repository-cleaner.sh
             - ./maven-repository-cleaner.sh
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2
+            - popd
       secrets:
         - name: Snapshot deployment configuration
 after_pipeline:
