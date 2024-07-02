@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.10.14-SNAPSHOT</version>
+    <version>1.10.14</version>
   </parent>
   <artifactId>cargo-jetty-10-deployer</artifactId>
   <packaging>war</packaging>
