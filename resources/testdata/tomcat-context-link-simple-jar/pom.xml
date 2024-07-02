@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.10.14</version>
+    <version>1.10.15-SNAPSHOT</version>
   </parent>
   <artifactId>tomcatcontext-war-link-simple-jar</artifactId>
   <name>Cargo test data for samples - Tomcat context WAR with link to simple jar</name>
