@@ -1302,7 +1302,6 @@
             <preparationGoals>clean install</preparationGoals>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <mavenExecutorId>forked-path</mavenExecutorId>
-            <useReleaseProfile>false</useReleaseProfile>
             <arguments>-Pcodehaus-cargo-release</arguments>
           </configuration>
           <dependencies>
