@@ -50,7 +50,7 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
-      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && ( mvn clean install -pl :cargo-sample-java -am -T 1C || mvn clean install -e ) ; mvn clean'
+      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && ( mvn clean install -pl :cargo-sample-java -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
   epilogue:
     always:
       commands:
@@ -1395,7 +1395,7 @@ blocks:
         - name: Deploy using Java 11
           commands:
             - sem-version java 11
-            - mvn clean deploy -e || mvn clean deploy -e
+            - mvn clean deploy || mvn clean deploy -e
             - pushd ~/
             - 'wget https://raw.githubusercontent.com/alitokmen/maven-repository-cleaner/main/maven-repository-cleaner.sh'
             - chmod +x maven-repository-cleaner.sh
