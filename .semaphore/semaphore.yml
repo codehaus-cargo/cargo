@@ -82,7 +82,7 @@ blocks:
             - popd
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
-            - 'mvn javadoc:aggregate -T 1C || mvn javadoc:aggregate -e'
+            - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
   - name: GlassFish 6.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
