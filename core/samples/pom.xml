@@ -669,7 +669,7 @@
               <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
 
               <cargo.resin3x.url>
-                https://www.caucho.com/download/resin-3.0.27.zip
+                https://caucho.com/download/resin-3.0.27.zip
               </cargo.resin3x.url>
               <cargo.resin3x.java.home>${cargo.java.home.1_5}</cargo.resin3x.java.home>
 
@@ -679,7 +679,7 @@
               <cargo.resin31x.java.home>${cargo.java.home.1_5}</cargo.resin31x.java.home>
 
               <cargo.resin4x.url>
-                https://www.caucho.com/download/resin-4.0.66.zip
+                https://caucho.com/download/resin-4.0.66.zip
               </cargo.resin4x.url>
               <cargo.resin4x.java.home>${cargo.java.home.1_8}</cargo.resin4x.java.home>
 
