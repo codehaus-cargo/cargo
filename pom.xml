@@ -351,7 +351,7 @@
     <maven.compiler-java.release>8</maven.compiler-java.release>
     <maven.dependency-plugin.version>3.7.1</maven.dependency-plugin.version>
     <maven.failsafe-plugin.version>3.3.0</maven.failsafe-plugin.version>
-    <maven.surefire-plugin.version>3.3.0</maven.surefire-plugin.version>
+    <maven.surefire-plugin.version>3.3.1</maven.surefire-plugin.version>
     <maven.war-plugin.version>3.3.2</maven.war-plugin.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
