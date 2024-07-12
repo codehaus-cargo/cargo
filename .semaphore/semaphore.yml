@@ -60,9 +60,10 @@ global_job_config:
         - mvn clean -T 1C
         - ls -al ~/.m2/cargo-installs
         - ls -al ~/.m2/semaphore-ci-binaries
+        - rm -f "~/.m2/semaphore-ci-binaries/tomcat-9.*.zip"
         - pushd ~/
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-        - cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs
+        - '[ "$(ls -A ~/.m2/semaphore-ci-binaries)" ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME || RM=0'
         - cache list
         - popd
 blocks:
@@ -75,10 +76,10 @@ blocks:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
-            - mvn clean install || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e
             - pushd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
             - popd
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
@@ -267,7 +268,7 @@ blocks:
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-i586.tar.gz ; RM=0'
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - cache delete "codehaus-cargo-cache-java-8"
-            - cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-i586.tar.gz
+            - cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-i586.tar.gz --cleanup-by ACCESS_TIME
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
@@ -724,7 +725,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - cd ~/.m2/semaphore-ci-binaries
             - cache delete "codehaus-cargo-cache-java-6"
-            - cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin
+            - cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME
   - name: Geronimo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1281,7 +1282,7 @@ blocks:
             - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - cache delete "codehaus-cargo-cache-java-21"
-            - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz
+            - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
@@ -1401,7 +1402,7 @@ blocks:
             - chmod +x maven-repository-cleaner.sh
             - ./maven-repository-cleaner.sh
             - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
             - popd
       secrets:
         - name: Snapshot deployment configuration
