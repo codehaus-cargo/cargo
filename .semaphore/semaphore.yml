@@ -27,7 +27,7 @@ global_job_config:
     commands:
       - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
       - sudo hostname codehaus-cargo-ci
-      - CARGO_BRANCH_ID="$(echo -n "$SEMAPHORE_JOB_NAME" | md5sum )"
+      - CARGO_BRANCH_ID="$(echo "$SEMAPHORE_JOB_NAME" | tr '[:upper:]' '[:lower:]' | tr ' .' '--')"
       - pushd ~/
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
