@@ -59,8 +59,8 @@ global_job_config:
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
         - ls -al ~/.m2/cargo-installs
+        - rm -f "~/.m2/cargo-installs/tomcat-9.*.zip"
         - ls -al ~/.m2/semaphore-ci-binaries
-        - rm -f "~/.m2/semaphore-ci-binaries/tomcat-9.*.zip"
         - pushd ~/
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
         - '[ "$(ls -A ~/.m2/semaphore-ci-binaries)" ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME || RM=0'
