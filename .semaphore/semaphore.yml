@@ -96,6 +96,7 @@ blocks:
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
+            - ln -s $ORIGINAL_PWD/core/samples/java/installs ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.2.5
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
