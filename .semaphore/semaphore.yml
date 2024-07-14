@@ -25,16 +25,16 @@ execution_time_limit:
 global_job_config:
   prologue:
     commands:
-      - export ORIGINAL_PWD=$PWD
       - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
       - sudo hostname codehaus-cargo-ci
       - CARGO_BRANCH_ID="$(echo "$SEMAPHORE_JOB_NAME" | tr '[:upper:]' '[:lower:]' | tr ' .' '--')"
+      - checkout
+      - export ORIGINAL_PWD=$PWD
       - cd ~/
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - cd $ORIGINAL_PWD
-      - checkout
       - mkdir -p /tmp/cargo
       - mkdir -p ~/.m2
       - mkdir -p ~/.m2/cargo-installs
