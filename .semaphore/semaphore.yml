@@ -25,16 +25,16 @@ execution_time_limit:
 global_job_config:
   prologue:
     commands:
+      - export ORIGINAL_PWD=$PWD
       - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
       - sudo hostname codehaus-cargo-ci
       - CARGO_BRANCH_ID="$(echo "$SEMAPHORE_JOB_NAME" | tr '[:upper:]' '[:lower:]' | tr ' .' '--')"
-      - pushd ~/
+      - cd ~/
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-      - popd
+      - cd $ORIGINAL_PWD
       - checkout
-      - export ORIGINAL_PWD=$PWD
       - mkdir -p /tmp/cargo
       - mkdir -p ~/.m2
       - mkdir -p ~/.m2/cargo-installs
@@ -61,11 +61,10 @@ global_job_config:
         - ls -al ~/.m2/cargo-installs
         - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip
         - ls -al ~/.m2/semaphore-ci-binaries
-        - pushd ~/
+        - cd ~/
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-        - '[ "$(ls -A ~/.m2/semaphore-ci-binaries)" ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME || RM=0'
+        - '[ "$(ls -A ~/.m2/cargo-installs)" ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME || RM=0'
         - cache list
-        - popd
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
     dependencies: []
@@ -77,13 +76,12 @@ blocks:
             - sem-version java 11
             - mvn -version
             - mvn clean install -T 1C || mvn clean install -e
-            - pushd ~/
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
-            - popd
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: GlassFish 6.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -101,6 +99,10 @@ blocks:
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - cd ~/
+            - rm -f ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.2.5
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: GlassFish 7.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -275,6 +277,9 @@ blocks:
             - cd $ORIGINAL_PWD
             - mvn -version
             - mvn clean install -T 1C || mvn clean install -e
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: GlassFish 4.x
     dependencies:
       - Build on Java 8
@@ -710,6 +715,9 @@ blocks:
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: Prepare for containers running on Java 6
     dependencies:
       - Build on Java 8
@@ -1258,7 +1266,10 @@ blocks:
             - sem-version java 17
             - cd $ORIGINAL_PWD
             - mvn -version
-            - mvn clean install
+            - mvn clean install -T 1C || mvn clean install -e
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: Jetty 12.x
     dependencies:
       - Build on Java 17
@@ -1289,6 +1300,9 @@ blocks:
             - cd $ORIGINAL_PWD
             - mvn -version
             - mvn clean install -T 1C || mvn clean install -e
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: GlassFish 8.x
     dependencies:
       - Build on Java 21
@@ -1399,13 +1413,12 @@ blocks:
           commands:
             - sem-version java 11
             - mvn clean deploy || mvn clean deploy -e
-            - pushd ~/
+            - cd ~/
             - 'wget https://raw.githubusercontent.com/alitokmen/maven-repository-cleaner/main/maven-repository-cleaner.sh'
             - chmod +x maven-repository-cleaner.sh
             - ./maven-repository-cleaner.sh
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
-            - popd
       secrets:
         - name: Snapshot deployment configuration
 after_pipeline:
