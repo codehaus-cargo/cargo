@@ -32,6 +32,7 @@ global_job_config:
       - export ORIGINAL_PWD=$PWD
       - cd ~/
       - cache list
+      - cache clear
       - cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - cd $ORIGINAL_PWD
@@ -59,7 +60,6 @@ global_job_config:
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
         - ls -al ~/.m2/cargo-installs
-        - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip
         - ls -al ~/.m2/semaphore-ci-binaries
         - cd ~/
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
@@ -75,7 +75,9 @@ blocks:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
@@ -91,16 +93,16 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
-            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
             - mkdir -p ~/.m2/repository/org/glassfish/main/distributions/glassfish
-            - ln -s $ORIGINAL_PWD/core/samples/java/installs ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.2.5
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
+            - cd $ORIGINAL_PWD/core/samples/java
+            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/*/glassfish-*.zip installs
+            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
+            - rm -f installs/glassfish-*.zip
             - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - cd ~/
-            - rm -f ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.2.5
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: GlassFish 7.x
@@ -276,7 +278,9 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
@@ -1266,7 +1270,9 @@ blocks:
             - sem-version java 17
             - cd $ORIGINAL_PWD
             - mvn -version
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
@@ -1299,7 +1305,9 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
