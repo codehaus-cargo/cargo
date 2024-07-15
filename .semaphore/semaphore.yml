@@ -32,7 +32,6 @@ global_job_config:
       - export ORIGINAL_PWD=$PWD
       - cd ~/
       - cache list
-      - cache clear
       - cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - cd $ORIGINAL_PWD
@@ -60,6 +59,7 @@ global_job_config:
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
         - ls -al ~/.m2/cargo-installs
+        - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip
         - ls -al ~/.m2/semaphore-ci-binaries
         - cd ~/
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
