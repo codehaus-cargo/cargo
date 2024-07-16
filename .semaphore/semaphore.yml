@@ -75,7 +75,7 @@ blocks:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
+            - 'cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0'
             - mvn clean install -T 1C || mvn clean install -e
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
@@ -278,7 +278,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
+            - 'cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0'
             - mvn clean install -T 1C || mvn clean install -e
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
@@ -1270,7 +1270,7 @@ blocks:
             - sem-version java 17
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
+            - 'cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0'
             - mvn clean install -T 1C || mvn clean install -e
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
@@ -1305,7 +1305,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs
+            - 'cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0'
             - mvn clean install -T 1C || mvn clean install -e
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
