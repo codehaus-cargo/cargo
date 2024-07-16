@@ -93,8 +93,8 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
+            - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-maven3-plugin/ && ( mvn clean install -pl :cargo-maven3-plugin -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
-            - mkdir -p ~/.m2/repository/org/glassfish/main/distributions/glassfish
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD/core/samples/java
             - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/*/glassfish-*.zip installs
