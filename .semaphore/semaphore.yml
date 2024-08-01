@@ -249,6 +249,18 @@ blocks:
             - cd $ORIGINAL_PWD/core/samples/java
             - mvn clean install -e -Pwildfly32x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+  - name: WildFly 33.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 33.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/java
+            - mvn clean install -e -Pwildfly33x -Dsurefire.rerunFailingTestsCount=2
+            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 8
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1414,6 +1426,7 @@ blocks:
       - WildFly 30.x
       - WildFly 31.x
       - WildFly 32.x
+      - WildFly 33.x
       - WildFly Swarm
     task:
       jobs:

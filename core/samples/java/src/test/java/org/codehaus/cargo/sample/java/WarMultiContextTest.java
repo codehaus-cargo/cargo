@@ -129,6 +129,7 @@ public class WarMultiContextTest extends AbstractCargoTestCase
         excludedContainerIds.add("wildfly30x");
         excludedContainerIds.add("wildfly31x");
         excludedContainerIds.add("wildfly32x");
+        excludedContainerIds.add("wildfly33x");
 
         suite.addTestSuite(WarMultiContextTest.class,
             new Validator[] {
