@@ -1186,7 +1186,7 @@
               <cargo.wildfly32x.java.home>${cargo.java.home.1_11}</cargo.wildfly32x.java.home>
 
               <cargo.wildfly33x.url>
-                https://github.com/wildfly/wildfly/releases/download/33.0.0.Final/wildfly-33.0.0.Final.zip
+                https://github.com/wildfly/wildfly/releases/download/33.0.1.Final/wildfly-33.0.1.Final.zip
               </cargo.wildfly33x.url>
               <cargo.wildfly33x.java.home>${cargo.java.home.1_11}</cargo.wildfly33x.java.home>
 
