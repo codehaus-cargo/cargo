@@ -737,7 +737,7 @@
               <cargo.tomcat10x.java.home>${cargo.java.home.1_11}</cargo.tomcat10x.java.home>
 
               <cargo.tomcat11x.url>
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/11.0.0-M25/tomcat-11.0.0-M25.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/11.0.0-M26/tomcat-11.0.0-M26.zip
               </cargo.tomcat11x.url>
               <cargo.tomcat11x.java.home>${cargo.java.home.1_21}</cargo.tomcat11x.java.home>
 
