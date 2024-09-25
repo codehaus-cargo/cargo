@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-daemon-itests</artifactId>
-    <version>1.10.15</version>
+    <version>1.10.16-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-daemon-itests-client-with-authentication</artifactId>
   <name>Cargo Daemon Integration Tests - Java client with authentication</name>
