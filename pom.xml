@@ -350,8 +350,8 @@
     <maven.compiler-java.version>1.8</maven.compiler-java.version>
     <maven.compiler-java.release>8</maven.compiler-java.release>
     <maven.dependency-plugin.version>3.8.0</maven.dependency-plugin.version>
-    <maven.failsafe-plugin.version>3.5.0</maven.failsafe-plugin.version>
-    <maven.surefire-plugin.version>3.5.0</maven.surefire-plugin.version>
+    <maven.failsafe-plugin.version>3.5.1</maven.failsafe-plugin.version>
+    <maven.surefire-plugin.version>3.5.1</maven.surefire-plugin.version>
     <maven.war-plugin.version>3.3.2</maven.war-plugin.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
@@ -1428,7 +1428,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
