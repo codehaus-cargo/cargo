@@ -367,7 +367,8 @@ public class EmbeddedContainerArtifactResolver
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "8.5.100"));
         tomcat8xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-util-scan", "8.5.100"));
-        tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-catalina", "8.5.100"));
+        tomcat8xDependencies.add(
+            new Dependency("org.apache.tomcat", "tomcat-catalina", "8.5.100"));
         tomcat8xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "8.5.100"));
         tomcat8xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-websocket-api", "8.5.100"));
@@ -422,7 +423,8 @@ public class EmbeddedContainerArtifactResolver
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "10.1.31"));
         tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.31"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "10.1.31"));
+        tomcat10xDependencies.add(
+            new Dependency("org.apache.tomcat", "tomcat-jsp-api", "10.1.31"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.1.31"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "10.1.31"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "10.1.31"));
@@ -458,6 +460,7 @@ public class EmbeddedContainerArtifactResolver
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "11.0.0"));
         tomcat11xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "11.0.0"));
+        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "11.0.0"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "11.0.0"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "11.0.0"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "11.0.0"));
