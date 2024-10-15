@@ -460,7 +460,7 @@ public class EmbeddedContainerArtifactResolver
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "11.0.0"));
         tomcat11xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "11.0.0"));
-        tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "11.0.0"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "11.0.0"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "11.0.0"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "11.0.0"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "11.0.0"));
