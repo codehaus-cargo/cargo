@@ -337,6 +337,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     startContainer(startRequest);
 
                     response.setContentType("text/plain");
+                    response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
                     response.getWriter().println("OK - STARTED");
                 }
                 catch (Throwable e)
@@ -383,6 +384,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                     }
 
                     response.setContentType("text/plain");
+                    response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
                     response.getWriter().println("OK - STOPPED");
                 }
                 catch (Throwable e)
@@ -476,6 +478,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
             case "installed":
                 String file = request.getParameter("file");
                 response.setContentType("text/plain");
+                response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
                 if (fileManager.existsFile(null, file))
                 {
                     response.getWriter().println("OK - INSTALLED");
@@ -488,6 +491,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
 
             case "getHandles":
                 response.setContentType("application/json");
+                response.setCharacterEncoding(CargoDaemonServlet.DAEMON_SERVLET_CHARSET);
                 response.getWriter().println(JSONValue.toJSONString(getHandleDetails()));
                 break;
 
