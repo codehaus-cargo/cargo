@@ -349,7 +349,7 @@
     <maven.compiler-plugin.version>3.13.0</maven.compiler-plugin.version>
     <maven.compiler-java.version>1.8</maven.compiler-java.version>
     <maven.compiler-java.release>8</maven.compiler-java.release>
-    <maven.dependency-plugin.version>3.8.0</maven.dependency-plugin.version>
+    <maven.dependency-plugin.version>3.8.1</maven.dependency-plugin.version>
     <maven.failsafe-plugin.version>3.5.1</maven.failsafe-plugin.version>
     <maven.surefire-plugin.version>3.5.1</maven.surefire-plugin.version>
     <maven.war-plugin.version>3.3.2</maven.war-plugin.version>
@@ -1046,7 +1046,7 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-archiver</artifactId>
-        <version>3.6.2</version>
+        <version>3.6.3</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -1173,7 +1173,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.5.0</version>
+          <version>3.6.0</version>
           <configuration>
             <consoleOutput>true</consoleOutput>
             <configLocation>build-tools/checkstyle.xml</configLocation>
@@ -1292,7 +1292,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.15.0</version>
+          <version>3.15.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
