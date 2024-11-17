@@ -306,18 +306,13 @@ public final class Main
             Method main = mainClass.getMethod("main", new String[0].getClass());
             main.invoke(null, new Object[] {serverArguments.toArray(new String[0])});
         }
-        catch (NullPointerException e)
-        {
-            LOGGER.println("An internal error (NullPointerException) occured when starting the "
-                + "Codehaus Cargo Daemon server. Error details:");
-            for (StackTraceElement ste : e.getStackTrace())
-            {
-                LOGGER.println("\t" + ste.toString());
-            }
-        }
         catch (Throwable t)
         {
             LOGGER.println("Failed starting the Codehaus Cargo Daemon server: " + t.toString());
+            for (StackTraceElement ste : t.getStackTrace())
+            {
+                LOGGER.println("\t" + ste.toString());
+            }
         }
     }
 }
