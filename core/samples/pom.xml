@@ -679,7 +679,7 @@
               <cargo.resin31x.java.home>${cargo.java.home.1_5}</cargo.resin31x.java.home>
 
               <cargo.resin4x.url>
-                https://caucho.com/download/resin-4.0.66.zip
+                https://caucho.com/download/resin-4.0.67.zip
               </cargo.resin4x.url>
               <cargo.resin4x.java.home>${cargo.java.home.1_8}</cargo.resin4x.java.home>
 
