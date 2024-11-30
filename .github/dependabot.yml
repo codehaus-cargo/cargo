@@ -36,6 +36,8 @@ updates:
         versions: ["[1.10,)"]
       - dependency-name: "org.apache.derby:derby"
         versions: ["[10.13,)"]
+      - dependency-name: "org.apache.felix:maven-bundle-plugin"
+        versions: ["[6.0,)"]
       - dependency-name: "org.apache.maven:maven-artifact"
       - dependency-name: "org.apache.maven:maven-compat"
       - dependency-name: "org.apache.maven:maven-core"
