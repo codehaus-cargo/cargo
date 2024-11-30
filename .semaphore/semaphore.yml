@@ -41,6 +41,7 @@ global_job_config:
       - mkdir -p ~/.m2/cargo-installs
       - mkdir -p ~/.m2/semaphore-ci-binaries
       - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
+      - du -sh ~/.m2/*
       - ls -al ~/.m2/cargo-installs
       - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
       - ls -al ~/.m2/semaphore-ci-binaries
@@ -59,6 +60,7 @@ global_job_config:
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
+        - du -sh ~/.m2/*
         - ls -al ~/.m2/cargo-installs
         - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip
         - ls -al ~/.m2/semaphore-ci-binaries
