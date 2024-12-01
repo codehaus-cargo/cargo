@@ -111,6 +111,7 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly31x");
         excludedContainerIds.add("wildfly32x");
         excludedContainerIds.add("wildfly33x");
+        excludedContainerIds.add("wildfly34x");
 
         suite.addTestSuite(JmsTopicResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
