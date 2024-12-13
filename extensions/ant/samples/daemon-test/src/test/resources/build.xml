@@ -35,7 +35,7 @@
   <target name="daemon-start">
     <cargo containerId="tomcat9x" action="daemon-start">
       <zipUrlInstaller
-        installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.97/tomcat-9.0.97.zip"
+        installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.98/tomcat-9.0.98.zip"
         downloadDir="\${basedir}/../../../../core/samples/java/installs"
         extractDir="\${catalina.root}">
         <!--
