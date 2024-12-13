@@ -111,10 +111,10 @@ public class CargoMojoTest extends TestCase
 
         ArtifactInstaller installer = AbstractCargoMojo.calculateArtifact(
             "https://repo.maven.apache.org/maven2/org/eclipse/jetty/"
-                + "jetty-home/11.0.13/jetty-home-11.0.13.tar.gz");
+                + "jetty-home/11.0.23/jetty-home-11.0.23.tar.gz");
         assertEquals("org.eclipse.jetty", installer.getGroupId());
         assertEquals("jetty-home", installer.getArtifactId());
-        assertEquals("11.0.13", installer.getVersion());
+        assertEquals("11.0.23", installer.getVersion());
         assertEquals("tar.gz", installer.getType());
         assertNull(installer.getClassifier());
 
