@@ -663,7 +663,7 @@
                   -->
                 https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2024.11/payara-6.2024.11.zip
                 <!--
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2024.1.Alpha1/payara-7.2024.1.Alpha1.zip
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2024.1.Alpha2/payara-7.2024.1.Alpha2.zip
                   -->
               </cargo.payara.url>
               <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
