@@ -118,6 +118,7 @@ public class MailResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly32x");
         excludedContainerIds.add("wildfly33x");
         excludedContainerIds.add("wildfly34x");
+        excludedContainerIds.add("wildfly35x");
 
         suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
             new Validator[] {

@@ -109,6 +109,7 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
         excludedContainerIds.add("wildfly32x");
         excludedContainerIds.add("wildfly33x");
         excludedContainerIds.add("wildfly34x");
+        excludedContainerIds.add("wildfly35x");
 
         suite.addTestSuite(JmsQueueResourceOnStandaloneConfigurationTest.class,
             new Validator[] {
