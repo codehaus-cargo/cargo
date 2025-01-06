@@ -1267,10 +1267,10 @@
             <additionalJOption>--allow-script-in-comments</additionalJOption>
             <bottom>
               &lt;br&gt;
-              Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and
-              2012–2025 Ali Tokmen under the Apache Software License, except for the
-              WebSphere Liberty container which has been released under the MIT License.
-              &lt;a href="https://codehaus-cargo.github.io/cargo/License.html"&gt;Click here for
+              Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and&nbsp;
+              2012–2025 Ali Tokmen under the Apache Software License, except for the&nbsp;
+              WebSphere Liberty container which has been released under the MIT License.&nbsp;
+              &lt;a href="https://codehaus-cargo.github.io/cargo/License.html"&gt;Click here for&nbsp;
               more details&lt;/a&gt;.
 
               &lt;script&gt;
