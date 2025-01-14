@@ -203,10 +203,11 @@ public class CargoDaemonBrowserTest
         WebClient webClient = new WebClient();
         HtmlPage htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
 
-        Assertions.assertTrue("The Cargo Daemon home page should have loaded",
-            htmlPage.asNormalizedText().contains("Welcome to the Cargo Daemon Web site"));
-        Assertions.assertFalse("There should be no running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertTrue(
+            htmlPage.asNormalizedText().contains("Welcome to the Cargo Daemon Web site"),
+                "The Cargo Daemon home page should have loaded");
+        Assertions.assertFalse(htmlPage.asNormalizedText().contains("started"),
+            "There should be no running containers");
 
         final long timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
         boolean foundContainerToStop = true;
@@ -239,14 +240,14 @@ public class CargoDaemonBrowserTest
             .getOptionByText("jetty9x").setSelected(true);
 
         File jetty9x = new File(System.getProperty("artifacts.dir"), "jetty9x.zip");
-        Assertions.assertTrue("File " + jetty9x + " is missing", jetty9x.isFile());
+        Assertions.assertTrue(jetty9x.isFile(), "File " + jetty9x + " is missing");
         ((HtmlTextInput) htmlPage.getElementByName("installerZipUrl")).setText(
             jetty9x.toURI().toURL().toString());
 
         File configurationDirectory =
             new File(System.getProperty("daemon.test-configurations.home"));
-        Assertions.assertFalse("Directory " + configurationDirectory + " already exists",
-            configurationDirectory.isDirectory());
+        Assertions.assertFalse(configurationDirectory.isDirectory(),
+            "Directory " + configurationDirectory + " already exists");
         ((HtmlTextInput) htmlPage.getElementByName("configurationHome")).setText(
             configurationDirectory.getAbsolutePath());
 
@@ -273,17 +274,17 @@ public class CargoDaemonBrowserTest
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
-        Assertions.assertNotNull("Container stop button did not appear. Current content: "
-            + htmlPage.asNormalizedText(), stopButton);
-        Assertions.assertTrue("There should be running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertNotNull(stopButton, "Container stop button did not appear. " +
+            "Current content: " + htmlPage.asNormalizedText());
+        Assertions.assertTrue(htmlPage.asNormalizedText().contains("started"),
+            "There should be running containers");
         stopButton.click();
 
         daemonWatchdog.watchForUnavailability();
 
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
-        Assertions.assertFalse("There should be no running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertFalse(htmlPage.asNormalizedText().contains("started"),
+            "There should be no running containers");
     }
 }
