@@ -43,6 +43,14 @@
       <version>${cargo.archetypes-junit.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Repeat the dependencies to copy so that multithreaded builds work correctly -->
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-jetty</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

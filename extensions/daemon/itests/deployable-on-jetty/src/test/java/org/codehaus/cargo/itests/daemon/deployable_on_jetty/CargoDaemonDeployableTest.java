@@ -68,7 +68,7 @@ public class CargoDaemonDeployableTest
     @BeforeAll
     protected static void setUp() throws Exception
     {
-        synchronized (this.getClass())
+        synchronized (CargoDaemonDeployableTest.getClass())
         {
             if (CargoDaemonDeployableTest.daemonUrl == null)
             {
