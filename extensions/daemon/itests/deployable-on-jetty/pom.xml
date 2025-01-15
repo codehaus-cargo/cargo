@@ -37,7 +37,29 @@
       <artifactId>cargo-daemon-webapp</artifactId>
       <type>war</type>
     </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${cargo.archetypes-junit.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includeJUnit5Engines>
+            <engine>junit-jupiter</engine>
+          </includeJUnit5Engines>
+          <excludeJUnit5Engines>
+            <engine>junit-vintage</engine>
+          </excludeJUnit5Engines>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
   <profiles>
     <profile>

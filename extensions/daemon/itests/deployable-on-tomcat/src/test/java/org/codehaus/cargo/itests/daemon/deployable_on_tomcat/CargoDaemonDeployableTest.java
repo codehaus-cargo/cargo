@@ -28,21 +28,22 @@ import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlSelect;
 import org.htmlunit.html.HtmlTextInput;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
-import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Tests of Codehaus Cargo Daemon started on Tomcat using the Java client.
+ * Tests of Codehaus Cargo Daemon started on Tomcat using a virtual browser.
  */
-public class CargoDaemonDeployableTest extends TestCase
+public class CargoDaemonDeployableTest
 {
 
     /**
@@ -58,16 +59,15 @@ public class CargoDaemonDeployableTest extends TestCase
     /**
      * Logger.
      */
-    private Logger logger = new SimpleLogger();
+    private static Logger logger = new SimpleLogger();
 
     /**
-     * {@inheritDoc}
+     * Start the standalone Cargo Daemon.
+     * @throws Exception If anything goes wrong.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeAll
+    protected static void setUp() throws Exception
     {
-        super.setUp();
-
         synchronized (this.getClass())
         {
             if (CargoDaemonDeployableTest.daemonUrl == null)
@@ -85,26 +85,20 @@ public class CargoDaemonDeployableTest extends TestCase
     }
 
     /**
-     * Test the Daemon welcome page.
-     * @throws Exception If anything fails.
-     */
-    public void testCargoDaemonWelcomePage() throws Exception
-    {
-        PingUtils.assertPingTrue("Cargo Daemon not started",
-            "Welcome to the Cargo Daemon Web site", CargoDaemonDeployableTest.daemonUrl, logger);
-    }
-
-    /**
      * Test starting / stopping container.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testStartStopContainer() throws Exception
     {
         WebClient webClient = new WebClient();
         HtmlPage htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
 
-        assertFalse("There should be no running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertTrue(
+            htmlPage.asNormalizedText().contains("Welcome to the Cargo Daemon Web site"),
+                "The Cargo Daemon home page should have loaded");
+        Assertions.assertFalse(htmlPage.asNormalizedText().contains("started"),
+            "There should be no running containers");
 
         final long timeout = System.currentTimeMillis() + CargoDaemonDeployableTest.TIMEOUT;
         boolean foundContainerToStop = true;
@@ -131,20 +125,20 @@ public class CargoDaemonDeployableTest extends TestCase
 
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
-        ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test-on-tomcat");
+        ((HtmlTextInput) htmlPage.getElementByName("handleId")).setText("test-tjws");
 
         ((HtmlSelect) htmlPage.getElementByName("containerId"))
             .getOptionByText("jetty9x").setSelected(true);
 
         File jetty9x = new File(System.getProperty("artifacts.dir"), "jetty9x.zip");
-        assertTrue("File " + jetty9x + " is missing", jetty9x.isFile());
+        Assertions.assertTrue(jetty9x.isFile(), "File " + jetty9x + " is missing");
         ((HtmlTextInput) htmlPage.getElementByName("installerZipUrl")).setText(
             jetty9x.toURI().toURL().toString());
 
         File configurationDirectory =
             new File(System.getProperty("daemon.test-configurations.home"));
-        assertFalse("Directory " + configurationDirectory + " already exists",
-            configurationDirectory.isDirectory());
+        Assertions.assertFalse(configurationDirectory.isDirectory(),
+            "Directory " + configurationDirectory + " already exists");
         ((HtmlTextInput) htmlPage.getElementByName("configurationHome")).setText(
             configurationDirectory.getAbsolutePath());
 
@@ -162,26 +156,26 @@ public class CargoDaemonDeployableTest extends TestCase
 
         htmlPage.getElementById("submitButton").click();
 
-        DeployableMonitor daemonMonitor = new URLDeployableMonitor(new URL(
+        DeployableMonitor containerMonitor = new URLDeployableMonitor(new URL(
             "http://localhost:" + System.getProperty("servlet.port") + "/cargocpc/index.html"),
                 CargoDaemonDeployableTest.TIMEOUT);
-        DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
-        daemonWatchdog.watchForAvailability();
+        DeployerWatchdog containerWatchdog = new DeployerWatchdog(containerMonitor);
+        containerWatchdog.watchForAvailability();
 
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
-        DomElement stopButton = htmlPage.getElementById("stopContainer_test-on-tomcat");
-        assertNotNull("Container stop button did not appear. Current content: "
-            + htmlPage.asNormalizedText(), stopButton);
-        assertTrue("There should be running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
+        Assertions.assertNotNull(stopButton, "Container stop button did not appear. "
+            + "Current content: " + htmlPage.asNormalizedText());
+        Assertions.assertTrue(htmlPage.asNormalizedText().contains("started"),
+            "There should be running containers");
         stopButton.click();
 
-        daemonWatchdog.watchForUnavailability();
+        containerWatchdog.watchForUnavailability();
 
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonDeployableTest.daemonUrl);
-        assertFalse("There should be no running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertFalse(htmlPage.asNormalizedText().contains("started"),
+            "There should be no running containers");
     }
 }

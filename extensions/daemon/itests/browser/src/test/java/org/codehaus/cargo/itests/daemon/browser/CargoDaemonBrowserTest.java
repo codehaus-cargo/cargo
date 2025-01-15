@@ -32,37 +32,29 @@ import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlSelect;
 import org.htmlunit.html.HtmlTextInput;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
-import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
  * Tests of Codehaus Cargo Daemon using a virtual browser.
  */
-public class CargoDaemonBrowserTest extends TestCase
+public class CargoDaemonBrowserTest
 {
 
     /**
      * Timeout while waiting for the Daemon or container to start.
      */
     private static final long TIMEOUT = 60 * 1000;
-
-    /**
-     * Total number of tests (used to kill the Daemon when finished).
-     */
-    private static final int TOTAL_TESTS = 2;
-
-    /**
-     * Tests run so far (used to kill the Daemon when finished).
-     */
-    private static int testsRun = 0;
 
     /**
      * Class name of the Daemon.
@@ -77,68 +69,54 @@ public class CargoDaemonBrowserTest extends TestCase
     /**
      * Exception starting the Cargo Daemon.
      */
-    private Exception daemonStartException = null;
+    private static Exception daemonStartException = null;
 
     /**
      * Logger.
      */
-    private Logger logger = new SimpleLogger();
+    private static Logger logger = new SimpleLogger();
 
     /**
-     * {@inheritDoc}
+     * Start the standalone Cargo Daemon.
+     * @throws Exception If anything goes wrong.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeAll
+    protected static void setUp() throws Exception
     {
-        super.setUp();
-
-        boolean startDaemon;
-        synchronized (this.getClass())
+        new Thread()
         {
-            startDaemon = CargoDaemonBrowserTest.testsRun == 0;
-            CargoDaemonBrowserTest.testsRun++;
-        }
-
-        if (startDaemon)
-        {
-            new Thread()
+            @Override
+            public void run()
             {
-                @Override
-                public void run()
+                File daemonFile =
+                    new File(System.getProperty("artifacts.dir"), "cargo-daemon-webapp.jar");
+                try (JarFile daemonJar = new JarFile(daemonFile);
+                    URLClassLoader daemonClassLoader =
+                        new URLClassLoader(new URL[] {daemonFile.toURI().toURL()}))
                 {
-                    File daemonFile =
-                        new File(System.getProperty("artifacts.dir"), "cargo-daemon-webapp.jar");
-                    try (JarFile daemonJar = new JarFile(daemonFile);
-                        URLClassLoader daemonClassLoader =
-                            new URLClassLoader(new URL[] {daemonFile.toURI().toURL()}))
-                    {
-                        CargoDaemonBrowserTest.daemonClassName =
-                            daemonJar.getManifest().getMainAttributes().getValue("Main-Class");
-                        Class daemonClass = daemonClassLoader.loadClass(
-                            CargoDaemonBrowserTest.daemonClassName);
-                        Method daemonMain = daemonClass.getMethod("main", String[].class);
-                        String[] daemonArguments =
-                            new String[] {"-p", System.getProperty("daemon.port")};
-                        daemonMain.invoke(null, (Object) daemonArguments);
-                    }
-                    catch (Exception e)
-                    {
-                        CargoDaemonBrowserTest.this.daemonStartException = e;
-                        CargoDaemonBrowserTest.this.logger.warn("Cannot start daemon: " + e,
-                            CargoDaemonBrowserTest.class.getName());
-                    }
+                    CargoDaemonBrowserTest.daemonClassName =
+                        daemonJar.getManifest().getMainAttributes().getValue("Main-Class");
+                    Class daemonClass = daemonClassLoader.loadClass(
+                        CargoDaemonBrowserTest.daemonClassName);
+                    Method daemonMain = daemonClass.getMethod("main", String[].class);
+                    String[] daemonArguments =
+                        new String[] {"-p", System.getProperty("daemon.port")};
+                    daemonMain.invoke(null, (Object) daemonArguments);
+                }
+                catch (Exception e)
+                {
+                    CargoDaemonBrowserTest.daemonStartException = e;
+                    CargoDaemonBrowserTest.logger.warn("Cannot start daemon: " + e,
+                        CargoDaemonBrowserTest.class.getName());
                 }
             }
-                .start();
         }
+            .start();
 
-        synchronized (this.getClass())
+        if (CargoDaemonBrowserTest.daemonUrl == null)
         {
-            if (CargoDaemonBrowserTest.daemonUrl == null)
-            {
-                CargoDaemonBrowserTest.daemonUrl =
-                    new URL("http://localhost:" + System.getProperty("daemon.port") + "/");
-            }
+            CargoDaemonBrowserTest.daemonUrl =
+                new URL("http://localhost:" + System.getProperty("daemon.port") + "/");
         }
 
         DeployableMonitor daemonMonitor =
@@ -150,9 +128,9 @@ public class CargoDaemonBrowserTest extends TestCase
         }
         catch (Exception e)
         {
-            if (daemonStartException != null)
+            if (CargoDaemonBrowserTest.daemonStartException != null)
             {
-                throw daemonStartException;
+                throw CargoDaemonBrowserTest.daemonStartException;
             }
             else
             {
@@ -162,57 +140,41 @@ public class CargoDaemonBrowserTest extends TestCase
     }
 
     /**
-     * {@inheritDoc}
+     * Kills the standalone Cargo Daemon.
+     * @throws Exception If anything goes wrong.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterAll
+    protected static void tearDown() throws Exception
     {
-        super.tearDown();
-
-        boolean stopDaemon;
-        synchronized (this.getClass())
+        for (Map.Entry<Thread, StackTraceElement[]> thread
+            : Thread.getAllStackTraces().entrySet())
         {
-            stopDaemon = CargoDaemonBrowserTest.testsRun == CargoDaemonBrowserTest.TOTAL_TESTS;
-        }
-
-        if (stopDaemon)
-        {
-            for (Map.Entry<Thread, StackTraceElement[]> thread
-                : Thread.getAllStackTraces().entrySet())
+            for (StackTraceElement stackTraceElement : thread.getValue())
             {
-                for (StackTraceElement stackTraceElement : thread.getValue())
+                if (stackTraceElement.getClassName().contains(
+                    CargoDaemonBrowserTest.daemonClassName))
                 {
-                    if (stackTraceElement.getClassName().contains(
-                        CargoDaemonBrowserTest.daemonClassName))
-                    {
-                        thread.getKey().interrupt();
-                    }
+                    thread.getKey().interrupt();
                 }
             }
         }
     }
 
     /**
-     * Test the Daemon welcome page.
-     * @throws Exception If anything fails.
-     */
-    public void testCargoDaemonWelcomePage() throws Exception
-    {
-        PingUtils.assertPingTrue("Cargo Daemon not started",
-            "Welcome to the Cargo Daemon Web site", CargoDaemonBrowserTest.daemonUrl, logger);
-    }
-
-    /**
      * Test starting / stopping container.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testStartStopContainer() throws Exception
     {
         WebClient webClient = new WebClient();
         HtmlPage htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
 
-        assertFalse("There should be no running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertTrue(
+            htmlPage.asNormalizedText().contains("Welcome to the Cargo Daemon Web site"),
+                "The Cargo Daemon home page should have loaded");
+        Assertions.assertFalse(htmlPage.asNormalizedText().contains("started"),
+            "There should be no running containers");
 
         final long timeout = System.currentTimeMillis() + CargoDaemonBrowserTest.TIMEOUT;
         boolean foundContainerToStop = true;
@@ -245,14 +207,14 @@ public class CargoDaemonBrowserTest extends TestCase
             .getOptionByText("jetty9x").setSelected(true);
 
         File jetty9x = new File(System.getProperty("artifacts.dir"), "jetty9x.zip");
-        assertTrue("File " + jetty9x + " is missing", jetty9x.isFile());
+        Assertions.assertTrue(jetty9x.isFile(), "File " + jetty9x + " is missing");
         ((HtmlTextInput) htmlPage.getElementByName("installerZipUrl")).setText(
             jetty9x.toURI().toURL().toString());
 
         File configurationDirectory =
             new File(System.getProperty("daemon.test-configurations.home"));
-        assertFalse("Directory " + configurationDirectory + " already exists",
-            configurationDirectory.isDirectory());
+        Assertions.assertFalse(configurationDirectory.isDirectory(),
+            "Directory " + configurationDirectory + " already exists");
         ((HtmlTextInput) htmlPage.getElementByName("configurationHome")).setText(
             configurationDirectory.getAbsolutePath());
 
@@ -270,26 +232,26 @@ public class CargoDaemonBrowserTest extends TestCase
 
         htmlPage.getElementById("submitButton").click();
 
-        DeployableMonitor daemonMonitor = new URLDeployableMonitor(new URL(
+        DeployableMonitor containerMonitor = new URLDeployableMonitor(new URL(
             "http://localhost:" + System.getProperty("servlet.port") + "/cargocpc/index.html"),
                 CargoDaemonBrowserTest.TIMEOUT);
-        DeployerWatchdog daemonWatchdog = new DeployerWatchdog(daemonMonitor);
-        daemonWatchdog.watchForAvailability();
+        DeployerWatchdog containerWatchdog = new DeployerWatchdog(containerMonitor);
+        containerWatchdog.watchForAvailability();
 
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
-        assertNotNull("Container stop button did not appear. Current content: "
-            + htmlPage.asNormalizedText(), stopButton);
-        assertTrue("There should be running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertNotNull(stopButton, "Container stop button did not appear. "
+            + "Current content: " + htmlPage.asNormalizedText());
+        Assertions.assertTrue(htmlPage.asNormalizedText().contains("started"),
+            "There should be running containers");
         stopButton.click();
 
-        daemonWatchdog.watchForUnavailability();
+        containerWatchdog.watchForUnavailability();
 
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
-        assertFalse("There should be no running containers",
-            htmlPage.asNormalizedText().contains("started"));
+        Assertions.assertFalse(htmlPage.asNormalizedText().contains("started"),
+            "There should be no running containers");
     }
 }
