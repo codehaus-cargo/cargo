@@ -37,6 +37,8 @@
       <artifactId>cargo-daemon-webapp</artifactId>
       <type>war</type>
     </dependency>
+
+    <!-- Newer HtmlUnit versions require at least JUnit 4.x -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
