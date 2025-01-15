@@ -42,7 +42,6 @@ import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
-import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
@@ -242,8 +241,8 @@ public class CargoDaemonBrowserTest
         webClient.reset();
         htmlPage = webClient.getPage(CargoDaemonBrowserTest.daemonUrl);
         DomElement stopButton = htmlPage.getElementById("stopContainer_test-tjws");
-        Assertions.assertNotNull(stopButton, "Container stop button did not appear. " +
-            "Current content: " + htmlPage.asNormalizedText());
+        Assertions.assertNotNull(stopButton, "Container stop button did not appear. "
+            + "Current content: " + htmlPage.asNormalizedText());
         Assertions.assertTrue(htmlPage.asNormalizedText().contains("started"),
             "There should be running containers");
         stopButton.click();
