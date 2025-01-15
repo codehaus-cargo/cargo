@@ -70,19 +70,19 @@ public class CargoDaemonBrowserTest
     /**
      * Exception starting the Cargo Daemon.
      */
-    private Exception daemonStartException = null;
+    private static Exception daemonStartException = null;
 
     /**
      * Logger.
      */
-    private Logger logger = new SimpleLogger();
+    private static Logger logger = new SimpleLogger();
 
     /**
      * Start the standalone Cargo Daemon.
      * @throws Exception If anything goes wrong.
      */
     @BeforeAll
-    protected void setUp() throws Exception
+    protected static void setUp() throws Exception
     {
         new Thread()
         {
@@ -106,8 +106,8 @@ public class CargoDaemonBrowserTest
                 }
                 catch (Exception e)
                 {
-                    CargoDaemonBrowserTest.this.daemonStartException = e;
-                    CargoDaemonBrowserTest.this.logger.warn("Cannot start daemon: " + e,
+                    CargoDaemonBrowserTest.daemonStartException = e;
+                    CargoDaemonBrowserTest.logger.warn("Cannot start daemon: " + e,
                         CargoDaemonBrowserTest.class.getName());
                 }
             }
@@ -129,9 +129,9 @@ public class CargoDaemonBrowserTest
         }
         catch (Exception e)
         {
-            if (daemonStartException != null)
+            if (CargoDaemonBrowserTest.daemonStartException != null)
             {
-                throw daemonStartException;
+                throw CargoDaemonBrowserTest.daemonStartException;
             }
             else
             {
@@ -145,7 +145,7 @@ public class CargoDaemonBrowserTest
      * @throws Exception If anything goes wrong.
      */
     @AfterAll
-    protected void tearDown() throws Exception
+    protected static void tearDown() throws Exception
     {
         for (Map.Entry<Thread, StackTraceElement[]> thread
             : Thread.getAllStackTraces().entrySet())
