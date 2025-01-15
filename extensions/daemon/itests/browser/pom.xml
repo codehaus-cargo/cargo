@@ -46,7 +46,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <includeJUnit5Engines>
-            <engine>junit-jupiter-engine</engine>
+            <engine>junit-jupiter</engine>
           </includeJUnit5Engines>
           <excludeJUnit5Engines>
             <engine>junit-vintage</engine>
