@@ -99,8 +99,8 @@ blocks:
             - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-maven3-plugin/ && ( mvn clean install -pl :cargo-maven3-plugin -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
-            - cd $ORIGINAL_PWD/core/samples/java
-            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/*/glassfish-*.zip installs
+            - cd $ORIGINAL_PWD/core/samples
+            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/*/glassfish-*.zip java/installs
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - rm -f installs/glassfish-*.zip
             - cd $ORIGINAL_PWD
@@ -117,7 +117,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 10.x
@@ -129,7 +129,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 11.x
@@ -141,7 +141,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Payara
@@ -153,7 +153,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 10.x
@@ -165,7 +165,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 9.x
@@ -177,7 +177,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 27.x
@@ -189,7 +189,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 28.x
@@ -201,7 +201,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 29.x
@@ -213,7 +213,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 30.x
@@ -225,7 +225,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 31.x
@@ -237,7 +237,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly31x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 32.x
@@ -249,7 +249,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly32x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 33.x
@@ -261,7 +261,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly33x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 34.x
@@ -273,7 +273,7 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly34x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 8
@@ -311,7 +311,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 5.x
@@ -326,7 +326,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 9.x
@@ -341,7 +341,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Resin 4.x
@@ -356,7 +356,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 8.x
@@ -371,7 +371,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 9.x
@@ -386,7 +386,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 7.x
@@ -401,7 +401,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 8.x
@@ -416,7 +416,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WebSphere Liberty
@@ -431,7 +431,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 8.x
@@ -446,7 +446,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 9.x
@@ -461,7 +461,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 10.x
@@ -476,7 +476,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 11.x
@@ -491,7 +491,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 12.x
@@ -506,7 +506,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 13.x
@@ -521,7 +521,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 14.x
@@ -536,7 +536,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 15.x
@@ -551,7 +551,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 16.x
@@ -566,7 +566,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 17.x
@@ -581,7 +581,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 18.x
@@ -596,7 +596,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 19.x
@@ -611,7 +611,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 20.x
@@ -626,7 +626,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 21.x
@@ -641,7 +641,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 22.x
@@ -656,7 +656,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 23.x
@@ -671,7 +671,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 24.x
@@ -686,7 +686,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 25.x
@@ -701,7 +701,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 26.x
@@ -716,7 +716,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly Swarm
@@ -731,7 +731,7 @@ blocks:
             - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - cd ~/
@@ -772,7 +772,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Geronimo 3.x
@@ -792,7 +792,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 3.x
@@ -812,7 +812,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 3.x
@@ -832,7 +832,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 4.x
@@ -852,7 +852,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 4.2.x
@@ -872,7 +872,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 5.x
@@ -892,7 +892,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 5.1.x
@@ -912,7 +912,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 6.x
@@ -932,7 +932,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 6.1.x
@@ -952,7 +952,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 7.x
@@ -972,7 +972,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 7.1.x
@@ -992,7 +992,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 5.x
@@ -1012,7 +1012,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 6.x
@@ -1032,7 +1032,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 7.x
@@ -1052,7 +1052,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 8.x
@@ -1072,7 +1072,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jo 1.x
@@ -1092,7 +1092,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JOnAS 4.x
@@ -1112,7 +1112,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JOnAS 5.x
@@ -1132,7 +1132,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Resin 3.x
@@ -1152,7 +1152,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Resin 3.1.x
@@ -1172,7 +1172,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 4.x
@@ -1192,7 +1192,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 5.x
@@ -1212,7 +1212,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 6.x
@@ -1232,7 +1232,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 7.x
@@ -1252,7 +1252,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 1.x
@@ -1272,7 +1272,7 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 17
@@ -1300,7 +1300,7 @@ blocks:
           commands:
             - sem-version java 17
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 10.x
@@ -1312,7 +1312,7 @@ blocks:
           commands:
             - sem-version java 17
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee10x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 35.x
@@ -1324,7 +1324,7 @@ blocks:
           commands:
             - sem-version java 17
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly35x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 21
@@ -1362,7 +1362,7 @@ blocks:
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 11.x
@@ -1377,7 +1377,7 @@ blocks:
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/java
+            - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Deploy using Java 11
