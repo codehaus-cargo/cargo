@@ -103,6 +103,16 @@ import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
         }
 
         /**
+         * {@inheritDoc}
+         * @return Container id and type.
+         */
+        @Override
+        public String getDisplayName(int invocationIndex)
+        {
+            return containerId + "," + containerType.getType();
+        }
+
+        /**
          * Set the {@link CargoTestcaseInvocationContext} to the {@link AbstractCargoTestCase}.
          * @return The preprocessor that populates the {@link CargoTestcaseInvocationContext} to
          * the {@link AbstractCargoTestCase}.

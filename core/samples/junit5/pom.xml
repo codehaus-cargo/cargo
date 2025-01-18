@@ -34,12 +34,6 @@
       <version>${cargo.archetypes-junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>${cargo.archetypes-junit.version}</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
   <properties>
     <cargo.download.dir>${project.basedir}/../java/installs</cargo.download.dir>
@@ -56,6 +50,14 @@
           <excludeJUnit5Engines>
             <engine>junit-vintage</engine>
           </excludeJUnit5Engines>
+          <!--
+            Show the CargoTestCase DisplayName, so that the XML test reports differentiate between
+            the containers and container types the test instances were run on
+            -->
+          <statelessTestsetReporter
+            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+            <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+          </statelessTestsetReporter>
         </configuration>
       </plugin>
     </plugins>
