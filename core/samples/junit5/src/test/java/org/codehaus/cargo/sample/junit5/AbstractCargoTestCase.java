@@ -25,6 +25,10 @@ import java.lang.reflect.Method;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
@@ -43,9 +47,13 @@ import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaEmbeddedLocalContainer;
 import org.codehaus.cargo.container.wildfly.swarm.WildFlySwarmPropertySet;
+import org.codehaus.cargo.generic.ContainerCapabilityFactory;
 import org.codehaus.cargo.generic.ContainerFactory;
+import org.codehaus.cargo.generic.DefaultContainerCapabilityFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.configuration.ConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
@@ -54,9 +62,6 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * Abstract test case for Cargo Java API samples.
@@ -64,20 +69,47 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 public abstract class AbstractCargoTestCase
 {
     /**
-     * Container factory.
+     * Container capability factory.<br><br>
+     * This being <code>protected</code> is <u>temporary</u>, subclasses will later use the
+     * Validators, and this static variable will either be made <code>private</code> or be
+     * removed completely.
      */
-    private static final ContainerFactory CONTAINER_FACTORY = new DefaultContainerFactory();
+    protected static final ContainerCapabilityFactory CONTAINER_CAPABILITY_FACTORY =
+        new DefaultContainerCapabilityFactory();
 
     /**
-     * Configuration factory.
+     * Configuration capability factory.<br><br>
+     * This being <code>protected</code> is <u>temporary</u>, subclasses will later use the
+     * Validators, and this static variable will either be made <code>private</code> or be
+     * removed completely.
      */
-    private static final ConfigurationFactory CONFIGURATION_FACTORY =
+    protected static final ConfigurationCapabilityFactory CONFIGURATION_CAPABILITY_FACTORY =
+        new DefaultConfigurationCapabilityFactory();
+
+    /**
+     * Container factory.<br><br>
+     * This being <code>protected</code> is <u>temporary</u>, subclasses will later use the
+     * Validators, and this static variable will either be made <code>private</code> or be
+     * removed completely.
+     */
+    protected static final ContainerFactory CONTAINER_FACTORY = new DefaultContainerFactory();
+
+    /**
+     * Configuration factory.<br><br>
+     * This being <code>protected</code> is <u>temporary</u>, subclasses will later use the
+     * Validators, and this static variable will either be made <code>private</code> or be
+     * removed completely.
+     */
+    protected static final ConfigurationFactory CONFIGURATION_FACTORY =
         new DefaultConfigurationFactory();
 
     /**
-     * Deployer factory.
+     * Deployer factory.<br><br>
+     * This being <code>protected</code> is <u>temporary</u>, subclasses will later use the
+     * Validators, and this static variable will either be made <code>private</code> or be
+     * removed completely.
      */
-    private static final DeployerFactory DEPLOYER_FACTORY = new DefaultDeployerFactory();
+    protected static final DeployerFactory DEPLOYER_FACTORY = new DefaultDeployerFactory();
 
     /**
      * Nicely formatted test name (with container id and type).
@@ -136,7 +168,7 @@ public abstract class AbstractCargoTestCase
      * @param testContext JUnit test context.
      */
     public void setUp(
-        CargoTestcase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
+        CargoTestCase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
     {
         String containerId = cargoContext.getContainerId();
         ContainerType containerType = cargoContext.getContainerType();

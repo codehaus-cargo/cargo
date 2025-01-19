@@ -21,26 +21,29 @@ package org.codehaus.cargo.sample.junit5;
 
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.junit.jupiter.api.Assertions;
 
 /**
  * Test for local containers.
  */
-public class AllLocalContainerTest extends AbstractCargoTestCase
+public class AllStandaloneLocalContainerTest extends AbstractStandaloneLocalContainerTestCase
 {
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        if (!containerType.isLocal())
+        if (!super.isSupported(containerId, containerType, testMethod))
         {
             return false;
         }
 
-        if ("testRestartWithNoDeployable".equals(testMethod.getName()))
+        if (testMethod != null && "testRestartWithNoDeployable".equals(testMethod.getName()))
         {
             // GlassFish 4.1.1 and 4.1.2 have a bug where redeployment sometimes causes exception:
             // Keys cannot be duplicate. Old value of this key property, null will be retained.
@@ -69,11 +72,9 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
      * Smoke test: startup with no deployable.
      * @throws Exception If anything goes wrong.
      */
-    @CargoTestcase
+    @CargoTestCase
     public void testStartWithNoDeployable() throws Exception
     {
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-
         getLocalContainer().start();
         Assertions.assertEquals(State.STARTED, getContainer().getState());
 
@@ -96,11 +97,9 @@ public class AllLocalContainerTest extends AbstractCargoTestCase
      * Smoke test: startup (twice) with no deployable.
      * @throws Exception If anything goes wrong.
      */
-    @CargoTestcase
+    @CargoTestCase
     public void testRestartWithNoDeployable() throws Exception
     {
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-
         getLocalContainer().start();
         Assertions.assertEquals(State.STARTED, getContainer().getState());
 

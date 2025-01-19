@@ -31,8 +31,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
@@ -42,14 +40,17 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
 
+import org.codehaus.cargo.container.ContainerType;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+
 /**
- * Whether the given testcase can be executed in the given condition.
+ * Whether the given test case can be executed in the given condition.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @TestTemplate
-@ExtendWith(CargoTestcase.CargoTestcaseInvocationContextProvider.class)
-@interface CargoTestcase
+@ExtendWith(CargoTestCase.CargoTestcaseInvocationContextProvider.class)
+@interface CargoTestCase
 {
     /**
      * Current Cargo test case invocation context, i.e. the container id and type.
@@ -130,7 +131,7 @@ import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
                 public void beforeTestExecution(ExtensionContext context) throws Exception
                 {
                     ((AbstractCargoTestCase) context.getTestInstance().get()).setUp(
-                        CargoTestcase.CargoTestcaseInvocationContext.this, context);
+                        CargoTestCase.CargoTestcaseInvocationContext.this, context);
                 }
             };
         }
