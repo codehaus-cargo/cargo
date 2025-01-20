@@ -46,7 +46,7 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
             && "testStartWithOneExpandedWarDeployed".equals(testMethod.getName()))
         {
             // The Apache Geronimo server doesn't support expanded WARs
-            if ("geronimo".equals(containerId))
+            if (containerId.startsWith("geronimo"))
             {
                 return false;
             }
