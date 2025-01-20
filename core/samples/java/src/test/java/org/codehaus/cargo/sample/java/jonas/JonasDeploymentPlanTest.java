@@ -60,7 +60,8 @@ public class JonasDeploymentPlanTest extends AbstractStandaloneLocalContainerTes
         {
             return false;
         }
-        // We exclude jonas4x as it doesn't support deployment plans
+
+        // We exclude JOnAS 4.x as it doesn't support deployment plans
         return !"jonas4x".equals(containerId);
     }
 

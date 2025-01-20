@@ -51,6 +51,7 @@ public class WarRootContextTest extends AbstractStandaloneLocalContainerTestCase
         {
             return false;
         }
+
         // We exclude containers that cannot deploy on the root context
         return this.isNotContained(containerId,
             "geronimo1x", "geronimo2x", "geronimo3x",

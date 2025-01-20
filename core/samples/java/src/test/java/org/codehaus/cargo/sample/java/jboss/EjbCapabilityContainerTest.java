@@ -45,7 +45,7 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
     {
         this.addValidator(new HasDeployableSupportValidator(DeployableType.EJB));
 
-        // We exclude all WildFly containers as these doesn't support remote EJB lookup
+        // We don't include any WildFly containers as these don't support remote EJB lookup
         this.addValidator(new StartsWithContainerValidator("jboss"));
     }
 
@@ -59,8 +59,9 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         {
             return false;
         }
-        // We exclude JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x, JBoss 7.5.x
-        // as well as all WildFly containers as these doesn't support remote EJB lookup
+
+        // We exclude JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x and JBoss 7.5.x
+        // as these don't support remote EJB lookup
         return this.isNotContained(containerId,
             "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x");
     }

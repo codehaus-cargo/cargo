@@ -51,6 +51,7 @@ public class WarMultiContextTest extends AbstractStandaloneLocalContainerTestCas
         {
             return false;
         }
+
         // We exclude containers that cannot deploy on a multiple context (with many slashes)
         return this.isNotContained(containerId,
             "geronimo1x",

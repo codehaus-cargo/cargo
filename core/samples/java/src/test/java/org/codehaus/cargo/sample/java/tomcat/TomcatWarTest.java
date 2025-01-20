@@ -56,7 +56,8 @@ public class TomcatWarTest extends AbstractStandaloneLocalContainerTestCase
         {
             return false;
         }
-        // We exclude tomcat4x container as it does not support context.xml files
+
+        // We exclude Tomcat 4.x as it does not support context.xml files
         return !"tomcat4x".equals(containerId);
     }
 
