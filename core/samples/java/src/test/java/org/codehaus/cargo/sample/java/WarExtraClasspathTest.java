@@ -27,13 +27,14 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
  * Test for WAR extra classpath support.
  */
-public class WarExtraClasspathTest extends AbstractCargoTestCase
+public class WarExtraClasspathTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
      * Add the required validators.
@@ -41,6 +42,7 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
      */
     public WarExtraClasspathTest()
     {
+        this.addValidator(new HasWarSupportValidator());
         this.addValidator(new StartsWithContainerValidator("jetty", "tomcat", "liberty"));
     }
 

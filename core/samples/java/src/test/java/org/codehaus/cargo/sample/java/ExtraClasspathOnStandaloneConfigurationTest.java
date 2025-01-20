@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -45,6 +46,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest
     public ExtraClasspathOnStandaloneConfigurationTest()
     {
         this.addValidator(new HasWarSupportValidator());
+        this.addValidator(new IsInstalledLocalContainerValidator());
     }
 
     /**

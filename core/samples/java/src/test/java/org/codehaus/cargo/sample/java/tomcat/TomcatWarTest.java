@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
 import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.PingUtils;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 
 /**
@@ -41,6 +42,7 @@ public class TomcatWarTest extends AbstractStandaloneLocalContainerTestCase
      */
     public TomcatWarTest()
     {
+        this.addValidator(new HasWarSupportValidator());
         this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
     }
 

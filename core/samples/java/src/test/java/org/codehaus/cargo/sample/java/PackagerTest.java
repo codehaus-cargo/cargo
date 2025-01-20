@@ -32,6 +32,7 @@ import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 import org.codehaus.cargo.sample.java.validator.HasDirectoryPackagerValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 
 /**
  * Test for packager.
@@ -45,6 +46,7 @@ public class PackagerTest extends AbstractStandaloneLocalContainerTestCase
     public PackagerTest()
     {
         this.addValidator(new HasDirectoryPackagerValidator());
+        this.addValidator(new IsInstalledLocalContainerValidator());
     }
 
     /**

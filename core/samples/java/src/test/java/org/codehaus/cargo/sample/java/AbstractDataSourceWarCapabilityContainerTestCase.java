@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -33,6 +34,15 @@ import org.codehaus.cargo.util.CargoException;
  */
 public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends AbstractWarTestCase
 {
+    /**
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
+     */
+    public AbstractDataSourceWarCapabilityContainerTestCase()
+    {
+        this.addValidator(new IsInstalledLocalContainerValidator());
+    }
+
     /**
      * {@inheritDoc}
      */

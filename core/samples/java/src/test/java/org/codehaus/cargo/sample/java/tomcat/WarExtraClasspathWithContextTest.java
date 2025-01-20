@@ -49,8 +49,8 @@ public class WarExtraClasspathWithContextTest extends AbstractStandaloneLocalCon
      */
     public WarExtraClasspathWithContextTest()
     {
-        this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
         this.addValidator(new HasWarSupportValidator());
+        this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
 
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
         if (simpleJar == null)

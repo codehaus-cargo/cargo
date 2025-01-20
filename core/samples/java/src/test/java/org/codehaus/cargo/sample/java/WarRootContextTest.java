@@ -25,12 +25,22 @@ import java.net.URL;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 
 /**
  * Test for WAR support: deployment to the root context.
  */
 public class WarRootContextTest extends AbstractStandaloneLocalContainerTestCase
 {
+    /**
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
+     */
+    public WarRootContextTest()
+    {
+        this.addValidator(new HasWarSupportValidator());
+    }
+
     /**
      * {@inheritDoc}
      */
