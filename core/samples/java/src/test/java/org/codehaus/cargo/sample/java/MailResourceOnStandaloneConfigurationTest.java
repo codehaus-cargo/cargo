@@ -58,14 +58,21 @@ public class MailResourceOnStandaloneConfigurationTest extends
         {
             return false;
         }
-        // GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara as well as WildFly 10.x and
-        // WildFly 27.x onwards cannot deploy mail sessions as a resource
+
+        // Jakarta EE versions of WildFly cannot deploy mail sessions as a resource
+        if (containerId.startsWith("wildfly")
+            && EnvironmentTestData.jakartaEeContainers.contains(containerId))
+        {
+            return false;
+        }
+
+        // GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara as well as WildFly 10.x
+        // cannot deploy mail sessions as a resource
         return this.isNotContained(containerId,
             "glassfish3x", "glassfish4x", "glassfish5x", "glassfish6x", "glassfish7x",
                 "glassfish8x",
             "payara",
-            "wildfly10x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x", "wildfly31x",
-                "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x");
+            "wildfly10x");
     }
 
     /**

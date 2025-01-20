@@ -56,7 +56,7 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // Jakarta EE versions of WildFly cannot deploy JMS topic resources
+        // Jakarta EE versions of WildFly cannot deploy JMS queue resources
         if (containerId.startsWith("wildfly")
             && EnvironmentTestData.jakartaEeContainers.contains(containerId))
         {
