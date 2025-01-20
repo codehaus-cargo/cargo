@@ -19,11 +19,8 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Set;
-import java.util.TreeSet;
-
-import junit.framework.Test;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
@@ -33,10 +30,6 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for mail resource capabilities.
@@ -45,15 +38,32 @@ public class MailResourceOnStandaloneConfigurationTest extends
     AbstractResourceOnStandaloneConfigurationTest
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public MailResourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public MailResourceOnStandaloneConfigurationTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasResourceSupportValidator(ConfigurationType.STANDALONE));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    {
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
+        // GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara as well as WildFly 10.x and
+        // WildFly 27.x onwards cannot deploy mail sessions as a resource
+        return this.isNotContained(containerId,
+            "glassfish3x", "glassfish4x", "glassfish5x", "glassfish6x", "glassfish7x",
+                "glassfish8x",
+            "payara",
+            "wildfly10x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x", "wildfly31x",
+                "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x");
     }
 
     /**
@@ -62,17 +72,16 @@ public class MailResourceOnStandaloneConfigurationTest extends
     @Override
     public Container createContainer(ContainerType type, Configuration configuration)
     {
-        InstalledLocalContainer container =
-            (InstalledLocalContainer) super.createContainer(type, configuration);
-        addMailJarsToExtraClasspath(container);
-        return container;
+        return addMailJarsToExtraClasspath(
+            (InstalledLocalContainer) super.createContainer(type, configuration));
     }
 
     /**
      * Add mail JARs to extra classpath.
      * @param container Container.
+     * @return Updated container.
      */
-    private void addMailJarsToExtraClasspath(InstalledLocalContainer container)
+    private Container addMailJarsToExtraClasspath(InstalledLocalContainer container)
     {
         String mail = System.getProperty("cargo.testdata.mail-jars");
         if (mail != null)
@@ -86,54 +95,14 @@ public class MailResourceOnStandaloneConfigurationTest extends
                 container.addExtraClasspath(jar);
             }
         }
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite(
-                "Tests that run on local containers supporting Resource and WAR deployments");
-
-        // GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara as well as WildFly 10.x and
-        // WildFly 20.x onwards containers cannot deploy mail sessions as a resource
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("glassfish3x");
-        excludedContainerIds.add("glassfish4x");
-        excludedContainerIds.add("glassfish5x");
-        excludedContainerIds.add("glassfish6x");
-        excludedContainerIds.add("glassfish7x");
-        excludedContainerIds.add("glassfish8x");
-        excludedContainerIds.add("payara");
-        excludedContainerIds.add("wildfly10x");
-        excludedContainerIds.add("wildfly27x");
-        excludedContainerIds.add("wildfly28x");
-        excludedContainerIds.add("wildfly29x");
-        excludedContainerIds.add("wildfly30x");
-        excludedContainerIds.add("wildfly31x");
-        excludedContainerIds.add("wildfly32x");
-        excludedContainerIds.add("wildfly33x");
-        excludedContainerIds.add("wildfly34x");
-        excludedContainerIds.add("wildfly35x");
-
-        suite.addTestSuite(MailResourceOnStandaloneConfigurationTest.class,
-            new Validator[] {
-                new IsInstalledLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasWarSupportValidator(),
-                new HasResourceSupportValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
-        return suite;
+        return container;
     }
 
     /**
      * User configures javax.mail.Session -&gt; container provides that same javax.mail.Session
      * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
+    @CargoTestCase
     public void testUserConfiguresMailSessionAsResource() throws MalformedURLException
     {
         ResourceFixture fixture = ConfigurationFixtureFactory.createMailSessionAsResource();

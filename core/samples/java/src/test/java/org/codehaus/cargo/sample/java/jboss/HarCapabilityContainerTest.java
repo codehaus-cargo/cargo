@@ -23,20 +23,13 @@ import javax.management.MBeanInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.validator.HasDeployableSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for JBoss HAR support.
@@ -49,62 +42,27 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
     private static final String SIMPLE_HAR_OBJECT_NAME = "cargo.testdata:name=simple-har";
 
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public HarCapabilityContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public HarCapabilityContainerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite("Test that verifies that deployment of HAR archive work on local "
-                + "installed JBoss containers");
-
-        suite.addTestSuite(HarCapabilityContainerTest.class, new Validator[] {
-            new StartsWithContainerValidator("jboss"),
-            new HasDeployableSupportValidator(DeployableType.HAR),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()
-        });
-
-        return suite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        this.addValidator(new HasDeployableSupportValidator(DeployableType.HAR));
     }
 
     /**
      * Test HAR deployment.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDeployHarStatically() throws Exception
     {
-        Deployable har =
-            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
-                .getTestDataFileFor("simple-har"), DeployableType.HAR);
+        Deployable har = this.createDeployableFromTestdataFile("simple-har", DeployableType.HAR);
 
         getLocalContainer().getConfiguration().addDeployable(har);
 
         getLocalContainer().start();
-        assertEquals(State.STARTED, getContainer().getState());
+        Assertions.assertEquals(State.STARTED, getContainer().getState());
 
         // We're verifying that the HAR is successfully deployed by querying it via jmx
         MBeanServerConnection server = createMBeanServerConnection();
@@ -113,7 +71,7 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         MBeanInfo mbeanInfo = server.getMBeanInfo(objectName);
         getLogger().debug("The HAR MBean found: " + mbeanInfo.getDescription(),
             this.getClass().getName());
-        assertNotNull("MBean description is null", mbeanInfo.getDescription());
+        Assertions.assertNotNull(mbeanInfo.getDescription(), "MBean description is null");
 
         getLocalContainer().stop();
     }

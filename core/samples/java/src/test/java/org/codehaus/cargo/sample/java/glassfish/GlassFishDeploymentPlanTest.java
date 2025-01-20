@@ -19,67 +19,24 @@
  */
 package org.codehaus.cargo.sample.java.glassfish;
 
-import java.util.Set;
-import java.util.TreeSet;
-
-import junit.framework.Test;
-
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.validator.HasLocalDeployerValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.CargoTestCase;
+import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test the deployment of GlassFish deployment plans.
  */
-public class GlassFishDeploymentPlanTest extends AbstractCargoTestCase
+public class GlassFishDeploymentPlanTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public GlassFishDeploymentPlanTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public GlassFishDeploymentPlanTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        Set<String> excludedContainerIds = new TreeSet<String>();
-
-        CargoTestSuite suite =
-            new CargoTestSuite("Test that verifies GlassFish-specific standalone local "
-                + "configuration options");
-
-        suite.addTestSuite(GlassFishDeploymentPlanTest.class, new Validator[] {
-            new StartsWithContainerValidator("glassfish"),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasLocalDeployerValidator()
-        }, excludedContainerIds);
-
-        suite.addTestSuite(GlassFishDeploymentPlanTest.class, new Validator[] {
-            new StartsWithContainerValidator("payara"),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasLocalDeployerValidator()
-        }, excludedContainerIds);
-
-        return suite;
+        this.addValidator(new StartsWithContainerValidator("glassfish", "payara"));
     }
 
     /**
@@ -89,6 +46,7 @@ public class GlassFishDeploymentPlanTest extends AbstractCargoTestCase
      * 
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDataSourceClass() throws Exception
     {
         Configuration configuration = createConfiguration(ConfigurationType.STANDALONE);

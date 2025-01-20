@@ -24,7 +24,6 @@ import java.net.MalformedURLException;
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.util.CargoException;
@@ -34,42 +33,6 @@ import org.codehaus.cargo.util.CargoException;
  */
 public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends AbstractWarTestCase
 {
-    /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
-     */
-    public AbstractDataSourceWarCapabilityContainerTestCase(String testName,
-        EnvironmentTestData testData) throws Exception
-    {
-        super(testName, testData);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    /**
-     * Adds datasource and Tests servlet.
-     * @param fixture Datasource definition.
-     * @param type WAR type.
-     * @throws MalformedURLException If URL cannot be built.
-     */
-    protected void testServletThatIssuesGetConnectionFrom(DataSourceFixture fixture, String type)
-        throws MalformedURLException
-    {
-        addDataSourceToConfigurationViaProperty(fixture);
-
-        testWar(type);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -127,5 +90,18 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
         }
         container.getSystemProperties().put("derby.system.home", getTestData().configurationHome);
         container.getSystemProperties().put("derby.stream.error.logSeverityLevel", "0");
+    }
+
+    /**
+     * Adds datasource and Tests servlet.
+     * @param fixture Datasource definition.
+     * @param type WAR type.
+     * @throws MalformedURLException If URL cannot be built.
+     */
+    protected void testServletThatIssuesGetConnectionFrom(DataSourceFixture fixture, String type)
+        throws MalformedURLException
+    {
+        addDataSourceToConfigurationViaProperty(fixture);
+        testWar(type);
     }
 }

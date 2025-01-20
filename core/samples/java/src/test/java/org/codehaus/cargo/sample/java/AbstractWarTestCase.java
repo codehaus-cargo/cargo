@@ -23,26 +23,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 
 /**
  * Abstract test case for testing WARs on a container.
  */
-public abstract class AbstractWarTestCase extends AbstractCargoTestCase
+public abstract class AbstractWarTestCase extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public AbstractWarTestCase(String testName, EnvironmentTestData testData)
-        throws Exception
+    public AbstractWarTestCase()
     {
-        super(testName, testData);
+        this.addValidator(new HasWarSupportValidator());
     }
 
     /**
@@ -52,9 +49,7 @@ public abstract class AbstractWarTestCase extends AbstractCargoTestCase
      */
     protected void testWar(String type) throws MalformedURLException
     {
-        Deployable war =
-            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
-                .getTestDataFileFor(type + "-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile(type + "-war", DeployableType.WAR);
 
         String page;
         if ("simple".equals(type))

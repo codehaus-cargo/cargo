@@ -21,24 +21,17 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
 
-import junit.framework.Test;
-
-import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasPortOffsetValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for port offset support.
  */
-public class PortOffsetContainerTest extends AbstractCargoTestCase
+public class PortOffsetContainerTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
      * Offset.
@@ -46,60 +39,28 @@ public class PortOffsetContainerTest extends AbstractCargoTestCase
     private static final String OFFSET = "20";
 
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public PortOffsetContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public PortOffsetContainerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that run on containers supporting offset configuration.");
-
-        suite.addTestSuite(PortOffsetContainerTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasPortOffsetValidator(ConfigurationType.STANDALONE),
-            new HasWarSupportValidator()});
-        return suite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        System.setProperty(GeneralPropertySet.PORT_OFFSET, OFFSET);
-        Configuration configuration = createConfiguration(ConfigurationType.STANDALONE);
-        System.clearProperty(GeneralPropertySet.PORT_OFFSET);
-        setContainer(createContainer(configuration));
+        this.addValidator(new HasWarSupportValidator());
+        this.addValidator(new HasPortOffsetValidator(ConfigurationType.STANDALONE));
     }
 
     /**
      * Start container with port offset.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testStartWithPortOffset() throws Exception
     {
+        getLocalContainer().getConfiguration().setProperty(GeneralPropertySet.PORT_OFFSET, OFFSET);
+
         int offsetValue = Integer.valueOf(OFFSET);
         int portWithOffset = getTestData().port + offsetValue;
 
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-                getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
-
+        WAR war = (WAR) this.createDeployableFromTestdataFile("simple-war", DeployableType.WAR);
         getLocalContainer().getConfiguration().addDeployable(war);
 
         URL warPingURL = new URL("http://localhost:" + portWithOffset + "/simple-war/index.jsp");

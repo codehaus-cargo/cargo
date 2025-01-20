@@ -1260,7 +1260,6 @@
 
   <modules>
     <module>java</module>
-    <module>junit5</module>
   </modules>
 
   <properties>

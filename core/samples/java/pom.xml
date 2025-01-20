@@ -29,8 +29,9 @@
   <description>Sample application that exercises the Cargo Java API</description>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${cargo.archetypes-junit.version}</version>
     </dependency>
   </dependencies>
   <build>
@@ -50,26 +51,26 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includeJUnit5Engines>
+            <engine>junit-jupiter</engine>
+          </includeJUnit5Engines>
+          <excludeJUnit5Engines>
+            <engine>junit-vintage</engine>
+          </excludeJUnit5Engines>
+          <!--
+            Show the CargoTestCase DisplayName, so that the XML test reports differentiate between
+            the containers and container types the test instances were run on
+            -->
+          <statelessTestsetReporter
+            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
+            <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
+          </statelessTestsetReporter>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-  <!--
-    Re-running failing tests with the Maven Surefire plugin requires JUnit 4+.
-    -->
-  <profiles>
-    <profile>
-      <id>surefire.rerunFailingTestsCount</id>
-      <activation>
-        <property>
-          <name>surefire.rerunFailingTestsCount</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.13.2</version>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
 </project>

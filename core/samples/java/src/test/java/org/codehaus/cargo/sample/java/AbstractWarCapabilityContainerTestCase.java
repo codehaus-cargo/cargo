@@ -19,11 +19,12 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 
-import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Abstract test case for container with WAR capabilities.
@@ -31,21 +32,33 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWarTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public AbstractWarCapabilityContainerTestCase(String testName, EnvironmentTestData testData)
-        throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        super(testName, testData);
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
+
+        if (testMethod != null
+            && "testStartWithOneExpandedWarDeployed".equals(testMethod.getName()))
+        {
+            // The Apache Geronimo server doesn't support expanded WARs
+            if ("geronimo".equals(containerId))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * Deploy WAR statically.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDeployWarStatically() throws Exception
     {
         testWar("simple");
@@ -55,21 +68,15 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
      * Test start with one expanded WAR.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testStartWithOneExpandedWarDeployed() throws Exception
     {
-        // The Apache Geronimo server doesn't support expanded WARs
-        if (getContainer().getId().startsWith("geronimo"))
-        {
-            return;
-        }
-
         String expandedWarDirectory = getFileHandler().append(
             getFileHandler().getParent(getTestData().configurationHome), "expanded-war");
         getFileHandler().explode(getTestData().getTestDataFileFor("expanded-war"),
             expandedWarDirectory);
 
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            expandedWarDirectory, DeployableType.WAR);
+        WAR war = (WAR) this.createDeployable(expandedWarDirectory, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

@@ -19,84 +19,56 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
-
-import junit.framework.Test;
 
 import org.codehaus.cargo.container.Container;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
  * Test for extra classpath support.
  */
-public class ExtraClasspathOnStandaloneConfigurationTest extends
-    AbstractCargoTestCase
+public class ExtraClasspathOnStandaloneConfigurationTest
+    extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public ExtraClasspathOnStandaloneConfigurationTest(String testName,
-        EnvironmentTestData testData)
-        throws Exception
+    public ExtraClasspathOnStandaloneConfigurationTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasWarSupportValidator());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void setUp() throws Exception
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers to test extra classpath");
-
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // We exclude geronimo1x as it doesn't support extra classpath
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("geronimo1x");
-
-        suite.addTestSuite(ExtraClasspathOnStandaloneConfigurationTest.class, new Validator[] {
-            new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator(),
-            new HasWarSupportValidator()}, excludedContainerIds);
-        return suite;
+        return !"geronimo1x".equals(containerId);
     }
 
     /**
      * Tests that a servlet has access to a class in added to the extraclasspath
      * @throws MalformedURLException If the WAR URL cannot be built.
      */
+    @CargoTestCase
     public void testLoadClass() throws MalformedURLException
     {
-        Deployable war =
-            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
-                .getTestDataFileFor("classpath-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile("classpath-war", DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

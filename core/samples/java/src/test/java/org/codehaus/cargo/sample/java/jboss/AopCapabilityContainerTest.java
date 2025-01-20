@@ -22,20 +22,13 @@ package org.codehaus.cargo.sample.java.jboss;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.validator.HasDeployableSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for JBoss AOP support.
@@ -49,62 +42,27 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
         "jboss.aop:service=AspectManager";
 
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public AopCapabilityContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public AopCapabilityContainerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite("Test that verifies that deployment of AOP archive work on local "
-                + "installed JBoss containers");
-
-        suite.addTestSuite(AopCapabilityContainerTest.class, new Validator[] {
-            new StartsWithContainerValidator("jboss"),
-            new HasDeployableSupportValidator(DeployableType.AOP),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()
-        });
-
-        return suite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        this.addValidator(new HasDeployableSupportValidator(DeployableType.AOP));
     }
 
     /**
      * Test static AOP deployment.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDeployAopStatically() throws Exception
     {
-        Deployable aop =
-            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
-                .getTestDataFileFor("simple-aop"), DeployableType.AOP);
+        Deployable aop = this.createDeployableFromTestdataFile("simple-aop", DeployableType.AOP);
 
         getLocalContainer().getConfiguration().addDeployable(aop);
 
         getLocalContainer().start();
-        assertEquals(State.STARTED, getContainer().getState());
+        Assertions.assertEquals(State.STARTED, getContainer().getState());
 
         // We're verifying that the AOP is successfully deployed by querying for the defined
         // pointcut name via jmx
@@ -114,8 +72,8 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
             (String) server.invoke(objectName, "pointcuts", new Object[] {}, new String[] {});
         getLogger().debug("Registered aop pointcuts: " + pointcuts,
             this.getClass().getName());
-        assertTrue("Dummy cargo aop pointcut not found",
-            pointcuts.contains("cargoTestDataSimpleAop"));
+        Assertions.assertTrue(
+            pointcuts.contains("cargoTestDataSimpleAop"), "Dummy cargo aop pointcut not found");
 
         getLocalContainer().stop();
     }

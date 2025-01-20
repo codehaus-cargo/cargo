@@ -22,24 +22,19 @@ package org.codehaus.cargo.sample.java.jetty;
 import java.io.File;
 import java.net.URL;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.AbstractWarTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for Jetty TLS configuration options.
@@ -47,32 +42,14 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class JettyTLSTest extends AbstractWarTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public JettyTLSTest(String testName, EnvironmentTestData testData) throws Exception
+    public JettyTLSTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Jetty "
-            + "containers supporting TLS configuration.");
-        suite.addTestSuite(JettyTLSTest.class, new Validator[] {
-            new StartsWithContainerValidator("jetty"),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new SupportsPropertyValidator(
-                ConfigurationType.STANDALONE, JettyPropertySet.CONNECTOR_HTTPS_PORT)});
-        return suite;
+        this.addValidator(new StartsWithContainerValidator("jetty"));
+        this.addValidator(new SupportsPropertyValidator(
+            ConfigurationType.STANDALONE, JettyPropertySet.CONNECTOR_HTTPS_PORT));
     }
 
     /**
@@ -82,9 +59,7 @@ public class JettyTLSTest extends AbstractWarTestCase
     protected void configureHttps() throws Exception
     {
         File localhostJksFile = new File("target/test-classes/localhost.jks");
-        assertTrue(localhostJksFile.isFile());
-
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        Assertions.assertTrue(localhostJksFile.isFile());
 
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.CONNECTOR_KEY_STORE_FILE,
@@ -97,6 +72,7 @@ public class JettyTLSTest extends AbstractWarTestCase
      * Test Jetty with both HTTP and HTTPS ports active.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testJettyWithHttpAndHttps() throws Exception
     {
         configureHttps();
@@ -105,9 +81,7 @@ public class JettyTLSTest extends AbstractWarTestCase
         configuration.setProperty(JettyPropertySet.MODULES, configuration.getPropertyValue(
             JettyPropertySet.MODULES).replace("http,", "http,https,"));
 
-        Deployable war =
-            new DefaultDeployableFactory().createDeployable(getContainer().getId(), getTestData()
-                .getTestDataFileFor("simple-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile("simple-war", DeployableType.WAR);
         configuration.addDeployable(war);
 
         URL warHttpPingURL =
@@ -128,6 +102,7 @@ public class JettyTLSTest extends AbstractWarTestCase
      * Test Jetty with only HTTPS active.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testJettyWithHttpsOnly() throws Exception
     {
         configureHttps();

@@ -19,21 +19,14 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for datasource with XA transaction emulation capabilities.
@@ -42,89 +35,44 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
     AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public XATransactionEmulationDataSourceOnStandaloneConfigurationTest(String testName,
-        EnvironmentTestData testData) throws Exception
+    public XATransactionEmulationDataSourceOnStandaloneConfigurationTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasXAEmulationValidator(ConfigurationType.STANDALONE));
     }
 
     /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public static Test suite() throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        CargoTestSuite suite =
-            new CargoTestSuite(
-                "Tests that run on local containers supporting DataSource and WAR deployments");
-
-        // We exclude Geronimo, JBoss, WildFly 10.x and WilFly 14.x onwards and GlassFish 7.x and
-        // 8.x as these doesn't support XA transaction emulation the way Codehaus Cargo tests it
-        // (using an old version of Spring)
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("geronimo2x");
-        excludedContainerIds.add("geronimo3x");
-        excludedContainerIds.add("glassfish7x");
-        excludedContainerIds.add("glassfish8x");
-        excludedContainerIds.add("jboss3x");
-        excludedContainerIds.add("jboss4x");
-        excludedContainerIds.add("jboss42x");
-        excludedContainerIds.add("jboss5x");
-        excludedContainerIds.add("jboss51x");
-        excludedContainerIds.add("jboss6x");
-        excludedContainerIds.add("jboss61x");
-        excludedContainerIds.add("jboss7x");
-        excludedContainerIds.add("jboss71x");
-        excludedContainerIds.add("jboss72x");
-        excludedContainerIds.add("jboss73x");
-        excludedContainerIds.add("jboss74x");
-        excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("wildfly10x");
-        excludedContainerIds.add("wildfly14x");
-        excludedContainerIds.add("wildfly15x");
-        excludedContainerIds.add("wildfly16x");
-        excludedContainerIds.add("wildfly17x");
-        excludedContainerIds.add("wildfly18x");
-        excludedContainerIds.add("wildfly19x");
-        excludedContainerIds.add("wildfly20x");
-        excludedContainerIds.add("wildfly21x");
-        excludedContainerIds.add("wildfly22x");
-        excludedContainerIds.add("wildfly23x");
-        excludedContainerIds.add("wildfly24x");
-        excludedContainerIds.add("wildfly25x");
-        excludedContainerIds.add("wildfly26x");
-        excludedContainerIds.add("wildfly27x");
-        excludedContainerIds.add("wildfly28x");
-        excludedContainerIds.add("wildfly29x");
-        excludedContainerIds.add("wildfly30x");
-        excludedContainerIds.add("wildfly31x");
-        excludedContainerIds.add("wildfly32x");
-        excludedContainerIds.add("wildfly33x");
-        excludedContainerIds.add("wildfly34x");
-        excludedContainerIds.add("wildfly35x");
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
 
         // Jakarta EE versions of Payara do not support XA transaction emulation
         // the way Codehaus Cargo tests it
         if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
         {
-            excludedContainerIds.add("payara");
+            return false;
         }
 
-        suite.addTestSuite(XATransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
-            new Validator[] {
-                new IsInstalledLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasWarSupportValidator(),
-                new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXAEmulationValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
-        return suite;
+        // We exclude Geronimo, JBoss, WildFly 10.x and WilFly 14.x onwards and GlassFish 7.x and
+        // 8.x as these doesn't support XA transaction emulation the way Codehaus Cargo tests it
+        // (using an old version of Spring)
+        return this.isNotContained(containerId,
+            "geronimo2x", "geronimo3x",
+            "glassfish7x", "glassfish8x",
+            "jboss3x", "jboss4x", "jboss42x", "jboss5x", "jboss51x", "jboss6x", "jboss61x",
+                "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
+            "wildfly10x", "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x",
+                "wildfly19x", "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x",
+                "wildfly25x", "wildfly26x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x",
+                "wildfly31x", "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x");
     }
 
     /**
@@ -132,6 +80,7 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
      * XA transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
+    @CargoTestCase
     public void testUserConfiguresDriverAndRequestsDataSourceWithXaTransactionSupport()
         throws MalformedURLException
     {

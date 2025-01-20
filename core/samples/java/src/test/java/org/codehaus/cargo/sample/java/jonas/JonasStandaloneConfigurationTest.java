@@ -25,59 +25,33 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test the JOnAS-specific standalone local configuration options.
  */
-public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
+public class JonasStandaloneConfigurationTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public JonasStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public JonasStandaloneConfigurationTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite("Test that verifies JOnAS-specific standalone local configuration "
-                + "options");
-
-        suite.addTestSuite(JonasStandaloneConfigurationTest.class, new Validator[] {
-            new StartsWithContainerValidator("jonas"),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()
-        });
-
-        return suite;
+        this.addValidator(new StartsWithContainerValidator("jonas"));
     }
 
     /**
      * Test the method for getting the configurator setter name based on the property name.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testConfiguratorProperties() throws Exception
     {
         System.setProperty(JonasPropertySet.CONFIGURATOR_PREFIX + "ajpPort", "123456");
@@ -159,8 +133,8 @@ public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
                     }
                     else
                     {
-                        assertTrue("Line in file " + serverXmlFile + " contains " + check,
-                            !line.contains(check));
+                        Assertions.assertTrue(!line.contains(check),
+                            "Line in file " + serverXmlFile + " contains " + check);
                     }
                 }
             }
@@ -168,7 +142,7 @@ public class JonasStandaloneConfigurationTest extends AbstractCargoTestCase
 
         if (checkExists)
         {
-            fail("None of the files " + serverXmlFiles + " contains " + check);
+            Assertions.fail("None of the files " + serverXmlFiles + " contains " + check);
         }
     }
 }

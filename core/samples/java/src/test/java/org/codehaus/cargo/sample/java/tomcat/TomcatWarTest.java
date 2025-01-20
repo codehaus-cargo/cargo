@@ -19,75 +19,50 @@
  */
 package org.codehaus.cargo.sample.java.tomcat;
 
+import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for Tomcat WARs.
  */
-public class TomcatWarTest extends AbstractCargoTestCase
+public class TomcatWarTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public TomcatWarTest(String testName, EnvironmentTestData testData) throws Exception
+    public TomcatWarTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        // We exclude tomcat4x container as it does not support context.xml files
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("tomcat4x");
-
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that can run on Tomcat containers supporting META-INF/context.xml files");
-        suite.addTestSuite(TomcatWarTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat", "tomee"),
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
-        return suite;
+        this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void setUp() throws Exception
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
+        // We exclude tomcat4x container as it does not support context.xml files
+        return !"tomcat4x".equals(containerId);
     }
 
     /**
      * Test WAR with a <code>context.xml</code> file.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testWarWithContextXmlFile() throws Exception
     {
         // Copies the tomcat context war in order to rename it so that it matches the context
@@ -97,8 +72,7 @@ public class TomcatWarTest extends AbstractCargoTestCase
         getFileHandler().copyFile(
             getTestData().getTestDataFileFor("tomcatcontext-war"), artifactFile);
 
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            artifactFile, DeployableType.WAR);
+        WAR war = (WAR) this.createDeployable(artifactFile, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
@@ -116,6 +90,7 @@ public class TomcatWarTest extends AbstractCargoTestCase
      * Test expanded WAR with a <code>context.xml</code> file.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testExpandedWarWithContextXmlFile() throws Exception
     {
         String expandedWarDirectory = getFileHandler().append(
@@ -123,8 +98,7 @@ public class TomcatWarTest extends AbstractCargoTestCase
         getFileHandler().explode(getTestData().getTestDataFileFor("tomcatcontext-war"),
             expandedWarDirectory);
 
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            expandedWarDirectory, DeployableType.WAR);
+        WAR war = (WAR) this.createDeployable(expandedWarDirectory, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

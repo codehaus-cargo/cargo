@@ -19,23 +19,15 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
-import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -44,50 +36,28 @@ import org.codehaus.cargo.util.CargoException;
 public class WarExtraClasspathTest extends AbstractCargoTestCase
 {
     /**
-     * Initializes the test case.
-     * 
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public WarExtraClasspathTest(String testName, EnvironmentTestData testData) throws Exception
+    public WarExtraClasspathTest()
     {
-        super(testName, testData);
+        this.addValidator(new StartsWithContainerValidator("jetty", "tomcat", "liberty"));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void setUp() throws Exception
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * 
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers to test extra classpath");
-
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // Jetty 5.x, Tomcat 4.x and Tomcat 5.x do not support extra classpath.
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jetty5x");
-        excludedContainerIds.add("tomcat4x");
-        excludedContainerIds.add("tomcat5x");
-
-        suite.addTestSuite(WarExtraClasspathTest.class, new Validator[] {
-            new StartsWithContainerValidator("jetty", "tomcat", "liberty"),
-            new HasWarSupportValidator(),
-            new IsInstalledLocalContainerValidator(), new HasStandaloneConfigurationValidator()},
-            excludedContainerIds);
-        return suite;
+        return this.isNotContained(containerId,
+            "jetty5x",
+            "tomcat4x", "tomcat5x");
     }
 
     /**
@@ -95,6 +65,7 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
      * 
      * @throws MalformedURLException If the WAR URL cannot be built.
      */
+    @CargoTestCase
     public void testLoadClass() throws MalformedURLException
     {
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
@@ -104,9 +75,7 @@ public class WarExtraClasspathTest extends AbstractCargoTestCase
                 + "location of simple-jar");
         }
 
-        WAR war =
-            (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-                getTestData().getTestDataFileFor("classpath-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile("classpath-war", DeployableType.WAR);
         war.setExtraClasspath(new String[] {simpleJar});
 
         getLocalContainer().getConfiguration().addDeployable(war);

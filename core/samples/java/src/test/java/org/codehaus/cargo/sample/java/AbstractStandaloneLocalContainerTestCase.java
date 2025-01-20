@@ -17,13 +17,13 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.junit5;
+package org.codehaus.cargo.sample.java;
 
-import java.lang.reflect.Method;
-
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.junit.jupiter.api.extension.ExtensionContext;
+
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
+import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
 
 /**
  * Abstract test case for testing WARs on a container.
@@ -31,17 +31,13 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 public abstract class AbstractStandaloneLocalContainerTestCase extends AbstractCargoTestCase
 {
     /**
-     * {@inheritDoc}
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    @Override
-    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    public AbstractStandaloneLocalContainerTestCase()
     {
-        if (!containerType.isLocal())
-        {
-            return false;
-        }
-        return AbstractCargoTestCase.CONFIGURATION_FACTORY.isConfigurationRegistered(
-            containerId, containerType, ConfigurationType.STANDALONE);
+        this.addValidator(new HasStandaloneConfigurationValidator());
+        this.addValidator(new IsLocalContainerValidator());
     }
 
     /**
@@ -50,6 +46,7 @@ public abstract class AbstractStandaloneLocalContainerTestCase extends AbstractC
     @Override
     public void setUp(
         CargoTestCase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
+        throws Exception
     {
         super.setUp(cargoContext, testContext);
         setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));

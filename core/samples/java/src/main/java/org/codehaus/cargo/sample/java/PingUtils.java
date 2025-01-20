@@ -22,7 +22,7 @@ package org.codehaus.cargo.sample.java;
 import java.net.URL;
 import java.util.Map;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.util.CargoException;
@@ -31,12 +31,20 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Utilities to ping URLs. Useful for the tests.
  */
-public class PingUtils extends Assert
+public final class PingUtils
 {
     /**
      * Timeout (in milliseconds)
      */
     private static final int TIMEOUT = 20000;
+
+    /**
+     * Utility classes should not have a public or default constructor.
+     */
+    private PingUtils()
+    {
+        // Empty
+    }
 
     /**
      * Ping a container and check the result.
@@ -83,19 +91,19 @@ public class PingUtils extends Assert
 
         if (expectTrue)
         {
-            assertTrue(text.toString(), success);
+            Assertions.assertTrue(success, text.toString());
         }
         else
         {
-            assertFalse(text.toString(), success);
+            Assertions.assertFalse(success, text.toString());
         }
 
         if (expectedContent != null)
         {
             String content = result.responseBody;
-            assertNotNull("result.responseBody is null", content);
-            assertTrue(content + " does not contain " + expectedContent,
-                content.contains(expectedContent));
+            Assertions.assertNotNull(content, "result.responseBody is null");
+            Assertions.assertTrue(content.contains(expectedContent),
+                content + " does not contain " + expectedContent);
         }
     }
 

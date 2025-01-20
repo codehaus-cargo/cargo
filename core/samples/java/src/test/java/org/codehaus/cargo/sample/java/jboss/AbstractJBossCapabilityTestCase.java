@@ -44,25 +44,23 @@ import javax.naming.NamingException;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
+import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.util.CargoException;
 
 /**
  * Abstract test case for JBoss capabilities.
  */
-public abstract class AbstractJBossCapabilityTestCase extends AbstractCargoTestCase
+public abstract class AbstractJBossCapabilityTestCase
+    extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public AbstractJBossCapabilityTestCase(String testName, EnvironmentTestData testData)
-        throws Exception
+    public AbstractJBossCapabilityTestCase()
     {
-        super(testName, testData);
+        this.addValidator(new StartsWithContainerValidator("jboss", "wildfly"));
     }
 
     /**

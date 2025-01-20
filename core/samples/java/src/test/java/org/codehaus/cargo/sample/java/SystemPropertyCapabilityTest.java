@@ -22,70 +22,38 @@ package org.codehaus.cargo.sample.java;
 import java.net.URL;
 import java.util.UUID;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for system property support.
  */
-public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
+public class SystemPropertyCapabilityTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public SystemPropertyCapabilityTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public SystemPropertyCapabilityTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that run on local containers supporting system properties");
-
-        suite.addTestSuite(SystemPropertyCapabilityTest.class, new Validator[] {
-            new IsInstalledLocalContainerValidator(),
-            new HasWarSupportValidator()});
-        return suite;
+        this.addValidator(new HasWarSupportValidator());
     }
 
     /**
      * Test whether setting system properties is working properly.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testSystemProperty() throws Exception
     {
         String random = UUID.randomUUID().toString();
 
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("systemproperty-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile(
+            "systemproperty-war", DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 
@@ -94,11 +62,11 @@ public class SystemPropertyCapabilityTest extends AbstractCargoTestCase
 
         getInstalledLocalContainer().getSystemProperties().put("random", random);
         getLocalContainer().start();
-        assertEquals(State.STARTED, getContainer().getState());
+        Assertions.assertEquals(State.STARTED, getContainer().getState());
         PingUtils.assertPingTrue(pingURL.getPath() + " not started", random, pingURL, getLogger());
 
         getLocalContainer().stop();
-        assertEquals(State.STOPPED, getContainer().getState());
+        Assertions.assertEquals(State.STOPPED, getContainer().getState());
         PingUtils.assertPingFalse(pingURL.getPath() + " not stopped", pingURL, getLogger());
     }
 

@@ -26,64 +26,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Test;
-
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.property.User;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.HasAuthenticationSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
+import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
 
 /**
- * Validates WAR archives with authentication.
+ * Validates deployment of WAR archives with authentication.
  */
-public class WarAuthenticationTest extends AbstractCargoTestCase
+public class WarAuthenticationTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public WarAuthenticationTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public WarAuthenticationTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite("Tests that run on local containers supporting "
-            + "WAR deployments and which support authentication");
-
-        suite.addTestSuite(WarAuthenticationTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasWarSupportValidator(),
-            new HasAuthenticationSupportValidator(ConfigurationType.STANDALONE)});
-        return suite;
+        this.addValidator(new HasWarSupportValidator());
+        this.addValidator(new SupportsPropertyValidator(
+            ConfigurationType.STANDALONE, ServletPropertySet.USERS));
     }
 
     /**
      * Test authenticated WAR.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testExecutionWithAuthenticatedWar() throws Exception
     {
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("authentication-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile(
+            "authentication-war", DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

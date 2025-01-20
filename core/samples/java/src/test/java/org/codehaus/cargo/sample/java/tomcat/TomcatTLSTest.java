@@ -21,20 +21,16 @@ package org.codehaus.cargo.sample.java.tomcat;
 
 import java.io.File;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.sample.java.AbstractWarTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for Tomcat TLS configuration options.
@@ -42,46 +38,27 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class TomcatTLSTest extends AbstractWarTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public TomcatTLSTest(String testName, EnvironmentTestData testData) throws Exception
+    public TomcatTLSTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local Tomcat "
-            + "containers supporting TLS configuration.");
-        suite.addTestSuite(TomcatTLSTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat", "tomee"),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new SupportsPropertyValidator(
-                ConfigurationType.STANDALONE, TomcatPropertySet.CONNECTOR_KEY_STORE_FILE)});
-        return suite;
+        this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
+        this.addValidator(new SupportsPropertyValidator(
+            ConfigurationType.STANDALONE, TomcatPropertySet.CONNECTOR_KEY_STORE_FILE));
     }
 
     /**
      * Create an package Tomcat container.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testTlsConfigContainer() throws Exception
     {
         File localhostJksFile = new File("target/test-classes/localhost.jks");
-        assertTrue(localhostJksFile.isFile());
+        Assertions.assertTrue(localhostJksFile.isFile());
 
-        LocalConfiguration configuration =
-            (LocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
-        setContainer(createContainer(configuration));
+        LocalConfiguration configuration = this.getLocalContainer().getConfiguration();
 
         // First, create a configuration using the SSL configuration options,
         // then put a WAR on it, finally start it and test for it to be running.

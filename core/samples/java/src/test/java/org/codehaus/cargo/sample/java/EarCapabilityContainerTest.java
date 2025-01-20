@@ -21,66 +21,32 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for EAR support.
  */
-public class EarCapabilityContainerTest extends AbstractCargoTestCase
+public class EarCapabilityContainerTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public EarCapabilityContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public EarCapabilityContainerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that run on containers supporting EAR deployments");
-
-        suite.addTestSuite(EarCapabilityContainerTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasEarSupportValidator()});
-        return suite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        this.addValidator(new HasEarSupportValidator());
     }
 
     /**
      * Start container with an empty EAR.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testStartWithOneEmptyEarDeployed() throws Exception
     {
         // The Apache Geronimo server doesn't like empty EARs
@@ -89,26 +55,25 @@ public class EarCapabilityContainerTest extends AbstractCargoTestCase
             return;
         }
 
-        Deployable ear = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("empty-ear"), DeployableType.EAR);
+        Deployable ear = this.createDeployableFromTestdataFile("simple-ear", DeployableType.EAR);
 
         getLocalContainer().getConfiguration().addDeployable(ear);
 
         getLocalContainer().start();
-        assertEquals(State.STARTED, getContainer().getState());
+        Assertions.assertEquals(State.STARTED, getContainer().getState());
 
         getLocalContainer().stop();
-        assertEquals(State.STOPPED, getContainer().getState());
+        Assertions.assertEquals(State.STOPPED, getContainer().getState());
     }
 
     /**
      * Start container with an EAR containing one WAR.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testStartWithOneEarWithOneWarDeployed() throws Exception
     {
-        Deployable ear = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("simple-ear"), DeployableType.EAR);
+        Deployable ear = this.createDeployableFromTestdataFile("simple-ear", DeployableType.EAR);
 
         getLocalContainer().getConfiguration().addDeployable(ear);
 

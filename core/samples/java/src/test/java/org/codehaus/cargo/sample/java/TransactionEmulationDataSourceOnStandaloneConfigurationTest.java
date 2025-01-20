@@ -19,22 +19,14 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 
-import java.util.Set;
-import java.util.TreeSet;
-
-import junit.framework.Test;
-
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for datasource with transaction emulation capabilities.
@@ -43,58 +35,39 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public TransactionEmulationDataSourceOnStandaloneConfigurationTest(String testName,
-        EnvironmentTestData testData) throws Exception
+    public TransactionEmulationDataSourceOnStandaloneConfigurationTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasXAEmulationValidator(ConfigurationType.STANDALONE));
     }
 
     /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public static Test suite() throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        CargoTestSuite suite =
-            new CargoTestSuite(
-                "Tests that run on local containers supporting DataSource and WAR deployments");
-
-        // We exclude Geronimo 2.x, JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x,
-        // JBoss 7.5.x and GlassFish 7.x and 8.x as these don't support transaction emulation the
-        // way Codehaus Cargo tests it (using an old version of Spring)
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("geronimo2x");
-        excludedContainerIds.add("jboss7x");
-        excludedContainerIds.add("jboss71x");
-        excludedContainerIds.add("jboss72x");
-        excludedContainerIds.add("jboss73x");
-        excludedContainerIds.add("jboss74x");
-        excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("glassfish7x");
-        excludedContainerIds.add("glassfish8x");
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
 
         // Jakarta EE versions of Payara do not support transaction emulation
         // the way Codehaus Cargo tests it
         if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
         {
-            excludedContainerIds.add("payara");
+            return false;
         }
 
-        suite.addTestSuite(TransactionEmulationDataSourceOnStandaloneConfigurationTest.class,
-            new Validator[] {
-                new IsInstalledLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasEarSupportValidator(),
-                new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXAEmulationValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
-        return suite;
+        // We exclude Geronimo 2.x, JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x,
+        // JBoss 7.5.x and GlassFish 7.x and 8.x as these don't support transaction emulation the
+        // way Codehaus Cargo tests it (using an old version of Spring)
+        return this.isNotContained(containerId,
+            "geronimo2x", "jboss7x",
+            "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
+            "glassfish7x", "glassfish8x");
     }
 
     /**
@@ -102,6 +75,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
+    @CargoTestCase
     public void testUserConfiguresDriverAndRequestsDataSourceWithLocalTransactionSupport()
         throws MalformedURLException
     {

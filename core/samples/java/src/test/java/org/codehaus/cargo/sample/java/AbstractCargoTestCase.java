@@ -20,10 +20,16 @@
 package org.codehaus.cargo.sample.java;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Method;
 import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
@@ -33,6 +39,8 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.deployable.Deployable;
+import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.installer.Proxy;
@@ -47,8 +55,11 @@ import org.codehaus.cargo.generic.ContainerFactory;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.generic.configuration.ConfigurationFactory;
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
+import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
+import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
+import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.log.FileLogger;
@@ -56,9 +67,9 @@ import org.codehaus.cargo.util.log.LogLevel;
 import org.codehaus.cargo.util.log.Logger;
 
 /**
- * Abstract test case for Cargo samples.
+ * Abstract test case for Cargo Java API samples.
  */
-public abstract class AbstractCargoTestCase extends TestCase
+public abstract class AbstractCargoTestCase
 {
     /**
      * Container factory.
@@ -75,6 +86,21 @@ public abstract class AbstractCargoTestCase extends TestCase
      * Deployer factory.
      */
     private static final DeployerFactory DEPLOYER_FACTORY = new DefaultDeployerFactory();
+
+    /**
+     * Deployable factory.
+     */
+    private static final DeployableFactory DEPLOYABLE_FACTORY = new DefaultDeployableFactory();
+
+    /**
+     * Nicely formatted test name (with container id and type).
+     */
+    private String name = this.getClass().getName();
+
+    /**
+     * List of {@link Validator} to check for support.
+     */
+    private List<Validator> validators = new ArrayList<Validator>();
 
     /**
      * Container that's currently being tested.
@@ -102,23 +128,90 @@ public abstract class AbstractCargoTestCase extends TestCase
     private ClassLoader classLoader;
 
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Helper function to add a {@link Validator} for support. These are then checked by the
+     * {@link #isSupported(String, ContainerType, Method)} method. Preferably, call this at
+     * object construct.
+     * @param validator {@link Validator} to check on this container and type.
      */
-    public AbstractCargoTestCase(String testName, EnvironmentTestData testData) throws Exception
+    protected void addValidator(Validator validator)
     {
-        super(testName);
+        validators.add(validator);
+    }
 
-        // Save the testData for use by TestCases extending this class
-        this.testData = testData;
+    /**
+     * Helper function to check whether a given string is contained in a set of other strings.
+     * @param toCheck String to look for.
+     * @param checkAgainst Array of strings to check againsti.
+     * @return <code>true</code> if <code>toCheck</code> isn't part of <code>checkAgainst</code>,
+     * <code>false</code> otherwise.
+     */
+    protected boolean isNotContained(String toCheck, String... checkAgainst)
+    {
+        for (String checkAgainstString : checkAgainst)
+        {
+            if (toCheck.equals(checkAgainstString))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if this testcase is supported on this container. The base method checked against the
+     * defined {@link Validator} that have been passed via the {@link #addValidator(Validator)}.
+     * @param containerId Container id.
+     * @param containerType Container type.
+     * @param testMethod Test method.
+     * @return <code>true</code> if this testcase is supported on this container,
+     * <code>false</code> otherwise.
+     */
+    public boolean isSupported(
+        String containerId, ContainerType containerType, Method testMethod)
+    {
+        for (Validator validator : this.validators)
+        {
+            if (!validator.validate(containerId, containerType))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return Nicely formatted test name (with container id and type).
+     */
+    @Override
+    public String toString()
+    {
+        return this.name;
+    }
+
+    /**
+     * Saves the container details from the current invocation context.
+     * @param cargoContext Cargo testcase invocation context.
+     * @param testContext JUnit test context.
+     * @throws Exception If anything goes wrong
+     */
+    public void setUp(
+        CargoTestCase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
+        throws Exception
+    {
+        String containerId = cargoContext.getContainerId();
+        ContainerType containerType = cargoContext.getContainerType();
+        this.name = this.getClass().getName() + " (" + containerId + "," + containerType + ")";
+        String targetDirSuffix = containerId + "/" + containerType.getType()
+            + "/" + this.getClass().getSimpleName()
+                + "/" + testContext.getTestMethod().get().getName() + "/container";
+        this.testData = new EnvironmentTestData(containerId, containerType, targetDirSuffix);
 
         // Ensure target dir exists so that we can create the log file
-        File targetDir = new File(getTestData().configurationHome);
+        File targetDir = new File(this.testData.configurationHome);
         if (targetDir.exists())
         {
-            String configurationHomeNoSlash = getTestData().configurationHome;
+            String configurationHomeNoSlash = this.testData.configurationHome;
             while (configurationHomeNoSlash.endsWith("/"))
             {
                 configurationHomeNoSlash =
@@ -130,7 +223,7 @@ public abstract class AbstractCargoTestCase extends TestCase
         targetDir.mkdirs();
         if (!targetDir.isDirectory())
         {
-            fail("Directory " + targetDir + " does not exist");
+            Assertions.fail("Directory " + targetDir + " does not exist");
         }
 
         this.logger = new FileLogger(new File(targetDir.getParentFile(), "cargo.log"), true);
@@ -138,6 +231,63 @@ public abstract class AbstractCargoTestCase extends TestCase
 
         this.fileHandler = new DefaultFileHandler();
         this.fileHandler.setLogger(this.logger);
+
+        // Set up the thread context classloader for embedded containers. We're doing this here
+        // instead of in the constructor as this needs to be set for each single test as otherwise
+        // the different embedded containers will conflict with each other.
+        if (getTestData().containerType == ContainerType.EMBEDDED)
+        {
+            EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();
+            try
+            {
+                this.classLoader =
+                    resolver.resolveDependencies(testData.containerId, installContainer());
+            }
+            catch (FileNotFoundException e)
+            {
+                Assertions.fail("Cannot create embedded container classloader", e);
+            }
+            if (this.classLoader != null)
+            {
+                Thread.currentThread().setContextClassLoader(this.classLoader);
+            }
+        }
+
+        getLogger().info("Initialised test [" + this.toString() + "]", this.getClass().getName());
+    }
+
+    /**
+     * Stop all running containers.
+     */
+    @AfterEach
+    protected void tearDown()
+    {
+        // Reset context classloader. See the comment in setUp().
+        if (getTestData().containerType == ContainerType.EMBEDDED)
+        {
+            Thread.currentThread().setContextClassLoader(null);
+        }
+
+        // Stop any local container that is still running
+        if (this.container != null && this.container.getType().isLocal())
+        {
+            LocalContainer container = (LocalContainer) this.container;
+            if (!container.getState().isStopped())
+            {
+                getLogger().info(
+                    "Container is in the [" + container.getState() + "] state"
+                        + ", shutting it down now", this.getClass().getName());
+                try
+                {
+                    container.stop();
+                }
+                catch (Throwable t)
+                {
+                    Assertions.fail("Exception stopping container at end of tests: " + t, t);
+                }
+            }
+        }
+        getLogger().info("Ended test [" + this.toString() + "]", this.getClass().getName());
     }
 
     /**
@@ -181,12 +331,37 @@ public abstract class AbstractCargoTestCase extends TestCase
     }
 
     /**
+     * Create a {@link Deployable} for a path.
+     * @param deployablePath Deployable path.
+     * @param deployableType Deployable type.
+     * @return {@link Deployable} for the given path.
+     */
+    protected Deployable createDeployable(String deployablePath, DeployableType deployableType)
+    {
+        return AbstractCargoTestCase.DEPLOYABLE_FACTORY.createDeployable(
+            getContainer().getId(), deployablePath, deployableType);
+    }
+
+    /**
+     * Create a {@link Deployable} for a given test data file from the {@link EnvironmentTestData}.
+     * @param testDataFile Test data file from the {@link EnvironmentTestData}.
+     * @param deployableType Deployable type.
+     * @return {@link Deployable} for the given test data.
+     */
+    protected Deployable createDeployableFromTestdataFile(
+        String testDataFile, DeployableType deployableType)
+    {
+        return this.createDeployable(
+            getTestData().getTestDataFileFor(testDataFile), deployableType);
+    }
+
+    /**
      * Creates a deployer.
      * @param type Deployer type.
      * @param container Container to create a deployer for.
      * @return {@link Deployer} instance for the given {@link Container} and {@link DeployerType}.
      */
-    public Deployer createDeployer(DeployerType type, Container container)
+    protected Deployer createDeployer(DeployerType type, Container container)
     {
         Deployer deployer = DEPLOYER_FACTORY.createDeployer(container, type);
         deployer.setLogger(getLogger());
@@ -199,7 +374,7 @@ public abstract class AbstractCargoTestCase extends TestCase
      * @param container Container to create a deployer for.
      * @return {@link Deployer} instance for the given {@link Container}.
      */
-    public Deployer createDeployer(Container container)
+    protected Deployer createDeployer(Container container)
     {
         Deployer deployer = DEPLOYER_FACTORY.createDeployer(container);
         deployer.setLogger(getLogger());
@@ -212,7 +387,7 @@ public abstract class AbstractCargoTestCase extends TestCase
      * @param type Configuration type.
      * @return {@link Configuration} instance for the given {@link ConfigurationType}.
      */
-    public Configuration createConfiguration(ConfigurationType type)
+    protected Configuration createConfiguration(ConfigurationType type)
     {
         return createConfiguration(type, getTestData().configurationHome);
     }
@@ -224,7 +399,7 @@ public abstract class AbstractCargoTestCase extends TestCase
      * @return {@link Configuration} instance for the given {@link ConfigurationType} created in
      * the given directory.
      */
-    public Configuration createConfiguration(ConfigurationType type, String targetDir)
+    protected Configuration createConfiguration(ConfigurationType type, String targetDir)
     {
         Configuration configuration;
 
@@ -279,7 +454,7 @@ public abstract class AbstractCargoTestCase extends TestCase
      * @param configuration Container configuration.
      * @return {@link Container} for the given {@link Configuration}.
      */
-    public Container createContainer(Configuration configuration)
+    protected Container createContainer(Configuration configuration)
     {
         return createContainer(getTestData().containerType, configuration);
     }
@@ -291,7 +466,7 @@ public abstract class AbstractCargoTestCase extends TestCase
      * @return {@link Container} of a given {@link ContainerType} for the given
      * {@link Configuration}.
      */
-    public Container createContainer(ContainerType type, Configuration configuration)
+    protected Container createContainer(ContainerType type, Configuration configuration)
     {
         Container container =
             CONTAINER_FACTORY.createContainer(getTestData().containerId, type, configuration);
@@ -305,6 +480,30 @@ public abstract class AbstractCargoTestCase extends TestCase
         }
 
         return container;
+    }
+
+    /**
+     * @return the test data such as the target directory where to install configurations, etc.
+     */
+    protected EnvironmentTestData getTestData()
+    {
+        return this.testData;
+    }
+
+    /**
+     * @return logger.
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
+     * @return file handler.
+     */
+    protected FileHandler getFileHandler()
+    {
+        return this.fileHandler;
     }
 
     /**
@@ -335,99 +534,6 @@ public abstract class AbstractCargoTestCase extends TestCase
         logFile.delete();
         container.setOutput(logFile.getPath());
         container.setTimeout(getTestData().containerTimeout);
-    }
-
-    /**
-     * @return the test data such as the target directory where to install configurations, etc.
-     */
-    protected EnvironmentTestData getTestData()
-    {
-        return this.testData;
-    }
-
-    /**
-     * @return logger.
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * @return file handler.
-     */
-    protected FileHandler getFileHandler()
-    {
-        return this.fileHandler;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @return nicely formatted test name (with container id and type).
-     */
-    @Override
-    public String getName()
-    {
-        return super.getName() + " (" + getTestData().containerId + ","
-            + getTestData().containerType + ")";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        getLogger().info("Starting test [" + getName() + "]", this.getClass().getName());
-
-        // Set up the thread context classloader for embedded containers. We're doing this here
-        // instead of in the constructor as this needs to be set for each single test as otherwise
-        // the different embedded containers will conflict with each other.
-        if (getTestData().containerType == ContainerType.EMBEDDED)
-        {
-            EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();
-            this.classLoader =
-                resolver.resolveDependencies(testData.containerId, installContainer());
-            if (this.classLoader != null)
-            {
-                Thread.currentThread().setContextClassLoader(this.classLoader);
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void tearDown()
-    {
-        // Reset context classloader. See the comment in setUp().
-        if (getTestData().containerType == ContainerType.EMBEDDED)
-        {
-            Thread.currentThread().setContextClassLoader(null);
-        }
-
-        // Stop any local container that is still running
-        if (this.container != null && this.container.getType().isLocal())
-        {
-            LocalContainer container = (LocalContainer) this.container;
-            if (!container.getState().isStopped())
-            {
-                getLogger().info(
-                    "Container is in the [" + container.getState() + "] state"
-                        + ", shutting it down now", this.getClass().getName());
-                try
-                {
-                    container.stop();
-                }
-                catch (Throwable t)
-                {
-                    getLogger().warn("Exception stopping container at end of tests: " + t,
-                        this.getClass().getName());
-                }
-            }
-        }
-        getLogger().info("Ending test [" + getName() + "]", this.getClass().getName());
     }
 
     /**

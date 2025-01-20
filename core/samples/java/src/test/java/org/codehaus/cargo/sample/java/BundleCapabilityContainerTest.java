@@ -23,99 +23,65 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.State;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasBundleSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for OSGi bundle support.
  */
-public class BundleCapabilityContainerTest extends AbstractCargoTestCase
+public class BundleCapabilityContainerTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public BundleCapabilityContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public BundleCapabilityContainerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that run on containers supporting OSGi deployments");
-
-        suite.addTestSuite(BundleCapabilityContainerTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasBundleSupportValidator()});
-        return suite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        this.addValidator(new HasBundleSupportValidator());
     }
 
     /**
      * Test bundle deployment.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testStartWithBundleDeployed() throws Exception
     {
         String targetFile = System.getProperty("cargo.samples.bundle.targetFile");
-        assertTrue("cargo.samples.bundle.targetFile not set!",
-            targetFile != null && !targetFile.isEmpty());
+        Assertions.assertTrue(targetFile != null && !targetFile.isEmpty(),
+            "cargo.samples.bundle.targetFile not set!");
 
         File bundleOutput = new File(targetFile);
 
         if (bundleOutput.exists())
         {
             bundleOutput.delete();
-            assertFalse("Cannot delete " + bundleOutput, bundleOutput.exists());
+            Assertions.assertFalse(bundleOutput.exists(), "Cannot delete " + bundleOutput);
         }
 
-        Deployable bundle = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("simple-bundle"), DeployableType.BUNDLE);
+        Deployable bundle =
+            this.createDeployableFromTestdataFile("simple-bundle", DeployableType.BUNDLE);
 
         getLocalContainer().getConfiguration().addDeployable(bundle);
         getInstalledLocalContainer().getSystemProperties().put(
             "cargo.samples.bundle.targetFile", targetFile);
 
         getLocalContainer().start();
-        assertEquals(State.STARTED, getContainer().getState());
+        Assertions.assertEquals(State.STARTED, getContainer().getState());
         final long timeout = System.currentTimeMillis() + 30 * 1000;
         while (!bundleOutput.isFile() && System.currentTimeMillis() < timeout)
         {
             // Wait up to timeout while the bundle output is not here
             Thread.sleep(1000);
         }
-        assertTrue(bundleOutput + " does not exist!", bundleOutput.isFile());
+        Assertions.assertTrue(bundleOutput.isFile(), bundleOutput + " does not exist!");
         BufferedReader reader = new BufferedReader(new FileReader(bundleOutput));
-        assertEquals("Hello, World", reader.readLine());
+        Assertions.assertEquals("Hello, World", reader.readLine());
         reader.close();
         reader = null;
         System.gc();
@@ -127,9 +93,9 @@ public class BundleCapabilityContainerTest extends AbstractCargoTestCase
         }
 
         getLocalContainer().stop();
-        assertEquals(State.STOPPED, getContainer().getState());
+        Assertions.assertEquals(State.STOPPED, getContainer().getState());
         reader = new BufferedReader(new FileReader(bundleOutput));
-        assertEquals("Goodbye, World", reader.readLine());
+        Assertions.assertEquals("Goodbye, World", reader.readLine());
         reader.close();
         reader = null;
         System.gc();

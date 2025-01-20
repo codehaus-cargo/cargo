@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.junit5;
+package org.codehaus.cargo.sample.java;
 
 import java.lang.reflect.Method;
 

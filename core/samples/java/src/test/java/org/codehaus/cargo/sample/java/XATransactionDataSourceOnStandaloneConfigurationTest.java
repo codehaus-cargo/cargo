@@ -19,21 +19,14 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasXASupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for datasource with XA capabilities.
@@ -42,50 +35,35 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public XATransactionDataSourceOnStandaloneConfigurationTest(String testName,
-        EnvironmentTestData testData) throws Exception
+    public XATransactionDataSourceOnStandaloneConfigurationTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasXASupportValidator(ConfigurationType.STANDALONE));
     }
 
     /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public static Test suite() throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers supporting XADataSource "
-                + "configured DataSources and WAR deployments");
-
-        // We exclude GlassFish 7.x and 8.x as these doesn't support XA transaction emulation the
-        // way Codehaus Cargo tests it (using an old version of Spring)
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("glassfish7x");
-        excludedContainerIds.add("glassfish8x");
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
 
         // Jakarta EE versions of Payara do not support XA transaction emulation
         // the way Codehaus Cargo tests it
         if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
         {
-            excludedContainerIds.add("payara");
+            return false;
         }
 
-        suite.addTestSuite(XATransactionDataSourceOnStandaloneConfigurationTest.class,
-            new Validator[] {
-                new IsInstalledLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasWarSupportValidator(),
-                new HasDataSourceSupportValidator(ConfigurationType.STANDALONE),
-                new HasXASupportValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
-        return suite;
+        // We exclude GlassFish 7.x and 8.x as these doesn't support XA transaction emulation the
+        // way Codehaus Cargo tests it (using an old version of Spring)
+        return this.isNotContained(containerId, "glassfish7x", "glassfish8x");
     }
 
     /**
@@ -93,6 +71,7 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
+    @CargoTestCase
     public void testUserConfiguresXADataSourceAndRequestsDataSourceWithXaTransactionSupport()
         throws MalformedURLException
     {

@@ -22,19 +22,20 @@ package org.codehaus.cargo.sample.java;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
-
-import junit.framework.TestCase;
 
 /**
  * Cleans up older versions of container artifacts in the <code>installs</code> directory.
  */
-public class CleanupContainerArtifactsTest extends TestCase
+public class CleanupContainerArtifactsTest
 {
     /**
      * Cleans up older versions of container artifacts in the <code>installs</code> directory.
      */
+    @Test
     public void testCleanupContainerArtifacts()
     {
         File installsDir = new File(System.getProperty("cargo.download.dir"));

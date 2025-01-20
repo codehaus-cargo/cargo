@@ -20,7 +20,6 @@
 package org.codehaus.cargo.sample.java;
 
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
 
@@ -29,28 +28,6 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
  */
 public abstract class AbstractResourceOnStandaloneConfigurationTest extends AbstractWarTestCase
 {
-    /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
-     */
-    public AbstractResourceOnStandaloneConfigurationTest(String testName,
-        EnvironmentTestData testData) throws Exception
-    {
-        super(testName, testData);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
     /**
      * Add resource to configuration using properties.
      * @param fixture Container.

@@ -21,83 +21,42 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
 
-import junit.framework.Test;
-import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.validator.HasSpawnSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for container spawn support.
  */
-public class SpawnContainerTest extends AbstractCargoTestCase
+public class SpawnContainerTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public SpawnContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public SpawnContainerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that run on containers supporting spawned process.");
-
-        suite.addTestSuite(SpawnContainerTest.class, new Validator[] {
-            new IsLocalContainerValidator(),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasSpawnSupportValidator(ConfigurationType.STANDALONE),
-            new HasWarSupportValidator()});
-        return suite;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-
-        Configuration configuration = createConfiguration(ConfigurationType.STANDALONE);
-        configuration.setProperty(GeneralPropertySet.SPAWN_PROCESS, "true");
-
-        Container container = createContainer(configuration);
-        setContainer(container);
-
-        // Disable container output to activate spawn.
-        getLocalContainer().setOutput(null);
+        this.addValidator(new HasWarSupportValidator());
+        this.addValidator(new HasSpawnSupportValidator(ConfigurationType.STANDALONE));
     }
 
     /**
      * Start spawned container.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testStartSpawned() throws Exception
     {
-        Deployable war = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-                getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
+        getLocalContainer().getConfiguration().setProperty(
+            GeneralPropertySet.SPAWN_PROCESS, "true");
+
+        // Disable container output to activate spawn.
+        getLocalContainer().setOutput(null);
+
+        WAR war = (WAR) this.createDeployableFromTestdataFile("simple-war", DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
 

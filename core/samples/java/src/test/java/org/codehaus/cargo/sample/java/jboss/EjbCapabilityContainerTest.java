@@ -19,21 +19,16 @@
  */
 package org.codehaus.cargo.sample.java.jboss;
 
-import java.util.Set;
-import java.util.TreeSet;
-import junit.framework.Test;
+import java.lang.reflect.Method;
 
-import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.junit.jupiter.api.Assertions;
+
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.validator.HasDeployableSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.sample.testdata.ejb.Sample;
 import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
 
@@ -43,54 +38,41 @@ import org.codehaus.cargo.sample.testdata.ejb.SampleHome;
 public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public EjbCapabilityContainerTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public EjbCapabilityContainerTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasDeployableSupportValidator(DeployableType.EJB));
+
+        // We exclude all WildFly containers as these doesn't support remote EJB lookup
+        this.addValidator(new StartsWithContainerValidator("jboss"));
     }
 
     /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public static Test suite() throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // We exclude JBoss 7.x, JBoss 7.1.x, JBoss 7.2.x, JBoss 7.3.x, JBoss 7.4.x, JBoss 7.5.x
         // as well as all WildFly containers as these doesn't support remote EJB lookup
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jboss7x");
-        excludedContainerIds.add("jboss71x");
-        excludedContainerIds.add("jboss72x");
-        excludedContainerIds.add("jboss73x");
-        excludedContainerIds.add("jboss74x");
-        excludedContainerIds.add("jboss75x");
-
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that can run on containers supporting EJB deployments");
-        suite.addTestSuite(EjbCapabilityContainerTest.class, new Validator[] {
-            new StartsWithContainerValidator("jboss"),
-            new HasDeployableSupportValidator(DeployableType.EJB),
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()}, excludedContainerIds);
-        return suite;
+        return this.isNotContained(containerId,
+            "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x");
     }
 
     /**
      * Test static EJB deployment.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDeployEjbStatically() throws Exception
     {
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-
-        Deployable ejb = new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("simple-ejb"), DeployableType.EJB);
+        Deployable ejb = this.createDeployableFromTestdataFile("simple-ejb", DeployableType.EJB);
 
         getLocalContainer().getConfiguration().addDeployable(ejb);
 
@@ -98,7 +80,7 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
 
         SampleHome home = jndiLookup("SampleEJB");
         Sample sample = home.create();
-        assertTrue("Should have returned true", sample.isWorking());
+        Assertions.assertTrue(sample.isWorking(), "Sample EJB not working");
 
         getLocalContainer().stop();
     }

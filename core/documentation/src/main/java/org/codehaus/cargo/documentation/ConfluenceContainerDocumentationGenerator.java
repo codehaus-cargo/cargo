@@ -83,7 +83,6 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationCapabilityFa
 import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployer.DefaultDeployerFactory;
 import org.codehaus.cargo.generic.deployer.DeployerFactory;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
 import org.codehaus.cargo.sample.java.EnvironmentTestData;
 import org.codehaus.cargo.sample.java.JmsQueueResourceOnStandaloneConfigurationTest;
 import org.codehaus.cargo.sample.java.JmsTopicResourceOnStandaloneConfigurationTest;
@@ -367,67 +366,30 @@ public class ConfluenceContainerDocumentationGenerator
             if (properties.keySet().contains(ResourcePropertySet.RESOURCE))
             {
                 output.append("/)");
-                String containerId = System.getProperty(
-                    CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS);
-                String deployables = System.getProperty("cargo.testdata.deployables");
-                String targetDir = System.getProperty("cargo.target.dir");
-                try
-                {
-                    File dummy = new File(System.getProperty("java.io.tmpdir"), "cargo-dummy");
-                    dummy.mkdirs();
-                    dummy.deleteOnExit();
-                    File dummyDeployables = new File(dummy, "deployables");
-                    dummyDeployables.mkdirs();
-                    dummyDeployables.deleteOnExit();
-                    File dummyJakartaEeDeployables = new File(dummy, "deployables-jakarta-ee");
-                    dummyJakartaEeDeployables.mkdirs();
-                    dummyJakartaEeDeployables.deleteOnExit();
+                File dummy = new File(System.getProperty("java.io.tmpdir"), "cargo-dummy");
+                dummy.mkdirs();
+                dummy.deleteOnExit();
+                File dummyDeployables = new File(dummy, "deployables");
+                dummyDeployables.mkdirs();
+                dummyDeployables.deleteOnExit();
+                File dummyJakartaEeDeployables = new File(dummy, "deployables-jakarta-ee");
+                dummyJakartaEeDeployables.mkdirs();
+                dummyJakartaEeDeployables.deleteOnExit();
 
-                    System.setProperty(
-                        CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS, container.getId());
-                    System.setProperty(
-                        "cargo.testdata.deployables", dummyDeployables.getAbsolutePath());
-                    System.setProperty("cargo.target.dir", System.getProperty("java.io.tmpdir"));
-                    if (JmsQueueResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
-                    {
-                        output.append("^Q^");
-                    }
-                    if (JmsTopicResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
-                    {
-                        output.append("^T^");
-                    }
-                    if (MailResourceOnStandaloneConfigurationTest.suite().countTestCases() == 0)
-                    {
-                        output.append("^M^");
-                    }
-                }
-                finally
+                if (!new JmsQueueResourceOnStandaloneConfigurationTest().isSupported(
+                    container.getId(), ContainerType.INSTALLED, null))
                 {
-                    if (containerId == null)
-                    {
-                        System.clearProperty(CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS);
-                    }
-                    else
-                    {
-                        System.setProperty(
-                            CargoTestSuite.SYSTEM_PROPERTY_CONTAINER_IDS, containerId);
-                    }
-                    if (deployables == null)
-                    {
-                        System.clearProperty("cargo.testdata.deployables");
-                    }
-                    else
-                    {
-                        System.setProperty("cargo.testdata.deployables", deployables);
-                    }
-                    if (targetDir == null)
-                    {
-                        System.clearProperty("cargo.target.dir");
-                    }
-                    else
-                    {
-                        System.setProperty("cargo.target.dir", targetDir);
-                    }
+                    output.append("^Q^");
+                }
+                if (!new JmsTopicResourceOnStandaloneConfigurationTest().isSupported(
+                    container.getId(), ContainerType.INSTALLED, null))
+                {
+                    output.append("^T^");
+                }
+                if (!new MailResourceOnStandaloneConfigurationTest().isSupported(
+                    container.getId(), ContainerType.INSTALLED, null))
+                {
+                    output.append("^M^");
                 }
             }
             else

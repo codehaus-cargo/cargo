@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.junit5;
+package org.codehaus.cargo.sample.java;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -50,7 +50,7 @@ import org.codehaus.cargo.generic.DefaultContainerFactory;
 @Retention(RetentionPolicy.RUNTIME)
 @TestTemplate
 @ExtendWith(CargoTestCase.CargoTestcaseInvocationContextProvider.class)
-@interface CargoTestCase
+public @interface CargoTestCase
 {
     /**
      * Current Cargo test case invocation context, i.e. the container id and type.

@@ -23,12 +23,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Generates project structure documentation using ConfluenceProjectStructureDocumentationGenerator.
  */
-public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCase
+public class ConfluenceProjectStructureDocumentationGeneratorTest
 {
     /**
      * The doc generator under test.
@@ -36,9 +38,9 @@ public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCa
     private ConfluenceProjectStructureDocumentationGenerator generator;
 
     /**
-     * {@inheritDoc}
+     * Creates the {@link ConfluenceProjectStructureDocumentationGenerator}
      */
-    @Override
+    @BeforeEach
     protected void setUp()
     {
         this.generator = new ConfluenceProjectStructureDocumentationGenerator();
@@ -48,6 +50,7 @@ public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCa
      * Tests for the creation of the project structure markup.
      * @throws Exception if something goes wrong with the markup generation.
      */
+    @Test
     public void testDocGeneration() throws Exception
     {
         File projectStructureMarkup = new File(System.getProperty("basedir")
@@ -57,7 +60,7 @@ public class ConfluenceProjectStructureDocumentationGeneratorTest extends TestCa
             writer.write(this.generator.generateDocumentation());
         }
 
-        assertTrue(projectStructureMarkup.exists());
+        Assertions.assertTrue(projectStructureMarkup.exists());
     }
 
 }

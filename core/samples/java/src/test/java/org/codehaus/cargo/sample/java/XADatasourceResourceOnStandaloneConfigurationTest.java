@@ -19,22 +19,14 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
-import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for XA datasource deployed as resource resource capabilities.
@@ -43,79 +35,28 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public XADatasourceResourceOnStandaloneConfigurationTest(String testName,
-        EnvironmentTestData testData) throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite =
-            new CargoTestSuite(
-                "Tests that run on local containers supporting Resource and WAR deployments");
-
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // JBoss 7.5.x, GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara, the WebLogic WSLT
         // deployer and WildFly cannot deploy XA datasources as resource
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("glassfish3x");
-        excludedContainerIds.add("glassfish4x");
-        excludedContainerIds.add("glassfish5x");
-        excludedContainerIds.add("glassfish6x");
-        excludedContainerIds.add("glassfish7x");
-        excludedContainerIds.add("glassfish8x");
-        excludedContainerIds.add("payara");
-        excludedContainerIds.add("weblogic121x");
-        excludedContainerIds.add("weblogic122x");
-        excludedContainerIds.add("weblogic14x");
-        excludedContainerIds.add("wildfly8x");
-        excludedContainerIds.add("wildfly9x");
-        excludedContainerIds.add("wildfly10x");
-        excludedContainerIds.add("wildfly11x");
-        excludedContainerIds.add("wildfly12x");
-        excludedContainerIds.add("wildfly13x");
-        excludedContainerIds.add("wildfly14x");
-        excludedContainerIds.add("wildfly15x");
-        excludedContainerIds.add("wildfly16x");
-        excludedContainerIds.add("wildfly17x");
-        excludedContainerIds.add("wildfly18x");
-        excludedContainerIds.add("wildfly19x");
-        excludedContainerIds.add("wildfly20x");
-        excludedContainerIds.add("wildfly21x");
-        excludedContainerIds.add("wildfly22x");
-        excludedContainerIds.add("wildfly23x");
-        excludedContainerIds.add("wildfly24x");
-        excludedContainerIds.add("wildfly25x");
-        excludedContainerIds.add("wildfly26x");
-        excludedContainerIds.add("wildfly27x");
-        excludedContainerIds.add("wildfly28x");
-        excludedContainerIds.add("wildfly29x");
-        excludedContainerIds.add("wildfly30x");
-        excludedContainerIds.add("wildfly31x");
-        excludedContainerIds.add("wildfly32x");
-        excludedContainerIds.add("wildfly33x");
-        excludedContainerIds.add("wildfly34x");
-        excludedContainerIds.add("wildfly35x");
-
-        suite.addTestSuite(XADatasourceResourceOnStandaloneConfigurationTest.class,
-            new Validator[] {
-                new IsInstalledLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasWarSupportValidator(),
-                new HasResourceSupportValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
-        return suite;
+        return this.isNotContained(containerId,
+            "jboss75x",
+            "glassfish3x", "glassfish4x", "glassfish5x", "glassfish6x", "glassfish7x",
+                "glassfish8x",
+            "payara",
+            "weblogic121x", "weblogic122x", "weblogic14x",
+            "wildfly8x", "wildfly9x", "wildfly10x", "wildfly11x", "wildfly12x", "wildfly13x",
+                "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x", "wildfly19x",
+                "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x", "wildfly25x",
+                "wildfly26x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x", "wildfly31x",
+                "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x");
     }
 
     /**
@@ -123,6 +64,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
      * javax.sql.XADataSource
      * @throws MalformedURLException If URL for the test WAR cannot be built.
      */
+    @CargoTestCase
     public void testUserConfiguresXADataSourceAsResource() throws MalformedURLException
     {
         ResourceFixture fixture = ConfigurationFixtureFactory.createXADataSourceAsResource();

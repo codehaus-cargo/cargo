@@ -19,65 +19,45 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for datasource capabilities.
  */
-public class DataSourceOnStandaloneConfigurationTest extends
-    AbstractDataSourceWarCapabilityContainerTestCase
+public class DataSourceOnStandaloneConfigurationTest
+    extends AbstractDataSourceWarCapabilityContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public DataSourceOnStandaloneConfigurationTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public DataSourceOnStandaloneConfigurationTest()
     {
-        super(testName, testData);
+        this.addValidator(new HasDataSourceSupportValidator(ConfigurationType.STANDALONE));
     }
 
     /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public static Test suite() throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        CargoTestSuite suite =
-            new CargoTestSuite(
-                "Tests that run on local containers supporting DataSource and WAR deployments");
-
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // We exclude geronimo2x and liberty as they don't support datasource setup the way
         // Codehaus Cargo tests it
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("geronimo2x");
-        excludedContainerIds.add("liberty");
-
-        suite.addTestSuite(DataSourceOnStandaloneConfigurationTest.class, new Validator[] {
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasWarSupportValidator(),
-            new HasDataSourceSupportValidator(ConfigurationType.STANDALONE)},
-            excludedContainerIds);
-        return suite;
+        return this.isNotContained(containerId, "geronimo2x", "liberty");
     }
 
     /**
@@ -85,6 +65,7 @@ public class DataSourceOnStandaloneConfigurationTest extends
      * transaction support
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
+    @CargoTestCase
     public void testUserConfiguresDriverAndRequestsDataSource() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
@@ -99,6 +80,7 @@ public class DataSourceOnStandaloneConfigurationTest extends
      * Test multiple datasources.
      * @throws MalformedURLException If servlet WAR URL cannot be created.
      */
+    @CargoTestCase
     public void testMultipleDataSources() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();

@@ -19,32 +19,24 @@
  */
 package org.codehaus.cargo.sample.java.tomcat;
 
+import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
-import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.AbstractCargoTestCase;
-import org.codehaus.cargo.sample.java.CargoTestSuite;
-import org.codehaus.cargo.sample.java.EnvironmentTestData;
+import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
+import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.PingUtils;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.CargoException;
-
-import junit.framework.Test;
 
 /**
  * Test for WAR extra classpath support with a webapp who contains META-INF/context.xml file.
  */
-public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
+public class WarExtraClasspathWithContextTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
      * String array holding the classpath for the simple jar file.
@@ -52,26 +44,13 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
     private String[] simpleJarExtraClasspath;
 
     /**
-     * Initializes the test case.
-     * 
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public WarExtraClasspathWithContextTest(String testName, EnvironmentTestData testData)
-        throws Exception
+    public WarExtraClasspathWithContextTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
+        this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
+        this.addValidator(new HasWarSupportValidator());
 
         String simpleJar = System.getProperty("cargo.testdata.simple-jar");
         if (simpleJar == null)
@@ -83,28 +62,17 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
     }
 
     /**
-     * Creates the test suite, using the {@link Validator}s.
-     * 
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
-    public static Test suite() throws Exception
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        CargoTestSuite suite =
-            new CargoTestSuite("Tests that run on local containers to test extra classpath with "
-                + " META-INF/context.xml file");
-
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // Tomcat 4.x and 5.x do not support extra classpath.
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("tomcat4x");
-        excludedContainerIds.add("tomcat5x");
-
-        suite.addTestSuite(WarExtraClasspathWithContextTest.class, new Validator[] {
-            new StartsWithContainerValidator("tomcat", "tomee"),
-            new HasWarSupportValidator(), new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator()},
-            excludedContainerIds);
-        return suite;
+        return this.isNotContained(containerId, "tomcat4x", "tomcat5x");
     }
 
     /**
@@ -112,6 +80,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
      * with WAR with a <code>context.xml</code> file.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testLoadClassOnWarWithContextXmlFile() throws Exception
     {
         // Copies the tomcat context war in order to rename it so that it matches the context
@@ -121,9 +90,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         getFileHandler().copyFile(
             getTestData().getTestDataFileFor("tomcatcontext-war"), artifactFile);
 
-        WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            artifactFile, DeployableType.WAR);
-        war.setExtraClasspath(this.simpleJarExtraClasspath);
+        WAR war = (WAR) this.createDeployable(artifactFile, DeployableType.WAR);
 
         getLocalContainer().getConfiguration().addDeployable(war);
         getLocalContainer().getConfiguration().setProperty(TomcatPropertySet.COPY_WARS, "false");
@@ -143,6 +110,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
      * with expanded WAR with a <code>context.xml</code> file.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testLoadClassOnExpandedWarWithContextXmlFile() throws Exception
     {
         String expandedWarDirectory = getFileHandler().append(
@@ -150,8 +118,7 @@ public class WarExtraClasspathWithContextTest extends AbstractCargoTestCase
         getFileHandler().explode(getTestData().getTestDataFileFor("tomcatcontext-war"),
             expandedWarDirectory);
 
-        WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            expandedWarDirectory, DeployableType.WAR);
+        WAR war = (WAR) this.createDeployable(expandedWarDirectory, DeployableType.WAR);
 
         war.setExtraClasspath(this.simpleJarExtraClasspath);
 

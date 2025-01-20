@@ -22,72 +22,42 @@ package org.codehaus.cargo.sample.java;
 import java.io.File;
 import java.net.URL;
 
-import junit.framework.Test;
-
-import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
-import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.packager.Packager;
 import org.codehaus.cargo.container.packager.PackagerType;
 import org.codehaus.cargo.container.spi.packager.AbstractDirectoryPackager;
 import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.packager.DefaultPackagerFactory;
 import org.codehaus.cargo.generic.packager.PackagerFactory;
 import org.codehaus.cargo.sample.java.validator.HasDirectoryPackagerValidator;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for packager.
  */
-public class PackagerTest extends AbstractCargoTestCase
+public class PackagerTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public PackagerTest(String testName, EnvironmentTestData testData) throws Exception
+    public PackagerTest()
     {
-        super(testName, testData);
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite("Tests that can run on installed local "
-            + "containers supporting directory Packagers");
-        suite.addTestSuite(PackagerTest.class, new Validator[] {
-            new IsInstalledLocalContainerValidator(),
-            new HasStandaloneConfigurationValidator(),
-            new HasDirectoryPackagerValidator()});
-        return suite;
+        this.addValidator(new HasDirectoryPackagerValidator());
     }
 
     /**
      * Create the packaging of a container and that it works when unpackaged.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testPackageContainer() throws Exception
     {
-        // First, create a configuration and deploy one WAR in it.
-        StandaloneLocalConfiguration configuration =
-            (StandaloneLocalConfiguration) createConfiguration(ConfigurationType.STANDALONE);
-        InstalledLocalContainer container =
-            (InstalledLocalContainer) createContainer(configuration);
-        Deployable war = new DefaultDeployableFactory().createDeployable(container.getId(),
-            getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
-        configuration.addDeployable(war);
-        configuration.configure(container);
+        // First, deploy one WAR into the configuration.
+        WAR war = (WAR) this.createDeployableFromTestdataFile("simple-war", DeployableType.WAR);
+        getLocalContainer().getConfiguration().addDeployable(war);
+        getLocalContainer().getConfiguration().configure(getLocalContainer());
 
         File targetLocation =
             new File(new File(getTestData().configurationHome).getParentFile(), "package");
@@ -96,24 +66,21 @@ public class PackagerTest extends AbstractCargoTestCase
         Packager packager = factory.createPackager(getTestData().containerId,
             PackagerType.DIRECTORY, targetLocation.getPath());
         ((AbstractDirectoryPackager) packager).setLogger(getLogger());
-        packager.packageContainer(container);
+        packager.packageContainer(getInstalledLocalContainer());
 
-        // Try to start and stop the container using an existing configuration. This doesn't really
-        // validate that the container can be started/stopped using the native start/stop script
-        // but that's the best we can do to validate it works.
-
-        InstalledLocalContainer assertContainer = (InstalledLocalContainer)
-            new DefaultContainerFactory().createContainer(getTestData().containerId,
+        // Try to start and stop the container using the packaged configuration expanded as an
+        // existing configuration.
+        setContainer(new DefaultContainerFactory().createContainer(getTestData().containerId,
                 getTestData().containerType, createConfiguration(ConfigurationType.EXISTING,
-                    targetLocation.getPath()));
-        assertContainer.setLogger(getLogger());
-        assertContainer.setHome(targetLocation.getPath());
+                    targetLocation.getPath())));
+        getLocalContainer().setLogger(getLogger());
+        getInstalledLocalContainer().setHome(targetLocation.getPath());
         URL warPingURL =
             new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
-        assertContainer.start();
+        getLocalContainer().start();
         PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
-        assertContainer.stop();
+        getLocalContainer().stop();
         PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
     }
 }

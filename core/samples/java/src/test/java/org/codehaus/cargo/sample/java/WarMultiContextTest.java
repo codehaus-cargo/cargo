@@ -19,20 +19,12 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Set;
-import java.util.TreeSet;
 
-import junit.framework.Test;
-
-import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
-import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
-import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.IsLocalContainerValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 
 /**
  * Test for WAR support: deployment to a multiple context (with many slashes).
@@ -40,116 +32,42 @@ import org.codehaus.cargo.sample.java.validator.Validator;
 public class WarMultiContextTest extends AbstractCargoTestCase
 {
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
-     */
-    public WarMultiContextTest(String testName, EnvironmentTestData testData)
-        throws Exception
-    {
-        super(testName, testData);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    protected void setUp() throws Exception
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
     {
-        super.setUp();
-        setContainer(createContainer(createConfiguration(ConfigurationType.STANDALONE)));
-    }
-
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that run on local containers supporting WAR deployments");
-
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
         // We exclude containers that cannot deploy on a multiple context (with many slashes)
-        Set<String> excludedContainerIds = new TreeSet<String>();
-        excludedContainerIds.add("geronimo1x");
-        excludedContainerIds.add("jboss3x");
-        excludedContainerIds.add("jboss4x");
-        excludedContainerIds.add("jboss42x");
-        excludedContainerIds.add("jboss5x");
-        excludedContainerIds.add("jboss51x");
-        excludedContainerIds.add("jboss6x");
-        excludedContainerIds.add("jboss61x");
-        excludedContainerIds.add("jboss7x");
-        excludedContainerIds.add("jboss71x");
-        excludedContainerIds.add("jboss72x");
-        excludedContainerIds.add("jboss73x");
-        excludedContainerIds.add("jboss74x");
-        excludedContainerIds.add("jboss75x");
-        excludedContainerIds.add("jonas4x");
-        excludedContainerIds.add("jonas5x");
-        excludedContainerIds.add("jrun4x");
-        excludedContainerIds.add("oc4j9x");
-        excludedContainerIds.add("oc4j10x");
-        excludedContainerIds.add("resin3x");
-        excludedContainerIds.add("resin31x");
-        excludedContainerIds.add("resin4x");
-        excludedContainerIds.add("tomcat4x");
-        excludedContainerIds.add("weblogic8x");
-        excludedContainerIds.add("weblogic9x");
-        excludedContainerIds.add("weblogic10x");
-        excludedContainerIds.add("weblogic103x");
-        excludedContainerIds.add("weblogic12x");
-        excludedContainerIds.add("weblogic121x");
-        excludedContainerIds.add("weblogic122x");
-        excludedContainerIds.add("weblogic14x");
-        excludedContainerIds.add("wildfly8x");
-        excludedContainerIds.add("wildfly9x");
-        excludedContainerIds.add("wildfly10x");
-        excludedContainerIds.add("wildfly11x");
-        excludedContainerIds.add("wildfly12x");
-        excludedContainerIds.add("wildfly13x");
-        excludedContainerIds.add("wildfly14x");
-        excludedContainerIds.add("wildfly15x");
-        excludedContainerIds.add("wildfly16x");
-        excludedContainerIds.add("wildfly17x");
-        excludedContainerIds.add("wildfly18x");
-        excludedContainerIds.add("wildfly19x");
-        excludedContainerIds.add("wildfly20x");
-        excludedContainerIds.add("wildfly21x");
-        excludedContainerIds.add("wildfly22x");
-        excludedContainerIds.add("wildfly23x");
-        excludedContainerIds.add("wildfly24x");
-        excludedContainerIds.add("wildfly25x");
-        excludedContainerIds.add("wildfly26x");
-        excludedContainerIds.add("wildfly27x");
-        excludedContainerIds.add("wildfly28x");
-        excludedContainerIds.add("wildfly29x");
-        excludedContainerIds.add("wildfly30x");
-        excludedContainerIds.add("wildfly31x");
-        excludedContainerIds.add("wildfly32x");
-        excludedContainerIds.add("wildfly33x");
-        excludedContainerIds.add("wildfly34x");
-        excludedContainerIds.add("wildfly35x");
-
-        suite.addTestSuite(WarMultiContextTest.class,
-            new Validator[] {
-                new IsLocalContainerValidator(),
-                new HasStandaloneConfigurationValidator(),
-                new HasWarSupportValidator()},
-            excludedContainerIds);
-        return suite;
+        return this.isNotContained(containerId,
+            "geronimo1x",
+            "jboss3x", "jboss4x", "jboss42x", "jboss5x", "jboss51x", "jboss6x", "jboss61x",
+                "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
+            "jonas4x", "jonas5x",
+            "jrun4x",
+            "oc4j9x", "oc4j10x",
+            "resin3x", "resin31x", "resin4x",
+            "tomcat4x",
+            "weblogic8x", "weblogic9x", "weblogic10x", "weblogic103x", "weblogic12x",
+                "weblogic121x", "weblogic122x", "weblogic14x",
+            "wildfly8x", "wildfly9x", "wildfly10x", "wildfly11x", "wildfly12x", "wildfly13x",
+                "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x", "wildfly19x",
+                "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x", "wildfly25x",
+                "wildfly26x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x", "wildfly31x",
+                "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x");
     }
 
     /**
      * Test deployment of a WAR with multi path.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDeployWarDefinedWithMultipleContextPath() throws Exception
     {
-        WAR war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
+        WAR war = (WAR) this.createDeployableFromTestdataFile("simple-war", DeployableType.WAR);
         war.setContext("/a/b");
 
         getLocalContainer().getConfiguration().addDeployable(war);

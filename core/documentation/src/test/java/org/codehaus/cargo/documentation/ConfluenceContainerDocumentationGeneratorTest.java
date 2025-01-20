@@ -24,7 +24,9 @@ import java.io.Writer;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.generic.ContainerFactory;
@@ -34,7 +36,7 @@ import org.codehaus.cargo.util.FileHandler;
 /**
  * Unit tests for {@link ConfluenceContainerDocumentationGenerator}
  */
-public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
+public class ConfluenceContainerDocumentationGeneratorTest
 {
     /**
      * Documentation generator.
@@ -42,9 +44,9 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
     private ConfluenceContainerDocumentationGenerator generator;
 
     /**
-     * {@inheritDoc}
+     * Creates the {@link ConfluenceProjectStructureDocumentationGenerator}
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
         this.generator = new ConfluenceContainerDocumentationGenerator();
@@ -53,9 +55,10 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
     /**
      * Test computed qualified class name.
      */
+    @Test
     public void testComputedFQCN()
     {
-        assertEquals("o.c.c.c.myc.MyContainerIsTheBest",
+        Assertions.assertEquals("o.c.c.c.myc.MyContainerIsTheBest",
             this.generator.computedFQCN("org.codehaus.cargo.container.myc.MyContainerIsTheBest"));
     }
 
@@ -63,6 +66,7 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      * Generate datasource documentation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGenerateDatasourceDocumentation() throws Exception
     {
         try (Writer writer =
@@ -76,6 +80,7 @@ public class ConfluenceContainerDocumentationGeneratorTest extends TestCase
      * Generate documentation for all containers.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGenerateDocumentationForAllContainers() throws Exception
     {
         try (Writer writer =

@@ -27,7 +27,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -40,7 +42,6 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
-import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.sample.java.jboss.AbstractJBossCapabilityTestCase;
 import org.codehaus.cargo.sample.java.validator.HasInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRemoteContainerValidator;
@@ -48,7 +49,6 @@ import org.codehaus.cargo.sample.java.validator.HasRemoteDeployerValidator;
 import org.codehaus.cargo.sample.java.validator.HasRuntimeConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasStandaloneConfigurationValidator;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
-import org.codehaus.cargo.sample.java.validator.Validator;
 import org.codehaus.cargo.util.ZipCompressor;
 
 /**
@@ -72,47 +72,30 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
     private WAR war;
 
     /**
-     * Initializes the test case.
-     * @param testName Test name.
-     * @param testData Test environment data.
-     * @throws Exception If anything goes wrong.
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public RemoteDeploymentTest(String testName, EnvironmentTestData testData) throws Exception
+    public RemoteDeploymentTest()
     {
-        super(testName, testData);
-    }
+        this.addValidator(new HasRemoteContainerValidator());
+        this.addValidator(new HasRuntimeConfigurationValidator());
+        this.addValidator(new HasRemoteDeployerValidator());
+        this.addValidator(new HasWarSupportValidator());
 
-    /**
-     * Creates the test suite, using the {@link Validator}s.
-     * @return Test suite.
-     * @throws Exception If anything goes wrong.
-     */
-    public static Test suite() throws Exception
-    {
-        CargoTestSuite suite = new CargoTestSuite(
-            "Tests that perform remote deployments on remote containers");
-
-        suite.addTestSuite(RemoteDeploymentTest.class, new Validator[] {
-            new HasRemoteContainerValidator(),
-            new HasRuntimeConfigurationValidator(),
-            new HasRemoteDeployerValidator(),
-            new HasWarSupportValidator(),
-
-            // We cannot add the HasInstalledLocalContainerValidator and
-            // HasStandaloneConfigurationValidator, else the Remote container would need to
-            // implement a Standalone configuration, which doesn't make sense
-        });
-
-        return suite;
+        // We cannot add the HasInstalledLocalContainerValidator and
+        // HasStandaloneConfigurationValidator, else the Remote container would need to
+        // implement a Standalone configuration, which doesn't make sense
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void setUp() throws Exception
+    public void setUp(
+        CargoTestCase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
+        throws Exception
     {
-        super.setUp();
+        super.setUp(cargoContext, testContext);
 
         // Create the remote container used by the tests
         setContainer(createContainer(createConfiguration(ConfigurationType.RUNTIME)));
@@ -205,8 +188,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 WebLogicPropertySet.LOCAL_WEBLOGIC_HOME, localContainer.getHome());
         }
 
-        this.war = (WAR) new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            getTestData().getTestDataFileFor("simple-war"), DeployableType.WAR);
+        this.war = (WAR) this.createDeployableFromTestdataFile("simple-war", DeployableType.WAR);
 
         this.deployer = createDeployer(DeployerType.REMOTE, getRemoteContainer());
     }
@@ -222,10 +204,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         final String message = "You have implemented the Remote container. Please also implement a "
             + "standalone local container for the CARGO samples to pass.";
-        assertTrue(message, new HasInstalledLocalContainerValidator().validate(
-            getTestData().containerId, ContainerType.INSTALLED));
-        assertTrue(message, new HasStandaloneConfigurationValidator().validate(
-            getTestData().containerId, ContainerType.INSTALLED));
+        Assertions.assertTrue(new HasInstalledLocalContainerValidator().validate(
+            getTestData().containerId, ContainerType.INSTALLED), message);
+        Assertions.assertTrue(new HasStandaloneConfigurationValidator().validate(
+            getTestData().containerId, ContainerType.INSTALLED), message);
 
         final ContainerType oldContainerType = getTestData().containerType;
         testData.containerType = ContainerType.INSTALLED;
@@ -246,27 +228,23 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             final Deployable jettyDeployerApplication;
             if (jettyVersion <= 6)
             {
-                jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
-                    this.localContainer.getId(), getTestData().getTestDataFileFor(
-                        "cargo-jetty-6-deployer"), DeployableType.WAR);
+                jettyDeployerApplication = (WAR) this.createDeployableFromTestdataFile(
+                    "cargo-jetty-6-deployer", DeployableType.WAR);
             }
             else if (jettyVersion <= 9)
             {
-                jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
-                    this.localContainer.getId(), getTestData().getTestDataFileFor(
-                        "cargo-jetty-7-to-jetty-9-deployer"), DeployableType.WAR);
+                jettyDeployerApplication = (WAR) this.createDeployableFromTestdataFile(
+                    "cargo-jetty-7-to-jetty-9-deployer", DeployableType.WAR);
             }
             else if (jettyVersion == 10)
             {
-                jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
-                    this.localContainer.getId(), getTestData().getTestDataFileFor(
-                        "cargo-jetty-10-deployer"), DeployableType.WAR);
+                jettyDeployerApplication = (WAR) this.createDeployableFromTestdataFile(
+                    "cargo-jetty-10-deployer", DeployableType.WAR);
             }
             else if (jettyVersion == 11)
             {
-                jettyDeployerApplication = new DefaultDeployableFactory().createDeployable(
-                    this.localContainer.getId(), getTestData().getTestDataFileFor(
-                        "cargo-jetty-11-deployer"), DeployableType.WAR);
+                jettyDeployerApplication = (WAR) this.createDeployableFromTestdataFile(
+                    "cargo-jetty-11-deployer", DeployableType.WAR);
             }
             else
             {
@@ -314,15 +292,19 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      * {@inheritDoc}
      */
     @Override
+    @AfterEach
     protected void tearDown()
     {
-        this.localContainer.stop();
+        // Make sure the local container we started is shut down gracefully.
+        setContainer(this.localContainer);
+        super.tearDown();
     }
 
     /**
      * Verify that a WAR can be deployed, undeployed and redeployed remotely.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testDeployUndeployRedeployWarRemotely() throws Exception
     {
         URL warPingURL =
@@ -362,6 +344,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      * Verify that WAR context change works.
      * @throws Exception If anything goes wrong.
      */
+    @CargoTestCase
     public void testChangeWarContextAndDeployUndeployRemotely() throws Exception
     {
         this.war.setContext("simple");
@@ -400,7 +383,6 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         ZipCompressor compressor = new ZipCompressor(getFileHandler());
         compressor.compress(modifiedWarDirectory, modifiedWar);
 
-        return new DefaultDeployableFactory().createDeployable(getContainer().getId(),
-            modifiedWar, DeployableType.WAR);
+        return this.createDeployable(modifiedWar, DeployableType.WAR);
     }
 }
