@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 import org.codehaus.cargo.sample.java.AbstractWarTestCase;
 import org.codehaus.cargo.sample.java.CargoTestCase;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
 
@@ -43,6 +44,7 @@ public class TomcatTLSTest extends AbstractWarTestCase
      */
     public TomcatTLSTest()
     {
+        this.addValidator(new IsInstalledLocalContainerValidator());
         this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
         this.addValidator(new SupportsPropertyValidator(
             ConfigurationType.STANDALONE, TomcatPropertySet.CONNECTOR_KEY_STORE_FILE));
