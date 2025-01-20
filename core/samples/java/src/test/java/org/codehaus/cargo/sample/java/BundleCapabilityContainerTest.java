@@ -86,7 +86,7 @@ public class BundleCapabilityContainerTest extends AbstractStandaloneLocalContai
         reader = null;
         System.gc();
 
-        if (getContainer().getId().startsWith("geronimo"))
+        if (getTestData().containerId.startsWith("geronimo"))
         {
             Deployer deployer = createDeployer(getContainer());
             deployer.undeploy(bundle);

@@ -83,11 +83,11 @@ public class JonasStandaloneConfigurationTest extends AbstractStandaloneLocalCon
         }
 
         List<File> serverXmlFiles = new ArrayList<File>();
-        if (getContainer().getId().equals("jonas4x"))
+        if (getTestData().containerId.equals("jonas4x"))
         {
             serverXmlFiles.add(new File(conf, "server.xml"));
         }
-        else if (getContainer().getId().equals("jonas5x"))
+        else if (getTestData().containerId.equals("jonas5x"))
         {
             for (File confFile : conf.listFiles())
             {
@@ -114,7 +114,7 @@ public class JonasStandaloneConfigurationTest extends AbstractStandaloneLocalCon
 
         if (serverXmlFiles.isEmpty())
         {
-            throw new IllegalArgumentException("Unknown container: " + getContainer().getId());
+            throw new IllegalArgumentException("Unknown container: " + getTestData().containerId);
         }
 
         for (File serverXmlFile : serverXmlFiles)

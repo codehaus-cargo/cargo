@@ -69,7 +69,7 @@ public class DataSourceOnStandaloneConfigurationTest
     public void testUserConfiguresDriverAndRequestsDataSource() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
-        if ("glassfish4x".equals(getContainer().getId()))
+        if ("glassfish4x".equals(getTestData().containerId))
         {
             fixture.jndiLocation = "jdbc/__default";
         }
@@ -84,7 +84,7 @@ public class DataSourceOnStandaloneConfigurationTest
     public void testMultipleDataSources() throws MalformedURLException
     {
         DataSourceFixture fixture = ConfigurationFixtureFactory.createDataSource();
-        if ("glassfish4x".equals(getContainer().getId()))
+        if ("glassfish4x".equals(getTestData().containerId))
         {
             fixture.jndiLocation = "jdbc/__default";
         }

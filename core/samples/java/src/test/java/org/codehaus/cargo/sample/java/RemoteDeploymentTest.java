@@ -170,11 +170,11 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         // GlassFish 3.x, 4.x and 5.x as well as Payara configuration generation cannot change
         // password. WebLogic needs password in specific format, we use the default value for tests
-        if (!getRemoteContainer().getId().equals("glassfish3x")
-            && !getRemoteContainer().getId().equals("glassfish4x")
-            && !getRemoteContainer().getId().equals("glassfish5x")
-            && !getRemoteContainer().getId().equals("payara")
-            && !getRemoteContainer().getId().startsWith("weblogic"))
+        if (!getTestData().containerId.equals("glassfish3x")
+            && !getTestData().containerId.equals("glassfish4x")
+            && !getTestData().containerId.equals("glassfish5x")
+            && !getTestData().containerId.equals("payara")
+            && !getTestData().containerId.startsWith("weblogic"))
         {
             // Set up deployment credentials
             getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
@@ -182,7 +182,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.PASSWORD,
                 "password");
         }
-        else if (getRemoteContainer().getId().startsWith("weblogic"))
+        else if (getTestData().containerId.startsWith("weblogic"))
         {
             getRemoteContainer().getConfiguration().setProperty(
                 WebLogicPropertySet.LOCAL_WEBLOGIC_HOME, localContainer.getHome());

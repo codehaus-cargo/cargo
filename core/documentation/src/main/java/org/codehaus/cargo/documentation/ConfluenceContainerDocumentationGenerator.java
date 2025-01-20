@@ -47,6 +47,7 @@ import org.bsc.confluence.ConfluenceService.Model.Page;
 import org.bsc.confluence.ConfluenceService.Storage.Representation;
 import org.bsc.mojo.configuration.ScrollVersionsInfo;
 import org.bsc.ssl.SSLCertificateInfo;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;

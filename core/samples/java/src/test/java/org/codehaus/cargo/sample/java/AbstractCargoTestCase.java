@@ -339,7 +339,7 @@ public abstract class AbstractCargoTestCase
     protected Deployable createDeployable(String deployablePath, DeployableType deployableType)
     {
         return AbstractCargoTestCase.DEPLOYABLE_FACTORY.createDeployable(
-            getContainer().getId(), deployablePath, deployableType);
+            this.testData.containerId, deployablePath, deployableType);
     }
 
     /**

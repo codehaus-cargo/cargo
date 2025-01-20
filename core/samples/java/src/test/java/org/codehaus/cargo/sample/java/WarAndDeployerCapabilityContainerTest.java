@@ -52,7 +52,7 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractStandaloneLoc
     @CargoTestCase
     public void testWarHotDeployment() throws Exception
     {
-        if ("jetty12x".equals(getContainer().getId()))
+        if ("jetty12x".equals(getTestData().containerId))
         {
             getLocalContainer().getConfiguration().setProperty(
                 GeneralPropertySet.JVMARGS, "-Djetty.deploy.scanInterval=1");

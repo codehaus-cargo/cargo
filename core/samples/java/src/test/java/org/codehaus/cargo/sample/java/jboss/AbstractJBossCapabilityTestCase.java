@@ -84,8 +84,8 @@ public abstract class AbstractJBossCapabilityTestCase
             // from JBoss / WildFly; and one of the place in which it looks for these is the
             // Thread's ContextClassLoader. We therefore need to include the client JAR in there.
             URL[] urls;
-            if (getContainer().getId().startsWith("jboss7")
-                || getContainer().getId().startsWith("wildfly"))
+            if (getTestData().containerId.startsWith("jboss7")
+                || getTestData().containerId.startsWith("wildfly"))
             {
                 List<File> files = new ArrayList<File>();
                 addAllJars(new File(getInstalledLocalContainer().getHome(), "modules"), files);
@@ -109,8 +109,8 @@ public abstract class AbstractJBossCapabilityTestCase
             Thread.currentThread().setContextClassLoader(classloader);
 
             Properties props = new Properties();
-            if (getContainer().getId().startsWith("jboss7")
-                || getContainer().getId().startsWith("wildfly"))
+            if (getTestData().containerId.startsWith("jboss7")
+                || getTestData().containerId.startsWith("wildfly"))
             {
                 props.setProperty(
                     Context.INITIAL_CONTEXT_FACTORY, "org.jboss.as.naming.InitialContextFactory");
@@ -154,7 +154,7 @@ public abstract class AbstractJBossCapabilityTestCase
     protected MBeanServerConnection createMBeanServerConnection() throws NamingException,
         IOException
     {
-        final String containerId = this.getContainer().getId();
+        final String containerId = this.getTestData().containerId;
 
         if (containerId.startsWith("jboss4"))
         {

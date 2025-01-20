@@ -50,7 +50,7 @@ public class EarCapabilityContainerTest extends AbstractStandaloneLocalContainer
     public void testStartWithOneEmptyEarDeployed() throws Exception
     {
         // The Apache Geronimo server doesn't like empty EARs
-        if (getContainer().getId().startsWith("geronimo"))
+        if (getTestData().containerId.startsWith("geronimo"))
         {
             return;
         }
