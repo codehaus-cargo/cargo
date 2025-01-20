@@ -24,9 +24,11 @@ import java.net.MalformedURLException;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
+import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
 
 /**
  * Test for XA datasource deployed as resource resource capabilities.
@@ -34,6 +36,15 @@ import org.codehaus.cargo.container.property.ResourcePropertySet;
 public class XADatasourceResourceOnStandaloneConfigurationTest extends
     AbstractDataSourceWarCapabilityContainerTestCase
 {
+    /**
+     * Add the required validators.
+     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
+     */
+    public XADatasourceResourceOnStandaloneConfigurationTest()
+    {
+        new HasResourceSupportValidator(ConfigurationType.STANDALONE);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -44,6 +55,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         {
             return false;
         }
+
         // JBoss 7.5.x, GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x, Payara, the WebLogic WSLT
         // deployer and WildFly cannot deploy XA datasources as resource
         return this.isNotContained(containerId,
