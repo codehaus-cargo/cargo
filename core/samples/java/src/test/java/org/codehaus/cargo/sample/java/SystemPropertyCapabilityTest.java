@@ -28,6 +28,7 @@ import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 
 /**
  * Test for system property support.
@@ -41,6 +42,7 @@ public class SystemPropertyCapabilityTest extends AbstractStandaloneLocalContain
     public SystemPropertyCapabilityTest()
     {
         this.addValidator(new HasWarSupportValidator());
+        this.addValidator(new IsInstalledLocalContainerValidator());
     }
 
     /**

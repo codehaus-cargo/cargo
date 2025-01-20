@@ -30,6 +30,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 
 /**
  * Test for mail resource capabilities.
@@ -44,6 +45,7 @@ public class MailResourceOnStandaloneConfigurationTest extends
     public MailResourceOnStandaloneConfigurationTest()
     {
         this.addValidator(new HasResourceSupportValidator(ConfigurationType.STANDALONE));
+        this.addValidator(new IsInstalledLocalContainerValidator());
     }
 
     /**
