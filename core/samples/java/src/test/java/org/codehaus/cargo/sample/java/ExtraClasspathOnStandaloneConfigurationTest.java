@@ -59,7 +59,8 @@ public class ExtraClasspathOnStandaloneConfigurationTest
         {
             return false;
         }
-        // We exclude geronimo1x as it doesn't support extra classpath
+
+        // We exclude Geronimo 1.x as it doesn't support extra classpath
         return !"geronimo1x".equals(containerId);
     }
 

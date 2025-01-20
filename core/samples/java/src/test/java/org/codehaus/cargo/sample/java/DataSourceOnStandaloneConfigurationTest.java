@@ -55,8 +55,9 @@ public class DataSourceOnStandaloneConfigurationTest
         {
             return false;
         }
-        // We exclude geronimo2x and liberty as they don't support datasource setup the way
-        // Codehaus Cargo tests it
+
+        // We exclude Geronimo 2.x and WebSphere Liberty as they don't support datasource setup the
+        // way Codehaus Cargo tests it
         return this.isNotContained(containerId, "geronimo2x", "liberty");
     }
 
