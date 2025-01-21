@@ -66,7 +66,7 @@ global_job_config:
         - ls -al ~/.m2/semaphore-ci-binaries
         - cd ~/
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-        - '[ "$(ls -A ~/.m2/cargo-installs)" ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME || RM=0'
+        - '[ "$(ls -A ~/.m2/cargo-installs)" ] && if [ "$CARGO_BRANCH_ID" != "prepare-for-containers-running-on-java-6" ] then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME fi || RM=0'
         - cache list
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
