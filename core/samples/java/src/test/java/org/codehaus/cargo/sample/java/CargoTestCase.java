@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.io.File;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -223,12 +224,35 @@ public @interface CargoTestCase
                     throw new IllegalArgumentException(t);
                 }
             }
+            File currentJavaHomeDirectory = null;
+            String currentJavaHome = System.getProperty("java.home");
+            if (currentJavaHome != null && !currentJavaHome.isEmpty())
+            {
+                currentJavaHomeDirectory = new File(currentJavaHome).getAbsoluteFile();
+            }
             List<TestTemplateInvocationContext> invocationContexts =
                 new ArrayList<TestTemplateInvocationContext>();
             for (String containerid : this.containerIds)
             {
                 for (ContainerType containerType : this.registeredContainers.get(containerid))
                 {
+                    if (containerType.equals(ContainerType.EMBEDDED))
+                    {
+                        String containerJavaHome =
+                            System.getProperty("cargo." + containerid + ".java.home");
+                        if (containerJavaHome != null && !containerJavaHome.isEmpty())
+                        {
+                            File containerJavaHomeDirectory =
+                                new File(containerJavaHome).getAbsoluteFile();
+                            if (!currentJavaHomeDirectory.equals(containerJavaHomeDirectory))
+                            {
+                                // Container JAVA_HOME has been set to a different folder than the
+                                // JAVA_HOME used by the build / testing process.
+                                // Do not run embedded tests.
+                                continue;
+                            }
+                        }
+                    }
                     if (testCase.isSupported(
                         containerid, containerType, context.getTestMethod().get()))
                     {
