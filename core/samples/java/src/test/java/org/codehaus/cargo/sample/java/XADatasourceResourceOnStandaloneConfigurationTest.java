@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.ResourcePropertySet;
-import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
+import org.codehaus.cargo.sample.java.validator.HasXASupportValidator;
 
 /**
  * Test for XA datasource deployed as resource resource capabilities.
@@ -42,7 +42,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
      */
     public XADatasourceResourceOnStandaloneConfigurationTest()
     {
-        new HasResourceSupportValidator(ConfigurationType.STANDALONE);
+        this.addValidator(new HasXASupportValidator(ConfigurationType.STANDALONE));
     }
 
     /**
