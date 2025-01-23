@@ -63,7 +63,7 @@ global_job_config:
         - cd ~/
         - du -sh ~/.m2/*
         - ls -al ~/.m2/cargo-installs
-        - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip
+        - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip ~/.m2/cargo-installs/glassfish-6.*.zip
         - ls -al ~/.m2/cargo-installs
         - ls -al ~/.m2/semaphore-ci-binaries
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
@@ -101,9 +101,9 @@ blocks:
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD/core/samples
-            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/*/glassfish-*.zip java/installs
+            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.*/glassfish-*.zip java/installs
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
-            - rm -f installs/glassfish-*.zip
+            - rm -f installs/glassfish-6.*.zip
             - cd $ORIGINAL_PWD
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - cd ~/
