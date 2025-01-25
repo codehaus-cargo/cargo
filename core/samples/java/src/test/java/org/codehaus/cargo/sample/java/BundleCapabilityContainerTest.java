@@ -42,6 +42,7 @@ public class BundleCapabilityContainerTest extends AbstractStandaloneLocalContai
      */
     public BundleCapabilityContainerTest()
     {
+        super();
         this.addValidator(new HasBundleSupportValidator());
     }
 

@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.resin.internal;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -55,6 +56,7 @@ public class Resin3xConfigurationBuilderTest extends AbstractConfigurationBuilde
      * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -77,6 +79,7 @@ public class Resin3xConfigurationBuilderTest extends AbstractConfigurationBuilde
      * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception

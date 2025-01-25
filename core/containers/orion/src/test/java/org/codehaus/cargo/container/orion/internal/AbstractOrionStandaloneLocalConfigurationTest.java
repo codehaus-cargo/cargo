@@ -190,6 +190,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      * Orion does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
@@ -200,6 +201,7 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      * Orion does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {

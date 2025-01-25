@@ -40,6 +40,7 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
      */
     public TransactionEmulationDataSourceOnStandaloneConfigurationTest()
     {
+        super();
         this.addValidator(new HasXAEmulationValidator(ConfigurationType.STANDALONE));
     }
 

@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jrun;
 
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
@@ -79,20 +82,22 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
      * JRun does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
-        // Nothing
+        Assumptions.abort("JRun does not currently support Resources");
     }
 
     /**
      * JRun does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
-        // Nothing
+        Assumptions.abort("JRun does not currently support Resources");
     }
 
 }

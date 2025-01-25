@@ -43,6 +43,7 @@ public class EjbCapabilityContainerTest extends AbstractJBossCapabilityTestCase
      */
     public EjbCapabilityContainerTest()
     {
+        super();
         this.addValidator(new HasDeployableSupportValidator(DeployableType.EJB));
 
         // We don't include any WildFly containers as these don't support remote EJB lookup

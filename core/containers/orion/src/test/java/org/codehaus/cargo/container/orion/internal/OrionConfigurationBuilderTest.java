@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.orion.internal;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -54,6 +55,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
      * Check the exception message since Resource configuration is not supported. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {
@@ -73,6 +75,7 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
      * Check the exception message since Resource configuration is not supported. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {

@@ -44,6 +44,7 @@ public class TomcatTLSTest extends AbstractWarTestCase
      */
     public TomcatTLSTest()
     {
+        super();
         this.addValidator(new IsInstalledLocalContainerValidator());
         this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
         this.addValidator(new SupportsPropertyValidator(

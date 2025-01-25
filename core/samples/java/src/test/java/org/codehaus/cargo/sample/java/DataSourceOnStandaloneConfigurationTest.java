@@ -24,11 +24,9 @@ import java.net.MalformedURLException;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.Configuration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 
 /**
  * Test for datasource capabilities.
@@ -36,15 +34,6 @@ import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 public class DataSourceOnStandaloneConfigurationTest
     extends AbstractDataSourceWarCapabilityContainerTestCase
 {
-    /**
-     * Add the required validators.
-     * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
-     */
-    public DataSourceOnStandaloneConfigurationTest()
-    {
-        this.addValidator(new HasDataSourceSupportValidator(ConfigurationType.STANDALONE));
-    }
-
     /**
      * {@inheritDoc}
      */

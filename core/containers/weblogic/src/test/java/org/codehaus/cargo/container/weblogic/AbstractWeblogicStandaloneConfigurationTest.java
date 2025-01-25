@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
@@ -79,20 +82,22 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
      * WebLogic does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
-        // Nothing
+        Assumptions.abort("WebLogic does not currently support Resources");
     }
 
     /**
      * WebLogic does not currently support Resources. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {
-        // Nothins
+        Assumptions.abort("WebLogic does not currently support Resources");
     }
 
 }

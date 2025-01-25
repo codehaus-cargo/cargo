@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.tomcat.internal;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -53,6 +54,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
      * transaction support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -76,6 +78,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
      * support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
@@ -99,6 +102,7 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
      * message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception
     {

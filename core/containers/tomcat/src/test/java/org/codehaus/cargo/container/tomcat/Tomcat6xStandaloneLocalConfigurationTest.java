@@ -85,6 +85,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     /**
      * note that manager is under webapps, not server/webapps in 5x.
      */
+    @Test
     @Override
     public void testConfigureManager()
     {

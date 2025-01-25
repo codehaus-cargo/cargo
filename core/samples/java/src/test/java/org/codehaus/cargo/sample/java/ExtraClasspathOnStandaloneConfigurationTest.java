@@ -45,6 +45,7 @@ public class ExtraClasspathOnStandaloneConfigurationTest
      */
     public ExtraClasspathOnStandaloneConfigurationTest()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new IsInstalledLocalContainerValidator());
     }

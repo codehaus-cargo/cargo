@@ -110,6 +110,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
      * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -133,6 +134,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
      * {@link Resin3xConfigurationBuilder#TRANSACTIONS_WITH_XA_OR_JCA_ONLY}. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
@@ -164,6 +166,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
      * Resource support is currently unimplemented.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesResource() throws Exception
     {
@@ -174,6 +177,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
      * Resource support is currently unimplemented.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesTwoResourcesViaProperties() throws Exception
     {

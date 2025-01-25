@@ -77,6 +77,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      */
     public RemoteDeploymentTest()
     {
+        super();
         this.addValidator(new HasRemoteContainerValidator());
         this.addValidator(new HasRuntimeConfigurationValidator());
         this.addValidator(new HasRemoteDeployerValidator());

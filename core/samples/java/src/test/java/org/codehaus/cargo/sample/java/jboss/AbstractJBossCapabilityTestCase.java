@@ -60,6 +60,7 @@ public abstract class AbstractJBossCapabilityTestCase
      */
     public AbstractJBossCapabilityTestCase()
     {
+        super();
         this.addValidator(new StartsWithContainerValidator("jboss", "wildfly"));
     }
 

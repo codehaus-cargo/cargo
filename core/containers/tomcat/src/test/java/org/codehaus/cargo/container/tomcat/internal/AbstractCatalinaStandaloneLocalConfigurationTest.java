@@ -179,6 +179,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
      * support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport()
         throws Exception
@@ -202,6 +203,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
      * transaction support throws an exception with a good message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -225,6 +227,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
      * message. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource()
         throws Exception

@@ -26,6 +26,7 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
+import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
 
 /**
@@ -40,6 +41,8 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
      */
     public XATransactionEmulationDataSourceOnStandaloneConfigurationTest()
     {
+        super();
+        this.addValidator(new HasDataSourceSupportValidator(ConfigurationType.STANDALONE));
         this.addValidator(new HasXAEmulationValidator(ConfigurationType.STANDALONE));
     }
 

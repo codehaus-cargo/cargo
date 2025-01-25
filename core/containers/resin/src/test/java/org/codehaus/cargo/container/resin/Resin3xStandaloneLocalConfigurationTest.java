@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -65,6 +66,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
      * Call parent and check that the XML file is here. {@inheritDoc}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testConfigure() throws Exception
     {

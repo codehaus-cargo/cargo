@@ -38,6 +38,7 @@ public class WarRootContextTest extends AbstractStandaloneLocalContainerTestCase
      */
     public WarRootContextTest()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
     }
 

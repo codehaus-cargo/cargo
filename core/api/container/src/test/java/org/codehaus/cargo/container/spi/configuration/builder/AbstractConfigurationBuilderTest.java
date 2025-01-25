@@ -69,6 +69,7 @@ public abstract class AbstractConfigurationBuilderTest implements
      * Test configuration with driver configured with local transaction support.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport()
         throws Exception
@@ -88,6 +89,7 @@ public abstract class AbstractConfigurationBuilderTest implements
      * Test configuration with datasource entries.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDataSource() throws Exception
     {
@@ -103,6 +105,7 @@ public abstract class AbstractConfigurationBuilderTest implements
      * Test configuration with driver configured with XA transaction support.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport()
         throws Exception
@@ -122,6 +125,7 @@ public abstract class AbstractConfigurationBuilderTest implements
      * Test configuration with XA datasource.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredDataSource() throws Exception
     {
@@ -139,6 +143,7 @@ public abstract class AbstractConfigurationBuilderTest implements
      * Test configuration with XA datasource configured as resource.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     @Override
     public void testBuildConfigurationEntryForXADataSourceConfiguredResource() throws Exception
     {

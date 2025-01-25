@@ -44,6 +44,7 @@ public class PortOffsetContainerTest extends AbstractStandaloneLocalContainerTes
      */
     public PortOffsetContainerTest()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new HasPortOffsetValidator(ConfigurationType.STANDALONE));
     }

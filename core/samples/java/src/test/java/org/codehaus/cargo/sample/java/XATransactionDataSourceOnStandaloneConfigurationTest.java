@@ -40,6 +40,7 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
      */
     public XATransactionDataSourceOnStandaloneConfigurationTest()
     {
+        super();
         this.addValidator(new HasXASupportValidator(ConfigurationType.STANDALONE));
     }
 

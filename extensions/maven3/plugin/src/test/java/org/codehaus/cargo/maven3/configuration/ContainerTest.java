@@ -347,7 +347,8 @@ public class ContainerTest
     /**
      * Test whether container dependencies preserve order.
      * @throws Exception If anything goes wrong.
-     * */
+     **/
+    @Test
     public void testExtraClasspathOrdering() throws Exception
     {
         Dependency firstDependencyElement = new Dependency();

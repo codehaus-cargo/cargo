@@ -36,6 +36,7 @@ public abstract class AbstractStandaloneLocalContainerTestCase extends AbstractC
      */
     public AbstractStandaloneLocalContainerTestCase()
     {
+        super();
         this.addValidator(new HasStandaloneConfigurationValidator());
         this.addValidator(new IsLocalContainerValidator());
     }

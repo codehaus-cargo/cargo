@@ -104,6 +104,7 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'startStopThreads' is added to the property's value .
      * @throws Exception If anything does wrong.
      */
+    @Test
     @Override
     public void testConfigureSetsHostStartStopThreads() throws Exception
     {

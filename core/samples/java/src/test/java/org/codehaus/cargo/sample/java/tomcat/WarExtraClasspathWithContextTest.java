@@ -49,6 +49,7 @@ public class WarExtraClasspathWithContextTest extends AbstractStandaloneLocalCon
      */
     public WarExtraClasspathWithContextTest()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
 

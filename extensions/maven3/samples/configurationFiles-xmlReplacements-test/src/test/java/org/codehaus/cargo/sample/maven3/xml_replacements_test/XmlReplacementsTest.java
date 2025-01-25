@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for the XML Replacements option.
@@ -34,7 +35,7 @@ public class XmlReplacementsTest
      * Test XML replacements.
      * @throws Exception If anything fails.
      */
-
+    @Test
     public void testXmlReplacements() throws Exception
     {
         String lookFor = "test-xmlreplacement-attribute=\"test-xmlreplacement-value\"";

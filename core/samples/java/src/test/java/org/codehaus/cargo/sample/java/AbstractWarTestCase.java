@@ -39,6 +39,7 @@ public abstract class AbstractWarTestCase extends AbstractStandaloneLocalContain
      */
     public AbstractWarTestCase()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
     }
 

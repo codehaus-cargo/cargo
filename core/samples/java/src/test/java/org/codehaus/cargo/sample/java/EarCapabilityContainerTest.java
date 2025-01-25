@@ -40,6 +40,7 @@ public class EarCapabilityContainerTest extends AbstractStandaloneLocalContainer
      */
     public EarCapabilityContainerTest()
     {
+        super();
         this.addValidator(new HasEarSupportValidator());
     }
 

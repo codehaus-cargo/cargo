@@ -45,6 +45,7 @@ public class WarAuthenticationTest extends AbstractStandaloneLocalContainerTestC
      */
     public WarAuthenticationTest()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new SupportsPropertyValidator(
             ConfigurationType.STANDALONE, ServletPropertySet.USERS));

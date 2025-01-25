@@ -39,6 +39,7 @@ public class SpawnContainerTest extends AbstractStandaloneLocalContainerTestCase
      */
     public SpawnContainerTest()
     {
+        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new HasSpawnSupportValidator(ConfigurationType.STANDALONE));
     }
