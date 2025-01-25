@@ -1093,6 +1093,12 @@
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit</artifactId>
         <version>4.9.0</version>
+        <exclusions>
+          <exclusion>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.rmi</groupId>
