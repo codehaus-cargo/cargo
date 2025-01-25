@@ -41,8 +41,6 @@ public class Jonas5xRuntimeConfiguration extends Jonas4xRuntimeConfiguration
      */
     public Jonas5xRuntimeConfiguration()
     {
-        super();
-
         setProperty(JonasPropertySet.JONAS_UNDEPLOY_IGNORE_VERSION, "false");
     }
 

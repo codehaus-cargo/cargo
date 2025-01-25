@@ -31,8 +31,6 @@ public class Tomcat7xRuntimeConfiguration extends Tomcat6xRuntimeConfiguration
      */
     public Tomcat7xRuntimeConfiguration()
     {
-        super();
-
         setProperty(TomcatPropertySet.UNDEPLOY_ALL_VERSIONS, "false");
     }
 

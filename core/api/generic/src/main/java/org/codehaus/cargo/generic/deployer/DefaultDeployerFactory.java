@@ -68,8 +68,6 @@ public class DefaultDeployerFactory extends AbstractIntrospectionGenericHintFact
      */
     public DefaultDeployerFactory(ClassLoader classLoader)
     {
-        super();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

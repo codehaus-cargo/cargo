@@ -32,8 +32,6 @@ public class Tomcat7x8x9x10x11xRuntimeConfigurationCapability extends
      */
     public Tomcat7x8x9x10x11xRuntimeConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.put(TomcatPropertySet.UNDEPLOY_ALL_VERSIONS, Boolean.TRUE);
     }
 }

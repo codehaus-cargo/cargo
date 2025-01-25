@@ -65,8 +65,6 @@ public class DefaultPackagerFactory extends AbstractIntrospectionGenericHintFact
      */
     public DefaultPackagerFactory(ClassLoader classLoader)
     {
-        super();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

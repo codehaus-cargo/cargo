@@ -42,8 +42,6 @@ public class JettyRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     public JettyRuntimeConfiguration()
     {
-        super();
-
         this.setProperty(RemotePropertySet.TIMEOUT, "120000");
     }
 

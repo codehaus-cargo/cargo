@@ -59,8 +59,6 @@ public class JRun4xReplacements extends HashMap<String, String>
      */
     public JRun4xReplacements(LocalContainer jrunContainer)
     {
-        super();
-
         this.jrunContainer = (InstalledLocalContainer) jrunContainer;
         this.configuration = jrunContainer.getConfiguration();
         this.xmlUtil = new XmlUtils(jrunContainer.getFileHandler());

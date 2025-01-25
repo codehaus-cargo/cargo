@@ -74,8 +74,6 @@ public class DefaultConfigurationFactory extends
      */
     public DefaultConfigurationFactory(ClassLoader classLoader)
     {
-        super();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

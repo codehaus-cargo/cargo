@@ -36,8 +36,6 @@ public class WebLogic103xRuntimeConfiguration extends AbstractWebLogicWlstRuntim
      */
     public WebLogic103xRuntimeConfiguration()
     {
-        super();
-
         setProperty(RemotePropertySet.PASSWORD, "weblogic");
     }
 

@@ -69,8 +69,6 @@ public class DefaultContainerFactory extends AbstractIntrospectionGenericHintFac
      */
     public DefaultContainerFactory(ClassLoader classLoader)
     {
-        super();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

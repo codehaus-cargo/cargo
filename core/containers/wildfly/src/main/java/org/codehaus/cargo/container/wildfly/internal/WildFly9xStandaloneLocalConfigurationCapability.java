@@ -35,8 +35,6 @@ public class WildFly9xStandaloneLocalConfigurationCapability
      */
     public WildFly9xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.put(DatasourcePropertySet.CONNECTION_TYPE, Boolean.TRUE);
         this.propertySupportMap.put(ResourcePropertySet.RESOURCE, Boolean.TRUE);
         this.propertySupportMap.put(WildFlyPropertySet.CLI_OFFLINE_SCRIPT, Boolean.TRUE);

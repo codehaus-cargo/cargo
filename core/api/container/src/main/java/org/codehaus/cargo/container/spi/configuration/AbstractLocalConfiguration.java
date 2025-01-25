@@ -125,8 +125,6 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
      */
     public AbstractLocalConfiguration(String home)
     {
-        super();
-
         this.deployables = new ArrayList<Deployable>();
         this.fileHandler = new DefaultFileHandler();
         this.resourceUtils = new ResourceUtils();

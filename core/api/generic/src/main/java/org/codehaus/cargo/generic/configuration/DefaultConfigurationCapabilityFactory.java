@@ -55,8 +55,6 @@ public class DefaultConfigurationCapabilityFactory extends
      */
     public DefaultConfigurationCapabilityFactory(ClassLoader classLoader)
     {
-        super();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

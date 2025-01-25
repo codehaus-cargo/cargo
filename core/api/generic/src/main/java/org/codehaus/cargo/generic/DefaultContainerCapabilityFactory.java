@@ -51,8 +51,6 @@ public class DefaultContainerCapabilityFactory extends
      */
     public DefaultContainerCapabilityFactory(ClassLoader classLoader)
     {
-        super();
-
         AbstractFactoryRegistry.register(classLoader, this);
     }
 

@@ -36,8 +36,6 @@ public class WildFly8xStandaloneLocalConfigurationCapability
      */
     public WildFly8xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.FALSE);
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(DatasourcePropertySet.TRANSACTION_SUPPORT, Boolean.TRUE);

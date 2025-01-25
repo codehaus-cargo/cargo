@@ -47,8 +47,6 @@ public class Tomcat4xRuntimeConfiguration extends AbstractRuntimeConfiguration
      */
     public Tomcat4xRuntimeConfiguration()
     {
-        super();
-
         setProperty(TomcatPropertySet.DEPLOY_UPDATE, "false");
         setProperty(RemotePropertySet.TIMEOUT, Long.toString(TWO_HOURS));
     }

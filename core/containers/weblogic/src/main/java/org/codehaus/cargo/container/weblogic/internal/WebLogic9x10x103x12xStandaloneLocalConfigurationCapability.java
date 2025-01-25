@@ -35,8 +35,6 @@ public class WebLogic9x10x103x12xStandaloneLocalConfigurationCapability extends
      */
     public WebLogic9x10x103x12xStandaloneLocalConfigurationCapability()
     {
-        super();
-
         // it is possible to set server logging thresholds in WLS 9+
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.TRUE);
 
