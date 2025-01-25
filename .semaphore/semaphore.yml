@@ -81,7 +81,7 @@ blocks:
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
             - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
@@ -296,7 +296,7 @@ blocks:
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
@@ -1288,7 +1288,7 @@ blocks:
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
@@ -1347,7 +1347,7 @@ blocks:
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME

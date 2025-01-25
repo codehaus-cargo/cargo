@@ -88,7 +88,6 @@
                 <cargo.hostname>localhost</cargo.hostname>
                 <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
                 <cargo.glassfish.admin.port>${cargo.samples.rmi.port}</cargo.glassfish.admin.port>
-                <cargo.zipUrlInstaller.downloadDir>${project.build.directory}/../../../../../core/samples/java/installs</cargo.zipUrlInstaller.downloadDir>
               </properties>
             </configuration>
             <executions>
