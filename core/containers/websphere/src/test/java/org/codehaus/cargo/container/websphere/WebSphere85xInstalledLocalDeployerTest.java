@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.container.websphere;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
@@ -27,12 +28,13 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * Unit tests for the {@link WebSphere85xInstalledLocalDeployer} class.
  */
-public class WebSphere85xInstalledLocalDeployerTest extends TestCase
+public class WebSphere85xInstalledLocalDeployerTest
 {
     /**
      * Test WAR deployment.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDeployWar() throws Exception
     {
         WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution deployer =
@@ -47,6 +49,7 @@ public class WebSphere85xInstalledLocalDeployerTest extends TestCase
      * Test EAR deployment.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDeployEar() throws Exception
     {
         WebSphere85xInstalledLocalDeployerWithNoWsAdminExecution deployer =
@@ -54,7 +57,8 @@ public class WebSphere85xInstalledLocalDeployerTest extends TestCase
         EAR ear = new EAR("target/test-artifacts/simple-ear.ear");
         deployer.deploy(ear);
         assertContains(deployer.getCommands(), "'-appname','simple-ear'");
-        assertContains(deployer.getCommands(), "filename = 'target/test-artifacts/simple-ear.ear'");
+        assertContains(
+            deployer.getCommands(), "filename = 'target/test-artifacts/simple-ear.ear'");
     }
 
     /**
@@ -64,7 +68,7 @@ public class WebSphere85xInstalledLocalDeployerTest extends TestCase
      */
     private void assertContains(String haystack, String needle)
     {
-        assertTrue("[" + haystack + "] does not contain [" + needle + "]",
-            haystack.contains(needle));
+        Assertions.assertTrue(
+            haystack.contains(needle), "[" + haystack + "] does not contain [" + needle + "]");
     }
 }

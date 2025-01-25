@@ -24,6 +24,8 @@ import java.io.FileInputStream;
 import java.util.List;
 
 import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
@@ -40,20 +42,21 @@ public class UberwarTest extends AbstractDocumentBuilderTest
      * Test generation of Uberwars (merged WARs).
      * @throws Exception If anything fails.
      */
+    @Test
     public void testUberwar() throws Exception
     {
         File target = new File(System.getProperty("target"));
 
         String projectVersion = System.getProperty("project.version");
-        assertNotNull("System property project.version not set", projectVersion);
+        Assertions.assertNotNull("System property project.version not set", projectVersion);
 
         File uberwarExpandedDirectory = new File(target,
             "test-classes/target/cargo-sample-maven3-uberwar-test-artifact-" + projectVersion);
-        assertNotNull("Not a directory: " + uberwarExpandedDirectory,
-            uberwarExpandedDirectory.isDirectory());
+        Assertions.assertNotNull(uberwarExpandedDirectory.isDirectory(),
+            "Not a directory: " + uberwarExpandedDirectory);
 
         File webXmlFile = new File(uberwarExpandedDirectory, "WEB-INF/web.xml");
-        assertNotNull("Not a file: " + webXmlFile, webXmlFile.isFile());
+        Assertions.assertNotNull(webXmlFile.isFile(), "Not a file: " + webXmlFile);
 
         try (FileInputStream webXmlStream = new FileInputStream(webXmlFile))
         {
@@ -61,25 +64,25 @@ public class UberwarTest extends AbstractDocumentBuilderTest
 
             // Check that the security constraints are in the uberwar
             List<Element> securityConstraints = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);
-            assertEquals(1, securityConstraints.size());
+            Assertions.assertEquals(1, securityConstraints.size());
             Element securityConstraint = securityConstraints.get(0);
             List<Element> authConstraints = securityConstraint.getChildren(
                 WebXmlType.AUTH_CONSTRAINT, securityConstraint.getNamespace());
-            assertEquals(1, authConstraints.size());
+            Assertions.assertEquals(1, authConstraints.size());
             Element authConstraint = authConstraints.get(0);
             List<Element> roleNames = authConstraint.getChildren(
                 WebXmlType.ROLE_NAME, authConstraint.getNamespace());
-            assertEquals(1, roleNames.size());
-            assertEquals("cargo", roleNames.get(0).getText());
+            Assertions.assertEquals(1, roleNames.size());
+            Assertions.assertEquals("cargo", roleNames.get(0).getText());
 
             // Check that the datasource definitions are in the uberwar
             List<Element> resourceRefs = webXml.getTags(WebXmlType.RESOURCE_REF);
-            assertEquals(1, resourceRefs.size());
+            Assertions.assertEquals(1, resourceRefs.size());
             Element resourceRef = resourceRefs.get(0);
             List<Element> resRefNames = resourceRef.getChildren(
                 "res-ref-name", resourceRef.getNamespace());
-            assertEquals(1, resRefNames.size());
-            assertEquals("jdbc/CargoDS", resRefNames.get(0).getText());
+            Assertions.assertEquals(1, resRefNames.size());
+            Assertions.assertEquals("jdbc/CargoDS", resRefNames.get(0).getText());
         }
     }
 

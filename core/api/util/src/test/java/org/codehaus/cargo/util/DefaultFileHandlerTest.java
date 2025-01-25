@@ -22,12 +22,14 @@ package org.codehaus.cargo.util;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link DefaultFileHandler}.
  */
-public class DefaultFileHandlerTest extends TestCase
+public class DefaultFileHandlerTest
 {
 
     /**
@@ -36,56 +38,62 @@ public class DefaultFileHandlerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the file handler. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the file handler.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
         this.fileHandler = new DefaultFileHandler();
     }
 
     /**
      * Test relative to absolute path.
      */
+    @Test
     public void testGetAbsolutePathFromRelative()
     {
         String path = this.fileHandler.getAbsolutePath("path");
-        assertEquals(path, System.getProperty("user.dir") + System.getProperty("file.separator")
-            + "path");
+        Assertions.assertEquals(
+            path, System.getProperty("user.dir") + System.getProperty("file.separator") + "path");
     }
 
     /**
      * Test explicit to absolute path.
      */
+    @Test
     public void testGetAbsolutePathFromExplicit()
     {
         String path = this.fileHandler.getAbsolutePath(System.getProperty("user.home"));
-        assertEquals(path, System.getProperty("user.home"));
+        Assertions.assertEquals(path, System.getProperty("user.home"));
     }
 
     /**
      * Test file copy to a non-existing path.<br>
      * This has been raised by https://codehaus-cargo.atlassian.net/browse/CARGO-1004
      */
+    @Test
     public void testCopyToNonExistingPath()
     {
         String random = UUID.randomUUID().toString();
-        assertFalse("Subdirectory " + random + " already exists",
-            this.fileHandler.isDirectory("target/" + random));
+        Assertions.assertFalse(
+            this.fileHandler.isDirectory("target/" + random),
+                "Subdirectory " + random + " already exists");
         this.fileHandler.createFile("target/random.txt");
-        this.fileHandler.copyFile("target/random.txt", "target/" + random + "/random.txt",
-            null, StandardCharsets.UTF_8);
-        assertTrue("Subdirectory " + random + " does not exist after copy",
-            this.fileHandler.isDirectory("target/" + random));
-        assertTrue("File in subdirectory " + random + " missing after copy",
-            this.fileHandler.exists("target/" + random + "/random.txt"));
+        this.fileHandler.copyFile(
+            "target/random.txt", "target/" + random + "/random.txt",
+                null, StandardCharsets.UTF_8);
+        Assertions.assertTrue(
+            this.fileHandler.isDirectory("target/" + random),
+                "Subdirectory " + random + " does not exist after copy");
+        Assertions.assertTrue(
+            this.fileHandler.exists("target/" + random + "/random.txt"),
+                "File in subdirectory " + random + " missing after copy");
     }
 
     /**
      * Test valid XML replacement
      */
+    @Test
     public void testValidXmlReplacement()
     {
         final String file = "target/jboss-standalone-valid.xml";
@@ -96,28 +104,29 @@ public class DefaultFileHandlerTest extends TestCase
         this.fileHandler.copyFile("src/test/resources/jboss-standalone.xml", file, true);
 
         String read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
-        assertTrue("File " + file + " does not contain: " + old, read.contains(old));
+        Assertions.assertTrue(read.contains(old), "File " + file + " does not contain: " + old);
 
         XmlReplacement xmlReplacement = new XmlReplacement(file,
             "//server/socket-binding-group/socket-binding[@name='http']", "port",
                 XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
-        assertFalse("File " + file + " still contains: " + old, read.contains(old));
-        assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
+        Assertions.assertFalse(read.contains(old), "File " + file + " still contains: " + old);
+        Assertions.assertTrue(read.contains(new1), "File " + file + " does not contain: " + new1);
 
         xmlReplacement.setAttributeName(null);
         xmlReplacement.setValue("test2");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
-        assertFalse("File " + file + " still contains: " + old, read.contains(old));
-        assertFalse("File " + file + " still contains: " + new1, read.contains(new1));
-        assertTrue("File " + file + " does not contain: " + new2, read.contains(new2));
+        Assertions.assertFalse(read.contains(old), "File " + file + " still contains: " + old);
+        Assertions.assertFalse(read.contains(new1), "File " + file + " still contains: " + new1);
+        Assertions.assertTrue(read.contains(new2), "File " + file + " does not contain: " + new2);
     }
 
     /**
      * Test valid XML replacement for replacing a neighbor
      */
+    @Test
     public void testXmlNeighborReplacement()
     {
         final String file = "target/bindings-jboss-beans.xml";
@@ -128,8 +137,9 @@ public class DefaultFileHandlerTest extends TestCase
         this.fileHandler.copyFile("src/test/resources/bindings-jboss-beans.xml", file, true);
 
         String read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
-        assertTrue("File " + file + " does not contain: " + old, read.contains(old));
-        assertTrue("File " + file + " does not contain: " + permanent, read.contains(permanent));
+        Assertions.assertTrue(read.contains(old), "File " + file + " does not contain: " + old);
+        Assertions.assertTrue(
+            read.contains(permanent), "File " + file + " does not contain: " + permanent);
 
         XmlReplacement xmlReplacement = new XmlReplacement(file,
             "//deployment/bean[@name='StandardBindings']/constructor/parameter/set/bean"
@@ -139,15 +149,16 @@ public class DefaultFileHandlerTest extends TestCase
                 XmlReplacement.ReplacementBehavior.THROW_EXCEPTION, "test1");
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
-        assertFalse("File " + file + " still contains: " + old, read.contains(old));
-        assertTrue("File " + file + " does not contain: " + new1, read.contains(new1));
-        assertTrue("File " + file + " does not contain anymore: " + permanent,
-            read.contains(permanent));
+        Assertions.assertFalse(read.contains(old), "File " + file + " still contains: " + old);
+        Assertions.assertTrue(read.contains(new1), "File " + file + " does not contain: " + new1);
+        Assertions.assertTrue(
+            read.contains(permanent), "File " + file + " does not contain anymore: " + permanent);
     }
 
     /**
      * Test invalid XML XPath replacement
      */
+    @Test
     public void testInvalidXmlXpathReplacement()
     {
         final String file = "target/jboss-standalone-invalid-xpath.xml";
@@ -162,13 +173,13 @@ public class DefaultFileHandlerTest extends TestCase
         try
         {
             this.fileHandler.replaceInXmlFile(xmlReplacement);
-            fail();
+            Assertions.fail();
         }
         catch (CargoException e)
         {
-            assertNotNull(e.getCause());
-            assertNotNull(e.getCause().getMessage());
-            assertTrue(e.getCause().getMessage().contains(
+            Assertions.assertNotNull(e.getCause());
+            Assertions.assertNotNull(e.getCause().getMessage());
+            Assertions.assertTrue(e.getCause().getMessage().contains(
                 "Node " + nonExistingXpath + " not found"));
         }
     }
@@ -176,6 +187,7 @@ public class DefaultFileHandlerTest extends TestCase
     /**
      * Test non-existing XML attribute replacement
      */
+    @Test
     public void testNonExistingXmlAttributeReplacement()
     {
         final String file = "target/jboss-standalone-nonexisting-xml-attribute.xml";
@@ -190,7 +202,7 @@ public class DefaultFileHandlerTest extends TestCase
 
         this.fileHandler.replaceInXmlFile(xmlReplacement);
         String read = this.fileHandler.readTextFile(file, StandardCharsets.UTF_8);
-        assertTrue("File " + file + " does not contain: " + test, read.contains(test));
+        Assertions.assertTrue(read.contains(test), "File " + file + " does not contain: " + test);
     }
 
 }

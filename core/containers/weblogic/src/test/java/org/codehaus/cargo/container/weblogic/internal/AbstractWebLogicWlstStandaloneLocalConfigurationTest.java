@@ -2,17 +2,19 @@ package org.codehaus.cargo.container.weblogic.internal;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.weblogic.WebLogic121xInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogic121xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
-import junit.framework.TestCase;
-
 /**
  * Unit tests for {@link AbstractWebLogicWlstStandaloneLocalConfiguration}.
  */
-public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCase
+public class AbstractWebLogicWlstStandaloneLocalConfigurationTest
 {
     /**
      * BEA_HOME
@@ -40,15 +42,11 @@ public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCa
     private WebLogic121xStandaloneLocalConfiguration configuration;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
-     * 
-     * @throws Exception If anything goes wrong.
+     * Creates the test file system manager and the container.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
-
         this.configuration = new WebLogic121xStandaloneLocalConfiguration(DOMAIN_HOME);
 
         this.container = new WebLogic121xInstalledLocalContainer(configuration);
@@ -61,6 +59,7 @@ public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCa
      * 
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSortResources() throws Exception
     {
         Resource jmsServer =
@@ -85,12 +84,16 @@ public class AbstractWebLogicWlstStandaloneLocalConfigurationTest extends TestCa
 
         // resources are sorted according to priority
         List<Resource> resources = configuration.getResources();
-        assertEquals(5, resources.size());
-        assertEquals(WebLogicConfigurationEntryType.JMS_SERVER, resources.get(0).getType());
-        assertEquals(WebLogicConfigurationEntryType.JMS_MODULE, resources.get(1).getType());
-        assertEquals(WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT, resources.get(2).getType());
-        assertEquals(WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY,
-                resources.get(3).getType());
-        assertEquals(WebLogicConfigurationEntryType.JMS_QUEUE, resources.get(4).getType());
+        Assertions.assertEquals(5, resources.size());
+        Assertions.assertEquals(
+            WebLogicConfigurationEntryType.JMS_SERVER, resources.get(0).getType());
+        Assertions.assertEquals(
+            WebLogicConfigurationEntryType.JMS_MODULE, resources.get(1).getType());
+        Assertions.assertEquals(
+            WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT, resources.get(2).getType());
+        Assertions.assertEquals(
+            WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY, resources.get(3).getType());
+        Assertions.assertEquals(
+            WebLogicConfigurationEntryType.JMS_QUEUE, resources.get(4).getType());
     }
 }

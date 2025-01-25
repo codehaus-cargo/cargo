@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
@@ -56,13 +59,14 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
      * Test configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
 
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/resin.conf"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/cargocpc.war"));
     }
 
@@ -114,11 +118,11 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         {
             super
                 .testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+            Assertions.assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
                 e.getMessage());
         }
     }
@@ -137,11 +141,11 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
         {
             super
                 .testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+            Assertions.assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
                 e.getMessage());
         }
     }
@@ -150,6 +154,7 @@ public abstract class AbstractResinStandaloneLocalConfigurationTest extends
      * Resource support is currently unimplemented.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureCreatesResourceForXADataSource() throws Exception
     {
         // Nothing

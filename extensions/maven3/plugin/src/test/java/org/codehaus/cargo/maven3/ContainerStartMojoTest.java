@@ -25,11 +25,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
@@ -37,12 +39,11 @@ import org.codehaus.cargo.maven3.configuration.Configuration;
 import org.codehaus.cargo.maven3.configuration.Container;
 import org.codehaus.cargo.maven3.configuration.Deployable;
 import org.codehaus.cargo.maven3.util.CargoProject;
-import org.mockito.Mockito;
 
 /**
  * Unit tests for the {@link ContainerStartMojo} mojo.
  */
-public class ContainerStartMojoTest extends TestCase
+public class ContainerStartMojoTest
 {
     /**
      * Mojo for testing.
@@ -77,6 +78,7 @@ public class ContainerStartMojoTest extends TestCase
      * Test execute when autodeploy location is overriden.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testExecuteWhenAutoDeployLocationIsOverriden() throws Exception
     {
         String deployableFile = "testExecuteWhenAutoDeployLocationIsOverriden.war";
@@ -93,17 +95,18 @@ public class ContainerStartMojoTest extends TestCase
 
         // Look for the auto deployable in the list of deployables to deploy.
         LocalContainer localContainer = (LocalContainer) this.mojo.createdContainer;
-        assertEquals(1, localContainer.getConfiguration().getDeployables().size());
+        Assertions.assertEquals(1, localContainer.getConfiguration().getDeployables().size());
         org.codehaus.cargo.container.deployable.Deployable autoDeployable =
             localContainer.getConfiguration()
                 .getDeployables().get(0);
-        assertEquals(deployableFile, autoDeployable.getFile());
+        Assertions.assertEquals(deployableFile, autoDeployable.getFile());
     }
 
     /**
      * Test execute when autodeploy location is non-J2EE.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testExecuteWhenNoAutoDeployableBecauseNonJ2EEPackagingProject() throws Exception
     {
         setUpMojo(InstalledLocalContainerStub.class, InstalledLocalContainerStub.ID,
@@ -111,13 +114,14 @@ public class ContainerStartMojoTest extends TestCase
         this.mojo.setCargoProject(createTestCargoProject("whatever"));
         this.mojo.execute();
         LocalContainer localContainer = (LocalContainer) this.mojo.createdContainer;
-        assertEquals(0, localContainer.getConfiguration().getDeployables().size());
+        Assertions.assertEquals(0, localContainer.getConfiguration().getDeployables().size());
     }
 
     /**
      * Test two executions in a single project.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testTwoExecutionsInProject() throws Exception
     {
         Map<String, org.codehaus.cargo.container.Container> context =
@@ -133,17 +137,18 @@ public class ContainerStartMojoTest extends TestCase
         this.mojo.getConfigurationElement().setHome("bar");
         this.mojo.execute();
 
-        assertEquals(4, context.size());
+        Assertions.assertEquals(4, context.size());
         org.codehaus.cargo.container.Container container1 = retrieveContainers(context).get(0);
         org.codehaus.cargo.container.Container container2 = retrieveContainers(context).get(1);
         // can't work out which container is which, so we just check they're different
-        assertFalse("containers should be different", container1.equals(container2));
+        Assertions.assertFalse(container1.equals(container2), "containers should be different");
     }
 
     /**
      * Test two executions with different configurations in a single project.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testTwoExecutionsWithDifferentConfigurationsInProject() throws Exception
     {
         Map<String, org.codehaus.cargo.container.Container> context =
@@ -156,16 +161,16 @@ public class ContainerStartMojoTest extends TestCase
 
         this.mojo.getConfigurationElement().getProperties().put("foo", "bar");
         this.mojo.execute();
-        assertEquals(2, context.size());
+        Assertions.assertEquals(2, context.size());
         org.codehaus.cargo.container.Container container = retrieveContainers(context).get(0);
-        assertEquals("bar",
+        Assertions.assertEquals("bar",
             ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
 
         this.mojo.getConfigurationElement().getProperties().put("foo", "qux");
         this.mojo.execute();
-        assertEquals(2, context.size());
+        Assertions.assertEquals(2, context.size());
         container = retrieveContainers(context).get(0);
-        assertEquals("qux",
+        Assertions.assertEquals("qux",
             ((LocalContainer) container).getConfiguration().getPropertyValue("foo"));
     }
 

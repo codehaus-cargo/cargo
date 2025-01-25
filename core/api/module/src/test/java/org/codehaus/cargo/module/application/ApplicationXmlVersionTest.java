@@ -22,8 +22,11 @@
  */
 package org.codehaus.cargo.module.application;
 
-import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.jdom2.DocType;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
  * Unit tests for {@link ApplicationXmlVersion}.
@@ -35,9 +38,10 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare12To12() throws Exception
     {
-        assertTrue(ApplicationXmlVersion.V1_2.compareTo(
+        Assertions.assertTrue(ApplicationXmlVersion.V1_2.compareTo(
             ApplicationXmlVersion.V1_2) == 0);
     }
 
@@ -46,9 +50,10 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare12To13() throws Exception
     {
-        assertTrue(ApplicationXmlVersion.V1_2.compareTo(
+        Assertions.assertTrue(ApplicationXmlVersion.V1_2.compareTo(
             ApplicationXmlVersion.V1_3) < 0);
     }
 
@@ -57,9 +62,10 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare13To13() throws Exception
     {
-        assertTrue(ApplicationXmlVersion.V1_3.compareTo(
+        Assertions.assertTrue(ApplicationXmlVersion.V1_3.compareTo(
             ApplicationXmlVersion.V1_3) == 0);
     }
 
@@ -68,9 +74,10 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare13To12() throws Exception
     {
-        assertTrue(ApplicationXmlVersion.V1_3.compareTo(
+        Assertions.assertTrue(ApplicationXmlVersion.V1_3.compareTo(
             ApplicationXmlVersion.V1_2) > 0);
     }
 
@@ -79,12 +86,13 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfNull() throws Exception
     {
         try
         {
             ApplicationXmlVersion.valueOf((DocType) null);
-            fail("Expected NullPointerException");
+            Assertions.fail("Expected NullPointerException");
         }
         catch (NullPointerException expected)
         {
@@ -98,12 +106,13 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfUnknownDocType() throws Exception
     {
         DocType docType = new DocType("application",
             "foo", "bar");
 
-        assertNull(ApplicationXmlVersion.valueOf(docType));
+        Assertions.assertNull(ApplicationXmlVersion.valueOf(docType));
     }
 
     /**
@@ -112,12 +121,13 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfDocType12() throws Exception
     {
         DocType docType = new DocType("application",
             ApplicationXmlVersion.V1_2.getPublicId(),
             ApplicationXmlVersion.V1_2.getSystemId());
-        assertEquals(ApplicationXmlVersion.V1_2, ApplicationXmlVersion.valueOf(docType));
+        Assertions.assertEquals(ApplicationXmlVersion.V1_2, ApplicationXmlVersion.valueOf(docType));
     }
 
     /**
@@ -126,12 +136,13 @@ public final class ApplicationXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfDocType13() throws Exception
     {
         DocType docType = new DocType("application",
             ApplicationXmlVersion.V1_3.getPublicId(),
             ApplicationXmlVersion.V1_3.getSystemId());
-        assertEquals(ApplicationXmlVersion.V1_3, ApplicationXmlVersion.valueOf(docType));
+        Assertions.assertEquals(ApplicationXmlVersion.V1_3, ApplicationXmlVersion.valueOf(docType));
     }
 
 }

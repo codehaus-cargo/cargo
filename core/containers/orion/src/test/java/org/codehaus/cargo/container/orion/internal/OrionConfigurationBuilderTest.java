@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
@@ -58,11 +60,11 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         try
         {
             super.testBuildConfigurationEntryForXADataSourceConfiguredResource();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
+            Assertions.assertEquals(OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
                 .getMessage());
         }
     }
@@ -77,11 +79,11 @@ public class OrionConfigurationBuilderTest extends AbstractConfigurationBuilderT
         try
         {
             super.testBuildConfigurationEntryForMailSessionConfiguredResource();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
+            Assertions.assertEquals(OrionConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
                 .getMessage());
         }
     }

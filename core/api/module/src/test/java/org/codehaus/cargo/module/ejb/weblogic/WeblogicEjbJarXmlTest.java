@@ -22,6 +22,9 @@ package org.codehaus.cargo.module.ejb.weblogic;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
 
@@ -35,6 +38,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetLocalJndiName() throws Exception
     {
         String xml = "<weblogic-ejb-jar>"
@@ -46,7 +50,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
 
         WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
+        Assertions.assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
 
     /**
@@ -54,6 +58,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetJndiName() throws Exception
     {
         String xml = "<weblogic-ejb-jar>"
@@ -65,7 +70,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
 
         WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
+        Assertions.assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb")));
     }
 
     /**
@@ -73,6 +78,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetLocalJndiNameWithWrongEjbName() throws Exception
     {
         String xml = "<weblogic-ejb-jar>"
@@ -84,7 +90,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
 
         WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertNull(descr.getJndiName(new EjbDef("MyEjd")));
+        Assertions.assertNull(descr.getJndiName(new EjbDef("MyEjd")));
     }
 
     /**
@@ -92,6 +98,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetDispatchPolicy() throws Exception
     {
         String xml = "<weblogic-ejb-jar>"
@@ -103,7 +110,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
             + "</weblogic-ejb-jar>";
         WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertEquals("threadQueue", descr.getDispatchPolicy(new EjbDef("MyEjb")));
+        Assertions.assertEquals("threadQueue", descr.getDispatchPolicy(new EjbDef("MyEjb")));
     }
 
     /**
@@ -111,6 +118,7 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddDispatchPolicy() throws Exception
     {
         String xml = "<weblogic-ejb-jar>"
@@ -122,6 +130,6 @@ public class WeblogicEjbJarXmlTest extends AbstractDocumentBuilderTest
         WeblogicEjbJarXml descr = WeblogicEjbJarXmlIo.parseWeblogicEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         descr.addDispatchPolicy(new EjbDef("MyEjb"), "threadQueue");
-        assertEquals("threadQueue", descr.getDispatchPolicy(new EjbDef("MyEjb")));
+        Assertions.assertEquals("threadQueue", descr.getDispatchPolicy(new EjbDef("MyEjb")));
     }
 }

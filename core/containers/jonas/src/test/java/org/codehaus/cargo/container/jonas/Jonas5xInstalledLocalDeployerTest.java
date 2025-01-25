@@ -22,7 +22,10 @@
  */
 package org.codehaus.cargo.container.jonas;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -41,7 +44,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link Jonas5xInstalledLocalDeployer}.
  */
-public class Jonas5xInstalledLocalDeployerTest extends TestCase
+public class Jonas5xInstalledLocalDeployerTest
 {
     /**
      * JONAS_ROOT folder for tests.
@@ -74,14 +77,12 @@ public class Jonas5xInstalledLocalDeployerTest extends TestCase
     private DeployableFactory factory;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -104,43 +105,43 @@ public class Jonas5xInstalledLocalDeployerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test the <code>getDeployableDir</code> method.
      */
+    @Test
     public void testGetDeployableDir()
     {
-        assertEquals(JONAS_BASE + "/deploy", deployer.getDeployableDir(null));
+        Assertions.assertEquals(JONAS_BASE + "/deploy", deployer.getDeployableDir(null));
     }
 
     /**
      * Test EJB deployment.
      */
+    @Test
     public void testDeployEJBJar()
     {
         this.fileHandler.createFile("ram:///test.jar");
         EJB ejb = (EJB) factory.createDeployable("jonas5x", "ram:///test.jar", DeployableType.EJB);
 
         deployer.deploy(ejb);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir(ejb) + "/test.jar"));
+        Assertions.assertTrue(fileHandler.exists(deployer.getDeployableDir(ejb) + "/test.jar"));
     }
 
     /**
      * Test EAR deployment.
      */
+    @Test
     public void testDeployEar()
     {
         // EARs need to be real since they're analyzed by the deployer
@@ -150,36 +151,39 @@ public class Jonas5xInstalledLocalDeployerTest extends TestCase
         ear.setName("test");
 
         deployer.deploy(ear);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir(ear) + "/test.ear"));
+        Assertions.assertTrue(fileHandler.exists(deployer.getDeployableDir(ear) + "/test.ear"));
     }
 
     /**
      * Test WAR deployment.
      */
+    @Test
     public void testDeployWar()
     {
         this.fileHandler.createFile("ram:///test.war");
         WAR war = (WAR) factory.createDeployable("jonas5x", "ram:///test.war", DeployableType.WAR);
 
         deployer.deploy(war);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir(war) + "/test.war"));
+        Assertions.assertTrue(fileHandler.exists(deployer.getDeployableDir(war) + "/test.war"));
     }
 
     /**
      * Test RAR deployment.
      */
+    @Test
     public void testDeployRar()
     {
         this.fileHandler.createFile("ram:///test.rar");
         RAR rar = (RAR) factory.createDeployable("jonas5x", "ram:///test.rar", DeployableType.RAR);
 
         deployer.deploy(rar);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir(rar) + "/test.rar"));
+        Assertions.assertTrue(fileHandler.exists(deployer.getDeployableDir(rar) + "/test.rar"));
     }
 
     /**
      * Test file deployment.
      */
+    @Test
     public void testDeployFile()
     {
         this.fileHandler.createFile("ram:///test.extension");
@@ -187,12 +191,14 @@ public class Jonas5xInstalledLocalDeployerTest extends TestCase
             DeployableType.FILE);
 
         deployer.deploy(file);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir(file) + "/test.extension"));
+        Assertions.assertTrue(
+            fileHandler.exists(deployer.getDeployableDir(file) + "/test.extension"));
     }
 
     /**
      * Test OSGi bundle deployment.
      */
+    @Test
     public void testDeployBundle()
     {
         this.fileHandler.createFile("ram:///test.jar");
@@ -200,6 +206,6 @@ public class Jonas5xInstalledLocalDeployerTest extends TestCase
             DeployableType.BUNDLE);
 
         deployer.deploy(bundle);
-        assertTrue(fileHandler.exists(deployer.getDeployableDir(bundle) + "/test.jar"));
+        Assertions.assertTrue(fileHandler.exists(deployer.getDeployableDir(bundle) + "/test.jar"));
     }
 }

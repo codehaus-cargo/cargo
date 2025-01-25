@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.container.spi.configuration.builder;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilderTests;
@@ -31,7 +32,7 @@ import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 /**
  * Abstract test for any {@link ConfigurationBuilder} and {@link ConfigurationChecker}.
  */
-public abstract class AbstractConfigurationBuilderTest extends TestCase implements
+public abstract class AbstractConfigurationBuilderTest implements
     ConfigurationBuilderTests
 {
     /**
@@ -45,14 +46,11 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
     private ConfigurationChecker checker;
 
     /**
-     * Creates the configuration builder and checker. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the configuration builder and checker.
      */
-    @Override
-    public void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
-
         builder = createConfigurationBuilder();
         checker = createConfigurationChecker();
     }
@@ -156,6 +154,7 @@ public abstract class AbstractConfigurationBuilderTest extends TestCase implemen
      * Test configuration with mail resource.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testBuildConfigurationEntryForMailSessionConfiguredResource() throws Exception
     {
         ResourceFixture resourceFixture =

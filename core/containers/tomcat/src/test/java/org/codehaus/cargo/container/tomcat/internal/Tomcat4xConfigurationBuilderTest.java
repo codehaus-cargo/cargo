@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
@@ -59,11 +61,11 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         {
             super
                 .testBuildConfigurationEntryForDriverConfiguredDSWithLocalTransactionSupport();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(
+            Assertions.assertEquals(
                 "Tomcat does not support LOCAL_TRANSACTION for DataSource implementations.", e
                     .getMessage());
         }
@@ -82,11 +84,11 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         {
             super
                 .testBuildConfigurationEntryForDriverConfiguredDataSourceWithXaTransactionSupport();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(
+            Assertions.assertEquals(
                 "Tomcat does not support XA_TRANSACTION for DataSource implementations.", e
                     .getMessage());
         }
@@ -103,11 +105,11 @@ public class Tomcat4xConfigurationBuilderTest extends AbstractConfigurationBuild
         try
         {
             super.testBuildConfigurationEntryForXADataSourceConfiguredDataSource();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(
+            Assertions.assertEquals(
                 "Tomcat does not support XADataSource configured DataSource implementations.", e
                     .getMessage());
         }

@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.ant.remote_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Generic CARGO testcase.
  */
-public class CargoTest extends TestCase
+public class CargoTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class CargoTest extends TestCase
      * Test CARGO Ping Component.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargo() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

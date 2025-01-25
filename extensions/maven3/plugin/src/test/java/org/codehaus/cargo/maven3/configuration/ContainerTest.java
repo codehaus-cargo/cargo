@@ -34,13 +34,15 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import junit.framework.TestCase;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.DefaultArtifactHandler;
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.plugin.logging.Log;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.installer.ZipURLInstaller;
@@ -49,17 +51,17 @@ import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 import org.codehaus.cargo.maven3.util.CargoProject;
 import org.codehaus.cargo.util.log.NullLogger;
-import org.mockito.Mockito;
 
 /**
  * Unit tests for the {@link org.codehaus.cargo.maven3.configuration.Container} class.
  */
-public class ContainerTest extends TestCase
+public class ContainerTest
 {
     /**
      * Test embedded container creation with system properties.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateEmbeddedContainerWithSystemPropertiesSet() throws Exception
     {
         org.codehaus.cargo.maven3.configuration.Container containerElement =
@@ -97,7 +99,7 @@ public class ContainerTest extends TestCase
         // For embedded containers, system properties get put into our own vm
         for (Map.Entry<String, String> entry : props.entrySet())
         {
-            assertEquals(entry.getValue(), System.getProperty(entry.getKey()));
+            Assertions.assertEquals(entry.getValue(), System.getProperty(entry.getKey()));
         }
     }
 
@@ -105,6 +107,7 @@ public class ContainerTest extends TestCase
      * Test installed local container creation with system properties.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateInstalledLocalContainerWithSystemPropertiesSet() throws Exception
     {
         org.codehaus.cargo.maven3.configuration.Container containerElement =
@@ -141,13 +144,14 @@ public class ContainerTest extends TestCase
         }
         props.put("id3", "value3");
 
-        assertEquals(props, container.getSystemProperties());
+        Assertions.assertEquals(props, container.getSystemProperties());
     }
 
     /**
      * Test embedded container creation with extra classpath dependency.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateEmbeddedContainerWithExtraClasspathDependency() throws Exception
     {
         // 1) Create a JAR file acting as an extra dependency
@@ -189,15 +193,17 @@ public class ContainerTest extends TestCase
         // 4) Verify that we can load data from our JAR file when using the classloader from the
         // container and when using the context class loader as we set it to be the embedded
         // container classloader.
-        assertEquals(resourceValue, getResource(container.getClassLoader(), resourceName));
-        assertEquals(resourceValue, getResource(Thread.currentThread().getContextClassLoader(),
-            resourceName));
+        Assertions.assertEquals(
+            resourceValue, getResource(container.getClassLoader(), resourceName));
+        Assertions.assertEquals(resourceValue,
+            getResource(Thread.currentThread().getContextClassLoader(), resourceName));
     }
 
     /**
      * Test embedded container creation with extra classpath location.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateEmbeddedContainerWithExtraClasspathLocation() throws Exception
     {
         // Create a jar file
@@ -224,15 +230,17 @@ public class ContainerTest extends TestCase
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
                     createTestCargoProject("whatever"));
 
-        assertEquals(resourceValue, getResource(container.getClassLoader(), resourceName));
-        assertEquals(resourceValue, getResource(Thread.currentThread().getContextClassLoader(),
-            resourceName));
+        Assertions.assertEquals(
+            resourceValue, getResource(container.getClassLoader(), resourceName));
+        Assertions.assertEquals(resourceValue,
+            getResource(Thread.currentThread().getContextClassLoader(), resourceName));
     }
 
     /**
      * Test installed local container creation with installer and home.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateInstalledLocalContainerWithInstallerAndHome() throws Exception
     {
         final String containerHome = "container/overriding_home";
@@ -257,8 +265,8 @@ public class ContainerTest extends TestCase
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
                     createTestCargoProject("whatever"));
-        assertEquals("Specified home didn't override home defined by installer", containerHome,
-            container.getHome());
+        Assertions.assertEquals(containerHome, container.getHome(),
+            "Specified home didn't override home defined by installer");
         Mockito.verify(zipURLInstaller, Mockito.times(1)).install();
     }
 
@@ -266,6 +274,7 @@ public class ContainerTest extends TestCase
      * Test installed local container creation with home.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateInstalledLocalContainerWithHome() throws Exception
     {
         org.codehaus.cargo.maven3.configuration.Container containerElement =
@@ -277,13 +286,14 @@ public class ContainerTest extends TestCase
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
                     createTestCargoProject("whatever"));
-        assertEquals("Specified home not used", containerHome, container.getHome());
+        Assertions.assertEquals(containerHome, container.getHome(), "Specified home not used");
     }
 
     /**
      * Test installed local container creation with installer.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateInstalledLocalContainerWithInstaller() throws Exception
     {
         final String containerHome = "container/installer_home";
@@ -308,7 +318,8 @@ public class ContainerTest extends TestCase
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
                     createTestCargoProject("whatever"));
-        assertEquals("Home specified by installer not used", containerHome, container.getHome());
+        Assertions.assertEquals(containerHome, container.getHome(),
+            "Home specified by installer not used");
         Mockito.verify(zipURLInstaller, Mockito.times(1)).install();
     }
 
@@ -316,6 +327,7 @@ public class ContainerTest extends TestCase
      * Test installed local container creation with output.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateInstalledLocalContainerWithOutput() throws Exception
     {
         org.codehaus.cargo.maven3.configuration.Container containerElement =
@@ -328,8 +340,8 @@ public class ContainerTest extends TestCase
             (InstalledLocalContainer) containerElement.createContainer(
                 new StandaloneLocalConfigurationStub("configuration/home"), new NullLogger(),
                     createTestCargoProject("whatever"));
-        assertEquals("Container output not set", output, container.getOutput());
-        assertTrue("Container output append not set", container.isAppend());
+        Assertions.assertEquals(output, container.getOutput(), "Container output not set");
+        Assertions.assertTrue(container.isAppend(), "Container output append not set");
     }
 
     /**
@@ -354,9 +366,9 @@ public class ContainerTest extends TestCase
                     new NullLogger(), createTestCargoProject("whatever"));
 
         String[] extraClasspath = container.getExtraClasspath();
-        assertEquals("Extra classpath elements count", 2, extraClasspath.length);
-        assertEquals("firstDependency.jar", extraClasspath[0]);
-        assertEquals("secondDependency.jar", extraClasspath[1]);
+        Assertions.assertEquals(2, extraClasspath.length, "Extra classpath elements count");
+        Assertions.assertEquals("firstDependency.jar", extraClasspath[0]);
+        Assertions.assertEquals("secondDependency.jar", extraClasspath[1]);
     }
 
     /**

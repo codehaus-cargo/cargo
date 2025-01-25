@@ -28,9 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import org.apache.maven.artifact.Artifact;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 import org.codehaus.cargo.maven3.util.CargoProject;
@@ -38,12 +39,13 @@ import org.codehaus.cargo.maven3.util.CargoProject;
 /**
  * Unit tests for {@link Configuration}.
  */
-public class ConfigurationTest extends TestCase
+public class ConfigurationTest
 {
     /**
      * Create an configuration with no properties.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateConfigurationWithNoProperties() throws Exception
     {
         Configuration configuration = new Configuration();
@@ -60,6 +62,7 @@ public class ConfigurationTest extends TestCase
      * an empty String.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateConfigurationWithAPropertyWithNullValue() throws Exception
     {
         Configuration configurationElement = new Configuration();
@@ -75,13 +78,14 @@ public class ConfigurationTest extends TestCase
                     null, null, null, null, null, Collections.<Artifact>emptySet(), null),
                         null, null, null, null);
 
-        assertEquals("", configuration.getPropertyValue("someName"));
+        Assertions.assertEquals("", configuration.getPropertyValue("someName"));
     }
 
     /**
      * Test property file based configuration elements which override static counterparts
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateConfigurationWithPropertiesFile() throws Exception
     {
         Configuration configurationElement = new Configuration();
@@ -92,7 +96,8 @@ public class ConfigurationTest extends TestCase
         configurationElement.setProperties(properties);
 
         org.codehaus.cargo.container.configuration.Configuration configuration;
-        File propertiesFile = File.createTempFile(ConfigurationTest.class.getName(), ".properties");
+        File propertiesFile =
+            File.createTempFile(ConfigurationTest.class.getName(), ".properties");
         try
         {
             try (OutputStream outputStream = new FileOutputStream(propertiesFile))
@@ -115,14 +120,15 @@ public class ConfigurationTest extends TestCase
             propertiesFile.delete();
         }
 
-        assertEquals("someValue1", configuration.getPropertyValue("someName1"));
-        assertEquals("someValue2", configuration.getPropertyValue("someName2"));
+        Assertions.assertEquals("someValue1", configuration.getPropertyValue("someName1"));
+        Assertions.assertEquals("someValue2", configuration.getPropertyValue("someName2"));
     }
 
     /**
      * Test adding resources to the configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddResources() throws Exception
     {
         Configuration configurationElement = new Configuration();
@@ -145,17 +151,18 @@ public class ConfigurationTest extends TestCase
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List<org.codehaus.cargo.container.configuration.entry.Resource> resources = conf
             .getResources();
-        assertEquals("resources not of correct size", 1, resources.size());
+        Assertions.assertEquals(1, resources.size(), "resources not of correct size");
         org.codehaus.cargo.container.configuration.entry.Resource r =
             (org.codehaus.cargo.container.configuration.entry.Resource) resources.get(0);
-        assertEquals("name not correct", "name", r.getName());
-        assertEquals("type not correct", "someType", r.getType());
+        Assertions.assertEquals("name", r.getName(), "name not correct");
+        Assertions.assertEquals("someType", r.getType(), "type not correct");
     }
 
     /**
      * Test adding users to the configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddUsers() throws Exception
     {
         Configuration configurationElement = new Configuration();
@@ -176,14 +183,14 @@ public class ConfigurationTest extends TestCase
 
         StandaloneLocalConfigurationStub conf = (StandaloneLocalConfigurationStub) configuration;
         List<org.codehaus.cargo.container.property.User> users = conf.getUsers();
-        assertEquals("users not of correct size", 1, users.size());
+        Assertions.assertEquals(1, users.size(), "users not of correct size");
 
         org.codehaus.cargo.container.property.User userProperty = users.get(0);
-        assertEquals("name not correct", "someName", userProperty.getName());
-        assertEquals("password not correct", "passW0rd", userProperty.getPassword());
+        Assertions.assertEquals("someName", userProperty.getName(), "name not correct");
+        Assertions.assertEquals("passW0rd", userProperty.getPassword(), "password not correct");
 
-        assertEquals("roles not of correct size", 1, userProperty.getRoles().size());
-        assertEquals("role not correct", "cargo", userProperty.getRoles().get(0));
+        Assertions.assertEquals(1, userProperty.getRoles().size(), "roles not of correct size");
+        Assertions.assertEquals("cargo", userProperty.getRoles().get(0), "role not correct");
     }
 
 }

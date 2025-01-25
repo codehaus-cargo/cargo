@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.util;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -37,84 +38,90 @@ import java.nio.charset.StandardCharsets;
 /**
  * Test for MissingXmlElementAppender.
  */
-public class MissingXmlElementAppenderTest extends TestCase
+public class MissingXmlElementAppenderTest
 {
     /**
      * Nothing will be appended, document is already as expected.
      * @throws Exception if anything goes wrong
      */
+    @Test
     public void testAppendNotNeeded() throws Exception
     {
         String xml = "<Root/>";
         String xPath = "/Root";
 
         MissingXmlElementAppender missingXmlElementAppender =
-                new MissingXmlElementAppender(parse(xml), xPath);
+            new MissingXmlElementAppender(parse(xml), xPath);
         missingXmlElementAppender.append();
-        assertEquals("<Root/>", toString(missingXmlElementAppender.getDocument()));
+        Assertions.assertEquals("<Root/>", toString(missingXmlElementAppender.getDocument()));
     }
 
     /**
      * Assert that one hierarchy level will be added.
      * @throws Exception if anything goes wrong
      */
+    @Test
     public void testAppendBranch() throws Exception
     {
         String xml = "<Root/>";
         String xPath = "/Root/Branch";
 
         MissingXmlElementAppender missingXmlElementAppender =
-                new MissingXmlElementAppender(parse(xml), xPath);
+            new MissingXmlElementAppender(parse(xml), xPath);
         missingXmlElementAppender.append();
-        assertEquals("<Root><Branch/></Root>", toString(missingXmlElementAppender.getDocument()));
+        Assertions.assertEquals(
+            "<Root><Branch/></Root>", toString(missingXmlElementAppender.getDocument()));
     }
 
     /**
      * Assert that more hierarchy levels will be added
      * @throws Exception if anything goes wrong
      */
+    @Test
     public void testAppendLeave() throws Exception
     {
         String xml = "<Root/>";
         String xPath = "/Root/Branch/Leave";
 
         MissingXmlElementAppender missingXmlElementAppender =
-                new MissingXmlElementAppender(parse(xml), xPath);
+            new MissingXmlElementAppender(parse(xml), xPath);
         missingXmlElementAppender.append();
-        assertEquals("<Root><Branch><Leave/></Branch></Root>",
-                toString(missingXmlElementAppender.getDocument()));
+        Assertions.assertEquals("<Root><Branch><Leave/></Branch></Root>",
+            toString(missingXmlElementAppender.getDocument()));
     }
 
     /**
      * Assert that an element with attribute is correctly found
      * @throws Exception if anything goes wrong
      */
+    @Test
     public void testAppendLeaveForBranchWithAttribute() throws Exception
     {
         String xml = "<Root><Branch key='value'/></Root>";
         String xPath = "/Root/Branch[@key='value']/Leave";
 
         MissingXmlElementAppender missingXmlElementAppender =
-                new MissingXmlElementAppender(parse(xml), xPath);
+            new MissingXmlElementAppender(parse(xml), xPath);
         missingXmlElementAppender.append();
-        assertEquals("<Root><Branch key=\"value\"><Leave/></Branch></Root>",
-                toString(missingXmlElementAppender.getDocument()));
+        Assertions.assertEquals("<Root><Branch key=\"value\"><Leave/></Branch></Root>",
+            toString(missingXmlElementAppender.getDocument()));
     }
 
     /**
      * Assert that an element with a child is correctly found
      * @throws Exception if anything goes wrong
      */
+    @Test
     public void testAppendLeaveForBranchWithChild() throws Exception
     {
         String xml = "<Root><Branch><Child/></Branch></Root>";
         String xPath = "/Root/Branch[Child]/Leave";
 
         MissingXmlElementAppender missingXmlElementAppender =
-                new MissingXmlElementAppender(parse(xml), xPath);
+            new MissingXmlElementAppender(parse(xml), xPath);
         missingXmlElementAppender.append();
-        assertEquals("<Root><Branch><Child/><Leave/></Branch></Root>",
-                toString(missingXmlElementAppender.getDocument()));
+        Assertions.assertEquals("<Root><Branch><Child/><Leave/></Branch></Root>",
+            toString(missingXmlElementAppender.getDocument()));
     }
 
     /**

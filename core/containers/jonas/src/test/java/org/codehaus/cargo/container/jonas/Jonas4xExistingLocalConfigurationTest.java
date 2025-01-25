@@ -22,7 +22,10 @@
  */
 package org.codehaus.cargo.container.jonas;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerException;
@@ -32,7 +35,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link Jonas4xExistingLocalConfiguration}.
  */
-public class Jonas4xExistingLocalConfigurationTest extends TestCase
+public class Jonas4xExistingLocalConfigurationTest
 {
     /**
      * JONAS_ROOT folder for tests.
@@ -60,14 +63,12 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -83,18 +84,15 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
@@ -102,12 +100,13 @@ public class Jonas4xExistingLocalConfigurationTest extends TestCase
      * Jonas4xExistingLocalConfiguration#doConfigure(org.codehaus.cargo.container.LocalContainer)}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigure() throws Exception
     {
         try
         {
             configuration.doConfigure(container);
-            fail("No ContainerException raised");
+            Assertions.fail("No ContainerException raised");
         }
         catch (ContainerException expected)
         {

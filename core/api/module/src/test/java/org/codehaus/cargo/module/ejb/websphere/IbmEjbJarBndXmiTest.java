@@ -22,6 +22,9 @@ package org.codehaus.cargo.module.ejb.websphere;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
 
@@ -35,6 +38,7 @@ public class IbmEjbJarBndXmiTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetJndiName() throws Exception
     {
         String xml = "<ejbbnd:EJBJarBinding xmlns:ejbbnd=\"ejbbnd.xmi\" "
@@ -48,7 +52,7 @@ public class IbmEjbJarBndXmiTest extends AbstractDocumentBuilderTest
 
         IbmEjbJarBndXmi descr = IbmEjbJarBndXmiIo.parseIbmEjbJarXmi(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb", "ejbId")));
+        Assertions.assertEquals("mycomp/MyEjb", descr.getJndiName(new EjbDef("MyEjb", "ejbId")));
     }
 
 }

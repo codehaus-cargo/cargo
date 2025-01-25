@@ -22,12 +22,14 @@ package org.codehaus.cargo.container.tomcat;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationChecker;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 8 implementation of StandaloneLocalConfigurationTest
@@ -96,6 +98,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
      *
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureWithoutSslImplementationName() throws Exception
     {
         configuration.configure(container);
@@ -111,6 +114,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
      *
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureWithoutHttpUpgradeProtocol() throws Exception
     {
         configuration.configure(container);
@@ -127,6 +131,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
      *
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureAddsHttpUpgradeProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_HTTP_UPGRADE_PROTOCOL, "true");
@@ -147,6 +152,7 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
      *
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureAddHttpUpgradeToNio2Protocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,

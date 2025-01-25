@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.tomcat10x_legacyWar_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test legacy WAR deployed on Tomcat 10.x.
  */
-public class Tomcat10xLegacyWarTest extends TestCase
+public class Tomcat10xLegacyWarTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class Tomcat10xLegacyWarTest extends TestCase
      * Test legacy WAR deployed on Tomcat 10.x.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testTomcat10xLegacyWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

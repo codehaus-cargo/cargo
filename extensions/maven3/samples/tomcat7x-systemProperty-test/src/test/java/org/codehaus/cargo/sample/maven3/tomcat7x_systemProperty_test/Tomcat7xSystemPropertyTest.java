@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.tomcat7x_systemProperty_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test setting system properties on Tomcat 7.x.
  */
-public class Tomcat7xSystemPropertyTest extends TestCase
+public class Tomcat7xSystemPropertyTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class Tomcat7xSystemPropertyTest extends TestCase
      * Test setting system properties on Tomcat 7.x.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testTomcat7xSystemProperties() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

@@ -23,7 +23,7 @@
     <artifactId>cargo-samples-maven3</artifactId>
     <version>1.10.17-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven3-websphere-test-artifact</artifactId>
+  <artifactId>cargo-sample-maven3-websphere-test</artifactId>
   <name>Cargo Samples - Maven 3 - WebSphere test</name>
   <packaging>jar</packaging>
   <description>Sample application that will be used to test the WebSphere container</description>

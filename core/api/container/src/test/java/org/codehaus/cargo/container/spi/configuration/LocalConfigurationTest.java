@@ -23,7 +23,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -38,7 +39,7 @@ import org.codehaus.cargo.util.CargoException;
 /**
  * Unit tests for {@link AbstractLocalConfiguration}.
  */
-public class LocalConfigurationTest extends TestCase
+public class LocalConfigurationTest
 {
 
     /**
@@ -131,6 +132,7 @@ public class LocalConfigurationTest extends TestCase
     /**
      * Test no resource support.
      */
+    @Test
     public void testNoResourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -141,11 +143,11 @@ public class LocalConfigurationTest extends TestCase
         try
         {
             configuration.collectUnsupportedResourcesAndThrowException();
-            fail("should have gotten an Exception");
+            Assertions.fail("should have gotten an Exception");
         }
         catch (CargoException e)
         {
-            assertEquals("This configuration does not support Resource configuration! "
+            Assertions.assertEquals("This configuration does not support Resource configuration! "
                 + "JndiName: resource/XADataSource", e.getMessage());
         }
     }
@@ -153,6 +155,7 @@ public class LocalConfigurationTest extends TestCase
     /**
      * Test resource support.
      */
+    @Test
     public void testResourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -162,12 +165,13 @@ public class LocalConfigurationTest extends TestCase
         configuration.getResources().add(
             ConfigurationFixtureFactory.createXADataSourceAsResource().buildResource());
         configuration.collectUnsupportedResourcesAndThrowException();
-        assertEquals(1, configuration.getResources().size());
+        Assertions.assertEquals(1, configuration.getResources().size());
     }
 
     /**
      * Test no datasource support.
      */
+    @Test
     public void testNoDataSourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -178,11 +182,11 @@ public class LocalConfigurationTest extends TestCase
         try
         {
             configuration.collectUnsupportedDataSourcesAndThrowException();
-            fail("should have gotten an Exception");
+            Assertions.fail("should have gotten an Exception");
         }
         catch (CargoException e)
         {
-            assertEquals("This configuration does not support DataSource configuration! "
+            Assertions.assertEquals("This configuration does not support DataSource configuration! "
                 + "JndiName: jdbc/CargoDS", e.getMessage());
         }
     }
@@ -190,6 +194,7 @@ public class LocalConfigurationTest extends TestCase
     /**
      * Test datasource support.
      */
+    @Test
     public void testDataSourceSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -199,12 +204,13 @@ public class LocalConfigurationTest extends TestCase
         configuration.getDataSources().add(
             ConfigurationFixtureFactory.createDataSource().buildDataSource());
         configuration.collectUnsupportedDataSourcesAndThrowException();
-        assertEquals(1, configuration.getDataSources().size());
+        Assertions.assertEquals(1, configuration.getDataSources().size());
     }
 
     /**
      * Test no datasource with transaction emulation support.
      */
+    @Test
     public void testNoDataSourceTransactionEmulationSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -220,18 +226,20 @@ public class LocalConfigurationTest extends TestCase
         try
         {
             configuration.collectUnsupportedDataSourcesAndThrowException();
-            fail("should have gotten an Exception");
+            Assertions.fail("should have gotten an Exception");
         }
         catch (CargoException e)
         {
-            assertEquals("This configuration does not support Transactions on Driver configured "
-                + "DataSources! JndiName: jdbc/CargoDS", e.getMessage());
+            Assertions.assertEquals(
+                "This configuration does not support Transactions on Driver configured "
+                    + "DataSources! JndiName: jdbc/CargoDS", e.getMessage());
         }
     }
 
     /**
      * Test datasource with transaction emulation support.
      */
+    @Test
     public void testDataSourceTransactionEmulationSupport()
     {
         AbstractLocalConfiguration configuration =
@@ -244,12 +252,13 @@ public class LocalConfigurationTest extends TestCase
             ConfigurationFixtureFactory
                 .createDriverConfiguredDataSourceWithXaTransactionSupport().buildDataSource());
         configuration.collectUnsupportedDataSourcesAndThrowException();
-        assertEquals(2, configuration.getDataSources().size());
+        Assertions.assertEquals(2, configuration.getDataSources().size());
     }
 
     /**
      * Test no datasource with XA support.
      */
+    @Test
     public void testNoDataSourceXASupport()
     {
         AbstractLocalConfiguration configuration =
@@ -264,11 +273,11 @@ public class LocalConfigurationTest extends TestCase
         try
         {
             configuration.collectUnsupportedDataSourcesAndThrowException();
-            fail("should have gotten an Exception");
+            Assertions.fail("should have gotten an Exception");
         }
         catch (CargoException e)
         {
-            assertEquals("This configuration does not support XADataSource configured "
+            Assertions.assertEquals("This configuration does not support XADataSource configured "
                 + "DataSources! JndiName: jdbc/CargoDS", e.getMessage());
         }
     }
@@ -276,6 +285,7 @@ public class LocalConfigurationTest extends TestCase
     /**
      * Test datasource with XA support.
      */
+    @Test
     public void testDataSourceXASupport()
     {
         AbstractLocalConfiguration configuration =
@@ -288,12 +298,13 @@ public class LocalConfigurationTest extends TestCase
             ConfigurationFixtureFactory.createXADataSourceConfiguredDataSource()
                 .buildDataSource());
         configuration.collectUnsupportedDataSourcesAndThrowException();
-        assertEquals(2, configuration.getDataSources().size());
+        Assertions.assertEquals(2, configuration.getDataSources().size());
     }
 
     /**
      * Test the apply port offset.
      */
+    @Test
     public void testApplyPortOffset()
     {
         AbstractLocalConfiguration configuration =
@@ -308,31 +319,35 @@ public class LocalConfigurationTest extends TestCase
         configuration.setProperty(LocalConfigurationTest.NON_CARGO_PORT, "15025");
         configuration.setProperty(LocalConfigurationTest.CUSTOM_CARGO_PORT, "17025");
 
+        // apply port offset one first time
         configuration.applyPortOffset();
 
-        assertTrue(configuration.isOffsetApplied());
-        assertEquals("1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
-        assertEquals("15025",
+        Assertions.assertTrue(configuration.isOffsetApplied());
+        Assertions.assertEquals(
+            "1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        Assertions.assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals("15025",
             configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-        assertEquals("17125",
+        Assertions.assertEquals("17125",
             configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
-        // re-apply
-
+        // re-apply port offset, which should have no impact
         configuration.applyPortOffset();
 
-        assertEquals("1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
-        assertEquals("15025",
+        Assertions.assertTrue(configuration.isOffsetApplied());
+        Assertions.assertEquals(
+            "1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        Assertions.assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals("15025",
             configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-        assertEquals("17125",
+        Assertions.assertEquals("17125",
             configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
     }
 
     /**
      * Test the revert port offset.
      */
+    @Test
     public void testRevertPortOffset()
     {
         AbstractLocalConfiguration configuration =
@@ -348,23 +363,27 @@ public class LocalConfigurationTest extends TestCase
         configuration.flagOffsetApplied(GeneralPropertySet.RMI_PORT, true);
         configuration.flagOffsetApplied(ServletPropertySet.PORT, true);
 
+        // revert port offset one first time
         configuration.revertPortOffset();
 
-        assertFalse(configuration.isOffsetApplied());
-        assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertFalse(configuration.isOffsetApplied());
+        Assertions.assertEquals(
+            "1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        Assertions.assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
 
-        // re-revert
-
+        // re-revert port offset, which should have no impact
         configuration.revertPortOffset();
 
-        assertEquals("1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertFalse(configuration.isOffsetApplied());
+        Assertions.assertEquals(
+            "1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
+        Assertions.assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
     }
 
     /**
      * Test port offset with system properties.
      */
+    @Test
     public void testPortOffsetWithSystemProperties()
     {
         AbstractLocalConfiguration configuration =
@@ -373,40 +392,44 @@ public class LocalConfigurationTest extends TestCase
                     ServletPropertySet.PORT}));
 
         configuration.setProperty(ServletPropertySet.PORT, "8080");
-        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
 
         try
         {
             System.setProperty(ServletPropertySet.PORT, "8091");
-            assertEquals("8091", configuration.getPropertyValue(ServletPropertySet.PORT));
+            Assertions.assertEquals(
+                "8091", configuration.getPropertyValue(ServletPropertySet.PORT));
 
             configuration.setProperty(LocalConfigurationTest.NON_CARGO_PORT, "15025");
-            assertEquals("15025",
+            Assertions.assertEquals("15025",
                 configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
 
             configuration.setProperty(LocalConfigurationTest.CUSTOM_CARGO_PORT, "17025");
-            assertEquals("17025",
+            Assertions.assertEquals("17025",
                 configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
             configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "20");
-            assertEquals("8091", configuration.getPropertyValue(ServletPropertySet.PORT));
-            assertEquals("15025",
+            Assertions.assertEquals(
+                "8091", configuration.getPropertyValue(ServletPropertySet.PORT));
+            Assertions.assertEquals("15025",
                 configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-            assertEquals("17025",
+            Assertions.assertEquals("17025",
                 configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
             configuration.applyPortOffset();
-            assertEquals("8111", configuration.getPropertyValue(ServletPropertySet.PORT));
-            assertEquals("15025",
+            Assertions.assertEquals(
+                "8111", configuration.getPropertyValue(ServletPropertySet.PORT));
+            Assertions.assertEquals("15025",
                 configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-            assertEquals("17045",
+            Assertions.assertEquals("17045",
                 configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
             configuration.revertPortOffset();
-            assertEquals("8091", configuration.getPropertyValue(ServletPropertySet.PORT));
-            assertEquals("15025",
+            Assertions.assertEquals(
+                "8091", configuration.getPropertyValue(ServletPropertySet.PORT));
+            Assertions.assertEquals("15025",
                 configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-            assertEquals("17025",
+            Assertions.assertEquals("17025",
                 configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
         }
         finally

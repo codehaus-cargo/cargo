@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.ant;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.apache.tools.ant.BuildException;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -29,7 +30,7 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * Unit tests for {@link DeployableElement}.
  */
-public class DeployableElementTest extends TestCase
+public class DeployableElementTest
 {
     /**
      * The deployable element.
@@ -39,14 +40,16 @@ public class DeployableElementTest extends TestCase
     /**
      * Test the getter and setter method name.
      */
+    @Test
     public void testGetSetterMethodName()
     {
-        assertEquals("setContext", this.element.getSetterMethodName("context"));
+        Assertions.assertEquals("setContext", this.element.getSetterMethodName("context"));
     }
 
     /**
      * Test the creation of a WAR deployable with context.
      */
+    @Test
     public void testCreateWarDeployableWithContext()
     {
         Property contextProperty = new Property();
@@ -59,13 +62,14 @@ public class DeployableElementTest extends TestCase
 
         Deployable war = this.element.createDeployable("customContainer");
 
-        assertEquals(DeployableType.WAR, war.getType());
-        assertEquals("customContext", ((WAR) war).getContext());
+        Assertions.assertEquals(DeployableType.WAR, war.getType());
+        Assertions.assertEquals("customContext", ((WAR) war).getContext());
     }
 
     /**
      * Test the creation of a WAR deployable with an invalid property.
      */
+    @Test
     public void testCreateWarDeployableWithInvalidProperty()
     {
         Property property = new Property();
@@ -79,11 +83,11 @@ public class DeployableElementTest extends TestCase
         try
         {
             this.element.createDeployable("customContainer");
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (BuildException expected)
         {
-            assertEquals("Invalid property [invalidProperty] for deployable type [war]",
+            Assertions.assertEquals("Invalid property [invalidProperty] for deployable type [war]",
                 expected.getMessage());
         }
 

@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -77,7 +79,8 @@ public class Resin3xStandaloneLocalConfigurationTest extends
             resinConf =
                 getFileHandler().getOutputStream(container.getHome() + "/conf/resin.conf");
             originalResinConf = getResinConfiguration();
-            assertNotNull("Cannot load Resin configuration file for tests", originalResinConf);
+            Assertions.assertNotNull(
+                originalResinConf, "Cannot load Resin configuration file for tests");
             getFileHandler().copy(originalResinConf, resinConf);
         }
         finally
@@ -113,7 +116,7 @@ public class Resin3xStandaloneLocalConfigurationTest extends
 
         super.testConfigure();
 
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/app-default.xml"));
     }
 

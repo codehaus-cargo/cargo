@@ -21,8 +21,10 @@ package org.codehaus.cargo.container.property;
 
 import java.util.Properties;
 
-import junit.framework.ComparisonFailure;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
@@ -30,7 +32,7 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 /**
  * Unit tests for {@link ResourceConverter}.
  */
-public class ResourceConverterTest extends TestCase
+public class ResourceConverterTest
 {
 
     /**
@@ -39,19 +41,18 @@ public class ResourceConverterTest extends TestCase
     private ResourceConverter resourceConverter;
 
     /**
-     * Creates the test resource converter. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the test resource converter.
      */
-    @Override
-    public void setUp() throws Exception
+    @BeforeEach
+    public void setUp()
     {
-        super.setUp();
         resourceConverter = new ResourceConverter();
     }
 
     /**
      * Test the {@link Properties} constructor.
      */
+    @Test
     public void testPropertiesConstructor()
     {
         Properties props = new Properties();
@@ -61,25 +62,27 @@ public class ResourceConverterTest extends TestCase
         props.setProperty(ResourcePropertySet.RESOURCE_CLASS, "org.hsqldb.jdbcDriver");
         props.setProperty(ResourcePropertySet.RESOURCE_ID, "JiraDS");
         Resource ds = resourceConverter.fromProperties(props);
-        assertEquals(0, ds.getParameters().size());
-        assertEquals(props, resourceConverter.toProperties(ds));
+        Assertions.assertEquals(0, ds.getParameters().size());
+        Assertions.assertEquals(props, resourceConverter.toProperties(ds));
     }
 
     /**
      * Test that {@link ResourcePropertySet#RESOURCE_TYPE} sets
      * {@link ResourcePropertySet#RESOURCE_TYPE}.
      */
+    @Test
     public void testXAResourceIsXAResource()
     {
         Properties props = new Properties();
         props.setProperty(ResourcePropertySet.RESOURCE_TYPE, ConfigurationEntryType.XA_DATASOURCE);
         Resource ds = resourceConverter.fromProperties(props);
-        assertEquals("javax.sql.XADataSource", ds.getType());
+        Assertions.assertEquals("javax.sql.XADataSource", ds.getType());
     }
 
     /**
      * Test string parsing.
      */
+    @Test
     public void testGetParametersAsString()
     {
         String propertyString = "user=APP;CreateDatabase=create";
@@ -87,12 +90,12 @@ public class ResourceConverterTest extends TestCase
         Resource ds = resourceConverter.fromPropertyString(driverPropertyString);
         try
         {
-            assertEquals(propertyString, resourceConverter
+            Assertions.assertEquals(propertyString, resourceConverter
                 .getParametersAsASemicolonDelimitedString(ds));
         }
-        catch (ComparisonFailure e)
+        catch (AssertionFailedError e)
         {
-            assertEquals("CreateDatabase=create;user=APP", resourceConverter
+            Assertions.assertEquals("CreateDatabase=create;user=APP", resourceConverter
                 .getParametersAsASemicolonDelimitedString(ds));
         }
     }
@@ -100,6 +103,7 @@ public class ResourceConverterTest extends TestCase
     /**
      * Test string parsing when the property has backslashes.
      */
+    @Test
     public void testGetParametersAsStringContainingBackslashes()
     {
         String propertyString = "user=APP;path=c:\\users\\me";
@@ -107,12 +111,12 @@ public class ResourceConverterTest extends TestCase
         Resource ds = resourceConverter.fromPropertyString(driverPropertyString);
         try
         {
-            assertEquals(propertyString, resourceConverter
+            Assertions.assertEquals(propertyString, resourceConverter
                 .getParametersAsASemicolonDelimitedString(ds));
         }
-        catch (ComparisonFailure e)
+        catch (AssertionFailedError e)
         {
-            assertEquals("path=c:\\users\\me;user=APP", resourceConverter
+            Assertions.assertEquals("path=c:\\users\\me;user=APP", resourceConverter
                 .getParametersAsASemicolonDelimitedString(ds));
         }
     }
@@ -120,17 +124,19 @@ public class ResourceConverterTest extends TestCase
     /**
      * Test get empty parameters.
      */
+    @Test
     public void testGetEmptyParameters()
     {
         String propertyString = "";
         String driverPropertyString = ResourcePropertySet.PARAMETERS + "=" + propertyString;
         Resource ds = resourceConverter.fromPropertyString(driverPropertyString);
-        assertEquals(0, ds.getParameters().size());
+        Assertions.assertEquals(0, ds.getParameters().size());
     }
 
     /**
      * Test get multiple parameters delimited by a semicolon.
      */
+    @Test
     public void testMultipleParametersDelimitedBySemiColon()
     {
         Properties parameters = new Properties();
@@ -140,7 +146,7 @@ public class ResourceConverterTest extends TestCase
         String driverPropertyString = "user=APP;CreateDatabase=create";
         String propertyString = ResourcePropertySet.PARAMETERS + "=" + driverPropertyString;
         Resource ds = resourceConverter.fromPropertyString(propertyString);
-        assertEquals(parameters, ds.getParameters());
+        Assertions.assertEquals(parameters, ds.getParameters());
     }
 
 }

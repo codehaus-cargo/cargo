@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
@@ -64,7 +66,7 @@ public class Resin3xConfigurationBuilderTest extends AbstractConfigurationBuilde
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+            Assertions.assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
                 e.getMessage());
         }
     }
@@ -86,7 +88,7 @@ public class Resin3xConfigurationBuilderTest extends AbstractConfigurationBuilde
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
+            Assertions.assertEquals(Resin3xConfigurationBuilder.TRANSACTIONS_WITH_XA_OR_JCA_ONLY,
                 e.getMessage());
         }
     }

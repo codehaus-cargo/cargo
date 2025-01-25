@@ -31,23 +31,6 @@ public abstract class AbstractWeblogicStandaloneConfigurationTest extends
 {
 
     /**
-     * Empty constructor.
-     */
-    public AbstractWeblogicStandaloneConfigurationTest()
-    {
-        super();
-    }
-
-    /**
-     * @see AbstractLocalConfigurationWithConfigurationBuilderTest#AbstractLocalConfigurationWithConfigurationBuilderTest(java.lang.String)
-     * @param name Container name.
-     */
-    public AbstractWeblogicStandaloneConfigurationTest(String name)
-    {
-        super(name);
-    }
-
-    /**
      * Setup datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configured datasource.

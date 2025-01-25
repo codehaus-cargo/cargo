@@ -23,9 +23,12 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link OrionWebXml}.
@@ -37,6 +40,7 @@ public class OrionWebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReferenceDescription() throws Exception
     {
         String xml = "<orion-web-app></orion-web-app>";
@@ -50,9 +54,9 @@ public class OrionWebXmlTest extends AbstractDocumentBuilderTest
 
         List<Element> nl = descr.getDocument().getRootElement().getChildren("ejb-ref-mapping");
         Element n = nl.get(0);
-        assertEquals("foo", n.getAttribute("name").getValue());
-        assertEquals("fee", n.getAttribute("location").getValue());
-        assertEquals(1, nl.size());
+        Assertions.assertEquals("foo", n.getAttribute("name").getValue());
+        Assertions.assertEquals("fee", n.getAttribute("location").getValue());
+        Assertions.assertEquals(1, nl.size());
     }
 
 }

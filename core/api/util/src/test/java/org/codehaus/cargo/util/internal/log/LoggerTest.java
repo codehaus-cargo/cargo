@@ -19,14 +19,15 @@
  */
 package org.codehaus.cargo.util.internal.log;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Unit tests for {@link AbstractLogger}.
  */
-public class LoggerTest extends TestCase
+public class LoggerTest
 {
     /**
      * Testable implementation for {@link AbstractLogger}.
@@ -64,41 +65,43 @@ public class LoggerTest extends TestCase
     /**
      * Test that the default level is {@link LogLevel#INFO}.
      */
+    @Test
     public void testDefaultLevelIsInfo()
     {
         TestableAbstractLogger logger = new TestableAbstractLogger();
-        assertEquals(LogLevel.INFO, logger.getLevel());
+        Assertions.assertEquals(LogLevel.INFO, logger.getLevel());
     }
 
     /**
      * Test the matching between logging levels.
      */
+    @Test
     public void testLoggingAccordingToLogLevels()
     {
         TestableAbstractLogger logger = new TestableAbstractLogger();
 
         logger.setLevel(LogLevel.WARN);
         logger.debug("test1", "category");
-        assertNull(logger.popMessage());
+        Assertions.assertNull(logger.popMessage());
         logger.info("test2", "category");
-        assertNull(logger.popMessage());
+        Assertions.assertNull(logger.popMessage());
         logger.warn("test3", "category");
-        assertEquals("[warn][category][test3]", logger.popMessage());
+        Assertions.assertEquals("[warn][category][test3]", logger.popMessage());
 
         logger.setLevel(LogLevel.INFO);
         logger.debug("test4", "category");
-        assertNull(logger.popMessage());
+        Assertions.assertNull(logger.popMessage());
         logger.info("test5", "category");
-        assertEquals("[info][category][test5]", logger.popMessage());
+        Assertions.assertEquals("[info][category][test5]", logger.popMessage());
         logger.warn("test6", "category");
-        assertEquals("[warn][category][test6]", logger.popMessage());
+        Assertions.assertEquals("[warn][category][test6]", logger.popMessage());
 
         logger.setLevel(LogLevel.DEBUG);
         logger.debug("test7", "category");
-        assertEquals("[debug][category][test7]", logger.popMessage());
+        Assertions.assertEquals("[debug][category][test7]", logger.popMessage());
         logger.info("test8", "category");
-        assertEquals("[info][category][test8]", logger.popMessage());
+        Assertions.assertEquals("[info][category][test8]", logger.popMessage());
         logger.warn("test9", "category");
-        assertEquals("[warn][category][test9]", logger.popMessage());
+        Assertions.assertEquals("[warn][category][test9]", logger.popMessage());
     }
 }

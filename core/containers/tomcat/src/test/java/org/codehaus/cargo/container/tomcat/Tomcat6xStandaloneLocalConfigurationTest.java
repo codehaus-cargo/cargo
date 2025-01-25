@@ -19,13 +19,16 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.custommonkey.xmlunit.XMLAssert;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 /**
  * Tests for the Tomcat 6 implementation of StandaloneLocalConfigurationTest
@@ -86,9 +89,9 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
     public void testConfigureManager()
     {
         configuration.configure(container);
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/manager"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/host-manager"));
     }
 
@@ -96,6 +99,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'protocol' isn't added if the property isn't set.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureWithoutConnectorProtocol() throws Exception
     {
         configuration.configure(container);
@@ -110,6 +114,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'protocol' is overidden with the property's value.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureSetsConnectorProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
@@ -128,6 +133,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
      * value.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureSetsAprConnectorProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,
@@ -146,6 +152,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
      * value, when setting any Tomcat 5+ optional xml replacements.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigurationSetsAprConnectorProtocolWithSslProtocol() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.CONNECTOR_PROTOCOL_CLASS,

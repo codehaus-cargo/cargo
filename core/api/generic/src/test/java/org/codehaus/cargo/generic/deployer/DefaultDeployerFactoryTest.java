@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.generic.deployer;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.deployer.Deployer;
@@ -34,7 +36,7 @@ import org.codehaus.cargo.container.stub.RemoteDeployerStub;
 /**
  * Unit tests for {@link DefaultDeployerFactory}.
  */
-public class DefaultDeployerFactoryTest extends TestCase
+public class DefaultDeployerFactoryTest
 {
     /**
      * Deployer factory.
@@ -42,70 +44,74 @@ public class DefaultDeployerFactoryTest extends TestCase
     private DeployerFactory factory;
 
     /**
-     * Creates the test deployer. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the test deployer.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    public void setUp()
     {
-        super.setUp();
-
         this.factory = new DefaultDeployerFactory();
     }
 
     /**
      * Test deployer creation when no deployer registered.
      */
+    @Test
     public void testCreateDeployerWhenNoDeployerRegistered()
     {
         try
         {
             this.factory.createDeployer(new InstalledLocalContainerStub());
-            fail("Expected ContainerException because there's no registered deployer");
+            Assertions.fail("Expected ContainerException because there's no registered deployer");
         }
         catch (ContainerException expected)
         {
-            assertEquals("There's no registered deployer matching your container's type of "
-                + "[installed]", expected.getMessage());
+            Assertions.assertEquals(
+                "There's no registered deployer matching your container's type of "
+                    + "[installed]", expected.getMessage());
         }
     }
 
     /**
      * Test deployer creation for installed containers.
      */
+    @Test
     public void testCreateDeployerForInstalledContainers()
     {
         this.factory.registerDeployer(InstalledLocalContainerStub.ID, DeployerType.INSTALLED,
             InstalledLocalDeployerStub.class);
 
         Deployer deployer = this.factory.createDeployer(new InstalledLocalContainerStub());
-        assertEquals(InstalledLocalDeployerStub.class.getName(), deployer.getClass().getName());
-        assertEquals(DeployerType.INSTALLED, deployer.getType());
+        Assertions.assertEquals(
+            InstalledLocalDeployerStub.class.getName(), deployer.getClass().getName());
+        Assertions.assertEquals(DeployerType.INSTALLED, deployer.getType());
     }
 
     /**
      * Test deployer creation for embedded containers.
      */
+    @Test
     public void testCreateDeployerForEmbeddedContainers()
     {
         this.factory.registerDeployer(EmbeddedLocalContainerStub.ID, DeployerType.EMBEDDED,
             EmbeddedLocalDeployerStub.class);
 
         Deployer deployer = this.factory.createDeployer(new EmbeddedLocalContainerStub());
-        assertEquals(EmbeddedLocalDeployerStub.class.getName(), deployer.getClass().getName());
-        assertEquals(DeployerType.EMBEDDED, deployer.getType());
+        Assertions.assertEquals(
+            EmbeddedLocalDeployerStub.class.getName(), deployer.getClass().getName());
+        Assertions.assertEquals(DeployerType.EMBEDDED, deployer.getType());
     }
 
     /**
      * Test deployer creation for remote containers.
      */
+    @Test
     public void testCreateDeployerForRemoteContainers()
     {
         this.factory.registerDeployer(RemoteContainerStub.ID, DeployerType.REMOTE,
             RemoteDeployerStub.class);
 
         Deployer deployer = this.factory.createDeployer(new RemoteContainerStub());
-        assertEquals(RemoteDeployerStub.class.getName(), deployer.getClass().getName());
-        assertEquals(DeployerType.REMOTE, deployer.getType());
+        Assertions.assertEquals(RemoteDeployerStub.class.getName(), deployer.getClass().getName());
+        Assertions.assertEquals(DeployerType.REMOTE, deployer.getType());
     }
 }

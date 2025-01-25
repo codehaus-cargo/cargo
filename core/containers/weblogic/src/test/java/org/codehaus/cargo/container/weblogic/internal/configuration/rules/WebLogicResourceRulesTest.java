@@ -21,18 +21,20 @@ package org.codehaus.cargo.container.weblogic.internal.configuration.rules;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.weblogic.WebLogic121xInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogic121xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
-import junit.framework.TestCase;
-
 /**
  * Unit tests for {@link WebLogicResourceRules}.
  */
-public class WebLogicResourceRulesTest extends TestCase
+public class WebLogicResourceRulesTest
 {
     /**
      * BEA_HOME
@@ -60,15 +62,11 @@ public class WebLogicResourceRulesTest extends TestCase
     private WebLogic121xStandaloneLocalConfiguration configuration;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
-     * 
-     * @throws Exception If anything goes wrong.
+     * Creates the test file system manager and the container.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
-
         this.configuration = new WebLogic121xStandaloneLocalConfiguration(DOMAIN_HOME);
 
         this.container = new WebLogic121xInstalledLocalContainer(configuration);
@@ -81,6 +79,7 @@ public class WebLogicResourceRulesTest extends TestCase
      * 
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddMissingJmsResourcesNoJmsResources() throws Exception
     {
         Resource mailSession =
@@ -93,8 +92,8 @@ public class WebLogicResourceRulesTest extends TestCase
 
         // no JMS resource is added
         List<Resource> resources = configuration.getResources();
-        assertEquals(1, resources.size());
-        assertEquals(mailSession, resources.get(0));
+        Assertions.assertEquals(1, resources.size());
+        Assertions.assertEquals(mailSession, resources.get(0));
     }
 
     /**
@@ -103,6 +102,7 @@ public class WebLogicResourceRulesTest extends TestCase
      * 
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddMissingJmsResourcesAllJmsResources() throws Exception
     {
         Resource jmsQueueResource =
@@ -115,7 +115,7 @@ public class WebLogicResourceRulesTest extends TestCase
 
         // JMS server, module and subdeployment are added
         List<Resource> resources = configuration.getResources();
-        assertEquals(4, resources.size());
+        Assertions.assertEquals(4, resources.size());
 
         Resource jmsServer = null;
         Resource jmsModule = null;
@@ -144,10 +144,10 @@ public class WebLogicResourceRulesTest extends TestCase
                 }
             }
         }
-        assertNotNull(jmsServer);
-        assertNotNull(jmsModule);
-        assertNotNull(jmsSubdeployment);
-        assertNotNull(jmsQueue);
+        Assertions.assertNotNull(jmsServer);
+        Assertions.assertNotNull(jmsModule);
+        Assertions.assertNotNull(jmsSubdeployment);
+        Assertions.assertNotNull(jmsQueue);
     }
 
     /**
@@ -155,6 +155,7 @@ public class WebLogicResourceRulesTest extends TestCase
      * 
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddMissingJmsResourcesJmsModule() throws Exception
     {
         Resource jmsServerResource =
@@ -175,7 +176,7 @@ public class WebLogicResourceRulesTest extends TestCase
 
         // JMS module is added
         List<Resource> resources = configuration.getResources();
-        assertEquals(4, resources.size());
+        Assertions.assertEquals(4, resources.size());
 
         Resource jmsServer = null;
         Resource jmsModule = null;
@@ -204,9 +205,9 @@ public class WebLogicResourceRulesTest extends TestCase
                 }
             }
         }
-        assertNotNull(jmsServer);
-        assertNotNull(jmsModule);
-        assertNotNull(jmsSubdeployment);
-        assertNotNull(jmsQueue);
+        Assertions.assertNotNull(jmsServer);
+        Assertions.assertNotNull(jmsModule);
+        Assertions.assertNotNull(jmsSubdeployment);
+        Assertions.assertNotNull(jmsQueue);
     }
 }

@@ -20,6 +20,11 @@
 package org.codehaus.cargo.container.tomcat;
 
 import java.nio.charset.StandardCharsets;
+
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -27,7 +32,6 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfigurationTest;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4xConfigurationChecker;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 4 implementation of StandaloneLocalConfigurationTest
@@ -115,12 +119,13 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Tomcat4xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
      * and check manager.
      */
+    @Test
     public void testConfigureManager()
     {
         configuration.configure(container);
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/manager.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/server/webapps/manager"));
     }
 
@@ -129,17 +134,20 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Tomcat4xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
 
-        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/temp"));
-        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/logs"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(
+            configuration.getFileHandler().exists(configuration.getHome() + "/temp"));
+        Assertions.assertTrue(
+            configuration.getFileHandler().exists(configuration.getHome() + "/logs"));
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/server.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/tomcat-users.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/webapps/cargocpc.war"));
         testConfigureManager();
     }
@@ -148,6 +156,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Test AJP configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureSetsDefaultAJPPort() throws Exception
     {
         configuration.configure(container);
@@ -163,6 +172,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Test AJP configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureSetsAJPPort() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.AJP_PORT, AJP_PORT);
@@ -178,6 +188,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Test the creation of multiple resource token values.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateMultipleResourceTokenValues() throws Exception
     {
         setUpResourceFile();
@@ -224,6 +235,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Test webapps directory configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureDefaultWebappsDirectory() throws Exception
     {
         configuration.configure(container);
@@ -237,6 +249,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Test webapps directory configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureSetsWebappsDirectory() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.WEBAPPS_DIRECTORY, "some_directory");
@@ -251,6 +264,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'startStopThreads' isn't added if the property isn't set.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureSetsHostStartStopThreads() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.HOST_START_STOP_THREADS, "42");

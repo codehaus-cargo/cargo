@@ -19,9 +19,12 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
@@ -36,7 +39,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest extends TestCase
+public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest
 {
     /**
      * BEA_HOME
@@ -74,14 +77,12 @@ public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest extends TestCa
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -97,28 +98,26 @@ public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest extends TestCa
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * This tests that the DeployableDir is DOMAIN_HOME/autodeploy, which should be the case, as
      * this test uses WebLogic 9.
      */
+    @Test
     public void testDeployableDirIsAutoDeploy()
     {
         // convert so that file paths match in windows os
         String name = this.deployer.getDeployableDir(null).replaceAll("\\\\", "/");
-        assertEquals(DOMAIN_HOME + "/autodeploy", name);
+        Assertions.assertEquals(DOMAIN_HOME + "/autodeploy", name);
     }
 }

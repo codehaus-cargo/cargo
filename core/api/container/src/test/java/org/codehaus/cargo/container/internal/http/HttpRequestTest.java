@@ -21,25 +21,27 @@ package org.codehaus.cargo.container.internal.http;
 
 import java.nio.charset.StandardCharsets;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link HttpRequest}.
  */
-public class HttpRequestTest extends TestCase
+public class HttpRequestTest
 {
     /**
      * Test character set extraction.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testExtractCharset() throws Exception
     {
-        assertEquals(StandardCharsets.UTF_8, HttpRequest.extractCharset(null));
-        assertEquals(StandardCharsets.UTF_8,
+        Assertions.assertEquals(StandardCharsets.UTF_8, HttpRequest.extractCharset(null));
+        Assertions.assertEquals(StandardCharsets.UTF_8,
             HttpRequest.extractCharset("text/html; charset=utf-8"));
-        assertEquals(StandardCharsets.UTF_8,
+        Assertions.assertEquals(StandardCharsets.UTF_8,
             HttpRequest.extractCharset("application/json; charset=utf-8"));
-        assertEquals(StandardCharsets.US_ASCII,
+        Assertions.assertEquals(StandardCharsets.US_ASCII,
             HttpRequest.extractCharset("text/plain; charset=us-ascii"));
     }
 
@@ -47,6 +49,7 @@ public class HttpRequestTest extends TestCase
      * Test header component extraction.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testExtractHeaderComponent() throws Exception
     {
         String header = "WWW-Authenticate: Digest realm=\"testrealm@host.com\",\n"
@@ -54,12 +57,13 @@ public class HttpRequestTest extends TestCase
             + "                        nonce=\"dcd98b7102dd2f0e8b11d0f600bfb0c093\",\n"
             + "                        opaque=\"5ccc069c403ebaf9f0171e9517f40e41\"";
 
-        assertEquals("testrealm@host.com", HttpRequest.extractHeaderComponent(header, "realm"));
-        assertEquals("auth,auth-int", HttpRequest.extractHeaderComponent(header, "qop"));
-        assertEquals("dcd98b7102dd2f0e8b11d0f600bfb0c093",
+        Assertions.assertEquals(
+            "testrealm@host.com", HttpRequest.extractHeaderComponent(header, "realm"));
+        Assertions.assertEquals("auth,auth-int", HttpRequest.extractHeaderComponent(header, "qop"));
+        Assertions.assertEquals("dcd98b7102dd2f0e8b11d0f600bfb0c093",
             HttpRequest.extractHeaderComponent(header, "nonce"));
-        assertEquals("5ccc069c403ebaf9f0171e9517f40e41",
+        Assertions.assertEquals("5ccc069c403ebaf9f0171e9517f40e41",
             HttpRequest.extractHeaderComponent(header, "opaque"));
-        assertNull(HttpRequest.extractHeaderComponent(header, "nothing"));
+        Assertions.assertNull(HttpRequest.extractHeaderComponent(header, "nothing"));
     }
 }

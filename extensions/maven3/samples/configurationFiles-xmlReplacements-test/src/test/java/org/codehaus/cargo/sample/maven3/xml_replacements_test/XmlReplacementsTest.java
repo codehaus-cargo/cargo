@@ -23,12 +23,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Test for the XML Replacements option.
  */
-public class XmlReplacementsTest extends TestCase
+public class XmlReplacementsTest
 {
     /**
      * Test XML replacements.
@@ -39,7 +39,7 @@ public class XmlReplacementsTest extends TestCase
     {
         String lookFor = "test-xmlreplacement-attribute=\"test-xmlreplacement-value\"";
         File serverXml = new File("target/jetty-base/etc/jetty.xml");
-        assertTrue(serverXml + " is not a file", serverXml.isFile());
+        Assertions.assertTrue(serverXml.isFile(), serverXml + " is not a file");
 
         try (BufferedReader serverXmlReader = new BufferedReader(new FileReader(serverXml)))
         {
@@ -52,7 +52,7 @@ public class XmlReplacementsTest extends TestCase
             }
         }
 
-        fail("File " + serverXml + " does not contain: " + lookFor);
+        Assertions.fail("File " + serverXml + " does not contain: " + lookFor);
     }
 
 }

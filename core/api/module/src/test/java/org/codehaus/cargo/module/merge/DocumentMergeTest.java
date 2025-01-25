@@ -19,19 +19,19 @@
  */
 package org.codehaus.cargo.module.merge;
 
+import java.io.StringReader;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
-import java.io.StringReader;
-
 /**
  * Test class which verifies that the DocumentMerge class is merging two Document objects correctly.
  */
-public class DocumentMergeTest extends TestCase
+public class DocumentMergeTest
 {
 
     /**
@@ -39,6 +39,7 @@ public class DocumentMergeTest extends TestCase
      * 
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testMergeTwoDocuments() throws Exception
     {
         SAXBuilder sb = new SAXBuilder();
@@ -63,10 +64,10 @@ public class DocumentMergeTest extends TestCase
         // verify this one Document has both entries
         Element rootNode = mergedDoc.getRootElement();
         List<Element> list = rootNode.getChildren("parentnode");
-        assertNotNull(list);
-        assertEquals(3, list.size());
-        assertEquals(((Element) list.get(0)).getChildText("value"), "8");
-        assertEquals(((Element) list.get(1)).getChildText("value"), "13");
-        assertEquals(((Element) list.get(2)).getChildText("value"), "26");
+        Assertions.assertNotNull(list);
+        Assertions.assertEquals(3, list.size());
+        Assertions.assertEquals(((Element) list.get(0)).getChildText("value"), "8");
+        Assertions.assertEquals(((Element) list.get(1)).getChildText("value"), "13");
+        Assertions.assertEquals(((Element) list.get(2)).getChildText("value"), "26");
     }
 }

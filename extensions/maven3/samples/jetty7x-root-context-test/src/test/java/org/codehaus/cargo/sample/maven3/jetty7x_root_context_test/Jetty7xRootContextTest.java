@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.jetty7x_root_context_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of Web applications on Jetty 7.x's root context.
  */
-public class Jetty7xRootContextTest extends TestCase
+public class Jetty7xRootContextTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class Jetty7xRootContextTest extends TestCase
      * Test deployment of Web applications on Jetty 7.x's root context.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testJetty7xRootContext() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port") + "/");

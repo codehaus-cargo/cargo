@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.generic.deployable;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -28,16 +29,17 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * Unit tests for {@link DefaultDeployableFactory}.
  */
-public class DefaultDeployableFactoryTest extends TestCase
+public class DefaultDeployableFactoryTest
 {
     /**
      * Test {@link WAR} deployable creation.
      */
+    @Test
     public void testCreateWARDeployable()
     {
         DeployableFactory factory = new DefaultDeployableFactory();
         Deployable deployable = factory.createDeployable("any container", "some/deployable",
             DeployableType.WAR);
-        assertTrue(deployable instanceof WAR);
+        Assertions.assertTrue(deployable instanceof WAR);
     }
 }

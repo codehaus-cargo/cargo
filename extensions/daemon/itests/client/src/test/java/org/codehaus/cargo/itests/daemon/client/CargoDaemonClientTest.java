@@ -29,14 +29,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.JarFile;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.StandaloneLocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
-
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -57,7 +60,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests of Codehaus Cargo Daemon using the Java client.
  */
-public class CargoDaemonClientTest extends TestCase
+public class CargoDaemonClientTest
 {
 
     /**
@@ -106,13 +109,12 @@ public class CargoDaemonClientTest extends TestCase
     private Logger logger = new SimpleLogger();
 
     /**
-     * {@inheritDoc}
+     * Start the Cargo Daemon.
+     * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         boolean startDaemon;
         synchronized (this.getClass())
         {
@@ -185,13 +187,11 @@ public class CargoDaemonClientTest extends TestCase
     }
 
     /**
-     * {@inheritDoc}
+     * Stop the Cargo Daemon.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
-        super.tearDown();
-
         boolean stopDaemon;
         synchronized (this.getClass())
         {
@@ -219,15 +219,16 @@ public class CargoDaemonClientTest extends TestCase
      * Test starting, stopping and restarting container.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testStartStopRestartContainer() throws Exception
     {
         File jetty9x = new File(System.getProperty("artifacts.dir"), "jetty9x.zip");
-        assertTrue("File " + jetty9x + " is missing", jetty9x.isFile());
+        Assertions.assertTrue(jetty9x.isFile(), "File " + jetty9x + " is missing");
 
         File configurationDirectory =
             new File(System.getProperty("daemon.test-configurations.home"));
-        assertFalse("Directory " + configurationDirectory + " already exists",
-            configurationDirectory.isDirectory());
+        Assertions.assertFalse(configurationDirectory.isDirectory(),
+            "Directory " + configurationDirectory + " already exists");
 
         StandaloneLocalConfiguration configuration = (StandaloneLocalConfiguration)
             CargoDaemonClientTest.configurationFactory.createConfiguration("jetty9x",
@@ -278,7 +279,7 @@ public class CargoDaemonClientTest extends TestCase
         systemPropertyWarWatchdog.watchForAvailability();
 
         Map<String, String> handles = client.getHandles();
-        assertEquals("started", handles.get("test1"));
+        Assertions.assertEquals("started", handles.get("test1"));
 
         client.stop("test1");
         cargoCpcWatchdog.watchForUnavailability();
@@ -298,7 +299,7 @@ public class CargoDaemonClientTest extends TestCase
         String webdefaultXml = new DefaultFileHandler().readTextFile(
             configurationDirectory.getAbsolutePath() + "/etc/webdefault.xml",
                 StandardCharsets.UTF_8);
-        assertTrue(webdefaultXml.contains(
+        Assertions.assertTrue(webdefaultXml.contains(
             "Testing XML replacements via the Codehaus Cargo Daemon"));
     }
 

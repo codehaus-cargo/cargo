@@ -37,6 +37,10 @@
             <!-- ResinRun requires to be built with Java 6 -->
             <source>1.6</source>
             <target>1.6</target>
+
+            <!-- Tests (with JUnit 5) require Java 8 -->
+            <testSource>1.8</testSource>
+            <testTarget>1.8</testTarget>
           </configuration>
         </plugin>
       </plugins>
@@ -55,9 +59,25 @@
       <activation>
         <jdk>[11,)</jdk>
       </activation>
-      <properties>
-        <maven.compiler.release>6</maven.compiler.release>
-      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>default-compile</id>
+                  <configuration>
+                    <!-- ResinRun requires to be built with Java 6 -->
+                    <release>6</release>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
   </profiles>
 </project>

@@ -23,7 +23,7 @@
     <artifactId>cargo-samples-maven3</artifactId>
     <version>1.10.17-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven3-weblogic-test-artifact</artifactId>
+  <artifactId>cargo-sample-maven3-weblogic-test</artifactId>
   <name>Cargo Samples - Maven 3 - WebLogic test</name>
   <packaging>jar</packaging>
   <description>Sample application that will be used to test the WebLogic container</description>

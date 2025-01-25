@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.ant.datasource_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests whether DataSource configuration works.
  */
-public class DataSourceTest extends TestCase
+public class DataSourceTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class DataSourceTest extends TestCase
      * Test datasource via URL.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testDataSource() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

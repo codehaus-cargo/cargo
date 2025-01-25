@@ -24,7 +24,9 @@ package org.codehaus.cargo.container.jonas.internal;
 
 import javax.management.MalformedObjectNameException;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
@@ -42,7 +44,7 @@ import org.codehaus.cargo.generic.deployable.DeployableFactory;
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
  */
-public class JonasRemoteDeployerTest extends TestCase
+public class JonasRemoteDeployerTest
 {
     /**
      * Runtime configuration.
@@ -60,14 +62,11 @@ public class JonasRemoteDeployerTest extends TestCase
     private AbstractJonasRemoteDeployer deployer;
 
     /**
-     * Creates the test file container and deployer. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the test file container and deployer.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
-
         runtime = new Jonas4xRuntimeConfiguration();
         container = new Jonas4xRemoteContainer(runtime);
         deployer = new TestDeployer(container);
@@ -76,6 +75,7 @@ public class JonasRemoteDeployerTest extends TestCase
     /**
      * Test remote file name getter.
      */
+    @Test
     public void testGetRemoteFileName()
     {
         DeployableFactory factory = new DefaultDeployableFactory();
@@ -83,37 +83,41 @@ public class JonasRemoteDeployerTest extends TestCase
         Deployable deployable = factory.createDeployable("jonas4x", "/foo/bar.war",
             DeployableType.WAR);
 
-        assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo.pipo", false));
-        assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo", false));
-        assertEquals("bar.war", deployer.getRemoteFileName(deployable, null, false));
+        Assertions.assertEquals(
+            "foo.war", deployer.getRemoteFileName(deployable, "foo.pipo", false));
+        Assertions.assertEquals("foo.war", deployer.getRemoteFileName(deployable, "foo", false));
+        Assertions.assertEquals("bar.war", deployer.getRemoteFileName(deployable, null, false));
 
         deployable = factory.createDeployable("jonas4x", "/foo/bar.war", DeployableType.WAR);
 
         ((WAR) deployable).setContext("/testContext");
-        assertEquals("testContext.war", deployer.getRemoteFileName(deployable, null, false));
+        Assertions.assertEquals(
+            "testContext.war", deployer.getRemoteFileName(deployable, null, false));
 
         ((WAR) deployable).setContext("/");
-        assertEquals("rootContext.war", deployer.getRemoteFileName(deployable, null, false));
+        Assertions.assertEquals(
+            "rootContext.war", deployer.getRemoteFileName(deployable, null, false));
     }
 
     /**
      * Test the server MBean getter.
      */
+    @Test
     public void testGetServerMBeanName()
     {
         try
         {
             String objectName = deployer.getServerMBeanName("foo", "bar").toString();
-            assertEquals("foo:j2eeType=J2EEServer,name=bar", objectName);
+            Assertions.assertEquals("foo:j2eeType=J2EEServer,name=bar", objectName);
         }
         catch (MalformedObjectNameException e)
         {
-            fail("No error should be thrown");
+            Assertions.fail("No error should be thrown");
         }
         try
         {
             deployer.getServerMBeanName(null, "bar").toString();
-            fail("error should be thrown");
+            Assertions.fail("error should be thrown");
         }
         catch (MalformedObjectNameException expected)
         {
@@ -122,7 +126,7 @@ public class JonasRemoteDeployerTest extends TestCase
         try
         {
             deployer.getServerMBeanName("", "bar").toString();
-            fail("error should be thrown");
+            Assertions.fail("error should be thrown");
         }
         catch (MalformedObjectNameException expected)
         {
@@ -133,21 +137,22 @@ public class JonasRemoteDeployerTest extends TestCase
     /**
      * Test the domain MBean getter.
      */
+    @Test
     public void testGetDomainMBeanName()
     {
         try
         {
             String objectName = deployer.getDomainMBeanName("foo").toString();
-            assertEquals("foo:j2eeType=J2EEDomain,name=foo", objectName);
+            Assertions.assertEquals("foo:j2eeType=J2EEDomain,name=foo", objectName);
         }
         catch (MalformedObjectNameException e)
         {
-            fail("No error should be thrown");
+            Assertions.fail("No error should be thrown");
         }
         try
         {
             deployer.getDomainMBeanName(null).toString();
-            fail("error should be thrown");
+            Assertions.fail("error should be thrown");
         }
         catch (MalformedObjectNameException expected)
         {
@@ -156,7 +161,7 @@ public class JonasRemoteDeployerTest extends TestCase
         try
         {
             deployer.getDomainMBeanName("").toString();
-            fail("error should be thrown");
+            Assertions.fail("error should be thrown");
         }
         catch (MalformedObjectNameException expected)
         {
@@ -167,6 +172,7 @@ public class JonasRemoteDeployerTest extends TestCase
     /**
      * Test runtime configuration's default values.
      */
+    @Test
     public void testRuntimeConfigurationDefaultValues()
     {
         RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
@@ -175,14 +181,15 @@ public class JonasRemoteDeployerTest extends TestCase
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
-        assertEquals("jonas", deployerConfig.getServerName());
-        assertEquals("jonas", deployerConfig.getDomainName());
-        assertNull(deployerConfig.getClusterName());
+        Assertions.assertEquals("jonas", deployerConfig.getServerName());
+        Assertions.assertEquals("jonas", deployerConfig.getDomainName());
+        Assertions.assertNull(deployerConfig.getClusterName());
     }
 
     /**
      * Test runtime configuration's server name.
      */
+    @Test
     public void testRuntimeConfigurationServerName()
     {
         RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
@@ -192,14 +199,15 @@ public class JonasRemoteDeployerTest extends TestCase
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
-        assertEquals("foo", deployerConfig.getServerName());
-        assertEquals("jonas", deployerConfig.getDomainName());
-        assertNull(deployerConfig.getClusterName());
+        Assertions.assertEquals("foo", deployerConfig.getServerName());
+        Assertions.assertEquals("jonas", deployerConfig.getDomainName());
+        Assertions.assertNull(deployerConfig.getClusterName());
     }
 
     /**
      * Test runtime configuration's domain name.
      */
+    @Test
     public void testRuntimeConfigurationDomainName()
     {
         RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
@@ -210,14 +218,15 @@ public class JonasRemoteDeployerTest extends TestCase
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
-        assertEquals("foo", deployerConfig.getServerName());
-        assertEquals("bar", deployerConfig.getDomainName());
-        assertNull(deployerConfig.getClusterName());
+        Assertions.assertEquals("foo", deployerConfig.getServerName());
+        Assertions.assertEquals("bar", deployerConfig.getDomainName());
+        Assertions.assertNull(deployerConfig.getClusterName());
     }
 
     /**
      * Test runtime configuration's cluster name.
      */
+    @Test
     public void testRuntimeConfigurationClusterName()
     {
         RuntimeConfiguration runtimeConfiguration = new Jonas4xRuntimeConfiguration();
@@ -229,9 +238,9 @@ public class JonasRemoteDeployerTest extends TestCase
         AbstractJonasRemoteDeployer remoteDeployer = new TestDeployer(remoteContainer);
         RemoteDeployerConfig deployerConfig = remoteDeployer.getConfig();
 
-        assertEquals("foo", deployerConfig.getServerName());
-        assertEquals("bar", deployerConfig.getDomainName());
-        assertEquals("jar", deployerConfig.getClusterName());
+        Assertions.assertEquals("foo", deployerConfig.getServerName());
+        Assertions.assertEquals("bar", deployerConfig.getDomainName());
+        Assertions.assertEquals("jar", deployerConfig.getClusterName());
     }
 
     /**

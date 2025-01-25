@@ -19,22 +19,24 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.codehaus.cargo.container.Container;
 
 /**
  * Unit tests for {@link Jetty12xInstalledLocalContainer}.
  */
-public class Jetty12xInstalledLocalContainerTest extends TestCase
+public class Jetty12xInstalledLocalContainerTest
 {
     /**
      * Test the <code>getName</code> method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetName() throws Exception
     {
         Container c = new Jetty12xInstalledLocalContainer(null);
         String name = c.getName();
-        assertEquals("Jetty 12.x", name);
+        Assertions.assertEquals("Jetty 12.x", name);
     }
 }

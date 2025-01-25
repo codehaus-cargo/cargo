@@ -19,21 +19,23 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 
 /**
  * Unit tests for {@link ConfigurationType}.
  */
-public class ConfigurationTypeTest extends TestCase
+public class ConfigurationTypeTest
 {
     /**
      * Test equality.
      */
+    @Test
     public void testEquals()
     {
         ConfigurationType type = ConfigurationType.EXISTING;
-        assertEquals(ConfigurationType.EXISTING, type);
+        Assertions.assertEquals(ConfigurationType.EXISTING, type);
     }
 }

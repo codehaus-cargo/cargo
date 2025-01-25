@@ -19,24 +19,26 @@
  */
 package org.codehaus.cargo.container.websphere.util;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for JvmArguments class.
  */
-public final class JvmArgumentsTest extends TestCase
+public final class JvmArgumentsTest
 {
     /**
      * Test parsing of java arguments.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testParseArguments() throws Exception
     {
         String toBeParsed = "-Djava.compiler=NONE -Xms150m -Xmx2g";
 
         JvmArguments parsedArguments = JvmArguments.parseArguments(toBeParsed);
-        assertEquals(150L, parsedArguments.getInitialHeap(ByteUnit.MEGABYTES));
-        assertEquals(2048L, parsedArguments.getMaxHeap(ByteUnit.MEGABYTES));
-        assertEquals("-Djava.compiler=NONE", parsedArguments.getGenericArgs());
+        Assertions.assertEquals(150L, parsedArguments.getInitialHeap(ByteUnit.MEGABYTES));
+        Assertions.assertEquals(2048L, parsedArguments.getMaxHeap(ByteUnit.MEGABYTES));
+        Assertions.assertEquals("-Djava.compiler=NONE", parsedArguments.getGenericArgs());
     }
 }

@@ -22,51 +22,56 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 
 /**
  * Unit tests for {@link AbstractJonasRemoteDeployer}.
  */
-public class JonasStandaloneConfigurationTest extends TestCase
+public class JonasStandaloneConfigurationTest
 {
 
     /**
      * Test the method for getting the configurator setter name based on the property name.
      */
+    @Test
     public void testConfiguratorSetterNameWithInvalidPropertyName()
     {
         try
         {
             AbstractJonasStandaloneLocalConfiguration.getConfiguratorSetterName("test");
-            fail("Non-configurator property name got accepted");
+            Assertions.fail("Non-configurator property name got accepted");
         }
         catch (IllegalArgumentException expected)
         {
-            assertTrue("Exception should contain " + JonasPropertySet.CONFIGURATOR_PREFIX,
-                expected.getMessage().contains(JonasPropertySet.CONFIGURATOR_PREFIX));
+            Assertions.assertTrue(
+                expected.getMessage().contains(JonasPropertySet.CONFIGURATOR_PREFIX),
+                    "Exception should contain " + JonasPropertySet.CONFIGURATOR_PREFIX);
         }
     }
 
     /**
      * Test the method for getting the configurator setter name based on the property name.
      */
+    @Test
     public void testConfiguratorSetterNameWithUppercaseFirstLetter()
     {
         String setterName = AbstractJonasStandaloneLocalConfiguration.getConfiguratorSetterName(
             JonasPropertySet.CONFIGURATOR_PREFIX + "HttpSessionReplicationActivation");
-        assertEquals("setHttpSessionReplicationActivation", setterName);
+        Assertions.assertEquals("setHttpSessionReplicationActivation", setterName);
     }
 
     /**
      * Test the method for getting the configurator setter name based on the property name.
      */
+    @Test
     public void testConfiguratorSetterNameWithLowercaseFirstLetter()
     {
         String setterName = AbstractJonasStandaloneLocalConfiguration.getConfiguratorSetterName(
             JonasPropertySet.CONFIGURATOR_PREFIX + "httpSessionReplicationActivation");
-        assertEquals("setHttpSessionReplicationActivation", setterName);
+        Assertions.assertEquals("setHttpSessionReplicationActivation", setterName);
     }
 
 }

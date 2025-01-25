@@ -316,7 +316,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      */
     protected String getUserToken()
     {
-        StringBuilder token = new StringBuilder(" ");
+        StringBuilder token = new StringBuilder();
 
         // Add token filters for authenticated users
         if (!getUsers().isEmpty())
@@ -338,7 +338,7 @@ public abstract class AbstractOrionStandaloneLocalConfiguration extends
      */
     protected String getRoleToken()
     {
-        StringBuilder token = new StringBuilder(" ");
+        StringBuilder token = new StringBuilder();
 
         List<User> users = getUsers();
         Map<String, List<User>> roles = User.createRoleMap(users);

@@ -22,6 +22,9 @@ package org.codehaus.cargo.container.orion.internal;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -72,30 +75,32 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
     /**
      * Test the role token getter.
      */
+    @Test
     public void testGetRoleToken()
     {
         List<User> users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
         configuration.getUsers().addAll(users);
 
         String token = ((AbstractOrionStandaloneLocalConfiguration) configuration).getRoleToken();
-        assertTrue(token.contains("<security-role-mapping name=\"r1\">"
+        Assertions.assertTrue(token.contains("<security-role-mapping name=\"r1\">"
             + "<user name=\"u1\"/></security-role-mapping>"));
-        assertTrue(token.contains("<security-role-mapping name=\"r2\">"
+        Assertions.assertTrue(token.contains("<security-role-mapping name=\"r2\">"
             + "<user name=\"u1\"/><user name=\"u2\"/></security-role-mapping>"));
-        assertTrue(token.contains("<security-role-mapping name=\"r3\">"
+        Assertions.assertTrue(token.contains("<security-role-mapping name=\"r3\">"
             + "<user name=\"u2\"/></security-role-mapping>"));
     }
 
     /**
      * Test the user token getter.
      */
+    @Test
     public void testGetUserToken()
     {
         List<User> users = User.parseUsers("u1:p1:r1,r2|u2:p2:r2,r3");
         configuration.getUsers().addAll(users);
 
         String token = ((AbstractOrionStandaloneLocalConfiguration) configuration).getUserToken();
-        assertEquals(" " + "<user deactivated=\"false\" username=\"u1\" password=\"p1\"/>"
+        Assertions.assertEquals("<user deactivated=\"false\" username=\"u1\" password=\"p1\"/>"
             + "<user deactivated=\"false\" username=\"u2\" password=\"p2\"/>", token);
     }
 
@@ -104,29 +109,31 @@ public abstract class AbstractOrionStandaloneLocalConfigurationTest extends
      * Oc4j9xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/server.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/application.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/default-web-site.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/mime.types"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/principals.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/rmi.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/default-web-app/WEB-INF/web.xml"));
-        assertTrue(configuration.getFileHandler()
+        Assertions.assertTrue(configuration.getFileHandler()
             .exists(configuration.getHome() + "/persistence"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/application-deployments"));
-        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/log"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(
+            configuration.getFileHandler().exists(configuration.getHome() + "/log"));
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/applications/cargocpc.war"));
     }
 

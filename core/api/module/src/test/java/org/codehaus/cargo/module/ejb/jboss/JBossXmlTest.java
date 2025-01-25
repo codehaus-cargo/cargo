@@ -22,6 +22,9 @@ package org.codehaus.cargo.module.ejb.jboss;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.ejb.EjbDef;
 
@@ -35,6 +38,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetJndiName() throws Exception
     {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -49,7 +53,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
 
         JBossXml descr = JBossXmlIo.parseJBossXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertEquals("test/Tester", descr.getJndiName(new EjbDef("BeanOne")));
+        Assertions.assertEquals("test/Tester", descr.getJndiName(new EjbDef("BeanOne")));
     }
 
     /**
@@ -57,6 +61,7 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetLocalJndiNameWithWrongEjbName() throws Exception
     {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -71,6 +76,6 @@ public class JBossXmlTest extends AbstractDocumentBuilderTest
 
         JBossXml descr = JBossXmlIo.parseJBossXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        assertNull(descr.getJndiName(new EjbDef("BeanOn")));
+        Assertions.assertNull(descr.getJndiName(new EjbDef("BeanOn")));
     }
 }

@@ -29,8 +29,8 @@
   <description>Core Utility API (logging, File utils, etc)</description>
   <dependencies>
     <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
+      <groupId>org.xmlunit</groupId>
+      <artifactId>xmlunit-legacy</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -26,8 +26,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -45,7 +48,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Provides base level of testing for subclasses of AbstractInstalledLocalContainer.
  */
-public class InstalledLocalContainerTest extends TestCase
+public class InstalledLocalContainerTest
 {
     /**
      * Previous file.
@@ -73,10 +76,10 @@ public class InstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container configuration. {@inheritDoc}
+     * Creates the test file system manager and the container configuration.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
         this.configuration = new AbstractStandaloneLocalConfiguration("/some/path")
@@ -205,6 +208,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Tests that <code>tools.jar</code> is not set on MacOS X.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoesntSetToolsJarWhenOsX() throws Exception
     {
         System.setProperty("mrj.version", "is.OsX");
@@ -213,7 +217,7 @@ public class InstalledLocalContainerTest extends TestCase
             new AbstractInstalledLocalContainerStub(configuration);
         JvmLauncherStub java = new JvmLauncherStub();
         container.addToolsJarToClasspath(java);
-        assertFalse(java.getClasspath().contains("myTestPath"));
+        Assertions.assertFalse(java.getClasspath().contains("myTestPath"));
     }
 
     /**
@@ -221,6 +225,7 @@ public class InstalledLocalContainerTest extends TestCase
      * equal or higher than 9.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSetsToolsJarWhenNotOsXOrJava9() throws Exception
     {
         System.getProperties().remove("mrj.version");
@@ -231,7 +236,7 @@ public class InstalledLocalContainerTest extends TestCase
         container.addToolsJarToClasspath(java);
         if (JdkUtils.getMajorJavaVersion() < 9)
         {
-            assertTrue(java.getClasspath().contains("myTestPath"));
+            Assertions.assertTrue(java.getClasspath().contains("myTestPath"));
         }
     }
 
@@ -239,6 +244,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Tests that <code>JAVA_HOME</code> getter and setter work properly.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSetsDefaultJavaHome() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, null);
@@ -255,13 +261,14 @@ public class InstalledLocalContainerTest extends TestCase
         // vmCmd may be wrapped in double quotes on windows when JAVA_HOME has spaces in it
         vmCmd = vmCmd.replaceAll("\"", "");
         // in windows, it may be .exe, so we'll ignore the extension
-        assertTrue(vmCmd.startsWith(expected));
+        Assertions.assertTrue(vmCmd.startsWith(expected));
     }
 
     /**
      * Tests that <code>JAVA_HOME</code> can be changed.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSetsAlternateJavaHome() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.JAVA_HOME, "/my/java");
@@ -271,25 +278,27 @@ public class InstalledLocalContainerTest extends TestCase
         container.setJvmToLaunchContainerIn(java);
         // wipe out anything that would break on windows
         String vmCmd = java.getJvm().replaceAll("\\\\", "/").toLowerCase();
-        assertTrue(vmCmd.startsWith("/my/java/bin/java"));
+        Assertions.assertTrue(vmCmd.startsWith("/my/java/bin/java"));
     }
 
     /**
      * Tests that the shared classpath is not <code>null</code> even when empty.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSharedClasspathNotNull() throws Exception
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        assertNotNull(container.getSharedClasspath());
-        assertEquals(0, container.getSharedClasspath().length);
+        Assertions.assertNotNull(container.getSharedClasspath());
+        Assertions.assertEquals(0, container.getSharedClasspath().length);
     }
 
     /**
      * Tests adding a JAR to the shared classpath when no path was set.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddSharedClasspathWorksWithNoPreviousPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
@@ -297,14 +306,15 @@ public class InstalledLocalContainerTest extends TestCase
         container.setFileHandler(fileHandler);
 
         container.addSharedClasspath(TEST_FILE);
-        assertEquals(1, container.getSharedClasspath().length);
-        assertEquals(TEST_FILE, container.getSharedClasspath()[0]);
+        Assertions.assertEquals(1, container.getSharedClasspath().length);
+        Assertions.assertEquals(TEST_FILE, container.getSharedClasspath()[0]);
     }
 
     /**
      * Tests adding a JAR to the shared classpath when another path was already set.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddSharedClasspathWorksWithAnotherPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
@@ -312,31 +322,33 @@ public class InstalledLocalContainerTest extends TestCase
         container.setFileHandler(fileHandler);
 
         container.setSharedClasspath(new String[] {PREVIOUS_FILE});
-        assertEquals(1, container.getSharedClasspath().length);
-        assertEquals(PREVIOUS_FILE, container.getSharedClasspath()[0]);
+        Assertions.assertEquals(1, container.getSharedClasspath().length);
+        Assertions.assertEquals(PREVIOUS_FILE, container.getSharedClasspath()[0]);
 
         container.addSharedClasspath(TEST_FILE);
-        assertEquals(2, container.getSharedClasspath().length);
-        assertEquals(PREVIOUS_FILE, container.getSharedClasspath()[0]);
-        assertEquals(TEST_FILE, container.getSharedClasspath()[1]);
+        Assertions.assertEquals(2, container.getSharedClasspath().length);
+        Assertions.assertEquals(PREVIOUS_FILE, container.getSharedClasspath()[0]);
+        Assertions.assertEquals(TEST_FILE, container.getSharedClasspath()[1]);
     }
 
     /**
      * Tests that the extra classpath is not <code>null</code> even when empty.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testExtraClasspathNotNull() throws Exception
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        assertNotNull(container.getExtraClasspath());
-        assertEquals(0, container.getExtraClasspath().length);
+        Assertions.assertNotNull(container.getExtraClasspath());
+        Assertions.assertEquals(0, container.getExtraClasspath().length);
     }
 
     /**
      * Tests adding a JAR to the extra classpath when no path was set.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddExtraClasspathWorksWithNoPreviousPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
@@ -344,14 +356,15 @@ public class InstalledLocalContainerTest extends TestCase
         container.setFileHandler(fileHandler);
 
         container.addExtraClasspath(TEST_FILE);
-        assertEquals(1, container.getExtraClasspath().length);
-        assertEquals(TEST_FILE, container.getExtraClasspath()[0]);
+        Assertions.assertEquals(1, container.getExtraClasspath().length);
+        Assertions.assertEquals(TEST_FILE, container.getExtraClasspath()[0]);
     }
 
     /**
      * Tests adding a JAR to the extra classpath when another path was already set.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAddExtraClasspathWorksWithAnotherPath() throws Exception
     {
         AbstractInstalledLocalContainer container =
@@ -359,42 +372,45 @@ public class InstalledLocalContainerTest extends TestCase
         container.setFileHandler(fileHandler);
 
         container.setExtraClasspath(new String[] {PREVIOUS_FILE});
-        assertEquals(1, container.getExtraClasspath().length);
-        assertEquals(PREVIOUS_FILE, container.getExtraClasspath()[0]);
+        Assertions.assertEquals(1, container.getExtraClasspath().length);
+        Assertions.assertEquals(PREVIOUS_FILE, container.getExtraClasspath()[0]);
 
         container.addExtraClasspath(TEST_FILE);
-        assertEquals(2, container.getExtraClasspath().length);
-        assertEquals(PREVIOUS_FILE, container.getExtraClasspath()[0]);
-        assertEquals(TEST_FILE, container.getExtraClasspath()[1]);
+        Assertions.assertEquals(2, container.getExtraClasspath().length);
+        Assertions.assertEquals(PREVIOUS_FILE, container.getExtraClasspath()[0]);
+        Assertions.assertEquals(TEST_FILE, container.getExtraClasspath()[1]);
     }
 
     /**
      * Test that system properties are never null.
      */
+    @Test
     public void testSystemPropertiesNeverNull()
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
-        assertNotNull(container.getSystemProperties());
-        assertEquals(0, container.getSystemProperties().size());
+        Assertions.assertNotNull(container.getSystemProperties());
+        Assertions.assertEquals(0, container.getSystemProperties().size());
     }
 
     /**
      * Test that system properties can be set.
      */
+    @Test
     public void testCanSetSystemProperty()
     {
         AbstractInstalledLocalContainer container =
             new AbstractInstalledLocalContainerStub(configuration);
         container.getSystemProperties().put("1", "2");
-        assertEquals(1, container.getSystemProperties().size());
-        assertEquals("2", container.getSystemProperties().get("1"));
+        Assertions.assertEquals(1, container.getSystemProperties().size());
+        Assertions.assertEquals("2", container.getSystemProperties().get("1"));
     }
 
     /**
      * Test the runtime arguments.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testRuntimeArgs() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -403,14 +419,16 @@ public class InstalledLocalContainerTest extends TestCase
         container.getConfiguration().setProperty(GeneralPropertySet.RUNTIME_ARGS, "hello -world");
         container.startInternal();
         JvmLauncher java = container.getJava();
-        assertTrue("Expected runtime arguments not contained in the java commandline.",
-            java.getCommandLine().contains("hello -world"));
+        Assertions.assertTrue(
+            java.getCommandLine().contains("hello -world"),
+                "Expected runtime arguments not contained in the java commandline.");
     }
 
     /**
      * Test the JVM arguments.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testJvmArgs() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -424,15 +442,16 @@ public class InstalledLocalContainerTest extends TestCase
         String commandLine = java.getCommandLine();
         checkString(commandLine, "-Dx.y=z ");
         checkString(commandLine, "-Du.v=w");
-        assertFalse("check new lines", commandLine.contains("\n"));
-        assertFalse("check new lines", commandLine.contains("\r"));
-        assertFalse("check tabs", commandLine.contains("\t"));
+        Assertions.assertFalse(commandLine.contains("\n"), "check new lines");
+        Assertions.assertFalse(commandLine.contains("\r"), "check new lines");
+        Assertions.assertFalse(commandLine.contains("\t"), "check tabs");
     }
 
     /**
      * Test the default memory arguments.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDefaultMemoryArguments() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -449,6 +468,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Test memory arguments override.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testXmsMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -467,6 +487,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Test memory arguments override.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testXmxMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -485,6 +506,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Test memory arguments override.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testXXPermSizeMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -504,6 +526,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Test memory arguments override.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testXXMaxPermSizeMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -524,6 +547,7 @@ public class InstalledLocalContainerTest extends TestCase
      * Test memory arguments override.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAllMemoryArgumentOverride() throws Exception
     {
         AbstractInstalledLocalContainerStub container =
@@ -549,14 +573,16 @@ public class InstalledLocalContainerTest extends TestCase
      */
     private void checkString(String haystack, String needle)
     {
-        assertTrue("Expected argument \"" + needle + "\", got \"" + haystack + "\"",
-            haystack.contains(needle));
+        Assertions.assertTrue(
+            haystack.contains(needle),
+                "Expected argument \"" + needle + "\", got \"" + haystack + "\"");
     }
 
     /**
      * Test the case when the JVM version is slow to execute.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testJvmVersionSlowToExecute() throws Exception
     {
         AbstractInstalledLocalContainerStub container =

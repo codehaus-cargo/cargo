@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -41,7 +43,7 @@ import org.w3c.dom.Element;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
+public class WebLogic8xConfigXmlInstalledLocalDeployerTest
 {
     /**
      * BEA_HOME
@@ -94,13 +96,12 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     private XmlUtils xmlUtil;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -119,24 +120,22 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
+    @AfterEach
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test WAR in config.xml.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigWar() throws Exception
     {
         this.resourceUtils.copyResource(AbstractLocalConfiguration.RESOURCE_PATH + "cargocpc.war",

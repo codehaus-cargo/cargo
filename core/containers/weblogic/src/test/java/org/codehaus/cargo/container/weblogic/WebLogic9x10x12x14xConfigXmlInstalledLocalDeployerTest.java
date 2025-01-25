@@ -23,9 +23,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.custommonkey.xmlunit.NamespaceContext;
+import org.custommonkey.xmlunit.SimpleNamespaceContext;
+import org.custommonkey.xmlunit.XMLAssert;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableException;
@@ -40,12 +49,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration
 import org.codehaus.cargo.util.XmlUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer}.
@@ -56,7 +59,7 @@ import org.w3c.dom.Element;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends TestCase
+public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest
 {
     /**
      * BEA_HOME
@@ -114,13 +117,12 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
     private Document document;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
         // setup the namespace of the weblogic config.xml file
         Map<String, String> m = new HashMap<String, String>();
         m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
@@ -156,24 +158,22 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test WAR in config.xml.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigWar() throws Exception
     {
         WAR war = createWar();
@@ -199,15 +199,16 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
      * Test deployments analysis in config.xml.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testFindAppDeployments() throws Exception
     {
         WAR war = createWar();
         testConfigWar();
         List<Element> l = deployer.selectAppDeployments(war, domain);
-        assertEquals(1, l.size());
+        Assertions.assertEquals(1, l.size());
         deployer.removeDeployableFromDomain(war, domain);
         l = deployer.selectAppDeployments(war, domain);
-        assertEquals(0, l.size());
+        Assertions.assertEquals(0, l.size());
     }
 
     /**
@@ -227,50 +228,55 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
      * Test WAR identifier creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateIdForWAR() throws Exception
     {
         WAR war = createWar();
         String name = deployer.createIdForDeployable(war);
-        assertEquals("cargo.war", name);
+        Assertions.assertEquals("cargo.war", name);
     }
 
     /**
      * Test EJB identifier creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateIdForEJB() throws Exception
     {
         EJB ejb = createEJB();
         String name = deployer.createIdForDeployable(ejb);
-        assertEquals("cargo.war", name);
+        Assertions.assertEquals("cargo.war", name);
     }
 
     /**
      * Test EAR identifier creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateIdForEAR() throws Exception
     {
         EAR ear = createEAR();
         String name = deployer.createIdForDeployable(ear);
-        assertEquals("cargo.ear", name);
+        Assertions.assertEquals("cargo.ear", name);
     }
 
     /**
      * Test RAR identifier creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateIdForRAR() throws Exception
     {
         RAR rar = createRAR();
         String name = deployer.createIdForDeployable(rar);
-        assertEquals("cargo.rar", name);
+        Assertions.assertEquals("cargo.rar", name);
     }
 
     /**
      * Test name getter when deployable not listed.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetNameFromDeployableNotSupportedList() throws Exception
     {
         SAR sar = createSAR();
@@ -358,16 +364,16 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
         try
         {
             deployer.createIdForDeployable(deployable);
-            fail("should have gotten an exception");
+            Assertions.fail("should have gotten an exception");
         }
         catch (DeployableException e)
         {
-            assertEquals("name extraction for " + deployable.getType()
+            Assertions.assertEquals("name extraction for " + deployable.getType()
                 + " not currently supported", e.getMessage());
         }
         catch (Exception e)
         {
-            fail("wrong exception type: " + e);
+            Assertions.fail("wrong exception type: " + e);
         }
     }
 
@@ -375,6 +381,7 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
      * Test application deployment reordering.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testReorderAppDeploymentsAfterConfigurationVersionAndBeforeAdminServerName()
         throws Exception
     {
@@ -385,14 +392,15 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
         int indexOfConfigurationVersion = xml.indexOf("configuration-version");
         int indexOfAppDeployment = xml.indexOf("app-deployment");
         int indexOfAdminServerName = xml.indexOf("admin-server-name");
-        assertTrue(indexOfAppDeployment > indexOfConfigurationVersion);
-        assertTrue(indexOfAppDeployment < indexOfAdminServerName);
+        Assertions.assertTrue(indexOfAppDeployment > indexOfConfigurationVersion);
+        Assertions.assertTrue(indexOfAppDeployment < indexOfAdminServerName);
     }
 
     /**
      * Test WAR unconfiguration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testUnConfigWar() throws Exception
     {
         WAR war = createWar();
@@ -411,13 +419,14 @@ public class WebLogic9x10x12x14xConfigXmlInstalledLocalDeployerTest extends Test
      * Test path getter.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetAbsolutePathWithRelativePath() throws Exception
     {
         Deployable deployable = new WAR("path");
         String path = deployer.getAbsolutePath(deployable);
 
-        assertEquals(System.getProperty("user.dir") + System.getProperty("file.separator")
-            + "path", path);
+        Assertions.assertEquals(
+            System.getProperty("user.dir") + System.getProperty("file.separator") + "path", path);
     }
 
 }

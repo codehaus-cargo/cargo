@@ -23,21 +23,24 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.cargo.util.VFSFileHandler;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
  * Unit tests for {@link WebLogic103xStandaloneLocalConfiguration}.
  */
-public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
+public class WebLogic103xStandaloneLocalConfigurationTest
 {
     /**
      * BEA_HOME
@@ -95,14 +98,12 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         // setup the namespace of the weblogic config.xml file
         Map<String, String> m = new HashMap<String, String>();
         m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
@@ -123,55 +124,60 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test that all files are created correctly.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureCreatesFiles() throws Exception
     {
         configuration.doConfigure(container);
 
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/config"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/config/config.xml"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/security"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/security/DefaultAuthenticatorInit.ldift"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/security/SerializedSystemIni.dat"));
-        assertTrue(fileHandler.exists(DOMAIN_HOME + "/autodeploy/cargocpc.war"));
+        Assertions.assertTrue(fileHandler.exists(DOMAIN_HOME + "/config"));
+        Assertions.assertTrue(fileHandler.exists(DOMAIN_HOME + "/config/config.xml"));
+        Assertions.assertTrue(fileHandler.exists(DOMAIN_HOME + "/security"));
+        Assertions.assertTrue(
+            fileHandler.exists(DOMAIN_HOME + "/security/DefaultAuthenticatorInit.ldift"));
+        Assertions.assertTrue(
+            fileHandler.exists(DOMAIN_HOME + "/security/SerializedSystemIni.dat"));
+        Assertions.assertTrue(fileHandler.exists(DOMAIN_HOME + "/autodeploy/cargocpc.war"));
     }
 
     /**
      * Test default values.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConstructorSetsPropertyDefaults() throws Exception
     {
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_PWD), "weblogic");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.SERVER), "server");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION),
-            "10.3.0.0");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION),
-            "10.3.0.0");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.ADMIN_PWD), "weblogic");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.SERVER), "server");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION), "10.3.0.0");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION), "10.3.0.0");
     }
 
     /**
      * Test required elements.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureCreatesRequiredElements() throws Exception
     {
         configuration.doConfigure(container);
@@ -186,6 +192,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test domain version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultDomainVersion() throws Exception
     {
         configuration.doConfigure(container);
@@ -208,6 +215,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test changing domain version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDomainVersion() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.DOMAIN_VERSION, DOMAIN_VERSION);
@@ -221,6 +229,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test configuration version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultConfigurationVersion() throws Exception
     {
         configuration.doConfigure(container);
@@ -235,6 +244,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test changing configuration version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsConfigurationVersion() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.CONFIGURATION_VERSION,
@@ -250,6 +260,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test default admin server.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultAdminServer() throws Exception
     {
         configuration.doConfigure(container);
@@ -264,6 +275,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test changed admin server.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsAdminServer() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.SERVER, SERVER);
@@ -277,6 +289,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test default port.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
         configuration.doConfigure(container);
@@ -290,6 +303,7 @@ public class WebLogic103xStandaloneLocalConfigurationTest extends TestCase
      * Test changed port.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsPort() throws Exception
     {
         configuration.setProperty(ServletPropertySet.PORT, PORT);

@@ -23,7 +23,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.AbstractResourceTest;
 import org.codehaus.cargo.util.FileHandler;
@@ -65,14 +70,12 @@ public class ZipURLInstallerTest extends AbstractResourceTest
     private FileHandler fileHandler;
 
     /**
-     * Creates the test ZIP URL installer and its file system manager. {@inheritDoc}
+     * Creates the test ZIP URL installer and its file system manager.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -95,45 +98,47 @@ public class ZipURLInstallerTest extends AbstractResourceTest
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
+     * Closes the test file system manager.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @AfterEach
     protected void tearDown() throws Exception
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test {@link ZipURLInstaller#getSourceFileName()}.
      */
+    @Test
     public void testGetSourceFileName()
     {
-        assertEquals("resin-3.0.18.zip", this.installer.getSourceFileName());
+        Assertions.assertEquals("resin-3.0.18.zip", this.installer.getSourceFileName());
     }
 
     /**
      * Test {@link ZipURLInstaller#getExtractDir()}.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetExtractDir() throws Exception
     {
-        assertTrue(this.installer.getExtractDir() + " does not end with " + "resin-3.0.18",
-            this.installer.getExtractDir().endsWith("resin-3.0.18"));
+        Assertions.assertTrue(this.installer.getExtractDir().endsWith("resin-3.0.18"),
+            this.installer.getExtractDir() + " does not end with " + "resin-3.0.18");
     }
 
     /**
      * Test {@link ZipURLInstaller#install()} successful with a proxy.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSuccessfulDownloadWhenProxySet() throws Exception
     {
-        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+        Assertions.assertNull(
+            System.getProperty("http.proxyHost"), "No system proxy should be set");
 
         Proxy proxy = new Proxy();
         proxy.setHost("proxyhost");
@@ -142,32 +147,38 @@ public class ZipURLInstallerTest extends AbstractResourceTest
         this.doDownloadFail = false;
         this.installer.download();
 
-        assertEquals(this.doDownloadProxyHost, proxy.getHost());
-        assertNull("System proxy host should be unset", System.getProperty("http.proxyHost"));
+        Assertions.assertEquals(this.doDownloadProxyHost, proxy.getHost());
+        Assertions.assertNull(
+            System.getProperty("http.proxyHost"), "System proxy host should be unset");
     }
 
     /**
      * Test {@link ZipURLInstaller#install()} successful with no proxy.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSuccessfulDownloadWhenNoProxySet() throws Exception
     {
-        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+        Assertions.assertNull(
+            System.getProperty("http.proxyHost"), "No system proxy should be set");
 
         this.doDownloadFail = false;
         this.installer.download();
 
-        assertNull(this.doDownloadProxyHost);
-        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+        Assertions.assertNull(this.doDownloadProxyHost);
+        Assertions.assertNull(
+            System.getProperty("http.proxyHost"), "No system proxy should be set");
     }
 
     /**
      * Test {@link ZipURLInstaller#install()} failed with proxy and then successful without proxy.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testFailureWithProxySetButSuccessOnSecondTryWithoutProxy() throws Exception
     {
-        assertNull("No system proxy should be set", System.getProperty("http.proxyHost"));
+        Assertions.assertNull(
+            System.getProperty("http.proxyHost"), "No system proxy should be set");
 
         Proxy proxy = new Proxy();
         proxy.setHost("proxyhost");
@@ -176,28 +187,30 @@ public class ZipURLInstallerTest extends AbstractResourceTest
         this.doDownloadFail = true;
         this.installer.download();
 
-        assertNull(
-            "First failure should have resulted in the proxy being unset before second attempt",
-                this.doDownloadProxyHost);
-        assertNull("System proxy host should be unset", System.getProperty("http.proxyHost"));
+        Assertions.assertNull(this.doDownloadProxyHost,
+            "First failure should have resulted in the proxy being unset before second attempt");
+        Assertions.assertNull(
+            System.getProperty("http.proxyHost"), "System proxy host should be unset");
     }
 
     /**
      * Test {@link ZipURLInstaller#getHome()} when container not installed yet.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetHomeWhenContainerNotInstalled() throws Exception
     {
         this.installer.setExtractDir("ram:///tmp");
         try
         {
             this.installer.getHome();
-            fail("Should have thrown a container exception here");
+            Assertions.fail("Should have thrown a container exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Failed to get container installation home as the container has not yet "
-                + "been installed. Please call install() first.", expected.getMessage());
+            Assertions.assertEquals(
+                "Failed to get container installation home as the container has not yet "
+                    + "been installed. Please call install() first.", expected.getMessage());
         }
     }
 
@@ -205,6 +218,7 @@ public class ZipURLInstallerTest extends AbstractResourceTest
      * Test {@link ZipURLInstaller#getHome()} when container installed in two levels.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetHomeWhenContainerDistributionUnzipsInTwoLevels() throws Exception
     {
         this.fsManager.resolveFile("ram:///tmp/resin-3.0.18/resin-3.0.18/bin").createFolder();
@@ -214,13 +228,14 @@ public class ZipURLInstallerTest extends AbstractResourceTest
 
         this.installer.setExtractDir("ram:///tmp");
 
-        assertEquals("ram:///tmp/resin-3.0.18/resin-3.0.18", this.installer.getHome());
+        Assertions.assertEquals("ram:///tmp/resin-3.0.18/resin-3.0.18", this.installer.getHome());
     }
 
     /**
      * Test extraction of a 7Z file.
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testExtract7z() throws Exception
     {
         extractAndTest("7z");
@@ -230,6 +245,7 @@ public class ZipURLInstallerTest extends AbstractResourceTest
      * Test extraction of a TAR.GZ file.
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testExtractTarGz() throws Exception
     {
         extractAndTest("tar.gz");
@@ -239,6 +255,7 @@ public class ZipURLInstallerTest extends AbstractResourceTest
      * Test extraction of a ZIP file.
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testExtractZip() throws Exception
     {
         extractAndTest("zip");
@@ -262,11 +279,12 @@ public class ZipURLInstallerTest extends AbstractResourceTest
         String dummyFileContents =
             this.fileHandler.readTextFile(this.fileHandler.append(home, "dummy-file.txt"),
                 StandardCharsets.UTF_8);
-        assertEquals("this is a dummy file", dummyFileContents);
+        Assertions.assertEquals("this is a dummy file", dummyFileContents);
         String dummyFileInDirectoryContents =
             this.fileHandler.readTextFile(
                 this.fileHandler.append(home, "dummy-directory/dummy-file-in-dummy-directory.txt"),
                     StandardCharsets.UTF_8);
-        assertEquals("this is a dummy file in a dummy directory", dummyFileInDirectoryContents);
+        Assertions.assertEquals(
+            "this is a dummy file in a dummy directory", dummyFileInDirectoryContents);
     }
 }

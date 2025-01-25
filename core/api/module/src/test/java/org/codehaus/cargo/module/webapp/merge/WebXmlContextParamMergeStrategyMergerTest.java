@@ -25,6 +25,10 @@ package org.codehaus.cargo.module.webapp.merge;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.merge.DescriptorMergerByTag;
 import org.codehaus.cargo.module.merge.tagstrategy.NodeMergeStrategy;
@@ -32,7 +36,6 @@ import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlType;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXmlMerger} with merge strategies.
@@ -98,6 +101,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInLeftWithPreserveStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -105,8 +109,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.PRESERVE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -116,6 +120,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInRightWithPreserveStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("other", "value1");
@@ -123,8 +128,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.PRESERVE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -134,6 +139,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithPreserveStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -141,8 +147,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.PRESERVE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -152,6 +158,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInLeftWithOverwiteStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -159,8 +166,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.OVERWRITE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -170,6 +177,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInRightWithOverwiteStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("other", "value1");
@@ -177,8 +185,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.OVERWRITE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -188,6 +196,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithOverwiteStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -195,8 +204,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.OVERWRITE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -206,6 +215,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInLeftWithIgnoreStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -213,8 +223,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.IGNORE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -224,6 +234,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInRightWithIgnoreStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("other", "value1");
@@ -231,7 +242,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.IGNORE);
         merger.merge(mergeWebXml);
-        assertFalse(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertFalse(WebXmlUtils.hasContextParam(srcWebXml, "param"));
     }
 
     /**
@@ -240,6 +251,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithIgnoreStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -247,8 +259,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, DescriptorMergerByTag.IGNORE);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -258,6 +270,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInLeftWithNodeMergeStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -268,8 +281,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -279,6 +292,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInRightWithNodeMergeStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("other", "value1");
@@ -289,8 +303,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -300,6 +314,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithNodeMergeStrategy() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -310,8 +325,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1 value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1 value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -321,6 +336,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithNodeMergeStrategyWithLeftValueOnly() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -330,8 +346,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -341,6 +357,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithNodeMergeStrategyWithRightValueOnly() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -350,8 +367,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -361,6 +378,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithNodeMergeStrategyWithMixedContent() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -371,8 +389,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("111 value1 222 value2 333",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("111 value1 222 value2 333",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -382,6 +400,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithNodeMergeStrategyWithDollarSignInValue() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -392,8 +411,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1 ${value2}",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1 ${value2}",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 
@@ -403,6 +422,7 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeInBothWithNodeMergeStrategyWithCommaInPattern() throws Exception
     {
         WebXml srcWebXml = getWebXml("param", "value1");
@@ -413,8 +433,8 @@ public final class WebXmlContextParamMergeStrategyMergerTest extends AbstractDoc
         NodeMergeStrategy strategy = new NodeMergeStrategy(null, format);
         merger.setMergeStrategy(WebXmlType.CONTEXT_PARAM, strategy);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
-        assertEquals("value1,value2",
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertEquals("value1,value2",
                 getContextParamValue(WebXmlUtils.getContextParam(srcWebXml, "param")));
     }
 

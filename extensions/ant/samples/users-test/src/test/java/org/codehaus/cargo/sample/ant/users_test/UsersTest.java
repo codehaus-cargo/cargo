@@ -25,7 +25,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -34,7 +34,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests whether User configuration works.
  */
-public class UsersTest extends TestCase
+public class UsersTest
 {
 
     /**
@@ -46,6 +46,7 @@ public class UsersTest extends TestCase
      * Test verifying user configuration by cargo property.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testAuthenticationByProperty() throws Exception
     {
         URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -65,6 +66,7 @@ public class UsersTest extends TestCase
      * Test verifying user configuration by ANT configuration &lt;user&gt; element.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testAuthenticationByElement() throws Exception
     {
         URL url = new URL("http://localhost:" + System.getProperty("http.port")

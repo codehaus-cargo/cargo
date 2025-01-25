@@ -19,38 +19,42 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link EAR}.
  */
-public class EARTest extends TestCase
+public class EARTest
 {
     /**
      * Test name when EAR has an extension.
      */
+    @Test
     public void testGetNameWhenEarHasExtension()
     {
         EAR ear = new EAR("c:/some/path/to/ear/test.ear");
-        assertEquals("test", ear.getName());
+        Assertions.assertEquals("test", ear.getName());
     }
 
     /**
      * Test name when EAR has no extension.
      */
+    @Test
     public void testGetNameWhenEarHasNoExtension()
     {
         EAR ear = new EAR("/some/path/to/ear/test");
-        assertEquals("test", ear.getName());
+        Assertions.assertEquals("test", ear.getName());
     }
 
     /**
      * Test name when EAR name is set.
      */
+    @Test
     public void testGetNameWhenOverride()
     {
         EAR ear = new EAR("c:/some/path/to/ear/test.ear");
         ear.setName("name");
-        assertEquals("name", ear.getName());
+        Assertions.assertEquals("name", ear.getName());
     }
 }

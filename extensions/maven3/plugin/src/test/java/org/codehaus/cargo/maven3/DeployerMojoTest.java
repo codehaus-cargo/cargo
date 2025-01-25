@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.maven3;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.stub.InstalledLocalContainerStub;
@@ -32,7 +33,7 @@ import org.codehaus.cargo.maven3.configuration.Deployer;
 /**
  * Unit tests for {@link AbstractDeployerMojo}.
  */
-public class DeployerMojoTest extends TestCase
+public class DeployerMojoTest
 {
     /**
      * Mock {@link AbstractDeployerMojo} implementation.
@@ -62,6 +63,7 @@ public class DeployerMojoTest extends TestCase
      * Test create deployer when no deployer element specified.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateDeployerWhenNoDeployerElementSpecified() throws Exception
     {
         TestableDeployerMojo mojo = new TestableDeployerMojo();
@@ -69,14 +71,15 @@ public class DeployerMojoTest extends TestCase
         org.codehaus.cargo.container.deployer.Deployer deployer = mojo.createDeployer(
             new RemoteContainerStub());
 
-        assertEquals(RemoteDeployerStub.class.getName(), deployer.getClass().getName());
-        assertEquals(DeployerType.REMOTE, deployer.getType());
+        Assertions.assertEquals(RemoteDeployerStub.class.getName(), deployer.getClass().getName());
+        Assertions.assertEquals(DeployerType.REMOTE, deployer.getType());
     }
 
     /**
      * Test create deployer when a deployer element specified.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateDeployerWhenDeployerElementSpecified() throws Exception
     {
         TestableDeployerMojo mojo = new TestableDeployerMojo();
@@ -89,6 +92,7 @@ public class DeployerMojoTest extends TestCase
         org.codehaus.cargo.container.deployer.Deployer deployer = mojo.createDeployer(
             new InstalledLocalContainerStub());
 
-        assertEquals(InstalledLocalDeployerStub.class.getName(), deployer.getClass().getName());
+        Assertions.assertEquals(
+            InstalledLocalDeployerStub.class.getName(), deployer.getClass().getName());
     }
 }

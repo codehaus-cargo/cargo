@@ -26,13 +26,13 @@ import java.io.StringReader;
 import java.net.URI;
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Helper {@link junit.framework.TestCase} that provides convenience methods to retrieve test
  * resources from the classpath.
  */
-public class AbstractResourceTest extends TestCase
+public class AbstractResourceTest
 {
     /**
      * Returns a resource found in the classpath.
@@ -47,7 +47,8 @@ public class AbstractResourceTest extends TestCase
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL resource = classLoader.getResource(fileName);
 
-        assertNotNull("The test input file [" + fileName + "] does not exist", resource);
+        Assertions.assertNotNull(
+            resource, "The test input file [" + fileName + "] does not exist");
 
         // NOTE: this is required since URLClassLoader.getResource() can
         // produce unencoded URLs that are not compatible with URIs.
@@ -115,7 +116,7 @@ public class AbstractResourceTest extends TestCase
             String line;
             while ((line = inReader.readLine()) != null)
             {
-                assertEquals(stringReader.readLine(), line);
+                Assertions.assertEquals(stringReader.readLine(), line);
             }
         }
         finally

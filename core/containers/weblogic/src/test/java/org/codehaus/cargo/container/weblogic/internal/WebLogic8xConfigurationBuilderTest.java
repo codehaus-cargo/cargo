@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationBuilder;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractConfigurationBuilderTest;
@@ -56,12 +58,12 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         try
         {
             super.testBuildConfigurationEntryForXADataSourceConfiguredResource();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
-                .getMessage());
+            Assertions.assertEquals(
+                WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e.getMessage());
         }
     }
 
@@ -75,12 +77,12 @@ public class WebLogic8xConfigurationBuilderTest extends AbstractConfigurationBui
         try
         {
             super.testBuildConfigurationEntryForMailSessionConfiguredResource();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e
-                .getMessage());
+            Assertions.assertEquals(
+                WebLogic8xConfigurationBuilder.RESOURCE_CONFIGURATION_UNSUPPORTED, e.getMessage());
         }
     }
 }

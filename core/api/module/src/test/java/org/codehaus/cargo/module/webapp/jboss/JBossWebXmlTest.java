@@ -22,9 +22,12 @@ package org.codehaus.cargo.module.webapp.jboss;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link JBossWebXml}.
@@ -36,6 +39,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReference() throws Exception
     {
         String xml = "<jboss-web></jboss-web>";
@@ -50,13 +54,13 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
         descr.addEjbReference(ref);
 
         Element ejbRef = (Element) descr.getRootElement().getChildren().get(0);
-        assertEquals("ejb-ref", ejbRef.getName());
+        Assertions.assertEquals("ejb-ref", ejbRef.getName());
         Element ejbRefName = (Element) ejbRef.getChildren().get(0);
-        assertEquals("ejb-ref-name", ejbRefName.getName());
-        assertEquals("foo", ejbRefName.getValue());
+        Assertions.assertEquals("ejb-ref-name", ejbRefName.getName());
+        Assertions.assertEquals("foo", ejbRefName.getValue());
         Element jndiName = (Element) ejbRef.getChildren().get(1);
-        assertEquals("jndi-name", jndiName.getName());
-        assertEquals("fee", jndiName.getValue());
+        Assertions.assertEquals("jndi-name", jndiName.getName());
+        Assertions.assertEquals("fee", jndiName.getValue());
     }
 
     /**
@@ -64,6 +68,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddLocalEjbReference() throws Exception
     {
         String xml = "<jboss-web></jboss-web>";
@@ -77,13 +82,13 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
         descr.addEjbReference(ref);
 
         Element ejbRef = (Element) descr.getRootElement().getChildren().get(0);
-        assertEquals("ejb-local-ref", ejbRef.getName());
+        Assertions.assertEquals("ejb-local-ref", ejbRef.getName());
         Element ejbRefName = (Element) ejbRef.getChildren().get(0);
-        assertEquals("ejb-ref-name", ejbRefName.getName());
-        assertEquals("foo", ejbRefName.getValue());
+        Assertions.assertEquals("ejb-ref-name", ejbRefName.getName());
+        Assertions.assertEquals("foo", ejbRefName.getValue());
         Element jndiName = (Element) ejbRef.getChildren().get(1);
-        assertEquals("local-jndi-name", jndiName.getName());
-        assertEquals("fee", jndiName.getValue());
+        Assertions.assertEquals("local-jndi-name", jndiName.getName());
+        Assertions.assertEquals("fee", jndiName.getValue());
     }
 
     /**
@@ -91,6 +96,7 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReferenceInCorrectOrder() throws Exception
     {
         String xml = "<jboss-web>"
@@ -108,10 +114,10 @@ public class JBossWebXmlTest extends AbstractDocumentBuilderTest
         descr.addEjbReference(ref);
 
         Element secDomain = (Element) descr.getRootElement().getChildren().get(0);
-        assertEquals("security-domain", secDomain.getName());
+        Assertions.assertEquals("security-domain", secDomain.getName());
         Element resRef = (Element) descr.getRootElement().getChildren().get(1);
-        assertEquals("resource-ref", resRef.getName());
+        Assertions.assertEquals("resource-ref", resRef.getName());
         Element ejbRef = (Element) descr.getRootElement().getChildren().get(2);
-        assertEquals("ejb-ref", ejbRef.getName());
+        Assertions.assertEquals("ejb-ref", ejbRef.getName());
     }
 }

@@ -20,6 +20,10 @@
 package org.codehaus.cargo.container.spi.configuration.builder;
 
 import java.nio.charset.StandardCharsets;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.LocalConfigurationWithConfigurationBuilderTests;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
@@ -47,27 +51,10 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
     private ConfigurationChecker configurationChecker = null;
 
     /**
-     * Empty constructor.
-     */
-    public AbstractLocalConfigurationWithConfigurationBuilderTest()
-    {
-        super();
-    }
-
-    /**
-     * Constructor with container name.
-     * @param name Container name.
-     */
-    public AbstractLocalConfigurationWithConfigurationBuilderTest(String name)
-    {
-        super(name);
-    }
-
-    /**
-     * Creates the configuration checker. {@inheritDoc}
+     * Creates the configuration checker.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -164,6 +151,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * datasource.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureDSOnLocalContainerIfPropertyIsPresentOnDataSourceWithWindowsPath()
         throws Exception
     {
@@ -263,6 +251,7 @@ public abstract class AbstractLocalConfigurationWithConfigurationBuilderTest ext
      * Test resource configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigureCreatesResource() throws Exception
     {
         ResourceFixture resourceFixture =

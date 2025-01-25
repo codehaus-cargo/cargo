@@ -28,6 +28,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jdom2.Comment;
+import org.jdom2.Content;
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.DescriptorType;
 import org.codehaus.cargo.module.webapp.elements.ContextParam;
@@ -36,9 +42,6 @@ import org.codehaus.cargo.module.webapp.elements.SecurityConstraint;
 import org.codehaus.cargo.module.webapp.elements.Servlet;
 import org.codehaus.cargo.module.webapp.elements.WebXmlElement;
 import org.codehaus.cargo.util.CargoException;
-import org.jdom2.Comment;
-import org.jdom2.Content;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXml}.
@@ -107,12 +110,13 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testConstructionWithNullDocument() throws Exception
     {
         try
         {
             new WebXml(null, null);
-            fail("Expected NullPointerException");
+            Assertions.fail("Expected NullPointerException");
         }
         catch (NullPointerException npe)
         {
@@ -146,13 +150,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersion22() throws Exception
     {
         String xml = WEBAPP_22_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals(WebXmlVersion.V2_2, webXml.getVersion());
+        Assertions.assertEquals(WebXmlVersion.V2_2, webXml.getVersion());
     }
 
     /**
@@ -160,13 +165,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersion23() throws Exception
     {
         String xml = WEBAPP_23_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals(WebXmlVersion.V2_3, webXml.getVersion());
+        Assertions.assertEquals(WebXmlVersion.V2_3, webXml.getVersion());
     }
 
     /**
@@ -174,13 +180,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersion24() throws Exception
     {
         String xml = WEBAPP_24_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals(WebXmlVersion.V2_4, webXml.getVersion());
+        Assertions.assertEquals(WebXmlVersion.V2_4, webXml.getVersion());
     }
 
     /**
@@ -188,13 +195,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersion25() throws Exception
     {
         String xml = WEBAPP_25_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals(WebXmlVersion.V2_5, webXml.getVersion());
+        Assertions.assertEquals(WebXmlVersion.V2_5, webXml.getVersion());
     }
 
     /**
@@ -202,13 +210,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersion30() throws Exception
     {
         String xml = WEBAPP_30_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals(WebXmlVersion.V3_0, webXml.getVersion());
+        Assertions.assertEquals(WebXmlVersion.V3_0, webXml.getVersion());
     }
 
     /**
@@ -217,6 +226,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersionUnknown() throws Exception
     {
         String xml = "<!DOCTYPE web-app "
@@ -229,7 +239,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             WebXml webXml = WebXmlIo.parseWebXml(new ByteArrayInputStream(
                 xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
             // fail("expected web.xml parsing exception but got: " + webXml);
-            assertNull(webXml.getVersion());
+            Assertions.assertNull(webXml.getVersion());
         }
         catch (CargoException ce)
         {
@@ -243,12 +253,13 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetVersionWithoutDoctype() throws Exception
     {
         String xml = "<web-app></web-app>";
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertNull(webXml.getVersion());
+        Assertions.assertNull(webXml.getVersion());
     }
 
     /**
@@ -257,6 +268,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasFilterWithNullName() throws Exception
     {
         String xml = "<web-app></web-app>";
@@ -265,7 +277,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         try
         {
             webXml.getTag((String) null);
-            fail("Expected NullPointerException");
+            Assertions.fail("Expected NullPointerException");
         }
         catch (NullPointerException npe)
         {
@@ -280,6 +292,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasFilterWithOneFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -290,8 +303,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f1"));
-        assertNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f2"));
+        Assertions.assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f1"));
+        Assertions.assertNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f2"));
     }
 
     /**
@@ -300,6 +313,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasFilterWithMultipleFilters() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -318,10 +332,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             + "</web-app>";
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f1"));
-        assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f2"));
-        assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f3"));
-        assertNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f4"));
+        Assertions.assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f1"));
+        Assertions.assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f2"));
+        Assertions.assertNotNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f3"));
+        Assertions.assertNull(webXml.getTagByIdentifier(WebXmlType.FILTER, "f4"));
     }
 
     /**
@@ -330,6 +344,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterElementWithOneFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -342,15 +357,15 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
 
         Element filterElement = webXml.getTagByIdentifier(WebXmlType.FILTER, "f1");
-        assertNotNull(filterElement);
-        assertEquals("filter", filterElement.getName());
-        assertEquals("filter-name",
+        Assertions.assertNotNull(filterElement);
+        Assertions.assertEquals("filter", filterElement.getName());
+        Assertions.assertEquals("filter-name",
             getFirstChild(filterElement).getName());
-        assertEquals("f1",
+        Assertions.assertEquals("f1",
             getFirstChild(filterElement).getValue());
-        assertEquals("filter-class",
+        Assertions.assertEquals("filter-class",
             getLastChild(filterElement).getName());
-        assertEquals("fclass1",
+        Assertions.assertEquals("fclass1",
             getLastChild(filterElement).getValue());
     }
 
@@ -359,6 +374,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterNames() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -380,10 +396,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
 
         List<Element> filterNames = webXml.getElements("filter");
-        assertEquals(3, filterNames.size());
-        assertEquals("f1", ((Filter) filterNames.get(0)).getFilterName());
-        assertEquals("f2", ((Filter) filterNames.get(1)).getFilterName());
-        assertEquals("f3", ((Filter) filterNames.get(2)).getFilterName());
+        Assertions.assertEquals(3, filterNames.size());
+        Assertions.assertEquals("f1", ((Filter) filterNames.get(0)).getFilterName());
+        Assertions.assertEquals("f2", ((Filter) filterNames.get(1)).getFilterName());
+        Assertions.assertEquals("f3", ((Filter) filterNames.get(2)).getFilterName());
     }
 
     /**
@@ -392,6 +408,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterNamesForClassWithSingleFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -404,8 +421,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
-        assertEquals(1, filterNames.size());
-        assertEquals("f1", filterNames.get(0));
+        Assertions.assertEquals(1, filterNames.size());
+        Assertions.assertEquals("f1", filterNames.get(0));
     }
 
     /**
@@ -414,6 +431,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterNamesForClassWithMultipleFilters() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -434,9 +452,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterNames = WebXmlUtils.getFilterNamesForClass(webXml, "f1class");
-        assertEquals(2, filterNames.size());
-        assertEquals("f1", filterNames.get(0));
-        assertEquals("f3", filterNames.get(1));
+        Assertions.assertEquals(2, filterNames.size());
+        Assertions.assertEquals("f1", filterNames.get(0));
+        Assertions.assertEquals("f3", filterNames.get(1));
     }
 
     /**
@@ -444,6 +462,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterMappingsWithOneMapping() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -456,8 +475,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
-        assertEquals(1, filterMappings.size());
-        assertEquals("/f1mapping", filterMappings.get(0));
+        Assertions.assertEquals(1, filterMappings.size());
+        Assertions.assertEquals("/f1mapping", filterMappings.get(0));
     }
 
     /**
@@ -465,6 +484,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterMappingsWithMultipleMappings() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -485,10 +505,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
-        assertEquals(3, filterMappings.size());
-        assertEquals("/f1mapping1", filterMappings.get(0));
-        assertEquals("/f1mapping2", filterMappings.get(1));
-        assertEquals("/f1mapping3", filterMappings.get(2));
+        Assertions.assertEquals(3, filterMappings.size());
+        Assertions.assertEquals("/f1mapping1", filterMappings.get(0));
+        Assertions.assertEquals("/f1mapping2", filterMappings.get(1));
+        Assertions.assertEquals("/f1mapping3", filterMappings.get(2));
     }
 
     /**
@@ -496,6 +516,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetFilterMappingsWithFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -512,8 +533,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> filterMappings = WebXmlUtils.getFilterMappings(webXml, "f1");
-        assertEquals(1, filterMappings.size());
-        assertEquals("/f1mapping", filterMappings.get(0));
+        Assertions.assertEquals(1, filterMappings.size());
+        Assertions.assertEquals("/f1mapping", filterMappings.get(0));
     }
 
     /**
@@ -521,6 +542,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddContextParamToEmptyDocument() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -530,7 +552,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlElement contextParamElement =
             createContextParamElement(webXml.getDescriptorType(), "param", "value");
         webXml.addTag(contextParamElement);
-        assertTrue(WebXmlUtils.hasContextParam(webXml, "param"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(webXml, "param"));
     }
 
     /**
@@ -538,6 +560,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddFilterToEmptyDocument() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -547,7 +570,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlElement filterElement = createFilterElement(webXml.getDescriptorType(), "f1",
             "f1class");
         webXml.addTag(filterElement);
-        assertTrue(WebXmlUtils.hasFilter(webXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(webXml, "f1"));
     }
 
     /**
@@ -556,6 +579,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddContextParamToDocumentWithAnotherContextParam() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -570,8 +594,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlElement contextParamElement =
             createContextParamElement(webXml.getDescriptorType(), "param2", "value2");
         webXml.addTag(contextParamElement);
-        assertTrue(WebXmlUtils.hasContextParam(webXml, "param1"));
-        assertTrue(WebXmlUtils.hasContextParam(webXml, "param2"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(webXml, "param1"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(webXml, "param2"));
     }
 
     /**
@@ -580,6 +604,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddFilterToDocumentWithAnotherFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -594,8 +619,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlElement filterElement = createFilterElement(webXml.getDescriptorType(), "f2",
             "f2class");
         webXml.addTag(filterElement);
-        assertTrue(WebXmlUtils.hasFilter(webXml, "f1"));
-        assertTrue(WebXmlUtils.hasFilter(webXml, "f2"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(webXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(webXml, "f2"));
     }
 
     /**
@@ -604,6 +629,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddContextParamToDocumentWithTheSameContextParam() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -621,7 +647,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         try
         {
             webXml.addTag(contextParamElement);
-            fail("Expected IllegalStateException");
+            Assertions.fail("Expected IllegalStateException");
         }
         catch (IllegalStateException ise)
         {
@@ -635,6 +661,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddFilterToDocumentWithTheSameFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -651,7 +678,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         try
         {
             webXml.addTag(filterElement);
-            fail("Expected IllegalStateException");
+            Assertions.fail("Expected IllegalStateException");
         }
         catch (IllegalStateException ise)
         {
@@ -664,6 +691,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddOneFilterInitParam() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -678,8 +706,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
 
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param1", "f1param1value");
         List<String> initParams = WebXmlUtils.getFilterInitParamNames(webXml, "f1");
-        assertEquals(1, initParams.size());
-        assertEquals("f1param1", initParams.get(0));
+        Assertions.assertEquals(1, initParams.size());
+        Assertions.assertEquals("f1param1", initParams.get(0));
     }
 
     /**
@@ -687,6 +715,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddMultipleFilterInitParams() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -702,10 +731,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param2", "f1param2value");
         WebXmlUtils.addFilterInitParam(webXml, "f1", "f1param3", "f1param3value");
         List<String> initParams = WebXmlUtils.getFilterInitParamNames(webXml, "f1");
-        assertEquals(3, initParams.size());
-        assertEquals("f1param1", initParams.get(0));
-        assertEquals("f1param2", initParams.get(1));
-        assertEquals("f1param3", initParams.get(2));
+        Assertions.assertEquals(3, initParams.size());
+        Assertions.assertEquals("f1param1", initParams.get(0));
+        Assertions.assertEquals("f1param2", initParams.get(1));
+        Assertions.assertEquals("f1param3", initParams.get(2));
     }
 
     /**
@@ -714,6 +743,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddFilterWithNameAndClass() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -722,7 +752,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServlet(webXml, "f1", "f1class");
-        assertTrue(WebXmlUtils.hasServlet(webXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "f1"));
     }
 
     /**
@@ -731,6 +761,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasServletWithNullName() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -740,7 +771,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         try
         {
             WebXmlUtils.hasServlet(webXml, null);
-            fail("Expected NullPointerException");
+            Assertions.fail("Expected NullPointerException");
         }
         catch (NullPointerException npe)
         {
@@ -755,6 +786,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasServletWithOneServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -766,8 +798,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
-        assertTrue(!WebXmlUtils.hasServlet(webXml, "s2"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
+        Assertions.assertTrue(!WebXmlUtils.hasServlet(webXml, "s2"));
     }
 
     /**
@@ -776,6 +808,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasServletWithMultipleServlets() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -795,10 +828,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s2"));
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s3"));
-        assertTrue(!WebXmlUtils.hasServlet(webXml, "s4"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s2"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s3"));
+        Assertions.assertTrue(!WebXmlUtils.hasServlet(webXml, "s4"));
     }
 
     /**
@@ -807,6 +840,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletElementWithOneServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -819,15 +853,15 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         Element servletElement = webXml.getTagByIdentifier(WebXmlType.SERVLET, "s1");
-        assertNotNull(servletElement);
-        assertEquals("servlet", servletElement.getName());
-        assertEquals("servlet-name",
+        Assertions.assertNotNull(servletElement);
+        Assertions.assertEquals("servlet", servletElement.getName());
+        Assertions.assertEquals("servlet-name",
             ((Element) servletElement.getChildren().get(0)).getName());
-        assertEquals("s1",
+        Assertions.assertEquals("s1",
             ((Element) servletElement.getChildren().get(0)).getValue());
-        assertEquals("servlet-class",
+        Assertions.assertEquals("servlet-class",
             getLastChild(servletElement).getName());
-        assertEquals("sclass1",
+        Assertions.assertEquals("sclass1",
             getLastChild(servletElement).getValue());
     }
 
@@ -837,6 +871,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletNames() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -857,10 +892,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNames(webXml);
-        assertEquals(3, servletNames.size());
-        assertEquals("s1", servletNames.get(0));
-        assertEquals("s2", servletNames.get(1));
-        assertEquals("s3", servletNames.get(2));
+        Assertions.assertEquals(3, servletNames.size());
+        Assertions.assertEquals("s1", servletNames.get(0));
+        Assertions.assertEquals("s2", servletNames.get(1));
+        Assertions.assertEquals("s3", servletNames.get(2));
     }
 
     /**
@@ -869,6 +904,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletNamesForClassWithSingleServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -881,8 +917,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForClass(webXml, "s1class");
-        assertEquals(1, servletNames.size());
-        assertEquals("s1", servletNames.get(0));
+        Assertions.assertEquals(1, servletNames.size());
+        Assertions.assertEquals("s1", servletNames.get(0));
     }
 
     /**
@@ -891,6 +927,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletNamesForClassWithMultipleServlets() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -911,9 +948,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForClass(webXml, "sclass1");
-        assertEquals(2, servletNames.size());
-        assertEquals("s1", servletNames.get(0));
-        assertEquals("s3", servletNames.get(1));
+        Assertions.assertEquals(2, servletNames.size());
+        Assertions.assertEquals("s1", servletNames.get(0));
+        Assertions.assertEquals("s3", servletNames.get(1));
     }
 
     /**
@@ -922,6 +959,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletNamesForJspFileWithSingleServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -934,8 +972,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s1.jsp");
-        assertEquals(1, servletNames.size());
-        assertEquals("s1", servletNames.get(0));
+        Assertions.assertEquals(1, servletNames.size());
+        Assertions.assertEquals("s1", servletNames.get(0));
     }
 
     /**
@@ -944,6 +982,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletNamesForJspFileWithMultipleServlets() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -964,8 +1003,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletNames = WebXmlUtils.getServletNamesForJspFile(webXml, "/s3.jsp");
-        assertEquals(1, servletNames.size());
-        assertEquals("s3", servletNames.get(0));
+        Assertions.assertEquals(1, servletNames.size());
+        Assertions.assertEquals("s3", servletNames.get(0));
     }
 
     /**
@@ -973,6 +1012,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletMappingsWithOneMapping() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -985,8 +1025,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletMappings = WebXmlUtils.getServletMappings(webXml, "s1");
-        assertEquals(1, servletMappings.size());
-        assertEquals("/s1mapping", servletMappings.get(0));
+        Assertions.assertEquals(1, servletMappings.size());
+        Assertions.assertEquals("/s1mapping", servletMappings.get(0));
     }
 
     /**
@@ -994,6 +1034,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletMappingsWithMultipleMappings() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -1014,10 +1055,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         List<String> servletMappings = WebXmlUtils.getServletMappings(webXml, "s1");
-        assertEquals(3, servletMappings.size());
-        assertEquals("/s1mapping1", servletMappings.get(0));
-        assertEquals("/s1mapping2", servletMappings.get(1));
-        assertEquals("/s1mapping3", servletMappings.get(2));
+        Assertions.assertEquals(3, servletMappings.size());
+        Assertions.assertEquals("/s1mapping1", servletMappings.get(0));
+        Assertions.assertEquals("/s1mapping2", servletMappings.get(1));
+        Assertions.assertEquals("/s1mapping3", servletMappings.get(2));
     }
 
     /**
@@ -1025,6 +1066,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddServletToEmptyDocument() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -1033,7 +1075,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServlet(webXml,
             createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
     }
 
     /**
@@ -1042,6 +1084,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddServletToDocumentWithAnotherServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -1054,8 +1097,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s2", "s2class"));
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s2"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s2"));
     }
 
     /**
@@ -1064,6 +1107,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddServletToDocumentWithTheSameServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -1078,7 +1122,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         try
         {
             webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
-            fail("Expected IllegalStateException");
+            Assertions.fail("Expected IllegalStateException");
         }
         catch (IllegalStateException ise)
         {
@@ -1092,6 +1136,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddOneServletInitParam() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1105,8 +1150,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param1", "s1param1value");
         List<String> initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
-        assertEquals(1, initParams.size());
-        assertEquals("s1param1", initParams.get(0));
+        Assertions.assertEquals(1, initParams.size());
+        Assertions.assertEquals("s1param1", initParams.get(0));
     }
 
     /**
@@ -1115,6 +1160,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddMultipleServletInitParams() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1130,10 +1176,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param2", "s1param2value");
         WebXmlUtils.addServletInitParam(webXml, "s1", "s1param3", "s1param3value");
         List<String> initParams = WebXmlUtils.getServletInitParamNames(webXml, "s1");
-        assertEquals(3, initParams.size());
-        assertEquals("s1param1", initParams.get(0));
-        assertEquals("s1param2", initParams.get(1));
-        assertEquals("s1param3", initParams.get(2));
+        Assertions.assertEquals(3, initParams.size());
+        Assertions.assertEquals("s1param1", initParams.get(0));
+        Assertions.assertEquals("s1param2", initParams.get(1));
+        Assertions.assertEquals("s1param3", initParams.get(2));
     }
 
     /**
@@ -1142,6 +1188,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddServletWithNameAndClass() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1150,7 +1197,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServlet(webXml, "s1", "s1class");
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
     }
 
     /**
@@ -1159,6 +1206,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddServletWithNameAndJspFile() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1167,7 +1215,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addJspFile(webXml, "s1", "s1.jsp");
-        assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(webXml, "s1"));
     }
 
     /**
@@ -1176,6 +1224,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddSecurityConstraint() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -1183,7 +1232,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addSecurityConstraint(webXml, "wrn", "/url", Collections.EMPTY_LIST);
-        assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url"));
     }
 
     /**
@@ -1192,6 +1241,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddSecurityConstraintWithRoles() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -1202,19 +1252,19 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         roles.add("role1");
         roles.add("role2");
         WebXmlUtils.addSecurityConstraint(webXml, "wrn", "/url", roles);
-        assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url"));
         SecurityConstraint securityConstraintElement =
             WebXmlUtils.getSecurityConstraint(webXml, "/url");
-        assertNotNull(securityConstraintElement);
+        Assertions.assertNotNull(securityConstraintElement);
         Element authConstraintElement = (Element)
             securityConstraintElement.getChild(
                 "auth-constraint", securityConstraintElement.getNamespace());
-        assertNotNull(authConstraintElement);
+        Assertions.assertNotNull(authConstraintElement);
         List<Element> roleNameElements = authConstraintElement
                 .getChildren("role-name", securityConstraintElement.getNamespace());
-        assertEquals(2, roleNameElements.size());
-        assertEquals("role1", roleNameElements.get(0).getText());
-        assertEquals("role2", roleNameElements.get(1).getText());
+        Assertions.assertEquals(2, roleNameElements.size());
+        Assertions.assertEquals("role1", roleNameElements.get(0).getText());
+        Assertions.assertEquals("role2", roleNameElements.get(1).getText());
     }
 
     /**
@@ -1223,13 +1273,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasLoginConfigEmpty() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(!WebXmlUtils.hasLoginConfig(webXml));
+        Assertions.assertTrue(!WebXmlUtils.hasLoginConfig(webXml));
     }
 
     /**
@@ -1238,6 +1289,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasLoginConfig() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1248,7 +1300,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasLoginConfig(webXml));
+        Assertions.assertTrue(WebXmlUtils.hasLoginConfig(webXml));
     }
 
     /**
@@ -1256,6 +1308,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetLoginConfigAuthMethod() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1266,7 +1319,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
+        Assertions.assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
     }
 
     /**
@@ -1274,6 +1327,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testSetLoginConfigAdding() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -1281,8 +1335,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.setLoginConfig(webXml, "BASIC", "Test Realm");
-        assertTrue(WebXmlUtils.hasLoginConfig(webXml));
-        assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
+        Assertions.assertTrue(WebXmlUtils.hasLoginConfig(webXml));
+        Assertions.assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
     }
 
     /**
@@ -1290,6 +1344,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testSetLoginConfigReplacing() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1301,8 +1356,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.setLoginConfig(webXml, "BASIC", "Test Realm");
-        assertTrue(WebXmlUtils.hasLoginConfig(webXml));
-        assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
+        Assertions.assertTrue(WebXmlUtils.hasLoginConfig(webXml));
+        Assertions.assertEquals("BASIC", WebXmlUtils.getLoginConfigAuthMethod(webXml));
     }
 
     /**
@@ -1311,13 +1366,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasSecurityConstraintEmpty() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(!WebXmlUtils.hasSecurityConstraint(webXml, "/TestUrl"));
+        Assertions.assertTrue(!WebXmlUtils.hasSecurityConstraint(webXml, "/TestUrl"));
     }
 
     /**
@@ -1325,6 +1381,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetSingleSecurityConstraint() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1338,10 +1395,10 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url1"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url1"));
         Element securityConstraintElement =
             WebXmlUtils.getSecurityConstraint(webXml, "/url1");
-        assertNotNull(securityConstraintElement);
+        Assertions.assertNotNull(securityConstraintElement);
     }
 
     /**
@@ -1349,6 +1406,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetMutlipleSecurityConstraints() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1374,11 +1432,11 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url1"));
-        assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url2"));
-        assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url3"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url1"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url2"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityConstraint(webXml, "/url3"));
         List<Element> securityConstraints = webXml.getTags(WebXmlType.SECURITY_CONSTRAINT);
-        assertEquals(3, securityConstraints.size());
+        Assertions.assertEquals(3, securityConstraints.size());
     }
 
     /**
@@ -1386,13 +1444,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetLoginConfigEmpty() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(webXml.getTags(WebXmlType.LOGIN_CONFIG).isEmpty());
+        Assertions.assertTrue(webXml.getTags(WebXmlType.LOGIN_CONFIG).isEmpty());
     }
 
     /**
@@ -1400,13 +1459,14 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetLoginConfig() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "<login-config/></web-app>";
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertEquals(1, webXml.getTags(WebXmlType.LOGIN_CONFIG).size());
+        Assertions.assertEquals(1, webXml.getTags(WebXmlType.LOGIN_CONFIG).size());
     }
 
     /**
@@ -1415,14 +1475,15 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testHasSecurityRoleEmpty() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
 
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(!WebXmlUtils.hasSecurityRole(webXml, "someRole"));
-        assertTrue(WebXmlUtils.getSecurityRoleNames(webXml).isEmpty());
+        Assertions.assertTrue(!WebXmlUtils.hasSecurityRole(webXml, "someRole"));
+        Assertions.assertTrue(WebXmlUtils.getSecurityRoleNames(webXml).isEmpty());
     }
 
     /**
@@ -1430,6 +1491,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetSingleSecurityRole() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1440,17 +1502,17 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r1"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r1"));
         Element securityRoleElement = WebXmlUtils.getSecurityRole(webXml, "r1");
-        assertNotNull(securityRoleElement);
-        assertEquals("security-role", securityRoleElement.getName());
-        assertEquals("role-name",
+        Assertions.assertNotNull(securityRoleElement);
+        Assertions.assertEquals("security-role", securityRoleElement.getName());
+        Assertions.assertEquals("role-name",
             ((Element) securityRoleElement.getChildren().get(0)).getName());
-        assertEquals("r1",
+        Assertions.assertEquals("r1",
             ((Element) securityRoleElement.getChildren().get(0)).getText());
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
-        assertEquals(1, securityRoleNames.size());
-        assertEquals("r1", securityRoleNames.get(0));
+        Assertions.assertEquals(1, securityRoleNames.size());
+        Assertions.assertEquals("r1", securityRoleNames.get(0));
     }
 
     /**
@@ -1458,6 +1520,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetMutlipleSecurityRoles() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1474,38 +1537,38 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         this.builder.build(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
-        assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r1"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r1"));
         Element securityRoleElement1 = WebXmlUtils.getSecurityRole(webXml, "r1");
-        assertNotNull(securityRoleElement1);
-        assertEquals("security-role", securityRoleElement1.getName());
-        assertEquals("role-name",
+        Assertions.assertNotNull(securityRoleElement1);
+        Assertions.assertEquals("security-role", securityRoleElement1.getName());
+        Assertions.assertEquals("role-name",
             ((Element) securityRoleElement1.getChildren().get(0)).getName());
-        assertEquals("r1",
+        Assertions.assertEquals("r1",
             ((Element) (Element) securityRoleElement1.getChildren().get(0)).
                 getText());
-        assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r2"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r2"));
         Element securityRoleElement2 = WebXmlUtils.getSecurityRole(webXml, "r2");
-        assertNotNull(securityRoleElement2);
-        assertEquals("security-role", securityRoleElement2.getName());
-        assertEquals("role-name",
+        Assertions.assertNotNull(securityRoleElement2);
+        Assertions.assertEquals("security-role", securityRoleElement2.getName());
+        Assertions.assertEquals("role-name",
             ((Element) securityRoleElement2.getChildren().get(0)).getName());
-        assertEquals("r2",
+        Assertions.assertEquals("r2",
             ((Element) (Element) securityRoleElement2.getChildren().get(0)).
                 getText());
-        assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r3"));
+        Assertions.assertTrue(WebXmlUtils.hasSecurityRole(webXml, "r3"));
         Element securityRoleElement3 = WebXmlUtils.getSecurityRole(webXml, "r3");
-        assertNotNull(securityRoleElement3);
-        assertEquals("security-role", securityRoleElement3.getName());
-        assertEquals("role-name",
+        Assertions.assertNotNull(securityRoleElement3);
+        Assertions.assertEquals("security-role", securityRoleElement3.getName());
+        Assertions.assertEquals("role-name",
             ((Element) securityRoleElement3.getChildren().get(0)).getName());
-        assertEquals("r3",
+        Assertions.assertEquals("r3",
             ((Element) (Element) securityRoleElement3.getChildren().get(0)).
                 getText());
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(webXml);
-        assertEquals(3, securityRoleNames.size());
-        assertEquals("r1", securityRoleNames.get(0));
-        assertEquals("r2", securityRoleNames.get(1));
-        assertEquals("r3", securityRoleNames.get(2));
+        Assertions.assertEquals(3, securityRoleNames.size());
+        Assertions.assertEquals("r1", securityRoleNames.get(0));
+        Assertions.assertEquals("r2", securityRoleNames.get(1));
+        Assertions.assertEquals("r3", securityRoleNames.get(2));
     }
 
     /**
@@ -1513,6 +1576,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testElementOrderFilterBeforeServlet() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1526,8 +1590,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createFilterElement(webXml.getDescriptorType(), "f1", "f1class"));
         List<Element> order = webXml.getRootElement().getChildren();
-        assertEquals("filter", (order.get(0)).getName());
-        assertEquals("servlet", (order.get(1)).getName());
+        Assertions.assertEquals("filter", (order.get(0)).getName());
+        Assertions.assertEquals("servlet", (order.get(1)).getName());
     }
 
     /**
@@ -1535,6 +1599,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testElementOrderFilterBeforeServletWithComment() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER.trim()
@@ -1550,9 +1615,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         webXml.addTag(createFilterElement(webXml.getDescriptorType(), "f1", "f1class"));
 
         List<Content> order = webXml.getRootElement().getContent();
-        assertEquals("filter", ((Element) order.get(0)).getName());
-        assertEquals(Comment.class, order.get(1).getClass());
-        assertEquals("servlet", ((Element) order.get(2)).getName());
+        Assertions.assertEquals("filter", ((Element) order.get(0)).getName());
+        Assertions.assertEquals(Comment.class, order.get(1).getClass());
+        Assertions.assertEquals("servlet", ((Element) order.get(2)).getName());
     }
 
     /**
@@ -1560,6 +1625,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testElementOrderServletAfterFilter() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER.trim()
@@ -1573,8 +1639,8 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
         List<Content> order = webXml.getRootElement().getContent();
-        assertEquals("filter", ((Element) order.get(0)).getName());
-        assertEquals("servlet", ((Element) order.get(1)).getName());
+        Assertions.assertEquals("filter", ((Element) order.get(0)).getName());
+        Assertions.assertEquals("servlet", ((Element) order.get(1)).getName());
     }
 
     /**
@@ -1582,6 +1648,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testElementOrderServletAfterFilterWithComment() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER.trim()
@@ -1597,9 +1664,9 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         webXml.addTag(createServletElement(webXml.getDescriptorType(), "s1", "s1class"));
 
         List<Content> order = webXml.getRootElement().getContent();
-        assertEquals(Comment.class, order.get(0).getClass());
-        assertEquals("filter", ((Element) order.get(1)).getName());
-        assertEquals("servlet", ((Element) order.get(2)).getName());
+        Assertions.assertEquals(Comment.class, order.get(0).getClass());
+        Assertions.assertEquals("filter", ((Element) order.get(1)).getName());
+        Assertions.assertEquals("servlet", ((Element) order.get(2)).getName());
     }
 
     /**
@@ -1607,6 +1674,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetServletRunAsRole() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + ""
@@ -1622,7 +1690,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
         WebXml webXml = WebXmlIo.parseWebXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         String roleName = WebXmlUtils.getServletRunAsRoleName(webXml, "s1");
-        assertEquals("r1", roleName);
+        Assertions.assertEquals("r1", roleName);
     }
 
     /**
@@ -1630,6 +1698,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddServletRunAsRole() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER
@@ -1643,7 +1712,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), getEntityResolver());
         WebXmlUtils.addServletRunAsRoleName(webXml, "s1", "r1");
         String roleName = WebXmlUtils.getServletRunAsRoleName(webXml, "s1");
-        assertEquals("r1", roleName);
+        Assertions.assertEquals("r1", roleName);
     }
 
     /**
@@ -1651,6 +1720,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbRef() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -1663,19 +1733,19 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
 
         List<Element> nl = webXml.getTags(WebXmlType.EJB_LOCAL_REF);
         Element n = nl.get(0);
-        assertEquals("ejb-local-ref", n.getName());
+        Assertions.assertEquals("ejb-local-ref", n.getName());
         Element m = (Element) n.getChildren(WebXmlType.EJB_REF_NAME, n.getNamespace()).get(0);
-        assertEquals("ejb-ref-name", m.getName());
-        assertEquals("MyEjb", m.getText());
+        Assertions.assertEquals("ejb-ref-name", m.getName());
+        Assertions.assertEquals("MyEjb", m.getText());
         m = (Element) n.getChildren(WebXmlType.EJB_REF_TYPE, n.getNamespace()).get(0);
-        assertEquals("ejb-ref-type", m.getName());
-        assertEquals("Session", m.getText());
+        Assertions.assertEquals("ejb-ref-type", m.getName());
+        Assertions.assertEquals("Session", m.getText());
         m = (Element) n.getChildren(WebXmlType.LOCAL, n.getNamespace()).get(0);
-        assertEquals("local", m.getName());
-        assertEquals("com.wombat.MyEjb", m.getText());
+        Assertions.assertEquals("local", m.getName());
+        Assertions.assertEquals("com.wombat.MyEjb", m.getText());
         m = (Element) n.getChildren(WebXmlType.LOCAL_HOME, n.getNamespace()).get(0);
-        assertEquals("local-home", m.getName());
-        assertEquals("com.wombat.MyEjbHome", m.getText());
+        Assertions.assertEquals("local-home", m.getName());
+        Assertions.assertEquals("com.wombat.MyEjbHome", m.getText());
     }
 
     /**
@@ -1683,6 +1753,7 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbRefByLink() throws Exception
     {
         String xml = WEBAPP_TEST_HEADER + "</web-app>";
@@ -1695,22 +1766,22 @@ public final class WebXmlTest extends AbstractDocumentBuilderTest
 
         List<Element> nl = webXml.getTags(WebXmlType.EJB_LOCAL_REF);
         Element n = (Element) nl.get(0);
-        assertEquals("ejb-local-ref", n.getName());
+        Assertions.assertEquals("ejb-local-ref", n.getName());
         Element m = (Element) n.getChildren(WebXmlType.EJB_REF_NAME, n.getNamespace()).get(0);
-        assertEquals("ejb-ref-name", m.getName());
-        assertEquals("MyEjb", m.getText());
+        Assertions.assertEquals("ejb-ref-name", m.getName());
+        Assertions.assertEquals("MyEjb", m.getText());
         m = (Element) n.getChildren(WebXmlType.EJB_REF_TYPE, n.getNamespace()).get(0);
-        assertEquals("ejb-ref-type", m.getName());
-        assertEquals("Session", m.getText());
+        Assertions.assertEquals("ejb-ref-type", m.getName());
+        Assertions.assertEquals("Session", m.getText());
         m = (Element) n.getChildren(WebXmlType.LOCAL, n.getNamespace()).get(0);
-        assertEquals("local", m.getName());
-        assertEquals("com.wombat.MyEjb", m.getText());
+        Assertions.assertEquals("local", m.getName());
+        Assertions.assertEquals("com.wombat.MyEjb", m.getText());
         m = (Element) n.getChildren(WebXmlType.LOCAL_HOME, n.getNamespace()).get(0);
-        assertEquals("local-home", m.getName());
-        assertEquals("com.wombat.MyEjbHome", m.getText());
+        Assertions.assertEquals("local-home", m.getName());
+        Assertions.assertEquals("com.wombat.MyEjbHome", m.getText());
         m = (Element) n.getChildren(WebXmlType.EJB_LINK, n.getNamespace()).get(0);
-        assertEquals("ejb-link", m.getName());
-        assertEquals("MyEjb", m.getText());
+        Assertions.assertEquals("ejb-link", m.getName());
+        Assertions.assertEquals("MyEjb", m.getText());
     }
 
     // Private Methods ---------------------------------------------------------

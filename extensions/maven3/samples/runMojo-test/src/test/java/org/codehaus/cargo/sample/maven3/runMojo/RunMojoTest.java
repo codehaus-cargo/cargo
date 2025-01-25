@@ -25,10 +25,11 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.cli.MavenCli;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -37,7 +38,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test the Maven 3 <code>cargo:run</code> mojo.
  */
-public class RunMojoTest extends TestCase
+public class RunMojoTest
 {
 
     /**
@@ -61,13 +62,12 @@ public class RunMojoTest extends TestCase
     private File output;
 
     /**
-     * {@inheritDoc}
+     * Start the Maven CLI.
+     * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         File target = new File(System.getProperty("target"));
         this.projectDirectory = new File(target, "test-classes").getAbsoluteFile();
 
@@ -107,6 +107,7 @@ public class RunMojoTest extends TestCase
      * Test the Maven 3 <code>cargo:run</code> mojo.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testRunMojo() throws Exception
     {
         waitForRunMojoStart();
@@ -116,6 +117,7 @@ public class RunMojoTest extends TestCase
      * Test the CARGO ping component.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargo() throws Exception
     {
         waitForRunMojoStart();
@@ -131,6 +133,7 @@ public class RunMojoTest extends TestCase
      * Test the simple WAR (JSP).
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSimpleWarJsp() throws Exception
     {
         waitForRunMojoStart();
@@ -167,7 +170,7 @@ public class RunMojoTest extends TestCase
             }
             else if (outputString.contains("BUILD FAILURE"))
             {
-                fail("There has been a BUILD FAILURE. Please check file " + output);
+                Assertions.fail("There has been a BUILD FAILURE. Please check file " + output);
                 return;
             }
 
@@ -175,7 +178,7 @@ public class RunMojoTest extends TestCase
             System.gc();
         }
 
-        fail("The file " + output + " did not have the Ctrl-C message after 90 seconds. "
+        Assertions.fail("The file " + output + " did not have the Ctrl-C message after 90 seconds. "
             + "Current content: \n\n" + outputString);
     }
 

@@ -24,14 +24,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
-import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
-import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.custommonkey.xmlunit.NamespaceContext;
 import org.custommonkey.xmlunit.SimpleNamespaceContext;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
+
+import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
+import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
+import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 
 /**
  * Contains XML logic used to validate the XML output of a Resin 3.x DataSource configuration.

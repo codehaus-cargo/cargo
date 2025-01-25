@@ -22,6 +22,10 @@ package org.codehaus.cargo.container.tomcat;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -29,7 +33,6 @@ import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.tomcat.internal.AbstractCatalinaStandaloneLocalConfigurationTest;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5x6x7xConfigurationChecker;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 5 implementation of StandaloneLocalConfigurationTest
@@ -126,10 +129,11 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
      * Tomcat5xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/context.xml"));
     }
 
@@ -150,14 +154,15 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
      * Tomcat5xStandaloneLocalConfiguration#configure(org.codehaus.cargo.container.LocalContainer)}
      * and check manager.
      */
+    @Test
     public void testConfigureManager()
     {
         configuration.configure(container);
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/context.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/conf/Catalina/localhost/manager.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/server/webapps/manager"));
     }
 
@@ -165,6 +170,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'startStopThreads' isn't added if the property isn't set.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureSetsHostStartStopThreads() throws Exception
     {
         configuration.setProperty(TomcatPropertySet.HOST_START_STOP_THREADS, "42");

@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.jetty11x_embedded;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of JSPs with the embedded Jetty container.
  */
-public class JspTest extends TestCase
+public class JspTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class JspTest extends TestCase
      * Test deployment of JSPs with the embedded Jetty container
      * @throws Exception If anything fails.
      */
+    @Test
     public void testJsp() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

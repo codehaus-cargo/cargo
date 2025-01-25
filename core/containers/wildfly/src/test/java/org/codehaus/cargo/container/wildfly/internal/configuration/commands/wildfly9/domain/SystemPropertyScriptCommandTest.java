@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.wildfly.internal.configuration.commands.wildfly9.domain;
 
-import junit.framework.TestCase;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.wildfly.WildFly9xStandaloneLocalConfiguration;
 import org.codehaus.cargo.util.FileHandler;
@@ -29,7 +32,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link SystemPropertyScriptCommand}.
  */
-public class SystemPropertyScriptCommandTest extends TestCase
+public class SystemPropertyScriptCommandTest
 {
 
     /**
@@ -69,14 +72,12 @@ public class SystemPropertyScriptCommandTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -89,12 +90,14 @@ public class SystemPropertyScriptCommandTest extends TestCase
      * Test that setting system property with null value throws exception.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testThrowExceptionOnNullSystemPropertyValue() throws Exception
     {
         try
         {
             new SystemPropertyScriptCommand(configuration, RESOURCE_PATH, "cargo.property", null);
-            fail("Setting system property with null value should throw IllegalArgumentException.");
+            Assertions.fail(
+                "Setting system property with null value should throw IllegalArgumentException.");
         }
         catch (IllegalArgumentException e)
         {
@@ -106,12 +109,14 @@ public class SystemPropertyScriptCommandTest extends TestCase
      * Test that setting system property with null name throws exception.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testThrowExceptionOnNullSystemPropertyName() throws Exception
     {
         try
         {
             new SystemPropertyScriptCommand(configuration, RESOURCE_PATH, null, "cargo-value");
-            fail("Setting system property with null value should throw IllegalArgumentException.");
+            Assertions.fail(
+                "Setting system property with null value should throw IllegalArgumentException.");
         }
         catch (IllegalArgumentException e)
         {

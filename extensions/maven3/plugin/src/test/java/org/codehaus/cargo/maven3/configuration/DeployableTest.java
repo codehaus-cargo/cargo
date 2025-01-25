@@ -26,11 +26,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.maven3.util.CargoProject;
 import org.mockito.Mockito;
@@ -38,7 +40,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for the {@link Deployable} class.
  */
-public class DeployableTest extends TestCase
+public class DeployableTest
 {
     /**
      * Mock {@link Log} implementation.
@@ -46,9 +48,9 @@ public class DeployableTest extends TestCase
     private Log mockLog;
 
     /**
-     * {@inheritDoc}. Mock {@link Log} implementation.
+     * Mock {@link Log} implementation.
      */
-    @Override
+    @BeforeEach
     protected void setUp()
     {
         this.mockLog = Mockito.mock(Log.class);
@@ -58,6 +60,7 @@ public class DeployableTest extends TestCase
      * Test create deployable when only its location is specified.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateDeployableWhenOnlyLocationSpecified() throws Exception
     {
         String deployableFile = "testCreateDeployableWhenOnlyLocationSpecified.war";
@@ -70,16 +73,17 @@ public class DeployableTest extends TestCase
             deployableElement.createDeployable("whateverId", project);
 
         // We verify that we've created an auto-deployable
-        assertEquals(deployable.getFile(), deployableFile);
-        assertEquals(project.getGroupId(), deployableElement.getGroupId());
-        assertEquals(project.getArtifactId(), deployableElement.getArtifactId());
-        assertEquals(project.getPackaging(), deployableElement.getType());
+        Assertions.assertEquals(deployable.getFile(), deployableFile);
+        Assertions.assertEquals(project.getGroupId(), deployableElement.getGroupId());
+        Assertions.assertEquals(project.getArtifactId(), deployableElement.getArtifactId());
+        Assertions.assertEquals(project.getPackaging(), deployableElement.getType());
     }
 
     /**
      * Test create deployable when it is not a dependency.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateDeployableWhenDeployableIsNotADependency() throws Exception
     {
         Deployable deployableElement = createCustomDeployableElement();
@@ -88,11 +92,11 @@ public class DeployableTest extends TestCase
         {
             deployableElement.createDeployable("whateverId",
                 createDefaultProject("war", new HashSet<Artifact>()));
-            fail("An exception should have been thrown");
+            Assertions.fail("An exception should have been thrown");
         }
         catch (MojoExecutionException expected)
         {
-            assertEquals("Artifact [customGroupId:customArtifactId:customType] is not a "
+            Assertions.assertEquals("Artifact [customGroupId:customArtifactId:customType] is not a "
                 + "dependency of the project.", expected.getMessage());
         }
     }
@@ -101,6 +105,7 @@ public class DeployableTest extends TestCase
      * Test custom deployable creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateCustomDeployable() throws Exception
     {
         // Custom deployable type
@@ -118,13 +123,14 @@ public class DeployableTest extends TestCase
             deployableElement.createDeployable("whateverId",
                 createDefaultProject("war", artifacts));
 
-        assertEquals(CustomType.class.getName(), deployable.getClass().getName());
+        Assertions.assertEquals(CustomType.class.getName(), deployable.getClass().getName());
     }
 
     /**
      * Test compute location for EJBs.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenEjbPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -133,13 +139,14 @@ public class DeployableTest extends TestCase
         deployableElement.setType("ejb");
 
         String location = deployableElement.computeLocation(createDefaultProject("ejb", null));
-        assertTrue(location.endsWith("projectFinalName.jar"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.jar"), location);
     }
 
     /**
      * Test compute location for uberwars.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenUberwarPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -148,13 +155,14 @@ public class DeployableTest extends TestCase
         deployableElement.setType("war");
 
         String location = deployableElement.computeLocation(createDefaultProject("uberwar", null));
-        assertTrue(location.endsWith("projectFinalName.war"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.war"), location);
     }
 
     /**
      * Test compute location for JBoss SARs.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenJBossSarPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -164,7 +172,7 @@ public class DeployableTest extends TestCase
 
         String location = deployableElement
             .computeLocation(createDefaultProject("jboss-sar", null));
-        assertTrue(location, location.endsWith("projectFinalName.sar"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.sar"), location);
 
         // Verify that the log warning has not been raised
         Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
@@ -176,6 +184,7 @@ public class DeployableTest extends TestCase
      * Test compute location for JBoss HARs.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenJBossHarPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -185,7 +194,7 @@ public class DeployableTest extends TestCase
 
         String location = deployableElement
             .computeLocation(createDefaultProject("jboss-har", null));
-        assertTrue(location, location.endsWith("projectFinalName.har"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.har"), location);
 
         // Verify that the log warning has not been raised
         Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
@@ -197,6 +206,7 @@ public class DeployableTest extends TestCase
      * Test compute location for JBoss Spring packages.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenJBossSpringPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -206,7 +216,7 @@ public class DeployableTest extends TestCase
 
         String location = deployableElement.computeLocation(createDefaultProject("jboss-spring",
             null));
-        assertTrue(location, location.endsWith("projectFinalName.spring"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.spring"), location);
 
         // Verify that the log warning has not been raised
         Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
@@ -218,6 +228,7 @@ public class DeployableTest extends TestCase
      * Test compute location for JBoss ESB packagings.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenJBossEsbPackaging() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -227,7 +238,7 @@ public class DeployableTest extends TestCase
 
         String location = deployableElement
             .computeLocation(createDefaultProject("jboss-esb", null));
-        assertTrue(location, location.endsWith("projectFinalName.esb"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.esb"), location);
 
         // Verify that the log warning has not been raised
         Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
@@ -239,6 +250,7 @@ public class DeployableTest extends TestCase
      * Test compute location for file types.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenAnyPackagingWithDeployableTypeFile() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -248,7 +260,7 @@ public class DeployableTest extends TestCase
 
         String location = deployableElement.computeLocation(createDefaultProject(
             "somerandompackaging", null));
-        assertTrue(location, location.endsWith("projectFinalName.somerandompackaging"));
+        Assertions.assertTrue(location.endsWith("projectFinalName.somerandompackaging"), location);
 
         // Verify that the log warning has not been raised
         Mockito.verify(this.mockLog, Mockito.times(0)).warn((CharSequence) Mockito.any());
@@ -262,6 +274,7 @@ public class DeployableTest extends TestCase
      * an empty String.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSettingANullDeployableProperty() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -273,7 +286,7 @@ public class DeployableTest extends TestCase
 
         deployableElement.setPropertiesOnDeployable(war, createDefaultProject("war", null));
 
-        assertEquals("", war.getContext());
+        Assertions.assertEquals("", war.getContext());
     }
 
     /**
@@ -282,6 +295,7 @@ public class DeployableTest extends TestCase
      * deployable will be looked for in the project's dependencies.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testComputeLocationWhenDeployableTypeMismatchWithProjectType() throws Exception
     {
         Deployable deployableElement = new Deployable();
@@ -293,12 +307,13 @@ public class DeployableTest extends TestCase
         {
             deployableElement.computeLocation(createDefaultProject("something",
                 new HashSet<Artifact>()));
-            fail("An exception should have been raised");
+            Assertions.fail("An exception should have been raised");
         }
         catch (MojoExecutionException expected)
         {
-            assertEquals("Artifact [projectGroupId:projectArtifactId:war] is not a dependency of "
-                + "the project.", expected.getMessage());
+            Assertions.assertEquals(
+                "Artifact [projectGroupId:projectArtifactId:war] is not a dependency of "
+                    + "the project.", expected.getMessage());
 
             // Verify that the log warning has been raised too
             Mockito.verify(this.mockLog, Mockito.times(1)).warn(

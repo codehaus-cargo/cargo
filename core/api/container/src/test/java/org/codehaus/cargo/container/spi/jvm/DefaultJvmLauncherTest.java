@@ -19,108 +19,116 @@
  */
 package org.codehaus.cargo.container.spi.jvm;
 
-import org.codehaus.cargo.util.CargoException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import junit.framework.TestCase;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Unit tests for {@link DefaultJvmLauncher}.
  */
-public class DefaultJvmLauncherTest extends TestCase
+public class DefaultJvmLauncherTest
 {
     /**
      * Test {@link DefaultJvmLauncher#translateCommandline(String)}.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testTranslateCommandline() throws Exception
     {
         String[] s = DefaultJvmLauncher.translateCommandline("1 2 3");
-        assertEquals("Simple case", 3, s.length);
+        Assertions.assertEquals(3, s.length, "Simple case");
         for (int i = 0; i < 3; i++)
         {
-            assertEquals("" + (i + 1), s[i]);
+            Assertions.assertEquals("" + (i + 1), s[i]);
         }
 
         s = DefaultJvmLauncher.translateCommandline("");
-        assertEquals("empty string", 0, s.length);
+        Assertions.assertEquals(0, s.length, "empty string");
 
         s = DefaultJvmLauncher.translateCommandline(null);
-        assertEquals("null", 0, s.length);
+        Assertions.assertEquals(0, s.length, "null");
 
         s = DefaultJvmLauncher.translateCommandline("1 '2' 3");
-        assertEquals("Simple case with single quotes", 3, s.length);
-        assertEquals("Single quotes have been stripped", "2", s[1]);
+        Assertions.assertEquals(3, s.length, "Simple case with single quotes");
+        Assertions.assertEquals("2", s[1], "Single quotes have been stripped");
 
         s = DefaultJvmLauncher.translateCommandline("1 \"2\" 3");
-        assertEquals("Simple case with double quotes", 3, s.length);
-        assertEquals("Double quotes have been stripped", "2", s[1]);
+        Assertions.assertEquals(3, s.length, "Simple case with double quotes");
+        Assertions.assertEquals("2", s[1], "Double quotes have been stripped");
 
         s = DefaultJvmLauncher.translateCommandline("1 \"2 3\" 4");
-        assertEquals("Case with double quotes and whitespace", 3, s.length);
-        assertEquals("Double quotes stripped, space included", "2 3", s[1]);
+        Assertions.assertEquals(3, s.length, "Case with double quotes and whitespace");
+        Assertions.assertEquals("2 3", s[1], "Double quotes stripped, space included");
 
         s = DefaultJvmLauncher.translateCommandline("1 \"2'3\" 4");
-        assertEquals("Case with double quotes around single quote", 3, s.length);
-        assertEquals("Double quotes stripped, single quote included", "2'3", s[1]);
+        Assertions.assertEquals(3, s.length, "Case with double quotes around single quote");
+        Assertions.assertEquals("2'3", s[1], "Double quotes stripped, single quote included");
 
         s = DefaultJvmLauncher.translateCommandline("1 '2 3' 4");
-        assertEquals("Case with single quotes and whitespace", 3, s.length);
-        assertEquals("Single quotes stripped, space included", "2 3", s[1]);
+        Assertions.assertEquals(3, s.length, "Case with single quotes and whitespace");
+        Assertions.assertEquals("2 3", s[1], "Single quotes stripped, space included");
 
         s = DefaultJvmLauncher.translateCommandline("1 '2\"3' 4");
-        assertEquals("Case with single quotes around double quote", 3, s.length);
-        assertEquals("Single quotes stripped, double quote included", "2\"3", s[1]);
+        Assertions.assertEquals(3, s.length, "Case with single quotes around double quote");
+        Assertions.assertEquals("2\"3", s[1], "Single quotes stripped, double quote included");
 
         // \ doesn't have a special meaning anymore - this is different from
         // what the Unix sh does but causes a lot of problems on DOS
         // based platforms otherwise
         s = DefaultJvmLauncher.translateCommandline("1 2\\ 3 4");
-        assertEquals("case with quoted whitespace", 4, s.length);
-        assertEquals("backslash included", "2\\", s[1]);
+        Assertions.assertEquals(4, s.length, "case with quoted whitespace");
+        Assertions.assertEquals("2\\", s[1], "backslash included");
 
         // "" should become a single empty argument, same for ''
         s = DefaultJvmLauncher.translateCommandline("\"\" a");
-        assertEquals("Doublequoted null arg prepend", 2, s.length);
-        assertEquals("Doublequoted null arg prepend", "", s[0]);
-        assertEquals("Doublequoted null arg prepend", "a", s[1]);
+        Assertions.assertEquals(2, s.length, "Doublequoted null arg prepend");
+        Assertions.assertEquals("", s[0], "Doublequoted null arg prepend");
+        Assertions.assertEquals("a", s[1], "Doublequoted null arg prepend");
+
         s = DefaultJvmLauncher.translateCommandline("a \"\"");
-        assertEquals("Doublequoted null arg append", 2, s.length);
-        assertEquals("Doublequoted null arg append", "a", s[0]);
-        assertEquals("Doublequoted null arg append", "", s[1]);
+        Assertions.assertEquals(2, s.length, "Doublequoted null arg append");
+        Assertions.assertEquals("a", s[0], "Doublequoted null arg append");
+        Assertions.assertEquals("", s[1], "Doublequoted null arg append");
+
         s = DefaultJvmLauncher.translateCommandline("\"\"");
-        assertEquals("Doublequoted null arg", 1, s.length);
-        assertEquals("Doublequoted null arg", "", s[0]);
+        Assertions.assertEquals(1, s.length, "Doublequoted null arg");
+        Assertions.assertEquals("", s[0], "Doublequoted null arg");
 
         s = DefaultJvmLauncher.translateCommandline("'' a");
-        assertEquals("Singlequoted null arg prepend", 2, s.length);
-        assertEquals("Singlequoted null arg prepend", "", s[0]);
-        assertEquals("Singlequoted null arg prepend", "a", s[1]);
+        Assertions.assertEquals(2, s.length, "Singlequoted null arg prepend");
+        Assertions.assertEquals("", s[0], "Singlequoted null arg prepend");
+        Assertions.assertEquals("a", s[1], "Singlequoted null arg prepend");
+
         s = DefaultJvmLauncher.translateCommandline("a ''");
-        assertEquals("Singlequoted null arg append", 2, s.length);
-        assertEquals("Singlequoted null arg append", "a", s[0]);
-        assertEquals("Singlequoted null arg append", "", s[1]);
+        Assertions.assertEquals(2, s.length, "Singlequoted null arg append");
+        Assertions.assertEquals("a", s[0], "Singlequoted null arg append");
+        Assertions.assertEquals("", s[1], "Singlequoted null arg append");
+
         s = DefaultJvmLauncher.translateCommandline("''");
-        assertEquals("Singlequoted null arg", 1, s.length);
-        assertEquals("Singlequoted null arg", "", s[0]);
+        Assertions.assertEquals(1, s.length, "Singlequoted null arg");
+        Assertions.assertEquals("", s[0], "Singlequoted null arg");
 
         try
         {
             DefaultJvmLauncher.translateCommandline("a 'b c");
-            fail("No exception thrown for unbalanced single quotes");
+            Assertions.fail("No exception thrown for unbalanced single quotes");
         }
         catch (CargoException e)
         {
-            assertEquals("Wrong exception detail", "unbalanced quotes in a 'b c", e.getMessage());
+            Assertions.assertEquals(
+                "unbalanced quotes in a 'b c", e.getMessage(), "Wrong exception detail");
         }
 
         try
         {
             DefaultJvmLauncher.translateCommandline("a \"b c");
-            fail("No exception thrown for unbalanced double quotes");
+            Assertions.fail("No exception thrown for unbalanced double quotes");
         }
         catch (CargoException e)
         {
-            assertEquals("Wrong exception detail", "unbalanced quotes in a \"b c", e.getMessage());
+            Assertions.assertEquals(
+                "unbalanced quotes in a \"b c", e.getMessage(), "Wrong exception detail");
         }
     }
 }

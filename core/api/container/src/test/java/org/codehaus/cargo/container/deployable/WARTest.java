@@ -19,74 +19,82 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link WAR}.
  */
-public class WARTest extends TestCase
+public class WARTest
 {
     /**
      * Test context when WAR has an extension.
      */
+    @Test
     public void testGetContextWhenWarHasExtension()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
-        assertEquals("test", war.getContext());
+        Assertions.assertEquals("test", war.getContext());
     }
 
     /**
      * Test context when WAR has no extension.
      */
+    @Test
     public void testGetContextWhenWarHasNoExtension()
     {
         WAR war = new WAR("/some/path/to/war/test");
-        assertEquals("test", war.getContext());
+        Assertions.assertEquals("test", war.getContext());
     }
 
     /**
      * Test overriden WAR context.
      */
+    @Test
     public void testGetContextWhenOverride()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         war.setContext("context");
-        assertEquals("context", war.getContext());
+        Assertions.assertEquals("context", war.getContext());
     }
 
     /**
      * Test WAR context overriden with a leading slash.
      */
+    @Test
     public void testGetContextWhenOverrideAndLeadingSlash()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         war.setContext("/");
-        assertEquals("", war.getContext());
+        Assertions.assertEquals("", war.getContext());
     }
 
     /**
      * Test WAR context overriden with an ending slash.
      */
+    @Test
     public void testGetContextWhenOverrideAndEndingSlash()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         war.setContext("/a/");
-        assertEquals("a", war.getContext());
+        Assertions.assertEquals("a", war.getContext());
     }
 
     /**
      * Test WAR context overriden with a slash in the middle.
      */
+    @Test
     public void testGetContextWhenOverrideAndMiddleSlash()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         war.setContext("/a/b");
-        assertEquals("a/b", war.getContext());
+        Assertions.assertEquals("a/b", war.getContext());
     }
 
     /**
      * Test logger when getting WAR context.
      */
+    @Test
     public void testLoggerWhenCallingGetContext()
     {
         MockLogger logger = new MockLogger();
@@ -96,47 +104,52 @@ public class WARTest extends TestCase
         // Calling getContext just to trigger the log
         war.getContext();
 
-        assertEquals(1, logger.severities.size());
-        assertEquals("debug", logger.severities.get(0));
-        assertEquals("Parsed web context = [test]", logger.messages.get(0));
-        assertEquals("org.codehaus.cargo.container.deployable.WAR", logger.categories.get(0));
+        Assertions.assertEquals(1, logger.severities.size());
+        Assertions.assertEquals("debug", logger.severities.get(0));
+        Assertions.assertEquals("Parsed web context = [test]", logger.messages.get(0));
+        Assertions.assertEquals(
+            "org.codehaus.cargo.container.deployable.WAR", logger.categories.get(0));
     }
 
     /**
      * Test name when WAR has an extension.
      */
+    @Test
     public void testGetNameWhenWarHasExtension()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
-        assertEquals("test", war.getName());
+        Assertions.assertEquals("test", war.getName());
     }
 
     /**
      * Test name when WAR has no extension.
      */
+    @Test
     public void testGetNameWhenWarHasNoExtension()
     {
         WAR war = new WAR("/some/path/to/war/test");
-        assertEquals("test", war.getName());
+        Assertions.assertEquals("test", war.getName());
     }
 
     /**
      * Test name when WAR context is overriden.
      */
+    @Test
     public void testGetNameWhenOverride()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         war.setContext("context");
-        assertEquals("context", war.getName());
+        Assertions.assertEquals("context", war.getName());
     }
 
     /**
      * Test file name when WAR context is overriden.
      */
+    @Test
     public void testGetFilenameWhenOverride()
     {
         WAR war = new WAR("c:/some/path/to/war/test.war");
         war.setContext("// this/../../is/../a//test/");
-        assertEquals("this/is/a/test.war", war.getFilename());
+        Assertions.assertEquals("this/is/a/test.war", war.getFilename());
     }
 }

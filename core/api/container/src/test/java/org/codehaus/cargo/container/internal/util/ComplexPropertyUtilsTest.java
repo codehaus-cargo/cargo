@@ -22,35 +22,39 @@ package org.codehaus.cargo.container.internal.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for JvmArguments class.
  */
-public final class ComplexPropertyUtilsTest extends TestCase
+public final class ComplexPropertyUtilsTest
 {
     /**
      * Test parsing of provided property.
      */
+    @Test
     public void testParseProperty()
     {
         String toBeParsed = "com.ibm.ssl.rootCertValidDays:1234|"
                 + "   com.ibm.websphere.security.krb.canonical_host:false";
 
         List<List<String>> parsedProperty = ComplexPropertyUtils.parseProperty(toBeParsed);
-        assertEquals(2, parsedProperty.size());
-        assertEquals(2, parsedProperty.get(0).size());
-        assertEquals(2, parsedProperty.get(1).size());
+        Assertions.assertEquals(2, parsedProperty.size());
+        Assertions.assertEquals(2, parsedProperty.get(0).size());
+        Assertions.assertEquals(2, parsedProperty.get(1).size());
 
-        assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0).get(0));
-        assertEquals("1234", parsedProperty.get(0).get(1));
-        assertEquals("com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1).get(0));
-        assertEquals("false", parsedProperty.get(1).get(1));
+        Assertions.assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0).get(0));
+        Assertions.assertEquals("1234", parsedProperty.get(0).get(1));
+        Assertions.assertEquals(
+            "com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1).get(0));
+        Assertions.assertEquals("false", parsedProperty.get(1).get(1));
     }
 
     /**
      * Test parsing of provided property.
      */
+    @Test
     public void testParseCustomProperty()
     {
         String toBeParsed = "com.ibm.ssl.rootCertValidDays%1234#"
@@ -58,34 +62,38 @@ public final class ComplexPropertyUtilsTest extends TestCase
 
         List<List<String>> parsedProperty =
                 ComplexPropertyUtils.parseProperty(toBeParsed, "#", "%");
-        assertEquals(2, parsedProperty.size());
-        assertEquals(2, parsedProperty.get(0).size());
-        assertEquals(2, parsedProperty.get(1).size());
+        Assertions.assertEquals(2, parsedProperty.size());
+        Assertions.assertEquals(2, parsedProperty.get(0).size());
+        Assertions.assertEquals(2, parsedProperty.get(1).size());
 
-        assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0).get(0));
-        assertEquals("1234", parsedProperty.get(0).get(1));
-        assertEquals("com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1).get(0));
-        assertEquals("false", parsedProperty.get(1).get(1));
+        Assertions.assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0).get(0));
+        Assertions.assertEquals("1234", parsedProperty.get(0).get(1));
+        Assertions.assertEquals(
+            "com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1).get(0));
+        Assertions.assertEquals("false", parsedProperty.get(1).get(1));
     }
 
     /**
      * Test parsing of provided simple property.
      */
+    @Test
     public void testParseCustomSimpleProperty()
     {
         String toBeParsed = "com.ibm.ssl.rootCertValidDays#"
                 + "   com.ibm.websphere.security.krb.canonical_host";
 
         List<String> parsedProperty = ComplexPropertyUtils.parseProperty(toBeParsed, "#");
-        assertEquals(2, parsedProperty.size());
+        Assertions.assertEquals(2, parsedProperty.size());
 
-        assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0));
-        assertEquals("com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1));
+        Assertions.assertEquals("com.ibm.ssl.rootCertValidDays", parsedProperty.get(0));
+        Assertions.assertEquals(
+            "com.ibm.websphere.security.krb.canonical_host", parsedProperty.get(1));
     }
 
     /**
      * Test parsing of provided simple property.
      */
+    @Test
     public void testJoinOnDelimiter()
     {
         List<String> toBeJoined = new ArrayList<String>();
@@ -95,6 +103,6 @@ public final class ComplexPropertyUtilsTest extends TestCase
 
         String joinedProperty = ComplexPropertyUtils.joinOnDelimiter(toBeJoined, delimiter);
 
-        assertEquals("First Item:Second Item", joinedProperty);
+        Assertions.assertEquals("First Item:Second Item", joinedProperty);
     }
 }

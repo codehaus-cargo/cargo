@@ -25,14 +25,16 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link XmlUtils}.
  */
-public class XmlUtilsTest extends TestCase
+public class XmlUtilsTest
 {
     /**
      * Dom4j utilities.
@@ -45,13 +47,12 @@ public class XmlUtilsTest extends TestCase
     private Element testElement;
 
     /**
-     * Creates the various XML test elements. {@inheritDoc}
+     * Creates the various XML test elements.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
         util = new XmlUtils(true);
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = domFactory.newDocumentBuilder();
@@ -63,17 +64,18 @@ public class XmlUtilsTest extends TestCase
     /**
      * Test that random content doesn't parse.
      */
+    @Test
     public void testUnparsableElementThrowsException()
     {
         String string = "asdasd";
         try
         {
             util.parseIntoElement(string);
-            fail("should have thrown an exception");
+            Assertions.fail("should have thrown an exception");
         }
         catch (CargoException e)
         {
-            assertEquals("Could not parse element: " + string, e.getMessage());
+            Assertions.assertEquals("Could not parse element: " + string, e.getMessage());
         }
     }
 
@@ -81,27 +83,29 @@ public class XmlUtilsTest extends TestCase
      * Test simple element parse.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testParsableElement() throws Exception
     {
         String string = "<element>dog</element>";
         Element element = util.parseIntoElement(string);
-        assertEquals("element", element.getNodeName());
-        assertEquals("dog", element.getTextContent());
+        Assertions.assertEquals("element", element.getNodeName());
+        Assertions.assertEquals("dog", element.getTextContent());
     }
 
     /**
      * Test that search for a non-existing element throws an exception.
      */
+    @Test
     public void testNoElementThrowsException()
     {
         try
         {
             util.selectElementMatchingXPath("app-deployment", testElement);
-            fail("should have thrown an exception");
+            Assertions.fail("should have thrown an exception");
         }
         catch (ElementNotFoundException e)
         {
-            assertEquals(testElement, e.getSearched());
+            Assertions.assertEquals(testElement, e.getSearched());
         }
     }
 
@@ -109,17 +113,18 @@ public class XmlUtilsTest extends TestCase
     /**
      * Test that search for a non-existing element throws an exception.
      */
+    @Test
     public void testNoNamespaceThrowsException()
     {
         String xPath = "weblogic:app-deployment";
         try
         {
             util.selectElementMatchingXPath(xPath, testElement);
-            fail("should have thrown an exception");
+            Assertions.fail("should have thrown an exception");
         }
         catch (CargoException e)
         {
-            assertEquals("Cannot evaluate XPath: " + xPath, e.getMessage());
+            Assertions.assertEquals("Cannot evaluate XPath: " + xPath, e.getMessage());
         }
     }
 
@@ -127,6 +132,7 @@ public class XmlUtilsTest extends TestCase
      * Test simple element parse.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testSelectElementMatchingXPath() throws Exception
     {
         Map<String, String> namespace = new HashMap<String, String>();
@@ -142,7 +148,7 @@ public class XmlUtilsTest extends TestCase
         Element animalElement = util.selectElementMatchingXPath("//base-element/animal:element",
                 element);
 
-        assertEquals("element", animalElement.getNodeName());
-        assertEquals("cat", animalElement.getTextContent());
+        Assertions.assertEquals("element", animalElement.getNodeName());
+        Assertions.assertEquals("cat", animalElement.getTextContent());
     }
 }

@@ -19,39 +19,41 @@
  */
 package org.codehaus.cargo.container.jetty;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link Jetty12xInstalledLocalDeployer}.
- */public class Jetty12xInstalledLocalDeployerTest extends TestCase
+ */public class Jetty12xInstalledLocalDeployerTest
 {
     /**
      * Test the <code>getJettyResourceClassname</code> method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetJettyResourceClassname() throws Exception
     {
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("11-beta", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("11", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12-beta", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12.0", "ee10"));
-        assertEquals("org.eclipse.jetty.ee10.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.ee10.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12.0.0-beta", "ee10"));
-        assertEquals("org.eclipse.jetty.ee10.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.ee10.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12.0.0", "ee10"));
-        assertEquals("org.eclipse.jetty.ee10.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.ee10.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12.0.4", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12.0.5", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("12.1", "ee10"));
-        assertEquals("org.eclipse.jetty.plus.jndi.Resource",
+        Assertions.assertEquals("org.eclipse.jetty.plus.jndi.Resource",
             Jetty12xInstalledLocalDeployer.getJettyResourceClassname("13", "ee10"));
     }
 }

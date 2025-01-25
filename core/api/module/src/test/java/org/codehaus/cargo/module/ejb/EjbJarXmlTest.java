@@ -23,6 +23,9 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
@@ -35,6 +38,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetSessionEjbNames() throws Exception
     {
         String xml = "<ejb-jar>"
@@ -60,9 +64,9 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
         List<Session> ejbs = ejbJar.getSessionEjbs();
-        assertEquals(2, ejbs.size());
-        assertEquals("MyFirstSession", ejbs.get(0).getName());
-        assertEquals("MySecondSession", ejbs.get(1).getName());
+        Assertions.assertEquals(2, ejbs.size());
+        Assertions.assertEquals("MyFirstSession", ejbs.get(0).getName());
+        Assertions.assertEquals("MySecondSession", ejbs.get(1).getName());
     }
 
     /**
@@ -70,6 +74,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetEntityEjbNames() throws Exception
     {
         String xml = "<ejb-jar>"
@@ -95,8 +100,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
         List<Entity> ejbs = ejbJar.getEntityEjbs();
-        assertEquals(1, ejbs.size());
-        assertEquals("MyEntity", ejbs.get(0).getName());
+        Assertions.assertEquals(1, ejbs.size());
+        Assertions.assertEquals("MyEntity", ejbs.get(0).getName());
     }
 
     /**
@@ -104,6 +109,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetSessionLocalInterfaces() throws Exception
     {
         String xml = "<ejb-jar>"
@@ -119,8 +125,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
         EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
         Session ejb = ejbJar.getSessionEjb("MyFirstSession");
-        assertEquals("com.wombat.MyFirstSession", ejb.getLocal());
-        assertEquals("com.wombat.MyFirstSessionHome", ejb.getLocalHome());
+        Assertions.assertEquals("com.wombat.MyFirstSession", ejb.getLocal());
+        Assertions.assertEquals("com.wombat.MyFirstSessionHome", ejb.getLocalHome());
     }
 
     /**
@@ -128,6 +134,7 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetEntityLocalInterfaces() throws Exception
     {
         String xml = "<ejb-jar>"
@@ -143,8 +150,8 @@ public class EjbJarXmlTest extends AbstractDocumentBuilderTest
         EjbJarXml ejbJar = EjbJarXmlIo.parseEjbJarXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
         Entity ejb = ejbJar.getEntityEjb("MyEntity");
-        assertEquals("com.wombat.MyEntity", ejb.getLocal());
-        assertEquals("com.wombat.MyEntityHome", ejb.getLocalHome());
+        Assertions.assertEquals("com.wombat.MyEntity", ejb.getLocal());
+        Assertions.assertEquals("com.wombat.MyEntityHome", ejb.getLocalHome());
     }
 
 }

@@ -21,15 +21,16 @@ package org.codehaus.cargo.container.internal.util;
 
 import java.util.Properties;
 
-import junit.framework.ComparisonFailure;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import org.codehaus.cargo.container.property.DatasourcePropertySet;
 
 /**
  * Unit tests for {@link PropertyUtils}.
  */
-public class PropertyUtilsTest extends TestCase
+public class PropertyUtilsTest
 {
     /**
      * Name-value delimiter.
@@ -102,6 +103,7 @@ public class PropertyUtilsTest extends TestCase
     /**
      * Test a single property.
      */
+    @Test
     public void testSingleProperty()
     {
         testSingleProperty(DatasourcePropertySet.CONNECTION_TYPE, "javax.sql.DataSource");
@@ -111,6 +113,7 @@ public class PropertyUtilsTest extends TestCase
     /**
      * Test double property.
      */
+    @Test
     public void testDoubleProperty()
     {
         testDoubleProperty(DatasourcePropertySet.CONNECTION_TYPE, "javax.sql.DataSource",
@@ -129,9 +132,9 @@ public class PropertyUtilsTest extends TestCase
         String property =
             name + NAME_VALUE_DELIM + value + PIPE_DELIM + name2 + NAME_VALUE_DELIM + value2;
         final Properties map = PropertyUtils.splitPropertiesOnPipe(property);
-        assertEquals(2, map.size());
-        assertEquals(value, map.get(name));
-        assertEquals(value2, map.get(name2));
+        Assertions.assertEquals(2, map.size());
+        Assertions.assertEquals(value, map.get(name));
+        Assertions.assertEquals(value2, map.get(name2));
     }
 
     /**
@@ -143,165 +146,177 @@ public class PropertyUtilsTest extends TestCase
     {
         String property = name + NAME_VALUE_DELIM + value;
         final Properties map = PropertyUtils.splitPropertiesOnPipe(property);
-        assertEquals(1, map.size());
-        assertEquals(value, map.get(name));
+        Assertions.assertEquals(1, map.size());
+        Assertions.assertEquals(value, map.get(name));
     }
 
     /**
      * Test split and join of properties (using semicolon).
      */
+    @Test
     public void testSplitAndJoinMultiplePropertiesOnSemicolon()
     {
         Properties inner = PropertyUtils.splitPropertiesOnDelimiter(ONE_SEMI_TWO, ';');
-        assertEquals("hello", inner.getProperty("inner-1"));
-        assertEquals("goodbye", inner.getProperty("inner-2"));
-        assertEquals(2, inner.size());
+        Assertions.assertEquals("hello", inner.getProperty("inner-1"));
+        Assertions.assertEquals("goodbye", inner.getProperty("inner-2"));
+        Assertions.assertEquals(2, inner.size());
 
         try
         {
-            assertEquals(ONE_SEMI_TWO, PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(inner)));
+            Assertions.assertEquals(
+                ONE_SEMI_TWO, PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(inner)));
         }
-        catch (ComparisonFailure e)
+        catch (AssertionFailedError e)
         {
-            assertEquals(TWO_SEMI_ONE, PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(inner)));
+            Assertions.assertEquals(
+                TWO_SEMI_ONE, PropertyUtils.joinOnSemicolon(PropertyUtils.toMap(inner)));
         }
     }
 
     /**
      * Test split and join of properties (using dot).
      */
+    @Test
     public void testSplitAndJoinMultiplePropertiesOnDot()
     {
         Properties inner = PropertyUtils.splitPropertiesOnDelimiter(ONE_DOT_TWO, '.');
-        assertEquals("hello", inner.getProperty("inner-1"));
-        assertEquals("goodbye", inner.getProperty("inner-2"));
-        assertEquals(2, inner.size());
+        Assertions.assertEquals("hello", inner.getProperty("inner-1"));
+        Assertions.assertEquals("goodbye", inner.getProperty("inner-2"));
+        Assertions.assertEquals(2, inner.size());
 
         try
         {
-            assertEquals(ONE_DOT_TWO, PropertyUtils.joinOnDelimiter(PropertyUtils.toMap(inner),
-                '.'));
+            Assertions.assertEquals(
+                ONE_DOT_TWO, PropertyUtils.joinOnDelimiter(PropertyUtils.toMap(inner), '.'));
         }
-        catch (ComparisonFailure e)
+        catch (AssertionFailedError e)
         {
-            assertEquals(TWO_DOT_ONE, PropertyUtils.joinOnDelimiter(PropertyUtils.toMap(inner),
-                '.'));
+            Assertions.assertEquals(
+                TWO_DOT_ONE, PropertyUtils.joinOnDelimiter(PropertyUtils.toMap(inner), '.'));
         }
     }
 
     /**
      * Test split and join of properties (using pipe).
      */
+    @Test
     public void testSplitAndJoinMultiplePropertiesOnPipe()
     {
         Properties inner = PropertyUtils.splitPropertiesOnPipe(ONE_PIPE_TWO);
-        assertEquals("hello", inner.getProperty("inner-1"));
-        assertEquals("goodbye", inner.getProperty("inner-2"));
-        assertEquals(2, inner.size());
+        Assertions.assertEquals("hello", inner.getProperty("inner-1"));
+        Assertions.assertEquals("goodbye", inner.getProperty("inner-2"));
+        Assertions.assertEquals(2, inner.size());
 
         try
         {
-            assertEquals(ONE_PIPE_TWO, PropertyUtils.joinOnPipe(PropertyUtils.toMap(inner)));
+            Assertions.assertEquals(
+                ONE_PIPE_TWO, PropertyUtils.joinOnPipe(PropertyUtils.toMap(inner)));
         }
-        catch (ComparisonFailure e)
+        catch (AssertionFailedError e)
         {
-            assertEquals(TWO_PIPE_ONE, PropertyUtils.joinOnPipe(PropertyUtils.toMap(inner)));
+            Assertions.assertEquals(
+                TWO_PIPE_ONE, PropertyUtils.joinOnPipe(PropertyUtils.toMap(inner)));
         }
     }
 
     /**
      * Test split and join of nested properties (using pipe).
      */
+    @Test
     public void testSplitAndJoinSemicolonNestedInPipeProperties()
     {
         Properties outer = PropertyUtils.splitPropertiesOnPipe(ONE_THEN_TWO_OUTER_A);
-        assertEquals(ONE_SEMI_TWO, outer.getProperty("outer-b"));
-        assertEquals(2, outer.size());
+        Assertions.assertEquals(ONE_SEMI_TWO, outer.getProperty("outer-b"));
+        Assertions.assertEquals(2, outer.size());
 
         // We have 4 possibilities for the merging of properties, and the order depends on the JVM.
         // Try them all.
 
         try
         {
-            assertEquals(ONE_THEN_TWO_OUTER_A, PropertyUtils.joinOnPipe(
+            Assertions.assertEquals(ONE_THEN_TWO_OUTER_A, PropertyUtils.joinOnPipe(
                 PropertyUtils.toMap(outer)));
             return;
         }
-        catch (ComparisonFailure deviation1)
+        catch (AssertionFailedError deviation1)
         {
             // that's ok, we'll try another order
         }
 
         try
         {
-            assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(
+            Assertions.assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(
                 PropertyUtils.toMap(outer)));
             return;
         }
-        catch (ComparisonFailure deviation2)
+        catch (AssertionFailedError deviation2)
         {
             // that's ok, we'll try another order
         }
 
         try
         {
-            assertEquals(ONE_THEN_TWO_OUTER_B, PropertyUtils.joinOnPipe(
+            Assertions.assertEquals(ONE_THEN_TWO_OUTER_B, PropertyUtils.joinOnPipe(
                 PropertyUtils.toMap(outer)));
             return;
         }
-        catch (ComparisonFailure deviation3)
+        catch (AssertionFailedError deviation3)
         {
             // that's ok, we'll try another order
         }
 
         try
         {
-            assertEquals(TWO_THEN_ONE_OUTER_B, PropertyUtils
+            Assertions.assertEquals(TWO_THEN_ONE_OUTER_B, PropertyUtils
                 .joinOnPipe(PropertyUtils.toMap(outer)));
             return;
         }
-        catch (ComparisonFailure deviation4)
+        catch (AssertionFailedError deviation4)
         {
             // that's ok, we'll try another order
         }
 
         // this is the last combination
-        assertEquals(TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(PropertyUtils.toMap(outer)));
+        Assertions.assertEquals(
+            TWO_THEN_ONE_OUTER_A, PropertyUtils.joinOnPipe(PropertyUtils.toMap(outer)));
     }
 
     /**
      * Test whether Windows backslash escaping works properly.
      */
+    @Test
     public void testCanEscapeWindowsSlashes()
     {
-        assertEquals("c:\\\\test", PropertyUtils.escapeBackSlashesIfNotNull("c:\\test"));
+        Assertions.assertEquals("c:\\\\test", PropertyUtils.escapeBackSlashesIfNotNull("c:\\test"));
     }
 
     /**
      * Test split of escaped semicolons.
      */
+    @Test
     public void testSplitEscapedSemicolons()
     {
         Properties inner = PropertyUtils.splitPropertiesOnSemicolon(
             PropertyUtils.escapeBackSlashesIfNotNull(
                 "foo=bar;baz=blorple\\;zot;windows=c:\\test;glorg=gluux"));
 
-        assertEquals(4, inner.size());
-        assertEquals("bar", inner.getProperty("foo"));
-        assertEquals("blorple;zot", inner.getProperty("baz"));
-        assertEquals("gluux", inner.getProperty("glorg"));
-        assertEquals("c:\\test", inner.getProperty("windows"));
+        Assertions.assertEquals(4, inner.size());
+        Assertions.assertEquals("bar", inner.getProperty("foo"));
+        Assertions.assertEquals("blorple;zot", inner.getProperty("baz"));
+        Assertions.assertEquals("gluux", inner.getProperty("glorg"));
+        Assertions.assertEquals("c:\\test", inner.getProperty("windows"));
     }
 
     /**
      * Test join of escaped semicolons.
      */
+    @Test
     public void testJoinEscapesSemicolons()
     {
         Properties inner = new Properties();
         inner.setProperty("baz", "blorple;zot");
 
-        assertEquals("baz=blorple\\;zot", PropertyUtils.joinOnSemicolon(
+        Assertions.assertEquals("baz=blorple\\;zot", PropertyUtils.joinOnSemicolon(
                 PropertyUtils.toMap(inner)));
     }
 }

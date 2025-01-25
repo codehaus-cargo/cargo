@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.glassfish6xRemoteDeploy;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test remote deployment on a GlassFish 6.x container.
  */
-public class Glassfish6xRemoteDeployTest extends TestCase
+public class Glassfish6xRemoteDeployTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class Glassfish6xRemoteDeployTest extends TestCase
      * Test the CARGO ping component.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargo() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -55,6 +56,7 @@ public class Glassfish6xRemoteDeployTest extends TestCase
      * Test the simple WAR (JSP).
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSimpleWarJsp() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

@@ -19,25 +19,27 @@
  */
 package org.codehaus.cargo.module;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link XmlEntityResolver}.
  */
-public class XmlEntityResolverTest extends TestCase
+public class XmlEntityResolverTest
 {
     /**
      * Verifies that the method <code>getDtdFileName()</code> works with known filename.
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetKnownFileName() throws Exception
     {
         String pId = "-//ORACLE//DTD OC4J Web Application 9.04//EN";
         String sId = "http://xmlns.oracle.com/ias/dtds/orion-web-9_04.dtd";
         XmlEntityResolver resolver = new XmlEntityResolver();
         String file = resolver.getDtdFileName(pId, sId);
-        assertEquals(file, "orion-web-9_04.dtd");
+        Assertions.assertEquals(file, "orion-web-9_04.dtd");
     }
 
     /**
@@ -45,12 +47,13 @@ public class XmlEntityResolverTest extends TestCase
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetUnknownFileName() throws Exception
     {
         String pId = "-//BEA Systems, Inc.//DTD Web Application 6.1//EN";
         String sId = "http://www.bea.com/servers/wls610/dtd/weblogic610-web-jar.dtd";
         XmlEntityResolver resolver = new XmlEntityResolver();
         String file = resolver.getDtdFileName(pId, sId);
-        assertEquals(file, "weblogic610-web-jar.dtd");
+        Assertions.assertEquals(file, "weblogic610-web-jar.dtd");
     }
 }

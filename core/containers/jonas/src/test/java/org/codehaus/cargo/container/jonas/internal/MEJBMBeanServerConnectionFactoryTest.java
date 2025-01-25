@@ -31,7 +31,9 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.TextInputCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.jonas.Jonas4xRuntimeConfiguration;
@@ -41,7 +43,7 @@ import org.codehaus.cargo.container.property.RemotePropertySet;
 /**
  * Unit tests for {@link MEJBMBeanServerConnectionFactory}.
  */
-public class MEJBMBeanServerConnectionFactoryTest extends TestCase
+public class MEJBMBeanServerConnectionFactoryTest
 {
     /**
      * MEJB MBean sever connection factory.
@@ -49,136 +51,145 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
     private MEJBMBeanServerConnectionFactory factory;
 
     /**
-     * Creates the test MEJB server connection factory. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the test MEJB server connection factory.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
         factory = new MEJBMBeanServerConnectionFactory();
     }
 
     /**
      * Test default configuration.
      */
+    @Test
     public void testDefaultConfiguration()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertNull(factory.jaasFile);
-        assertNull(factory.jaasEntry);
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertNull(factory.jaasFile);
+        Assertions.assertNull(factory.jaasEntry);
     }
 
     /**
      * Test initial context factory.
      */
+    @Test
     public void testInitialContextFactory()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JNDI_INIT_CTX_FACT, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY), "foo");
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY), "foo");
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertNull(factory.jaasFile);
-        assertNull(factory.jaasEntry);
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertNull(factory.jaasFile);
+        Assertions.assertNull(factory.jaasEntry);
     }
 
     /**
      * Test provider URL.
      */
+    @Test
     public void testProviderURL()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.URI, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL), "foo");
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL), "foo");
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertNull(factory.jaasFile);
-        assertNull(factory.jaasEntry);
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertNull(factory.jaasFile);
+        Assertions.assertNull(factory.jaasEntry);
     }
 
     /**
      * Test username.
      */
+    @Test
     public void testUsername()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.USERNAME, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertNull(factory.jaasFile);
-        assertNull(factory.jaasEntry);
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertNull(factory.jaasFile);
+        Assertions.assertNull(factory.jaasEntry);
     }
 
     /**
      * Test password.
      */
+    @Test
     public void testPassword()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(RemotePropertySet.PASSWORD, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertNull(factory.jaasFile);
-        assertNull(factory.jaasEntry);
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertNull(factory.jaasFile);
+        Assertions.assertNull(factory.jaasEntry);
     }
 
     /**
      * Test username and password.
      */
+    @Test
     public void testUsernameAndPassword()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
@@ -186,24 +197,26 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
         configuration.setProperty(RemotePropertySet.PASSWORD, "bar");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertEquals(connectionOptions.get(Context.SECURITY_PRINCIPAL), "foo");
-        assertEquals(connectionOptions.get(Context.SECURITY_CREDENTIALS), "bar");
+        Assertions.assertEquals(connectionOptions.get(Context.SECURITY_PRINCIPAL), "foo");
+        Assertions.assertEquals(connectionOptions.get(Context.SECURITY_CREDENTIALS), "bar");
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertEquals(factory.username, "foo");
-        assertEquals(factory.password, "bar");
-        assertNull(factory.jaasFile);
-        assertNull(factory.jaasEntry);
+        Assertions.assertEquals(factory.username, "foo");
+        Assertions.assertEquals(factory.password, "bar");
+        Assertions.assertNull(factory.jaasFile);
+        Assertions.assertNull(factory.jaasEntry);
     }
 
     /**
      * Test JAAS file.
      */
+    @Test
     public void testJAASFile()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
@@ -211,7 +224,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
         try
         {
             factory.readConfiguration(configuration);
-            fail();
+            Assertions.fail();
         }
         catch (IllegalArgumentException expected)
         {
@@ -222,30 +235,34 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
     /**
      * Test JAAS entry.
      */
+    @Test
     public void testJAASEntry()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, "foo");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertEquals(factory.jaasFile, MEJBMBeanServerConnectionFactory.DEFAULT_JAAS_FILE);
-        assertEquals(factory.jaasEntry, "foo");
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertEquals(
+            factory.jaasFile, MEJBMBeanServerConnectionFactory.DEFAULT_JAAS_FILE);
+        Assertions.assertEquals(factory.jaasEntry, "foo");
     }
 
     /**
      * Test JAAS file and entry.
      */
+    @Test
     public void testJAASFileAndEntry()
     {
         RuntimeConfiguration configuration = new Jonas4xRuntimeConfiguration();
@@ -253,25 +270,27 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
         configuration.setProperty(JonasPropertySet.JONAS_MEJB_JAAS_ENTRY, "bar");
         Hashtable<String, Object> connectionOptions = factory.readConfiguration(configuration);
 
-        assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
+        Assertions.assertEquals(connectionOptions.get(Context.INITIAL_CONTEXT_FACTORY),
             MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_INITIAL_CTX_FACTORY);
-        assertEquals(connectionOptions.get(Context.PROVIDER_URL),
+        Assertions.assertEquals(connectionOptions.get(Context.PROVIDER_URL),
             MEJBMBeanServerConnectionFactory.DEFAULT_PROVIDER_URI);
-        assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
-        assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_PRINCIPAL));
+        Assertions.assertNull(connectionOptions.get(Context.SECURITY_CREDENTIALS));
 
-        assertEquals(factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
+        Assertions.assertEquals(
+            factory.mejbJndiPath, MEJBMBeanServerConnectionFactory.DEFAULT_JNDI_MEJB_PATH);
 
-        assertNull(factory.username);
-        assertNull(factory.password);
-        assertEquals(factory.jaasFile, "foo");
-        assertEquals(factory.jaasEntry, "bar");
+        Assertions.assertNull(factory.username);
+        Assertions.assertNull(factory.password);
+        Assertions.assertEquals(factory.jaasFile, "foo");
+        Assertions.assertEquals(factory.jaasEntry, "bar");
     }
 
     /**
      * Test empty handler.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testEmptyHandler() throws Exception
     {
         testDefaultConfiguration();
@@ -284,7 +303,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (NullPointerException expected)
         {
@@ -300,7 +319,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (NullPointerException expected)
         {
@@ -315,7 +334,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (UnsupportedCallbackException expected)
         {
@@ -327,6 +346,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
      * Test username handler.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testUsernameHandler() throws Exception
     {
         testUsername();
@@ -339,7 +359,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (NullPointerException expected)
         {
@@ -355,7 +375,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (NullPointerException expected)
         {
@@ -370,7 +390,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (UnsupportedCallbackException expected)
         {
@@ -382,6 +402,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
      * Test password handler.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testPasswordHandler() throws Exception
     {
         testPassword();
@@ -394,7 +415,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (NullPointerException expected)
         {
@@ -410,7 +431,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (NullPointerException expected)
         {
@@ -425,7 +446,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (UnsupportedCallbackException expected)
         {
@@ -437,6 +458,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
      * Test username and password handler.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testUsernameAndPasswordHandler() throws Exception
     {
         testUsernameAndPassword();
@@ -462,7 +484,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (UnsupportedCallbackException expected)
         {
@@ -477,7 +499,7 @@ public class MEJBMBeanServerConnectionFactoryTest extends TestCase
             };
 
             factory.handle(callbacks);
-            fail();
+            Assertions.fail();
         }
         catch (UnsupportedCallbackException expected)
         {

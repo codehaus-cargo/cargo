@@ -25,7 +25,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -35,7 +38,7 @@ import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalCon
 /**
  * Unit tests for configuration files.
  */
-public class ConfigurationFilesTest extends TestCase
+public class ConfigurationFilesTest
 {
 
     /**
@@ -106,10 +109,10 @@ public class ConfigurationFilesTest extends TestCase
     }
 
     /**
-     * Creates the test directory. {@inheritDoc}
+     * Creates the test directory.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
         File testDir = File.createTempFile("cargo-config-file-test", null);
@@ -126,11 +129,10 @@ public class ConfigurationFilesTest extends TestCase
     }
 
     /**
-     * Sets all the files to delete on exit. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Sets all the files to delete on exit.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         // set all the files to delete on exit
         File home = new File(configuration.getHome());
@@ -157,15 +159,16 @@ public class ConfigurationFilesTest extends TestCase
         configuration.doConfigure(null);
 
         File copiedFile = new File(configuration.getHome() + "/" + expectedFilePath);
-        assertTrue("Cannot find the expected copied file", copiedFile.exists());
+        Assertions.assertTrue(copiedFile.exists(), "Cannot find the expected copied file");
 
-        assertEquals(expectedFileContents, readFile(copiedFile));
+        Assertions.assertEquals(expectedFileContents, readFile(copiedFile));
     }
 
     /**
      * Test simple file copy.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSimpleCopyFile() throws Exception
     {
         // simplest test for file copy
@@ -183,6 +186,7 @@ public class ConfigurationFilesTest extends TestCase
      * Test file copy with replacement tokens.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCopyWithTokens() throws Exception
     {
         // test that token replacement for "@foo@" results in "bar"
@@ -206,14 +210,16 @@ public class ConfigurationFilesTest extends TestCase
      * Test file copy with overwrite.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testOverwite() throws Exception
     {
         File configHome = new File(configuration.getHome());
-        assertTrue("Could not find a proper configuration home.",
-            configHome.exists() && configHome.isDirectory());
+        Assertions.assertTrue(
+            configHome.exists() && configHome.isDirectory(),
+                "Could not find a proper configuration home.");
         File existingFile = createFile(configHome, "existingfile", "helloworld");
         // make sure the file exists and contains the proper information.
-        assertEquals("helloworld", readFile(existingFile));
+        Assertions.assertEquals("helloworld", readFile(existingFile));
 
         String fileName = "simpleCopyWithOverwrite";
         String fileContents = "goodbye";
@@ -225,21 +231,23 @@ public class ConfigurationFilesTest extends TestCase
         configFile.setOverwrite("true");
 
         testCopy(configFile, "existingfile", "goodbye");
-        assertEquals("goodbye", readFile(existingFile));
+        Assertions.assertEquals("goodbye", readFile(existingFile));
     }
 
     /**
      * Test file copy with overwrite and replacement tokens.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testOverwriteWithTokens() throws Exception
     {
         File configHome = new File(configuration.getHome());
-        assertTrue("Could not find a proper configuration home.",
-            configHome.exists() && configHome.isDirectory());
+        Assertions.assertTrue(
+            configHome.exists() && configHome.isDirectory(),
+                "Could not find a proper configuration home.");
         File existingFile = createFile(configHome, "existingfile2", "helloworld");
         // make sure the file exists and contains the proper information.
-        assertEquals("helloworld", readFile(existingFile));
+        Assertions.assertEquals("helloworld", readFile(existingFile));
 
         String fileName = "simpleCopyWithOverwrite";
         String fileContents = "goodbye@token1@.";
@@ -254,13 +262,14 @@ public class ConfigurationFilesTest extends TestCase
         configuration.setProperty("token1", " everyone");
 
         testCopy(configFile, "existingfile2", "goodbye everyone.");
-        assertEquals("goodbye everyone.", readFile(existingFile));
+        Assertions.assertEquals("goodbye everyone.", readFile(existingFile));
     }
 
     /**
      * Test copy.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCopy() throws Exception
     {
         String fileName = "file";
@@ -300,6 +309,7 @@ public class ConfigurationFilesTest extends TestCase
      * Test copy directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCopyDirectory() throws Exception
     {
         String fileName1 = "file1";
@@ -317,12 +327,12 @@ public class ConfigurationFilesTest extends TestCase
         configuration.doConfigure(null);
 
         File copiedFile1 = new File(configuration.getHome() + "/file1");
-        assertTrue("Cannot find the expected copied file", copiedFile1.exists());
-        assertEquals(fileContents1, readFile(copiedFile1));
+        Assertions.assertTrue(copiedFile1.exists(), "Cannot find the expected copied file");
+        Assertions.assertEquals(fileContents1, readFile(copiedFile1));
 
         File copiedFile2 = new File(configuration.getHome() + "/file2");
-        assertTrue("Cannot find the expected copied file", copiedFile2.exists());
-        assertEquals(fileContents2, readFile(copiedFile2));
+        Assertions.assertTrue(copiedFile2.exists(), "Cannot find the expected copied file");
+        Assertions.assertEquals(fileContents2, readFile(copiedFile2));
 
         // test that copying to a specified directory works
         configFile.setToDir("dir1");
@@ -330,26 +340,28 @@ public class ConfigurationFilesTest extends TestCase
         configuration.doConfigure(null);
 
         copiedFile1 = new File(configuration.getHome() + "/dir1/file1");
-        assertTrue("Cannot find the expected copied file", copiedFile1.exists());
-        assertEquals(fileContents1, readFile(copiedFile1));
+        Assertions.assertTrue(copiedFile1.exists(), "Cannot find the expected copied file");
+        Assertions.assertEquals(fileContents1, readFile(copiedFile1));
 
         copiedFile2 = new File(configuration.getHome() + "/dir1/file2");
-        assertTrue("Cannot find the expected copied file", copiedFile2.exists());
-        assertEquals(fileContents2, readFile(copiedFile2));
+        Assertions.assertTrue(copiedFile2.exists(), "Cannot find the expected copied file");
+        Assertions.assertEquals(fileContents2, readFile(copiedFile2));
     }
 
     /**
      * Test configuration file property.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigFileProperty() throws Exception
     {
         File configHome = new File(configuration.getHome());
-        assertTrue("Could not find a proper configuration home.",
-            configHome.exists() && configHome.isDirectory());
+        Assertions.assertTrue(
+            configHome.exists() && configHome.isDirectory(),
+                "Could not find a proper configuration home.");
         File existingFile = createFile(configHome, "existingfile", "helloworld");
         // make sure the file exists and contains the proper information.
-        assertEquals("helloworld", readFile(existingFile));
+        Assertions.assertEquals("helloworld", readFile(existingFile));
 
         String fileName = "testConfigfile";
         String fileContents = "Hello @message@ ";
@@ -370,8 +382,8 @@ public class ConfigurationFilesTest extends TestCase
         configuration.doConfigure(null);
 
         File copiedFile = new File(configuration.getHome() + "/existingfile");
-        assertTrue("Cannot find the expected copied file", copiedFile.exists());
-        assertEquals("Hello world ", readFile(copiedFile));
+        Assertions.assertTrue(copiedFile.exists(), "Cannot find the expected copied file");
+        Assertions.assertEquals("Hello world ", readFile(copiedFile));
     }
 
     /**

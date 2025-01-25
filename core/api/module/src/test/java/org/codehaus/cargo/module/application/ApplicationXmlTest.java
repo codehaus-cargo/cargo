@@ -26,6 +26,9 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
@@ -39,12 +42,13 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testConstructionWithNullDocument() throws Exception
     {
         try
         {
             new ApplicationXml(null, null);
-            fail("Expected NullPointerException");
+            Assertions.fail("Expected NullPointerException");
         }
         catch (NullPointerException expected)
         {
@@ -59,6 +63,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetWebModuleUrisWithEmptyDocument() throws Exception
     {
         String xml = "<application>"
@@ -70,7 +75,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
         List<String> webUris = applicationXml.getWebModuleUris();
-        assertTrue("No web modules defined", webUris.isEmpty());
+        Assertions.assertTrue(webUris.isEmpty(), "No web modules defined");
     }
 
     /**
@@ -79,6 +84,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetWebModuleUrisWithSingleWebModule() throws Exception
     {
         String xml = "<application>"
@@ -93,8 +99,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
         List<String> webUris = applicationXml.getWebModuleUris();
-        assertEquals(1, webUris.size());
-        assertEquals("webmodule.jar", webUris.get(0));
+        Assertions.assertEquals(1, webUris.size());
+        Assertions.assertEquals("webmodule.jar", webUris.get(0));
     }
 
     /**
@@ -103,6 +109,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetWebModuleUrisWithMultipleWebModules() throws Exception
     {
         String xml = "<application>"
@@ -129,10 +136,10 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
         List<String> webUris = applicationXml.getWebModuleUris();
-        assertEquals(3, webUris.size());
-        assertEquals("webmodule1.jar", webUris.get(0));
-        assertEquals("webmodule2.jar", webUris.get(1));
-        assertEquals("webmodule3.jar", webUris.get(2));
+        Assertions.assertEquals(3, webUris.size());
+        Assertions.assertEquals("webmodule1.jar", webUris.get(0));
+        Assertions.assertEquals("webmodule2.jar", webUris.get(1));
+        Assertions.assertEquals("webmodule3.jar", webUris.get(2));
     }
 
     /**
@@ -141,6 +148,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetWebModuleContextRootUndefined() throws Exception
     {
         String xml = "<application>"
@@ -154,7 +162,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         try
         {
             applicationXml.getWebModuleContextRoot("webmodule.jar");
-            fail("IllegalArgumentException expected");
+            Assertions.fail("IllegalArgumentException expected");
         }
         catch (IllegalArgumentException expected)
         {
@@ -168,6 +176,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetWebModuleContextRootSingleWebModule() throws Exception
     {
         String xml = "<application>"
@@ -181,7 +190,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
-        assertEquals("/webmodule",
+        Assertions.assertEquals("/webmodule",
             applicationXml.getWebModuleContextRoot("webmodule.jar"));
     }
 
@@ -191,6 +200,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetWebModuleContextRootMultipleWebModules() throws Exception
     {
         String xml = "<application>"
@@ -216,11 +226,11 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
         ApplicationXml applicationXml = ApplicationXmlIo.parseApplicationXml(
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
-        assertEquals("/webmodule1",
+        Assertions.assertEquals("/webmodule1",
             applicationXml.getWebModuleContextRoot("webmodule1.jar"));
-        assertEquals("/webmodule2",
+        Assertions.assertEquals("/webmodule2",
             applicationXml.getWebModuleContextRoot("webmodule2.jar"));
-        assertEquals("/webmodule3",
+        Assertions.assertEquals("/webmodule3",
             applicationXml.getWebModuleContextRoot("webmodule3.jar"));
     }
 
@@ -229,6 +239,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbModule() throws Exception
     {
         String xml = "<application></application>";
@@ -240,8 +251,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
 
         // Extract all ejbmodules, should be just one
         List<String> ejbModules = applicationXml.getEjbModules();
-        assertEquals(1, ejbModules.size());
-        assertEquals("ejbmodule1.jar", ejbModules.get(0));
+        Assertions.assertEquals(1, ejbModules.size());
+        Assertions.assertEquals("ejbmodule1.jar", ejbModules.get(0));
     }
 
     /**
@@ -249,6 +260,7 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetEjbModules() throws Exception
     {
         String xml = "<application>"
@@ -264,8 +276,8 @@ public final class ApplicationXmlTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)), null);
 
         List<String> ejbModules = applicationXml.getEjbModules();
-        assertEquals(2, ejbModules.size());
-        assertEquals("myFirstEjb.jar", ejbModules.get(0));
-        assertEquals("mySecondEjb.jar", ejbModules.get(1));
+        Assertions.assertEquals(2, ejbModules.size());
+        Assertions.assertEquals("myFirstEjb.jar", ejbModules.get(0));
+        Assertions.assertEquals("mySecondEjb.jar", ejbModules.get(1));
     }
 }

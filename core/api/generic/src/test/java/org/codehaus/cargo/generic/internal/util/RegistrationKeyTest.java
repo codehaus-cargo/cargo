@@ -19,18 +19,20 @@
  */
 package org.codehaus.cargo.generic.internal.util;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerType;
 
 /**
  * Unit tests for {@link org.codehaus.cargo.generic.internal.util.RegistrationKey}.
  */
-public class RegistrationKeyTest extends TestCase
+public class RegistrationKeyTest
 {
     /**
      * Test equality.
      */
+    @Test
     public void testEquality()
     {
         RegistrationKey key1 = new RegistrationKey(new SimpleContainerIdentity("container"),
@@ -54,19 +56,19 @@ public class RegistrationKeyTest extends TestCase
         RegistrationKey key10 = new RegistrationKey(new FullContainerIdentity("container",
             ContainerType.INSTALLED), "otherHint");
 
-        assertTrue(key1.equals(key2));
-        assertTrue(key1.hashCode() == key2.hashCode());
+        Assertions.assertTrue(key1.equals(key2));
+        Assertions.assertTrue(key1.hashCode() == key2.hashCode());
 
-        assertFalse(key1.equals(key3));
-        assertFalse(key1.equals(key4));
-        assertFalse(key1.equals(key5));
-        assertFalse(key1.equals(key6));
+        Assertions.assertFalse(key1.equals(key3));
+        Assertions.assertFalse(key1.equals(key4));
+        Assertions.assertFalse(key1.equals(key5));
+        Assertions.assertFalse(key1.equals(key6));
 
-        assertTrue(key6.equals(key7));
-        assertTrue(key6.hashCode() == key7.hashCode());
+        Assertions.assertTrue(key6.equals(key7));
+        Assertions.assertTrue(key6.hashCode() == key7.hashCode());
 
-        assertFalse(key6.equals(key8));
-        assertFalse(key6.equals(key9));
-        assertFalse(key6.equals(key10));
+        Assertions.assertFalse(key6.equals(key8));
+        Assertions.assertFalse(key6.equals(key9));
+        Assertions.assertFalse(key6.equals(key10));
     }
 }

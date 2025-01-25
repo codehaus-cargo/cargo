@@ -21,64 +21,68 @@ package org.codehaus.cargo.module;
 
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link Dtd}.
  */
-public class DtdTest extends TestCase
+public class DtdTest
 {
     /**
      * Test that we can handle "zero or more" type.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCanHandleZeroOrMore() throws Exception
     {
         Dtd dtd = new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd");
         List<DescriptorTag> elementOrder = dtd.getElementOrder("web-resource-collection");
-        assertEquals(4, elementOrder.size());
+        Assertions.assertEquals(4, elementOrder.size());
         DescriptorTag tag = elementOrder.get(0);
-        assertEquals("web-resource-name", tag.getTagName());
-        assertFalse(tag.isMultipleAllowed());
+        Assertions.assertEquals("web-resource-name", tag.getTagName());
+        Assertions.assertFalse(tag.isMultipleAllowed());
         tag = elementOrder.get(1);
-        assertEquals("description", tag.getTagName());
-        assertFalse(tag.isMultipleAllowed());
+        Assertions.assertEquals("description", tag.getTagName());
+        Assertions.assertFalse(tag.isMultipleAllowed());
         tag = elementOrder.get(2);
-        assertEquals("url-pattern", tag.getTagName());
-        assertTrue(tag.isMultipleAllowed());
+        Assertions.assertEquals("url-pattern", tag.getTagName());
+        Assertions.assertTrue(tag.isMultipleAllowed());
         tag = elementOrder.get(3);
-        assertEquals("http-method", tag.getTagName());
-        assertTrue(tag.isMultipleAllowed());
+        Assertions.assertEquals("http-method", tag.getTagName());
+        Assertions.assertTrue(tag.isMultipleAllowed());
     }
 
     /**
      * Test that we can handle "one or more" type.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCanHandleOneOrMore() throws Exception
     {
         Dtd dtd = new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd");
         List<DescriptorTag> elementOrder = dtd.getElementOrder("security-constraint");
-        assertEquals(4, elementOrder.size());
+        Assertions.assertEquals(4, elementOrder.size());
         DescriptorTag tag = elementOrder.get(1);
-        assertEquals("web-resource-collection", tag.getTagName());
-        assertTrue(tag.isMultipleAllowed());
+        Assertions.assertEquals("web-resource-collection", tag.getTagName());
+        Assertions.assertTrue(tag.isMultipleAllowed());
     }
 
     /**
      * Test that we can handle "or" type.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCanHandleOr() throws Exception
     {
         Dtd dtd = new Dtd("http://java.sun.com/dtd/web-app_2_3.dtd");
         List<DescriptorTag> elementOrder = dtd.getElementOrder("error-page");
-        assertEquals(3, elementOrder.size());
+        Assertions.assertEquals(3, elementOrder.size());
         DescriptorTag tag = elementOrder.get(0);
-        assertEquals("error-code", tag.getTagName());
+        Assertions.assertEquals("error-code", tag.getTagName());
         tag = elementOrder.get(1);
-        assertEquals("exception-type", tag.getTagName());
+        Assertions.assertEquals("exception-type", tag.getTagName());
         tag = elementOrder.get(2);
-        assertEquals("location", tag.getTagName());
+        Assertions.assertEquals("location", tag.getTagName());
     }
 }

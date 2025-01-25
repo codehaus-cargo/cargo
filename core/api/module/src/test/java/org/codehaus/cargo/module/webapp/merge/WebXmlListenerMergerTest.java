@@ -26,11 +26,14 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.elements.Listener;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXmlMerger}.
@@ -41,6 +44,7 @@ public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
      * Test for CARGO-409 that merging listeners does not mess with the order.
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeListeners() throws Exception
     {
         String file1 = "<web-app>\r\n"
@@ -99,11 +103,11 @@ public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
         merger.merge(file2WebXml);
 
         List<Element> ejbRefs = file1WebXml.getElements("listener");
-        assertEquals(4, ejbRefs.size());
-        assertEquals(((Listener) ejbRefs.get(0)).getListenerClass(), "file1-lc1");
-        assertEquals(((Listener) ejbRefs.get(1)).getListenerClass(), "file1-lc2");
-        assertEquals(((Listener) ejbRefs.get(2)).getListenerClass(), "file2-lc1");
-        assertEquals(((Listener) ejbRefs.get(3)).getListenerClass(), "file2-lc2");
+        Assertions.assertEquals(4, ejbRefs.size());
+        Assertions.assertEquals(((Listener) ejbRefs.get(0)).getListenerClass(), "file1-lc1");
+        Assertions.assertEquals(((Listener) ejbRefs.get(1)).getListenerClass(), "file1-lc2");
+        Assertions.assertEquals(((Listener) ejbRefs.get(2)).getListenerClass(), "file2-lc1");
+        Assertions.assertEquals(((Listener) ejbRefs.get(3)).getListenerClass(), "file2-lc2");
     }
 
     /**
@@ -111,6 +115,7 @@ public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
      * xmlns attribute
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeListenersWithNamespaces() throws Exception
     {
         String file1 = "<web-app xmlns=\"http://java.sun.com/xml/ns/javaee\">\r\n"
@@ -169,10 +174,10 @@ public final class WebXmlListenerMergerTest extends AbstractDocumentBuilderTest
         merger.merge(file2WebXml);
 
         List<Element> ejbRefs = file1WebXml.getElements("listener");
-        assertEquals(4, ejbRefs.size());
-        assertEquals(((Listener) ejbRefs.get(0)).getListenerClass(), "file1-lc1");
-        assertEquals(((Listener) ejbRefs.get(1)).getListenerClass(), "file1-lc2");
-        assertEquals(((Listener) ejbRefs.get(2)).getListenerClass(), "file2-lc1");
-        assertEquals(((Listener) ejbRefs.get(3)).getListenerClass(), "file2-lc2");
+        Assertions.assertEquals(4, ejbRefs.size());
+        Assertions.assertEquals(((Listener) ejbRefs.get(0)).getListenerClass(), "file1-lc1");
+        Assertions.assertEquals(((Listener) ejbRefs.get(1)).getListenerClass(), "file1-lc2");
+        Assertions.assertEquals(((Listener) ejbRefs.get(2)).getListenerClass(), "file2-lc1");
+        Assertions.assertEquals(((Listener) ejbRefs.get(3)).getListenerClass(), "file2-lc2");
     }
 }

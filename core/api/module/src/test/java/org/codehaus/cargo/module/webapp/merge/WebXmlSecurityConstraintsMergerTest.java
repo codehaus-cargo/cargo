@@ -25,6 +25,9 @@ package org.codehaus.cargo.module.webapp.merge;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
@@ -41,6 +44,7 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneSecurityConstraintIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -61,8 +65,8 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
-        assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
+        Assertions.assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
+        Assertions.assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
     }
 
     /**
@@ -70,6 +74,7 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeMultipleSecurityConstraintsForDifferentPatterns() throws Exception
     {
         String srcXml = "<web-app>"
@@ -100,9 +105,9 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
-        assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
-        assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s3/*"));
+        Assertions.assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
+        Assertions.assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
+        Assertions.assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s3/*"));
     }
 
     /**
@@ -110,6 +115,7 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeMultipleSecurityConstraintsOfSamePattern() throws Exception
     {
         String srcXml = "<web-app>"
@@ -140,7 +146,7 @@ public class WebXmlSecurityConstraintsMergerTest extends AbstractDocumentBuilder
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
-        assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
+        Assertions.assertNotNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s1/*"));
+        Assertions.assertNull(WebXmlUtils.getSecurityConstraint(srcWebXml, "/s2/*"));
     }
 }

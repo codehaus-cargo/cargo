@@ -24,7 +24,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
@@ -38,12 +38,13 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link JBoss4xRemoteDeployer}.
  */
-public class JBoss4xRemoteDeployerTest extends TestCase
+public class JBoss4xRemoteDeployerTest
 {
     /**
      * Test create JBoss remote URL for deploy.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateJBossRemoteURLForDeploy() throws Exception
     {
         RuntimeConfiguration mockConfiguration = Mockito.mock(RuntimeConfiguration.class);

@@ -23,7 +23,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -32,7 +33,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test the in-place development functionality.
  */
-public class InPlaceDevelopmentTest extends TestCase
+public class InPlaceDevelopmentTest
 {
 
     /**
@@ -44,6 +45,7 @@ public class InPlaceDevelopmentTest extends TestCase
      * Test the in-place development functionality.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testInPlaceDevelopment() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -54,7 +56,7 @@ public class InPlaceDevelopmentTest extends TestCase
 
         final String modifiedExpected = "Modified page for testing";
         File index = new File(System.getProperty("expandedWebapp.directory"), "index.html");
-        assertTrue(index + " does not exist", index.isFile());
+        Assertions.assertTrue(index.isFile(), index + " does not exist");
         try (FileWriter writer = new FileWriter(index))
         {
             writer.write(modifiedExpected);

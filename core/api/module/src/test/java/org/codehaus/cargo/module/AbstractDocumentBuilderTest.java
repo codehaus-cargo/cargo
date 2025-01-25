@@ -23,7 +23,7 @@ import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
 
 import org.jdom2.input.SAXBuilder;
 import org.xml.sax.EntityResolver;
@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
  * Helper {@link TestCase} that provides a {@link TestCase#setUp} method that creates a
  * {@link javax.xml.parsers.DocumentBuilder}.
  */
-public abstract class AbstractDocumentBuilderTest extends TestCase
+public abstract class AbstractDocumentBuilderTest
 {
     /**
      * The document builder factory.
@@ -63,11 +63,10 @@ public abstract class AbstractDocumentBuilderTest extends TestCase
     }
 
     /**
-     * @see TestCase#setUp
-     * @throws Exception If anything goes wrong.
+     * Create the document builder factory and SAX builder.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
         this.factory = DocumentBuilderFactory.newInstance();
         this.factory.setValidating(false);

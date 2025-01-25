@@ -30,8 +30,6 @@ updates:
       - dependency-name: "jakarta:servlet-api"
       - dependency-name: "javax.mail:mail"
       - dependency-name: "javax.servlet:servlet-api"
-      - dependency-name: "junit:junit"
-        versions: ["[4.0,)"]
       - dependency-name: "org.apache.ant:ant"
         versions: ["[1.10,)"]
       - dependency-name: "org.apache.derby:derby"

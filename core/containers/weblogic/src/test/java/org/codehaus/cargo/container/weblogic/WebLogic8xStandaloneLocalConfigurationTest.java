@@ -20,6 +20,12 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.nio.charset.StandardCharsets;
+
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -29,8 +35,6 @@ import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xConfigurationChecker;
 import org.codehaus.cargo.util.XmlUtils;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.w3c.dom.Document;
 
 /**
  * Unit tests for {@link WebLogic8xStandaloneLocalConfiguration}.
@@ -84,14 +88,16 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
      * Test configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConfigure() throws Exception
     {
         configuration.configure(container);
 
-        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/config.xml"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(
+            configuration.getFileHandler().exists(configuration.getHome() + "/config.xml"));
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/DefaultAuthenticatorInit.ldift"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/applications/cargocpc.war"));
     }
 
@@ -99,6 +105,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
      * Test default port.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
         configuration.configure(container);
@@ -112,6 +119,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
      * Test changed port.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsPort() throws Exception
     {
         configuration.setProperty(ServletPropertySet.PORT, "123");
@@ -125,6 +133,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
      * Test WAR creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureCreatesWar() throws Exception
     {
         configuration.addDeployable(new WAR("my.war"));
@@ -138,6 +147,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
      * Test address.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.configure(container);
@@ -151,6 +161,7 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
      * Test changed address.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsAddress() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.HOSTNAME, "localhost");

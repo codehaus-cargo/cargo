@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.sample.maven3.wildfly.swarm;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import java.net.URL;
 /**
  * Simple WildFly Swarm integration test.
  * */
-public class WildFlySwarmIT extends TestCase
+public class WildFlySwarmIT
 {
     /**
      * Logger.
@@ -41,6 +41,7 @@ public class WildFlySwarmIT extends TestCase
      * Test WildFly Swarm is running and test servlet responds.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSimpleServlet() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port"));

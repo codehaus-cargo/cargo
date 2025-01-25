@@ -22,7 +22,9 @@ package org.codehaus.cargo.maven3;
 import java.io.File;
 import java.util.Collections;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.cargo.container.ContainerException;
@@ -38,7 +40,7 @@ import org.codehaus.cargo.util.log.Logger;
 /**
  * Unit tests for {@link AbstractCargoMojo}.
  */
-public class CargoMojoTest extends TestCase
+public class CargoMojoTest
 {
     /**
      * {@link AbstractCargoMojo} for testing.
@@ -69,9 +71,9 @@ public class CargoMojoTest extends TestCase
     private TestableAbstractCargoMojo mojo;
 
     /**
-     * {@inheritDoc}. Create the {@link AbstractCargoMojo} for testing.
+     * Create the {@link AbstractCargoMojo} for testing.
      */
-    @Override
+    @BeforeEach
     protected void setUp()
     {
         this.mojo = new TestableAbstractCargoMojo();
@@ -80,15 +82,16 @@ public class CargoMojoTest extends TestCase
     /**
      * Test the calculation of container artifact IDs.
      */
+    @Test
     public void testCalculateContainerArtifactId()
     {
-        assertEquals(
+        Assertions.assertEquals(
             "cargo-core-container-jboss",
                 AbstractCargoMojo.calculateContainerArtifactId("jboss42x"));
-        assertEquals(
+        Assertions.assertEquals(
             "cargo-core-container-oc4j",
                 AbstractCargoMojo.calculateContainerArtifactId("oc4j10x"));
-        assertEquals(
+        Assertions.assertEquals(
             "cargo-core-container-liberty",
                 AbstractCargoMojo.calculateContainerArtifactId("liberty"));
     }
@@ -96,13 +99,14 @@ public class CargoMojoTest extends TestCase
     /**
      * Test the calculation of container artifacts.
      */
+    @Test
     public void testCalculateContainerArtifact()
     {
         try
         {
             AbstractCargoMojo.calculateArtifact(
                 "https://dllegacy.ow2.org/jonas/jonas4.10.9-tomcat5.5.28.tgz");
-            fail("Non Maven artifact somehow parsed");
+            Assertions.fail("Non Maven artifact somehow parsed");
         }
         catch (IllegalArgumentException expected)
         {
@@ -112,35 +116,37 @@ public class CargoMojoTest extends TestCase
         ArtifactInstaller installer = AbstractCargoMojo.calculateArtifact(
             "https://repo.maven.apache.org/maven2/org/eclipse/jetty/"
                 + "jetty-home/11.0.23/jetty-home-11.0.23.tar.gz");
-        assertEquals("org.eclipse.jetty", installer.getGroupId());
-        assertEquals("jetty-home", installer.getArtifactId());
-        assertEquals("11.0.23", installer.getVersion());
-        assertEquals("tar.gz", installer.getType());
-        assertNull(installer.getClassifier());
+        Assertions.assertEquals("org.eclipse.jetty", installer.getGroupId());
+        Assertions.assertEquals("jetty-home", installer.getArtifactId());
+        Assertions.assertEquals("11.0.23", installer.getVersion());
+        Assertions.assertEquals("tar.gz", installer.getType());
+        Assertions.assertNull(installer.getClassifier());
 
         installer = AbstractCargoMojo.calculateArtifact(
             "https://repo.maven.apache.org/maven2/org/ow2/jonas/assemblies/profiles/legacy/"
                 + "jonas-full/5.3.0/jonas-full-5.3.0-bin.tar.gz");
-        assertEquals("org.ow2.jonas.assemblies.profiles.legacy", installer.getGroupId());
-        assertEquals("jonas-full", installer.getArtifactId());
-        assertEquals("5.3.0", installer.getVersion());
-        assertEquals("tar.gz", installer.getType());
-        assertEquals("bin", installer.getClassifier());
+        Assertions.assertEquals(
+            "org.ow2.jonas.assemblies.profiles.legacy", installer.getGroupId());
+        Assertions.assertEquals("jonas-full", installer.getArtifactId());
+        Assertions.assertEquals("5.3.0", installer.getVersion());
+        Assertions.assertEquals("tar.gz", installer.getType());
+        Assertions.assertEquals("bin", installer.getClassifier());
 
         installer = AbstractCargoMojo.calculateArtifact(
             "https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/"
                 + "geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip");
-        assertEquals("org.apache.geronimo.assemblies", installer.getGroupId());
-        assertEquals("geronimo-tomcat7-javaee6", installer.getArtifactId());
-        assertEquals("3.0.1", installer.getVersion());
-        assertEquals("zip", installer.getType());
-        assertEquals("bin", installer.getClassifier());
+        Assertions.assertEquals("org.apache.geronimo.assemblies", installer.getGroupId());
+        Assertions.assertEquals("geronimo-tomcat7-javaee6", installer.getArtifactId());
+        Assertions.assertEquals("3.0.1", installer.getVersion());
+        Assertions.assertEquals("zip", installer.getType());
+        Assertions.assertEquals("bin", installer.getClassifier());
     }
 
     /**
      * Test logger creation when a log element is specified.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateLoggerWhenLogElementSpecified() throws Exception
     {
         // Create temporary log file for the test
@@ -151,22 +157,24 @@ public class CargoMojoTest extends TestCase
         this.mojo.getContainerElement().setLog(logFile);
 
         Logger logger = this.mojo.createLogger();
-        assertEquals(FileLogger.class.getName(), logger.getClass().getName());
+        Assertions.assertEquals(FileLogger.class.getName(), logger.getClass().getName());
     }
 
     /**
      * Test logger creation when no log element is specified.
      */
+    @Test
     public void testCreateLoggerWhenLogElementNotSpecified()
     {
         Logger logger = this.mojo.createLogger();
-        assertEquals(MavenLogger.class.getName(), logger.getClass().getName());
+        Assertions.assertEquals(MavenLogger.class.getName(), logger.getClass().getName());
     }
 
     /**
      * Test the replacement with absolute directories.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testAbsoluteDirectoryReplacement() throws Exception
     {
         this.mojo.setContainerElement(new Container());
@@ -180,16 +188,24 @@ public class CargoMojoTest extends TestCase
         this.mojo.getContainerElement().setArtifactInstaller(new ArtifactInstaller());
         this.mojo.getContainerElement().getArtifactInstaller().setExtractDir("artifact-dir");
 
-        assertFalse("Container home is already absolute",
-            new File(this.mojo.getContainerElement().getHome()).isAbsolute());
-        assertFalse("Container configuration home is already absolute",
-            new File(this.mojo.getConfigurationElement().getHome()).isAbsolute());
-        assertFalse("Zip URL installer download directory is already absolute", new File(
-            this.mojo.getContainerElement().getZipUrlInstaller().getDownloadDir()).isAbsolute());
-        assertFalse("Zip URL installer extract directory is already absolute", new File(
-            this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir()).isAbsolute());
-        assertFalse("Artifact installer extract directory is already absolute", new File(
-            this.mojo.getContainerElement().getArtifactInstaller().getExtractDir()).isAbsolute());
+        Assertions.assertFalse(
+            new File(this.mojo.getContainerElement().getHome()).isAbsolute(),
+                "Container home is already absolute");
+        Assertions.assertFalse(
+            new File(this.mojo.getConfigurationElement().getHome()).isAbsolute(),
+                "Container configuration home is already absolute");
+        Assertions.assertFalse(
+            new File(this.mojo.getContainerElement().getZipUrlInstaller().getDownloadDir())
+                .isAbsolute(),
+                "Zip URL installer download directory is already absolute");
+        Assertions.assertFalse(
+            new File(this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir())
+                .isAbsolute(),
+                "Zip URL installer extract directory is already absolute");
+        Assertions.assertFalse(
+            new File(this.mojo.getContainerElement().getArtifactInstaller().getExtractDir())
+                .isAbsolute(),
+                "Artifact installer extract directory is already absolute");
 
         try
         {
@@ -198,34 +214,44 @@ public class CargoMojoTest extends TestCase
         catch (ContainerException e)
         {
             // This is expected to fail since there is no container called dummy-container
-            assertTrue(
-                "Exception message [" + e.getMessage() + "] doesn't contain dummy-container",
-                    e.getMessage().contains("dummy-container"));
+            Assertions.assertTrue(
+                e.getMessage().contains("dummy-container"),
+                    "Exception message [" + e.getMessage() + "] doesn't contain dummy-container");
         }
 
-        assertTrue("Container home is not absolute",
-            new File(this.mojo.getContainerElement().getHome()).isAbsolute());
-        assertTrue("Container configuration home is not absolute",
-            new File(this.mojo.getConfigurationElement().getHome()).isAbsolute());
-        assertTrue("Zip URL installer download directory is not absolute", new File(
-            this.mojo.getContainerElement().getZipUrlInstaller().getDownloadDir()).isAbsolute());
-        assertTrue("Zip URL installer extract directory is not absolute", new File(
-            this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir()).isAbsolute());
-        assertTrue("Artifact installer extract directory is not absolute", new File(
-            this.mojo.getContainerElement().getArtifactInstaller().getExtractDir()).isAbsolute());
+        Assertions.assertTrue(
+            new File(this.mojo.getContainerElement().getHome()).isAbsolute(),
+                "Container home is not absolute");
+        Assertions.assertTrue(
+            new File(this.mojo.getConfigurationElement().getHome()).isAbsolute(),
+                "Container configuration home is not absolute");
+        Assertions.assertTrue(
+            new File(this.mojo.getContainerElement().getZipUrlInstaller().getDownloadDir())
+                .isAbsolute(),
+                "Zip URL installer download directory is not absolute");
+        Assertions.assertTrue(
+            new File(this.mojo.getContainerElement().getZipUrlInstaller().getExtractDir())
+                .isAbsolute(),
+                "Zip URL installer extract directory is not absolute");
+        Assertions.assertTrue(
+            new File(this.mojo.getContainerElement().getArtifactInstaller().getExtractDir())
+                .isAbsolute(),
+                "Artifact installer extract directory is not absolute");
     }
 
     /**
      * Test the default installer element.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDefaultInstallerElement() throws Exception
     {
         this.mojo.setContainerElement(new Container());
         this.mojo.getContainerElement().setContainerId("tomcat6x");
 
-        assertNull("Container installer already set",
-            this.mojo.getContainerElement().getZipUrlInstaller());
+        Assertions.assertNull(
+            this.mojo.getContainerElement().getZipUrlInstaller(),
+                "Container installer already set");
 
         try
         {
@@ -234,14 +260,16 @@ public class CargoMojoTest extends TestCase
         catch (ContainerException e)
         {
             // This is expected to fail since the Tomcat dependency hasn't been loaded
-            assertTrue(
-                "Exception message [" + e.getMessage() + "] doesn't contain tomcat6x",
-                    e.getMessage().contains("tomcat6x"));
+            Assertions.assertTrue(
+                e.getMessage().contains("tomcat6x"),
+                    "Exception message [" + e.getMessage() + "] doesn't contain tomcat6x");
         }
 
-        assertNotNull("Container installer not set",
-            this.mojo.getContainerElement().getZipUrlInstaller());
-        assertNotNull("Container installer URL not set",
-            this.mojo.getContainerElement().getZipUrlInstaller().getUrl());
+        Assertions.assertNotNull(
+            this.mojo.getContainerElement().getZipUrlInstaller(),
+                "Container installer not set");
+        Assertions.assertNotNull(
+            this.mojo.getContainerElement().getZipUrlInstaller().getUrl(),
+                "Container installer URL not set");
     }
 }

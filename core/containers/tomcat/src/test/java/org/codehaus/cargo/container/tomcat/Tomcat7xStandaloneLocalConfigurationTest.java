@@ -22,10 +22,13 @@ package org.codehaus.cargo.container.tomcat;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Tests for the Tomcat 7 implementation of StandaloneLocalConfigurationTest
@@ -74,11 +77,12 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     /**
      * Checks the activation of multipart parsing.
      */
+    @Test
     public void testExtraContextAttributes()
     {
-        assertTrue(Boolean.parseBoolean(
+        Assertions.assertTrue(Boolean.parseBoolean(
             configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART)));
-        assertTrue(Boolean.parseBoolean(
+        Assertions.assertTrue(Boolean.parseBoolean(
             configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS)));
     }
 
@@ -86,6 +90,7 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
      * Assert that the attribute 'startStopThreads' isn't added if the property isn't set.
      * @throws Exception If anything does wrong.
      */
+    @Test
     public void testConfigureWithoutHostStartStopThreads() throws Exception
     {
         configuration.configure(container);

@@ -21,11 +21,13 @@ package org.codehaus.cargo.ant;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -38,7 +40,7 @@ import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 /**
  * Unit tests for {@link CargoTask}.
  */
-public class CargoTaskTest extends TestCase
+public class CargoTaskTest
 {
     /**
      * Cargo Ant task.
@@ -51,21 +53,19 @@ public class CargoTaskTest extends TestCase
     private ConfigurationElement configurationElement;
 
     /**
-     * Creates the various Ant task attributes. {@inheritDoc}
+     * Creates the various Ant task attributes.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         Project antProject = new Project();
         antProject.init();
 
         this.task = new CargoTask();
 
         this.task.setProject(antProject);
-        this.task.setContainerId(getName());
+        this.task.setContainerId("dummy-containerid");
         this.task.setClass(InstalledLocalContainerStub.class);
         this.configurationElement = this.task.createConfiguration();
         this.configurationElement.setClass(StandaloneLocalConfigurationStub.class);
@@ -76,6 +76,7 @@ public class CargoTaskTest extends TestCase
     /**
      * Test the creation of a container with one deployable.
      */
+    @Test
     public void testMakeContainerWithOneDeployable()
     {
         CargoTask task = new CargoTask();
@@ -93,18 +94,19 @@ public class CargoTaskTest extends TestCase
 
         LocalContainer container = (LocalContainer) task.makeContainer();
 
-        assertEquals(Resin3xStandaloneLocalConfiguration.class.getName(),
+        Assertions.assertEquals(Resin3xStandaloneLocalConfiguration.class.getName(),
             container.getConfiguration().getClass().getName());
-        assertEquals(1, container.getConfiguration().getDeployables().size());
+        Assertions.assertEquals(1, container.getConfiguration().getDeployables().size());
 
         Deployable deployable = container.getConfiguration().getDeployables().get(0);
-        assertEquals(WAR.class.getName(), deployable.getClass().getName());
-        assertEquals("some/war", deployable.getFile());
+        Assertions.assertEquals(WAR.class.getName(), deployable.getClass().getName());
+        Assertions.assertEquals("some/war", deployable.getFile());
     }
 
     /**
      * Test execution with a valid <code>RefId</code>.
      */
+    @Test
     public void testExecuteWhenUsingValidRefId()
     {
         this.task.setId("testRefId");
@@ -121,6 +123,7 @@ public class CargoTaskTest extends TestCase
     /**
      * Test execution with an invalid <code>RefId</code>.
      */
+    @Test
     public void testExecuteWhenUsingInvalidRefId()
     {
         this.task.setRefId(new Reference("someInexistentReference"));
@@ -128,56 +131,61 @@ public class CargoTaskTest extends TestCase
         try
         {
             this.task.execute();
-            fail("Should have thrown an exception for a non-inexistent reference here");
+            Assertions.fail("Should have thrown an exception for a non-inexistent reference here");
         }
         catch (BuildException expected)
         {
-            assertEquals("The [someInexistentReference] reference does not exist. You must first "
-                + "define a Cargo container reference.", expected.getMessage());
+            Assertions.assertEquals(
+                "The [someInexistentReference] reference does not exist. You must first "
+                    + "define a Cargo container reference.", expected.getMessage());
         }
     }
 
     /**
      * Test execution with no action.
      */
+    @Test
     public void testExecuteWithNoAction()
     {
         try
         {
             this.task.execute();
-            fail("Should have thrown an exception because an action must be specified unless the "
-                + "id attribute is set");
+            Assertions.fail(
+                "Should have thrown an exception because an action must be specified unless the "
+                    + "id attribute is set");
         }
         catch (BuildException expected)
         {
             final String messageStart = "You must specify an [action] attribute with values ";
-            assertTrue(expected.getMessage() + " does not start with: " + messageStart,
-                expected.getMessage().startsWith(messageStart));
+            Assertions.assertTrue(expected.getMessage().startsWith(messageStart),
+                expected.getMessage() + " does not start with: " + messageStart);
         }
     }
 
     /**
      * Test execution with invalid action.
      */
+    @Test
     public void testExecuteWithInvalidAction()
     {
         try
         {
             this.task.setAction("invalidAction");
             this.task.execute();
-            fail("Should have thrown an exception for invalid action");
+            Assertions.fail("Should have thrown an exception for invalid action");
         }
         catch (BuildException expected)
         {
             final String messageStart = "Unknown action: ";
-            assertTrue(expected.getMessage() + " does not start with: " + messageStart,
-                expected.getMessage().startsWith(messageStart));
+            Assertions.assertTrue(expected.getMessage().startsWith(messageStart),
+                expected.getMessage() + " does not start with: " + messageStart);
         }
     }
 
     /**
      * Test execution with action <code>stop</code>.
      */
+    @Test
     public void testExecuteStopOk()
     {
         this.task.setAction("stop");
@@ -188,6 +196,7 @@ public class CargoTaskTest extends TestCase
     /**
      * Test the replacement with absolute directories.
      */
+    @Test
     public void testAbsoluteDirectoryReplacement()
     {
         this.task.setAction("stop");
@@ -197,24 +206,28 @@ public class CargoTaskTest extends TestCase
         this.task.createZipURLInstaller().setDownloadDir("downlad-dir");
         this.task.createZipURLInstaller().setExtractDir("extract-dir");
 
-        assertFalse("Container home is already absolute",
-            new File(this.task.getHome()).isAbsolute());
-        assertFalse("Container configuration home is already absolute",
-            new File(this.task.getConfiguration().getHome()).isAbsolute());
-        assertFalse("Zip URL installer download directory is already absolute",
-            new File(this.task.getZipURLInstaller().getDownloadDir()).isAbsolute());
-        assertFalse("Zip URL installer extract directory is already absolute",
-            new File(this.task.getZipURLInstaller().getExtractDir()).isAbsolute());
+        Assertions.assertFalse(new File(this.task.getHome()).isAbsolute(),
+            "Container home is already absolute");
+        Assertions.assertFalse(new File(this.task.getConfiguration().getHome()).isAbsolute(),
+            "Container configuration home is already absolute");
+        Assertions.assertFalse(
+            new File(this.task.getZipURLInstaller().getDownloadDir()).isAbsolute(),
+                "Zip URL installer download directory is already absolute");
+        Assertions.assertFalse(
+            new File(this.task.getZipURLInstaller().getExtractDir()).isAbsolute(),
+                "Zip URL installer extract directory is already absolute");
 
         this.task.execute();
 
-        assertTrue("Container home is not absolute",
-            new File(this.task.getHome()).isAbsolute());
-        assertTrue("Container configuration home is not absolute",
-            new File(this.task.getConfiguration().getHome()).isAbsolute());
-        assertTrue("Zip URL installer download directory is not absolute",
-            new File(this.task.getZipURLInstaller().getDownloadDir()).isAbsolute());
-        assertTrue("Zip URL installer extract directory is not absolute",
-            new File(this.task.getZipURLInstaller().getExtractDir()).isAbsolute());
+        Assertions.assertTrue(new File(this.task.getHome()).isAbsolute(),
+            "Container home is not absolute");
+        Assertions.assertTrue(new File(this.task.getConfiguration().getHome()).isAbsolute(),
+            "Container configuration home is not absolute");
+        Assertions.assertTrue(
+            new File(this.task.getZipURLInstaller().getDownloadDir()).isAbsolute(),
+                "Zip URL installer download directory is not absolute");
+        Assertions.assertTrue(
+            new File(this.task.getZipURLInstaller().getExtractDir()).isAbsolute(),
+                "Zip URL installer extract directory is not absolute");
     }
 }

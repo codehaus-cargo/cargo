@@ -23,23 +23,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for the XML Replacements option.
  */
-public class XmlReplacementsTest extends TestCase
+public class XmlReplacementsTest
 {
 
     /**
      * Test XML replacements.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testXmlReplacements() throws Exception
     {
         String lookFor = "test-xmlreplacement-attribute=\"test-xmlreplacement-value\"";
         File serverXml = new File("target/catalina-base/conf/server.xml");
-        assertTrue(serverXml + " is not a file", serverXml.isFile());
+        Assertions.assertTrue(serverXml.isFile(), serverXml + " is not a file");
 
         try (BufferedReader serverXmlReader = new BufferedReader(new FileReader(serverXml)))
         {
@@ -52,7 +54,7 @@ public class XmlReplacementsTest extends TestCase
             }
         }
 
-        fail("File " + serverXml + " does not contain: " + lookFor);
+        Assertions.fail("File " + serverXml + " does not contain: " + lookFor);
     }
 
 }

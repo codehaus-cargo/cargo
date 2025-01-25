@@ -22,7 +22,9 @@
  */
 package org.codehaus.cargo.container.jonas.internal;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -30,7 +32,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 /**
  * Unit tests for {@link Jonas4xContainerCapabilityTest}.
  */
-public class Jonas4xContainerCapabilityTest extends TestCase
+public class Jonas4xContainerCapabilityTest
 {
     /**
      * Container capability.
@@ -38,20 +40,18 @@ public class Jonas4xContainerCapabilityTest extends TestCase
     protected ContainerCapability capability;
 
     /**
-     * Creates the test container capability. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the test container capability.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
-
         this.capability = new Jonas4xContainerCapability();
     }
 
     /**
      * test the list of Supported Deployable Types
      */
+    @Test
     public void testSupportedDeployableTypes()
     {
         testSupportedDeployableType(DeployableType.FILE);
@@ -67,7 +67,7 @@ public class Jonas4xContainerCapabilityTest extends TestCase
      */
     private void testSupportedDeployableType(DeployableType type)
     {
-        assertTrue("DeployableType " + type + " is not supported", capability
-            .supportsDeployableType(type));
+        Assertions.assertTrue(capability.supportsDeployableType(type),
+            "DeployableType " + type + " is not supported");
     }
 }

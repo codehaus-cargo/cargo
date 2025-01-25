@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.ant;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -32,11 +33,12 @@ import org.codehaus.cargo.container.stub.StandaloneLocalConfigurationStub;
 /**
  * Unit tests for {@link ConfigurationElement}.
  */
-public class ConfigurationElementTest extends TestCase
+public class ConfigurationElementTest
 {
     /**
      * Test the creation of a standalone configuration with some deployables.
      */
+    @Test
     public void testCreateStandaloneConfigurationWithDeployables()
     {
         ConfigurationElement configElement = new ConfigurationElement();
@@ -61,8 +63,10 @@ public class ConfigurationElementTest extends TestCase
             (LocalConfiguration) configElement.createConfiguration("someContainerId",
                 ContainerType.INSTALLED, null, null);
 
-        assertEquals(2, configuration.getDeployables().size());
-        assertEquals("some/war/file", ((WAR) configuration.getDeployables().get(0)).getFile());
-        assertEquals("some/ear/file", ((EAR) configuration.getDeployables().get(1)).getFile());
+        Assertions.assertEquals(2, configuration.getDeployables().size());
+        Assertions.assertEquals(
+            "some/war/file", ((WAR) configuration.getDeployables().get(0)).getFile());
+        Assertions.assertEquals(
+            "some/ear/file", ((EAR) configuration.getDeployables().get(1)).getFile());
     }
 }

@@ -21,39 +21,49 @@ package org.codehaus.cargo.daemon;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link CargoDaemonAuthenticationFilter}.
  */
-public class CargoDaemonAuthenticationFilterTest extends TestCase
+public class CargoDaemonAuthenticationFilterTest
 {
     /**
      * Tests the {@link CargoDaemonAuthenticationFilter#parsePasswordFile(java.io.InputStream)}
      * method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testParsePasswordFile() throws Exception
     {
         Map<String, PasswordWithHash> usernamePasswords =
             CargoDaemonAuthenticationFilter.parsePasswordFile(
                 this.getClass().getResourceAsStream("/cargo-daemon-passwords-sample.properties"));
 
-        assertTrue(usernamePasswords.containsKey("cargo-daemon-user_"));
-        assertNull(usernamePasswords.get("cargo-daemon-user_"));
+        Assertions.assertTrue(usernamePasswords.containsKey("cargo-daemon-user_"));
+        Assertions.assertNull(usernamePasswords.get("cargo-daemon-user_"));
 
-        assertTrue(usernamePasswords.get("cargo-daemon-user1").matches("cargo-password"));
-        assertFalse(usernamePasswords.get("cargo-daemon-user1").matches("some-other-password"));
+        Assertions.assertTrue(
+            usernamePasswords.get("cargo-daemon-user1").matches("cargo-password"));
+        Assertions.assertFalse(
+            usernamePasswords.get("cargo-daemon-user1").matches("some-other-password"));
 
-        assertTrue(usernamePasswords.get("cargo-daemon-user0").matches("{cargo-password"));
-        assertFalse(usernamePasswords.get("cargo-daemon-user0").matches("some-other-password"));
+        Assertions.assertTrue(
+            usernamePasswords.get("cargo-daemon-user0").matches("{cargo-password"));
+        Assertions.assertFalse(
+            usernamePasswords.get("cargo-daemon-user0").matches("some-other-password"));
 
-        assertTrue(usernamePasswords.get("cargo-daemon-user2").matches("cargo-password"));
-        assertFalse(usernamePasswords.get("cargo-daemon-user2").matches("some-other-password"));
+        Assertions.assertTrue(
+            usernamePasswords.get("cargo-daemon-user2").matches("cargo-password"));
+        Assertions.assertFalse(
+            usernamePasswords.get("cargo-daemon-user2").matches("some-other-password"));
 
-        assertTrue(usernamePasswords.get("cargo-daemon-user3").matches("cargo-password"));
-        assertFalse(usernamePasswords.get("cargo-daemon-user3").matches("some-other-password"));
+        Assertions.assertTrue(
+            usernamePasswords.get("cargo-daemon-user3").matches("cargo-password"));
+        Assertions.assertFalse(
+            usernamePasswords.get("cargo-daemon-user3").matches("some-other-password"));
 
-        assertFalse(usernamePasswords.containsKey("some-other-user"));
+        Assertions.assertFalse(usernamePasswords.containsKey("some-other-user"));
     }
 }

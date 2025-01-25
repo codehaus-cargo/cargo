@@ -24,7 +24,10 @@ package org.codehaus.cargo.container.jonas;
 
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -35,7 +38,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link Jonas5xInstalledLocalContainer}.
  */
-public class Jonas5xInstalledLocalContainerTest extends TestCase
+public class Jonas5xInstalledLocalContainerTest
 {
     /**
      * JONAS_ROOT folder for tests.
@@ -63,14 +66,12 @@ public class Jonas5xInstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -86,37 +87,35 @@ public class Jonas5xInstalledLocalContainerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test system properties.
      */
+    @Test
     public void testSetupSysProps()
     {
         JvmLauncherStub java = new JvmLauncherStub();
         container.setupSysProps(java);
 
         Properties props = java.getSystemProperties();
-        assertEquals(12, props.size());
-        assertTrue(props.getProperty("install.root").endsWith("ram:/jonasroot"));
-        assertTrue(props.getProperty("jonas.base").endsWith("ram:/jonasbase"));
-        assertTrue(props.getProperty("java.endorsed.dirs").endsWith(
+        Assertions.assertEquals(12, props.size());
+        Assertions.assertTrue(props.getProperty("install.root").endsWith("ram:/jonasroot"));
+        Assertions.assertTrue(props.getProperty("jonas.base").endsWith("ram:/jonasbase"));
+        Assertions.assertTrue(props.getProperty("java.endorsed.dirs").endsWith(
             fileHandler.append("ram:/jonasroot", "lib/endorsed")));
-        assertTrue(props.getProperty("java.security.policy").endsWith(
+        Assertions.assertTrue(props.getProperty("java.security.policy").endsWith(
             fileHandler.append("ram:/jonasbase", "conf/java.policy")));
-        assertTrue(props.getProperty("java.security.auth.login.config").endsWith(
+        Assertions.assertTrue(props.getProperty("java.security.auth.login.config").endsWith(
             fileHandler.append("ram:/jonasbase", "conf/jaas.config")));
     }
 

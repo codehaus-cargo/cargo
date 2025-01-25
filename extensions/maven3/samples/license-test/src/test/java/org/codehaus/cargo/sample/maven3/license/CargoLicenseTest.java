@@ -24,12 +24,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the Uberjar to check for license.
  */
-public class CargoLicenseTest extends TestCase
+public class CargoLicenseTest
 {
 
     /**
@@ -37,6 +38,7 @@ public class CargoLicenseTest extends TestCase
      * classes).
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargo1489() throws Exception
     {
         // The Uberjar itself should not contain JOnAS classes
@@ -50,7 +52,7 @@ public class CargoLicenseTest extends TestCase
             try
             {
                 loader.loadClass("org.ow2.jonas.tools.configurator.Jonas");
-                fail("The JOnAS Configurator (LGPL) is in the Uberjar classpath, "
+                Assertions.fail("The JOnAS Configurator (LGPL) is in the Uberjar classpath, "
                     + "this breaks the Codehaus Cargo license (Apache License)");
             }
             catch (ClassNotFoundException expected)
@@ -71,6 +73,7 @@ public class CargoLicenseTest extends TestCase
      * DTDs).
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargo1494() throws Exception
     {
         // The Uberjar itself should not contain licensed DTDs
@@ -82,8 +85,8 @@ public class CargoLicenseTest extends TestCase
             try (InputStream is = loader.getResourceAsStream(
                 "org/codehaus/cargo/module/internal/resource/web-app_3_0.xsd"))
             {
-                assertNull("The licensed DTDs are in the Uberjar classpath, "
-                    + "this breaks the Codehaus Cargo license (Apache License)", is);
+                Assertions.assertNull(is, "The licensed DTDs are in the Uberjar classpath, "
+                    + "this breaks the Codehaus Cargo license (Apache License)");
             }
         }
 
@@ -92,7 +95,8 @@ public class CargoLicenseTest extends TestCase
         try (InputStream is = loader.getResourceAsStream(
             "org/codehaus/cargo/module/internal/resource/web-app_3_0.xsd"))
         {
-            assertNotNull("The licensed DTDs are not in the Uberjar Maven dependency", is);
+            Assertions.assertNotNull(
+                is, "The licensed DTDs are not in the Uberjar Maven dependency");
         }
     }
 

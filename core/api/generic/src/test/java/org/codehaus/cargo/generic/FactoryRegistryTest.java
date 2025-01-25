@@ -19,7 +19,8 @@
  */
 package org.codehaus.cargo.generic;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -35,27 +36,29 @@ import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
  * 
  * The class name can't be {@code AbstractFactoryRegistryTest} or else the test will be skipped.
  */
-public class FactoryRegistryTest extends TestCase
+public class FactoryRegistryTest
 {
     /**
      * Test the {@link DefaultDeployableFactory}.
      */
+    @Test
     public void testDefaultDeployableFactory()
     {
         DefaultDeployableFactory f = new DefaultDeployableFactory(getClass().getClassLoader());
         Deployable war = f.createDeployable("super-container", ".", DeployableType.WAR);
-        assertTrue(war instanceof SuperContainerWar);
+        Assertions.assertTrue(war instanceof SuperContainerWar);
     }
 
     /**
      * Test the {@link ConfigurationCapabilityFactory}.
      */
+    @Test
     public void testConfigurationCapabilityFactory()
     {
         ConfigurationCapabilityFactory f = new DefaultConfigurationCapabilityFactory(getClass()
             .getClassLoader());
         ConfigurationCapability cc = f.createConfigurationCapability("super-container",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-        assertTrue(cc instanceof SuperConfigurationCapability);
+        Assertions.assertTrue(cc instanceof SuperConfigurationCapability);
     }
 }

@@ -24,9 +24,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WeblogicXml}.
@@ -38,6 +41,7 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReferenceDescription() throws Exception
     {
         String xml = "<weblogic-web-app>"
@@ -55,15 +59,15 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
         List<Element> nl = descr.getDocument().getRootElement()
             .getChildren(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
         Element n = nl.get(0);
-        assertEquals("reference-descriptor", n.getName());
+        Assertions.assertEquals("reference-descriptor", n.getName());
         n = (Element) n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
-        assertEquals("ejb-reference-description", n.getName());
+        Assertions.assertEquals("ejb-reference-description", n.getName());
         Element m = (Element) n.getChildren(WeblogicXmlTag.EJB_REF_NAME).get(0);
-        assertEquals("ejb-ref-name", m.getName());
-        assertEquals("foo", m.getText());
+        Assertions.assertEquals("ejb-ref-name", m.getName());
+        Assertions.assertEquals("foo", m.getText());
         m = (Element) n.getChildren(WeblogicXmlTag.JNDI_NAME).get(0);
-        assertEquals("jndi-name", m.getName());
-        assertEquals("fee", m.getText());
+        Assertions.assertEquals("jndi-name", m.getName());
+        Assertions.assertEquals("fee", m.getText());
     }
 
     /**
@@ -71,6 +75,7 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReferenceDescriptionWithNoReferenceDescriptor()
         throws Exception
     {
@@ -88,19 +93,19 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
 
         List<Element> elements = getAllElements(descr.getDocument().getRootElement());
         Element n = elements.get(0);
-        assertEquals("run-as-role-assignment", n.getName());
+        Assertions.assertEquals("run-as-role-assignment", n.getName());
         n = elements.get(2);
-        assertEquals("session-descriptor", n.getName());
+        Assertions.assertEquals("session-descriptor", n.getName());
         n = elements.get(1);
-        assertEquals("reference-descriptor", n.getName());
+        Assertions.assertEquals("reference-descriptor", n.getName());
         n = (Element) n.getChildren(WeblogicXmlTag.EJB_REFERENCE_DESCRIPTION).get(0);
-        assertEquals("ejb-reference-description", n.getName());
+        Assertions.assertEquals("ejb-reference-description", n.getName());
         Element m = (Element) n.getChildren(WeblogicXmlTag.EJB_REF_NAME).get(0);
-        assertEquals("ejb-ref-name", m.getName());
-        assertEquals("foo", m.getValue());
+        Assertions.assertEquals("ejb-ref-name", m.getName());
+        Assertions.assertEquals("foo", m.getValue());
         m = (Element) n.getChildren(WeblogicXmlTag.JNDI_NAME).get(0);
-        assertEquals("jndi-name", m.getName());
-        assertEquals("fee", m.getValue());
+        Assertions.assertEquals("jndi-name", m.getName());
+        Assertions.assertEquals("fee", m.getValue());
     }
 
     /**
@@ -108,6 +113,7 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReferenceDescriptionWhenOtherDescriptionsExists()
         throws Exception
     {
@@ -127,14 +133,14 @@ public class WeblogicXmlTest extends AbstractDocumentBuilderTest
         List<Element> nl = descr.getDocument().getRootElement()
             .getChildren(WeblogicXmlTag.REFERENCE_DESCRIPTOR);
         Element n = nl.get(0);
-        assertEquals("reference-descriptor", n.getName());
+        Assertions.assertEquals("reference-descriptor", n.getName());
         List<Element> elements = getAllElements(n);
         n = elements.get(0);
-        assertEquals("resource-description", n.getName());
+        Assertions.assertEquals("resource-description", n.getName());
         n = elements.get(1);
-        assertEquals("resource-env-description", n.getName());
+        Assertions.assertEquals("resource-env-description", n.getName());
         n = elements.get(2);
-        assertEquals("ejb-reference-description", n.getName());
+        Assertions.assertEquals("ejb-reference-description", n.getName());
     }
 
     /**

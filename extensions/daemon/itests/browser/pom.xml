@@ -32,14 +32,6 @@
       <artifactId>htmlunit</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <!-- Newer HtmlUnit versions require at least JUnit 4.x -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${cargo.archetypes-junit.version}</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
   <build>
     <plugins>

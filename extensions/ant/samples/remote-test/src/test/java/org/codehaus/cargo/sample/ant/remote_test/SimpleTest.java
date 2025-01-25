@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.ant.remote_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Remote deployment testcase.
  */
-public class SimpleTest extends TestCase
+public class SimpleTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class SimpleTest extends TestCase
      * Test remotely deployed Web application.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSimpleRemoteDeployment() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.generic;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
@@ -28,7 +30,7 @@ import org.codehaus.cargo.container.internal.J2EEContainerCapability;
 /**
  * Unit tests for {@link org.codehaus.cargo.generic.DefaultContainerCapabilityFactory}.
  */
-public class DefaultContainerCapabilityFactoryTest extends TestCase
+public class DefaultContainerCapabilityFactoryTest
 {
     /**
      * Container capability factory.
@@ -36,24 +38,23 @@ public class DefaultContainerCapabilityFactoryTest extends TestCase
     private ContainerCapabilityFactory factory;
 
     /**
-     * Creates the container capability factory. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the container capability factory.
      */
-    @Override
-    public void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
         this.factory = new DefaultContainerCapabilityFactory();
     }
 
     /**
      * Test container capability.
      */
+    @Test
     public void testCreateContainerCapability()
     {
         factory.registerContainerCapability("containerId", J2EEContainerCapability.class);
         ContainerCapability capability = factory.createContainerCapability("containerId");
 
-        assertTrue(capability.supportsDeployableType(DeployableType.EAR));
+        Assertions.assertTrue(capability.supportsDeployableType(DeployableType.EAR));
     }
 }

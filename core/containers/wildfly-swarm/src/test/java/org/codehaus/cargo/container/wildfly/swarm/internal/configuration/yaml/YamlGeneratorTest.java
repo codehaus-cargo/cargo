@@ -19,18 +19,21 @@
  */
 package org.codehaus.cargo.container.wildfly.swarm.internal.configuration.yaml;
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
-import junit.framework.TestCase;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 /**
  * Tests YAML creation used by WildFly Swarm configurator classes.
  */
-public class YamlGeneratorTest extends TestCase
+public class YamlGeneratorTest
 {
     /**
      * Factory for creating {@link YAMLGenerator} instances.
@@ -45,7 +48,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Prepares test environment - creates a new YAML generator.
      */
-    @Override
+    @BeforeEach
     public void setUp()
     {
         this.yamlGenerator = createYamlGenerator();
@@ -54,7 +57,7 @@ public class YamlGeneratorTest extends TestCase
     /**
      * Closes the YAML generator used in tests.
      */
-    @Override
+    @AfterEach
     public void tearDown()
     {
         closeGenerator();
@@ -64,10 +67,12 @@ public class YamlGeneratorTest extends TestCase
      * Tests a simple {@link YAMLGenerator} usage.
      * @throws IOException if creating YAML content fails.
      */
+    @Test
     public void testSimpleYamlGeneration() throws IOException
     {
-        assertFalse(yamlFactory.isEnabled(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
-        assertTrue(yamlFactory.isEnabled(YAMLGenerator.Feature.MINIMIZE_QUOTES));
+        Assertions.assertFalse(
+            yamlFactory.isEnabled(YAMLGenerator.Feature.WRITE_DOC_START_MARKER));
+        Assertions.assertTrue(yamlFactory.isEnabled(YAMLGenerator.Feature.MINIMIZE_QUOTES));
 
         yamlGenerator.writeStartObject();
         yamlGenerator.writeFieldName("swarm");
@@ -78,7 +83,7 @@ public class YamlGeneratorTest extends TestCase
 
         final String result = getYamlString();
 
-        assertEquals("swarm:\n  management: \"true\"", result);
+        Assertions.assertEquals("swarm:\n  management: \"true\"", result);
     }
 
     /**

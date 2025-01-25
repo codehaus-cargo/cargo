@@ -25,7 +25,9 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
@@ -39,7 +41,7 @@ import org.w3c.dom.Element;
 /**
  * Unit tests for {@link XmlFileBuilder}.
  */
-public class DefaultXmlFileBuilderTest extends TestCase
+public class DefaultXmlFileBuilderTest
 {
     /**
      * Test file name.
@@ -77,10 +79,10 @@ public class DefaultXmlFileBuilderTest extends TestCase
     private Map<String, String> namespaces;
 
     /**
-     * Creates the various XML test elements. {@inheritDoc}
+     * Creates the various XML test elements.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     public void setUp() throws Exception
     {
         this.fsManager = new StandardFileSystemManager();
@@ -97,23 +99,22 @@ public class DefaultXmlFileBuilderTest extends TestCase
     }
 
     /**
-     * Closes the file system manager created for tests. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the file system manager created for tests.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             ((StandardFileSystemManager) fsManager).close();
         }
-        super.tearDown();
     }
 
     /**
      * Test that the file system manager can insert an XML element into a file.
      * @throws Exception If anything goes wrong
      */
+    @Test
     public void testManagerCanInsertAnElementIntoFile() throws Exception
     {
         Document document = builder.newDocument();
@@ -136,6 +137,7 @@ public class DefaultXmlFileBuilderTest extends TestCase
      * This also involves a lookup.
      * @throws Exception If anything goes wrong
      */
+    @Test
     public void testManagerCanInsertAnElementIntoFileThreeLevelsDeep() throws Exception
     {
         Document document = builder.newDocument();
@@ -161,6 +163,7 @@ public class DefaultXmlFileBuilderTest extends TestCase
      * Test that the file system manager can insert an XML element with a namespace.
      * @throws Exception If anything goes wrong
      */
+    @Test
     public void testManagerCanInsertAnElementIntoFileWithNamespace() throws Exception
     {
         Document document = builder.newDocument();

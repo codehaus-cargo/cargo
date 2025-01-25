@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.RemoteContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -34,7 +34,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link AbstractRemoteDeployer}.
  */
-public class RemoteDeployerTest extends TestCase
+public class RemoteDeployerTest
 {
 
     /**
@@ -128,6 +128,7 @@ public class RemoteDeployerTest extends TestCase
     /**
      * Test if the <code>deploy</code> method can be called.
      */
+    @Test
     public void testDeployMethodWithDeployableMonitorParameterCanBeCalled()
     {
         TestableAbstractRemoteDeployer deployer = new TestableAbstractRemoteDeployer(

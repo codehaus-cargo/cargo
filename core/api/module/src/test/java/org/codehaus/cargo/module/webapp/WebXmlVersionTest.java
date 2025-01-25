@@ -22,8 +22,11 @@
  */
 package org.codehaus.cargo.module.webapp;
 
-import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.jdom2.DocType;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 
 /**
  * Unit tests for {@link WebXmlVersion}.
@@ -35,9 +38,10 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare22To22() throws Exception
     {
-        assertTrue(WebXmlVersion.V2_2.compareTo(WebXmlVersion.V2_2) == 0);
+        Assertions.assertTrue(WebXmlVersion.V2_2.compareTo(WebXmlVersion.V2_2) == 0);
     }
 
     /**
@@ -45,9 +49,10 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare22To23() throws Exception
     {
-        assertTrue(WebXmlVersion.V2_2.compareTo(WebXmlVersion.V2_3) < 0);
+        Assertions.assertTrue(WebXmlVersion.V2_2.compareTo(WebXmlVersion.V2_3) < 0);
     }
 
     /**
@@ -55,9 +60,10 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare23To23() throws Exception
     {
-        assertTrue(WebXmlVersion.V2_3.compareTo(WebXmlVersion.V2_3) == 0);
+        Assertions.assertTrue(WebXmlVersion.V2_3.compareTo(WebXmlVersion.V2_3) == 0);
     }
 
     /**
@@ -65,9 +71,10 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testCompare23To22() throws Exception
     {
-        assertTrue(WebXmlVersion.V2_3.compareTo(WebXmlVersion.V2_2) > 0);
+        Assertions.assertTrue(WebXmlVersion.V2_3.compareTo(WebXmlVersion.V2_2) > 0);
     }
 
     /**
@@ -75,12 +82,13 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfNull() throws Exception
     {
         try
         {
             WebXmlVersion.valueOf((DocType) null);
-            fail("Expected NullPointerException");
+            Assertions.fail("Expected NullPointerException");
         }
         catch (NullPointerException expected)
         {
@@ -93,11 +101,12 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfUnknownDocType() throws Exception
     {
         DocType docType = new DocType("web-app",
             "foo", "bar");
-        assertNull(WebXmlVersion.valueOf(docType));
+        Assertions.assertNull(WebXmlVersion.valueOf(docType));
     }
 
     /**
@@ -106,11 +115,12 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfDocType22() throws Exception
     {
         DocType docType = new DocType("web-app",
             WebXmlVersion.V2_2.getPublicId(), WebXmlVersion.V2_2.getSystemId());
-        assertEquals(WebXmlVersion.V2_2, WebXmlVersion.valueOf(docType));
+        Assertions.assertEquals(WebXmlVersion.V2_2, WebXmlVersion.valueOf(docType));
     }
 
     /**
@@ -119,10 +129,11 @@ public final class WebXmlVersionTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testValueOfDocType23() throws Exception
     {
         DocType docType = new DocType("web-app",
             WebXmlVersion.V2_3.getPublicId(), WebXmlVersion.V2_3.getSystemId());
-        assertEquals(WebXmlVersion.V2_3, WebXmlVersion.valueOf(docType));
+        Assertions.assertEquals(WebXmlVersion.V2_3, WebXmlVersion.valueOf(docType));
     }
 }

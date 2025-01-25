@@ -26,7 +26,10 @@ import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.jar.JarFile;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
@@ -39,7 +42,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Tests of Codehaus Cargo Daemon using the Java client with authentication.
  */
-public class CargoDaemonClientWithAuthenticationTest extends TestCase
+public class CargoDaemonClientWithAuthenticationTest
 {
 
     /**
@@ -73,13 +76,12 @@ public class CargoDaemonClientWithAuthenticationTest extends TestCase
     private Logger logger = new SimpleLogger();
 
     /**
-     * {@inheritDoc}
+     * Start the Cargo Daemon.
+     * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         boolean startDaemon;
         synchronized (this.getClass())
         {
@@ -155,13 +157,11 @@ public class CargoDaemonClientWithAuthenticationTest extends TestCase
     }
 
     /**
-     * {@inheritDoc}
+     * Stop the Cargo Daemon.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
-        super.tearDown();
-
         boolean stopDaemon;
         synchronized (this.getClass())
         {
@@ -190,17 +190,18 @@ public class CargoDaemonClientWithAuthenticationTest extends TestCase
      * Test the Cargo Daemon client without authentication.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargoDaemonClientWithoutAuthentication() throws Exception
     {
         DaemonClient client = new DaemonClient(CargoDaemonClientWithAuthenticationTest.daemonUrl);
         try
         {
             client.getHandles();
-            fail("Unauthenticated connection succeeded");
+            Assertions.fail("Unauthenticated connection succeeded");
         }
         catch (DaemonException e)
         {
-            assertTrue(e.getMessage().startsWith(
+            Assertions.assertTrue(e.getMessage().startsWith(
                 "The username and password you provided are not correct (error 401)"));
         }
     }
@@ -209,6 +210,7 @@ public class CargoDaemonClientWithAuthenticationTest extends TestCase
      * Test the Cargo Daemon client with a client with a username only (empty password).
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargoDaemonClientWithUsernameOnly() throws Exception
     {
         DaemonClient client = new DaemonClient(
@@ -220,6 +222,7 @@ public class CargoDaemonClientWithAuthenticationTest extends TestCase
      * Test the Cargo Daemon client with a client with a username and password.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testCargoDaemonClientWithUsernameAndPassword() throws Exception
     {
         DaemonClient client = new DaemonClient(

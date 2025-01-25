@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.spi.deployer;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerCapability;
@@ -39,7 +42,7 @@ import org.mockito.Mockito;
 /**
  * Unit tests for {@link AbstractCopyingInstalledLocalDeployer}.
  */
-public class CopyingDeployerTest extends TestCase
+public class CopyingDeployerTest
 {
     /**
      * File system manager.
@@ -52,14 +55,12 @@ public class CopyingDeployerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager. {@inheritDoc}
+     * Creates the test file system manager.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -68,18 +69,15 @@ public class CopyingDeployerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
@@ -136,24 +134,26 @@ public class CopyingDeployerTest extends TestCase
     /**
      * Test that the handling of ShouldDeployExpanded functions correctly.
      */
+    @Test
     public void testShouldDeployExpanded()
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
             createContainer(createContainerCapability(DeployableType.WAR), null));
 
-        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        Assertions.assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
         deployer.setShouldDeployExpanded(DeployableType.WAR, true);
-        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        Assertions.assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
         deployer.setShouldDeployExpanded(DeployableType.WAR, false);
-        assertFalse(deployer.shouldDeployExpanded(DeployableType.WAR));
+        Assertions.assertFalse(deployer.shouldDeployExpanded(DeployableType.WAR));
         deployer.setShouldDeployExpanded(DeployableType.WAR, true);
-        assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
+        Assertions.assertTrue(deployer.shouldDeployExpanded(DeployableType.WAR));
     }
 
     /**
      * Test whether two WARs can be deployed to the same context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCanBeDeployedWhenTwoWARsInSameWebContext() throws Exception
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
@@ -167,26 +167,29 @@ public class CopyingDeployerTest extends TestCase
 
         // Deploy the first WAR
         deployer.deploy(war1);
-        assertTrue(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
+        Assertions.assertTrue(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
 
         try
         {
             // Deploy the second WAR using the same context as the already deployed WAR
             deployer.deploy(war2);
-            fail("Expected ContainerException because we deployed two WARs with the same context "
-                + "name.");
+            Assertions.fail(
+                "Expected ContainerException because we deployed two WARs with the same context "
+                    + "name.");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Failed to deploy [ram:///path2/warfile.war] to [ram:///webapps]. The "
-                + "required web context is already in use by another application.",
-                expected.getMessage());
+            Assertions.assertEquals(
+                "Failed to deploy [ram:///path2/warfile.war] to [ram:///webapps]. The "
+                    + "required web context is already in use by another application.",
+                        expected.getMessage());
         }
     }
 
     /**
      * Test deployment when the container does not support a given deployable type.
      */
+    @Test
     public void testDeployWhenContainerDoesNotSupportDeployableType()
     {
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
@@ -195,12 +198,13 @@ public class CopyingDeployerTest extends TestCase
         try
         {
             deployer.deploy(new WAR("dummy"));
-            fail("Should have thrown a ContainerException here");
+            Assertions.fail("Should have thrown a ContainerException here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("WAR archives are not supported for deployment in [mycontainer]. "
-                + "Got [dummy]", expected.getMessage());
+            Assertions.assertEquals(
+                "WAR archives are not supported for deployment in [mycontainer]. "
+                    + "Got [dummy]", expected.getMessage());
         }
     }
 
@@ -208,6 +212,7 @@ public class CopyingDeployerTest extends TestCase
      * Test deployment of a WAR in a custom context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDeployWhenWarWithCustomContext() throws Exception
     {
         WAR war = new WAR("ram:///some/warfile.war");
@@ -218,15 +223,16 @@ public class CopyingDeployerTest extends TestCase
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
             createContainer(createContainerCapability(DeployableType.WAR), null));
 
-        assertFalse(this.fsManager.resolveFile("ram:///webapps/context.war").exists());
+        Assertions.assertFalse(this.fsManager.resolveFile("ram:///webapps/context.war").exists());
         deployer.deploy(war);
-        assertTrue(this.fsManager.resolveFile("ram:///webapps/context.war").exists());
+        Assertions.assertTrue(this.fsManager.resolveFile("ram:///webapps/context.war").exists());
     }
 
     /**
      * Test deployment of a WAR in its default context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDeployWhenWarWithDefaultContext() throws Exception
     {
         WAR war = new WAR("ram:///some/warfile.war");
@@ -235,15 +241,16 @@ public class CopyingDeployerTest extends TestCase
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
             createContainer(createContainerCapability(DeployableType.WAR), null));
 
-        assertFalse(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
+        Assertions.assertFalse(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
         deployer.deploy(war);
-        assertTrue(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
+        Assertions.assertTrue(this.fsManager.resolveFile("ram:///webapps/warfile.war").exists());
     }
 
     /**
      * Test deployment of an expanded WAR in a custom context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDeployWhenExpandedWarWithCustomContext() throws Exception
     {
         // Create an expanded WAR
@@ -255,15 +262,16 @@ public class CopyingDeployerTest extends TestCase
         AbstractCopyingInstalledLocalDeployer deployer = new TestableCopyingDeployer(
             createContainer(createContainerCapability(DeployableType.WAR), null));
 
-        assertFalse(this.fsManager.resolveFile("ram:///webapps/context").exists());
+        Assertions.assertFalse(this.fsManager.resolveFile("ram:///webapps/context").exists());
         deployer.deploy(war);
-        assertTrue(this.fsManager.resolveFile("ram:///webapps/context").exists());
+        Assertions.assertTrue(this.fsManager.resolveFile("ram:///webapps/context").exists());
     }
 
     /**
      * Test deployment of an expanded WAR in a custom context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDeployToNonExistingDirectory() throws Exception
     {
         WAR war = new WAR("ram:///some/warfile.war");
@@ -276,30 +284,33 @@ public class CopyingDeployerTest extends TestCase
         try
         {
             deployer.deploy(war);
-            fail("Should have thrown a CargoException here");
+            Assertions.fail("Should have thrown a CargoException here");
         }
         catch (CargoException expected)
         {
-            assertTrue("Incorrect message: " + expected.getMessage(),
-                expected.getMessage().contains("ram:///webapps-nonexisting"));
+            Assertions.assertTrue(
+                expected.getMessage().contains("ram:///webapps-nonexisting"),
+                    "Incorrect message: " + expected.getMessage());
         }
     }
 
     /**
      * Test deployment when the container configuration does not exist (see CARGO-1131).
      */
+    @Test
     public void testDeployWhenContainerConfigurationDoesNotExist()
     {
         try
         {
             new TestableCopyingDeployer(createContainer(
                 createContainerCapability(DeployableType.WAR), "non-existing"));
-            fail("Should have thrown a CargoException here");
+            Assertions.fail("Should have thrown a CargoException here");
         }
         catch (CargoException expected)
         {
-            assertTrue("Incorrect message: " + expected.getMessage(),
-                expected.getMessage().contains("ram:///non-existing"));
+            Assertions.assertTrue(
+                expected.getMessage().contains("ram:///non-existing"),
+                    "Incorrect message: " + expected.getMessage());
         }
     }
 

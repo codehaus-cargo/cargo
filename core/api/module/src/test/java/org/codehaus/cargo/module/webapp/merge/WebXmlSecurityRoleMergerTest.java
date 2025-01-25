@@ -26,6 +26,9 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
@@ -41,6 +44,7 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeSecurityRoleIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -56,8 +60,8 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
-        assertEquals(1, securityRoleNames.size());
-        assertEquals("role1", securityRoleNames.get(0));
+        Assertions.assertEquals(1, securityRoleNames.size());
+        Assertions.assertEquals("role1", securityRoleNames.get(0));
     }
 
     /**
@@ -66,6 +70,7 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeSecurityRoleIntoDocumentWithSameRole() throws Exception
     {
         String srcXml = "<web-app>"
@@ -86,8 +91,8 @@ public final class WebXmlSecurityRoleMergerTest extends AbstractDocumentBuilderT
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> securityRoleNames = WebXmlUtils.getSecurityRoleNames(srcWebXml);
-        assertEquals(1, securityRoleNames.size());
-        assertEquals("role1", securityRoleNames.get(0));
+        Assertions.assertEquals(1, securityRoleNames.size());
+        Assertions.assertEquals("role1", securityRoleNames.get(0));
     }
 
 }

@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -30,7 +33,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Abstract test for any {@link LocalConfiguration}.
  */
-public abstract class AbstractLocalConfigurationTest extends TestCase
+public abstract class AbstractLocalConfigurationTest
 {
 
     /**
@@ -52,23 +55,6 @@ public abstract class AbstractLocalConfigurationTest extends TestCase
      * File handler.
      */
     private FileHandler fileHandler;
-
-    /**
-     * Constructor without any container name.
-     */
-    public AbstractLocalConfigurationTest()
-    {
-        super();
-    }
-
-    /**
-     * Constructor with a container name.
-     * @param name Container name.
-     */
-    public AbstractLocalConfigurationTest(String name)
-    {
-        super(name);
-    }
 
     /**
      * Creates the local configuration.
@@ -94,14 +80,12 @@ public abstract class AbstractLocalConfigurationTest extends TestCase
     }
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         fsManager = new StandardFileSystemManager();
         fsManager.init();
         fileHandler = new VFSFileHandler(fsManager);
@@ -121,35 +105,33 @@ public abstract class AbstractLocalConfigurationTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Test override.
      */
+    @Test
     public void testOverride()
     {
-        assertEquals(null, this.configuration.getPropertyValue("cargo.test"));
+        Assertions.assertEquals(null, this.configuration.getPropertyValue("cargo.test"));
         try
         {
             System.setProperty("cargo.test", "somevalue");
-            assertEquals("somevalue", this.configuration.getPropertyValue("cargo.test"));
+            Assertions.assertEquals("somevalue", this.configuration.getPropertyValue("cargo.test"));
         }
         finally
         {
             System.clearProperty("cargo.test");
         }
-        assertEquals(null, this.configuration.getPropertyValue("cargo.test"));
+        Assertions.assertEquals(null, this.configuration.getPropertyValue("cargo.test"));
     }
 }

@@ -38,14 +38,6 @@
       <type>war</type>
     </dependency>
 
-    <!-- Newer HtmlUnit versions require at least JUnit 4.x -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${cargo.archetypes-junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <!-- Repeat the dependencies to copy so that multithreaded builds work correctly -->
     <dependency>
       <groupId>org.codehaus.cargo</groupId>

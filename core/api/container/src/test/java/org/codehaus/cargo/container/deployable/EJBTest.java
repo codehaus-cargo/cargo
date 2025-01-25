@@ -19,28 +19,31 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link EJB}.
  */
-public class EJBTest extends TestCase
+public class EJBTest
 {
     /**
      * Test name when EJB has an extension.
      */
+    @Test
     public void testGetNameWhenEjbHasExtension()
     {
         EJB ejb = new EJB("c:/some/path/to/ejb/test.ejb");
-        assertEquals("test", ejb.getName());
+        Assertions.assertEquals("test", ejb.getName());
     }
 
     /**
      * Test name when EJB has no extension.
      */
+    @Test
     public void testGetNameWhenEjbHasNoExtension()
     {
         EJB ejb = new EJB("/some/path/to/ejb/test");
-        assertEquals("test", ejb.getName());
+        Assertions.assertEquals("test", ejb.getName());
     }
 }

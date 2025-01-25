@@ -26,11 +26,14 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlUtils;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXmlMerger}.
@@ -42,6 +45,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -57,7 +61,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
     }
 
     /**
@@ -66,6 +70,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletIntoDocumentWithAnotherServlet() throws Exception
     {
         String srcXml = "<web-app>"
@@ -86,8 +91,8 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s2"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s2"));
     }
 
     /**
@@ -96,6 +101,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletIntoDocumentWithSameServlet() throws Exception
     {
         String srcXml = "<web-app>"
@@ -116,7 +122,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
     }
 
     /**
@@ -125,6 +131,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletIntoDocumentWithSameServletAndParam() throws Exception
     {
         String srcXml = "<web-app>"
@@ -149,11 +156,11 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> initParams = WebXmlUtils.getServletInitParamNames(srcWebXml, "s1");
-        assertEquals(1, initParams.size());
-        assertEquals("s1param1", initParams.get(0));
-        assertEquals("s1param1value",
+        Assertions.assertEquals(1, initParams.size());
+        Assertions.assertEquals("s1param1", initParams.get(0));
+        Assertions.assertEquals("s1param1value",
             WebXmlUtils.getServletInitParam(srcWebXml, "s1", "s1param1"));
     }
 
@@ -162,6 +169,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletIntoDocumentWithMultipleServlets() throws Exception
     {
         String srcXml = "<web-app>"
@@ -191,11 +199,11 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
-        assertEquals(4, servletNames.size());
-        assertEquals("s1", servletNames.get(0));
-        assertEquals("s2", servletNames.get(1));
-        assertEquals("s3", servletNames.get(2));
-        assertEquals("s4", servletNames.get(3));
+        Assertions.assertEquals(4, servletNames.size());
+        Assertions.assertEquals("s1", servletNames.get(0));
+        Assertions.assertEquals("s2", servletNames.get(1));
+        Assertions.assertEquals("s3", servletNames.get(2));
+        Assertions.assertEquals("s4", servletNames.get(3));
     }
 
     /**
@@ -204,6 +212,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergingServletWithInitParamsThatIsAlreadyDefined() throws Exception
     {
         String srcXml = "<web-app>".trim()
@@ -230,7 +239,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         Element servletElement = WebXmlUtils.getServlet(srcWebXml, "s1");
-        assertEquals("load-on-startup",
+        Assertions.assertEquals("load-on-startup",
             ((Element) servletElement.getChildren().get(servletElement.getChildren().size() - 1))
                 .getName());
     }
@@ -241,6 +250,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeMultipleServletsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -265,10 +275,10 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<String> servletNames = WebXmlUtils.getServletNames(srcWebXml);
-        assertEquals(3, servletNames.size());
-        assertEquals("s1", servletNames.get(0));
-        assertEquals("s2", servletNames.get(1));
-        assertEquals("s3", servletNames.get(2));
+        Assertions.assertEquals(3, servletNames.size());
+        Assertions.assertEquals("s1", servletNames.get(0));
+        Assertions.assertEquals("s2", servletNames.get(1));
+        Assertions.assertEquals("s3", servletNames.get(2));
     }
 
     /**
@@ -277,6 +287,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -296,10 +307,10 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
-        assertEquals(1, servletMappings.size());
-        assertEquals("/s1mapping1", servletMappings.get(0));
+        Assertions.assertEquals(1, servletMappings.size());
+        Assertions.assertEquals("/s1mapping1", servletMappings.get(0));
     }
 
     /**
@@ -308,6 +319,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneServletWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -335,12 +347,12 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
-        assertEquals(3, servletMappings.size());
-        assertEquals("/s1mapping1", servletMappings.get(0));
-        assertEquals("/s1mapping2", servletMappings.get(1));
-        assertEquals("/s1mapping3", servletMappings.get(2));
+        Assertions.assertEquals(3, servletMappings.size());
+        Assertions.assertEquals("/s1mapping1", servletMappings.get(0));
+        Assertions.assertEquals("/s1mapping2", servletMappings.get(1));
+        Assertions.assertEquals("/s1mapping3", servletMappings.get(2));
     }
 
     /**
@@ -348,6 +360,7 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeMultipleServletMappings() throws Exception
     {
         String srcXml = "<web-app>"
@@ -378,12 +391,12 @@ public final class WebXmlServletMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
+        Assertions.assertTrue(WebXmlUtils.hasServlet(srcWebXml, "s1"));
         List<String> servletMappings = WebXmlUtils.getServletMappings(srcWebXml, "s1");
-        assertEquals(3, servletMappings.size());
-        assertEquals("/u1", servletMappings.get(0));
-        assertEquals("/u2", servletMappings.get(1));
-        assertEquals("/u3", servletMappings.get(2));
+        Assertions.assertEquals(3, servletMappings.size());
+        Assertions.assertEquals("/u1", servletMappings.get(0));
+        Assertions.assertEquals("/u2", servletMappings.get(1));
+        Assertions.assertEquals("/u3", servletMappings.get(2));
     }
 
 }

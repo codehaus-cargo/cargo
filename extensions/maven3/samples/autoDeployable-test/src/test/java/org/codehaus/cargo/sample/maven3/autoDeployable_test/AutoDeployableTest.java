@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.autoDeployable_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test the Maven 3 auto-deloyable.
  */
-public class AutoDeployableTest extends TestCase
+public class AutoDeployableTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class AutoDeployableTest extends TestCase
      * Test the Maven 3 auto-deloyable.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testAutoDeployable() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

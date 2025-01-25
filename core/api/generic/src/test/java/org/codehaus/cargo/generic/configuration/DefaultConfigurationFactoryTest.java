@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.generic.configuration;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
@@ -34,7 +36,7 @@ import org.codehaus.cargo.util.DefaultFileHandler;
 /**
  * Unit tests for {@link DefaultConfigurationFactory}.
  */
-public class DefaultConfigurationFactoryTest extends TestCase
+public class DefaultConfigurationFactoryTest
 {
     /**
      * Configuration factory.
@@ -42,19 +44,18 @@ public class DefaultConfigurationFactoryTest extends TestCase
     private ConfigurationFactory factory;
 
     /**
-     * Creates the configuration factory. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the configuration factory.
      */
-    @Override
-    public void setUp() throws Exception
+    @BeforeEach
+    public void setUp()
     {
-        super.setUp();
         this.factory = new DefaultConfigurationFactory();
     }
 
     /**
      * Test configuration creation with invalid hint.
      */
+    @Test
     public void testCreateConfigurationWhenInvalidHint()
     {
         try
@@ -64,7 +65,8 @@ public class DefaultConfigurationFactoryTest extends TestCase
         }
         catch (ContainerException expected)
         {
-            assertEquals("Cannot create configuration. There's no registered configuration for "
+            Assertions.assertEquals(
+                "Cannot create configuration. There's no registered configuration for "
                     + "the parameters (container [id = [testableContainerId], type = "
                     + "[installed]], configuration type [invalidhint]). Actually there are no "
                     + "valid types registered for this configuration. Maybe you've made a mistake "
@@ -77,6 +79,7 @@ public class DefaultConfigurationFactoryTest extends TestCase
      * Test custom configuration registration on an existing container.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testRegisterCustomConfigurationOnExistingContainer() throws Exception
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,
@@ -84,13 +87,14 @@ public class DefaultConfigurationFactoryTest extends TestCase
 
         Configuration configuration = this.factory.createConfiguration("testableContainerId",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE, "/some/path");
-        assertEquals(StandaloneLocalConfigurationStub.class.getName(),
+        Assertions.assertEquals(StandaloneLocalConfigurationStub.class.getName(),
             configuration.getClass().getName());
     }
 
     /**
      * Test runtime configuration creation.
      */
+    @Test
     public void testCreateRuntimeConfiguration()
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.REMOTE,
@@ -98,12 +102,14 @@ public class DefaultConfigurationFactoryTest extends TestCase
 
         Configuration configuration = this.factory.createConfiguration("testableContainerId",
             ContainerType.REMOTE, ConfigurationType.RUNTIME);
-        assertEquals(RuntimeConfigurationStub.class.getName(), configuration.getClass().getName());
+        Assertions.assertEquals(
+            RuntimeConfigurationStub.class.getName(), configuration.getClass().getName());
     }
 
     /**
      * Test standalone local configuration creation when no home directory specified.
      */
+    @Test
     public void testCreateStandaloneLocalConfigurationWhenNoHomeDirectorySpecified()
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,
@@ -111,12 +117,14 @@ public class DefaultConfigurationFactoryTest extends TestCase
 
         LocalConfiguration configuration = (LocalConfiguration) this.factory.createConfiguration(
             "testableContainerId", ContainerType.INSTALLED, ConfigurationType.STANDALONE);
-        assertEquals(new DefaultFileHandler().getTmpPath("conf"), configuration.getHome());
+        Assertions.assertEquals(
+            new DefaultFileHandler().getTmpPath("conf"), configuration.getHome());
     }
 
     /**
      * Test existing local configuration creation when no home directory specified.
      */
+    @Test
     public void testCreateExistingLocalConfigurationWhenNoHomeDirectorySpecified()
     {
         this.factory.registerConfiguration("testableContainerId", ContainerType.INSTALLED,
@@ -126,12 +134,13 @@ public class DefaultConfigurationFactoryTest extends TestCase
         {
             this.factory.createConfiguration("testableContainerId", ContainerType.INSTALLED,
                 ConfigurationType.EXISTING);
-            fail("An exception should have been raised");
+            Assertions.fail("An exception should have been raised");
         }
         catch (ContainerException expected)
         {
-            assertEquals("The configuration home parameter must be specified for existing "
-                + "configurations", expected.getOriginalThrowable().getMessage());
+            Assertions.assertEquals(
+                "The configuration home parameter must be specified for existing "
+                    + "configurations", expected.getOriginalThrowable().getMessage());
         }
     }
 }

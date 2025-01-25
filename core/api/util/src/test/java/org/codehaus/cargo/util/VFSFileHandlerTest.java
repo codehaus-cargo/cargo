@@ -19,7 +19,9 @@
  */
 package org.codehaus.cargo.util;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
@@ -27,7 +29,7 @@ import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 /**
  * Unit tests for {@link VFSFileHandler}.
  */
-public class VFSFileHandlerTest extends TestCase
+public class VFSFileHandlerTest
 {
     /**
      * File system handler.
@@ -40,14 +42,12 @@ public class VFSFileHandlerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the various file system and handler attributes. {@inheritDoc}
+     * Creates the various file system and handler attributes.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -57,19 +57,21 @@ public class VFSFileHandlerTest extends TestCase
      * Test the {@link FileHandler#isDirectory(java.lang.String)} method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testIsDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///some/file").createFile();
-        assertFalse(this.fileHandler.isDirectory("ram:///some/file"));
+        Assertions.assertFalse(this.fileHandler.isDirectory("ram:///some/file"));
 
         this.fsManager.resolveFile("ram:///some/path").createFolder();
-        assertTrue(this.fileHandler.isDirectory("ram:///some/path"));
+        Assertions.assertTrue(this.fileHandler.isDirectory("ram:///some/path"));
     }
 
     /**
      * Test the {@link FileHandler#copyDirectory(java.lang.String, java.lang.String)} method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCopyDirectory() throws Exception
     {
         String source = "ram:///some/path1";
@@ -78,19 +80,20 @@ public class VFSFileHandlerTest extends TestCase
         String target = "ram:///other/path2";
         FileObject targetObject = this.fsManager.resolveFile(target);
 
-        assertFalse(targetObject.exists());
-        assertFalse(this.fsManager.resolveFile("ram:///other/path2/file1").exists());
+        Assertions.assertFalse(targetObject.exists());
+        Assertions.assertFalse(this.fsManager.resolveFile("ram:///other/path2/file1").exists());
 
         this.fileHandler.copyDirectory(source, target);
 
-        assertTrue(targetObject.exists());
-        assertTrue(this.fsManager.resolveFile("ram:///other/path2/file1").exists());
+        Assertions.assertTrue(targetObject.exists());
+        Assertions.assertTrue(this.fsManager.resolveFile("ram:///other/path2/file1").exists());
     }
 
     /**
      * Test the {@link FileHandler#copyFile(java.lang.String, java.lang.String)} method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCopyFile() throws Exception
     {
         String source = "ram:///some/path/file.war";
@@ -101,17 +104,18 @@ public class VFSFileHandlerTest extends TestCase
 
         FileObject targetObject = this.fsManager.resolveFile(target);
 
-        assertFalse(targetObject.exists());
+        Assertions.assertFalse(targetObject.exists());
 
         this.fileHandler.copyFile(source, target);
 
-        assertTrue(targetObject.exists());
+        Assertions.assertTrue(targetObject.exists());
     }
 
     /**
      * Test the {@link FileHandler#copyFile(java.lang.String, java.lang.String, boolean)} method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCopyFileOverwrite() throws Exception
     {
         String source = "ram:///some/path/file.war";
@@ -122,59 +126,62 @@ public class VFSFileHandlerTest extends TestCase
 
         FileObject targetObject = this.fsManager.resolveFile(target);
 
-        assertFalse(targetObject.exists());
+        Assertions.assertFalse(targetObject.exists());
 
         this.fileHandler.copyFile(source, target, true);
 
-        assertTrue(targetObject.exists());
+        Assertions.assertTrue(targetObject.exists());
     }
 
     /**
      * Test the {@link FileHandler#getName(java.lang.String)} method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetName() throws Exception
     {
-        assertEquals("file.txt", this.fileHandler.getName("ram:///some/file.txt"));
+        Assertions.assertEquals("file.txt", this.fileHandler.getName("ram:///some/file.txt"));
     }
 
     /**
      * Test the {@link FileHandler#getChildren(java.lang.String)} method.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetChildren() throws Exception
     {
         this.fsManager.resolveFile("ram:///some/directory/file.txt").createFile();
 
         String[] children = this.fileHandler.getChildren("ram:///some/directory");
 
-        assertEquals(1, children.length);
-        assertEquals("ram:///some/directory/file.txt", children[0]);
+        Assertions.assertEquals(1, children.length);
+        Assertions.assertEquals("ram:///some/directory/file.txt", children[0]);
     }
 
     /**
      * Test the {@link FileHandler#createDirectory(java.lang.String, java.lang.String)} method.
      */
+    @Test
     public void testCreateDirectory()
     {
         this.fileHandler.createDirectory("ram://test", "test");
-        assertTrue(this.fileHandler.exists("ram:///test/test"));
-        assertTrue(this.fileHandler.isDirectory("ram:///test/test"));
+        Assertions.assertTrue(this.fileHandler.exists("ram:///test/test"));
+        Assertions.assertTrue(this.fileHandler.isDirectory("ram:///test/test"));
 
         this.fileHandler.createDirectory("ram://test2/", "test");
-        assertTrue(this.fileHandler.exists("ram:///test2/test"));
-        assertTrue(this.fileHandler.isDirectory("ram:///test2/test"));
+        Assertions.assertTrue(this.fileHandler.exists("ram:///test2/test"));
+        Assertions.assertTrue(this.fileHandler.isDirectory("ram:///test2/test"));
 
         this.fileHandler.createDirectory("ram://test3", "/test");
-        assertTrue(this.fileHandler.exists("ram:///test3/test"));
-        assertTrue(this.fileHandler.isDirectory("ram:///test3/test"));
+        Assertions.assertTrue(this.fileHandler.exists("ram:///test3/test"));
+        Assertions.assertTrue(this.fileHandler.isDirectory("ram:///test3/test"));
 
         this.fileHandler.createDirectory(null, "ram://test4");
-        assertTrue(this.fileHandler.exists("ram:///test4"));
-        assertTrue(this.fileHandler.isDirectory("ram:///test4"));
+        Assertions.assertTrue(this.fileHandler.exists("ram:///test4"));
+        Assertions.assertTrue(this.fileHandler.isDirectory("ram:///test4"));
 
         this.fileHandler.createDirectory("ram://test5", null);
-        assertTrue(this.fileHandler.exists("ram:///test5"));
-        assertTrue(this.fileHandler.isDirectory("ram:///test5"));
+        Assertions.assertTrue(this.fileHandler.exists("ram:///test5"));
+        Assertions.assertTrue(this.fileHandler.isDirectory("ram:///test5"));
     }
 }

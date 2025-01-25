@@ -26,11 +26,14 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
 import org.codehaus.cargo.module.webapp.WebXmlType;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link WebXmlMerger}.
@@ -42,6 +45,7 @@ public final class WebXmlEjbRefMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneEjbRefIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -61,7 +65,7 @@ public final class WebXmlEjbRefMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
         List<Element> ejbRefs = srcWebXml.getElements(WebXmlType.EJB_REF);
-        assertEquals(1, ejbRefs.size());
+        Assertions.assertEquals(1, ejbRefs.size());
     }
 
 }

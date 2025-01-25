@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.tomcat7x_context_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of Web applications on Tomcat 7.x's root context.
  */
-public class Tomcat7xContextTest extends TestCase
+public class Tomcat7xContextTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class Tomcat7xContextTest extends TestCase
      * Test deployment of Web applications on Tomcat 7.x's root context.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testTomcat7xContext() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

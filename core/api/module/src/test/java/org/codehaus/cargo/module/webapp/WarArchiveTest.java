@@ -24,6 +24,9 @@ package org.codehaus.cargo.module.webapp;
 
 import java.io.File;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.util.AbstractResourceTest;
 
 /**
@@ -42,10 +45,11 @@ public final class WarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testContainsClassInWebinfClasses() throws Exception
     {
         WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH + "containsclass.war"));
-        assertTrue(war.containsClass("test.Test"));
+        Assertions.assertTrue(war.containsClass("test.Test"));
     }
 
     /**
@@ -54,11 +58,12 @@ public final class WarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testContainsClassInWebinfLib() throws Exception
     {
         WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH
             + "containsclasslib.war"));
-        assertTrue(war.containsClass("test.Test"));
+        Assertions.assertTrue(war.containsClass("test.Test"));
     }
 
     /**
@@ -67,10 +72,11 @@ public final class WarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testContainsClassEmpty() throws Exception
     {
         WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH + "empty.war"));
-        assertTrue(!war.containsClass("test.Test"));
+        Assertions.assertTrue(!war.containsClass("test.Test"));
     }
 
     /**
@@ -78,6 +84,7 @@ public final class WarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testStoreArchive() throws Exception
     {
         WarArchive war = new DefaultWarArchive(getResourcePath(PACKAGE_PATH + "weblogic.war"));
@@ -86,6 +93,7 @@ public final class WarArchiveTest extends AbstractResourceTest
 
         WarArchive storedWar = new DefaultWarArchive(tmpFile.getPath());
         WebXml descr = storedWar.getWebXml();
-        assertEquals("There should be 1 descriptor", 1, descr.getVendorDescriptors().size());
+        Assertions.assertEquals(
+            1, descr.getVendorDescriptors().size(), "There should be 1 descriptor");
     }
 }

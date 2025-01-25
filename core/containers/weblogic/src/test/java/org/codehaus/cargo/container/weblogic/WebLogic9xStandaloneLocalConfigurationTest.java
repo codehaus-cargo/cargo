@@ -23,6 +23,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.custommonkey.xmlunit.NamespaceContext;
+import org.custommonkey.xmlunit.SimpleNamespaceContext;
+import org.custommonkey.xmlunit.XMLAssert;
+import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
@@ -32,12 +42,6 @@ import org.codehaus.cargo.container.property.LoggingLevel;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xConfigurationChecker;
 import org.codehaus.cargo.util.XmlUtils;
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic9xStandaloneLocalConfiguration}.
@@ -105,10 +109,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Initialize all XML tools. {@inheritDoc}
+     * Initialize all XML tools.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -195,21 +199,24 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test file creation.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureCreatesFiles() throws Exception
     {
         configuration.configure(container);
 
-        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/config"));
-        assertTrue(configuration.getFileHandler()
+        Assertions.assertTrue(
+            configuration.getFileHandler().exists(configuration.getHome() + "/config"));
+        Assertions.assertTrue(configuration.getFileHandler()
             .exists(configuration.getHome() + "/config/jdbc"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/config/config.xml"));
-        assertTrue(configuration.getFileHandler().exists(configuration.getHome() + "/security"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(
+            configuration.getFileHandler().exists(configuration.getHome() + "/security"));
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/security/DefaultAuthenticatorInit.ldift"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/security/SerializedSystemIni.dat"));
-        assertTrue(configuration.getFileHandler().exists(
+        Assertions.assertTrue(configuration.getFileHandler().exists(
             configuration.getHome() + "/autodeploy/cargocpc.war"));
     }
 
@@ -217,21 +224,26 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test default values.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testConstructorSetsPropertyDefaults() throws Exception
     {
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.ADMIN_PWD), "weblogic");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.SERVER), "server");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION),
-            "9.2.3.0");
-        assertEquals(configuration.getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION),
-            "9.2.3.0");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.ADMIN_USER), "weblogic");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.ADMIN_PWD), "weblogic");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.SERVER), "server");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION), "9.2.3.0");
+        Assertions.assertEquals(
+            configuration.getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION), "9.2.3.0");
     }
 
     /**
      * Test required elements.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureCreatesRequiredElements() throws Exception
     {
         configuration.configure(container);
@@ -247,6 +259,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test domain version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultDomainVersion() throws Exception
     {
         configuration.configure(container);
@@ -270,6 +283,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changing domain version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDomainVersion() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.DOMAIN_VERSION, "1.2.2.1");
@@ -284,6 +298,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test configuration version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultConfigurationVersion() throws Exception
     {
         configuration.configure(container);
@@ -299,6 +314,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changing configuration version.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsConfigurationVersion() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.CONFIGURATION_VERSION, "1.2.2.1");
@@ -313,6 +329,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test default admin server.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultAdminServer() throws Exception
     {
         configuration.configure(container);
@@ -328,6 +345,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changed admin server.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsAdminServer() throws Exception
     {
         configuration.setProperty(WebLogicPropertySet.SERVER, "asda");
@@ -342,6 +360,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test default port.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultPort() throws Exception
     {
         configuration.configure(container);
@@ -356,6 +375,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changed port.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsPort() throws Exception
     {
         configuration.setProperty(ServletPropertySet.PORT, "1001");
@@ -370,6 +390,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test log levels.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultLogging() throws Exception
     {
         configuration.configure(container);
@@ -383,6 +404,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changed log levels.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsHighLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.HIGH.getLevel());
@@ -397,6 +419,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changed log levels.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsMediumLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.MEDIUM.getLevel());
@@ -411,6 +434,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changed log levels.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsLowLogging() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.LOGGING, LoggingLevel.LOW.getLevel());
@@ -425,6 +449,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test address.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsDefaultAddress() throws Exception
     {
         configuration.configure(container);
@@ -439,6 +464,7 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
      * Test changed address.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDoConfigureSetsAddress() throws Exception
     {
         configuration.setProperty(GeneralPropertySet.HOSTNAME, "loc");

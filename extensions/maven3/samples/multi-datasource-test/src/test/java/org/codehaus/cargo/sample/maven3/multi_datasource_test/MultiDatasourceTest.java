@@ -21,7 +21,7 @@ package org.codehaus.cargo.sample.maven3.multi_datasource_test;
 
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test deployment of multiple datasources.
  */
-public class MultiDatasourceTest extends TestCase
+public class MultiDatasourceTest
 {
 
     /**
@@ -42,6 +42,7 @@ public class MultiDatasourceTest extends TestCase
      * Test deployment of multiple datasources.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testMultipleDatasources() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")

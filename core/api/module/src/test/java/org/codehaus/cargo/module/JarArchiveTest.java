@@ -31,6 +31,11 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.util.AbstractResourceTest;
 import org.codehaus.cargo.util.VFSFileHandler;
 
@@ -50,31 +55,26 @@ public final class JarArchiveTest extends AbstractResourceTest
     private FileSystemManager fsManager;
 
     /**
-     * Creates the file system manager. {@inheritDoc}
+     * Creates the file system manager.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         ((StandardFileSystemManager) this.fsManager).init();
     }
 
     /**
-     * Closes the file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (this.fsManager != null)
         {
             ((StandardFileSystemManager) this.fsManager).close();
         }
-
-        super.tearDown();
     }
 
     /**
@@ -83,12 +83,13 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testConstructorWithNullInputStream() throws Exception
     {
         try
         {
             new DefaultJarArchive((InputStream) null);
-            fail("NullPointerException expected");
+            Assertions.fail("NullPointerException expected");
         }
         catch (NullPointerException expected)
         {
@@ -101,6 +102,7 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testRandomAccess() throws Exception
     {
         JarArchive jar = new DefaultJarArchive(getResourcePath(PACKAGE_PATH + "randomaccess.jar"));
@@ -116,10 +118,11 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testContainsClass() throws Exception
     {
         JarArchive jar = new DefaultJarArchive(getResourcePath(PACKAGE_PATH + "containsclass.jar"));
-        assertTrue(jar.containsClass("test.Test"));
+        Assertions.assertTrue(jar.containsClass("test.Test"));
     }
 
     /**
@@ -128,10 +131,11 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testContainsClassEmpty() throws Exception
     {
         JarArchive jar = new DefaultJarArchive(getResourcePath(PACKAGE_PATH + "empty.jar"));
-        assertTrue(!jar.containsClass("test.Test"));
+        Assertions.assertTrue(!jar.containsClass("test.Test"));
     }
 
     /**
@@ -139,13 +143,14 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testFindResource() throws Exception
     {
         JarArchive jar =
             new DefaultJarArchive(getResourcePath(PACKAGE_PATH + "test.jar"));
-        assertEquals("rootResource.txt", jar.findResource("rootResource.txt"));
-        assertEquals("folder1/resourceOne.txt", jar.findResource("resourceOne.txt"));
-        assertNull(jar.findResource("foo"));
+        Assertions.assertEquals("rootResource.txt", jar.findResource("rootResource.txt"));
+        Assertions.assertEquals("folder1/resourceOne.txt", jar.findResource("resourceOne.txt"));
+        Assertions.assertNull(jar.findResource("foo"));
     }
 
     /**
@@ -153,31 +158,32 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testGetResources() throws Exception
     {
         JarArchive jar = new DefaultJarArchive(getResourcePath(PACKAGE_PATH + "test.jar"));
 
         List<String> resources = jar.getResources("folder1");
-        assertEquals(2, resources.size());
-        assertTrue(resources.contains("folder1/resourceOne.txt"));
-        assertTrue(resources.contains("folder1/resourceTwo.txt"));
+        Assertions.assertEquals(2, resources.size());
+        Assertions.assertTrue(resources.contains("folder1/resourceOne.txt"));
+        Assertions.assertTrue(resources.contains("folder1/resourceTwo.txt"));
 
         resources = jar.getResources("folder1/");
-        assertEquals(2, resources.size());
-        assertTrue(resources.contains("folder1/resourceOne.txt"));
-        assertTrue(resources.contains("folder1/resourceTwo.txt"));
+        Assertions.assertEquals(2, resources.size());
+        Assertions.assertTrue(resources.contains("folder1/resourceOne.txt"));
+        Assertions.assertTrue(resources.contains("folder1/resourceTwo.txt"));
 
         resources = jar.getResources("");
-        assertEquals(6, resources.size());
-        assertTrue(resources.contains("rootResource.txt"));
-        assertTrue(resources.contains("folder1/"));
-        assertTrue(resources.contains("folder1/resourceOne.txt"));
-        assertTrue(resources.contains("folder1/resourceTwo.txt"));
-        assertTrue(resources.contains("folder2/"));
-        assertTrue(resources.contains("folder2/resourceTwo.txt"));
+        Assertions.assertEquals(6, resources.size());
+        Assertions.assertTrue(resources.contains("rootResource.txt"));
+        Assertions.assertTrue(resources.contains("folder1/"));
+        Assertions.assertTrue(resources.contains("folder1/resourceOne.txt"));
+        Assertions.assertTrue(resources.contains("folder1/resourceTwo.txt"));
+        Assertions.assertTrue(resources.contains("folder2/"));
+        Assertions.assertTrue(resources.contains("folder2/resourceTwo.txt"));
 
         resources = jar.getResources("foo");
-        assertEquals(0, resources.size());
+        Assertions.assertEquals(0, resources.size());
     }
 
     /**
@@ -185,6 +191,7 @@ public final class JarArchiveTest extends AbstractResourceTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testExpandToPath() throws Exception
     {
         FileObject testJar = this.fsManager.resolveFile("ram:///test.jar");
@@ -202,6 +209,6 @@ public final class JarArchiveTest extends AbstractResourceTest
         jarArchive.expandToPath("ram:///test");
 
         // Verify that the rootResource.txt file has been correctly expanded
-        assertTrue(this.fsManager.resolveFile("ram:///test/rootResource.txt").exists());
+        Assertions.assertTrue(this.fsManager.resolveFile("ram:///test/rootResource.txt").exists());
     }
 }

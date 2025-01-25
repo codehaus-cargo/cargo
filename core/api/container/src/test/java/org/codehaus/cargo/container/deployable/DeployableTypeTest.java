@@ -19,61 +19,67 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link DeployableType}.
  */
-public class DeployableTypeTest extends TestCase
+public class DeployableTypeTest
 {
     /**
      * Test equality.
      */
+    @Test
     public void testEquality()
     {
         DeployableType type = DeployableType.toType("war");
-        assertEquals(DeployableType.WAR, type);
-        assertSame(DeployableType.WAR, type);
+        Assertions.assertEquals(DeployableType.WAR, type);
+        Assertions.assertSame(DeployableType.WAR, type);
     }
 
     /**
      * Test difference.
      */
+    @Test
     public void testDifference()
     {
         DeployableType type = DeployableType.toType("war");
-        assertTrue(type != DeployableType.EAR);
-        assertNotSame(DeployableType.EAR, type);
+        Assertions.assertTrue(type != DeployableType.EAR);
+        Assertions.assertNotEquals(DeployableType.EAR, type);
     }
 
     /**
      * Test equality between WAR deployables.
      */
+    @Test
     public void testWARTypeEquality()
     {
         WAR war1 = new WAR("/some/path/to/file.war");
         WAR war2 = new WAR("/otherfile.war");
-        assertEquals(war1.getType(), war2.getType());
+        Assertions.assertEquals(war1.getType(), war2.getType());
     }
 
     /**
      * Test equality between EAR deployables.
      */
+    @Test
     public void testEARTypeEquality()
     {
         EAR ear1 = new EAR("/some/path/to/file.ear");
         EAR ear2 = new EAR("/otherfile.ear");
-        assertEquals(ear1.getType(), ear2.getType());
+        Assertions.assertEquals(ear1.getType(), ear2.getType());
     }
 
     /**
      * Test difference between WAR and EAR deployables.
      */
+    @Test
     public void testWARAndEARDifference()
     {
         WAR war = new WAR("/some/path/to/file.war");
         EAR ear = new EAR("/file.ear");
-        assertNotSame(war.getType(), ear.getType());
-        assertTrue(war.getType() != ear.getType());
+        Assertions.assertNotEquals(war.getType(), ear.getType());
+        Assertions.assertTrue(war.getType() != ear.getType());
     }
 }

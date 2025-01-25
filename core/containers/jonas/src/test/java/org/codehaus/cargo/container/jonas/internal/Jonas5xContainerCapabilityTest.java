@@ -24,6 +24,8 @@ package org.codehaus.cargo.container.jonas.internal;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.deployable.DeployableType;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Unit tests for {@link Jonas5xContainerCapability}.
@@ -35,11 +37,12 @@ public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTe
      */
     protected ContainerCapability capability;
 
-    @Override
-    protected void setUp() throws Exception
+    /**
+     * Creates the test container capability.
+     */
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
-
         this.capability = new Jonas5xContainerCapability();
     }
 
@@ -60,7 +63,7 @@ public class Jonas5xContainerCapabilityTest extends Jonas4xContainerCapabilityTe
      */
     private void testSupportedDeployableType(DeployableType type)
     {
-        assertTrue("DeployableType " + type + " is not supported", capability
-            .supportsDeployableType(type));
+        Assertions.assertTrue(capability.supportsDeployableType(type),
+            "DeployableType " + type + " is not supported");
     }
 }

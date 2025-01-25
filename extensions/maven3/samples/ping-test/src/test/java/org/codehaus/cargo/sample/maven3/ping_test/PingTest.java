@@ -24,18 +24,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Ping test.
  */
-public class PingTest extends TestCase
+public class PingTest
 {
 
     /**
      * Test the ping.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testPing() throws Exception
     {
         testServlet("/ping-test");
@@ -56,7 +58,7 @@ public class PingTest extends TestCase
         BufferedReader responseReader = new BufferedReader(new InputStreamReader(responseStream));
         String response = responseReader.readLine();
 
-        assertEquals("Servlet is now ready", response);
+        Assertions.assertEquals("Servlet is now ready", response);
     }
 
 }

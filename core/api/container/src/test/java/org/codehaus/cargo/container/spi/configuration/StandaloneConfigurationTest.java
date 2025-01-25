@@ -22,7 +22,8 @@ package org.codehaus.cargo.container.spi.configuration;
 import java.util.Collections;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.AllFileSelector;
 import org.apache.commons.vfs2.FileObject;
@@ -38,7 +39,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
 /**
  * Unit tests for {@link AbstractStandaloneLocalConfiguration}.
  */
-public class StandaloneConfigurationTest extends TestCase
+public class StandaloneConfigurationTest
 {
 
     /**
@@ -102,6 +103,7 @@ public class StandaloneConfigurationTest extends TestCase
      * Test the creation of a config directory when the target directory does not exist yet.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateConfigDirWhenDirectoryDoesNotExist() throws Exception
     {
         String configDir = "ram:///cargo/testCreateConfigDirWhenDirectoryDoesNotExist";
@@ -116,14 +118,15 @@ public class StandaloneConfigurationTest extends TestCase
         configuration.setFileHandler(new VFSFileHandler());
         configuration.setupConfigurationDir();
 
-        assertTrue("Config dir should have been created", configDirObject.exists());
-        assertTrue("Cargo timestamp should have existed", timestampFileObject.exists());
+        Assertions.assertTrue(configDirObject.exists(), "Config dir should have been created");
+        Assertions.assertTrue(timestampFileObject.exists(), "Cargo timestamp should have existed");
     }
 
     /**
      * Test the creation of a config directory when the target directory exists and is empty.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateConfigDirWhenDirectoryExistButIsEmpty() throws Exception
     {
         String configDir = "ram:///cargo/testCreateConfigDirWhenDirectoryExistButIsEmpty";
@@ -138,13 +141,14 @@ public class StandaloneConfigurationTest extends TestCase
         configuration.setFileHandler(new VFSFileHandler());
         configuration.setupConfigurationDir();
 
-        assertTrue("Cargo timestamp should have existed", timestampFileObject.exists());
+        Assertions.assertTrue(timestampFileObject.exists(), "Cargo timestamp should have existed");
     }
 
     /**
      * Test the creation of a config directory when the target directory exists and is not empty.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testCreateConfigDirWhenDirectoryNotEmpty() throws Exception
     {
         String configDir = "ram:///cargo/testCreateConfigDirWhenDirectoryNotEmpty";
@@ -159,11 +163,12 @@ public class StandaloneConfigurationTest extends TestCase
         try
         {
             configuration.setupConfigurationDir();
-            fail("Should have thrown a ContainerException as the directory is not empty");
+            Assertions.fail(
+                "Should have thrown a ContainerException as the directory is not empty");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid configuration dir "
+            Assertions.assertEquals("Invalid configuration dir "
                 + "[ram:///cargo/testCreateConfigDirWhenDirectoryNotEmpty]. When using standalone "
                 + "configurations, the configuration dir must point to an empty directory - "
                 + "Except if the configuration was created by Cargo.", expected.getMessage());
@@ -174,28 +179,31 @@ public class StandaloneConfigurationTest extends TestCase
      * Test the setting of default properties.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testDefaultPropertiesAreSet() throws Exception
     {
         TestableAbstractStandaloneConfiguration configuration =
             new TestableAbstractStandaloneConfiguration("dummy");
 
-        assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
-        assertEquals(LoggingLevel.MEDIUM.getLevel(),
+        Assertions.assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals(LoggingLevel.MEDIUM.getLevel(),
             configuration.getPropertyValue(GeneralPropertySet.LOGGING));
-        assertEquals("localhost", configuration.getPropertyValue(GeneralPropertySet.HOSTNAME));
+        Assertions.assertEquals(
+            "localhost", configuration.getPropertyValue(GeneralPropertySet.HOSTNAME));
     }
 
     /**
      * Test the setting of extra properties in addition to the default properties.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testSetPropertyWhenDefaultPropertyExists() throws Exception
     {
         TestableAbstractStandaloneConfiguration configuration =
             new TestableAbstractStandaloneConfiguration("dummy");
 
         configuration.setProperty(ServletPropertySet.PORT, "8081");
-        assertEquals("8081", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals("8081", configuration.getPropertyValue(ServletPropertySet.PORT));
     }
 
 }

@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.codehaus.cargo.container.ContainerException;
@@ -38,7 +41,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class WebLogicInstalledLocalContainerTest extends TestCase
+public class WebLogicInstalledLocalContainerTest
 {
     /**
      * BEA_HOME
@@ -71,14 +74,12 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -90,44 +91,44 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
     }
 
     /**
-     * Closes the test file system manager. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Closes the test file system manager.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
         if (fsManager != null)
         {
             fsManager.close();
         }
-
-        super.tearDown();
     }
 
     /**
      * Initialize WebLogic home.
      */
+    @Test
     public void testInitBeaHome()
     {
         this.container.initBeaHome();
         // convert so that file paths match in windows os
         String name = this.container.getBeaHome().replaceAll("\\\\", "/");
-        assertEquals(BEA_HOME, name);
+        Assertions.assertEquals(BEA_HOME, name);
     }
 
     /**
      * Test WebLogic home.
      */
+    @Test
     public void testGetBeaHome()
     {
         this.container.setBeaHome(BEA_HOME);
-        assertEquals(BEA_HOME, this.container.getBeaHome());
+        Assertions.assertEquals(BEA_HOME, this.container.getBeaHome());
     }
 
     /**
      * Test empty WebLogic home.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyWeblogicHomeWhenEmptyDirectory() throws Exception
     {
         this.fsManager.resolveFile(WL_HOME + "/server/lib").createFolder();
@@ -137,11 +138,11 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyWeblogicHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid WebLogic installation. The [" + WL_HOME
+            Assertions.assertEquals("Invalid WebLogic installation. The [" + WL_HOME
                 + "/server/lib] directory is empty "
                 + "and it shouldn't be. Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
@@ -153,6 +154,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
      * Test WebLogic home with missing registry XML.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyBeaHomeWhenMissingRegistryXml() throws Exception
     {
         this.container.setBeaHome(BEA_HOME);
@@ -161,11 +163,11 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyBeaHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid WebLogic installation. The [" + BEA_HOME
+            Assertions.assertEquals("Invalid WebLogic installation. The [" + BEA_HOME
                 + "/registry.xml] file doesn't "
                 + "exist. Make sure the BEA_HOME directory you have specified "
                 + "points to the correct location (it is currently pointing to [" + BEA_HOME + "])",
@@ -177,6 +179,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
      * Test WebLogic home with missing directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyWeblogicHomeWhenMissingDirectory() throws Exception
     {
         this.container.setFileHandler(this.fileHandler);
@@ -184,11 +187,11 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyWeblogicHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid WebLogic installation. The [" + WL_HOME
+            Assertions.assertEquals("Invalid WebLogic installation. The [" + WL_HOME
                 + "/server/lib] directory doesn't "
                 + "exist. Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
@@ -200,6 +203,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
      * Test WebLogic home a file instead of directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyWeblogicHomeWhenFileInsteadOfDirectory() throws Exception
     {
         this.fsManager.resolveFile(WL_HOME + "/server/lib").createFile();
@@ -209,11 +213,11 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyWeblogicHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid WebLogic installation. The [" + WL_HOME
+            Assertions.assertEquals("Invalid WebLogic installation. The [" + WL_HOME
                 + "/server/lib] path should be a "
                 + "directory. Make sure the WL_HOME directory you have specified "
                 + "points to the right location (It's currently pointing to [" + WL_HOME + "])",
@@ -225,6 +229,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
      * Test WebLogic home with valid directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyBeaHomeWhenValidConfiguration() throws Exception
     {
         this.container.setBeaHome(BEA_HOME);
@@ -237,6 +242,7 @@ public class WebLogicInstalledLocalContainerTest extends TestCase
      * Test WebLogic home with valid directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyWeblogicHomeWhenValidConfiguration() throws Exception
     {
         this.fsManager.resolveFile(WL_HOME + "/server/lib/weblogic.jar").createFile();

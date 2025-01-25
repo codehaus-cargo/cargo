@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.container.jboss.internal;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jboss.JBoss4xInstalledLocalContainer;
@@ -41,7 +43,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class JBossInstalledLocalContainerTest extends TestCase
+public class JBossInstalledLocalContainerTest
 {
     /**
      * Container home.
@@ -74,14 +76,12 @@ public class JBossInstalledLocalContainerTest extends TestCase
     private FileHandler fileHandler;
 
     /**
-     * Creates the test file system manager and the container. {@inheritDoc}
+     * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
-        super.setUp();
-
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
         this.fileHandler = new VFSFileHandler(this.fsManager);
@@ -99,60 +99,66 @@ public class JBossInstalledLocalContainerTest extends TestCase
     /**
      * Test get conf directory.
      */
+    @Test
     public void testGetConfDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "conf");
-        assertEquals(expected, this.container.getConfDir(
+        Assertions.assertEquals(expected, this.container.getConfDir(
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
      * Test get lib directory.
      */
+    @Test
     public void testGetLibDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "lib");
-        assertEquals(expected, this.container.getLibDir(
+        Assertions.assertEquals(expected, this.container.getLibDir(
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
      * Test get deploy directory.
      */
+    @Test
     public void testGetDeployDir()
     {
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "deploy");
-        assertEquals(expected, this.container.getDeployDir(
+        Assertions.assertEquals(expected, this.container.getDeployDir(
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
      * Test get farm directory.
      */
+    @Test
     public void testGetFarmDir()
     {
         this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
-        assertEquals(expected, this.container.getDeployDir(
+        Assertions.assertEquals(expected, this.container.getDeployDir(
             this.container.getConfiguration().getPropertyValue(JBossPropertySet.CONFIGURATION)));
     }
 
     /**
      * Test get farm deploy directory.
      */
+    @Test
     public void testGetFarmDeployDir()
     {
         this.container.getConfiguration().setProperty(JBossPropertySet.CLUSTERED, "true");
         String expected = this.fileHandler.append(CONFIGURATION_HOME, "farm");
 
         JBossInstalledLocalDeployer deployer = new JBossInstalledLocalDeployer(this.container);
-        assertEquals(expected, deployer.getDeployableDir(null));
+        Assertions.assertEquals(expected, deployer.getDeployableDir(null));
     }
 
     /**
      * Test JBoss home when empty directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyJBossHomeWhenEmptyDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin").createFolder();
@@ -160,11 +166,12 @@ public class JBossInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyJBossHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid JBoss installation. The [ram:///jboss/bin] directory is empty "
+            Assertions.assertEquals(
+                "Invalid JBoss installation. The [ram:///jboss/bin] directory is empty "
                 + "and it shouldn't be. Make sure the JBoss container home directory you have "
                 + "specified points to the right location (It's currently pointing to "
                 + "[ram:///jboss])", expected.getMessage());
@@ -175,6 +182,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
      * Test JBoss home when run.jar is missing.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyJBossHomeWhenMissingRunJar() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin/shutdown.jar").createFile();
@@ -186,11 +194,12 @@ public class JBossInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyJBossHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid JBoss installation. The [ram:///jboss/bin/run.jar] JAR doesn't "
+            Assertions.assertEquals(
+                "Invalid JBoss installation. The [ram:///jboss/bin/run.jar] JAR doesn't "
                 + "exist. Make sure the JBoss container home directory you have specified points "
                 + "to the right location (It's currently pointing to [ram:///jboss])",
                 expected.getMessage());
@@ -201,6 +210,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
      * Test JBoss home when missing directory.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyJBossHomeWhenMissingDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin/run.jar").createFile();
@@ -212,11 +222,12 @@ public class JBossInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyJBossHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid JBoss installation. The [ram:///jboss/client] directory doesn't "
+            Assertions.assertEquals(
+                "Invalid JBoss installation. The [ram:///jboss/client] directory doesn't "
                 + "exist. Make sure the JBoss container home directory you have specified points "
                 + "to the right location (It's currently pointing to [ram:///jboss])",
                 expected.getMessage());
@@ -227,6 +238,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
      * Test JBoss home when file (instead of directory).
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyJBossHomeWhenFileInsteadOfDirectory() throws Exception
     {
         this.fsManager.resolveFile("ram:///jboss/bin").createFile();
@@ -234,11 +246,12 @@ public class JBossInstalledLocalContainerTest extends TestCase
         try
         {
             this.container.verifyJBossHome();
-            fail("Should have thrown an exception here");
+            Assertions.fail("Should have thrown an exception here");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Invalid JBoss installation. The [ram:///jboss/bin] path should be a "
+            Assertions.assertEquals(
+                "Invalid JBoss installation. The [ram:///jboss/bin] path should be a "
                 + "directory. Make sure the JBoss container home directory you have specified "
                 + "points to the right location (It's currently pointing to [ram:///jboss])",
                 expected.getMessage());
@@ -249,6 +262,7 @@ public class JBossInstalledLocalContainerTest extends TestCase
      * Test JBoss home when valid configuration.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testVerifyJBossHomeWhenValidConfiguration() throws Exception
     {
         // Create a valid JBoss server configuration directory structure

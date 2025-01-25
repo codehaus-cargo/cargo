@@ -19,20 +19,22 @@
  */
 package org.codehaus.cargo.container.wildfly.internal;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.WAR;
 
 /**
  * Unit tests for {@link WildFlyRemoteDeploymentJsonMarshaller}.
  */
-public class WildFlyRemoteDeploymentJsonMarshallerTest extends TestCase
+public class WildFlyRemoteDeploymentJsonMarshallerTest
 {
 
     /**
      * Test that marshallDeployRequest doesn't escape slash in hash value.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testMarshallDeployRequestEscaping() throws Exception
     {
         String hash = "K47rAt/kgPKImk/K2wqCUFniIOI=";
@@ -42,6 +44,7 @@ public class WildFlyRemoteDeploymentJsonMarshallerTest extends TestCase
         Deployable deployable = new WAR("/test/path");
         String deployRequest = marshaller.marshallDeployRequest(deployable, hash);
 
-        assertTrue("Deploy request doesn't contain correct hash!", deployRequest.contains(hash));
+        Assertions.assertTrue(
+            deployRequest.contains(hash), "Deploy request doesn't contain correct hash!");
     }
 }

@@ -31,23 +31,6 @@ public abstract class AbstractJRunStandaloneConfigurationTest extends
 {
 
     /**
-     * Empty constructor.
-     */
-    public AbstractJRunStandaloneConfigurationTest()
-    {
-        super();
-    }
-
-    /**
-     * Constructor with container name.
-     * @param name Container name.
-     */
-    public AbstractJRunStandaloneConfigurationTest(String name)
-    {
-        super(name);
-    }
-
-    /**
      * Setup the datasource file and call parent. {@inheritDoc}
      * @param fixture Datasource fixture.
      * @return Configuration file for <code>fixture</code>.

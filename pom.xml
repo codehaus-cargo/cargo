@@ -332,7 +332,7 @@
       We use Java 6 for certain containers' tests on our CI.
       -->
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
-    <cargo.archetypes-junit.version>5.11.4</cargo.archetypes-junit.version>
+    <cargo.junit-jupiter.version>5.11.4</cargo.junit-jupiter.version>
     <!--
       The multiple-containers archetype relies on multiple profile activation conditions, which
       only works starting from Maven 3.2.2: https://issues.apache.org/jira/browse/MNG-4565
@@ -958,15 +958,6 @@
         <version>2.0.0</version>
       </dependency>
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <!--
-         Due to the fact that we use tests with Suite, ensure we enforce JUnit 3.x to avoid
-         accidental use of advanced APIs such as org.junit.Assume
-         -->
-        <version>3.8.2</version>
-      </dependency>
-      <dependency>
         <groupId>net.java.dev.jna</groupId>
         <artifactId>jna-platform</artifactId>
         <version>5.16.0</version>
@@ -1114,6 +1105,11 @@
         <version>2.0.6.1</version>
       </dependency>
       <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${cargo.junit-jupiter.version}</version>
+    </dependency>
+      <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
         <version>4.11.0</version>
@@ -1145,9 +1141,9 @@
         <version>1.10</version>
       </dependency>
       <dependency>
-        <groupId>xmlunit</groupId>
-        <artifactId>xmlunit</artifactId>
-        <version>1.6</version>
+        <groupId>org.xmlunit</groupId>
+        <artifactId>xmlunit-legacy</artifactId>
+        <version>2.10.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

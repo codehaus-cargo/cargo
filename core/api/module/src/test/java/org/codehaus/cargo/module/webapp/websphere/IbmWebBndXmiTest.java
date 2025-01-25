@@ -23,9 +23,12 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.jdom2.Element;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.EjbRef;
-import org.jdom2.Element;
 
 /**
  * Unit tests for {@link IbmWebBndXmi}.
@@ -37,6 +40,7 @@ public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testAddEjbReferenceDescription() throws Exception
     {
         String xml = "<com.ibm.ejs.models.base.bindings.webappbnd:WebAppBinding "
@@ -54,11 +58,11 @@ public class IbmWebBndXmiTest extends AbstractDocumentBuilderTest
 
         List<Element> nl = descr.getDocument().getRootElement().getChildren("ejbRefBindings");
         Element n = nl.get(0);
-        assertEquals("fee", n.getAttribute("jndiName").getValue());
-        assertEquals(1, nl.size());
+        Assertions.assertEquals("fee", n.getAttribute("jndiName").getValue());
+        Assertions.assertEquals(1, nl.size());
         nl = n.getChildren("bindingEjbRef");
         n = (Element) nl.get(0);
-        assertEquals("WEB-INF/web.xml#foo", n.getAttribute("href").getValue());
-        assertEquals(1, nl.size());
+        Assertions.assertEquals("WEB-INF/web.xml#foo", n.getAttribute("href").getValue());
+        Assertions.assertEquals(1, nl.size());
     }
 }

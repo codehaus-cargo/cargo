@@ -25,7 +25,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.sample.java.PingUtils;
 import org.codehaus.cargo.util.log.Logger;
@@ -34,7 +34,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test WebLogic container.
  */
-public class WebLogicTest extends TestCase
+public class WebLogicTest
 {
 
     /**
@@ -46,6 +46,7 @@ public class WebLogicTest extends TestCase
      * Test changing of classpath with the WebSphere container.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testClasspathWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -59,6 +60,7 @@ public class WebLogicTest extends TestCase
      * Test deploying a simple EAR.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSimpleEar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -72,6 +74,7 @@ public class WebLogicTest extends TestCase
      * Test deploying a simple WAR.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSimpleWar() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -85,6 +88,7 @@ public class WebLogicTest extends TestCase
      * Test verifying datasource.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testDatasource() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -98,6 +102,7 @@ public class WebLogicTest extends TestCase
      * Test verifying JMS.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testJms() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -111,6 +116,7 @@ public class WebLogicTest extends TestCase
      * Test verifying user creation and WAR authentication.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testAuthentication() throws Exception
     {
         URL url = new URL("http://localhost:" + System.getProperty("http.port")
@@ -130,6 +136,7 @@ public class WebLogicTest extends TestCase
      * Test verifying system property configuration.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testSystemProperty() throws Exception
     {
         URL url = new URL("http://localhost:" + System.getProperty("http.port")

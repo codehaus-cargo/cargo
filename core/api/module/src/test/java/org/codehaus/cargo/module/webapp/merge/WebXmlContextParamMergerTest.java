@@ -25,6 +25,9 @@ package org.codehaus.cargo.module.webapp.merge;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
@@ -40,6 +43,7 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneContextParamIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -56,7 +60,7 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
     }
 
     /**
@@ -65,6 +69,7 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneContextParamIntoDocumentWithAnotherContextParam() throws Exception
     {
         String srcXml = "<web-app>"
@@ -85,8 +90,8 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param1"));
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param2"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param1"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param2"));
     }
 
     /**
@@ -95,6 +100,7 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneContextParamIntoDocumentWithSameContextParam() throws Exception
     {
         String srcXml = "<web-app>"
@@ -109,7 +115,7 @@ public final class WebXmlContextParamMergerTest extends AbstractDocumentBuilderT
             new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.merge(mergeWebXml);
-        assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
+        Assertions.assertTrue(WebXmlUtils.hasContextParam(srcWebXml, "param"));
     }
 
 }

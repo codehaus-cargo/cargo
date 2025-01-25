@@ -23,72 +23,81 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for the Configuration Files option.
  */
-public class ConfigurationFilesTest extends TestCase
+public class ConfigurationFilesTest
 {
 
     /**
      * Test the Configuration Files option with copying of subdirectory.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testConfigFileDirectory() throws Exception
     {
         Properties properties = loadProperties("test-configFile-directory/test-subfolder");
-        assertEquals("12345", properties.getProperty("cargo.servlet.port"));
+        Assertions.assertEquals("12345", properties.getProperty("cargo.servlet.port"));
     }
 
     /**
      * Test the Configuration Files option with copying of file.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testConfigFileFile() throws Exception
     {
         Properties properties = loadProperties("test-configFile-file");
-        assertEquals("12345", properties.getProperty("cargo.servlet.port"));
+        Assertions.assertEquals("12345", properties.getProperty("cargo.servlet.port"));
     }
 
     /**
      * Test the Configuration Files option with copying of subdirectory as-is.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testFileDirectory() throws Exception
     {
         Properties properties = loadProperties("test-file-directory/test-subfolder");
-        assertEquals("@cargo.servlet.port@", properties.getProperty("cargo.servlet.port"));
+        Assertions.assertEquals(
+            "@cargo.servlet.port@", properties.getProperty("cargo.servlet.port"));
     }
 
     /**
      * Test the Configuration Files option with copying of file as-is.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testFileFile() throws Exception
     {
         Properties properties = loadProperties("test-file-file");
-        assertEquals("@cargo.servlet.port@", properties.getProperty("cargo.servlet.port"));
+        Assertions.assertEquals(
+            "@cargo.servlet.port@", properties.getProperty("cargo.servlet.port"));
     }
 
     /**
      * Test the Configuration Files option with copying of file in subdirectory.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testFileDirectoryWithConfigOption() throws Exception
     {
         Properties properties = loadProperties("test-file-configfile-directory/test-subfolder");
-        assertEquals("12345", properties.getProperty("cargo.servlet.port"));
+        Assertions.assertEquals("12345", properties.getProperty("cargo.servlet.port"));
     }
 
     /**
      * Test the Configuration Files option with copying of file in subdirectory.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testFileFileWithConfigOption() throws Exception
     {
         Properties properties = loadProperties("test-file-configfile-file");
-        assertEquals("12345", properties.getProperty("cargo.servlet.port"));
+        Assertions.assertEquals("12345", properties.getProperty("cargo.servlet.port"));
     }
 
     /**
@@ -100,10 +109,10 @@ public class ConfigurationFilesTest extends TestCase
     private Properties loadProperties(String subDirectory) throws Exception
     {
         File jettyBase = new File("target/jetty-base");
-        assertTrue(jettyBase + " is not a directory", jettyBase.isDirectory());
+        Assertions.assertTrue(jettyBase.isDirectory(), jettyBase + " is not a directory");
 
         File propertiesFile = new File(jettyBase, subDirectory + "/test.properties");
-        assertTrue(propertiesFile + " is not a file", propertiesFile.isFile());
+        Assertions.assertTrue(propertiesFile.isFile(), propertiesFile + " is not a file");
 
         Properties properties = new Properties();
         try (FileInputStream fis = new FileInputStream(propertiesFile))

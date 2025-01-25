@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.container.jboss.deployable;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.util.AbstractResourceTest;
 
@@ -36,45 +39,50 @@ public class JBossWARTest extends AbstractResourceTest
      * Test get JBoss WAR context when JBoss web.xml with root context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetWarContextWhenJbossWebXmlWithRootContext() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-context.war"));
-        assertEquals("testcontext", war.getContext());
+        Assertions.assertEquals("testcontext", war.getContext());
     }
 
     /**
      * Test get JBoss WAR context when JBoss web.xml with no context.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetWarContextWhenJbossWebXmlWithNoRootContext() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-nocontext.war"));
-        assertEquals("jboss-nocontext", war.getContext());
+        Assertions.assertEquals("jboss-nocontext", war.getContext());
     }
 
     /**
      * Test get JBoss WAR context with no JBoss web.xml.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetWarContextWhenNoJbossWebXml() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-empty.war"));
-        assertEquals("jboss-empty", war.getContext());
+        Assertions.assertEquals("jboss-empty", war.getContext());
     }
 
     /**
      * Test get JBoss WAR context with invalid file.
      */
+    @Test
     public void testGetWarContextWhenInvalidFile()
     {
         try
         {
             new JBossWAR("some/invalid/file");
-            fail("Should have thrown a ContainerException because the file doesn't exist");
+            Assertions.fail(
+                "Should have thrown a ContainerException because the file doesn't exist");
         }
         catch (ContainerException expected)
         {
-            assertEquals("Failed to parse JBoss WAR file in [some/invalid/file]",
+            Assertions.assertEquals("Failed to parse JBoss WAR file in [some/invalid/file]",
                 expected.getMessage());
         }
     }
@@ -83,22 +91,24 @@ public class JBossWARTest extends AbstractResourceTest
      * Test get JBoss WAR context when context already setup and no JBoss web.xml is present.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetWarContextWhenContextAlreadySetupAndNoJBossWebXml() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-empty.war"));
         war.setContext("context");
-        assertEquals("context", war.getContext());
+        Assertions.assertEquals("context", war.getContext());
     }
 
     /**
      * Test get JBoss WAR context when context already setup and JBoss web.xml is present.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetWarContextWhenContextAlreadySetupAndJBossWebXml() throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-context.war"));
         war.setContext("context");
-        assertEquals("testcontext", war.getContext());
+        Assertions.assertEquals("testcontext", war.getContext());
     }
 
     /**
@@ -106,12 +116,13 @@ public class JBossWARTest extends AbstractResourceTest
      * present.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetWarContextAndVirtualHostWhenContextAlreadySetupAndJBossWebXml()
         throws Exception
     {
         JBossWAR war = new JBossWAR(getResourcePath(PACKAGE_PATH + "jboss-virtualhost.war"));
         war.setContext("context");
-        assertEquals("testhost-testcontext", war.getContext());
-        assertEquals("testhost", war.getVirtualHost());
+        Assertions.assertEquals("testhost-testcontext", war.getContext());
+        Assertions.assertEquals("testhost", war.getVirtualHost());
     }
 }

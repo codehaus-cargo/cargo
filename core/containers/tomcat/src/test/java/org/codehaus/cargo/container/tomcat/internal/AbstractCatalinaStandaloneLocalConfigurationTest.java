@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfigurationWithConfigurationBuilderTest;
@@ -31,10 +35,10 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates the Tomcat manager. {@inheritDoc}
+     * Creates the Tomcat manager.
      * @throws Exception If anything goes wrong.
      */
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -69,12 +73,13 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 
         String escapedPath = configuration.escapePath(path);
 
-        assertEquals(path, expectedEscapedPath, escapedPath);
+        Assertions.assertEquals(expectedEscapedPath, escapedPath, path);
     }
 
     /**
      * Test if full UNIX paths get escaped correctly.
      */
+    @Test
     public void testEscapePathWithFullUNIXPath()
     {
         testEscapePath("/usr/bin/java", "/usr/bin/java");
@@ -83,6 +88,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     /**
      * Test if partial UNIX paths get escaped correctly.
      */
+    @Test
     public void testEscapePathWithPartialUNIXPath()
     {
         testEscapePath("Documents/java", "Documents/java");
@@ -91,6 +97,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     /**
      * Test if full Windows paths get escaped correctly.
      */
+    @Test
     public void testEscapePathWithFullWindowsPath()
     {
         testEscapePath("C:\\Windows\\SYSTEM32\\java.exe", "/C:/Windows/SYSTEM32/java.exe");
@@ -99,6 +106,7 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
     /**
      * Test if partial Windows paths get escaped correctly.
      */
+    @Test
     public void testEscapePathWithPartialWindowsPath()
     {
         testEscapePath("Documents\\java", "Documents/java");
@@ -179,11 +187,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         {
             super
                 .testConfigureCreatesDataSourceForDriverConfiguredDSWithXaTransactionSupport();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(
+            Assertions.assertEquals(
                 "Tomcat does not support XA_TRANSACTION for DataSource implementations.", e
                     .getMessage());
         }
@@ -202,11 +210,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         {
             super
                 .testConfigureCreatesDataSourceForDriverConfiguredDSWithLocalTransactionSupport();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(
+            Assertions.assertEquals(
                 "Tomcat does not support LOCAL_TRANSACTION for DataSource implementations.", e
                     .getMessage());
         }
@@ -224,11 +232,11 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
         try
         {
             super.testConfigureCreatesDataSourceForXADataSourceConfiguredDataSource();
-            fail("should have received an exception");
+            Assertions.fail("should have received an exception");
         }
         catch (UnsupportedOperationException e)
         {
-            assertEquals(
+            Assertions.assertEquals(
                 "Tomcat does not support XADataSource configured DataSource implementations.", e
                     .getMessage());
         }

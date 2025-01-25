@@ -26,6 +26,9 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import org.codehaus.cargo.module.AbstractDocumentBuilderTest;
 import org.codehaus.cargo.module.webapp.WebXml;
 import org.codehaus.cargo.module.webapp.WebXmlIo;
@@ -41,6 +44,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -59,7 +63,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
         // WebXml mergeWebXml = new WebXml(mergeDoc);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
     }
 
     /**
@@ -68,6 +72,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterIntoDocumentWithAnotherFilter() throws Exception
     {
         String srcXml = "<web-app>"
@@ -88,8 +93,8 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f2"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f2"));
     }
 
     /**
@@ -98,6 +103,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterIntoDocumentWithSameFilter() throws Exception
     {
         String srcXml = "<web-app>"
@@ -112,7 +118,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(srcXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
     }
 
     /**
@@ -121,6 +127,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterIntoDocumentWithMultipleFilters() throws Exception
     {
         String srcXml = "<web-app>"
@@ -150,11 +157,11 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
-        assertEquals(4, filterNames.size());
-        assertEquals("f1", filterNames.get(0));
-        assertEquals("f2", filterNames.get(1));
-        assertEquals("f3", filterNames.get(2));
-        assertEquals("f4", filterNames.get(3));
+        Assertions.assertEquals(4, filterNames.size());
+        Assertions.assertEquals("f1", filterNames.get(0));
+        Assertions.assertEquals("f2", filterNames.get(1));
+        Assertions.assertEquals("f3", filterNames.get(2));
+        Assertions.assertEquals("f4", filterNames.get(3));
     }
 
     /**
@@ -162,6 +169,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeMultipleFiltersIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -186,10 +194,10 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
         List<String> filterNames = WebXmlUtils.getFilterNames(srcWebXml);
-        assertEquals(3, filterNames.size());
-        assertEquals("f1", filterNames.get(0));
-        assertEquals("f2", filterNames.get(1));
-        assertEquals("f3", filterNames.get(2));
+        Assertions.assertEquals(3, filterNames.size());
+        Assertions.assertEquals("f1", filterNames.get(0));
+        Assertions.assertEquals("f2", filterNames.get(1));
+        Assertions.assertEquals("f3", filterNames.get(2));
     }
 
     /**
@@ -197,6 +205,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterWithOneMappingIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -216,10 +225,10 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
         List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
-        assertEquals(1, filterMappings.size());
-        assertEquals("/f1mapping1", filterMappings.get(0));
+        Assertions.assertEquals(1, filterMappings.size());
+        Assertions.assertEquals("/f1mapping1", filterMappings.get(0));
     }
 
     /**
@@ -228,6 +237,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterWithMultipleMappingsIntoEmptyDocument() throws Exception
     {
         String srcXml = "<web-app></web-app>";
@@ -255,12 +265,12 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
         List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
-        assertEquals(3, filterMappings.size());
-        assertEquals("/f1mapping1", filterMappings.get(0));
-        assertEquals("/f1mapping2", filterMappings.get(1));
-        assertEquals("/f1mapping3", filterMappings.get(2));
+        Assertions.assertEquals(3, filterMappings.size());
+        Assertions.assertEquals("/f1mapping1", filterMappings.get(0));
+        Assertions.assertEquals("/f1mapping2", filterMappings.get(1));
+        Assertions.assertEquals("/f1mapping3", filterMappings.get(2));
     }
 
     /**
@@ -268,6 +278,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeSameFilterInTwoDocuments() throws Exception
     {
         String srcXml = "<web-app>"
@@ -296,10 +307,10 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
         List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
-        assertEquals(1, filterMappings.size());
-        assertEquals("/f1mapping1", filterMappings.get(0));
+        Assertions.assertEquals(1, filterMappings.size());
+        Assertions.assertEquals("/f1mapping1", filterMappings.get(0));
     }
 
     /**
@@ -308,6 +319,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeSameFilterWithInitParamInTwoDocuments() throws Exception
     {
         String srcXml = "<web-app>" + "  <filter>"
@@ -340,13 +352,13 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
         List<String> filterInitParamNames = WebXmlUtils.getFilterInitParamNames(srcWebXml, "f1");
-        assertTrue(filterInitParamNames.size() == 1);
-        assertEquals("fparamName", filterInitParamNames.get(0));
+        Assertions.assertTrue(filterInitParamNames.size() == 1);
+        Assertions.assertEquals("fparamName", filterInitParamNames.get(0));
         List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
-        assertEquals(1, filterMappings.size());
-        assertEquals("/f1mapping1", filterMappings.get(0));
+        Assertions.assertEquals(1, filterMappings.size());
+        Assertions.assertEquals("/f1mapping1", filterMappings.get(0));
     }
 
     /**
@@ -355,6 +367,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeSameFilterWithInitParamDifferentMappingInTwoDocuments() throws Exception
     {
         String srcXml = "<web-app>" + "  <filter>"
@@ -389,15 +402,15 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
         List<String> filterInitParamNames = WebXmlUtils.getFilterInitParamNames(srcWebXml, "f1");
-        assertTrue(filterInitParamNames.size() == 1);
-        assertEquals("fparamName", filterInitParamNames.get(0));
+        Assertions.assertTrue(filterInitParamNames.size() == 1);
+        Assertions.assertEquals("fparamName", filterInitParamNames.get(0));
         List<String> filterMappings = WebXmlUtils.getFilterMappings(srcWebXml, "f1");
-        assertEquals(3, filterMappings.size());
-        assertEquals("/f1mapping1", filterMappings.get(0));
-        assertEquals("/f1mapping2", filterMappings.get(1));
-        assertEquals("/f1mapping3", filterMappings.get(2));
+        Assertions.assertEquals(3, filterMappings.size());
+        Assertions.assertEquals("/f1mapping1", filterMappings.get(0));
+        Assertions.assertEquals("/f1mapping2", filterMappings.get(1));
+        Assertions.assertEquals("/f1mapping3", filterMappings.get(2));
     }
 
     /**
@@ -405,6 +418,7 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
      * 
      * @throws Exception If an unexpected error occurs
      */
+    @Test
     public void testMergeOneFilterIntoDocumentWithSameFilterAndParam() throws Exception
     {
         String srcXml = "<web-app>"
@@ -429,10 +443,10 @@ public final class WebXmlFilterMergerTest extends AbstractDocumentBuilderTest
             new ByteArrayInputStream(mergeXml.getBytes(StandardCharsets.UTF_8)), null);
         WebXmlMerger merger = new WebXmlMerger(srcWebXml);
         merger.mergeFilters(mergeWebXml);
-        assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
+        Assertions.assertTrue(WebXmlUtils.hasFilter(srcWebXml, "f1"));
         List<String> initParams = WebXmlUtils.getFilterInitParamNames(srcWebXml, "f1");
-        assertEquals(1, initParams.size());
-        assertEquals("f1param1", initParams.get(0));
+        Assertions.assertEquals(1, initParams.size());
+        Assertions.assertEquals("f1param1", initParams.get(0));
     }
 
 }

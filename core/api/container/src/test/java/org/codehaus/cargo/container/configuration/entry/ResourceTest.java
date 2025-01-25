@@ -19,12 +19,15 @@
  */
 package org.codehaus.cargo.container.configuration.entry;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link Resource} implementation.
  */
-public class ResourceTest extends TestCase
+public class ResourceTest
 {
 
     /**
@@ -33,24 +36,20 @@ public class ResourceTest extends TestCase
     private Resource resource;
 
     /**
-     * Creates the test resource. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Creates the test resource.
      */
-    @Override
-    protected void setUp() throws Exception
+    @BeforeEach
+    protected void setUp()
     {
-        super.setUp();
         resource = new Resource("jdbc/someConnection", "javax.sql.DataSource");
     }
 
     /**
-     * Destroys the test resource. {@inheritDoc}
-     * @throws Exception If anything goes wrong.
+     * Destroys the test resource.
      */
-    @Override
-    protected void tearDown() throws Exception
+    @AfterEach
+    protected void tearDown()
     {
-        super.tearDown();
         resource = null;
     }
 
@@ -58,32 +57,38 @@ public class ResourceTest extends TestCase
      * Test the name getter.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetName() throws Exception
     {
-        assertEquals("did not get correct name of resource", "jdbc/someConnection",
-            resource.getName());
+        Assertions.assertEquals(
+            "jdbc/someConnection", resource.getName(), "did not get correct name of resource");
     }
 
     /**
      * Test the type getter.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testGetType() throws Exception
     {
-        assertEquals("did not get correct type", "javax.sql.DataSource", resource.getType());
+        Assertions.assertEquals(
+            "javax.sql.DataSource", resource.getType(), "did not get correct type");
     }
 
     /**
      * Test the parameter getters.
      * @throws Exception If anything goes wrong.
      */
+    @Test
     public void testParameters() throws Exception
     {
         resource.setParameter("username", "foo");
         resource.setParameter("password", "bar");
 
-        assertEquals("username not set", "foo", resource.getParameter("username"));
-        assertEquals("password not set", "bar", resource.getParameter("password"));
+        Assertions.assertEquals(
+            "foo", resource.getParameter("username"), "username not set");
+        Assertions.assertEquals(
+            "bar", resource.getParameter("password"), "password not set");
     }
 
 }

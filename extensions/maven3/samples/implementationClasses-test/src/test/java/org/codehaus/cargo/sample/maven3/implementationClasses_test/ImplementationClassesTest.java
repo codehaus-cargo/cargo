@@ -21,12 +21,13 @@ package org.codehaus.cargo.sample.maven3.implementationClasses_test;
 
 import java.io.File;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the implementation classes functionality.
  */
-public class ImplementationClassesTest extends TestCase
+public class ImplementationClassesTest
 {
 
     /**
@@ -43,6 +44,7 @@ public class ImplementationClassesTest extends TestCase
      * directory; so tests verify that nothing has been created.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testImplementationClasses() throws Exception
     {
         String artifactId = System.getProperty("artifactId");
@@ -69,10 +71,10 @@ public class ImplementationClassesTest extends TestCase
             }
             if (!toBeIgnored)
             {
-                fail("Found unexpected file: " + content);
+                Assertions.fail("Found unexpected file: " + content);
             }
         }
-        assertTrue("Cannot find " + artifactId, foundWebapp);
+        Assertions.assertTrue(foundWebapp, "Cannot find " + artifactId);
     }
 
 }

@@ -21,22 +21,24 @@ package org.codehaus.cargo.sample.maven3.artifact_installer_test;
 
 import java.io.File;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the Maven 3 Artifact Installer.
  */
-public class ArtifactInstallerTest extends TestCase
+public class ArtifactInstallerTest
 {
 
     /**
      * Test the Maven 3 Artifact Installer.
      * @throws Exception If anything fails.
      */
+    @Test
     public void testArtifactInstaller() throws Exception
     {
         File target = new File("target");
-        assertTrue(target + " is not a directory", target.isDirectory());
+        Assertions.assertTrue(target.isDirectory(), target + " is not a directory");
 
         boolean foundJettyBase = false;
         boolean foundJettyDistribution = false;
@@ -51,7 +53,8 @@ public class ArtifactInstallerTest extends TestCase
                 else if (contents.getName().equals("cargo"))
                 {
                     File installs = new File(contents, "installs");
-                    assertTrue(installs + " is not a directory", installs.isDirectory());
+                    Assertions.assertTrue(
+                        installs.isDirectory(), installs + " is not a directory");
                     for (File jettyDistribution : installs.listFiles())
                     {
                         if (jettyDistribution.isDirectory()
@@ -64,8 +67,8 @@ public class ArtifactInstallerTest extends TestCase
             }
         }
 
-        assertTrue(foundJettyBase);
-        assertTrue(foundJettyDistribution);
+        Assertions.assertTrue(foundJettyBase);
+        Assertions.assertTrue(foundJettyDistribution);
     }
 
 }
