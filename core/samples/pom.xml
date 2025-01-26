@@ -238,6 +238,8 @@
               <cargo.java.home.1_7>${cargo.java.home.1_7}</cargo.java.home.1_7>
               <cargo.java.home.1_8>${cargo.java.home.1_8}</cargo.java.home.1_8>
               <cargo.java.home.1_11>${cargo.java.home.1_11}</cargo.java.home.1_11>
+              <cargo.java.home.1_17>${cargo.java.home.1_17}</cargo.java.home.1_17>
+              <cargo.java.home.1_21>${cargo.java.home.1_21}</cargo.java.home.1_21>
 
               <cargo.samples.rmi.port>${cargo.samples.rmi.port}</cargo.samples.rmi.port>
               <cargo.samples.servlet.port>${cargo.samples.servlet.port}</cargo.samples.servlet.port>
