@@ -57,6 +57,7 @@ global_job_config:
     always:
       commands:
         - cd $ORIGINAL_PWD
+        - find . -iname "TEST-*.xml" -type f | xargs test-results publish
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
@@ -82,8 +83,6 @@ blocks:
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
-            - 'find core/documentation/target -iname "*.log" -type f -exec artifact push job {} \;'
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
@@ -105,7 +104,6 @@ blocks:
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - rm $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
             - cd $ORIGINAL_PWD
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
@@ -120,7 +118,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 10.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -132,7 +129,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 11.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -144,7 +140,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Payara
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -156,7 +151,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 10.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -168,7 +162,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 9.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -180,7 +173,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 27.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -192,7 +184,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 28.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -204,7 +195,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 29.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -216,7 +206,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 30.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -228,7 +217,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 31.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -240,7 +228,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly31x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 32.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -252,7 +239,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly32x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 33.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -264,7 +250,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly33x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 34.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -276,7 +261,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly34x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 8
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -314,7 +298,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 5.x
     dependencies:
       - Build on Java 8
@@ -329,7 +312,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 9.x
     dependencies:
       - Build on Java 8
@@ -344,7 +326,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Resin 4.x
     dependencies:
       - Build on Java 8
@@ -359,7 +340,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 8.x
     dependencies:
       - Build on Java 8
@@ -374,7 +354,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 9.x
     dependencies:
       - Build on Java 8
@@ -389,7 +368,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 7.x
     dependencies:
       - Build on Java 8
@@ -404,7 +382,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 8.x
     dependencies:
       - Build on Java 8
@@ -419,7 +396,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WebSphere Liberty
     dependencies:
       - Build on Java 8
@@ -434,7 +410,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 8.x
     dependencies:
       - Build on Java 8
@@ -449,7 +424,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 9.x
     dependencies:
       - Build on Java 8
@@ -464,7 +438,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 10.x
     dependencies:
       - Build on Java 8
@@ -479,7 +452,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 11.x
     dependencies:
       - Build on Java 8
@@ -494,7 +466,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 12.x
     dependencies:
       - Build on Java 8
@@ -509,7 +480,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 13.x
     dependencies:
       - Build on Java 8
@@ -524,7 +494,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 14.x
     dependencies:
       - Build on Java 8
@@ -539,7 +508,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 15.x
     dependencies:
       - Build on Java 8
@@ -554,7 +522,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 16.x
     dependencies:
       - Build on Java 8
@@ -569,7 +536,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 17.x
     dependencies:
       - Build on Java 8
@@ -584,7 +550,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 18.x
     dependencies:
       - Build on Java 8
@@ -599,7 +564,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 19.x
     dependencies:
       - Build on Java 8
@@ -614,7 +578,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 20.x
     dependencies:
       - Build on Java 8
@@ -629,7 +592,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 21.x
     dependencies:
       - Build on Java 8
@@ -644,7 +606,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 22.x
     dependencies:
       - Build on Java 8
@@ -659,7 +620,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 23.x
     dependencies:
       - Build on Java 8
@@ -674,7 +634,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 24.x
     dependencies:
       - Build on Java 8
@@ -689,7 +648,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 25.x
     dependencies:
       - Build on Java 8
@@ -704,7 +662,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 26.x
     dependencies:
       - Build on Java 8
@@ -719,7 +676,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly Swarm
     dependencies:
       - Build on Java 8
@@ -734,7 +690,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
@@ -775,7 +730,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Geronimo 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -795,7 +749,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: GlassFish 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -815,7 +768,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -835,7 +787,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -855,7 +806,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 4.2.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -875,7 +825,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -895,7 +844,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 5.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -915,7 +863,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -935,7 +882,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 6.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -955,7 +901,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -975,7 +920,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JBoss 7.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -995,7 +939,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1015,7 +958,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1035,7 +977,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1055,7 +996,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jetty 8.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1075,7 +1015,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Jo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1095,7 +1034,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JOnAS 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1115,7 +1053,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: JOnAS 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1135,7 +1072,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Resin 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1155,7 +1091,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Resin 3.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1175,7 +1110,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1195,7 +1129,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1215,7 +1148,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1235,7 +1167,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1255,7 +1186,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1275,7 +1205,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 17
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1303,7 +1232,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty12x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: TomEE 10.x
     dependencies:
       - Build on Java 17
@@ -1315,7 +1243,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee10x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: WildFly 35.x
     dependencies:
       - Build on Java 17
@@ -1327,7 +1254,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly35x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Build on Java 21
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1365,7 +1291,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Tomcat 11.x
     dependencies:
       - Build on Java 21
@@ -1380,7 +1305,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
-            - find . -iname "TEST-*.xml" -type f | xargs test-results publish
   - name: Deploy using Java 11
     dependencies:
       - Geronimo 1.x
@@ -1463,7 +1387,9 @@ blocks:
         - name: Deploy using Java 11
           commands:
             - sem-version java 11
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
             - mvn clean deploy || mvn clean deploy -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - 'wget https://raw.githubusercontent.com/alitokmen/maven-repository-cleaner/main/maven-repository-cleaner.sh'
             - chmod +x maven-repository-cleaner.sh
