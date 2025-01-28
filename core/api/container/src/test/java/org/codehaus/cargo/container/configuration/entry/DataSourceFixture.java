@@ -92,7 +92,6 @@ public class DataSourceFixture
         TransactionSupport transactionSupport, String driverClass, String url,
         String jndiLocation, String username, String password, String driverProperties)
     {
-        super();
         this.id = id;
         this.connectionType = connectionType;
         this.transactionSupport = transactionSupport;

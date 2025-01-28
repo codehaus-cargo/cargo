@@ -33,7 +33,6 @@ public class CargoDaemonException extends RuntimeException
      */
     public CargoDaemonException()
     {
-        super();
     }
 
     /**

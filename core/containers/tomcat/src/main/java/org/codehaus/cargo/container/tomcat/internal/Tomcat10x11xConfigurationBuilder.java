@@ -46,7 +46,6 @@ public class Tomcat10x11xConfigurationBuilder extends Tomcat8x9xConfigurationBui
      */
     public Tomcat10x11xConfigurationBuilder()
     {
-        super();
         typeToFactory.put(ConfigurationEntryType.MAIL_SESSION.replace("javax.", "jakarta."),
             "org.apache.naming.factory.MailSessionFactory");
     }

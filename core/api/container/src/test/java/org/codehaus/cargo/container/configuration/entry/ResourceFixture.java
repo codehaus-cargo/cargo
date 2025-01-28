@@ -64,7 +64,6 @@ public class ResourceFixture
      */
     public ResourceFixture(String name, String type, String className, String parameters)
     {
-        super();
         this.name = name;
         this.type = type;
         this.className = className;

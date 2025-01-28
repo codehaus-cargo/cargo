@@ -38,7 +38,6 @@ public class WarMultiContextTest extends AbstractStandaloneLocalContainerTestCas
      */
     public WarMultiContextTest()
     {
-        super();
         this.addValidator(new HasWarSupportValidator());
     }
 

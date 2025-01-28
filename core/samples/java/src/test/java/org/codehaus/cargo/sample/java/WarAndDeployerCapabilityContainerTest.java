@@ -41,7 +41,6 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractStandaloneLoc
      */
     public WarAndDeployerCapabilityContainerTest()
     {
-        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new HasLocalDeployerValidator());
     }

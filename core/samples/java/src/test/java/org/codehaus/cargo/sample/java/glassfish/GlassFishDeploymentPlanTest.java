@@ -36,7 +36,6 @@ public class GlassFishDeploymentPlanTest extends AbstractStandaloneLocalContaine
      */
     public GlassFishDeploymentPlanTest()
     {
-        super();
         this.addValidator(new StartsWithContainerValidator("glassfish", "payara"));
     }
 

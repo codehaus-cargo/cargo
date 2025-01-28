@@ -47,7 +47,6 @@ public class AopCapabilityContainerTest extends AbstractJBossCapabilityTestCase
      */
     public AopCapabilityContainerTest()
     {
-        super();
         this.addValidator(new HasDeployableSupportValidator(DeployableType.AOP));
     }
 

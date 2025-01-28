@@ -38,7 +38,6 @@ public class Tomcat4xConfigurationBuilder extends AbstractTomcatConfigurationBui
      */
     public Tomcat4xConfigurationBuilder()
     {
-        super();
         typeToFactory.put(ConfigurationEntryType.DATASOURCE,
             "org.apache.commons.dbcp.BasicDataSourceFactory");
     }

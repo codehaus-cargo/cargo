@@ -47,7 +47,6 @@ public class HarCapabilityContainerTest extends AbstractJBossCapabilityTestCase
      */
     public HarCapabilityContainerTest()
     {
-        super();
         this.addValidator(new HasDeployableSupportValidator(DeployableType.HAR));
     }
 

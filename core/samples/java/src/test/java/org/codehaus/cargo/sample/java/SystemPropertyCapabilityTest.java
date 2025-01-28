@@ -41,7 +41,6 @@ public class SystemPropertyCapabilityTest extends AbstractStandaloneLocalContain
      */
     public SystemPropertyCapabilityTest()
     {
-        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new IsInstalledLocalContainerValidator());
     }

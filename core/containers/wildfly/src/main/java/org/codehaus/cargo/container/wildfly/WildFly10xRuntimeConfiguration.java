@@ -29,7 +29,6 @@ public class WildFly10xRuntimeConfiguration extends WildFly9xRuntimeConfiguratio
      */
     public WildFly10xRuntimeConfiguration()
     {
-        super();
     }
 
     /**

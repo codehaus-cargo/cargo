@@ -44,7 +44,6 @@ public class JonasStandaloneConfigurationTest extends AbstractStandaloneLocalCon
      */
     public JonasStandaloneConfigurationTest()
     {
-        super();
         this.addValidator(new StartsWithContainerValidator("jonas"));
     }
 

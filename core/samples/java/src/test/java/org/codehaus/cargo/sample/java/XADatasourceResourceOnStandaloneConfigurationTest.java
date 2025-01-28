@@ -42,7 +42,6 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
      */
     public XADatasourceResourceOnStandaloneConfigurationTest()
     {
-        super();
         this.addValidator(new HasResourceSupportValidator(ConfigurationType.STANDALONE));
     }
 

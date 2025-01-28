@@ -50,7 +50,6 @@ public class URLDeployableMonitor extends AbstractDeployableMonitor
      */
     public URLDeployableMonitor(URL pingURL)
     {
-        super();
         this.pingURL = pingURL;
     }
 

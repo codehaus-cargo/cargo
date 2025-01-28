@@ -57,7 +57,6 @@ public class UrlPathDeployableMonitor extends AbstractDeployableMonitor
      */
     public UrlPathDeployableMonitor(Configuration configuration, String pingUrlPath)
     {
-        super();
         this.configuration = configuration;
         this.pingUrlPath = pingUrlPath;
     }

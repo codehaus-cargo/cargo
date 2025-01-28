@@ -37,7 +37,6 @@ public class JRun4xStandaloneLocalConfigurationCapability
      */
     public JRun4xStandaloneLocalConfigurationCapability()
     {
-        super();
         // container properties.
         this.propertySupportMap.put(JRun4xPropertySet.JRUN_HOME, Boolean.TRUE);
         this.propertySupportMap.put(JRun4xPropertySet.SERVER_NAME, Boolean.TRUE);

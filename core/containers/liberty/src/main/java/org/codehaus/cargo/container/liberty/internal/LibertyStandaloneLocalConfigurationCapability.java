@@ -37,7 +37,6 @@ public class LibertyStandaloneLocalConfigurationCapability
      */
     public LibertyStandaloneLocalConfigurationCapability()
     {
-        super();
         this.propertySupportMap.put(DatasourcePropertySet.DATASOURCE, Boolean.TRUE);
         this.propertySupportMap.put(GeneralPropertySet.RUNTIME_ARGS, Boolean.FALSE);
     }

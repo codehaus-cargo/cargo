@@ -47,7 +47,6 @@ public class JettyTLSTest extends AbstractWarTestCase
      */
     public JettyTLSTest()
     {
-        super();
         this.addValidator(new StartsWithContainerValidator("jetty"));
         this.addValidator(new SupportsPropertyValidator(
             ConfigurationType.STANDALONE, JettyPropertySet.CONNECTOR_HTTPS_PORT));

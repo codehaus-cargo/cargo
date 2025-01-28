@@ -38,7 +38,6 @@ public class JonasExistingLocalConfigurationCapability extends
      */
     public JonasExistingLocalConfigurationCapability()
     {
-        super();
         this.propertySupportMap.remove(GeneralPropertySet.PROTOCOL);
         this.propertySupportMap.put(GeneralPropertySet.RMI_PORT, Boolean.TRUE);
         this.propertySupportMap.put(JonasPropertySet.JONAS_SERVER_NAME, Boolean.TRUE);

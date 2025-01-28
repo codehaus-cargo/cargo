@@ -42,7 +42,6 @@ public class TomcatWarTest extends AbstractStandaloneLocalContainerTestCase
      */
     public TomcatWarTest()
     {
-        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new StartsWithContainerValidator("tomcat", "tomee"));
     }

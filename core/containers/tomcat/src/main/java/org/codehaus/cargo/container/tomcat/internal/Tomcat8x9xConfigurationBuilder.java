@@ -35,7 +35,6 @@ public class Tomcat8x9xConfigurationBuilder extends Tomcat5x6x7xConfigurationBui
      */
     public Tomcat8x9xConfigurationBuilder()
     {
-        super();
         typeToFactory.put(ConfigurationEntryType.DATASOURCE,
             "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory");
     }

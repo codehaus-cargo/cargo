@@ -41,7 +41,6 @@ public class WarExtraClasspathTest extends AbstractStandaloneLocalContainerTestC
      */
     public WarExtraClasspathTest()
     {
-        super();
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new IsInstalledLocalContainerValidator());
         this.addValidator(new StartsWithContainerValidator("jetty", "tomcat", "liberty"));

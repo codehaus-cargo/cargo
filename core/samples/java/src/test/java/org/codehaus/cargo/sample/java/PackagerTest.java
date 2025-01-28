@@ -45,7 +45,6 @@ public class PackagerTest extends AbstractStandaloneLocalContainerTestCase
      */
     public PackagerTest()
     {
-        super();
         this.addValidator(new HasDirectoryPackagerValidator());
         this.addValidator(new IsInstalledLocalContainerValidator());
     }

@@ -46,7 +46,6 @@ public class JonasDeploymentPlanTest extends AbstractStandaloneLocalContainerTes
      */
     public JonasDeploymentPlanTest()
     {
-        super();
         this.addValidator(new StartsWithContainerValidator("jonas"));
         this.addValidator(new HasLocalDeployerValidator());
     }

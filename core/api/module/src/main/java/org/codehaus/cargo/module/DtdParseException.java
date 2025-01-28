@@ -29,7 +29,6 @@ public class DtdParseException extends RuntimeException
      */
     public DtdParseException()
     {
-        super();
     }
 
     /**

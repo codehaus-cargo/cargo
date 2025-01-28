@@ -36,7 +36,6 @@ public class Tomcat5x6x7xConfigurationBuilder extends AbstractTomcatConfiguratio
      */
     public Tomcat5x6x7xConfigurationBuilder()
     {
-        super();
         typeToFactory.put(ConfigurationEntryType.DATASOURCE,
             "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory");
     }

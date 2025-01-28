@@ -42,7 +42,6 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
      */
     public AbstractDataSourceWarCapabilityContainerTestCase()
     {
-        super();
         this.addValidator(new IsInstalledLocalContainerValidator());
         this.addValidator(new HasDataSourceSupportValidator(ConfigurationType.STANDALONE));
     }

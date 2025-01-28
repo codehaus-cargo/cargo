@@ -43,7 +43,6 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
      */
     public ExistingConfigurationTest()
     {
-        super();
         this.addValidator(new HasExistingConfigurationValidator());
     }
 

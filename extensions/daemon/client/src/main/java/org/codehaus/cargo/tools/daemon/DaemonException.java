@@ -38,7 +38,6 @@ public class DaemonException extends Exception
      */
     public DaemonException()
     {
-        super();
     }
 
     /**

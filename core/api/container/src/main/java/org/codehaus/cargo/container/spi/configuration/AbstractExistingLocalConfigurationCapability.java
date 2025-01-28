@@ -34,7 +34,6 @@ public abstract class AbstractExistingLocalConfigurationCapability
      */
     public AbstractExistingLocalConfigurationCapability()
     {
-        super();
         this.propertySupportMap.put(GeneralPropertySet.PROTOCOL, Boolean.TRUE);
     }
 }

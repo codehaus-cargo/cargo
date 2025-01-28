@@ -55,7 +55,6 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
      */
     public OrionConfigurationBuilder()
     {
-        super();
     }
 
     /**

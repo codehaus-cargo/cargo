@@ -41,7 +41,6 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
      */
     public XATransactionEmulationDataSourceOnStandaloneConfigurationTest()
     {
-        super();
         this.addValidator(new HasDataSourceSupportValidator(ConfigurationType.STANDALONE));
         this.addValidator(new HasXAEmulationValidator(ConfigurationType.STANDALONE));
     }
