@@ -56,7 +56,8 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
 
         // Jakarta EE versions of Payara do not support transaction emulation
         // the way Codehaus Cargo tests it
-        if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
+        if ("payara".equals(containerId)
+            && EnvironmentTestData.jakartaEeContainers.contains("payara"))
         {
             return false;
         }

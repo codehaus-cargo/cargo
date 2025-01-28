@@ -65,12 +65,24 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // JBoss 7.5.x, Resin, WebLogic 12.1.x, 12.2.x and 14.x
-        // cannot deploy JMS topic resources
+        // Resin cannot deploy JMS queue resources
+        if (containerId.startsWith("resin"))
+        {
+            return false;
+        }
+
+        // Tomcat cannot deploy JMS queue resources (only TomEE can)
+        if (containerId.startsWith("tomcat"))
+        {
+            return false;
+        }
+
+        // JBoss 7.5.x, WebLogic 12.1.x, 12.2.x and 14.x as well as WildFly 10.x
+        // cannot deploy JMS queue resources
         return this.isNotContained(containerId,
             "jboss75x",
-            "resin3x", "resin31x", "resin4x",
-            "weblogic121x", "weblogic122x", "weblogic14x");
+            "weblogic121x", "weblogic122x", "weblogic14x",
+            "wildfly10x");
     }
 
     /**

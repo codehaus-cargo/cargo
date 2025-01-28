@@ -26,7 +26,6 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
-import org.codehaus.cargo.sample.java.validator.HasDataSourceSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasXAEmulationValidator;
 
 /**
@@ -41,7 +40,6 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
      */
     public XATransactionEmulationDataSourceOnStandaloneConfigurationTest()
     {
-        this.addValidator(new HasDataSourceSupportValidator(ConfigurationType.STANDALONE));
         this.addValidator(new HasXAEmulationValidator(ConfigurationType.STANDALONE));
     }
 
@@ -58,7 +56,8 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
 
         // Jakarta EE versions of Payara do not support XA transaction emulation
         // the way Codehaus Cargo tests it
-        if (EnvironmentTestData.jakartaEeContainers.contains("payara"))
+        if ("payara".equals(containerId)
+            && EnvironmentTestData.jakartaEeContainers.contains("payara"))
         {
             return false;
         }

@@ -65,11 +65,21 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // JBoss 7.5.x, JRun, Resin as well as WildFly 10.x
-        // cannot deploy JMS queue resources
+        // Resin cannot deploy JMS queue resources
+        if (containerId.startsWith("resin"))
+        {
+            return false;
+        }
+
+        // Tomcat cannot deploy JMS queue resources (only TomEE can)
+        if (containerId.startsWith("tomcat"))
+        {
+            return false;
+        }
+
+        // JBoss 7.5.x as well as WildFly 10.x cannot deploy JMS queue resources
         return this.isNotContained(containerId,
             "jboss75x",
-            "resin3x", "resin31x", "resin4x",
             "wildfly10x");
     }
 
