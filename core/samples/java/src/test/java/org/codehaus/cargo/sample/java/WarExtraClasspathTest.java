@@ -19,11 +19,9 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
@@ -47,22 +45,6 @@ public class WarExtraClasspathTest extends AbstractStandaloneLocalContainerTestC
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new IsInstalledLocalContainerValidator());
         this.addValidator(new StartsWithContainerValidator("jetty", "tomcat", "liberty"));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
-    {
-        if (!super.isSupported(containerId, containerType, testMethod))
-        {
-            return false;
-        }
-        // Jetty 5.x, Tomcat 4.x and Tomcat 5.x do not support extra classpath.
-        return this.isNotContained(containerId,
-            "jetty5x",
-            "tomcat4x", "tomcat5x");
     }
 
     /**

@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 
 /**
  * Test for JMS queue resource capabilities.
@@ -43,6 +44,7 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
     public JmsQueueResourceOnStandaloneConfigurationTest()
     {
         this.addValidator(new HasResourceSupportValidator(ConfigurationType.STANDALONE));
+        this.addValidator(new IsInstalledLocalContainerValidator());
     }
 
     /**
@@ -63,13 +65,11 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // JBoss 7.5.x, JRun, Resin, Tomcat as well as WildFly 10.x cannot deploy
-        // JMS queue resources
+        // JBoss 7.5.x, JRun, Resin as well as WildFly 10.x
+        // cannot deploy JMS queue resources
         return this.isNotContained(containerId,
             "jboss75x",
             "resin3x", "resin31x", "resin4x",
-            "tomcat4x", "tomcat5x", "tomcat6x", "tomcat7x", "tomcat8x", "tomcat9x", "tomcat10x",
-                "tomcat11x",
             "wildfly10x");
     }
 

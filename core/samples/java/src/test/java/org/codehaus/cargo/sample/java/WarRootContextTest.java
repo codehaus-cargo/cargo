@@ -60,8 +60,7 @@ public class WarRootContextTest extends AbstractStandaloneLocalContainerTestCase
             "jo1x",
             "jonas4x", "jonas5x",
             "weblogic8x", "weblogic9x", "weblogic10x", "weblogic103x", "weblogic12x",
-                "weblogic121x", "weblogic122x", "weblogic14x",
-            "wildfly8x", "wildfly9x", "wildfly10x");
+                "weblogic121x", "weblogic122x", "weblogic14x");
     }
 
     /**

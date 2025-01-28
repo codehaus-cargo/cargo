@@ -29,6 +29,7 @@ import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.entry.ConfigurationFixtureFactory;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.sample.java.validator.HasResourceSupportValidator;
+import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 
 /**
  * Test for JMS topic resource capabilities.
@@ -43,6 +44,7 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
     public JmsTopicResourceOnStandaloneConfigurationTest()
     {
         this.addValidator(new HasResourceSupportValidator(ConfigurationType.STANDALONE));
+        this.addValidator(new IsInstalledLocalContainerValidator());
     }
 
     /**
@@ -63,15 +65,12 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // JBoss 7.5.x, Resin, Tomcat, WebLogic 12.1.x, 12.2.x and 14.x as well as WildFly 10.x
+        // JBoss 7.5.x, Resin, WebLogic 12.1.x, 12.2.x and 14.x
         // cannot deploy JMS topic resources
         return this.isNotContained(containerId,
             "jboss75x",
             "resin3x", "resin31x", "resin4x",
-            "tomcat4x", "tomcat5x", "tomcat6x", "tomcat7x", "tomcat8x", "tomcat9x", "tomcat10x",
-                "tomcat11x",
-            "weblogic121x", "weblogic122x", "weblogic14x",
-            "wildfly10x");
+            "weblogic121x", "weblogic122x", "weblogic14x");
     }
 
     /**

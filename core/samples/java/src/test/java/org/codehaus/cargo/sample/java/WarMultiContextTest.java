@@ -55,21 +55,11 @@ public class WarMultiContextTest extends AbstractStandaloneLocalContainerTestCas
 
         // We exclude containers that cannot deploy on a multiple context (with many slashes)
         return this.isNotContained(containerId,
-            "geronimo1x",
-            "jboss3x", "jboss4x", "jboss42x", "jboss5x", "jboss51x", "jboss6x", "jboss61x",
-                "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
             "jonas4x", "jonas5x",
             "jrun4x",
             "oc4j9x", "oc4j10x",
-            "resin3x", "resin31x", "resin4x",
-            "tomcat4x",
             "weblogic8x", "weblogic9x", "weblogic10x", "weblogic103x", "weblogic12x",
-                "weblogic121x", "weblogic122x", "weblogic14x",
-            "wildfly8x", "wildfly9x", "wildfly10x", "wildfly11x", "wildfly12x", "wildfly13x",
-                "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x", "wildfly19x",
-                "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x", "wildfly25x",
-                "wildfly26x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x", "wildfly31x",
-                "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x");
+                "weblogic121x", "weblogic122x", "weblogic14x");
     }
 
     /**
