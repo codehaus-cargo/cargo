@@ -25,13 +25,6 @@ package org.codehaus.cargo.container.wildfly;
 public class WildFly28xRuntimeConfiguration extends WildFly27xRuntimeConfiguration
 {
     /**
-     * Set the default values for various port numbers.
-     */
-    public WildFly28xRuntimeConfiguration()
-    {
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

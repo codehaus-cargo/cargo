@@ -47,6 +47,7 @@ public class Daemon
      */
     public Daemon()
     {
+        // Nothing
     }
 
     /**

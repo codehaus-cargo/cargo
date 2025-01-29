@@ -133,13 +133,6 @@ public class DefaultJvmLauncher implements JvmLauncher
     private String category;
 
     /**
-     * Creates a new launcher.
-     */
-    public DefaultJvmLauncher()
-    {
-    }
-
-    /**
      * Build the complete command line.
      * 
      * @return the array representing the tokens of the command line

@@ -30,6 +30,7 @@ public final class JythonUtils
      */
     private JythonUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

@@ -31,11 +31,13 @@ import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConf
  */
 public final class WebLogicResourceRules
 {
+
     /**
-     * Private constructor, no need to instantiate utility class.
+     * Private constructor to prevent getting an instance.
      */
     private WebLogicResourceRules()
     {
+        // Utility classes have no public constructors
     }
 
     /**

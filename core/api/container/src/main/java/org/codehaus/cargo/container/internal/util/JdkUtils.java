@@ -37,6 +37,7 @@ public final class JdkUtils
      */
     private JdkUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

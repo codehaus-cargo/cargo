@@ -49,15 +49,6 @@ public class OrionConfigurationBuilder extends AbstractConfigurationBuilder
     private StringBuilder sb;
 
     /**
-     * create the default instance by passing control to the superclass.
-     * 
-     * @see AbstractConfigurationBuilder#AbstractConfigurationBuilder()
-     */
-    public OrionConfigurationBuilder()
-    {
-    }
-
-    /**
      * adds xml element representing a provided DataSource, wrapped by a container managed one. The
      * provided DataSource will have the suffix: "Provided" in its xml element and jndi name.
      * 

@@ -30,10 +30,11 @@ public final class TomcatUtils
 {
 
     /**
-     * Hide constructor.
+     * Private constructor to prevent getting an instance.
      */
     private TomcatUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

@@ -36,6 +36,7 @@ public class DefaultJvmLauncherFactory implements JvmLauncherFactory
      */
     public DefaultJvmLauncherFactory()
     {
+        // Nothing
     }
 
     /**

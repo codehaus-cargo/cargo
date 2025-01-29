@@ -32,11 +32,13 @@ import org.codehaus.cargo.util.FileHandler;
  */
 public final class WildFlySwarmUserUtils
 {
+
     /**
-     * Cannot instantiate this class.
+     * Private constructor to prevent getting an instance.
      */
     private WildFlySwarmUserUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

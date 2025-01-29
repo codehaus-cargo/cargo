@@ -48,6 +48,7 @@ public final class PropertyUtils
      */
     private PropertyUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

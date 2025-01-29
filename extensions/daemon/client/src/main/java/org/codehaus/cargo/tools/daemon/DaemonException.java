@@ -38,6 +38,7 @@ public class DaemonException extends Exception
      */
     public DaemonException()
     {
+        // Nothing
     }
 
     /**

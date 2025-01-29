@@ -74,6 +74,7 @@ public class EjbRef
      */
     public EjbRef()
     {
+        // Nothing
     }
 
     /**

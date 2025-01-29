@@ -28,10 +28,11 @@ public final class WildFlyLogUtils
 {
 
     /**
-     * Cannot instantiate this class.
+     * Private constructor to prevent getting an instance.
      */
     private WildFlyLogUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

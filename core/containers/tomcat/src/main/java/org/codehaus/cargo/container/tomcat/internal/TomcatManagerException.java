@@ -38,6 +38,7 @@ public class TomcatManagerException extends Exception
      */
     public TomcatManagerException()
     {
+        // Nothing
     }
 
     /**

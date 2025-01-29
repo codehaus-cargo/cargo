@@ -34,11 +34,13 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
  */
 public final class ServerConfigUtils
 {
+
     /**
-     * A private constructor
+     * Private constructor to prevent getting an instance.
      */
     private ServerConfigUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

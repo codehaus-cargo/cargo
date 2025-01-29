@@ -33,10 +33,11 @@ public final class WildFlyUserUtils
 {
 
     /**
-     * Cannot instantiate this class.
+     * Private constructor to prevent getting an instance.
      */
     private WildFlyUserUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

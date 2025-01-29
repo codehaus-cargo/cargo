@@ -49,6 +49,7 @@ public class EjbDef
      */
     public EjbDef()
     {
+        // Nothing
     }
 
     /**

@@ -36,13 +36,6 @@ public class UrlEncodedFormWriter
     private final StringBuilder formData = new StringBuilder();
 
     /**
-     * Constructs an UrlEncodedFormWriter.
-     */
-    public UrlEncodedFormWriter()
-    {
-    }
-
-    /**
      * Writes a string field value.
      * 
      * @param name the field name (required)

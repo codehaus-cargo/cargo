@@ -34,10 +34,11 @@ public final class WildFlyModuleUtils
 {
 
     /**
-     * Cannot instantiate this class.
+     * Private constructor to prevent getting an instance.
      */
     private WildFlyModuleUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

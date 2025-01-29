@@ -31,13 +31,6 @@ public class SimpleClass
     protected String message;
 
     /**
-     * Empty constructor.
-     */
-    public SimpleClass()
-    {
-    }
-
-    /**
      * @param message message to set
      */
     public void setMessage(String message)

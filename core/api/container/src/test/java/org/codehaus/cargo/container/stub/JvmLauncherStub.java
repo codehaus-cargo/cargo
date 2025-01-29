@@ -313,6 +313,7 @@ public class JvmLauncherStub implements JvmLauncher
     @Override
     public void kill()
     {
+        // Nothing
     }
 
 }

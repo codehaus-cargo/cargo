@@ -32,10 +32,11 @@ public final class ComplexPropertyUtils
 {
 
     /**
-     * Constructor.
+     * Ensures that this utility class cannot be instantiated.
      */
     private ComplexPropertyUtils()
     {
+        // Utility classes have no public constructors
     }
 
     /**

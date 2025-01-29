@@ -38,10 +38,11 @@ public final class JvmArguments
     private String genericArgs;
 
     /**
-     * Constructor.
+     * Private constructor to prevent getting an instance.
      */
     private JvmArguments()
     {
+        // Utility classes have no public constructors
     }
 
     /**

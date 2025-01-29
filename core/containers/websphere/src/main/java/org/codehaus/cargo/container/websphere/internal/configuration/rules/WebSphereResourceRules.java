@@ -31,11 +31,13 @@ import org.codehaus.cargo.container.websphere.internal.configuration.WebSphereCo
  */
 public final class WebSphereResourceRules
 {
+
     /**
-     * Private constructor, no need to instantiate utility class.
+     * Private constructor to prevent getting an instance.
      */
     private WebSphereResourceRules()
     {
+        // Utility classes have no public constructors
     }
 
     /**
