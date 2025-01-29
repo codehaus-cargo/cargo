@@ -64,7 +64,8 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
 
         // We exclude GlassFish 7.x and 8.x as these doesn't support XA transaction emulation the
         // way Codehaus Cargo tests it (using an old version of Spring)
-        return this.isNotContained(containerId, "glassfish7x", "glassfish8x");
+        return this.isNotContained(containerId,
+            "glassfish7x", "glassfish8x");
     }
 
     /**

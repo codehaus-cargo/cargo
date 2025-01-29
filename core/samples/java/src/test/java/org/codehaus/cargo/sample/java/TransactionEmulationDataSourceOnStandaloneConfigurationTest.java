@@ -66,8 +66,8 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
         // JBoss 7.5.x and GlassFish 7.x and 8.x as these don't support transaction emulation the
         // way Codehaus Cargo tests it (using an old version of Spring)
         return this.isNotContained(containerId,
-            "geronimo2x", "jboss7x",
-            "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
+            "geronimo2x",
+            "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
             "glassfish7x", "glassfish8x");
     }
 
