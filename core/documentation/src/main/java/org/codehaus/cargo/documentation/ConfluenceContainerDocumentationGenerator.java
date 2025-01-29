@@ -1687,6 +1687,11 @@ public class ConfluenceContainerDocumentationGenerator
                         javaVersion =
                             "6 for earlier versions, WebLogic 12.1.3 onwards require Java 7";
                     }
+                    else if ("weblogic14x".equals(containerId))
+                    {
+                        javaVersion =
+                            "8 for earlier versions, WebLogic 14.1.2.0.0 onwards require Java 17";
+                    }
                     else
                     {
                         String pomJavaVersion = getContainerServerJavaVersion(containerId);
