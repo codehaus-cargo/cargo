@@ -86,10 +86,14 @@ public class Geronimo2xInstalledLocalContainer extends Geronimo1xInstalledLocalC
             .getAbsolutePath().replace(File.separatorChar, '/')
             + File.pathSeparatorChar
             + new File(javaLib, "endorsed").getAbsolutePath().replace(File.separatorChar, '/'));
-        java.setSystemProperty("java.ext.dirs", new File(getHome(), "lib/ext").getAbsolutePath()
-            .replace(File.separatorChar, '/')
-            + File.pathSeparatorChar
-            + new File(javaLib, "ext").getAbsolutePath().replace(File.separatorChar, '/'));
+        File extDir = new File(getHome(), "lib/ext");
+        if (extDir.isDirectory())
+        {
+            java.setSystemProperty("java.ext.dirs", extDir.getAbsolutePath()
+                .replace(File.separatorChar, '/')
+                + File.pathSeparatorChar
+                + new File(javaLib, "ext").getAbsolutePath().replace(File.separatorChar, '/'));
+        }
         java.setSystemProperty("java.io.tmpdir", new File(getConfiguration().getHome(),
             "/var/temp").getAbsolutePath().replace(File.separatorChar, '/'));
 
