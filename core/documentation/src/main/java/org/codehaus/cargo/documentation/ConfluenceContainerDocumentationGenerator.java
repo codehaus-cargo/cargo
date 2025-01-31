@@ -1990,32 +1990,20 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(FileHandler.NEW_LINE);
 
-            if ("geronimo2x".equals(containerId))
+            output.append("This container is automatically tested by the "
+                + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
+                + "projects/cargo] every time there is a code change.");
+            output.append(FileHandler.NEW_LINE);
+            if (containerId.startsWith("wildfly-swarm"))
             {
-                output.append("Due to incompatibilities between the way Geronimo 2.x handles ");
-                output.append("JAVA_HOME and the multi-version setup in our Continous ");
-                output.append("Integration system (which has Java 6 as the lowest JDK version ");
-                output.append("for testing samples and Java 8 for compiling and packaging ");
-                output.append("Codehaus Cargo), the Geronimo 2.x container is not tested ");
-                output.append("automatically.");
+                output.append("The WildFly Swarm version used during tests is: {{");
+                output.append(url);
+                output.append("}}");
             }
             else
             {
-                output.append("This container is automatically tested by the "
-                    + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
-                    + "projects/cargo] every time there is a code change.");
-                output.append(FileHandler.NEW_LINE);
-                if (containerId.startsWith("wildfly-swarm"))
-                {
-                    output.append("The WildFly Swarm version used during tests is: {{");
-                    output.append(url);
-                    output.append("}}");
-                }
-                else
-                {
-                    output.append("The server used for tests is downloaded from: ");
-                    output.append(url);
-                }
+                output.append("The server used for tests is downloaded from: ");
+                output.append(url);
             }
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);

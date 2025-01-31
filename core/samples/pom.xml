@@ -609,6 +609,7 @@
               <cargo.liberty.url>
                 https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/24.0.0.12/wlp-javaee8-24.0.0.12.zip
               </cargo.liberty.url>
+              <cargo.liberty.java.home>${cargo.java.home.1_8}</cargo.liberty.java.home>
 
               <!--
                 OC4J 9.x

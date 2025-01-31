@@ -730,6 +730,25 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+  - name: Geronimo 2.x
+    dependencies:
+      - Prepare for containers running on Java 6
+    task:
+      jobs:
+        - name: Geronimo 2.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-i586.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-6"
+            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cd /tmp/cargo
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pgeronimo2x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Geronimo 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1308,6 +1327,7 @@ blocks:
   - name: Deploy using Java 11
     dependencies:
       - Geronimo 1.x
+      - Geronimo 2.x
       - Geronimo 3.x
       - GlassFish 3.x
       - GlassFish 4.x

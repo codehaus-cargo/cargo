@@ -62,14 +62,13 @@ public class XATransactionEmulationDataSourceOnStandaloneConfigurationTest exten
             return false;
         }
 
-        // We exclude Geronimo, JBoss, WildFly 10.x and WilFly 14.x onwards and GlassFish 7.x and
-        // 8.x as these doesn't support XA transaction emulation the way Codehaus Cargo tests it
-        // (using an old version of Spring)
+        // We exclude Geronimo, JBoss (except EAP), WildFly 10.x and WilFly 14.x onwards and
+        // GlassFish 7.x and 8.x as these doesn't support XA transaction emulation the way
+        // Codehaus Cargo tests it (using an old version of Spring)
         return this.isNotContained(containerId,
             "geronimo2x", "geronimo3x",
             "glassfish7x", "glassfish8x",
             "jboss3x", "jboss4x", "jboss42x", "jboss5x", "jboss51x", "jboss6x", "jboss61x",
-                "jboss7x", "jboss71x", "jboss72x", "jboss73x", "jboss74x", "jboss75x",
             "wildfly10x", "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x",
                 "wildfly19x", "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x",
                 "wildfly25x", "wildfly26x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x",

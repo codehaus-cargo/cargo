@@ -72,9 +72,9 @@ public class WarExtraClasspathWithContextTest extends AbstractStandaloneLocalCon
             return false;
         }
 
-        // Tomcat 4.x and 5.x don't support extra classpath
+        // Tomcat 4.x doesn't support extra classpath
         return this.isNotContained(containerId,
-            "tomcat4x", "tomcat5x");
+            "tomcat4x");
     }
 
     /**
