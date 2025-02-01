@@ -23,12 +23,14 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
 import org.codehaus.cargo.container.configuration.script.ScriptCommand;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
 import org.codehaus.cargo.container.spi.jvm.DefaultJvmLauncherFactory;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
@@ -122,6 +124,17 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
     @Override
     public void executeScriptFiles(List<String> scriptFilePaths)
     {
+        String javaPath = getConfiguration().getPropertyValue(GeneralPropertySet.JAVA_HOME);
+        if (javaPath == null)
+        {
+            javaPath = System.getProperty("java.home");
+        }
+        javaPath = getFileHandler().append(javaPath, "bin");
+        javaPath = getFileHandler().append(javaPath, "java");
+        if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("windows"))
+        {
+            javaPath += ".exe";
+        }
         for (String scriptFilePath : scriptFilePaths)
         {
             File scriptFile = new File(scriptFilePath);
@@ -130,6 +143,7 @@ public abstract class AbstractWebLogicRemoteContainer extends AbstractRemoteCont
             {
                 JvmLauncherRequest request = new JvmLauncherRequest(false, this);
                 JvmLauncher java = jvmLauncherFactory.createJvmLauncher(request);
+                java.setJvm(javaPath);
                 File scriptOutput = new File(scriptFile + ".output");
                 scriptOutput.deleteOnExit();
                 try

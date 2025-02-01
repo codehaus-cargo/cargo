@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
+import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
@@ -34,6 +35,7 @@ public class WebLogicWlstRuntimeConfigurationCapability extends
      */
     public WebLogicWlstRuntimeConfigurationCapability()
     {
+        this.propertySupportMap.put(GeneralPropertySet.JAVA_HOME, Boolean.TRUE);
         this.propertySupportMap.put(ServletPropertySet.PORT, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.LOCAL_WEBLOGIC_HOME, Boolean.TRUE);
         this.propertySupportMap.put(WebLogicPropertySet.SERVER, Boolean.TRUE);
