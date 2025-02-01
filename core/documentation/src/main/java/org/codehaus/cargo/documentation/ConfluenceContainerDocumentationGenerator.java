@@ -678,7 +678,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("downloaded the distribution, please remember to also configure ");
             output.append("WebLogic.");
             output.append(FileHandler.NEW_LINE);
-            output.append("You can read http://www.oracle.com/webfolder/technetwork/tutorials/");
+            output.append("You can read https://www.oracle.com/webfolder/technetwork/tutorials/");
             output.append("obe/java/wls_12c_netbeans_install/wls_12c_netbeans_install.html for ");
             output.append("details.");
             output.append("{note}");
@@ -1101,12 +1101,12 @@ public class ConfluenceContainerDocumentationGenerator
 
         if (containerId.equals("jboss7x"))
         {
-            output.append("{note}Even thought the JBoss 7.x container can deploy EJBs, JBoss ");
-            output.append("7.0 itself it does not support remote EJB lookups yet.");
+            output.append("{note}Even though the JBoss 7.x container can deploy EJBs, JBoss ");
+            output.append("7.0 itself does not support remote EJB lookups.");
             output.append(FileHandler.NEW_LINE);
             output.append("If you plan to use remote EJBs on JBoss 7, please use ");
             output.append("[JBoss 7.1 or above|JBoss 7.1.x]. For further details, please read: ");
-            output.append("http://community.jboss.org/message/616870{note}");
+            output.append("https://community.jboss.org/message/616870{note}");
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
         }
@@ -1429,7 +1429,7 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("{info}Before using the Jetty remote deployer, ");
                 output.append("please read: [Jetty Remote Deployer]{info}");
             }
-            else if (containerId.equals("glassfish3x") || containerId.equals("glassfish4x")
+            if (containerId.equals("glassfish3x") || containerId.equals("glassfish4x")
                 || containerId.equals("glassfish5x") || containerId.equals("payara"))
             {
                 output.append(FileHandler.NEW_LINE);
@@ -1444,6 +1444,17 @@ public class ConfluenceContainerDocumentationGenerator
                     output.append("Payara");
                 }
                 output.append(" remote deployer, please read: [JSR88]{info}");
+            }
+            if (containerId.startsWith("weblogic"))
+            {
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+                output.append("{info}The WebLogic remote deployer uses tye WebLogic Scripting ");
+                output.append("Tool (WLST), as a result the {{WebLogicPropertySet.");
+                output.append("LOCAL_WEBLOGIC_HOME|https://codehaus-cargo.github.io/apidocs/org/");
+                output.append("codehaus/cargo/container/weblogic/WebLogicPropertySet.html#");
+                output.append("LOCAL_WEBLOGIC_HOME}} property must be set to a local WebLogic ");
+                output.append("installation, matching the remote WebLogic server version.{info}");
             }
             if (containerId.startsWith("wildfly") && !containerId.startsWith("wildfly-swarm"))
             {
