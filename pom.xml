@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>codehaus-cargo</artifactId>
-  <version>1.10.17-SNAPSHOT</version>
+  <version>1.10.17</version>
   <packaging>pom</packaging>
 
   <name>Codehaus Cargo</name>
@@ -302,7 +302,7 @@
     <connection>scm:git:https://github.com/codehaus-cargo/cargo.git</connection>
     <developerConnection>scm:git:https://github.com/codehaus-cargo/cargo.git</developerConnection>
     <url>https://github.com/codehaus-cargo/cargo</url>
-    <tag>codehaus-cargo-1.10.14</tag>
+    <tag>codehaus-cargo-1.10.17</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -1269,10 +1269,10 @@
             <additionalJOption>--allow-script-in-comments</additionalJOption>
             <bottom>
               &lt;br&gt;
-              Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and&nbsp;
-              2012–2025 Ali Tokmen under the Apache Software License, except for the&nbsp;
-              WebSphere Liberty container which has been released under the MIT License.&nbsp;
-              &lt;a href="https://codehaus-cargo.github.io/cargo/License.html"&gt;Click here for&nbsp;
+              Codehaus Cargo is copyrighted © 2004–2011 Vincent Massol and&amp;nbsp;
+              2012–2025 Ali Tokmen under the Apache Software License, except for the&amp;nbsp;
+              WebSphere Liberty container which has been released under the MIT License.&amp;nbsp;
+              &lt;a href="https://codehaus-cargo.github.io/cargo/License.html"&gt;Click here for&amp;nbsp;
               more details&lt;/a&gt;.
 
               &lt;script&gt;
