@@ -328,12 +328,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!--
-      Use Derby 10.12.* as that is the latest branch compatible with Java 6.
-      We use Java 6 for certain containers' tests on our CI.
-      -->
-    <cargo.derby.version>10.12.1.1</cargo.derby.version>
-    <cargo.junit-jupiter.version>5.11.4</cargo.junit-jupiter.version>
-    <!--
       The multiple-containers archetype relies on multiple profile activation conditions, which
       only works starting from Maven 3.2.2: https://issues.apache.org/jira/browse/MNG-4565
 
@@ -353,6 +347,13 @@
     <maven.failsafe-plugin.version>3.5.2</maven.failsafe-plugin.version>
     <maven.surefire-plugin.version>3.5.2</maven.surefire-plugin.version>
     <maven.war-plugin.version>3.3.2</maven.war-plugin.version>
+
+    <!--
+      Use Derby 10.12.* as that is the latest branch compatible with Java 6.
+      We use Java 6 for certain containers' tests on our CI.
+      -->
+    <cargo.derby.version>10.12.1.1</cargo.derby.version>
+    <junit-jupiter.version>5.12.0</junit-jupiter.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
 
@@ -1119,7 +1120,7 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>${cargo.junit-jupiter.version}</version>
+        <version>${junit-jupiter.version}</version>
     </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
