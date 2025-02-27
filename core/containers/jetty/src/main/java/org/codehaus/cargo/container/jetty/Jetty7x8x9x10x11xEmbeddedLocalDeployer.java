@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -26,7 +30,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedLocalDeployer;
 
 /**
- * A deployer for webapps that deploys to a Jetty 7.x onwards instance running embedded.
+ * A deployer for webapps that deploys to a Jetty 7.x to 11.x instance running embedded.
  */
 public class Jetty7x8x9x10x11xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDeployer
 {
@@ -46,13 +50,21 @@ public class Jetty7x8x9x10x11xEmbeddedLocalDeployer extends AbstractJettyEmbedde
         {
             webAppContextClass =
                 ((Jetty7xEmbeddedLocalContainer) getContainer()).getClassLoader().loadClass(
-                    "org.eclipse.jetty.webapp.WebAppContext");
+                    getWebappContextClassname());
         }
         catch (Exception e)
         {
             throw new ContainerException(
                 "Failed to create Eclipse Jetty embedded local deployer", e);
         }
+    }
+
+    /**
+     * @return The Jetty Webapp context class name.
+     */
+    protected String getWebappContextClassname()
+    {
+        return "org.eclipse.jetty.webapp.WebAppContext";
     }
 
     /**
@@ -77,8 +89,16 @@ public class Jetty7x8x9x10x11xEmbeddedLocalDeployer extends AbstractJettyEmbedde
                 String[] virtualHosts = getVirtualHosts();
                 if (virtualHosts != null)
                 {
-                    webAppContextClass.getMethod("setVirtualHosts", virtualHosts.getClass())
-                        .invoke(webAppContext, virtualHosts);
+                    Method setVirtualHosts =
+                        webAppContextClass.getMethod("setVirtualHosts", virtualHosts.getClass());
+                    if (setVirtualHosts.getParameterTypes()[0].isAssignableFrom(List.class))
+                    {
+                        setVirtualHosts.invoke(webAppContext, Arrays.asList(virtualHosts));
+                    }
+                    else
+                    {
+                        setVirtualHosts.invoke(webAppContext, virtualHosts);
+                    }
                 }
 
                 // check if extracting the war is wanted

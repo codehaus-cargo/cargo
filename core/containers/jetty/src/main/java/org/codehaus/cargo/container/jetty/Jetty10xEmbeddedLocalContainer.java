@@ -62,7 +62,7 @@ public class Jetty10xEmbeddedLocalContainer extends Jetty9xEmbeddedLocalContaine
             super.createServerObject();
 
             Class webAppContextClass =
-                getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext");
+                getClassLoader().loadClass(getWebappContextClassname());
 
             // Override of the Jetty 10.x server classes list, to work around the nasty
             // java.lang.ClassNotFoundException:

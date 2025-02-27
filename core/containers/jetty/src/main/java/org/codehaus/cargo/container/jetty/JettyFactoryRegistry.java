@@ -150,6 +150,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             JettyRuntimeConfigurationCapability.class);
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
+            ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
+            Jetty6xEmbeddedStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty12xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
@@ -248,6 +251,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             JettyRuntimeConfiguration.class);
 
         configurationFactory.registerConfiguration("jetty12x",
+            ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
+            Jetty12xEmbeddedStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty12x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty12xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("jetty12x",
@@ -308,6 +314,8 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         deployerFactory.registerDeployer("jetty11x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
 
+        deployerFactory.registerDeployer("jetty12x", DeployerType.EMBEDDED,
+            Jetty12xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty12x", DeployerType.INSTALLED,
             Jetty12xInstalledLocalDeployer.class);
     }
@@ -389,6 +397,8 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         containerFactory.registerContainer("jetty11x", ContainerType.REMOTE,
             Jetty11xRemoteContainer.class);
 
+        containerFactory.registerContainer("jetty12x", ContainerType.EMBEDDED,
+            Jetty12xEmbeddedLocalContainer.class);
         containerFactory.registerContainer("jetty12x", ContainerType.INSTALLED,
             Jetty12xInstalledLocalContainer.class);
     }

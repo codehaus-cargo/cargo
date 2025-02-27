@@ -63,7 +63,7 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
      * @throws InvocationTargetException thrown if the configuration could not be set
      * @throws NoSuchMethodException thrown if the configuration could not be set
      */
-    private void addAnnotationConfiguration() throws IllegalAccessException,
+    protected void addAnnotationConfiguration() throws IllegalAccessException,
         InvocationTargetException, NoSuchMethodException
     {
         setAttributeMethod().invoke(
@@ -84,7 +84,7 @@ public class Jetty8xEmbeddedLocalContainer extends Jetty7xEmbeddedLocalContainer
      * @return the setAttribute() method
      * @throws NoSuchMethodException thrown if the configuration could not be set
      */
-    private Method setAttributeMethod() throws NoSuchMethodException
+    protected Method setAttributeMethod() throws NoSuchMethodException
     {
         return getServer().getClass().getMethod("setAttribute", String.class, Object.class);
     }

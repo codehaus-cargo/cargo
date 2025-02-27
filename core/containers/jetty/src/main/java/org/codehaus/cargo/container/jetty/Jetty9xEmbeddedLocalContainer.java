@@ -65,8 +65,8 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
         NoSuchMethodException
     {
         // Connector serverConnector = new ServerConnector(this.server);
-        // serverConnector.setPort(new
-        // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+        // serverConnector.setPort(
+        //     new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
         Class selectConnectorClass =
             getClassLoader().loadClass("org.eclipse.jetty.server.ServerConnector");
         Object connector = selectConnectorClass.getConstructor(this.server.getClass())
@@ -93,7 +93,7 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
             super.createServerObject();
 
             Class webAppContextClass =
-                getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext");
+                getClassLoader().loadClass(getWebappContextClassname());
 
             if (webAppContextClass.getPackage().getImplementationVersion() != null
                 && (webAppContextClass.getPackage().getImplementationVersion().startsWith("9.3.")

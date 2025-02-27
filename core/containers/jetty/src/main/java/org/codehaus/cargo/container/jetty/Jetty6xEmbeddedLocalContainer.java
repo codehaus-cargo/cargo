@@ -151,8 +151,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         NoSuchMethodException
     {
         // Connector selectConnector = new SelectChannelConnector();
-        // selectConnector.setPort(new
-        // Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
+        // selectConnector.setPort(
+        //     new Integer(getConfiguration().getPropertyValue(ServletPropertySet.PORT)));
         Class selectConnectorClass =
             getClassLoader().loadClass("org.mortbay.jetty.nio.SelectChannelConnector");
         Object connector = selectConnectorClass.getDeclaredConstructor().newInstance();
@@ -183,8 +183,8 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
         // Set up the context handler structure
         // HandlerCollection handlers = new HandlerCollection();
         // ContextHandlerCollection contextHandlers = new ContextHandlerCollection();
-        // handlers.setHandlers(new Handler[]{contextHandlers, new DefaultHandler(), new
-        // RequestLogHandler()});
+        // handlers.setHandlers(
+        //     new Handler[]{contextHandlers, new DefaultHandler()});
         // server.setHandler(handlers);
         handlerClass = getClassLoader().loadClass("org.mortbay.jetty.Handler");
         handlers =
@@ -262,8 +262,12 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
             .invoke(handler, deployable.getFile());
         handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
             getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
-        handler.getClass().getMethod("setExtraClasspath", String.class)
-            .invoke(handler, JettyUtils.getExtraClasspath((WAR) deployable, false));
+        String extraClasspath = JettyUtils.getExtraClasspath((WAR) deployable, false);
+        if (extraClasspath != null)
+        {
+            handler.getClass().getMethod("setExtraClasspath", String.class)
+                .invoke(handler, extraClasspath);
+        }
 
         setDefaultRealm(handler);
 

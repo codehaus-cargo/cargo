@@ -68,6 +68,14 @@ public class EmbeddedContainerClasspathResolver
         jetty8x9x10x11xDependencies.add("lib/annotations/*.jar");
         jetty8x9x10x11xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
 
+        List<String> jetty12xDependencies = new ArrayList<String>();
+        jetty12xDependencies.add("lib/*.jar");
+        jetty12xDependencies.add("lib/logging/*.jar");
+        jetty12xDependencies.add("lib/ee10-annotations/*.jar");
+        jetty12xDependencies.add("lib/ee10-apache-jsp/*.jar");
+        jetty12xDependencies.add("lib/ee10-jaspi/*.jar");
+        jetty12xDependencies.add("lib/ee10-websocket/*.jar");
+
         List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");
         tomcat5xDependencies.add("common/lib/*.jar");
@@ -84,6 +92,7 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty9x", jetty8x9x10x11xDependencies);
         DEPENDENCIES.put("jetty10x", jetty8x9x10x11xDependencies);
         DEPENDENCIES.put("jetty11x", jetty8x9x10x11xDependencies);
+        DEPENDENCIES.put("jetty12x", jetty12xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
         DEPENDENCIES.put("tomcat6x", tomcat6x7x8x9x10x11xDependencies);
         DEPENDENCIES.put("tomcat7x", tomcat6x7x8x9x10x11xDependencies);
@@ -140,11 +149,15 @@ public class EmbeddedContainerClasspathResolver
                         {
                             for (File jar : jars)
                             {
-                                // To avoid issues caused by the behaviour described in
+                                // 1) To avoid issues caused by the behaviour described in
                                 // https://github.com/eclipse/jetty.project/issues/4746, do not
                                 // include the Jetty JASPI JARs in the embedded container classpath
+                                //
+                                // 2) Jetty 12.x embedded type currently limited to EE10 only
                                 if (!jar.getName().startsWith("demo-")
-                                    && !jar.getName().startsWith("jetty-jaspi-"))
+                                    && !jar.getName().startsWith("jetty-jaspi-")
+                                    && !jar.getName().startsWith("jetty-ee8-")
+                                    && !jar.getName().startsWith("jetty-ee9-"))
                                 {
                                     urls.add(jar.toURI().toURL());
                                     found = true;

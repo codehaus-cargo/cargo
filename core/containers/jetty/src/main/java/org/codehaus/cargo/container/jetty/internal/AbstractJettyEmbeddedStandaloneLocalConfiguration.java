@@ -90,6 +90,11 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
                 }
                 if (webdefaultReader == null)
                 {
+                    webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
+                        "org/eclipse/jetty/ee10/webapp/webdefault-ee10.xml");
+                }
+                if (webdefaultReader == null)
+                {
                     throw new FileNotFoundException("Cannot find the webdefault.xml file");
                 }
                 try (OutputStream webdefaultWriter = getFileHandler().getOutputStream(webdefault))

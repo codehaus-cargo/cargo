@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.container.jetty;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -89,6 +91,14 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     }
 
     /**
+     * @return The Jetty Webapp context class name.
+     */
+    protected String getWebappContextClassname()
+    {
+        return "org.eclipse.jetty.webapp.WebAppContext";
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -123,8 +133,8 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         // Set up the context handler structure
         // HandlerCollection handlers = new HandlerCollection();
         // ContextHandlerCollection contextHandlers = new ContextHandlerCollection();
-        // handlers.setHandlers(new Handler[]{contextHandlers, new DefaultHandler(), new
-        // RequestLogHandler()});
+        // handlers.setHandlers(
+        //     new Handler[]{contextHandlers, new DefaultHandler()});
         // server.setHandler(handlers);
         handlerClass = getClassLoader().loadClass("org.eclipse.jetty.server.Handler");
         handlers =
@@ -161,7 +171,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     public Object createHandler(Deployable deployable) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext")
+            getClassLoader().loadClass(getWebappContextClassname())
                 .getDeclaredConstructor().newInstance();
 
         handler.getClass().getMethod("setContextPath", String.class)
@@ -169,8 +179,12 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         handler.getClass().getMethod("setWar", String.class).invoke(handler, deployable.getFile());
         handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
             getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
-        handler.getClass().getMethod("setExtraClasspath", String.class)
-            .invoke(handler, JettyUtils.getExtraClasspath((WAR) deployable, false));
+        String extraClasspath = JettyUtils.getExtraClasspath((WAR) deployable, false);
+        if (extraClasspath != null)
+        {
+            handler.getClass().getMethod("setExtraClasspath", String.class)
+                .invoke(handler, extraClasspath);
+        }
 
         setDefaultRealm(handler);
 
@@ -184,7 +198,7 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     public Object createHandler(String contextPath, String war) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.eclipse.jetty.webapp.WebAppContext")
+            getClassLoader().loadClass(getWebappContextClassname())
                 .getDeclaredConstructor().newInstance();
         handler.getClass().getMethod("setContextPath", String.class).invoke(handler, contextPath);
         handler.getClass().getMethod("setWar", String.class).invoke(handler, war);
@@ -235,16 +249,37 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
                     putUser.invoke(this.defaultRealm, userName, credential, roles);
                 }
             }
-            catch (NoSuchMethodException e)
+            catch (NoSuchMethodException putUser)
             {
                 // Method putUser was removed with Jetty 9.4
                 String etcDir = getFileHandler().append(getConfiguration().getHome(), "etc");
                 JettyUtils.createRealmFile(
                     getConfiguration().getUsers(), etcDir, getFileHandler());
-                this.defaultRealm =
-                    realmClass.getConstructor(String.class, String.class).newInstance(
-                        getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME),
-                            getFileHandler().append(etcDir, "cargo-realm.properties"));
+                try
+                {
+                    this.defaultRealm =
+                        realmClass.getConstructor(String.class, String.class).newInstance(
+                            getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME),
+                                getFileHandler().append(etcDir, "cargo-realm.properties"));
+                }
+                catch (NoSuchMethodException ctor)
+                {
+                    // Constructor with file name was removed with Jetty 12
+                    Class resourceClass =
+                        getClassLoader().loadClass("org.eclipse.jetty.util.resource.Resource");
+                    Class pathResourceFactory =
+                        getClassLoader().loadClass(
+                            "org.eclipse.jetty.util.resource.PathResourceFactory");
+                    Method pathResourceConstructor =
+                        pathResourceFactory.getMethod("newResource", URI.class);
+                    Object pathResource = pathResourceConstructor.invoke(
+                        pathResourceFactory.getDeclaredConstructor().newInstance(), new File(
+                            getFileHandler().append(etcDir, "cargo-realm.properties")).toURI());
+                    this.defaultRealm =
+                        realmClass.getConstructor(String.class, resourceClass).newInstance(
+                            getConfiguration().getPropertyValue(JettyPropertySet.REALM_NAME),
+                                pathResource);
+                }
             }
 
             Object userRealmsArray =
