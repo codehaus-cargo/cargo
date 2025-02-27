@@ -97,7 +97,7 @@ public class Jetty7x8x9x10x11xEmbeddedLocalDeployer extends AbstractJettyEmbedde
                     }
                     else
                     {
-                        setVirtualHosts.invoke(webAppContext, virtualHosts);
+                        setVirtualHosts.invoke(webAppContext, new Object[]{virtualHosts});
                     }
                 }
 
