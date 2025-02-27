@@ -78,7 +78,7 @@ public class Jetty6xEmbeddedLocalDeployer extends AbstractJettyEmbeddedLocalDepl
                 if (virtualHosts != null)
                 {
                     webAppContextClass.getMethod("setVirtualHosts", virtualHosts.getClass())
-                        .invoke(webAppContext, new Object []{virtualHosts});
+                        .invoke(webAppContext, new Object[]{virtualHosts});
                 }
 
                 // check if extracting the war is wanted
