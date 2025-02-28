@@ -193,7 +193,7 @@ public class ConfluenceProjectStructureDocumentationGenerator
             for (String module : modules)
             {
                 // This is to ensure, say, jetty7x is smaller than jetty10x
-                String[] moduleWithSplitVersion = module.split("(?=[2-9])");
+                String[] moduleWithSplitVersion = module.split("(?=[5-9])");
                 StringBuilder sortedModule = new StringBuilder();
                 for (String moduleVersionSplit : moduleWithSplitVersion)
                 {
