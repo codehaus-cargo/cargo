@@ -783,15 +783,12 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append("| &nbsp; [Embedded Container] | ");
                 output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                    containerId, ContainerType.EMBEDDED).getName()) + "}} | (/) | ");
+                    containerId, ContainerType.EMBEDDED).getName()) + "}} | (/) | (/) | ");
                 if ("jetty12x".equals(containerId))
                 {
-                    output.append("(x) | Jetty 12.x Embedded only supports EE10 profile |");
+                    output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
                 }
-                else
-                {
-                    output.append("(/) | |");
-                }
+                output.append("|");
             }
             else
             {
@@ -902,15 +899,12 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Standalone Local Configuration] | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.STANDALONE).getName())
-                + "}} | (/) | ");
+                + "}} | (/) | (/) | ");
             if ("jetty12x".equals(containerId) && type == ContainerType.EMBEDDED)
             {
-                output.append("(x) | Jetty 12.x Embedded only supports EE10 profile |");
+                output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
             }
-            else
-            {
-                output.append("(/) | |");
-            }
+            output.append("|");
         }
         else
         {
@@ -937,15 +931,12 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Existing Local Configuration] | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.EXISTING).getName())
-                + "}} | (/) | ");
+                + "}} | (/) | (/) | ");
             if ("jetty12x".equals(containerId) && type == ContainerType.EMBEDDED)
             {
-                output.append("(x) | Jetty 12.x Embedded only supports EE10 profile |");
+                output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
             }
-            else
-            {
-                output.append("(/) | |");
-            }
+            output.append("|");
         }
         else
         {
@@ -1186,15 +1177,12 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Embedded Deployer] | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.EMBEDDED).getName()) + "}} | (/) | ");
+                containerId, DeployerType.EMBEDDED).getName()) + "}} | (/) | (/) | ");
             if ("jetty12x".equals(containerId))
             {
-                output.append("(x) | Jetty 12.x Embedded only supports EE10 profile |");
+                output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
             }
-            else
-            {
-                output.append("(/) | |");
-            }
+            output.append("|");
         }
         else
         {

@@ -42,6 +42,7 @@
     <module>jetty9x-embedded-test</module>
     <module>jetty10x-embedded-test</module>
     <module>jetty11x-embedded-test</module>
+    <module>jetty12x-embedded-test</module>
     <module>ping-test</module>
     <module>license-test</module>
     <module>multi-datasource-test</module>
