@@ -346,6 +346,9 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-webapp", "12.0.16"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "12.0.16"));
         // jsp
+        jetty12xDependencies.add(new Dependency("jakarta.el", "jakarta.el-api", "5.0.1"));
+        jetty12xDependencies.add(
+            new Dependency("jakarta.servlet.jsp", "jakarta.servlet.jsp-api", "3.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.38.0"));
         jetty12xDependencies.add(
             new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-apache-jsp", "12.0.16"));
