@@ -44,7 +44,8 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
      */
     public Jetty12xEmbeddedLocalContainer(LocalConfiguration configuration)
     {
-        super(configuration);
+        // Ensure that the configuration provided is Jetty 12.x
+        super((Jetty12xEmbeddedStandaloneLocalConfiguration) configuration);
     }
 
     /**
@@ -54,6 +55,14 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
     public String getId()
     {
         return ID;
+    }
+
+    /**
+     * @return EE version from the configuration.
+     */
+    private String getEeVersion()
+    {
+        return getConfiguration().getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION);
     }
 
     /**
@@ -119,14 +128,14 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
     {
         setAttributeMethod().invoke(
             getServer(),
-            "org.eclipse.jetty.ee10.webapp.configuration",
+            "org.eclipse.jetty." + getEeVersion() + ".webapp.configuration",
                 new String[] {
-                    "org.eclipse.jetty.ee10.webapp.WebInfConfiguration",
-                    "org.eclipse.jetty.ee10.webapp.WebXmlConfiguration",
-                    "org.eclipse.jetty.ee10.webapp.MetaInfConfiguration",
-                    "org.eclipse.jetty.ee10.webapp.FragmentConfiguration",
-                    "org.eclipse.jetty.ee10.annotations.AnnotationConfiguration",
-                    "org.eclipse.jetty.ee10.webapp.JettyWebXmlConfiguration"});
+                    "org.eclipse.jetty." + getEeVersion() + ".webapp.WebInfConfiguration",
+                    "org.eclipse.jetty." + getEeVersion() + ".webapp.WebXmlConfiguration",
+                    "org.eclipse.jetty." + getEeVersion() + ".webapp.MetaInfConfiguration",
+                    "org.eclipse.jetty." + getEeVersion() + ".webapp.FragmentConfiguration",
+                    "org.eclipse.jetty." + getEeVersion() + ".annotations.AnnotationConfiguration",
+                    "org.eclipse.jetty." + getEeVersion() + ".webapp.JettyWebXmlConfiguration"});
     }
 
     /**
@@ -135,6 +144,6 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
     @Override
     protected String getWebappContextClassname()
     {
-        return "org.eclipse.jetty.ee10.webapp.WebAppContext";
+        return "org.eclipse.jetty." + getEeVersion() + ".webapp.WebAppContext";
     }
 }

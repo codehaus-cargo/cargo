@@ -64,13 +64,13 @@ public interface JettyPropertySet
     String MODULES = "cargo.jetty.modules";
 
     /**
-     * EE version to use when deploying to Jetty 12.x onwards using <code>context.xml</code> files.
+     * EE version to use with Jetty 12.x, when deploying using <code>context.xml</code> files (when
+     * {@link #DEPLOYER_CREATE_CONTEXT_XML} is set to <code>true</code>), or also when running the
+     * Embedded container.
      * <br><br>
      * The requirement for specifying the EE version can be understood by reading <a
      * href="https://eclipse.dev/jetty/documentation/jetty-12/operations-guide/#og-deploy-jetty">
      * the <i>Deploying Jetty Context XML Files</i> chapter of the Jetty Operations Guide</a>.
-     * <br><br>
-     * This parameter is used if {@link #DEPLOYER_CREATE_CONTEXT_XML} is set to <code>false</code>.
      */
     String DEPLOYER_EE_VERSION = "cargo.jetty.deployer.ee.version";
 

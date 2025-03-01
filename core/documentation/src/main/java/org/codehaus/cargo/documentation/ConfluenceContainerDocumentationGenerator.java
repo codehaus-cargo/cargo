@@ -60,6 +60,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.geronimo.GeronimoPropertySet;
 import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.jetty.Jetty12xInstalledLocalContainer;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.jonas.JonasPropertySet;
 import org.codehaus.cargo.container.jrun.JRun4xPropertySet;
@@ -783,12 +784,7 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append("| &nbsp; [Embedded Container] | ");
                 output.append("(/) {{" + computedFQCN(this.containerFactory.getContainerClass(
-                    containerId, ContainerType.EMBEDDED).getName()) + "}} | (/) | (/) | ");
-                if ("jetty12x".equals(containerId))
-                {
-                    output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
-                }
-                output.append("|");
+                    containerId, ContainerType.EMBEDDED).getName()) + "}} | (/) | (/) | |");
             }
             else
             {
@@ -899,12 +895,7 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Standalone Local Configuration] | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.STANDALONE).getName())
-                + "}} | (/) | (/) | ");
-            if ("jetty12x".equals(containerId) && type == ContainerType.EMBEDDED)
-            {
-                output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
-            }
-            output.append("|");
+                + "}} | (/) | (/) | |");
         }
         else
         {
@@ -931,12 +922,7 @@ public class ConfluenceContainerDocumentationGenerator
                 + " container|Existing Local Configuration] | ");
             output.append("(/) {{" + computedFQCN(this.configurationFactory.getConfigurationClass(
                 containerId, type, ConfigurationType.EXISTING).getName())
-                + "}} | (/) | (/) | ");
-            if ("jetty12x".equals(containerId) && type == ContainerType.EMBEDDED)
-            {
-                output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
-            }
-            output.append("|");
+                + "}} | (/) | (/) | |");
         }
         else
         {
@@ -1177,12 +1163,7 @@ public class ConfluenceContainerDocumentationGenerator
         {
             output.append("| [Embedded Deployer] | ");
             output.append("(/) {{" + computedFQCN(this.deployerFactory.getDeployerClass(
-                containerId, DeployerType.EMBEDDED).getName()) + "}} | (/) | (/) | ");
-            if ("jetty12x".equals(containerId))
-            {
-                output.append("Jetty 12.x Embedded only supports the {{ee10}} profile ");
-            }
-            output.append("|");
+                containerId, DeployerType.EMBEDDED).getName()) + "}} | (/) | (/) | |");
         }
         else
         {
@@ -1848,6 +1829,28 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("For further information on how to achieve this, please refer to the ");
             output.append("[associated tip in the Maven 3 Plugin Tips page|");
             output.append("Maven 3 Plugin Tips#tip4].");
+            output.append(FileHandler.NEW_LINE);
+            output.append("{info}");
+            output.append(FileHandler.NEW_LINE);
+        }
+
+        if (ConfigurationType.STANDALONE.equals(type)
+            && ContainerType.EMBEDDED.equals(containerType) && ("jetty12x".equals(containerId)))
+        {
+            output.append("{info:title=Jetty 12.x Embedded container and EE versions}");
+            output.append(FileHandler.NEW_LINE);
+            output.append("Jetty 12.x supports multiple Java / Jakarta EE versions, for the ");
+            output.append("Embedded container this is steered through the {{[JettyPropertySet.");
+            output.append("DEPLOYER_EE_VERSION|https://codehaus-cargo.github.io/apidocs/org/");
+            output.append("codehaus/cargo/container/jetty/JettyPropertySet.html");
+            output.append("#DEPLOYER_EE_VERSION]}} property.");
+            output.append(FileHandler.NEW_LINE);
+            output.append(FileHandler.NEW_LINE);
+            output.append("When using this feature through the [Java API|Javadocs] or [Ant tasks|");
+            output.append("Ant support], you will have to set the classpath accordingly. Because ");
+            output.append("of the pre-programmed dependency management logic, the [Maven 3 ");
+            output.append("plugin] for Jetty 12.x Embedded only supports {{");
+            output.append(Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION + "}}.");
             output.append(FileHandler.NEW_LINE);
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);

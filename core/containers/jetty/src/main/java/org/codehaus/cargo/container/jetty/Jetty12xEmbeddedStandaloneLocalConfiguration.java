@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty12xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 12.x instance.
@@ -28,12 +30,29 @@ public class Jetty12xEmbeddedStandaloneLocalConfiguration extends
     Jetty11xEmbeddedStandaloneLocalConfiguration
 {
     /**
+     * capabilities supported by this config.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new Jetty12xEmbeddedStandaloneLocalConfigurationCapability();
+
+    /**
      * {@inheritDoc}
      * @see Jetty11xEmbeddedStandaloneLocalConfiguration#Jetty11xEmbeddedStandaloneLocalConfiguration(String)
      */
     public Jetty12xEmbeddedStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        setProperty(JettyPropertySet.DEPLOYER_EE_VERSION,
+            Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

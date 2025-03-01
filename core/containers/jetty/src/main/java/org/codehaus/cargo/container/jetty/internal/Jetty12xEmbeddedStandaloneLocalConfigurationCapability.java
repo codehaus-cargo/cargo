@@ -17,32 +17,21 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.jetty;
+package org.codehaus.cargo.container.jetty.internal;
 
-import org.codehaus.cargo.container.EmbeddedLocalContainer;
+import org.codehaus.cargo.container.jetty.JettyPropertySet;
 
 /**
- * A deployer for webapps that deploys to a Jetty 12.x instance running embedded.
+ * Configuration capability for a Jetty 12.x Embedded container.
  */
-public class Jetty12xEmbeddedLocalDeployer extends Jetty7x8x9x10x11xEmbeddedLocalDeployer
+public class Jetty12xEmbeddedStandaloneLocalConfigurationCapability extends
+    Jetty6xEmbeddedStandaloneLocalConfigurationCapability
 {
     /**
-     * {@inheritDoc}
-     * @see Jetty7x8x9x10x11xEmbeddedLocalDeployer#Jetty7x8x9x10x11xEmbeddedLocalDeployer(EmbeddedLocalContainer)
+     * Constructor.
      */
-    public Jetty12xEmbeddedLocalDeployer(EmbeddedLocalContainer container)
+    public Jetty12xEmbeddedStandaloneLocalConfigurationCapability()
     {
-        super(container);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String getWebappContextClassname()
-    {
-        String eeVersion = getContainer().getConfiguration().getPropertyValue(
-            JettyPropertySet.DEPLOYER_EE_VERSION);
-        return "org.eclipse.jetty." + eeVersion + ".webapp.WebAppContext";
+        this.propertySupportMap.put(JettyPropertySet.DEPLOYER_EE_VERSION, Boolean.TRUE);
     }
 }

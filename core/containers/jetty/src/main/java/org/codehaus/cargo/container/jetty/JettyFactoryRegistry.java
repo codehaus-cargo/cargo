@@ -25,6 +25,7 @@ import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.ServletContainerCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty10xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty10xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty12xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty12xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty12xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLocalConfigurationCapability;
@@ -151,7 +152,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Jetty6xEmbeddedStandaloneLocalConfigurationCapability.class);
+            Jetty12xEmbeddedStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             Jetty12xStandaloneLocalConfigurationCapability.class);
