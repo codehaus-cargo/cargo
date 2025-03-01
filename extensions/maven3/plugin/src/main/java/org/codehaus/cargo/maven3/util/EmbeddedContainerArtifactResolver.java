@@ -330,6 +330,7 @@ public class EmbeddedContainerArtifactResolver
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-ee", "12.0.16"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "12.0.16"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "12.0.16"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "12.0.16"));
         jetty12xDependencies.add(
             new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-jndi", "12.0.16"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus", "12.0.16"));
