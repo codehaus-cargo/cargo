@@ -321,7 +321,7 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> jetty12xDependencies = new ArrayList<Dependency>();
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.toolchain", "jetty-jakarta-servlet-api", "6.0.0"));
+            new Dependency("jakarta.servlet", "jakarta.servlet-api", "6.0.0"));
         jetty12xDependencies.add(new Dependency("org.slf4j", "slf4j-api", "2.0.16"));
         jetty12xDependencies.add(
             new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "12.0.16"));
