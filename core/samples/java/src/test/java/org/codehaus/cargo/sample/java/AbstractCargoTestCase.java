@@ -237,7 +237,7 @@ public abstract class AbstractCargoTestCase
         // the different embedded containers will conflict with each other.
         if (getTestData().containerType == ContainerType.EMBEDDED)
         {
-            EmbeddedContainerClasspathResolver resolver = new EmbeddedContainerClasspathResolver();
+            EmbeddedContainerClasspathResolver resolver = getEmbeddedContainerClasspathResolver();
             try
             {
                 this.classLoader =
@@ -504,6 +504,14 @@ public abstract class AbstractCargoTestCase
     protected FileHandler getFileHandler()
     {
         return this.fileHandler;
+    }
+
+    /**
+     * @return embedded container classpath resolver.
+     */
+    protected EmbeddedContainerClasspathResolver getEmbeddedContainerClasspathResolver()
+    {
+        return new EmbeddedContainerClasspathResolver();
     }
 
     /**

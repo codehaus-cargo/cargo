@@ -70,11 +70,11 @@ public class EmbeddedContainerClasspathResolver
 
         List<String> jetty12xDependencies = new ArrayList<String>();
         jetty12xDependencies.add("lib/*.jar");
+        jetty12xDependencies.add("lib/jetty-ee10-*.jar");
         jetty12xDependencies.add("lib/logging/*.jar");
         jetty12xDependencies.add("lib/ee10-annotations/*.jar");
         jetty12xDependencies.add("lib/ee10-apache-jsp/*.jar");
-        jetty12xDependencies.add("lib/ee10-jaspi/*.jar");
-        jetty12xDependencies.add("lib/ee10-websocket/*.jar");
+        jetty12xDependencies.add("lib/ee10-jaspi/*.jar|lib/ee10-websocket/*.jar");
 
         List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");
@@ -103,6 +103,16 @@ public class EmbeddedContainerClasspathResolver
     }
 
     /**
+     * Get the dependencies list for a given container.
+     * @param containerId Container identifier.
+     * @return Dependencies list.
+     */
+    protected List<String> getDependencies(String containerId)
+    {
+        return DEPENDENCIES.get(containerId);
+    }
+
+    /**
      * Resolve dependencies for an embedded container and create classpath.
      * @param containerId Container identifier.
      * @param containerHome Container home.
@@ -113,7 +123,7 @@ public class EmbeddedContainerClasspathResolver
     public ClassLoader resolveDependencies(String containerId, String containerHome)
         throws FileNotFoundException
     {
-        List<String> dependencies = DEPENDENCIES.get(containerId);
+        List<String> dependencies = getDependencies(containerId);
         if (dependencies == null)
         {
             return null;
@@ -142,23 +152,41 @@ public class EmbeddedContainerClasspathResolver
                                     + "alternatives; i.e. all need to end with *.jar");
                         }
                         File folder = new File(containerHome, dependencyRelativeSubPath
-                            .substring(0, dependencyRelativeSubPath.length() - 5));
+                            .substring(0, dependencyRelativeSubPath.lastIndexOf("/")));
                         File[] jars =
                             folder.listFiles((File dir, String name) -> name.endsWith(".jar"));
                         if (jars != null)
                         {
                             for (File jar : jars)
                             {
-                                // 1) To avoid issues caused by the behaviour described in
+                                // To avoid issues caused by the behaviour described in
                                 // https://github.com/eclipse/jetty.project/issues/4746, do not
                                 // include the Jetty JASPI JARs in the embedded container classpath
-                                //
-                                // 2) Jetty 12.x embedded type currently limited to EE10 only
                                 if (!jar.getName().startsWith("demo-")
-                                    && !jar.getName().startsWith("jetty-jaspi-")
-                                    && !jar.getName().startsWith("jetty-ee8-")
-                                    && !jar.getName().startsWith("jetty-ee9-"))
+                                    && !jar.getName().startsWith("jetty-jaspi-"))
                                 {
+                                    // For the Jetty 12.x Embedded generic *.jar inclusions,
+                                    // do not include EE-version-specific JARs
+                                    if ("lib/*.jar".equals(dependencyRelativePath)
+                                        && jar.getName().startsWith("jetty-ee")
+                                        && !jar.getName().startsWith("jetty-ee-"))
+                                    {
+                                        continue;
+                                    }
+
+                                    String dependencyEndPath =
+                                        dependencyRelativeSubPath.substring(
+                                            dependencyRelativeSubPath.lastIndexOf("/") + 1);
+                                    if (!"*.jar".equals(dependencyEndPath))
+                                    {
+                                        dependencyEndPath = dependencyEndPath.substring(
+                                            0, dependencyEndPath.length() - 5);
+                                        if (!jar.getName().startsWith(dependencyEndPath))
+                                        {
+                                            continue;
+                                        }
+                                    }
+
                                     urls.add(jar.toURI().toURL());
                                     found = true;
                                 }
