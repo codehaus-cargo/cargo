@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -61,38 +60,14 @@ public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTest
         @Override
         protected List<String> getDependencies(String containerId)
         {
-            List<String> dependencies = new ArrayList<String>();
-            for (String dependency : super.getDependencies(containerId))
+            List<String> dependencies = super.getDependencies(containerId);
+            String[] dependenciesCopy = dependencies.toArray(new String[dependencies.size()]);
+            for (int i = 0; i < dependenciesCopy.length; i++)
             {
-                if (dependency.contains("ee10-"))
+                if (dependenciesCopy[i].contains("ee10-"))
                 {
-                    dependencies.add(dependency.replace("ee10-", this.jettyEeVersion + "-"));
-                }
-                else if ("lib/*.jar".equals(dependency)
-                    && ("ee8".equals(this.jettyEeVersion) || "ee9".equals(this.jettyEeVersion)))
-                {
-                    if ("ee8".equals(this.jettyEeVersion))
-                    {
-                        dependencies.add("lib/jetty-servlet-api-4.*.jar");
-                    }
-                    else if ("ee9".equals(this.jettyEeVersion))
-                    {
-                        dependencies.add("lib/jetty-jakarta-servlet-api-5.*.jar");
-                    }
-                    dependencies.add("lib/jetty-ee-*.jar");
-                    dependencies.add("lib/jetty-http-*.jar");
-                    dependencies.add("lib/jetty-io-*.jar");
-                    dependencies.add("lib/jetty-jndi-*.jar");
-                    dependencies.add("lib/jetty-plus-*.jar");
-                    dependencies.add("lib/jetty-util-*.jar");
-                    dependencies.add("lib/jetty-security-*.jar");
-                    dependencies.add("lib/jetty-server-*.jar");
-                    dependencies.add("lib/jetty-session-*.jar");
-                    dependencies.add("lib/jetty-xml-*.jar");
-                }
-                else
-                {
-                    dependencies.add(dependency);
+                    dependencies.set(
+                        i, dependenciesCopy[i].replace("ee10-", this.jettyEeVersion + "-"));
                 }
             }
             return dependencies;
