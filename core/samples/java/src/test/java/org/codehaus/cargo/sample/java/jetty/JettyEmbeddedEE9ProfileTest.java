@@ -19,14 +19,9 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
-import java.net.URL;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.deployable.DeployableType;
-import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
-import org.codehaus.cargo.sample.java.PingUtils;
 
 /**
  * Jetty Embedded EE 9 profile test.
@@ -53,16 +48,6 @@ public abstract class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedE
     {
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee9");
-
-        WAR war = (WAR) this.createDeployable("simple-war", DeployableType.WAR);
-        configuration.addDeployable(war);
-
-        URL warPingURL =
-            new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
-
-        getLocalContainer().start();
-        PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
-        getLocalContainer().stop();
-        PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
+        testWar("simple");
     }
 }

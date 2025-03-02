@@ -19,11 +19,12 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
-import org.codehaus.cargo.sample.java.AbstractStandaloneLocalContainerTestCase;
+import org.codehaus.cargo.sample.java.AbstractWarTestCase;
 import org.codehaus.cargo.sample.java.EmbeddedContainerClasspathResolver;
 import org.codehaus.cargo.sample.java.validator.IsEmbeddedLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
@@ -32,8 +33,7 @@ import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
 /**
  * Test for Jetty Embedded container supporting multiple EE profiles.
  */
-public abstract class AbstractJettyEmbeddedEEProfileTest
-    extends AbstractStandaloneLocalContainerTestCase
+public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTestCase
 {
     /**
      * Jetty Embedded specific embedded container classpath resolver.
@@ -61,14 +61,38 @@ public abstract class AbstractJettyEmbeddedEEProfileTest
         @Override
         protected List<String> getDependencies(String containerId)
         {
-            List<String> dependencies = super.getDependencies(containerId);
-            String[] dependenciesCopy = dependencies.toArray(new String[dependencies.size()]);
-            for (int i = 0; i < dependenciesCopy.length; i++)
+            List<String> dependencies = new ArrayList<String>();
+            for (String dependency : super.getDependencies(containerId))
             {
-                if (dependenciesCopy[i].contains("ee10-"))
+                if (dependency.contains("ee10-"))
                 {
-                    dependencies.set(
-                        i, dependenciesCopy[i].replace("ee10-", this.jettyEeVersion + "-"));
+                    dependencies.add(dependency.replace("ee10-", this.jettyEeVersion + "-"));
+                }
+                else if ("lib/*.jar".equals(dependency)
+                    && ("ee8".equals(this.jettyEeVersion) || "ee9".equals(this.jettyEeVersion)))
+                {
+                    if ("ee8".equals(this.jettyEeVersion))
+                    {
+                        dependencies.add("lib/jetty-servlet-api-4.*.jar");
+                    }
+                    else if ("ee9".equals(this.jettyEeVersion))
+                    {
+                        dependencies.add("lib/jetty-jakarta-servlet-api-5.*.jar");
+                    }
+                    dependencies.add("lib/jetty-ee-*.jar");
+                    dependencies.add("lib/jetty-http-*.jar");
+                    dependencies.add("lib/jetty-io-*.jar");
+                    dependencies.add("lib/jetty-jndi-*.jar");
+                    dependencies.add("lib/jetty-plus-*.jar");
+                    dependencies.add("lib/jetty-util-*.jar");
+                    dependencies.add("lib/jetty-security-*.jar");
+                    dependencies.add("lib/jetty-server-*.jar");
+                    dependencies.add("lib/jetty-session-*.jar");
+                    dependencies.add("lib/jetty-xml-*.jar");
+                }
+                else
+                {
+                    dependencies.add(dependency);
                 }
             }
             return dependencies;
