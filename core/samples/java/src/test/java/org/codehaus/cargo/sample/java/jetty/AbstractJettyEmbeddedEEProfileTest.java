@@ -99,6 +99,7 @@ public abstract class AbstractJettyEmbeddedEEProfileTest
     /**
      * {@inheritDoc}
      */
+    @Override
     protected EmbeddedContainerClasspathResolver getEmbeddedContainerClasspathResolver()
     {
         return this.resolver;
