@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
@@ -29,7 +31,7 @@ import org.codehaus.cargo.sample.java.CargoTestCase;
 /**
  * Jetty Embedded EE 8 profile test.
  */
-public abstract class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileTest
+public class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileTest
 {
     /**
      * Add the required validators and initializes the Jetty Embedded specific embedded container
@@ -43,14 +45,35 @@ public abstract class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedE
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    {
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
+
+        // Jetty 12.x Embedded has issue with the ContextHandlerCollection.addHandler
+        // method called with an EE8 WebAppContext
+        if ("jetty12x".equals(containerId))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Test Jetty Embedded with EE 8 profile.
      * @throws Exception If anything goes wrong.
      */
     @CargoTestCase
     public void testEE8Profile() throws Exception
     {
-        for (Map.Entry<String, String> testData :
-            new HashMap<String, String>(getTestData().testDataArtifacts).entrySet())
+        for (Map.Entry<String, String> testData
+            : new HashMap<String, String>(getTestData().testDataArtifacts).entrySet())
         {
             getTestData().testDataArtifacts.put(testData.getKey(),
                 testData.getValue().replace("/deployables-jakarta-ee/", "/deployables/"));

@@ -19,6 +19,9 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
+import java.lang.reflect.Method;
+
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
@@ -26,7 +29,7 @@ import org.codehaus.cargo.sample.java.CargoTestCase;
 /**
  * Jetty Embedded EE 9 profile test.
  */
-public abstract class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileTest
+public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileTest
 {
     /**
      * Add the required validators and initializes the Jetty Embedded specific embedded container
@@ -37,6 +40,27 @@ public abstract class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedE
     public JettyEmbeddedEE9ProfileTest()
     {
         super("ee9");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    {
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
+
+        // Jetty 12.x Embedded has issue with the ContextHandlerCollection.addHandler
+        // method called with an EE9 WebAppContext
+        if ("jetty12x".equals(containerId))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
