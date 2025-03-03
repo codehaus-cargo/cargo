@@ -53,7 +53,7 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
             return false;
         }
 
-        // Jetty 12.x Embedded has issue with the ContextHandlerCollection.addHandler
+        // Jetty 12.x Embedded has an issue with the ContextHandlerCollection.addHandler
         // method called with an EE9 WebAppContext
         if ("jetty12x".equals(containerId))
         {
