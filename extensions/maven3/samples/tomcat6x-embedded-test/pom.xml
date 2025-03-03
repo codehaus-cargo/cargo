@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven3</artifactId>
-    <version>1.10.18</version>
+    <version>1.10.19-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-maven3-tomcat6x-embedded-test</artifactId>
   <name>Cargo Samples - Maven 3 - Tomcat 6.x embedded container test</name>
