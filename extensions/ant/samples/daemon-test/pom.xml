@@ -57,7 +57,7 @@
               <artifactInstaller>
                 <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat</artifactId>
-                <version>9.0.100</version>
+                <version>9.0.102</version>
               </artifactInstaller>
               <systemProperties>
                 <cargo.home>${project.build.directory}/daemon-cargo-home</cargo.home>
