@@ -324,34 +324,34 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("jakarta.servlet", "jakarta.servlet-api", "6.0.0"));
         jetty12xDependencies.add(new Dependency("org.slf4j", "slf4j-api", "2.0.16"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "12.0.16"));
+            new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "12.0.17"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-annotations", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-ee", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "12.0.16"));
+            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-annotations", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-ee", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "12.0.17"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-jndi", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus", "12.0.16"));
+            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-jndi", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-plus", "12.0.17"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-plus", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server", "12.0.16"));
+            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-plus", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-util", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-security", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server", "12.0.17"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-servlet", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-session", "12.0.16"));
+            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-servlet", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-session", "12.0.17"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-webapp", "12.0.16"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "12.0.16"));
+            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-webapp", "12.0.17"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "12.0.17"));
         // jsp
         jetty12xDependencies.add(new Dependency("jakarta.el", "jakarta.el-api", "5.0.1"));
         jetty12xDependencies.add(
             new Dependency("jakarta.servlet.jsp", "jakarta.servlet.jsp-api", "3.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.38.0"));
         jetty12xDependencies.add(
-            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-apache-jsp", "12.0.16"));
+            new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-apache-jsp", "12.0.17"));
         jetty12xDependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.1.31"));
         jetty12xDependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.1.31"));
         this.containerDependencies.put("jetty12x", jetty12xDependencies);
