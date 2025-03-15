@@ -449,8 +449,6 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat10xDependencies = new ArrayList<Dependency>();
         tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "jakartaee-migration", "shaded", "1.0.9"));
-        tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.36"));
         tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-servlet-api", "10.1.36"));
@@ -458,8 +456,6 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("org.apache.tomcat", "tomcat-annotations-api", "10.1.36"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "10.1.36"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "10.1.36"));
-        tomcat10xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "10.1.36"));
         tomcat10xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jsp-api", "10.1.36"));
         tomcat10xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "10.1.36"));
@@ -486,8 +482,6 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat11xDependencies = new ArrayList<Dependency>();
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "jakartaee-migration", "shaded", "1.0.9"));
-        tomcat11xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "11.0.5"));
         tomcat11xDependencies.add(
             new Dependency("org.apache.tomcat", "tomcat-servlet-api", "11.0.5"));
@@ -495,8 +489,6 @@ public class EmbeddedContainerArtifactResolver
             new Dependency("org.apache.tomcat", "tomcat-annotations-api", "11.0.5"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "11.0.5"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "11.0.5"));
-        tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "11.0.5"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "11.0.5"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "11.0.5"));
         tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "11.0.5"));
