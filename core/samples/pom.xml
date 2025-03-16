@@ -735,7 +735,7 @@
                 <!--
                 https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip
                   -->
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.36/tomcat-10.1.36.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.39/tomcat-10.1.39.zip
               </cargo.tomcat10x.url>
               <cargo.tomcat10x.java.home>${cargo.java.home.1_11}</cargo.tomcat10x.java.home>
 
