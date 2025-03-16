@@ -27,7 +27,6 @@ import java.io.OutputStream;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.EmbeddedLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.spi.configuration.AbstractStandaloneLocalConfiguration;
 
@@ -54,12 +53,6 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
-    public abstract ConfigurationCapability getCapability();
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void doConfigure(LocalContainer container) throws Exception
     {
         try
@@ -76,30 +69,13 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
             InputStream webdefaultReader = null;
             try
             {
-                webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
-                    "org/mortbay/jetty/servlet/webdefault.xml");
+                String webdefaultXmlPath = getWebdefaultXmlPath();
+                webdefaultReader =
+                    embeddedContainer.getClassLoader().getResourceAsStream(webdefaultXmlPath);
                 if (webdefaultReader == null)
                 {
-                    webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
-                        "org/mortbay/jetty/webapp/webdefault.xml");
-                }
-                if (webdefaultReader == null)
-                {
-                    webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
-                        "org/eclipse/jetty/webapp/webdefault.xml");
-                }
-                if (webdefaultReader == null)
-                {
-                    webdefaultReader = embeddedContainer.getClassLoader().getResourceAsStream(
-                        "org/eclipse/jetty/"
-                            + getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)
-                                + "/webapp/webdefault-"
-                                    + getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)
-                                        + ".xml");
-                }
-                if (webdefaultReader == null)
-                {
-                    throw new FileNotFoundException("Cannot find the webdefault.xml file");
+                    throw new FileNotFoundException(
+                        "Cannot find the webdefault.xml file from " + webdefaultXmlPath);
                 }
                 try (OutputStream webdefaultWriter = getFileHandler().getOutputStream(webdefault))
                 {
@@ -126,6 +102,13 @@ public abstract class AbstractJettyEmbeddedStandaloneLocalConfiguration extends
                 + " container configuration", e);
         }
     }
+
+    /**
+     * Different versions of Jetty use different paths and file names for the
+     * <code>webdefault.xml</code> file. This method aims at differentiating these.
+     * @return The <code>webdefault.xml</code> path
+     */
+    protected abstract String getWebdefaultXmlPath();
 
     /**
      * Turn on the logging for the container.

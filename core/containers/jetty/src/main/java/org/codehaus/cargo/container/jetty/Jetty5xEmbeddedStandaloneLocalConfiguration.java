@@ -57,6 +57,15 @@ public class Jetty5xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
+    protected String getWebdefaultXmlPath()
+    {
+        return "org/mortbay/jetty/servlet/webdefault.xml";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;

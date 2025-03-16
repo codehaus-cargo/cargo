@@ -92,6 +92,15 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
+    protected String getWebdefaultXmlPath()
+    {
+        return "org/mortbay/jetty/webapp/webdefault.xml";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void activateLogging(LocalContainer container)
     {
         getLogger().info("Jetty 6.x log configuration not implemented", this.getClass().getName());

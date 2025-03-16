@@ -40,6 +40,15 @@ public class Jetty7xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
+    protected String getWebdefaultXmlPath()
+    {
+        return "org/eclipse/jetty/webapp/webdefault.xml";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void activateLogging(LocalContainer container)
     {
         getLogger().info("Jetty 7.x log configuration not implemented", this.getClass().getName());
