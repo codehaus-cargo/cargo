@@ -138,6 +138,14 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     }
 
     /**
+     * @return The Jetty Webapp context class name.
+     */
+    protected String getWebappContextClassname()
+    {
+        return "org.mortbay.jetty.webapp.WebAppContext";
+    }
+
+    /**
      * Configure Jetty connectors.
      * 
      * @throws ClassNotFoundException thrown if the connectors could not be configured
@@ -253,13 +261,12 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     public Object createHandler(Deployable deployable) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.mortbay.jetty.webapp.WebAppContext")
+            getClassLoader().loadClass(getWebappContextClassname())
                 .getDeclaredConstructor().newInstance();
 
         handler.getClass().getMethod("setContextPath", String.class)
             .invoke(handler, "/" + ((WAR) deployable).getContext());
-        handler.getClass().getMethod("setWar", String.class)
-            .invoke(handler, deployable.getFile());
+        handler.getClass().getMethod("setWar", String.class).invoke(handler, deployable.getFile());
         handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
             getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
         String extraClasspath = JettyUtils.getExtraClasspath((WAR) deployable, false);
@@ -286,7 +293,7 @@ public class Jetty6xEmbeddedLocalContainer extends AbstractJettyEmbeddedLocalCon
     public Object createHandler(String contextPath, String war) throws Exception
     {
         Object handler =
-            getClassLoader().loadClass("org.mortbay.jetty.webapp.WebAppContext")
+            getClassLoader().loadClass(getWebappContextClassname())
                 .getDeclaredConstructor().newInstance();
         handler.getClass().getMethod("setContextPath", String.class).invoke(handler, contextPath);
         handler.getClass().getMethod("setWar", String.class).invoke(handler, war);

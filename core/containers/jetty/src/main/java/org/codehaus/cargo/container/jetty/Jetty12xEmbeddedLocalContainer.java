@@ -22,10 +22,12 @@ package org.codehaus.cargo.container.jetty;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ArrayList;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.util.CargoException;
 
 /**
@@ -58,11 +60,86 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object createHandler(Deployable deployable) throws Exception
+    {
+        return nestHandler(super.createHandler(deployable));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object createHandler(String contextPath, String war) throws Exception
+    {
+        return nestHandler(super.createHandler(contextPath, war));
+    }
+
+    /**
+     * Nest handler, necessary for supporting EE8 and EE9.
+     * @param handler Handler created for Web context.
+     * @return <code>handler</code> itself on EE10, nested version on other EE versions.
+     * @throws Exception If anything goes wrong.
+     */
+    private Object nestHandler(Object handler) throws Exception
+    {
+        String eeVersion = getEeVersion();
+        if (!"ee10".equals(eeVersion))
+        {
+            Class handlerClass =
+                getClassLoader().loadClass(
+                    "org.eclipse.jetty." + eeVersion + ".nested.Handler");
+            Class nestedHandlerClass =
+                getClassLoader().loadClass(
+                    "org.eclipse.jetty." + eeVersion + ".nested.ContextHandler");
+            Object nestedHandler =
+                nestedHandlerClass.getDeclaredConstructor().newInstance();
+            nestedHandlerClass.getMethod("setHandler", handlerClass).invoke(
+                nestedHandler, handler);
+            return nestedHandlerClass.getMethod("getCoreContextHandler").invoke(nestedHandler);
+        }
+        else
+        {
+            return handler;
+        }
+    }
+
+    /**
      * @return EE version from the configuration.
      */
     private String getEeVersion()
     {
         return getConfiguration().getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected synchronized void createServerObject() throws Exception
+    {
+        if (this.server == null)
+        {
+            super.createServerObject();
+
+            Class webAppClassLoadingClass =
+                getClassLoader().loadClass("org.eclipse.jetty.ee.WebAppClassLoading");
+
+            if (webAppClassLoadingClass.getPackage().getImplementationVersion() != null
+                && webAppClassLoadingClass.getPackage().getImplementationVersion().startsWith(
+                    "12."))
+            {
+                // Override of the Jetty 12.x server classes list, to work around the nasty
+                // java.lang.ClassNotFoundException:
+                // org.eclipse.jetty.[ee8|ee9|ee10].servlet.listener.IntrospectorCleaner.
+                Object defaultHiddenClasses =
+                    webAppClassLoadingClass.getDeclaredField("DEFAULT_HIDDEN_CLASSES").get(null);
+                Method remove = defaultHiddenClasses.getClass().getMethod("remove", Object.class);
+                remove.invoke(defaultHiddenClasses, "org.eclipse.jetty.");
+            }
+        }
     }
 
     /**

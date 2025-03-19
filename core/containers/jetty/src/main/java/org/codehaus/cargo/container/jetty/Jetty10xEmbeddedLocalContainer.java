@@ -64,13 +64,18 @@ public class Jetty10xEmbeddedLocalContainer extends Jetty9xEmbeddedLocalContaine
             Class webAppContextClass =
                 getClassLoader().loadClass(getWebappContextClassname());
 
-            // Override of the Jetty 10.x server classes list, to work around the nasty
-            // java.lang.ClassNotFoundException:
-            // org.eclipse.jetty.servlet.listener.ELContextCleaner.
-            Object dftServerClasses =
-                webAppContextClass.getDeclaredField("__dftServerClasses").get(null);
-            Method remove = dftServerClasses.getClass().getMethod("remove", Object.class);
-            remove.invoke(dftServerClasses, "org.eclipse.jetty.");
+            if (webAppContextClass.getPackage().getImplementationVersion() != null
+                && (webAppContextClass.getPackage().getImplementationVersion().startsWith("10.")
+                || webAppContextClass.getPackage().getImplementationVersion().startsWith("11.")))
+            {
+                // Override of the Jetty 10.x server classes list, to work around the nasty
+                // java.lang.ClassNotFoundException:
+                // org.eclipse.jetty.servlet.listener.ELContextCleaner.
+                Object dftServerClasses =
+                    webAppContextClass.getDeclaredField("__dftServerClasses").get(null);
+                Method remove = dftServerClasses.getClass().getMethod("remove", Object.class);
+                remove.invoke(dftServerClasses, "org.eclipse.jetty.");
+            }
         }
     }
 }

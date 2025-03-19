@@ -19,13 +19,11 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
@@ -44,26 +42,6 @@ public class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileT
     public JettyEmbeddedEE8ProfileTest()
     {
         super("ee8");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
-    {
-        if (!super.isSupported(containerId, containerType, testMethod))
-        {
-            return false;
-        }
-
-        // See https://codehaus-cargo.atlassian.net/browse/CARGO-1639
-        if ("jetty12x".equals(containerId))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     /**

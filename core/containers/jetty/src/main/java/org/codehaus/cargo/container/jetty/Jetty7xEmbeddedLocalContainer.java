@@ -91,8 +91,9 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
     }
 
     /**
-     * @return The Jetty Webapp context class name.
+     * {@inheritDoc}
      */
+    @Override
     protected String getWebappContextClassname()
     {
         return "org.eclipse.jetty.webapp.WebAppContext";
@@ -162,50 +163,6 @@ public class Jetty7xEmbeddedLocalContainer extends Jetty6xEmbeddedLocalContainer
         // Method to remove a webappcontext from jetty
         removeHandlerMethod =
             contextHandlers.getClass().getMethod("removeHandler", handlerClass);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object createHandler(Deployable deployable) throws Exception
-    {
-        Object handler =
-            getClassLoader().loadClass(getWebappContextClassname())
-                .getDeclaredConstructor().newInstance();
-
-        handler.getClass().getMethod("setContextPath", String.class)
-            .invoke(handler, "/" + ((WAR) deployable).getContext());
-        handler.getClass().getMethod("setWar", String.class).invoke(handler, deployable.getFile());
-        handler.getClass().getMethod("setDefaultsDescriptor", String.class).invoke(handler,
-            getFileHandler().append(getConfiguration().getHome(), "etc/webdefault.xml"));
-        String extraClasspath = JettyUtils.getExtraClasspath((WAR) deployable, false);
-        if (extraClasspath != null)
-        {
-            handler.getClass().getMethod("setExtraClasspath", String.class)
-                .invoke(handler, extraClasspath);
-        }
-
-        setDefaultRealm(handler);
-
-        return handler;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Object createHandler(String contextPath, String war) throws Exception
-    {
-        Object handler =
-            getClassLoader().loadClass(getWebappContextClassname())
-                .getDeclaredConstructor().newInstance();
-        handler.getClass().getMethod("setContextPath", String.class).invoke(handler, contextPath);
-        handler.getClass().getMethod("setWar", String.class).invoke(handler, war);
-
-        setDefaultRealm(handler);
-
-        return handler;
     }
 
     /**

@@ -19,11 +19,9 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
@@ -42,26 +40,6 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
     public JettyEmbeddedEE9ProfileTest()
     {
         super("ee9");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
-    {
-        if (!super.isSupported(containerId, containerType, testMethod))
-        {
-            return false;
-        }
-
-        // See https://codehaus-cargo.atlassian.net/browse/CARGO-1639
-        if ("jetty12x".equals(containerId))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     /**
