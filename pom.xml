@@ -353,7 +353,7 @@
       We use Java 6 for certain containers' tests on our CI.
       -->
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
-    <junit-jupiter.version>5.12.0</junit-jupiter.version>
+    <junit-jupiter.version>5.12.1</junit-jupiter.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
 
@@ -967,7 +967,7 @@
       <dependency>
         <groupId>net.java.dev.jna</groupId>
         <artifactId>jna-platform</artifactId>
-        <version>5.16.0</version>
+        <version>5.17.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.ant</groupId>
