@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
+import java.util.List;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
@@ -37,6 +39,15 @@ public class JettyEmbeddedEE10ProfileTest extends AbstractJettyEmbeddedEEProfile
     public JettyEmbeddedEE10ProfileTest()
     {
         super("ee10");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> filterDependencies(List<String> dependencies)
+    {
+        return dependencies;
     }
 
     /**

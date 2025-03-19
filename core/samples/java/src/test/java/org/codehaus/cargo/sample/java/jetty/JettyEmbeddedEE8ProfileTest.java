@@ -20,7 +20,9 @@
 package org.codehaus.cargo.sample.java.jetty;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerType;
@@ -55,14 +57,44 @@ public class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileT
             return false;
         }
 
-        // Jetty 12.x Embedded has an issue with the ContextHandlerCollection.addHandler
-        // method called with an EE8 WebAppContext
+        // See https://codehaus-cargo.atlassian.net/browse/CARGO-1639
         if ("jetty12x".equals(containerId))
         {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> filterDependencies(List<String> dependencies)
+    {
+        List<String> result = new ArrayList<String>();
+        for (String dependency : dependencies)
+        {
+            if ("lib/jakarta.servlet-api-6.*.jar".equals(dependency))
+            {
+                result.add("lib/jetty-servlet-api-4.*.jar");
+                result.add("lib/jetty-ee8-nested-*.jar");
+            }
+            else if ("lib/jakarta.transaction-api-2.*.jar".equals(dependency))
+            {
+                result.add("lib/jakarta.transaction-api-1.*.jar");
+            }
+            else if ("lib/jetty-security-*.jar".equals(dependency))
+            {
+                result.add("lib/jetty-security-*.jar");
+                result.add("lib/jetty-ee8-security-*.jar");
+            }
+            else if (!dependency.startsWith("lib/jakarta."))
+            {
+                result.add(dependency);
+            }
+        }
+        return result;
     }
 
     /**

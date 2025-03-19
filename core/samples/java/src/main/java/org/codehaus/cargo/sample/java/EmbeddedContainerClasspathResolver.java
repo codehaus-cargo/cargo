@@ -69,12 +69,44 @@ public class EmbeddedContainerClasspathResolver
         jetty8x9x10x11xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
 
         List<String> jetty12xDependencies = new ArrayList<String>();
-        jetty12xDependencies.add("lib/*.jar");
-        jetty12xDependencies.add("lib/jetty-ee10-*.jar");
-        jetty12xDependencies.add("lib/logging/*.jar");
+        // logging-slf4j
+        jetty12xDependencies.add("lib/logging/slf4j-api-*.jar");
+        // logging-jetty
+        jetty12xDependencies.add("lib/logging/jetty-slf4j-impl-*.jar");
+        // server
+        jetty12xDependencies.add("lib/jetty-http-*.jar");
+        jetty12xDependencies.add("lib/jetty-server-*.jar");
+        jetty12xDependencies.add("lib/jetty-xml-*.jar");
+        jetty12xDependencies.add("lib/jetty-util-*.jar");
+        jetty12xDependencies.add("lib/jetty-io-*.jar");
+        // sessions
+        jetty12xDependencies.add("lib/jetty-session-*.jar");
+        // ee10-servlet
+        jetty12xDependencies.add("lib/jakarta.servlet-api-6.*.jar");
+        jetty12xDependencies.add("lib/jetty-ee10-servlet-*.jar");
+        // jndi
+        jetty12xDependencies.add("lib/jetty-jndi-*.jar");
+        // plus
+        jetty12xDependencies.add("lib/jetty-plus-*.jar");
+        // security
+        jetty12xDependencies.add("lib/jetty-security-*.jar");
+        // ee-webapp
+        jetty12xDependencies.add("lib/jetty-ee-*.jar");
+        // ee10-webapp
+        jetty12xDependencies.add("lib/jetty-ee10-webapp-*.jar");
+        // ee10-plus
+        jetty12xDependencies.add("lib/jetty-ee10-plus-*.jar");
+        jetty12xDependencies.add("lib/jakarta.transaction-api-2.*.jar");
+        jetty12xDependencies.add("lib/jakarta.interceptor-api-2.*.jar");
+        jetty12xDependencies.add("lib/jakarta.enterprise.cdi-api-4.*.jar");
+        jetty12xDependencies.add("lib/jakarta.inject-api-2.*.jar");
+        jetty12xDependencies.add("lib/jakarta.enterprise.lang-model-4.*.jar");
+        // ee10-annotations
+        jetty12xDependencies.add("lib/jetty-ee10-annotations-*.jar");
         jetty12xDependencies.add("lib/ee10-annotations/*.jar");
+        // ee10-apache-jsp
+        jetty12xDependencies.add("lib/jetty-ee10-apache-jsp-*.jar");
         jetty12xDependencies.add("lib/ee10-apache-jsp/*.jar");
-        jetty12xDependencies.add("lib/ee10-jaspi/*.jar|lib/ee10-websocket/*.jar");
 
         List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");
@@ -165,15 +197,6 @@ public class EmbeddedContainerClasspathResolver
                                 if (!jar.getName().startsWith("demo-")
                                     && !jar.getName().startsWith("jetty-jaspi-"))
                                 {
-                                    // For the Jetty 12.x Embedded generic *.jar inclusions,
-                                    // do not include EE-version-specific JARs
-                                    if ("lib/*.jar".equals(dependencyRelativePath)
-                                        && jar.getName().startsWith("jetty-ee")
-                                        && !jar.getName().startsWith("jetty-ee-"))
-                                    {
-                                        continue;
-                                    }
-
                                     String dependencyEndPath =
                                         dependencyRelativeSubPath.substring(
                                             dependencyRelativeSubPath.lastIndexOf("/") + 1);
@@ -200,7 +223,9 @@ public class EmbeddedContainerClasspathResolver
                     }
                     if (!found)
                     {
-                        throw new FileNotFoundException("No files matched in folders: " + folders);
+                        throw new FileNotFoundException(
+                            "No files matching [" + dependencyRelativePath
+                                + "] in folders: " + folders);
                     }
                 }
                 else

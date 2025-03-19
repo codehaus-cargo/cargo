@@ -20,6 +20,8 @@
 package org.codehaus.cargo.sample.java.jetty;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -53,14 +55,44 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
             return false;
         }
 
-        // Jetty 12.x Embedded has an issue with the ContextHandlerCollection.addHandler
-        // method called with an EE9 WebAppContext
+        // See https://codehaus-cargo.atlassian.net/browse/CARGO-1639
         if ("jetty12x".equals(containerId))
         {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> filterDependencies(List<String> dependencies)
+    {
+        List<String> result = new ArrayList<String>();
+        for (String dependency : dependencies)
+        {
+            if ("lib/jakarta.servlet-api-6.*.jar".equals(dependency))
+            {
+                result.add("lib/jetty-jakarta-servlet-api-5.*.jar");
+                result.add("lib/jetty-ee9-nested-*.jar");
+            }
+            else if ("lib/jakarta.enterprise.cdi-api-4.*.jar".equals(dependency))
+            {
+                result.add("lib/jakarta.enterprise.cdi-api-3.*.jar");
+            }
+            else if ("lib/jetty-security-*.jar".equals(dependency))
+            {
+                result.add("lib/jetty-security-*.jar");
+                result.add("lib/jetty-ee9-security-*.jar");
+            }
+            else
+            {
+                result.add(dependency);
+            }
+        }
+        return result;
     }
 
     /**

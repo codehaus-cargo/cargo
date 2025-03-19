@@ -41,16 +41,24 @@ public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTest
         extends EmbeddedContainerClasspathResolver
     {
         /**
+         * Parent test.
+         */
+        private AbstractJettyEmbeddedEEProfileTest test;
+
+        /**
          * Jetty EE version.
          */
         private String jettyEeVersion;
 
         /**
-         * Saves the Jetty EE version.
+         * Saves the parent test and Jetty EE version.
+         * @param test Parent test.
          * @param jettyEeVersion Jetty EE version.
          */
-        public JettyEESpecificEmbeddedContainerClasspathResolver(String jettyEeVersion)
+        public JettyEESpecificEmbeddedContainerClasspathResolver(
+            AbstractJettyEmbeddedEEProfileTest test, String jettyEeVersion)
         {
+            this.test = test;
             this.jettyEeVersion = jettyEeVersion;
         }
 
@@ -70,7 +78,7 @@ public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTest
                         i, dependenciesCopy[i].replace("ee10-", this.jettyEeVersion + "-"));
                 }
             }
-            return dependencies;
+            return this.test.filterDependencies(dependencies);
         }
     }
 
@@ -92,7 +100,8 @@ public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTest
         this.addValidator(new SupportsPropertyValidator(
             ConfigurationType.STANDALONE, JettyPropertySet.DEPLOYER_EE_VERSION));
 
-        this.resolver = new JettyEESpecificEmbeddedContainerClasspathResolver(jettyEeVersion);
+        this.resolver =
+            new JettyEESpecificEmbeddedContainerClasspathResolver(this, jettyEeVersion);
     }
 
     /**
@@ -103,4 +112,11 @@ public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTest
     {
         return this.resolver;
     }
+
+    /**
+     * Filters a given list of dependencies for the embedded classpath.
+     * @param dependencies Dependencies to filter from.
+     * @return Filtered (or updated) dependencies.
+     */
+    public abstract List<String> filterDependencies(List<String> dependencies);
 }
