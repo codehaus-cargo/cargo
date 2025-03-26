@@ -607,7 +607,7 @@
               <cargo.glassfish8x.java.home>${cargo.java.home.1_21}</cargo.glassfish8x.java.home>
 
               <cargo.liberty.url>
-                https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/25.0.0.2/wlp-javaee8-25.0.0.2.zip
+                https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/25.0.0.3/wlp-javaee8-25.0.0.3.zip
               </cargo.liberty.url>
               <cargo.liberty.java.home>${cargo.java.home.1_8}</cargo.liberty.java.home>
 
