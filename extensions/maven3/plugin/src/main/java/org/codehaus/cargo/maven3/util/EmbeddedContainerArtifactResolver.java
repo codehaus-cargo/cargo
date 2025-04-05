@@ -34,6 +34,7 @@ import org.apache.maven.shared.transfer.artifact.DefaultArtifactCoordinate;
 import org.apache.maven.shared.transfer.artifact.resolve.ArtifactResolver;
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.internal.util.JdkUtils;
+import org.codehaus.cargo.container.internal.util.ResourceUtils;
 
 /**
  * Dynamically load embedded container dependencies.
@@ -588,7 +589,8 @@ public class EmbeddedContainerArtifactResolver
             try
             {
                 Class jettyPropertySet =
-                    parent.loadClass("org.codehaus.cargo.container.jetty.JettyPropertySet");
+                    ResourceUtils.getResourceLoader().loadClass(
+                        "org.codehaus.cargo.container.jetty.JettyPropertySet");
                 Field jettyDeployerEeVersion =
                     jettyPropertySet.getDeclaredField("DEPLOYER_EE_VERSION");
                 eeVersion =
