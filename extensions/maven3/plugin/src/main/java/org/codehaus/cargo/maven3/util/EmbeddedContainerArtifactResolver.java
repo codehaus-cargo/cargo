@@ -358,6 +358,8 @@ public class EmbeddedContainerArtifactResolver
         jetty12xee8Dependencies.add(
             new Dependency("org.eclipse.jetty.ee8", "jetty-ee8-webapp", "12.0.19"));
         // jsp
+        jetty12xee8Dependencies.add(
+            new Dependency("org.eclipse.jetty.ee8", "jetty-ee8-apache-jsp", "12.0.19"));
         jetty12xee8Dependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "9.0.96"));
         jetty12xee8Dependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "9.0.96"));
         this.containerDependencies.put("jetty12x_ee8", jetty12xee8Dependencies);
@@ -380,6 +382,8 @@ public class EmbeddedContainerArtifactResolver
         jetty12xee9Dependencies.add(
             new Dependency("org.eclipse.jetty.ee9", "jetty-ee9-webapp", "12.0.19"));
         // jsp
+        jetty12xee9Dependencies.add(
+            new Dependency("org.eclipse.jetty.ee9", "jetty-ee9-apache-jsp", "12.0.19"));
         jetty12xee9Dependencies.add(new Dependency("org.mortbay.jasper", "apache-el", "10.0.27"));
         jetty12xee9Dependencies.add(new Dependency("org.mortbay.jasper", "apache-jsp", "10.0.27"));
         this.containerDependencies.put("jetty12x_ee9", jetty12xee9Dependencies);
