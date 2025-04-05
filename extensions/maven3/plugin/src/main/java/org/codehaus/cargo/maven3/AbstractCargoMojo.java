@@ -726,12 +726,16 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                     + "for the container, skipping as this won't kill anyway...", e);
         }
 
+        Logger logger = createLogger();
+        org.codehaus.cargo.container.configuration.Configuration configuration =
+            createConfiguration();
+        configuration.setLogger(logger);
         if (getContainerElement().getType() == ContainerType.EMBEDDED)
         {
             EmbeddedContainerArtifactResolver resolver = new EmbeddedContainerArtifactResolver(
                 this.artifactResolver, projectBuildingRequest);
             ClassLoader classLoader = resolver.resolveDependencies(
-                getContainerElement().getContainerId(),
+                getContainerElement().getContainerId(), configuration,
                     getCargoProject().getEmbeddedClassLoader());
             getCargoProject().setEmbeddedClassLoader(classLoader);
 
@@ -748,11 +752,6 @@ public abstract class AbstractCargoMojo extends AbstractCommonMojo
                 }
             }
         }
-
-        Logger logger = createLogger();
-        org.codehaus.cargo.container.configuration.Configuration configuration =
-            createConfiguration();
-        configuration.setLogger(logger);
         container = getContainerElement().createContainer(configuration, logger, getCargoProject(),
             artifactResolver, projectBuildingRequest, settings);
 
