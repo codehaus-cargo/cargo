@@ -1848,10 +1848,11 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("When using this feature through the [Java API|Javadocs] or [Ant tasks|");
             output.append("Ant support], you will have to set the classpath accordingly. The ");
             output.append("[Maven 3 plugin] for Jetty 12.x Embedded will resolve the right Jetty ");
-            output.append("artifacts automagically based on the {{[JettyPropertySet.");
-            output.append("DEPLOYER_EE_VERSION|https://codehaus-cargo.github.io/apidocs/org/");
+            output.append("artifacts automagically based on the {{[");
+            output.append(JettyPropertySet.DEPLOYER_EE_VERSION);
+            output.append("|https://codehaus-cargo.github.io/apidocs/org/");
             output.append("codehaus/cargo/container/jetty/JettyPropertySet.html");
-            output.append("#DEPLOYER_EE_VERSION]}} property.");
+            output.append("#DEPLOYER_EE_VERSION]}} property of the container configuration.");
             output.append(FileHandler.NEW_LINE);
             output.append("{info}");
             output.append(FileHandler.NEW_LINE);

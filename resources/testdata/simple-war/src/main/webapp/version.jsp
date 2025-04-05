@@ -19,8 +19,8 @@
 <html>
   <head/>
   <body>
-    <p>Server Version: <%= application.getServerInfo() %></p>
-    <p>Servlet Version: <%= application.getMajorVersion() %>.<%= application.getMinorVersion() %></p>
-    <p>JSP Version: <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %></p>
+    <p>Server version: <%= application.getServerInfo() %></p>
+    <p>Servlet version: <%= application.getMajorVersion() %>.<%= application.getMinorVersion() %></p>
+    <p>JSP version: <%= JspFactory.getDefaultFactory().getEngineInfo().getSpecificationVersion() %></p>
   </body>
 </html>
