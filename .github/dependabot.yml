@@ -51,6 +51,8 @@ updates:
         versions: ["[5.0.0,)"]
       - dependency-name: "org.mortbay.jetty:jetty"
       - dependency-name: "org.osgi:org.osgi.core"
+      - dependency-name: "org.codehaus.plexus:plexus-xml"
+        versions: ["[4.1.0,)"]
       - dependency-name: "org.slf4j:slf4j-simple"
         versions: ["[2.0,)"]
       - dependency-name: "org.springframework:spring-jdbc"
