@@ -537,34 +537,34 @@ public class EmbeddedContainerArtifactResolver
 
         List<Dependency> tomcat11xDependencies = new ArrayList<Dependency>();
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-jaspic-api", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-servlet-api", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-annotations-api", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-dbcp", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-el-api", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jsp-api", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-juli", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-api", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jni", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-util", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-util-scan", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-util-scan", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-catalina", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-catalina", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-coyote", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket-api", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket-api", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket-client-api", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket-client-api", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-websocket", "11.0.5"));
-        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-websocket", "11.0.6"));
+        tomcat11xDependencies.add(new Dependency("org.apache.tomcat", "tomcat-jasper", "11.0.6"));
         tomcat11xDependencies.add(
-            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "11.0.5"));
+            new Dependency("org.apache.tomcat", "tomcat-jasper-el", "11.0.6"));
         // To get to the actual ECJ version, open the MANIFEST.MF file in Tomcat's lib/ecj-xxx.jar
-        tomcat11xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.40.0"));
+        tomcat11xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.41.0"));
         this.containerDependencies.put("tomcat11x", tomcat11xDependencies);
     }
 
