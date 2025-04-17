@@ -1204,7 +1204,7 @@
               <cargo.wildfly35x.java.home>${cargo.java.home.1_17}</cargo.wildfly35x.java.home>
 
               <cargo.wildfly36x.url>
-                https://github.com/wildfly/wildfly/releases/download/36.0.0.Beta1/wildfly-36.0.0.Beta1.zip
+                https://github.com/wildfly/wildfly/releases/download/36.0.0.Final/wildfly-36.0.0.Final.zip
               </cargo.wildfly36x.url>
               <cargo.wildfly36x.java.home>${cargo.java.home.1_17}</cargo.wildfly36x.java.home>
 
