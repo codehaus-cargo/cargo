@@ -57,7 +57,7 @@ global_job_config:
     always:
       commands:
         - cd $ORIGINAL_PWD
-        - find . -iname "TEST-*.xml" -type f | xargs perl -i -pe "s/\QTest\" time=/Test $CARGO_BRANCH_ID\" time=/g"
+        - find . -iname "TEST-*.xml" -type f | xargs perl -i -pe "s/\QTest\" time=/Test ($SEMAPHORE_JOB_NAME)\" time=/g"
         - find . -iname "TEST-*.xml" -type f | xargs test-results publish
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
