@@ -57,9 +57,9 @@ global_job_config:
     always:
       commands:
         - cd $ORIGINAL_PWD
-        - 'export BRANCH_TEST_ID=`echo $SEMAPHORE_JOB_NAME | awk -F"Java " ''{print $2}''`'
-        - 'if [ -z "$BRANCH_TEST_ID" ] ; then export BRANCH_TEST_ID=$SEMAPHORE_JOB_NAME ; else export BRANCH_TEST_ID="Java $BRANCH_TEST_ID" ; fi'
-        - find . -iname "TEST-*.xml" -type f | xargs perl -i -pe "s/\QTest\" time=/Test ($BRANCH_TEST_ID)\" time=/g"
+        - test -d /tmp/cargo/jdk1.6.0_45/ && export BRANCH_JAVA_HOME=/tmp/cargo/jdk1.6.0_45 || export BRANCH_JAVA_HOME=$JAVA_HOME
+        - export BRANCH_TEST_ID=`$BRANCH_JAVA_HOME/bin/java -version 2>&1 | head -1 | cut -d'"' -f2 | sed '/^1\./s///' | cut -d'"' -f1`
+        - find . -iname "TEST-*.xml" -type f | xargs perl -i -pe "s/\QTest\" time=/Test (Java $BRANCH_TEST_ID)\" time=/g"
         - find . -iname "TEST-*.xml" -type f | xargs test-results publish
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
