@@ -18,8 +18,8 @@ version: v1.0
 name: Codehaus Cargo Java build on Ubuntu
 agent:
   machine:
-    type: e1-standard-2
-    os_image: ubuntu2004
+    type: f1-standard-2
+    os_image: ubuntu2404
 execution_time_limit:
   # Allow up to 5 to 6 Dependabot-triggered parallel branches
   hours: 18
