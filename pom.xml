@@ -354,6 +354,7 @@
       -->
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
     <junit-jupiter.version>5.12.2</junit-jupiter.version>
+    <xmlunit.version>2.10.1</xmlunit.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
 
@@ -1155,8 +1156,13 @@
       </dependency>
       <dependency>
         <groupId>org.xmlunit</groupId>
+        <artifactId>xmlunit-core</artifactId>
+        <version>${xmlunit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xmlunit</groupId>
         <artifactId>xmlunit-legacy</artifactId>
-        <version>2.10.0</version>
+        <version>${xmlunit.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
