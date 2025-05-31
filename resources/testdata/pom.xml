@@ -29,6 +29,7 @@
   <name>Cargo Samples Test Data</name>
   <description>Test data for the Sample applications</description>
   <modules>
+    <module>simple-jar</module>
     <module>simple-war</module>
     <module>datasource-war</module>
     <module>two-datasources-war</module>
