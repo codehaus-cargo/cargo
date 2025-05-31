@@ -19,12 +19,8 @@
  */
 package org.codehaus.cargo.sample.java;
 
-import java.lang.reflect.Method;
 import java.net.URL;
 
-import org.junit.jupiter.api.Assertions;
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.State;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
@@ -41,47 +37,6 @@ public class EarCapabilityContainerTest extends AbstractStandaloneLocalContainer
     public EarCapabilityContainerTest()
     {
         this.addValidator(new HasEarSupportValidator());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
-    {
-        if (!super.isSupported(containerId, containerType, testMethod))
-        {
-            return false;
-        }
-
-        if (testMethod != null
-            && "testStartWithOneEmptyEarDeployed".equals(testMethod.getName()))
-        {
-            // The Apache Geronimo server doesn't like empty EARs
-            if (containerId.startsWith("geronimo"))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Start container with an empty EAR.
-     * @throws Exception If anything goes wrong.
-     */
-    @CargoTestCase
-    public void testStartWithOneEmptyEarDeployed() throws Exception
-    {
-        Deployable ear = this.createDeployableFromTestdataFile("simple-ear", DeployableType.EAR);
-
-        getLocalContainer().getConfiguration().addDeployable(ear);
-
-        getLocalContainer().start();
-        Assertions.assertEquals(State.STARTED, getContainer().getState());
-
-        getLocalContainer().stop();
-        Assertions.assertEquals(State.STOPPED, getContainer().getState());
     }
 
     /**

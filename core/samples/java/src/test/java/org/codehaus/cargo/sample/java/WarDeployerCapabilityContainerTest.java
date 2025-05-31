@@ -33,13 +33,13 @@ import org.codehaus.cargo.sample.java.validator.HasWarSupportValidator;
 /**
  * Validates local hot deployment of WAR archives.
  */
-public class WarAndDeployerCapabilityContainerTest extends AbstractStandaloneLocalContainerTestCase
+public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalContainerTestCase
 {
     /**
      * Add the required validators.
      * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public WarAndDeployerCapabilityContainerTest()
+    public WarDeployerCapabilityContainerTest()
     {
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new HasLocalDeployerValidator());
@@ -65,15 +65,19 @@ public class WarAndDeployerCapabilityContainerTest extends AbstractStandaloneLoc
             + "/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingFalse("simple war should not be present at this point", warPingURL,
-            getLogger());
+        PingUtils.assertPingFalse(
+            "simple war should not be present at this point", warPingURL, getLogger());
 
         Deployer deployer = createDeployer(getContainer());
         DeployableMonitor deployableMonitor = new URLDeployableMonitor(warPingURL);
         deployableMonitor.setLogger(this.getLogger());
         deployer.deploy(war, deployableMonitor);
-        PingUtils.assertPingTrue("simple war should have been deployed at this point", warPingURL,
-            getLogger());
+        PingUtils.assertPingTrue(
+            "simple war should have been deployed at this point", warPingURL, getLogger());
+
+        deployer.undeploy(war, deployableMonitor);
+        PingUtils.assertPingFalse(
+            "simple war should have been undeployed at this point", warPingURL, getLogger());
 
         getLocalContainer().stop();
     }

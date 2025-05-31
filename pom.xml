@@ -760,17 +760,6 @@
       </dependency>
       <dependency>
         <groupId>org.codehaus.cargo</groupId>
-        <artifactId>empty-ear</artifactId>
-        <version>${project.version}</version>
-        <type>ear</type>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>empty-jar</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.cargo</groupId>
         <artifactId>expanded-war</artifactId>
         <version>${project.version}</version>
         <type>war</type>

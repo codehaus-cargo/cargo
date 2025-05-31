@@ -54,12 +54,6 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
-      <artifactId>empty-ear</artifactId>
-      <type>ear</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.cargo</groupId>
       <artifactId>authentication-war</artifactId>
       <type>war</type>
       <scope>test</scope>
@@ -1977,13 +1971,6 @@
                     </artifactItem>
 
                     <!-- Deployables -->
-                    <artifactItem>
-                      <groupId>org.codehaus.cargo</groupId>
-                      <artifactId>empty-ear</artifactId>
-                      <type>ear</type>
-                      <outputDirectory>${project.build.directory}/deployables</outputDirectory>
-                      <destFileName>empty-ear.ear</destFileName>
-                    </artifactItem>
                     <artifactItem>
                       <groupId>org.codehaus.cargo</groupId>
                       <artifactId>authentication-war</artifactId>

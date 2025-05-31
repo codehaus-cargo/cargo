@@ -36,7 +36,6 @@ import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.deployable.Bundle;
 import org.codehaus.cargo.container.deployable.Deployable;
-import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.property.User;
@@ -163,6 +162,8 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("--force");
         }
 
+        args.add("--name=" + deployable.getName());
+
         if (deployable instanceof WAR)
         {
             args.add("--contextroot");
@@ -175,10 +176,6 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             {
                 args.add(((WAR) deployable).getContext());
             }
-        }
-        else if (deployable instanceof EAR)
-        {
-            args.add("--name=" + deployable.getName());
         }
         else if (deployable instanceof Bundle)
         {
@@ -203,8 +200,7 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
 
         this.addUndeploymentArguments(args);
 
-        // not too sure how asadmin determines 'name'
-        args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
+        args.add(deployable.getName());
 
         this.getLocalContainer().invokeAsAdmin(false, args);
     }

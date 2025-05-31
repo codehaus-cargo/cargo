@@ -163,25 +163,6 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     }
 
     /**
-     * Returns a filename without its extension.
-     * 
-     * @param name Filename.
-     * @return Filename without its extension.
-     */
-    protected String cutExtension(String name)
-    {
-        int idx = name.lastIndexOf('.');
-        if (idx >= 0)
-        {
-            return name.substring(0, idx);
-        }
-        else
-        {
-            return name;
-        }
-    }
-
-    /**
      * Adds connection options.
      * 
      * @param args List to add to.
@@ -209,8 +190,8 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
         int c = 1;
         while (true)
         {
-            final String arg = this.getConfiguration().
-                    getPropertyValue(GlassFishPropertySet.DEPLOY_ARG_PREFIX + c);
+            final String arg = this.getConfiguration().getPropertyValue(
+                GlassFishPropertySet.DEPLOY_ARG_PREFIX + c);
             if (arg == null)
             {
                 break;
@@ -230,8 +211,8 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
         int c = 1;
         while (true)
         {
-            final String arg = this.getConfiguration().
-                    getPropertyValue(GlassFishPropertySet.UNDEPLOY_ARG_PREFIX + c);
+            final String arg = this.getConfiguration().getPropertyValue(
+                GlassFishPropertySet.UNDEPLOY_ARG_PREFIX + c);
             if (arg == null)
             {
                 break;

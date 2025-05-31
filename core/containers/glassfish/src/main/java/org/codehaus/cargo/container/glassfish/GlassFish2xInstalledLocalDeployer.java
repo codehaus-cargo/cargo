@@ -69,6 +69,8 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(((WAR) deployable).getContext());
         }
 
+        args.add("--name=" + deployable.getName());
+
         this.addConnectOptions(args);
 
         this.addDeploymentArguments(args);
@@ -93,8 +95,7 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         this.addConnectOptions(args);
         this.addUndeploymentArguments(args);
 
-        // not too sure how asadmin determines 'name'
-        args.add(this.cutExtension(this.getFileHandler().getName(deployable.getFile())));
+        args.add(deployable.getName());
 
         int returnValue = this.getLocalContainer().invokeAsAdmin(false, args);
         if (returnValue != 0)
