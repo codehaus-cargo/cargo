@@ -229,7 +229,7 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
      */
     protected String getDeployableName(Deployable deployable)
     {
-        String name = deployable.getName();
+        String name = deployable.getName().trim();
         if (name.contains("/"))
         {
             name = name.replace("/", "_");
@@ -237,6 +237,10 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
         if (name.contains("\\"))
         {
             name = name.replace("\\", "_");
+        }
+        if (name.isEmpty())
+        {
+            name = "ROOT";
         }
         return name;
     }

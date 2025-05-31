@@ -69,7 +69,7 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(((WAR) deployable).getContext());
         }
 
-        args.add("--name=" + deployable.getName());
+        args.add("--name=" + getDeployableName(deployable));
 
         this.addConnectOptions(args);
 
@@ -95,7 +95,7 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
         this.addConnectOptions(args);
         this.addUndeploymentArguments(args);
 
-        args.add(deployable.getName());
+        args.add(getDeployableName(deployable));
 
         int returnValue = this.getLocalContainer().invokeAsAdmin(false, args);
         if (returnValue != 0)
