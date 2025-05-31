@@ -223,6 +223,24 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     }
 
     /**
+     * Get deployable name.
+     * @param deployable Deployable to get the name of.
+     * @return Deployable name, with special characters escaped.
+     */
+    protected String getDeployableName(Deployable deployable)
+    {
+        String name = deployable.getName();
+        if (name.contains("/"))
+        {
+            name = name.replace("/", "_");
+        }
+        if (name.contains("\\"))
+        {
+            name = name.replace("\\", "_");
+        }
+        return name;
+    }
+    /**
      * Calls <code>create-file-user</code> via asadmin to register a user.
      * 
      * @param user
