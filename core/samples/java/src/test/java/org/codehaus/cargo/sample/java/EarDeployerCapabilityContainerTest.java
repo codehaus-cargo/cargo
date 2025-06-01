@@ -19,8 +19,10 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.Deployable;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.EAR;
@@ -43,6 +45,24 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
     {
         this.addValidator(new HasEarSupportValidator());
         this.addValidator(new HasLocalDeployerValidator());
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    {
+        if (!super.isSupported(containerId, containerType, testMethod))
+        {
+            return false;
+        }
+
+        // We exclude containers that cannot hot deploy EARs
+        return this.isNotContained(containerId,
+            "liberty",
+            "tomee1x", "tomee7x", "tomee8x", "tomee9x", "tomee10x");
     }
 
     /**

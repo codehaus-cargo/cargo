@@ -21,6 +21,7 @@ package org.codehaus.cargo.sample.java;
 
 import java.net.URL;
 
+import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
@@ -75,9 +76,21 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         PingUtils.assertPingTrue(
             "simple war should have been deployed at this point", warPingURL, getLogger());
 
-        deployer.undeploy(war, deployableMonitor);
-        PingUtils.assertPingFalse(
-            "simple war should have been undeployed at this point", warPingURL, getLogger());
+        // We exclude containers that cannot hot undeploy WARs
+        String containerId = getContainer().getId();
+        if (this.isNotContained(containerId,
+                "jetty6x", "jetty7x", "jetty8x", "jetty9x", "jetty10x", "jetty11x", "jetty12x",
+                "jo1x",
+                "liberty",
+                "resin3x", "resin4x", "resin31x")
+            && !getContainer().getType().equals(ContainerType.EMBEDDED)
+                && this.isNotContained(containerId,
+                    "tomcat8x", "tomcat9x", "tomcat10x", "tomcat11x"))
+        {
+            deployer.undeploy(war, deployableMonitor);
+            PingUtils.assertPingFalse(
+                "simple war should have been undeployed at this point", warPingURL, getLogger());
+        }
 
         getLocalContainer().stop();
     }
