@@ -72,6 +72,7 @@ public abstract class AbstractGlassFishStandaloneLocalConfiguration
         this.setProperty(GlassFishPropertySet.OSGI_SHELL_PORT, "6666");
         this.setProperty(GlassFishPropertySet.DOMAIN_NAME, "cargo-domain");
         this.setProperty(GlassFishPropertySet.DEBUG_MODE, "false");
+        this.setProperty(GlassFishPropertySet.DEPLOY_IGNORE_DEPLOYABLE_NAME, "false");
 
         // ServletPropertySet.PORT default set to 8080 by the super class
     }

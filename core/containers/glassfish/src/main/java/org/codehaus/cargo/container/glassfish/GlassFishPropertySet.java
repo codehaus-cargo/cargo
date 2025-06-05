@@ -106,6 +106,12 @@ public interface GlassFishPropertySet
     String DEBUG_MODE = "cargo.glassfish.domain.debug";
 
     /**
+     * Whether the deploy command should ignore the deployable name, hence letting the AppServer
+     * decide on the same based on its one standards.
+     */
+    String DEPLOY_IGNORE_DEPLOYABLE_NAME = "cargo.glassfish.deploy.ignoreDeployableName";
+
+    /**
      * Prefix for extra arguments for "asadmin deploy"
      */
     String DEPLOY_ARG_PREFIX = "cargo.glassfish.deploy.arg.";

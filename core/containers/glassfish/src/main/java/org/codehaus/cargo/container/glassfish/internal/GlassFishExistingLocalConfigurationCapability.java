@@ -43,5 +43,7 @@ public class GlassFishExistingLocalConfigurationCapability extends
         this.propertySupportMap.put(GlassFishPropertySet.ADMIN_PORT, Boolean.TRUE);
         this.propertySupportMap.put(GlassFishPropertySet.DOMAIN_NAME, Boolean.TRUE);
         this.propertySupportMap.put(GlassFishPropertySet.DEBUG_MODE, Boolean.TRUE);
+        this.propertySupportMap.put(
+            GlassFishPropertySet.DEPLOY_IGNORE_DEPLOYABLE_NAME, Boolean.TRUE);
     }
 }

@@ -162,7 +162,11 @@ public class GlassFish3xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add("--force");
         }
 
-        args.add("--name=" + getDeployableName(deployable));
+        if (!Boolean.parseBoolean(getContainer().getConfiguration().getPropertyValue(
+            GlassFishPropertySet.DEPLOY_IGNORE_DEPLOYABLE_NAME)))
+        {
+            args.add("--name=" + getDeployableName(deployable));
+        }
 
         if (deployable instanceof WAR)
         {

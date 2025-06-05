@@ -69,7 +69,11 @@ public class GlassFish2xInstalledLocalDeployer extends AbstractGlassFishInstalle
             args.add(((WAR) deployable).getContext());
         }
 
-        args.add("--name=" + getDeployableName(deployable));
+        if (!Boolean.parseBoolean(getContainer().getConfiguration().getPropertyValue(
+            GlassFishPropertySet.DEPLOY_IGNORE_DEPLOYABLE_NAME)))
+        {
+            args.add("--name=" + getDeployableName(deployable));
+        }
 
         this.addConnectOptions(args);
 
