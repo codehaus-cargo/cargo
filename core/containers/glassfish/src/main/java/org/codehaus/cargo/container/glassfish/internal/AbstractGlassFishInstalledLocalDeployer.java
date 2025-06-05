@@ -32,6 +32,7 @@ import org.codehaus.cargo.container.glassfish.GlassFishPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.User;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployablewithSettableName;
 import org.codehaus.cargo.container.spi.deployer.AbstractLocalDeployer;
 import org.codehaus.cargo.container.spi.deployer.DeployerWatchdog;
 
@@ -225,25 +226,29 @@ public abstract class AbstractGlassFishInstalledLocalDeployer extends AbstractLo
     /**
      * Get deployable name.
      * @param deployable Deployable to get the name of.
-     * @return Deployable name, with special characters escaped.
+     * @return Deployable name, either based on file name or deployable name.
      */
     protected String getDeployableName(Deployable deployable)
     {
-        String name = deployable.getName().trim();
-        if (name.contains("/"))
+        String name;
+        if (deployable instanceof AbstractDeployablewithSettableName)
         {
-            name = name.replace("/", "_");
+            name = deployable.getName().trim();
         }
-        if (name.contains("\\"))
+        else
         {
-            name = name.replace("\\", "_");
-        }
-        if (name.isEmpty())
-        {
-            name = "ROOT";
+            // We can't use deployable.getFilename() as WAR renames that to the context,
+            // and WAR contexts can have unexpected values (empty for ROOT, multi-context, etc.)
+            name = getFileHandler().getName(deployable.getFile());
+            int idx = name.lastIndexOf('.');
+            if (idx >= 0)
+            {
+                name = name.substring(0, idx);
+            }
         }
         return name;
     }
+
     /**
      * Calls <code>create-file-user</code> via asadmin to register a user.
      * 
