@@ -35,7 +35,7 @@
     <sequential>
       <cargo containerId="tomcat9x" action="@{action}">
         <zipUrlInstaller
-          installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.105/tomcat-9.0.105.zip"
+          installURL="https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.106/tomcat-9.0.106.zip"
           downloadDir="${basedir}/../../../../core/samples/java/installs"
           extractDir="${catalina.root}">
           <!--
