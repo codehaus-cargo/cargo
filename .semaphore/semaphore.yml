@@ -1131,6 +1131,8 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
+            - mkdir installs ; cd installs
+            - 'wget -N --continue https://packages.baidu.com/app/resin-3/resin-3.1.16.zip ; RM=0'
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Tomcat 4.x
     dependencies:
