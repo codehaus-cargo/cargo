@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 /**
  * Test remote deployment on a GlassFish 6.x container.
  */
-public class Glassfish6xRemoteDeployTest
+public class GlassFish6xRemoteDeployTest
 {
 
     /**

@@ -63,7 +63,7 @@ public class GlassFish5xInstalledLocalContainer extends GlassFish4xInstalledLoca
 
         // Since Java EE 7, every application server should support the default resources,
         // including a datasource. If we have removed it, then make sure the first datasource is
-        // set as default, else Glassfish 5.x onwards will get confused.
+        // set as default, else GlassFish 5.x onwards will get confused.
         if (this.getConfiguration() instanceof StandaloneLocalConfiguration
             && Boolean.parseBoolean(this.getConfiguration().getPropertyValue(
                 GlassFishPropertySet.REMOVE_DEFAULT_DATASOURCE))
