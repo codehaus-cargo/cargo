@@ -2026,28 +2026,20 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("h3.Tested On");
             output.append(FileHandler.NEW_LINE);
 
-            if (url.startsWith("https://caucho.com/download/"))
+            output.append("This container is automatically tested by the "
+                + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
+                + "projects/cargo] every time there is a code change.");
+            output.append(FileHandler.NEW_LINE);
+            if (containerId.startsWith("wildfly-swarm"))
             {
-                output.append("Due to ongoing instabilities with Caucho's infrastructure, "
-                    + "regular testing of the Resin containers is suspended.");
+                output.append("The WildFly Swarm version used during tests is: {{");
+                output.append(url);
+                output.append("}}");
             }
             else
             {
-                output.append("This container is automatically tested by the "
-                    + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
-                    + "projects/cargo] every time there is a code change.");
-                output.append(FileHandler.NEW_LINE);
-                if (containerId.startsWith("wildfly-swarm"))
-                {
-                    output.append("The WildFly Swarm version used during tests is: {{");
-                    output.append(url);
-                    output.append("}}");
-                }
-                else
-                {
-                    output.append("The server used for tests is downloaded from: ");
-                    output.append(url);
-                }
+                output.append("The server used for tests is downloaded from: ");
+                output.append(url);
             }
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
