@@ -1211,7 +1211,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-ear-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.0</version>
           <configuration>
             <!-- We perform our tests on containers as old as Geronimo 1.x, so use an older EAR version -->
             <version>1.4</version>
