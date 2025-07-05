@@ -68,7 +68,7 @@
                 <artifactInstaller>
                   <groupId>org.apache.tomcat</groupId>
                   <artifactId>tomcat</artifactId>
-                  <version>9.0.106</version>
+                  <version>9.0.107</version>
                 </artifactInstaller>
                 <systemProperties>
                   <daemon.home>${project.build.directory}/daemon-home</daemon.home>
