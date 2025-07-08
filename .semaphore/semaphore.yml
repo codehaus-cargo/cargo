@@ -1287,6 +1287,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly36x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 37.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: WildFly 37.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly37x -Dsurefire.rerunFailingTestsCount=2
   - name: Build on Java 21
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1416,6 +1427,7 @@ blocks:
       - WildFly 34.x
       - WildFly 35.x
       - WildFly 36.x
+      - WildFly 37.x
       - WildFly Swarm
     task:
       jobs:
