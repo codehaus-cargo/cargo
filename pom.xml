@@ -343,7 +343,7 @@
       We use Java 6 for certain containers' tests on our CI.
       -->
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
-    <junit-jupiter.version>5.13.3</junit-jupiter.version>
+    <junit-jupiter.version>5.13.4</junit-jupiter.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
 
