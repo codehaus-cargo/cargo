@@ -66,14 +66,7 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
             throw new CargoException("GlassFish home directory is not valid: " + home);
         }
 
-        File adminCli = new File(home, "glassfish/modules/admin-cli.jar");
-        if (!adminCli.isFile())
-        {
-            throw new CargoException("Cannot find the GlassFish admin CLI JAR: "
-                + adminCli.getName());
-        }
-
-        java.setJarFile(adminCli);
+        initializeAsAdminJavaCall(home, java);
         java.addAppArguments(args);
 
         int exitCode = 0;
@@ -118,4 +111,20 @@ public class GlassFish3xAsAdmin extends AbstractAsAdmin
         return exitCode;
     }
 
+    /**
+     * Initialize the <code>asadmin</code> Java call.
+     * @param home GlassFish home.
+     * @param java JVM launcher being initialized.
+     */
+    protected void initializeAsAdminJavaCall(File home, JvmLauncher java)
+    {
+        File adminCli = new File(home, "glassfish/modules/admin-cli.jar");
+        if (!adminCli.isFile())
+        {
+            throw new CargoException(
+                "Cannot find the GlassFish admin CLI JAR: " + adminCli);
+        }
+
+        java.setJarFile(adminCli);
+    }
 }

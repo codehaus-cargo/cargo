@@ -20,7 +20,9 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish71xAsAdmin;
 
 /**
  * GlassFish 7.x installed local container.
@@ -36,6 +38,15 @@ public class GlassFish7xInstalledLocalContainer extends GlassFish6xInstalledLoca
     public GlassFish7xInstalledLocalContainer(LocalConfiguration localConfiguration)
     {
         super(localConfiguration);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected AbstractAsAdmin getAsAdmin()
+    {
+        return new GlassFish71xAsAdmin(this.getHome());
     }
 
     /**
