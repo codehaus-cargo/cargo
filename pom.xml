@@ -343,7 +343,7 @@
       We use Java 6 for certain containers' tests on our CI.
       -->
     <cargo.derby.version>10.12.1.1</cargo.derby.version>
-    <junit-jupiter.version>5.13.3</junit-jupiter.version>
+    <junit-jupiter.version>5.13.4</junit-jupiter.version>
     <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
   </properties>
 
@@ -865,7 +865,7 @@
       <dependency>
         <groupId>com.fasterxml.jackson.dataformat</groupId>
         <artifactId>jackson-dataformat-yaml</artifactId>
-        <version>2.19.1</version>
+        <version>2.19.2</version>
       </dependency>
       <dependency>
         <groupId>com.googlecode.json-simple</groupId>
@@ -901,7 +901,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.19.0</version>
+        <version>2.20.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -1379,7 +1379,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId> 
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.6.0</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <id>enforce-maven-version</id>
