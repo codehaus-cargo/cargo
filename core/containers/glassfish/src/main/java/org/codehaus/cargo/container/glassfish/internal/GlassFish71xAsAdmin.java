@@ -112,7 +112,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
             java.addAppArguments("org.glassfish.admin.cli.AsadminMain");
 
             java.addClasspathEntries(adminCli);
-            File asadmin = new File(home, "lib/asadmin");
+            File asadmin = new File(home, "glassfish/lib/asadmin");
             if (!asadmin.isDirectory())
             {
                 throw new CargoException(
