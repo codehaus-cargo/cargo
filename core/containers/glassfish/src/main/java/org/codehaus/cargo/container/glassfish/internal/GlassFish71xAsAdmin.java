@@ -109,7 +109,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
         }
         else
         {
-            java.addAppArguments("org.glassfish.admin.cli.AsadminMain");
+            java.setMainClass("org.glassfish.admin.cli.AsadminMain");
 
             java.addClasspathEntries(adminCli);
             File asadmin = new File(home, "glassfish/lib/asadmin");

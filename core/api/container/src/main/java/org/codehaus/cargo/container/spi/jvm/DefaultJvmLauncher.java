@@ -150,22 +150,26 @@ public class DefaultJvmLauncher implements JvmLauncher
         commandLine.addAll(jvmArguments);
         commandLine.addAll(systemProperties);
 
-        if (classpath != null && jarPath == null)
-        {
-            commandLine.add("-classpath");
-            commandLine.add(classpath);
-        }
-
         if (jarPath != null)
         {
             commandLine.add("-jar");
             commandLine.add(jarPath);
         }
-
-        if (jarPath == null)
+        else
         {
+            if (mainClass == null)
+            {
+                throw new CargoException("Neither JAR path nor main class is set");
+            }
+
+            if (classpath != null)
+            {
+                commandLine.add("-classpath");
+                commandLine.add(classpath);
+            }
             commandLine.add(mainClass);
         }
+
         commandLine.addAll(applicationArguments);
 
         return commandLine;

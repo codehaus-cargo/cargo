@@ -151,6 +151,7 @@ public class InstalledLocalContainerTest
         protected void doStart(JvmLauncher java) throws Exception
         {
             this.java = java;
+            java.setMainClass("test.Dummy");
         }
 
         /**
