@@ -1649,6 +1649,10 @@ public class ConfluenceContainerDocumentationGenerator
                             + FileHandler.NEW_LINE
                             + "{_}Only GlassFish 6.2.1 onwards supports Java 17";
                     }
+                    else if ("glassfish7x".equals(containerId))
+                    {
+                        javaVersion = "11 (GlassFish 7.0.x) or 17 (GlassFish 7.1.x and above)";
+                    }
                     else if ("payara".equals(containerId))
                     {
                         javaVersion = ":{_}" + FileHandler.NEW_LINE
@@ -1667,7 +1671,8 @@ public class ConfluenceContainerDocumentationGenerator
                     }
                     else if ("liberty".equals(containerId))
                     {
-                        javaVersion = "7 (Java EE 7 version) or 8 (Java EE 8 version)";
+                        javaVersion = "7 (Java EE 7 version), 8 (Java EE 8 and Jakarta EE 9 "
+                            + "versions) or 11 (Jakarta EE 10 version)";
                     }
                     else if ("tomcat10x".equals(containerId))
                     {
