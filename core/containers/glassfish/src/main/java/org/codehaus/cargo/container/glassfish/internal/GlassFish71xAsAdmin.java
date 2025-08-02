@@ -75,10 +75,11 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
     @Override
     protected void initializeAsAdminJavaCall(File home, JvmLauncher java)
     {
-        File adminCli = new File(home, "glassfish/modules/admin-cli.jar");
+        File glassfish = new File(home, "glassfish");
+        File adminCli = new File(glassfish, "modules/admin-cli.jar");
         if (!adminCli.isFile())
         {
-            adminCli = new File(home, "glassfish/admin-cli.jar");
+            adminCli = new File(glassfish, "admin-cli.jar");
         }
         if (!adminCli.isFile())
         {
@@ -112,7 +113,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
             java.setMainClass("org.glassfish.admin.cli.AsadminMain");
 
             java.addClasspathEntries(adminCli);
-            File asadmin = new File(home, "glassfish/lib/asadmin");
+            File asadmin = new File(glassfish, "lib/asadmin");
             if (!asadmin.isDirectory())
             {
                 throw new CargoException(
@@ -124,7 +125,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
             }
             for (String glassfishAsAdminJar : GlassFish71xAsAdmin.GLASSFISH_ASADMIN_JARS)
             {
-                java.addClasspathEntries(new File(home, glassfishAsAdminJar));
+                java.addClasspathEntries(new File(glassfish, glassfishAsAdminJar));
             }
         }
     }
