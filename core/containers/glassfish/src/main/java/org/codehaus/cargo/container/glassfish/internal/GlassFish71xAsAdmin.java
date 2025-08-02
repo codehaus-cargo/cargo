@@ -39,6 +39,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
     {
         "appserver-cli.jar",
         "lib/bootstrap/glassfish-jdk-extensions.jar",
+        "lib/bootstrap/simple-glassfish-api.jar",
         "modules/admin-util.jar",
         "modules/backup.jar",
         "modules/cluster-common.jar",
