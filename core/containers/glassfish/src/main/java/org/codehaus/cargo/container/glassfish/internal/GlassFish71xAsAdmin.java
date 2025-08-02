@@ -37,6 +37,8 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
      */
     private static final String[] GLASSFISH_ASADMIN_JARS = new String[]
     {
+        "appserver-cli.jar",
+        "lib/bootstrap/glassfish-jdk-extensions.jar",
         "modules/admin-util.jar",
         "modules/backup.jar",
         "modules/cluster-common.jar",
@@ -113,7 +115,6 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
             java.setMainClass("org.glassfish.admin.cli.AsadminMain");
 
             java.addClasspathEntries(adminCli);
-            java.addClasspathEntries(new File(glassfish, "appserver-cli.jar"));
             File asadmin = new File(glassfish, "lib/asadmin");
             if (!asadmin.isDirectory())
             {
