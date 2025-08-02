@@ -45,7 +45,7 @@ public class CleanupContainerArtifactsTest
             // Read the pom.xml file as a String, so we also can match older versions of a certain
             // container - For example, the Tomcat 8.0.x and 8.5.x ZIP files, which are both for
             // the tomcat8x container. If we read the pom.xml file as an XML / Maven Model, we
-            // would miss out the "alternative" versions (which are commented out).
+            // would miss out the "alternative" versions (which are in various profiles).
             String pomXml = fileHandler.readTextFile(
                 fileHandler.append(System.getProperty("basedir"), "../pom.xml"),
                     StandardCharsets.UTF_8);
