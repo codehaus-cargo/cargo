@@ -112,8 +112,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
         else
         {
             java.addJvmArguments(
-                "--module-path",
-                new File(glassfish, "lib/bootstrap").getAbsolutePath(),
+                "--module-path", new File(glassfish, "lib/bootstrap").getAbsolutePath(),
                 "--add-modules", "ALL-MODULE-PATH");
 
             java.addClasspathEntries(adminCli);
