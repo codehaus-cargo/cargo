@@ -79,7 +79,7 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
         File adminCli = new File(glassfish, "modules/admin-cli.jar");
         if (!adminCli.isFile())
         {
-            adminCli = new File(glassfish, "admin-cli.jar");
+            adminCli = new File(glassfish, "appserver-cli.jar");
         }
         if (!adminCli.isFile())
         {
