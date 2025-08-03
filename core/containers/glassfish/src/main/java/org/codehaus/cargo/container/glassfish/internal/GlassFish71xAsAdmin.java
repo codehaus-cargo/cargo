@@ -124,11 +124,25 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
             }
             for (File glassfishAsAdminJar : asadmin.listFiles())
             {
-                java.addClasspathEntries(glassfishAsAdminJar);
+                if (glassfishAsAdminJar.getName().endsWith(".jar"))
+                {
+                    java.addClasspathEntries(glassfishAsAdminJar);
+                }
             }
             for (String glassfishAsAdminJar : GlassFish71xAsAdmin.GLASSFISH_ASADMIN_JARS)
             {
                 java.addClasspathEntries(new File(glassfish, glassfishAsAdminJar));
+            }
+            File javadb = new File(home, "javadb/lib");
+            if (javadb.isDirectory())
+            {
+                for (File javadbJar : javadb.listFiles())
+                {
+                    if (javadbJar.getName().endsWith(".jar"))
+                    {
+                        java.addClasspathEntries(javadbJar);
+                    }
+                }
             }
 
             java.setMainClass("org.glassfish.admin.cli.AsadminMain");

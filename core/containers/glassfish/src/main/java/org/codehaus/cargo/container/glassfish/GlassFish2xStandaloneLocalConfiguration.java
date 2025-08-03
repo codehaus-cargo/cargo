@@ -67,30 +67,30 @@ public class GlassFish2xStandaloneLocalConfiguration
         AbstractGlassFishInstalledLocalContainer abstractGlassFishInstalledLocalContainer)
     {
         return abstractGlassFishInstalledLocalContainer.invokeAsAdmin(
-                false,
-                "create-domain",
+            false,
+            "create-domain",
 
-                "--interactive=false",
-                "--user",
-                this.getPropertyValue(RemotePropertySet.USERNAME),
-                "--passwordfile",
-                AbstractAsAdmin.getPasswordFile(this).getAbsolutePath(),
+            "--interactive=false",
+            "--user",
+            this.getPropertyValue(RemotePropertySet.USERNAME),
+            "--passwordfile",
+            AbstractAsAdmin.getPasswordFile(this).getAbsolutePath(),
 
-                "--adminport",
-                this.getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
-                "--instanceport",
-                this.getPropertyValue(ServletPropertySet.PORT),
-                "--domainproperties",
+            "--adminport",
+            this.getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
+            "--instanceport",
+            this.getPropertyValue(ServletPropertySet.PORT),
 
-                this.getPropertyValueString(GlassFishPropertySet.JMS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOPS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.HTTPS_PORT) + ':'
-                    + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT)
-                    + ':' + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
+            "--domainproperties",
+            this.getPropertyValueString(GlassFishPropertySet.JMS_PORT) + ':'
+                + this.getPropertyValueString(GlassFishPropertySet.IIOP_PORT) + ':'
+                + this.getPropertyValueString(GlassFishPropertySet.IIOPS_PORT) + ':'
+                + this.getPropertyValueString(GlassFishPropertySet.HTTPS_PORT) + ':'
+                + this.getPropertyValueString(GlassFishPropertySet.IIOP_MUTUAL_AUTH_PORT)
+                + ':' + this.getPropertyValueString(GlassFishPropertySet.JMX_ADMIN_PORT),
 
-                "--domaindir", this.getHome(), this
-                    .getPropertyValue(GlassFishPropertySet.DOMAIN_NAME));
+            "--domaindir", this.getHome(),
+                this.getPropertyValue(GlassFishPropertySet.DOMAIN_NAME));
     }
 
 }
