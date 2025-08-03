@@ -177,6 +177,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 10.x - Branch 10.0.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Tomcat 10.x - Branch 10.0.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat10x-10.0 -Dsurefire.rerunFailingTestsCount=2
   - name: TomEE 9.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -425,6 +436,20 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 8.x - Branch 8.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Tomcat 8.x - Branch 8.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat8x-8.0 -Dsurefire.rerunFailingTestsCount=2
   - name: Tomcat 9.x
     dependencies:
       - Build on Java 8
@@ -1670,8 +1695,10 @@ blocks:
       - Tomcat 6.x
       - Tomcat 7.x
       - Tomcat 8.x
+      - Tomcat 8.x - Branch 8.0.x
       - Tomcat 9.x
       - Tomcat 10.x
+      - Tomcat 10.x - Branch 10.0.x
       - Tomcat 11.x
       - TomEE 1.x
       - TomEE 7.x

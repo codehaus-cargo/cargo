@@ -662,9 +662,6 @@
               <cargo.tomcat7x.java.home>${cargo.java.home.1_6}</cargo.tomcat7x.java.home>
 
               <cargo.tomcat8x.url>
-                <!--
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip
-                  -->
                 https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.5.100/tomcat-8.5.100.zip
               </cargo.tomcat8x.url>
               <cargo.tomcat8x.java.home>${cargo.java.home.1_7}</cargo.tomcat8x.java.home>
@@ -675,9 +672,6 @@
               <cargo.tomcat9x.java.home>${cargo.java.home.1_8}</cargo.tomcat9x.java.home>
 
               <cargo.tomcat10x.url>
-                <!--
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip
-                  -->
                 https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.43/tomcat-10.1.43.zip
               </cargo.tomcat10x.url>
               <cargo.tomcat10x.java.home>${cargo.java.home.1_11}</cargo.tomcat10x.java.home>
@@ -1887,6 +1881,29 @@
       </properties>
     </profile>
     <profile>
+      <id>tomcat8x-8.0</id>
+      <properties>
+        <cargo.containers>tomcat8x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.tomcat8x.url>
+                    https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/8.0.53/tomcat-8.0.53.zip
+                  </cargo.tomcat8x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>tomcat9x</id>
       <properties>
         <cargo.containers>tomcat9x</cargo.containers>
@@ -1897,6 +1914,29 @@
       <properties>
         <cargo.containers>tomcat10x</cargo.containers>
       </properties>
+    </profile>
+    <profile>
+      <id>tomcat10x-10.0</id>
+      <properties>
+        <cargo.containers>tomcat10x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.tomcat10x.url>
+                    https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.0.27/tomcat-10.0.27.zip
+                  </cargo.tomcat10x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
     <profile>
       <id>tomcat11x</id>
