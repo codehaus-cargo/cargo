@@ -902,6 +902,7 @@ blocks:
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
   - name: Payara - Branch 4.x
+    dependencies:
       - Prepare for containers running on Java 7
     task:
       jobs:

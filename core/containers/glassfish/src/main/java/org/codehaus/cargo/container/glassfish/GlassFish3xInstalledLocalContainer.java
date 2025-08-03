@@ -117,7 +117,12 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
         {
             try
             {
-                File adminCli = new File(getHome(), "glassfish/modules/admin-cli.jar");
+                File glassfish = new File(getHome(), "glassfish");
+                File adminCli = new File(glassfish, "modules/admin-cli.jar");
+                if (!adminCli.isFile())
+                {
+                    adminCli = new File(glassfish, "admin-cli.jar");
+                }
                 if (adminCli.isFile())
                 {
                     try (JarFile jarFile = new JarFile(adminCli))
