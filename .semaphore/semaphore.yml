@@ -1518,6 +1518,23 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+  - name: TomEE 7.x - Branch 7.0.x
+    dependencies:
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: TomEE 7.x - Branch 7.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee7x-7.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
   - name: Build on Java 17
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1556,6 +1573,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee10x -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 10.x - Branch 10.0.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: TomEE 10.x - Branch 10.0.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee10x-10.x -Dsurefire.rerunFailingTestsCount=2
   - name: WildFly 35.x
     dependencies:
       - Build on Java 17
@@ -1702,9 +1730,12 @@ blocks:
       - Tomcat 11.x
       - TomEE 1.x
       - TomEE 7.x
+      - TomEE 7.x - Branch 7.0.x
       - TomEE 8.x
       - TomEE 9.x
+      - TomEE 9.x - Branch 9.0.x
       - TomEE 10.x
+      - TomEE 10.x - Branch 10.0.x
       - WebSphere Liberty
       - WildFly 8.x
       - WildFly 9.x
