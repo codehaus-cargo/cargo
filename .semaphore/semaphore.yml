@@ -111,6 +111,17 @@ blocks:
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+  - name: GlassFish 6.x - Branch 6.1.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: GlassFish 6.x - Branch 6.1.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish6x-6.1 -Dsurefire.rerunFailingTestsCount=2
   - name: GlassFish 7.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -302,6 +313,20 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 4.x - Branch 4.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 4.x - Branch 4.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish4x-4.0 -Dsurefire.rerunFailingTestsCount=2
   - name: GlassFish 5.x
     dependencies:
       - Build on Java 8
@@ -316,6 +341,34 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 5.x - Branch 5.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 5.x - Branch 5.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish5x-5.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 6.x - Branch 6.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 6.x - Branch 6.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish6x-6.0 -Dsurefire.rerunFailingTestsCount=2
   - name: Jetty 9.x
     dependencies:
       - Build on Java 8
@@ -805,6 +858,25 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+  - name: GlassFish 3.x - Branch 3.0.x
+    dependencies:
+      - Prepare for containers running on Java 6
+    task:
+      jobs:
+        - name: GlassFish 3.x - Branch 3.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-6"
+            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cd /tmp/cargo
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish3x-3.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
   - name: JBoss 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1370,12 +1442,12 @@ blocks:
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - cache delete "codehaus-cargo-cache-java-7"
             - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME
-  - name: Jetty 9.x - Branch 9.0.x
+  - name: Jetty 9.x 6 9.0.x
     dependencies:
       - Prepare for containers running on Java 7
     task:
       jobs:
-        - name: Jetty 9.x - Branch 9.0.x
+        - name: Jetty 9.x 6 9.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
@@ -1549,9 +1621,14 @@ blocks:
       - Geronimo 2.x
       - Geronimo 3.x
       - GlassFish 3.x
+      - GlassFish 3.x - Branch 3.0.x
       - GlassFish 4.x
+      - GlassFish 4.x - Branch 4.0.x
       - GlassFish 5.x
+      - GlassFish 5.x - Branch 5.0.x
       - GlassFish 6.x
+      - GlassFish 6.x - Branch 6.0.x
+      - GlassFish 6.x - Branch 6.1.x
       - GlassFish 7.x
       - GlassFish 8.x
       - JBoss 3.x

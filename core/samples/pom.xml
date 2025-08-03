@@ -291,12 +291,81 @@
               <!--
                 Default locations from where to get the container installation files.
                 - If you wish to use a version already downloaded on your filesystem,
-                  use the "file:///" prefix instead of "http://".
+                  use the "file:///" prefix instead of "http://" or "https://".
                   For example: file:///c:/apps/resin-3.0.19.zip
                 - If you wish to use an already installed container, set the
                   "cargo.[container name].home" property in your settings.xml file.
                   For example: c:/apps/resin-3.0.19
                 -->
+
+              <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
+              <cargo.geronimo1x.url>
+                https://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip
+              </cargo.geronimo1x.url>
+              <cargo.geronimo1x.java.home>${cargo.java.home.1_4}</cargo.geronimo1x.java.home>
+
+              <!--
+                DO NOT try to use version 2.2.1 because of Geronimo issue
+                https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
+                -->
+              <cargo.geronimo2x.url>
+                https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip
+              </cargo.geronimo2x.url>
+              <cargo.geronimo2x.java.home>${cargo.java.home.1_5}</cargo.geronimo2x.java.home>
+
+              <cargo.geronimo3x.url>
+                https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip
+              </cargo.geronimo3x.url>
+              <cargo.geronimo3x.java.home>${cargo.java.home.1_6}</cargo.geronimo3x.java.home>
+
+              <!--
+                GlassFish 2.x
+
+                Notes:
+
+                GlassFish 2.x needs to be installed manually.
+
+                Once you install this, set the cargo.glassfish2x.home accordingly.
+
+                For example:
+
+                  <cargo.glassfish2x.home>
+                    /Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1
+                  </cargo.glassfish2x.home>
+                -->
+
+              <cargo.glassfish2x.home>${cargo.glassfish2x.home}</cargo.glassfish2x.home>
+              <cargo.glassfish2x.java.home>${cargo.java.home.1_5}</cargo.glassfish2x.java.home>
+
+              <cargo.glassfish3x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/3.1.2.2/glassfish-3.1.2.2.zip
+              </cargo.glassfish3x.url>
+              <cargo.glassfish3x.java.home>${cargo.java.home.1_6}</cargo.glassfish3x.java.home>
+
+              <cargo.glassfish4x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.1.2/glassfish-4.1.2.zip
+              </cargo.glassfish4x.url>
+              <cargo.glassfish4x.java.home>${cargo.java.home.1_7}</cargo.glassfish4x.java.home>
+
+              <cargo.glassfish5x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.1.0/glassfish-5.1.0.zip
+              </cargo.glassfish5x.url>
+              <cargo.glassfish5x.java.home>${cargo.java.home.1_8}</cargo.glassfish5x.java.home>
+
+              <cargo.glassfish6x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.2.5/glassfish-6.2.5.zip
+              </cargo.glassfish6x.url>
+              <cargo.glassfish6x.java.home>${cargo.java.home.1_11}</cargo.glassfish6x.java.home>
+
+              <cargo.glassfish7x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/7.0.25/glassfish-7.0.25.zip
+              </cargo.glassfish7x.url>
+              <cargo.glassfish7x.java.home>${cargo.java.home.1_11}</cargo.glassfish7x.java.home>
+
+              <cargo.glassfish8x.url>
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/8.0.0-M12/glassfish-8.0.0-M12.zip
+              </cargo.glassfish8x.url>
+              <cargo.glassfish8x.java.home>${cargo.java.home.1_21}</cargo.glassfish8x.java.home>
 
               <cargo.jboss3x.url>
                 https://repository.jboss.org/sourceforge/jboss-3.2.8.SP1.zip
@@ -479,90 +548,6 @@
               -->
               <cargo.jrun4x.home>${cargo.jrun4x.home}</cargo.jrun4x.home>
               <cargo.jrun4x.java.home>${cargo.java.home.1_5}</cargo.jrun4x.java.home>
-
-              <!-- the default cargo.geronimo.servlet.containerId is tomcat, therefore use Tomcat -->
-              <cargo.geronimo1x.url>
-                https://archive.apache.org/dist/geronimo/1.1.1/geronimo-tomcat-j2ee-1.1.1.zip
-              </cargo.geronimo1x.url>
-              <cargo.geronimo1x.java.home>${cargo.java.home.1_4}</cargo.geronimo1x.java.home>
-
-              <!--
-                DO NOT try to use version 2.2.1 because of Geronimo issue
-                https://issues.apache.org/jira/browse/GERONIMO-5723. This will be fixed in Geronimo 2.2.2.
-                -->
-              <cargo.geronimo2x.url>
-                https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat6-javaee5/2.1.8/geronimo-tomcat6-javaee5-2.1.8-bin.zip
-              </cargo.geronimo2x.url>
-              <cargo.geronimo2x.java.home>${cargo.java.home.1_5}</cargo.geronimo2x.java.home>
-
-              <cargo.geronimo3x.url>
-                https://repo.maven.apache.org/maven2/org/apache/geronimo/assemblies/geronimo-tomcat7-javaee6/3.0.1/geronimo-tomcat7-javaee6-3.0.1-bin.zip
-              </cargo.geronimo3x.url>
-              <cargo.geronimo3x.java.home>${cargo.java.home.1_6}</cargo.geronimo3x.java.home>
-
-              <!--
-                GlassFish 2.x
-
-                Notes:
-
-                GlassFish 2.x needs to be installed manually.
-
-                Once you install this, set the cargo.glassfish2x.home accordingly.
-
-                For example:
-
-                  <cargo.glassfish2x.home>
-                    /Users/alitokmen/Documents/CARGO/core/samples/java/installs/glassfish-2.1.1
-                  </cargo.glassfish2x.home>
-                -->
-
-              <cargo.glassfish2x.home>${cargo.glassfish2x.home}</cargo.glassfish2x.home>
-              <cargo.glassfish2x.java.home>${cargo.java.home.1_5}</cargo.glassfish2x.java.home>
-
-              <cargo.glassfish3x.url>
-                <!--
-                https://repo.maven.apache.org/maven2/org/glassfish/distributions/glassfish/3.0.1/glassfish-3.0.1.zip
-                  -->
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/3.1.2.2/glassfish-3.1.2.2.zip
-              </cargo.glassfish3x.url>
-              <cargo.glassfish3x.java.home>${cargo.java.home.1_6}</cargo.glassfish3x.java.home>
-
-              <cargo.glassfish4x.url>
-                <!--
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.0/glassfish-4.0.zip
-                  -->
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.1.2/glassfish-4.1.2.zip
-              </cargo.glassfish4x.url>
-              <cargo.glassfish4x.java.home>${cargo.java.home.1_7}</cargo.glassfish4x.java.home>
-
-              <cargo.glassfish5x.url>
-                <!--
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.0.1/glassfish-5.0.1.zip
-                  -->
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.1.0/glassfish-5.1.0.zip
-              </cargo.glassfish5x.url>
-              <cargo.glassfish5x.java.home>${cargo.java.home.1_8}</cargo.glassfish5x.java.home>
-
-              <cargo.glassfish6x.url>
-                <!--
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.0.0/glassfish-6.0.0.zip
-                  -->
-                <!--
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.1.0/glassfish-6.1.0.zip
-                  -->
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.2.5/glassfish-6.2.5.zip
-              </cargo.glassfish6x.url>
-              <cargo.glassfish6x.java.home>${cargo.java.home.1_11}</cargo.glassfish6x.java.home>
-
-              <cargo.glassfish7x.url>
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/7.0.25/glassfish-7.0.25.zip
-              </cargo.glassfish7x.url>
-              <cargo.glassfish7x.java.home>${cargo.java.home.1_11}</cargo.glassfish7x.java.home>
-
-              <cargo.glassfish8x.url>
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/8.0.0-M12/glassfish-8.0.0-M12.zip
-              </cargo.glassfish8x.url>
-              <cargo.glassfish8x.java.home>${cargo.java.home.1_21}</cargo.glassfish8x.java.home>
 
               <cargo.liberty.url>
                 https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/25.0.0.7/wlp-javaee8-25.0.0.7.zip
@@ -1254,6 +1239,184 @@
   </properties>
   <profiles>
     <profile>
+      <id>geronimo1x</id>
+      <properties>
+        <cargo.containers>geronimo1x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>geronimo2x</id>
+      <properties>
+        <cargo.containers>geronimo2x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>geronimo3x</id>
+      <properties>
+        <cargo.containers>geronimo3x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>glassfish2x</id>
+      <properties>
+        <cargo.containers>glassfish2x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish3x</id>
+      <properties>
+        <cargo.containers>glassfish3x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish3x-3.0</id>
+      <properties>
+        <cargo.containers>glassfish3x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.glassfish3x.url>
+                    https://repo.maven.apache.org/maven2/org/glassfish/distributions/glassfish/3.0.1/glassfish-3.0.1.zip
+                  </cargo.glassfish3x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>glassfish4x</id>
+      <properties>
+        <cargo.containers>glassfish4x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish4x-4.0</id>
+      <properties>
+        <cargo.containers>glassfish4x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.glassfish4x.url>
+                    https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/4.0/glassfish-4.0.zip
+                  </cargo.glassfish4x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>glassfish5x</id>
+      <properties>
+        <cargo.containers>glassfish5x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish5x-5.0</id>
+      <properties>
+        <cargo.containers>glassfish5x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.glassfish5x.url>
+                    https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/5.0.1/glassfish-5.0.1.zip
+                  </cargo.glassfish5x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>glassfish6x</id>
+      <properties>
+        <cargo.containers>glassfish6x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish6x-6.0</id>
+      <properties>
+        <cargo.containers>glassfish6x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.glassfish6x.url>
+                    https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.0.0/glassfish-6.0.0.zip
+                  </cargo.glassfish6x.url>
+                  <cargo.glassfish6x.java.home>${cargo.java.home.1_8}</cargo.glassfish6x.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>glassfish6x-6.1</id>
+      <properties>
+        <cargo.containers>glassfish6x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.glassfish6x.url>
+                    https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/6.1.0/glassfish-6.1.0.zip
+                  </cargo.glassfish6x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>glassfish7x</id>
+      <properties>
+        <cargo.containers>glassfish7x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish8x</id>
+      <properties>
+        <cargo.containers>glassfish8x</cargo.containers>
+      </properties>
+    </profile>
+
+    <profile>
       <id>jboss3x</id>
       <properties>
         <cargo.containers>jboss3x</cargo.containers>
@@ -1644,68 +1807,6 @@
       <id>jrun4x</id>
       <properties>
         <cargo.containers>jrun4x</cargo.containers>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>geronimo1x</id>
-      <properties>
-        <cargo.containers>geronimo1x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>geronimo2x</id>
-      <properties>
-        <cargo.containers>geronimo2x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>geronimo3x</id>
-      <properties>
-        <cargo.containers>geronimo3x</cargo.containers>
-      </properties>
-    </profile>
-
-    <profile>
-      <id>glassfish2x</id>
-      <properties>
-        <cargo.containers>glassfish2x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>glassfish3x</id>
-      <properties>
-        <cargo.containers>glassfish3x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>glassfish4x</id>
-      <properties>
-        <cargo.containers>glassfish4x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>glassfish5x</id>
-      <properties>
-        <cargo.containers>glassfish5x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>glassfish6x</id>
-      <properties>
-        <cargo.containers>glassfish6x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>glassfish7x</id>
-      <properties>
-        <cargo.containers>glassfish7x</cargo.containers>
-      </properties>
-    </profile>
-    <profile>
-      <id>glassfish8x</id>
-      <properties>
-        <cargo.containers>glassfish8x</cargo.containers>
       </properties>
     </profile>
 
