@@ -1564,6 +1564,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 9.x - Branch 9.0.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: TomEE 9.x - Branch 9.0.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee9x-9.0 -Dsurefire.rerunFailingTestsCount=2
   - name: WildFly 27.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
