@@ -47,7 +47,9 @@ import org.bsc.confluence.ConfluenceService.Model.Page;
 import org.bsc.confluence.ConfluenceService.Storage.Representation;
 import org.bsc.mojo.configuration.ScrollVersionsInfo;
 import org.bsc.ssl.SSLCertificateInfo;
-
+import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -89,7 +91,7 @@ import org.codehaus.cargo.sample.java.JmsQueueResourceOnStandaloneConfigurationT
 import org.codehaus.cargo.sample.java.JmsTopicResourceOnStandaloneConfigurationTest;
 import org.codehaus.cargo.sample.java.MailResourceOnStandaloneConfigurationTest;
 import org.codehaus.cargo.util.FileHandler;
-import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.codehaus.cargo.util.XmlUtils;
 
 /**
  * Generate container documentation using Confluence markup language. The generated text is meant to
@@ -183,6 +185,11 @@ public class ConfluenceContainerDocumentationGenerator
      * The MavenXpp3Reader used to get project info from pom files.
      */
     private static final MavenXpp3Reader POM_READER = new MavenXpp3Reader();
+
+    /**
+     * XML utilities for further POM parsing.
+     */
+    private static final XmlUtils XML_UTILS = new XmlUtils();
 
     /**
      * Relative path to the cargo-core-samples directory.
@@ -1678,24 +1685,9 @@ public class ConfluenceContainerDocumentationGenerator
                     {
                         javaVersion = "8 (Tomcat 10.0.x) or 11 (Tomcat 10.1.x onwards)";
                     }
-                    else if ("tomcat11x".equals(containerId))
-                    {
-                        javaVersion = "17 (up to and including Tomcat 11.0.0 M6) or "
-                            + "21 (Tomcat 11.0.0 M7 onwards)";
-                    }
                     else if ("tomee7x".equals(containerId))
                     {
                         javaVersion = "7 (TomEE 7.0.x) or 8 (TomEE 7.1.x)";
-                    }
-                    else if ("tomee9x".equals(containerId))
-                    {
-                        javaVersion = "8 (up to and including TomEE 9.0.0 M7) or "
-                            + "11 (TomEE 9.0.0 M8 onwards)";
-                    }
-                    else if ("tomee10x".equals(containerId))
-                    {
-                        javaVersion = "11 (TomEE 10.0.0 M1) or "
-                            + "17 (TomEE 10.0.0 M2 onwards)";
                     }
                     else if ("weblogic12x".equals(containerId)
                         || "weblogic121x".equals(containerId))
@@ -2032,7 +2024,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
 
             output.append("This container is automatically tested by the "
-                + "[Continous Integration system|https://codehaus-cargo.semaphoreci.com/"
+                + "[Continous Integration (CI) system|https://codehaus-cargo.semaphoreci.com/"
                 + "projects/cargo] every time there is a code change.");
             output.append(FileHandler.NEW_LINE);
             if (containerId.startsWith("wildfly-swarm"))
@@ -2045,6 +2037,36 @@ public class ConfluenceContainerDocumentationGenerator
             {
                 output.append("The server used for tests is downloaded from: ");
                 output.append(url);
+
+                File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
+                Document samples = XML_UTILS.loadXmlFromFile(pom.getAbsolutePath());
+                NodeList urls = samples.getElementsByTagName("cargo." + containerId + ".url");
+                if (urls.getLength() > 1)
+                {
+                    output.append(FileHandler.NEW_LINE);
+                    output.append(FileHandler.NEW_LINE);
+
+                    output.append("Moreover, the below other branch");
+                    if (urls.getLength() > 2)
+                    {
+                        output.append("es are");
+                    }
+                    else
+                    {
+                        output.append(" is");
+                    }
+                    output.append(" also tested by the CI system:");
+                    for (int i = 0; i < urls.getLength(); i++)
+                    {
+                        String otherUrl = urls.item(i).getTextContent().trim();
+                        if (!url.equals(otherUrl))
+                        {
+                            output.append(FileHandler.NEW_LINE);
+                            output.append("* ");
+                            output.append(otherUrl);
+                        }
+                    }
+                }
             }
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
