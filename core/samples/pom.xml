@@ -907,12 +907,6 @@
               <cargo.websphere9x.java.home>${cargo.java.home.1_8}</cargo.websphere9x.java.home>
 
               <cargo.wildfly8x.url>
-                <!--
-                https://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz
-                  -->
-                <!--
-                https://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
-                  -->
                 https://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz
               </cargo.wildfly8x.url>
               <cargo.wildfly8x.java.home>${cargo.java.home.1_7}</cargo.wildfly8x.java.home>
@@ -1488,6 +1482,29 @@
       <properties>
         <cargo.containers>jetty7x</cargo.containers>
       </properties>
+    </profile>
+    <profile>
+      <id>jetty7x-7.0</id>
+      <properties>
+        <cargo.containers>jetty7x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.jetty7x.url>
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/7.0.2.v20100331/jetty-distribution-7.0.2.v20100331.tar.gz
+                  </cargo.jetty7x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
     <profile>
       <id>jetty7x-7.1</id>
@@ -2168,6 +2185,52 @@
       <properties>
         <cargo.containers>wildfly8x</cargo.containers>
       </properties>
+    </profile>
+    <profile>
+      <id>wildfly8x-8.0</id>
+      <properties>
+        <cargo.containers>wildfly8x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.wildfly8x.url>
+                    https://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz
+                  </cargo.wildfly8x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>wildfly8x-8.1</id>
+      <properties>
+        <cargo.containers>wildfly8x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.wildfly8x.url>
+                    https://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz
+                  </cargo.wildfly8x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
     <profile>
       <id>wildfly9x</id>
