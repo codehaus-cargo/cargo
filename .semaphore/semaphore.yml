@@ -91,202 +91,6 @@ blocks:
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
-  - name: GlassFish 6.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: GlassFish 6.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-maven3-plugin/ && ( mvn clean install -pl :cargo-maven3-plugin -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
-            - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
-            - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
-            - cd $ORIGINAL_PWD/core/samples
-            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.*/glassfish-*.zip java/installs
-            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
-            - rm $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
-            - cd $ORIGINAL_PWD
-            - cd ~/
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
-  - name: GlassFish 6.x - Branch 6.1.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: GlassFish 6.x - Branch 6.1.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish6x-6.1 -Dsurefire.rerunFailingTestsCount=2
-  - name: GlassFish 7.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: GlassFish 7.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
-  - name: Jetty 10.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: Jetty 10.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
-  - name: Jetty 11.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: Jetty 11.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
-  - name: Payara
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: Payara
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
-  - name: Tomcat 10.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: Tomcat 10.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
-  - name: Tomcat 10.x - Branch 10.0.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: Tomcat 10.x - Branch 10.0.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat10x-10.0 -Dsurefire.rerunFailingTestsCount=2
-  - name: TomEE 9.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: TomEE 9.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 27.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 27.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 28.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 28.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 29.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 29.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 30.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 30.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 31.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 31.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly31x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 32.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 32.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly32x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 33.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 33.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly33x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 34.x
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: WildFly 34.x
-          commands:
-            - sem-version java 11
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly34x -Dsurefire.rerunFailingTestsCount=2
   - name: Build on Java 8
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -310,485 +114,6 @@ blocks:
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
-  - name: GlassFish 4.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: GlassFish 4.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
-  - name: GlassFish 4.x - Branch 4.0.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: GlassFish 4.x - Branch 4.0.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish4x-4.0 -Dsurefire.rerunFailingTestsCount=2
-  - name: GlassFish 5.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: GlassFish 5.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
-  - name: GlassFish 5.x - Branch 5.0.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: GlassFish 5.x - Branch 5.0.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish5x-5.0 -Dsurefire.rerunFailingTestsCount=2
-  - name: GlassFish 6.x - Branch 6.0.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: GlassFish 6.x - Branch 6.0.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish6x-6.0 -Dsurefire.rerunFailingTestsCount=2
-  - name: Jetty 9.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Jetty 9.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
-  - name: Jetty 9.x - Branch 9.3.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Jetty 9.x - Branch 9.3.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty9x-9.3 -Dsurefire.rerunFailingTestsCount=2
-  - name: Resin 4.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Resin 4.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
-  - name: Tomcat 8.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Tomcat 8.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
-  - name: Tomcat 8.x - Branch 8.0.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Tomcat 8.x - Branch 8.0.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat8x-8.0 -Dsurefire.rerunFailingTestsCount=2
-  - name: Tomcat 9.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Tomcat 9.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
-  - name: TomEE 7.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: TomEE 7.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
-  - name: TomEE 8.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: TomEE 8.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
-  - name: WebSphere Liberty
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WebSphere Liberty
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 8.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 8.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 9.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 9.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 10.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 10.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 11.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 11.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 12.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 12.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 13.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 13.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 14.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 14.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 15.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 15.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 16.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 16.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 17.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 17.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 18.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 18.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 19.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 19.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 20.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 20.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 21.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 21.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 22.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 22.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 23.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 23.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 24.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 24.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 25.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 25.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly 26.x
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly 26.x
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
-  - name: WildFly Swarm
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: WildFly Swarm
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - mvn -version
-            - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
-            - cd ~/
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: Prepare for containers running on Java 6
     dependencies:
       - Build on Java 8
@@ -807,6 +132,59 @@ blocks:
             - cd ~/.m2/semaphore-ci-binaries
             - cache delete "codehaus-cargo-cache-java-6"
             - cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME
+  - name: Prepare for containers running on Java 7
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Prepare for containers running on Java 7
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-7"
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz ; RM=0'
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - cache delete "codehaus-cargo-cache-java-7"
+            - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME
+  - name: Build on Java 17
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Build on Java 17
+          commands:
+            - sem-version java 17
+            - cd $ORIGINAL_PWD
+            - mvn -version
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
+            - mvn clean install -T 1C || mvn clean install -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+  - name: Build on Java 21
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Build on Java 21
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-21"
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
+            - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
+            - cache delete "codehaus-cargo-cache-java-21"
+            - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME
+            - export JAVA_HOME=/tmp/cargo/jdk-21
+            - cd $ORIGINAL_PWD
+            - mvn -version
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
+            - mvn clean install -T 1C || mvn clean install -e
+            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: Geronimo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1453,20 +831,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
-  - name: Prepare for containers running on Java 7
-    dependencies:
-      - Build on Java 8
-    task:
-      jobs:
-        - name: Prepare for containers running on Java 7
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-7"
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
-            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz ; RM=0'
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - cache delete "codehaus-cargo-cache-java-7"
-            - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME
   - name: Jetty 9.x - Branch 9.0.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -1518,6 +882,22 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+  - name: Payara - Branch 4.x
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: Payara - Branch 4.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ppayara-4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
   - name: TomEE 7.x - Branch 7.0.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -1535,22 +915,695 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee7x-7.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
-  - name: Build on Java 17
+  - name: GlassFish 4.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 4.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 4.x - Branch 4.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 4.x - Branch 4.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish4x-4.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 5.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 5.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 5.x - Branch 5.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 5.x - Branch 5.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish5x-5.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 6.x - Branch 6.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: GlassFish 6.x - Branch 6.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish6x-6.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 9.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Jetty 9.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 9.x - Branch 9.3.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.3.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.3 -Dsurefire.rerunFailingTestsCount=2
+  - name: Payara - Branch 5.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Payara - Branch 5.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ppayara-5 -Dsurefire.rerunFailingTestsCount=2
+  - name: Resin 4.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Resin 4.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 8.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Tomcat 8.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 8.x - Branch 8.0.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Tomcat 8.x - Branch 8.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat8x-8.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 9.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Tomcat 9.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 7.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: TomEE 7.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 8.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: TomEE 8.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
+  - name: WebSphere Liberty
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WebSphere Liberty
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 8.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 8.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 9.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 9.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 10.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 10.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 11.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 11.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 12.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 12.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 13.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 13.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 14.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 14.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 15.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 15.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 16.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 16.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 17.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 17.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 18.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 18.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 19.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 19.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 20.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 20.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 21.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 21.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 22.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 22.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 23.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 23.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 24.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 24.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 25.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 25.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 26.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly 26.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly Swarm
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: WildFly Swarm
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
+            - cd ~/
+            - cache delete "codehaus-cargo-cache-initial-build"
+            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+  - name: GlassFish 6.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
-        - name: Build on Java 17
+        - name: GlassFish 6.x
           commands:
-            - sem-version java 17
-            - cd $ORIGINAL_PWD
+            - sem-version java 11
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
-            - mvn clean install -T 1C || mvn clean install -e
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
+            - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-maven3-plugin/ && ( mvn clean install -pl :cargo-maven3-plugin -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
+            - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
+            - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
+            - cd $ORIGINAL_PWD/core/samples
+            - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.*/glassfish-*.zip java/installs
+            - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
+            - rm $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
+            - cd $ORIGINAL_PWD
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
             - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+  - name: GlassFish 6.x - Branch 6.1.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: GlassFish 6.x - Branch 6.1.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish6x-6.1 -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 7.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: GlassFish 7.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 10.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Jetty 10.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty10x -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 11.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Jetty 11.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
+  - name: Payara
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Payara
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 10.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Tomcat 10.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat10x -Dsurefire.rerunFailingTestsCount=2
+  - name: Tomcat 10.x - Branch 10.0.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: Tomcat 10.x - Branch 10.0.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomcat10x-10.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 9.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: TomEE 9.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee9x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 27.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 27.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly27x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 28.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 28.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly28x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 29.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 29.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly29x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 30.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 30.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly30x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 31.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 31.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly31x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 32.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 32.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly32x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 33.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 33.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly33x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 34.x
+    dependencies:
+      - Perform initial build and aggregate Javadoc on Java 11
+    task:
+      jobs:
+        - name: WildFly 34.x
+          commands:
+            - sem-version java 11
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly34x -Dsurefire.rerunFailingTestsCount=2
   - name: Jetty 12.x
     dependencies:
       - Build on Java 17
@@ -1617,29 +1670,6 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly37x -Dsurefire.rerunFailingTestsCount=2
-  - name: Build on Java 21
-    dependencies:
-      - Perform initial build and aggregate Javadoc on Java 11
-    task:
-      jobs:
-        - name: Build on Java 21
-          commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-21"
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
-            - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
-            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
-            - cache delete "codehaus-cargo-cache-java-21"
-            - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME
-            - export JAVA_HOME=/tmp/cargo/jdk-21
-            - cd $ORIGINAL_PWD
-            - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
-            - mvn clean install -T 1C || mvn clean install -e
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
-            - cd ~/
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
   - name: GlassFish 8.x
     dependencies:
       - Build on Java 21
@@ -1654,6 +1684,20 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
+  - name: Payara - Branch 7.x (Alpha)
+    dependencies:
+      - Build on Java 21
+    task:
+      jobs:
+        - name: Payara - Branch 7.x (Alpha)
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-21"
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk-21
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ppayara-7 -Dsurefire.rerunFailingTestsCount=2
   - name: Tomcat 11.x
     dependencies:
       - Build on Java 21
@@ -1715,6 +1759,9 @@ blocks:
       - JOnAS 4.x
       - JOnAS 5.x
       - Payara
+      - Payara - Branch 4.x
+      - Payara - Branch 5.x
+      - Payara - Branch 7.x (Alpha)
       - Resin 3.1.x
       - Resin 3.x
       - Resin 4.x

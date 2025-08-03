@@ -601,16 +601,7 @@
               <cargo.oc4j10x.java.home>${cargo.java.home.1_5}</cargo.oc4j10x.java.home>
 
               <cargo.payara.url>
-                <!--
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip
-                  -->
-                <!--
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2022.5/payara-5.2022.5.zip
-                  -->
                 https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2025.7/payara-6.2025.7.zip
-                <!--
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2025.1.Alpha3/payara-7.2025.1.Alpha3.zip
-                  -->
               </cargo.payara.url>
               <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
 
@@ -648,9 +639,6 @@
                   Tomcat 6.0.53 cannot be used due to a ClassCastException:
                   org.apache.catalina.core.StandardContext cannot be cast to
                   org.apache.catalina.Context in the Embedded container
-                  -->
-                <!--
-                https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/apache-tomcat-6.0.53.zip
                   -->
                 https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.44/bin/apache-tomcat-6.0.44.zip
               </cargo.tomcat6x.url>
@@ -1823,6 +1811,78 @@
       <properties>
         <cargo.containers>payara</cargo.containers>
       </properties>
+    </profile>
+    <profile>
+      <id>payara-4</id>
+      <properties>
+        <cargo.containers>payara</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.payara.url>
+                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip
+                  </cargo.payara.url>
+                  <cargo.payara.java.home>${cargo.java.home.1_7}</cargo.payara.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>payara-5</id>
+      <properties>
+        <cargo.containers>payara</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.payara.url>
+                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/5.2022.5/payara-5.2022.5.zip
+                  </cargo.payara.url>
+                  <cargo.payara.java.home>${cargo.java.home.1_8}</cargo.payara.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>payara-7</id>
+      <properties>
+        <cargo.containers>payara</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.payara.url>
+                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2025.1.Alpha3/payara-7.2025.1.Alpha3.zip
+                  </cargo.payara.url>
+                  <cargo.payara.java.home>${cargo.java.home.1_21}</cargo.payara.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
 
     <profile>
