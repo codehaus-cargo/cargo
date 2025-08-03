@@ -1123,7 +1123,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -pjetty7x-7.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.2.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1142,7 +1142,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -pjetty7x-7.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1161,7 +1161,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -pjetty7x-7.3 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.3 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1180,7 +1180,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -pjetty7x-7.4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1199,7 +1199,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -pjetty7x-7.5 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.5 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 8.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1237,7 +1237,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -pjetty8x-8.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty8x-8.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
   - name: Jo 1.x
     dependencies:
       - Prepare for containers running on Java 6
