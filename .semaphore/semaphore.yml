@@ -59,6 +59,7 @@ global_job_config:
         - cd $ORIGINAL_PWD
         - test -d /tmp/cargo/jdk1.6.0_45/ && export BRANCH_JAVA_HOME=/tmp/cargo/jdk1.6.0_45 || export BRANCH_JAVA_HOME=$JAVA_HOME
         - export BRANCH_TEST_ID=`$BRANCH_JAVA_HOME/bin/java -version 2>&1 | head -1 | cut -d'"' -f2 | sed '/^1\./s///' | cut -d'"' -f1`
+        - if [[ "$SEMAPHORE_JOB_NAME" =~ ^.*(Branch.*) ]] ; then export SUBBRANCH_ID=${BASH_REMATCH[1]} ; export BRANCH_TEST_ID="$BRANCH_TEST_ID) ($SUBBRANCH_ID" ; fi ; RM=0
         - find . -iname "TEST-*.xml" -type f | xargs perl -i -pe "s/\QTest\" time=/Test (Java $BRANCH_TEST_ID)\" time=/g"
         - find . -iname "TEST-*.xml" -type f | xargs test-results publish
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
@@ -329,6 +330,20 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 9.x - Branch 9.3.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.3.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.3 -Dsurefire.rerunFailingTestsCount=2
   - name: Resin 4.x
     dependencies:
       - Build on Java 8
@@ -1018,12 +1033,12 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-  - name: Jetty 7.1.x
+  - name: Jetty 7.x - Branch 7.1.x
     dependencies:
       - Prepare for containers running on Java 6
     task:
       jobs:
-        - name: Jetty 7.1.x
+        - name: Jetty 7.x - Branch 7.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
@@ -1036,13 +1051,13 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-  - name: Jetty 7.2.x
+            - mvn clean install -e -pjetty7x-7.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+  - name: Jetty 7.x - Branch 7.2.x
     dependencies:
       - Prepare for containers running on Java 6
     task:
       jobs:
-        - name: Jetty 7.2.x
+        - name: Jetty 7.x - Branch 7.2.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
@@ -1055,13 +1070,13 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty72x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-  - name: Jetty 7.3.x
+            - mvn clean install -e -pjetty7x-7.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+  - name: Jetty 7.x - Branch 7.3.x
     dependencies:
       - Prepare for containers running on Java 6
     task:
       jobs:
-        - name: Jetty 7.3.x
+        - name: Jetty 7.x - Branch 7.3.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
@@ -1074,13 +1089,13 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty73x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
-  - name: Jetty 7.4.x
+            - mvn clean install -e -pjetty7x-7.3 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+  - name: Jetty 7.x - Branch 7.4.x
     dependencies:
       - Prepare for containers running on Java 6
     task:
       jobs:
-        - name: Jetty 7.4.x
+        - name: Jetty 7.x - Branch 7.4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
@@ -1093,13 +1108,13 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty74x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45v
-  - name: Jetty 7.5.x
+            - mvn clean install -e -pjetty7x-7.4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+  - name: Jetty 7.x - Branch 7.5.x
     dependencies:
       - Prepare for containers running on Java 6
     task:
       jobs:
-        - name: Jetty 7.5.x
+        - name: Jetty 7.x - Branch 7.5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
@@ -1112,7 +1127,7 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty75x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -pjetty7x-7.5 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 8.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1132,6 +1147,25 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+  - name: Jetty 8.x - Branch 8.0.x
+    dependencies:
+      - Prepare for containers running on Java 6
+    task:
+      jobs:
+        - name: Jetty 8.x - Branch 8.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-6"
+            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cd /tmp/cargo
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -pjetty8x-8.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
   - name: Jo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -1322,6 +1356,71 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+  - name: Prepare for containers running on Java 7
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Prepare for containers running on Java 7
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-7"
+            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
+            - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz ; RM=0'
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - cache delete "codehaus-cargo-cache-java-7"
+            - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME
+  - name: Jetty 9.x - Branch 9.0.x
+    dependencies:
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+  - name: Jetty 9.x - Branch 9.1.x
+    dependencies:
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.1.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+  - name: Jetty 9.x - Branch 9.2.x
+    dependencies:
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.2.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
   - name: Build on Java 17
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1467,13 +1566,18 @@ blocks:
       - Jetty 5.x
       - Jetty 6.x
       - Jetty 7.x
-      - Jetty 7.1.x
-      - Jetty 7.2.x
-      - Jetty 7.3.x
-      - Jetty 7.4.x
-      - Jetty 7.5.x
+      - Jetty 7.x - Branch 7.1.x
+      - Jetty 7.x - Branch 7.2.x
+      - Jetty 7.x - Branch 7.3.x
+      - Jetty 7.x - Branch 7.4.x
+      - Jetty 7.x - Branch 7.5.x
       - Jetty 8.x
+      - Jetty 8.x - Branch 8.0.x
       - Jetty 9.x
+      - Jetty 9.x - Branch 9.0.x
+      - Jetty 9.x - Branch 9.1.x
+      - Jetty 9.x - Branch 9.2.x
+      - Jetty 9.x - Branch 9.3.x
       - Jetty 10.x
       - Jetty 11.x
       - Jetty 12.x
