@@ -1467,12 +1467,12 @@ blocks:
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - cache delete "codehaus-cargo-cache-java-7"
             - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME
-  - name: Jetty 9.x 6 9.0.x
+  - name: Jetty 9.x - Branch 9.0.x
     dependencies:
       - Prepare for containers running on Java 7
     task:
       jobs:
-        - name: Jetty 9.x 6 9.0.x
+        - name: Jetty 9.x - Branch 9.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
