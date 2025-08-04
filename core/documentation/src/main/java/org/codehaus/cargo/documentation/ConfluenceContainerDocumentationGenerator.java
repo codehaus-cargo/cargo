@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,9 @@ import org.bsc.ssl.SSLCertificateInfo;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
+import edu.emory.mathcs.backport.java.util.Collections;
+
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -2048,6 +2052,17 @@ public class ConfluenceContainerDocumentationGenerator
                     output.append(FileHandler.NEW_LINE);
                     output.append(FileHandler.NEW_LINE);
 
+                    List<String> sortedUrls = new ArrayList<String>(urls.getLength() - 1);
+                    for (int i = 0; i < urls.getLength(); i++)
+                    {
+                        String otherUrl = urls.item(i).getTextContent().trim();
+                        if (!url.equals(otherUrl))
+                        {
+                            sortedUrls.add(otherUrl);
+                        }
+                    }
+                    Collections.sort(sortedUrls);
+
                     output.append("Moreover, the below other branch");
                     if (urls.getLength() > 2)
                     {
@@ -2058,15 +2073,11 @@ public class ConfluenceContainerDocumentationGenerator
                         output.append(" is");
                     }
                     output.append(" also tested by the CI system:");
-                    for (int i = 0; i < urls.getLength(); i++)
+                    for (String otherUrl : sortedUrls)
                     {
-                        String otherUrl = urls.item(i).getTextContent().trim();
-                        if (!url.equals(otherUrl))
-                        {
-                            output.append(FileHandler.NEW_LINE);
-                            output.append("* ");
-                            output.append(otherUrl);
-                        }
+                        output.append(FileHandler.NEW_LINE);
+                        output.append("* ");
+                        output.append(otherUrl);
                     }
                 }
             }
