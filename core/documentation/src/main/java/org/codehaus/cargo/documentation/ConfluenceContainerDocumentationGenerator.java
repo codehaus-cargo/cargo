@@ -2022,6 +2022,7 @@ public class ConfluenceContainerDocumentationGenerator
 
             output.append("h3.Tested On");
             output.append(FileHandler.NEW_LINE);
+            output.append(FileHandler.NEW_LINE);
 
             output.append("This container is automatically tested by the "
                 + "[Continous Integration (CI) system|https://codehaus-cargo.semaphoreci.com/"
@@ -2043,6 +2044,7 @@ public class ConfluenceContainerDocumentationGenerator
                 NodeList urls = samples.getElementsByTagName("cargo." + containerId + ".url");
                 if (urls.getLength() > 1)
                 {
+                    output.append(FileHandler.NEW_LINE);
                     output.append(FileHandler.NEW_LINE);
                     output.append(FileHandler.NEW_LINE);
 
