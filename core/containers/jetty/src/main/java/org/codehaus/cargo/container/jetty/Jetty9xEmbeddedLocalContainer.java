@@ -106,8 +106,7 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
                 String[] dftServerClasses = (String[])
                     webAppContextClass.getDeclaredField("__dftServerClasses").get(null);
                 List<String> dftServerClassesList =
-                    new ArrayList<String>(dftServerClasses.length + 3);
-                dftServerClassesList.add("-javax.enterprise.context.spi.");
+                    new ArrayList<String>(dftServerClasses.length + 2);
                 dftServerClassesList.add("-org.eclipse.jetty.cdi.");
                 dftServerClassesList.add("-org.eclipse.jetty.cdi.websocket.");
                 dftServerClassesList.addAll(Arrays.asList(dftServerClasses));
@@ -119,9 +118,8 @@ public class Jetty9xEmbeddedLocalContainer extends Jetty8xEmbeddedLocalContainer
                 String[] dftSystemClasses = (String[])
                     webAppContextClass.getDeclaredField("__dftSystemClasses").get(null);
                 List<String> dftSystemClassesList =
-                    new ArrayList<String>(dftSystemClasses.length + 3);
+                    new ArrayList<String>(dftSystemClasses.length + 2);
                 dftSystemClassesList.addAll(Arrays.asList(dftSystemClasses));
-                dftSystemClassesList.add("javax.enterprise.context.spi.");
                 dftSystemClassesList.add("org.eclipse.jetty.cdi.");
                 dftSystemClassesList.add("org.eclipse.jetty.cdi.websocket.");
                 dftSystemClasses = new String[dftSystemClassesList.size()];
