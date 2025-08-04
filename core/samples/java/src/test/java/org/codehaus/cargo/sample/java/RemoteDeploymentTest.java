@@ -320,6 +320,13 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
 
+        // Jetty 7.2.x (and only that sub branch) has trouble redeploying modified WARs
+        if ("jetty7x".equals(getTestData().containerId)
+            && getContainer().getName().contains("7.2."))
+        {
+            return;
+        }
+
         // JOnAS 4.x has trouble redeploying modified WARs,
         // applications indeed need to be EARs in order to be successfully redeployed
         if ("jonas4x".equals(getTestData().containerId))
