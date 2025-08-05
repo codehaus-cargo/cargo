@@ -169,6 +169,12 @@ public abstract class AbstractGlassFishInstalledLocalContainer
             + this.getConfiguration().getPropertyValue(GlassFishPropertySet.ADMIN_PORT),
             this.getClass().getName());
 
+        String javadb = getFileHandler().append(getHome(), "javadb");
+        if (getFileHandler().isDirectory(javadb))
+        {
+            java.setEnvironmentVariable("AS_DERBY_INSTALL", javadb);
+        }
+
         // see https://glassfish.dev.java.net/issues/show_bug.cgi?id=885
         // needs to spawn
         this.invokeAsAdmin(true, java,

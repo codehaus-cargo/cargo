@@ -114,8 +114,6 @@ public class GlassFish71xAsAdmin extends GlassFish3xAsAdmin
             java.addJvmArguments(
                 "--module-path", new File(glassfish, "lib/bootstrap").getAbsolutePath(),
                 "--add-modules", "ALL-MODULE-PATH");
-            java.setEnvironmentVariable(
-                "AS_DERBY_INSTALL", new File(home, "javadb").getAbsolutePath());
 
             java.addClasspathEntries(adminCli);
             File asadmin = new File(glassfish, "lib/asadmin");

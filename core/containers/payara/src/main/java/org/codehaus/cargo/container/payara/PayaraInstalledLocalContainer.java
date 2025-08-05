@@ -19,12 +19,15 @@
  */
 package org.codehaus.cargo.container.payara;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.glassfish.GlassFish5xInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.payara.internal.PayaraContainerCapability;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Payara installed local container.
@@ -54,6 +57,21 @@ public class PayaraInstalledLocalContainer extends GlassFish5xInstalledLocalCont
     protected AbstractGlassFishInstalledLocalDeployer getLocalDeployer()
     {
         return new PayaraInstalledLocalDeployer(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void doStart(JvmLauncher java) throws Exception
+    {
+        String h2db = getFileHandler().append(getHome(), "h2db");
+        if (getFileHandler().isDirectory(h2db))
+        {
+            java.setEnvironmentVariable("AS_H2_INSTALL", h2db);
+        }
+
+        super.doStart(java);
     }
 
     /**
