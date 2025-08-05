@@ -90,9 +90,13 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         PingUtils.assertPingTrue(
             "simple ear should have been deployed at this point", earPingURL, getLogger());
 
-        deployer.undeploy(ear, deployableMonitor);
-        PingUtils.assertPingFalse(
-            "simple ear should have been undeployed at this point", earPingURL, getLogger());
+        // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
+        if (!getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            deployer.undeploy(ear, deployableMonitor);
+            PingUtils.assertPingFalse(
+                "simple ear should have been undeployed at this point", earPingURL, getLogger());
+        }
 
         getLocalContainer().stop();
     }

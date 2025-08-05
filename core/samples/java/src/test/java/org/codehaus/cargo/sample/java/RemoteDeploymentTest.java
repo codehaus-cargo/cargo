@@ -313,6 +313,12 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
 
+        // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
+        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            return;
+        }
+
         deployer.undeploy(this.war);
         PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
 
@@ -360,6 +366,12 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
 
         deployer.deploy(this.war);
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
+
+        // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
+        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            return;
+        }
 
         deployer.undeploy(this.war);
         PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
