@@ -314,7 +314,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
 
         // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
-        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
         {
             return;
         }
@@ -327,7 +327,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
 
         // Jetty 7.2.x (and only that sub branch) has trouble redeploying modified WARs
-        if (getLocalContainer().getName().startsWith("Jetty 7.2."))
+        if (this.localContainer.getName().startsWith("Jetty 7.2."))
         {
             return;
         }
