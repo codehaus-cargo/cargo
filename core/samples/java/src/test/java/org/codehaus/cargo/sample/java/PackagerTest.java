@@ -80,6 +80,12 @@ public class PackagerTest extends AbstractStandaloneLocalContainerTestCase
         URL warPingURL =
             new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
+        // Jetty 9.2.x (and only that sub branch) has trouble restarting package
+        if (getContainer().getName().startsWith("Jetty 9.2."))
+        {
+            return;
+        }
+
         getLocalContainer().start();
         PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
         getLocalContainer().stop();

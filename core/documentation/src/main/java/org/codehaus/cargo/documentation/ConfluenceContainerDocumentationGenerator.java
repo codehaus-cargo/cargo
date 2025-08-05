@@ -2050,7 +2050,6 @@ public class ConfluenceContainerDocumentationGenerator
                 {
                     output.append(FileHandler.NEW_LINE);
                     output.append(FileHandler.NEW_LINE);
-                    output.append(FileHandler.NEW_LINE);
 
                     List<String> sortedUrls = new ArrayList<String>(urls.getLength() - 1);
                     for (int i = 0; i < urls.getLength(); i++)
@@ -2079,6 +2078,9 @@ public class ConfluenceContainerDocumentationGenerator
                         output.append("* ");
                         output.append(otherUrl);
                     }
+                    output.append(FileHandler.NEW_LINE);
+                    output.append(
+                        "Branches not tested by the CI might not be consistently supported.");
                 }
             }
             output.append(FileHandler.NEW_LINE);

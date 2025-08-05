@@ -321,8 +321,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
 
         // Jetty 7.2.x (and only that sub branch) has trouble redeploying modified WARs
-        if ("jetty7x".equals(getTestData().containerId)
-            && getContainer().getName().contains("7.2."))
+        if (getContainer().getName().startsWith("Jetty 7.2."))
         {
             return;
         }
