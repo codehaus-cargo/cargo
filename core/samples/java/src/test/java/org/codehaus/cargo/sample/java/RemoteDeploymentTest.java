@@ -368,7 +368,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
 
         // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
-        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
         {
             return;
         }
