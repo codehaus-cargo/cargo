@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.payara;
 
-import java.io.File;
-
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
