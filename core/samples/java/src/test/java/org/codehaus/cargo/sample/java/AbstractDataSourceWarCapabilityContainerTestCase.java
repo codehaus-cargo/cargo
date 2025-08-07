@@ -85,7 +85,8 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
             // will result in a SecurityException: sealing violation: package org.apache.derby
             if (!container.getName().startsWith("GlassFish 6.0")
                 && !container.getName().startsWith("Payara 5.2")
-                && !container.getName().startsWith("Payara 6."))
+                && !container.getName().startsWith("Payara 6.")
+                && !container.getName().startsWith("Payara 7."))
             {
                 return;
             }
