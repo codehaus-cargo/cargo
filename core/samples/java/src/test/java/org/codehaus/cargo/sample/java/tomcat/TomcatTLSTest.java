@@ -69,6 +69,6 @@ public class TomcatTLSTest extends AbstractWarTestCase
             localhostJksFile.getAbsolutePath());
         configuration.setProperty(TomcatPropertySet.CONNECTOR_KEY_STORE_PASSWORD, "password");
 
-        testWar("simple");
+        testWar("simple", "Sample page for testing");
     }
 }

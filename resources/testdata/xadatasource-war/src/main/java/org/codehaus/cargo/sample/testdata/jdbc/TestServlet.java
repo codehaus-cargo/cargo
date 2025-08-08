@@ -49,7 +49,7 @@ public class TestServlet extends HttpServlet
             XADataSource ds = (XADataSource) o;
             c = ds.getXAConnection();
             PrintWriter out = response.getWriter();
-            out.print("Got connection!");
+            out.print("Got XADataSource connection!");
             out.close();
         }
         catch (NamingException e)

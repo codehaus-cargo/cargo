@@ -80,23 +80,25 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             new URL("http://localhost:" + getTestData().port + "/simpleweb/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingFalse(
-            "simple ear should not be present at this point", earPingURL, getLogger());
+        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // even when the deployable is not present
+        if (!getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            PingUtils.assertPingFalse(
+                "simple ear should not be present at this point", earPingURL, getLogger());
+        }
 
         Deployer deployer = createDeployer(getContainer());
         DeployableMonitor deployableMonitor = new URLDeployableMonitor(earPingURL);
         deployableMonitor.setLogger(this.getLogger());
         deployer.deploy(ear, deployableMonitor);
         PingUtils.assertPingTrue(
-            "simple ear should have been deployed at this point", earPingURL, getLogger());
+            "simple ear should have been deployed at this point", "Sample page for testing",
+                earPingURL, getLogger());
 
-        // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
-        if (!getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
-        {
-            deployer.undeploy(ear, deployableMonitor);
-            PingUtils.assertPingFalse(
-                "simple ear should have been undeployed at this point", earPingURL, getLogger());
-        }
+        deployer.undeploy(ear, deployableMonitor);
+        PingUtils.assertPingFalse(
+            "simple ear should have been undeployed at this point", earPingURL, getLogger());
 
         getLocalContainer().stop();
     }

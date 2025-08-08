@@ -116,6 +116,21 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
         throws MalformedURLException
     {
         addDataSourceToConfigurationViaProperty(fixture);
-        testWar(type);
+        if ("datasource-cmt-local".equals(type))
+        {
+            testWar(type, "all good!");
+        }
+        else if ("datasource".equals(type))
+        {
+            testWar(type, "Got DataSource connection!");
+        }
+        if ("xadatasource".equals(type))
+        {
+            testWar(type, "Got XADataSource connection!");
+        }
+        else
+        {
+            testWar(type, "Got DataSource connections!");
+        }
     }
 }

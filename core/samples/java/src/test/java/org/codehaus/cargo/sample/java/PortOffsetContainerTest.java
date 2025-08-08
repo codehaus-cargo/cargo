@@ -66,7 +66,9 @@ public class PortOffsetContainerTest extends AbstractStandaloneLocalContainerTes
         URL warPingURL = new URL("http://localhost:" + portWithOffset + "/simple-war/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            warPingURL.getPath() + " not started", "Sample page for testing",
+                warPingURL, getLogger());
 
         getLocalContainer().stop();
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());

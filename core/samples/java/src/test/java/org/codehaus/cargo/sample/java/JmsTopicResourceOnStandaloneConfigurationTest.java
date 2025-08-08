@@ -127,6 +127,6 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
 
         addResourceToConfigurationViaProperty(fixture);
 
-        testWar("jms-topic");
+        testWar("jms-topic", "Got JMS topic!");
     }
 }

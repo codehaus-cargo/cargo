@@ -95,8 +95,9 @@ public class JonasDeploymentPlanTest extends AbstractStandaloneLocalContainerTes
         DeployableMonitor deployableMonitor = new URLDeployableMonitor(warPingURL);
         deployableMonitor.setLogger(this.getLogger());
         deployer.deploy(deploymentPlan, deployableMonitor);
-        PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
-            getLogger());
+        PingUtils.assertPingTrue(
+            "simple war should have been started at this point", "Sample page for testing",
+                warPingURL, getLogger());
 
         deployer.undeploy(deploymentPlan, deployableMonitor);
         PingUtils.assertPingFalse("simple war should have been stopped at this point", warPingURL,

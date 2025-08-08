@@ -61,7 +61,7 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
     @CargoTestCase
     public void testDeployWarStatically() throws Exception
     {
-        testWar("simple");
+        testWar("simple", "Sample page for testing");
     }
 
     /**
@@ -83,6 +83,6 @@ public abstract class AbstractWarCapabilityContainerTestCase extends AbstractWar
         URL warPingURL = new URL("http://localhost:" + getTestData().port
             + "/expanded-war" + "/index.html");
 
-        startAndStop(warPingURL);
+        startAndStop(warPingURL, "Sample page for testing");
     }
 }

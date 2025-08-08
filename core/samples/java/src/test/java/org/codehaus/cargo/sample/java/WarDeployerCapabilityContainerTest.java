@@ -66,15 +66,21 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             + "/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingFalse(
-            "simple war should not be present at this point", warPingURL, getLogger());
+        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // even when the deployable is not present
+        if (!getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            PingUtils.assertPingFalse(
+                "simple war should not be present at this point", warPingURL, getLogger());
+        }
 
         Deployer deployer = createDeployer(getContainer());
         DeployableMonitor deployableMonitor = new URLDeployableMonitor(warPingURL);
         deployableMonitor.setLogger(this.getLogger());
         deployer.deploy(war, deployableMonitor);
         PingUtils.assertPingTrue(
-            "simple war should have been deployed at this point", warPingURL, getLogger());
+            "simple war should have been deployed at this point", "Sample page for testing",
+                warPingURL, getLogger());
 
         // We exclude containers that cannot hot undeploy WARs
         String containerId = getContainer().getId();
@@ -83,7 +89,7 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
                 "jo1x",
                 "liberty",
                 "resin3x", "resin4x", "resin31x")
-            && !getContainer().getName().startsWith("Payara 7.2025.1.Alpha")
+            && !getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha")
             && !getContainer().getType().equals(ContainerType.EMBEDDED)
                 && this.isNotContained(containerId,
                     "tomcat8x", "tomcat9x", "tomcat10x", "tomcat11x"))

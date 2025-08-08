@@ -52,7 +52,7 @@ public class TestServlet extends HttpServlet
             c = ds.getConnection();
             c2 = ds2.getConnection();
             PrintWriter out = response.getWriter();
-            out.print("Got connections!");
+            out.print("Got DataSource connections!");
             out.close();
         }
         catch (NamingException e)

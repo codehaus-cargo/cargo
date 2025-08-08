@@ -54,7 +54,8 @@ public class EarCapabilityContainerTest extends AbstractStandaloneLocalContainer
             new URL("http://localhost:" + getTestData().port + "/simpleweb/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue("simple ear not started", earPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple ear not started", "Sample page for testing", earPingURL, getLogger());
 
         getLocalContainer().stop();
         PingUtils.assertPingFalse("simple ear not stopped", earPingURL, getLogger());

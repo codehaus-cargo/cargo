@@ -48,7 +48,7 @@ public class WarCapabilityContainerTest extends AbstractWarCapabilityContainerTe
 
         URL warPingURL = new URL("http://localhost:" + getTestData().port + "/simple/index.jsp");
 
-        startAndStop(warPingURL);
+        startAndStop(warPingURL, "Sample page for testing");
     }
 
 }

@@ -87,7 +87,8 @@ public class PackagerTest extends AbstractStandaloneLocalContainerTestCase
         }
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue("simple war not started", warPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple war not started", "Sample page for testing", warPingURL, getLogger());
         getLocalContainer().stop();
         PingUtils.assertPingFalse("simple war not stopped", warPingURL, getLogger());
     }

@@ -91,8 +91,12 @@ public class JettyTLSTest extends AbstractWarTestCase
                 + "/simple-war/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue("simple war not started on HTTP", warHttpPingURL, getLogger());
-        PingUtils.assertPingTrue("simple war not started on HTTPS", warHttpsPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple war not started on HTTP", "Sample page for testing",
+                warHttpPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple war not started on HTTPS", "Sample page for testing",
+                warHttpsPingURL, getLogger());
         getLocalContainer().stop();
         PingUtils.assertPingFalse("simple war not stopped on HTTP", warHttpPingURL, getLogger());
         PingUtils.assertPingFalse("simple war not stopped on HTTPS", warHttpsPingURL, getLogger());
@@ -113,6 +117,6 @@ public class JettyTLSTest extends AbstractWarTestCase
         configuration.setProperty(GeneralPropertySet.PROTOCOL, "https");
         configuration.setProperty(JettyPropertySet.CONNECTOR_HTTPS_PORT, "" + getTestData().port);
 
-        testWar("simple");
+        testWar("simple", "Sample page for testing");
     }
 }

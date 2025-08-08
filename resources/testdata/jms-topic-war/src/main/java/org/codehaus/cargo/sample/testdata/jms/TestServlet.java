@@ -46,7 +46,7 @@ public class TestServlet extends HttpServlet
             o = new InitialContext().lookup("java:comp/env/jms/MyTopic");
             ((Topic) o).getTopicName();
             PrintWriter out = response.getWriter();
-            out.print("Got topic!");
+            out.print("Got JMS topic!");
             out.close();
         }
         catch (ClassCastException e)

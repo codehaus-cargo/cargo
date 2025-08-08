@@ -90,8 +90,9 @@ public class WarExtraClasspathTest extends AbstractStandaloneLocalContainerTestC
 
         getLocalContainer().start();
 
-        PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
-            getLogger());
+        PingUtils.assertPingTrue(
+            "simple war should have been started at this point", "Sample page for testing",
+                warPingURL, getLogger());
 
         getLocalContainer().stop();
 

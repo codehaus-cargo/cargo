@@ -59,6 +59,6 @@ public class JettyEmbeddedEE10ProfileTest extends AbstractJettyEmbeddedEEProfile
     {
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee10");
-        testWar("simple");
+        testWar("simple", "Sample page for testing");
     }
 }

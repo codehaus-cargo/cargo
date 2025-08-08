@@ -90,6 +90,6 @@ public class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileT
         }
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee8");
-        testWar("simple");
+        testWar("simple", "Sample page for testing");
     }
 }

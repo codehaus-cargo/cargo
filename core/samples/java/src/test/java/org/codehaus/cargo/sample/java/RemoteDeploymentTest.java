@@ -311,20 +311,18 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
         deployer.deploy(this.war);
-        PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
-
-        // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
-        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
-        {
-            return;
-        }
+        PingUtils.assertPingTrue(
+            "simple war not correctly deployed", "Sample page for testing",
+                warPingURL, getLogger());
 
         deployer.undeploy(this.war);
         PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
 
         // Redeploy a second time to ensure that the undeploy worked.
         deployer.deploy(this.war);
-        PingUtils.assertPingTrue("simple war not correctly redeployed", warPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple war not correctly redeployed", "Sample page for testing",
+                warPingURL, getLogger());
 
         // Jetty 7.2.x (and only that sub branch) has trouble redeploying modified WARs
         if (this.localContainer.getName().startsWith("Jetty 7.2."))
@@ -340,6 +338,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         }
 
         // Redeploy the WAR after modifying its content
+        URL newWarPingURL =
+            new URL("http://localhost:" + getTestData().port + "/simple-war/some.html");
+        PingUtils.assertPingFalse("modified file already in WAR", newWarPingURL, getLogger());
         Deployable modifiedDeployable = modifyWar(this.war);
         File modifiedWar = new File(modifiedDeployable.getFile());
         if (!modifiedWar.isFile())
@@ -347,9 +348,8 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             throw new FileNotFoundException("Modified WAR \"" + modifiedWar + "\" doesn't exist");
         }
         deployer.redeploy(modifiedDeployable);
-        URL newWarPingURL =
-            new URL("http://localhost:" + getTestData().port + "/simple-war/some.html");
-        PingUtils.assertPingTrue("simple war not correctly redeployed", newWarPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple war not correctly redeployed", "It works...", newWarPingURL, getLogger());
     }
 
     /**
@@ -365,7 +365,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             + this.war.getContext() + "/index.jsp");
 
         deployer.deploy(this.war);
-        PingUtils.assertPingTrue("simple war not correctly deployed", warPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            "simple war not correctly deployed", "Sample page for testing",
+                warPingURL, getLogger());
 
         // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
         if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))

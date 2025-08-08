@@ -46,7 +46,7 @@ public class TestServlet extends HttpServlet
             o = new InitialContext().lookup("java:comp/env/jms/MyQueue");
             ((Queue) o).getQueueName();
             PrintWriter out = response.getWriter();
-            out.print("Got queue!");
+            out.print("Got JMS queue!");
             out.close();
         }
         catch (ClassCastException e)

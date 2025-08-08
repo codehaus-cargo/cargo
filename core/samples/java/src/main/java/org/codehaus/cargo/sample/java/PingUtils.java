@@ -188,17 +188,6 @@ public final class PingUtils
     }
 
     /**
-     * Ping a container and expect it to return any content.
-     * @param message Error message.
-     * @param pingURL Ping URL.
-     * @param errorLogger Logger used to log errors.
-     */
-    public static void assertPingTrue(String message, URL pingURL, Logger errorLogger)
-    {
-        assertPingTrue(message, null, pingURL, errorLogger);
-    }
-
-    /**
      * Ping a container and expect it to return an error.
      * @param message Error message.
      * @param pingURL Ping URL.

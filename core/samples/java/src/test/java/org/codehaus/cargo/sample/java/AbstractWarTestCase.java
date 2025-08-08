@@ -45,9 +45,10 @@ public abstract class AbstractWarTestCase extends AbstractStandaloneLocalContain
     /**
      * Tests servlet.
      * @param type WAR type.
+     * @param expectedMessage Expected message when WAR URL pinged successfully
      * @throws MalformedURLException If URL cannot be built.
      */
-    protected void testWar(String type) throws MalformedURLException
+    protected void testWar(String type, String expectedMessage) throws MalformedURLException
     {
         WAR war = (WAR) this.createDeployableFromTestdataFile(type + "-war", DeployableType.WAR);
 
@@ -66,17 +67,19 @@ public abstract class AbstractWarTestCase extends AbstractStandaloneLocalContain
         URL warPingURL = new URL(configuration.getPropertyValue(GeneralPropertySet.PROTOCOL)
             + "://localhost:" + getTestData().port + "/" + type + "-war/" + page);
 
-        startAndStop(warPingURL);
+        startAndStop(warPingURL, expectedMessage);
     }
 
     /**
      * Start, test and stop WAR.
      * @param warPingURL WAR ping URL.
+     * @param expectedMessage Expected message when WAR URL pinged successfully
      */
-    protected void startAndStop(URL warPingURL)
+    protected void startAndStop(URL warPingURL, String expectedMessage)
     {
         getLocalContainer().start();
-        PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            warPingURL.getPath() + " not started", expectedMessage, warPingURL, getLogger());
 
         getLocalContainer().stop();
         PingUtils.assertPingFalse(warPingURL.getPath() + " not stopped", warPingURL, getLogger());

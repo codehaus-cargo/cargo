@@ -48,7 +48,7 @@ public class TestServlet extends HttpServlet
                 (DataSource) new InitialContext().lookup("java:comp/env/jdbc/CargoDS");
             c = ds.getConnection();
             PrintWriter out = response.getWriter();
-            out.print("Got connection!");
+            out.print("Got DataSource connection!");
             out.close();
         }
         catch (NamingException e)

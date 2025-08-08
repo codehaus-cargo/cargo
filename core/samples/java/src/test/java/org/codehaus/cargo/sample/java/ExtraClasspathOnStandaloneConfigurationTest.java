@@ -80,8 +80,9 @@ public class ExtraClasspathOnStandaloneConfigurationTest
 
         getLocalContainer().start();
 
-        PingUtils.assertPingTrue("simple war should have been started at this point", warPingURL,
-            getLogger());
+        PingUtils.assertPingTrue(
+            "simple war should have been started at this point", "Got class!",
+                warPingURL, getLogger());
 
         getLocalContainer().stop();
 

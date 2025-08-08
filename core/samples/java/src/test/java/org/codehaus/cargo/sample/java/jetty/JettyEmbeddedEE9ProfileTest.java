@@ -82,6 +82,6 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
     {
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee9");
-        testWar("simple");
+        testWar("simple", "Sample page for testing");
     }
 }

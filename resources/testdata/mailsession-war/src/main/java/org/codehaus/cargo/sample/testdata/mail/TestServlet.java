@@ -45,7 +45,7 @@ public class TestServlet extends HttpServlet
             o = new InitialContext().lookup("java:comp/env/mail/Session");
             ((Session) o).getProperties();
             PrintWriter out = response.getWriter();
-            out.print("Got session!");
+            out.print("Got mail session!");
             out.close();
         }
         catch (ClassCastException e)

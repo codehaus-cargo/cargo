@@ -63,7 +63,8 @@ public class SpawnContainerTest extends AbstractStandaloneLocalContainerTestCase
         URL pingURL = new URL("http://localhost:" + getTestData().port + "/simple-war/index.jsp");
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue(pingURL.getPath() + " not started", pingURL, getLogger());
+        PingUtils.assertPingTrue(
+            pingURL.getPath() + " not started", "Sample page for testing", pingURL, getLogger());
 
         getLocalContainer().stop();
         PingUtils.assertPingFalse(pingURL.getPath() + " not stopped", pingURL, getLogger());

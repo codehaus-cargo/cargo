@@ -93,7 +93,7 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
      * {@inheritDoc}
      */
     @Override
-    public void startAndStop(URL warPingURL)
+    public void startAndStop(URL warPingURL, String expectedMessage)
     {
         String testFileName = "cargo-test/test.file";
         File testFile = new File(getLocalContainer().getConfiguration().getHome(), testFileName);
@@ -105,7 +105,8 @@ public class ExistingConfigurationTest extends AbstractWarCapabilityContainerTes
         getLocalContainer().getConfiguration().setConfigFileProperty(fileConfig);
 
         getLocalContainer().start();
-        PingUtils.assertPingTrue(warPingURL.getPath() + " not started", warPingURL, getLogger());
+        PingUtils.assertPingTrue(
+            warPingURL.getPath() + " not started", expectedMessage, warPingURL, getLogger());
 
         // CARGO-1195: DeployableFiles should be setup for ExistingLocalConfiguration
         Assertions.assertTrue(testFile.exists(), "File " + testFile + " was not configured");

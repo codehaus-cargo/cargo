@@ -84,7 +84,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
 
         addResourceToConfigurationViaProperty(fixture);
 
-        testWar("xadatasource");
+        testWar("xadatasource", "Got XADataSource connection!");
     }
 
     /**

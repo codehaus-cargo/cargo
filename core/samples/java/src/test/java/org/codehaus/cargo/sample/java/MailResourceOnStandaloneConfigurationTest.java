@@ -117,6 +117,6 @@ public class MailResourceOnStandaloneConfigurationTest extends
 
         addResourceToConfigurationViaProperty(fixture);
 
-        testWar("mailsession");
+        testWar("mailsession", "Got mail session!");
     }
 }
