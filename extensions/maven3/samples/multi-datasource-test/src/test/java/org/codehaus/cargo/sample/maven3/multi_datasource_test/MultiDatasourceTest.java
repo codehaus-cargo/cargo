@@ -47,7 +47,7 @@ public class MultiDatasourceTest
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/multi-datasource-test/test");
-        final String expected = "Got connections!";
+        final String expected = "Got DataSource connections!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }

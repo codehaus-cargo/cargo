@@ -47,7 +47,7 @@ public class DataSourceTest
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/datasource-test/test");
-        final String expected = "Got connection!";
+        final String expected = "Got DataSource connection!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
