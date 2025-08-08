@@ -1774,7 +1774,7 @@
               <configuration>
                 <systemPropertyVariables>
                   <cargo.payara.url>
-                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2025.1.Alpha3/payara-7.2025.1.Alpha3.zip
+                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2025.1.Alpha4/payara-7.2025.1.Alpha4.zip
                   </cargo.payara.url>
                   <cargo.payara.java.home>${cargo.java.home.1_21}</cargo.payara.java.home>
                 </systemPropertyVariables>
