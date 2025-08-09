@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.10.21-SNAPSHOT</version>
+    <version>1.10.21</version>
   </parent>
   <artifactId>simple-aop</artifactId>
   <name>Cargo test data for samples - Simple AOP</name>
