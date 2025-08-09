@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-maven3-archetypes</artifactId>
-    <version>1.10.21</version>
+    <version>1.10.22-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-archetype-webapp-functional-tests-module</artifactId>
   <packaging>maven-archetype</packaging>
