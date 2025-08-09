@@ -316,7 +316,19 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
+        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // even when the deployable is not present
+        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            PingUtils.assertPingFalse(
+                "simple war not correctly undeployed", "Sample page for testing",
+                    warPingURL, getLogger());
+        }
+        else
+        {
+            PingUtils.assertPingFalse(
+                "simple war not correctly undeployed", warPingURL, getLogger());
+        }
 
         // Redeploy a second time to ensure that the undeploy worked.
         deployer.deploy(this.war);
@@ -369,14 +381,20 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             "simple war not correctly deployed", "Sample page for testing",
                 warPingURL, getLogger());
 
-        // Payara 7.2025.1.Alpha (and only that sub branch) has trouble with hot undeployment
-        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
-        {
-            return;
-        }
-
         deployer.undeploy(this.war);
-        PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
+        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // even when the deployable is not present
+        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        {
+            PingUtils.assertPingFalse(
+                "simple war not correctly undeployed", "Sample page for testing",
+                    warPingURL, getLogger());
+        }
+        else
+        {
+            PingUtils.assertPingFalse(
+                "simple war not correctly undeployed", warPingURL, getLogger());
+        }
     }
 
     /**
