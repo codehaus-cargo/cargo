@@ -124,7 +124,7 @@ public abstract class AbstractDataSourceWarCapabilityContainerTestCase extends A
         {
             testWar(type, "Got DataSource connection!");
         }
-        if ("xadatasource".equals(type))
+        else if ("xadatasource".equals(type))
         {
             testWar(type, "Got XADataSource connection!");
         }
