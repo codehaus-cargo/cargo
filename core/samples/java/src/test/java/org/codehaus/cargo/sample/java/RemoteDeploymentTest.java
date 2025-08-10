@@ -318,7 +318,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.undeploy(this.war);
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
         {
             PingUtils.assertPingFalse(
                 "simple war not correctly undeployed", "Sample page for testing",
@@ -384,7 +384,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.undeploy(this.war);
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
         {
             PingUtils.assertPingFalse(
                 "simple war not correctly undeployed", "Sample page for testing",
