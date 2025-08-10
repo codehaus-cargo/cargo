@@ -492,12 +492,12 @@
               <cargo.jetty7x.java.home>${cargo.java.home.1_5}</cargo.jetty7x.java.home>
 
               <cargo.jetty8x.url>
-                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.2.0.v20160908/jetty-distribution-8.2.0.v20160908.tar.gz
               </cargo.jetty8x.url>
               <cargo.jetty8x.java.home>${cargo.java.home.1_6}</cargo.jetty8x.java.home>
 
               <cargo.jetty9x.url>
-                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/9.4.57.v20241219/jetty-home-9.4.57.v20241219.tar.gz
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.57.v20241219/jetty-distribution-9.4.57.v20241219.tar.gz
               </cargo.jetty9x.url>
               <cargo.jetty9x.java.home>${cargo.java.home.1_8}</cargo.jetty9x.java.home>
 
@@ -1611,6 +1611,29 @@
       </build>
     </profile>
     <profile>
+      <id>jetty8x-8.1</id>
+      <properties>
+        <cargo.containers>jetty8x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.jetty8x.url>
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/8.1.22.v20160922/jetty-distribution-8.1.22.v20160922.tar.gz
+                  </cargo.jetty8x.url>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>jetty9x</id>
       <properties>
         <cargo.containers>jetty9x</cargo.containers>
@@ -1630,7 +1653,7 @@
               <configuration>
                 <systemPropertyVariables>
                   <cargo.jetty9x.url>
-                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.5.v20140505/jetty-distribution-9.1.5.v20140505.tar.gz
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.1.6.v20160112/jetty-distribution-9.1.6.v20160112.tar.gz
                   </cargo.jetty9x.url>
                   <cargo.jetty9x.java.home>${cargo.java.home.1_7}</cargo.jetty9x.java.home>
                 </systemPropertyVariables>
@@ -1654,9 +1677,37 @@
               <configuration>
                 <systemPropertyVariables>
                   <cargo.jetty9x.url>
-                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.29.v20191105/jetty-distribution-9.2.29.v20191105.tar.gz
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.2.30.v20200428/jetty-distribution-9.2.30.v20200428.tar.gz
                   </cargo.jetty9x.url>
                   <cargo.jetty9x.java.home>${cargo.java.home.1_7}</cargo.jetty9x.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>jetty9x-9.3</id>
+      <properties>
+        <cargo.containers>jetty9x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <!--
+                    Jetty 9.3.x has a WebSocket implementation that needs CDI
+                    -->
+                  <cargo.testdata.cdi-jars>${project.build.directory}/cdi-jars</cargo.testdata.cdi-jars>
+
+                  <cargo.jetty9x.url>
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.30.v20211001/jetty-distribution-9.3.30.v20211001.tar.gz
+                  </cargo.jetty9x.url>
                 </systemPropertyVariables>
               </configuration>
             </plugin>
@@ -2348,6 +2399,18 @@
                       <artifactId>simple-jar</artifactId>
                       <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                       <destFileName>simple.jar</destFileName>
+                    </artifactItem>
+
+                    <!-- Jetty 9.3.x has a WebSocket implementation that needs CDI -->
+                    <artifactItem>
+                      <groupId>javax.enterprise</groupId>
+                      <artifactId>cdi-api</artifactId>
+                      <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>javax.inject</groupId>
+                      <artifactId>javax.inject</artifactId>
+                      <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                     </artifactItem>
 
                     <!-- To get Java EE / Jakarta EE JARs needed for Tomcat to work with mail sessions -->

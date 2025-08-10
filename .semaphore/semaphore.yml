@@ -622,6 +622,25 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty8x-8.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+  - name: Jetty 8.x - Branch 8.1.x
+    dependencies:
+      - Prepare for containers running on Java 6
+    task:
+      jobs:
+        - name: Jetty 8.x - Branch 8.1.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-6"
+            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cd /tmp/cargo
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty8x-8.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
   - name: Jo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -909,6 +928,20 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 9.x - Branch 9.3.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.3.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.3 -Dsurefire.rerunFailingTestsCount=2
   - name: Payara - Branch 5.x
     dependencies:
       - Build on Java 8
@@ -1653,9 +1686,11 @@ blocks:
       - Jetty 7.x - Branch 7.5.x
       - Jetty 8.x
       - Jetty 8.x - Branch 8.0.x
+      - Jetty 8.x - Branch 8.1.x
       - Jetty 9.x
       - Jetty 9.x - Branch 9.1.x
       - Jetty 9.x - Branch 9.2.x
+      - Jetty 9.x - Branch 9.3.x
       - Jetty 10.x
       - Jetty 11.x
       - Jetty 12.x
