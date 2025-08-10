@@ -497,7 +497,7 @@
               <cargo.jetty8x.java.home>${cargo.java.home.1_6}</cargo.jetty8x.java.home>
 
               <cargo.jetty9x.url>
-                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.4.57.v20241219/jetty-distribution-9.4.57.v20241219.tar.gz
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/9.4.57.v20241219/jetty-home-9.4.57.v20241219.tar.gz
               </cargo.jetty9x.url>
               <cargo.jetty9x.java.home>${cargo.java.home.1_8}</cargo.jetty9x.java.home>
 
@@ -2401,15 +2401,20 @@
                       <destFileName>simple.jar</destFileName>
                     </artifactItem>
 
-                    <!-- Jetty 9.3.x has a WebSocket implementation that needs CDI -->
+                    <!--
+                      Jetty 9.3.x has a WebSocket implementation that needs CDI
+                      Versions need to be here only (and not at the topmost parent) else the runMojo fails
+                      -->
                     <artifactItem>
                       <groupId>javax.enterprise</groupId>
                       <artifactId>cdi-api</artifactId>
+                      <version>1.2</version>
                       <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                     </artifactItem>
                     <artifactItem>
                       <groupId>javax.inject</groupId>
                       <artifactId>javax.inject</artifactId>
+                      <version>1</version>
                       <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                     </artifactItem>
 
