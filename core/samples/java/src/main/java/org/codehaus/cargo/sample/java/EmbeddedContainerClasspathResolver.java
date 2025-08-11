@@ -240,26 +240,6 @@ public class EmbeddedContainerClasspathResolver
                 }
             }
 
-            // Jetty 9.3.x has a WebSocket implementation that needs CDI
-            if ("jetty9x".equals(containerId))
-            {
-                String cdi = System.getProperty("cargo.testdata.cdi-jars");
-                if (cdi != null)
-                {
-                    File cdiDirectory = new File(cdi);
-                    if (cdiDirectory.isDirectory())
-                    {
-                        for (File cdiFile : cdiDirectory.listFiles())
-                        {
-                            if (cdiFile.getName().endsWith(".jar"))
-                            {
-                                urls.add(cdiFile.toURI().toURL());
-                            }
-                        }
-                    }
-                }
-            }
-
             // On OSX, the tools.jar classes are included in the classes.jar so there is no need to
             // include any tools.jar file to the cp. On Java 9, there is no more tools.jar.
             if (!JdkUtils.isOSX() && JdkUtils.getMajorJavaVersion() < 9)

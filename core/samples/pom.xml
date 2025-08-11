@@ -1688,34 +1688,6 @@
       </build>
     </profile>
     <profile>
-      <id>jetty9x-9.3</id>
-      <properties>
-        <cargo.containers>jetty9x</cargo.containers>
-      </properties>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <configuration>
-                <systemPropertyVariables>
-                  <!--
-                    Jetty 9.3.x has a WebSocket implementation that needs CDI
-                    -->
-                  <cargo.testdata.cdi-jars>${project.build.directory}/cdi-jars</cargo.testdata.cdi-jars>
-
-                  <cargo.jetty9x.url>
-                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.3.30.v20211001/jetty-distribution-9.3.30.v20211001.tar.gz
-                  </cargo.jetty9x.url>
-                </systemPropertyVariables>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-    <profile>
       <id>jetty10x</id>
       <properties>
         <cargo.containers>jetty10x</cargo.containers>
@@ -2399,23 +2371,6 @@
                       <artifactId>simple-jar</artifactId>
                       <outputDirectory>${project.build.directory}/test-jars</outputDirectory>
                       <destFileName>simple.jar</destFileName>
-                    </artifactItem>
-
-                    <!--
-                      Jetty 9.3.x has a WebSocket implementation that needs CDI
-                      Versions need to be here only (and not at the topmost parent) else the runMojo fails
-                      -->
-                    <artifactItem>
-                      <groupId>javax.enterprise</groupId>
-                      <artifactId>cdi-api</artifactId>
-                      <version>1.2</version>
-                      <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>javax.inject</groupId>
-                      <artifactId>javax.inject</artifactId>
-                      <version>1</version>
-                      <outputDirectory>${project.build.directory}/cdi-jars</outputDirectory>
                     </artifactItem>
 
                     <!-- To get Java EE / Jakarta EE JARs needed for Tomcat to work with mail sessions -->
