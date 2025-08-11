@@ -1646,6 +1646,11 @@ public class ConfluenceContainerDocumentationGenerator
                         javaVersion =
                             "7 (Jetty 9.0.x, 9.1.x and 9.2.x) or 8 (Jetty 9.3.x and 9.4.x)";
                     }
+                    else if ("jetty8x".equals(containerId))
+                    {
+                        javaVersion =
+                            "6 (Jetty 8.0.x and 8.1.x) or 7 (Jetty 8.2.x)";
+                    }
                     else if ("jonas5x".equals(containerId))
                     {
                         javaVersion = "5 (JOnAS 5.0.x, 5.1.x and 5.2.x) or 6 (JOnAS 5.3.x)";
