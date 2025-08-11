@@ -814,7 +814,7 @@ blocks:
             - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
   - name: Jetty 8.x
     dependencies:
-      - Prepare for containers running on Java 6
+      - Prepare for containers running on Java 7
     task:
       jobs:
         - name: Jetty 8.x
