@@ -823,11 +823,9 @@ blocks:
             - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
-            - chmod +x jdk-6u45-linux-x64.bin
-            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
