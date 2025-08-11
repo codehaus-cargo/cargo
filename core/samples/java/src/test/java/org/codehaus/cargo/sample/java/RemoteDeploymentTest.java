@@ -39,6 +39,7 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
+import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
@@ -318,11 +319,14 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.undeploy(this.war);
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (this.localContainer.getName().startsWith("Payara 7"))
         {
-            PingUtils.assertPingFalse(
-                "simple war not correctly undeployed", "Sample page for testing",
-                    warPingURL, getLogger());
+            HttpUtils httpUtils = new HttpUtils();
+            httpUtils.setLogger(getLogger());
+            HttpUtils.HttpResult result = new HttpUtils.HttpResult();
+            httpUtils.ping(warPingURL, null, result, PingUtils.TIMEOUT);
+            Assertions.assertEquals(
+                "", result.responseBody, "simple war not correctly undeployed");
         }
         else
         {
@@ -352,7 +356,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         // Redeploy the WAR after modifying its content
         URL newWarPingURL =
             new URL("http://localhost:" + getTestData().port + "/simple-war/some.html");
-        PingUtils.assertPingFalse("modified file already in WAR", newWarPingURL, getLogger());
+        PingUtils.assertPingFalse("modified file already in war", newWarPingURL, getLogger());
         Deployable modifiedDeployable = modifyWar(this.war);
         File modifiedWar = new File(modifiedDeployable.getFile());
         if (!modifiedWar.isFile())
@@ -384,11 +388,14 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         deployer.undeploy(this.war);
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (this.localContainer.getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (this.localContainer.getName().startsWith("Payara 7"))
         {
-            PingUtils.assertPingFalse(
-                "simple war not correctly undeployed", "Sample page for testing",
-                    warPingURL, getLogger());
+            HttpUtils httpUtils = new HttpUtils();
+            httpUtils.setLogger(getLogger());
+            HttpUtils.HttpResult result = new HttpUtils.HttpResult();
+            httpUtils.ping(warPingURL, null, result, PingUtils.TIMEOUT);
+            Assertions.assertEquals(
+                "", result.responseBody, "simple war not correctly undeployed");
         }
         else
         {

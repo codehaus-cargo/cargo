@@ -36,7 +36,7 @@ public final class PingUtils
     /**
      * Timeout (in milliseconds)
      */
-    private static final int TIMEOUT = 20000;
+    public static final int TIMEOUT = 20000;
 
     /**
      * Utility classes should not have a public or default constructor.
@@ -177,14 +177,14 @@ public final class PingUtils
     /**
      * Ping a container and expect it to return an error.
      * @param message Error message.
-     * @param expectedContent Expected content.
+     * @param requestProperties Properties for the request.
      * @param pingURL Ping URL.
      * @param errorLogger Logger used to log errors.
      */
-    public static void assertPingFalse(String message, String expectedContent, URL pingURL,
-        Logger errorLogger)
+    public static void assertPingFalse(String message, URL pingURL,
+        Map<String, String> requestProperties, Logger errorLogger)
     {
-        assertPing(message, expectedContent, pingURL, null, false, errorLogger);
+        assertPing(message, null, pingURL, requestProperties, false, errorLogger);
     }
 
     /**
@@ -195,6 +195,6 @@ public final class PingUtils
      */
     public static void assertPingFalse(String message, URL pingURL, Logger errorLogger)
     {
-        assertPingFalse(message, null, pingURL, errorLogger);
+        assertPing(message, null, pingURL, null, false, errorLogger);
     }
 }

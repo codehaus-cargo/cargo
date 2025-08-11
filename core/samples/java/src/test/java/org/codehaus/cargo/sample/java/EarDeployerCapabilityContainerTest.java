@@ -29,8 +29,10 @@ import org.codehaus.cargo.container.deployable.EAR;
 import org.codehaus.cargo.container.deployer.DeployableMonitor;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.URLDeployableMonitor;
+import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.sample.java.validator.HasEarSupportValidator;
 import org.codehaus.cargo.sample.java.validator.HasLocalDeployerValidator;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Validates local hot deployment of EAR archives
@@ -82,11 +84,14 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         getLocalContainer().start();
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (getLocalContainer().getName().startsWith("Payara 7"))
         {
-            PingUtils.assertPingFalse(
-                "simple ear should not be present at this point", "Sample page for testing",
-                    earPingURL, getLogger());
+            HttpUtils httpUtils = new HttpUtils();
+            httpUtils.setLogger(getLogger());
+            HttpUtils.HttpResult result = new HttpUtils.HttpResult();
+            httpUtils.ping(earPingURL, null, result, PingUtils.TIMEOUT);
+            Assertions.assertEquals(
+                "", result.responseBody, "simple ear should not be present at this point");
         }
         else
         {
@@ -105,16 +110,19 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         deployer.undeploy(ear, deployableMonitor);
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha"))
+        if (getLocalContainer().getName().startsWith("Payara 7"))
         {
-            PingUtils.assertPingFalse(
-                "simple ear should not be present at this point", "Sample page for testing",
-                    earPingURL, getLogger());
+            HttpUtils httpUtils = new HttpUtils();
+            httpUtils.setLogger(getLogger());
+            HttpUtils.HttpResult result = new HttpUtils.HttpResult();
+            httpUtils.ping(earPingURL, null, result, PingUtils.TIMEOUT);
+            Assertions.assertEquals(
+                "", result.responseBody, "simple ear not correctly undeployed");
         }
         else
         {
             PingUtils.assertPingFalse(
-                "simple ear should not be present at this point", earPingURL, getLogger());
+                "simple ear not correctly undeployed", earPingURL, getLogger());
         }
 
         getLocalContainer().stop();
