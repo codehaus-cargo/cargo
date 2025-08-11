@@ -964,6 +964,20 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
+  - name: Jetty 9.x - Branch 9.3.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.3.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.3 -Dsurefire.rerunFailingTestsCount=2
   - name: Payara - Branch 5.x
     dependencies:
       - Build on Java 8
@@ -1726,6 +1740,7 @@ blocks:
       - Jetty 9.x
       - Jetty 9.x - Branch 9.1.x
       - Jetty 9.x - Branch 9.2.x
+      - Jetty 9.x - Branch 9.3.x
       - Jetty 10.x
       - Jetty 11.x
       - Jetty 12.x
