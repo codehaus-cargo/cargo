@@ -62,11 +62,23 @@ public class EmbeddedContainerClasspathResolver
         jetty7xDependencies.add("lib/jndi/*.jar");
         jetty7xDependencies.add("lib/jsp/*.jar");
 
-        List<String> jetty8x9x10x11xDependencies = new ArrayList<String>();
-        jetty8x9x10x11xDependencies.add(
-            "lib/*.jar|lib/logging/*.jar|lib/jndi/*.jar|lib/websocket/*.jar");
-        jetty8x9x10x11xDependencies.add("lib/annotations/*.jar");
-        jetty8x9x10x11xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
+        List<String> jetty8xDependencies = new ArrayList<String>();
+        jetty8xDependencies.add("lib/*.jar");
+        jetty8xDependencies.add("lib/annotations/*.jar");
+        jetty8xDependencies.add("lib/jndi/*.jar");
+        jetty8xDependencies.add("lib/jsp/*.jar");
+
+        List<String> jetty9xDependencies = new ArrayList<String>();
+        jetty9xDependencies.add("lib/*.jar");
+        jetty9xDependencies.add("lib/annotations/*.jar");
+        jetty9xDependencies.add("lib/jndi/*.jar");
+        jetty9xDependencies.add("lib/jsp/*.jar|lib/apache-jsp/*.jar");
+
+        List<String> jetty10x11xDependencies = new ArrayList<String>();
+        jetty10x11xDependencies.add("lib/*.jar");
+        jetty10x11xDependencies.add("lib/annotations/*.jar");
+        jetty10x11xDependencies.add("lib/apache-jsp/*.jar");
+        jetty10x11xDependencies.add("lib/logging/*.jar");
 
         List<String> jetty12xDependencies = new ArrayList<String>();
         // logging-slf4j
@@ -120,10 +132,10 @@ public class EmbeddedContainerClasspathResolver
         DEPENDENCIES.put("jetty5x", jetty5xDependencies);
         DEPENDENCIES.put("jetty6x", jetty6xDependencies);
         DEPENDENCIES.put("jetty7x", jetty7xDependencies);
-        DEPENDENCIES.put("jetty8x", jetty8x9x10x11xDependencies);
-        DEPENDENCIES.put("jetty9x", jetty8x9x10x11xDependencies);
-        DEPENDENCIES.put("jetty10x", jetty8x9x10x11xDependencies);
-        DEPENDENCIES.put("jetty11x", jetty8x9x10x11xDependencies);
+        DEPENDENCIES.put("jetty8x", jetty8xDependencies);
+        DEPENDENCIES.put("jetty9x", jetty9xDependencies);
+        DEPENDENCIES.put("jetty10x", jetty10x11xDependencies);
+        DEPENDENCIES.put("jetty11x", jetty10x11xDependencies);
         DEPENDENCIES.put("jetty12x", jetty12xDependencies);
         DEPENDENCIES.put("tomcat5x", tomcat5xDependencies);
         DEPENDENCIES.put("tomcat6x", tomcat6x7x8x9x10x11xDependencies);
