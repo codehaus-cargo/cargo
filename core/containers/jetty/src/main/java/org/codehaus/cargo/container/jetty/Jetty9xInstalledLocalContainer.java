@@ -92,17 +92,18 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
     {
         if (getVersion().startsWith("9.0."))
         {
+            String etc = getFileHandler().append(getConfiguration().getHome(), "etc");
             return new String[]
             {
                 getOptions(),
                 "--ini",
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-annotations.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-http.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-plus.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/jetty-deploy.xml"),
-                getFileHandler().append(getConfiguration().getHome(), "etc/test-realm.xml"),
+                getFileHandler().append(etc, "jetty-logging.xml"),
+                getFileHandler().append(etc, "jetty.xml"),
+                getFileHandler().append(etc, "jetty-annotations.xml"),
+                getFileHandler().append(etc, "jetty-http.xml"),
+                getFileHandler().append(etc, "jetty-plus.xml"),
+                getFileHandler().append(etc, "jetty-deploy.xml"),
+                getFileHandler().append(etc, "test-realm.xml"),
                 classpath == null ? "" : "path=" + classpath
             };
         }
