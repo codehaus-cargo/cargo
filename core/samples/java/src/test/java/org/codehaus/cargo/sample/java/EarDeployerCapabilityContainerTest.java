@@ -107,11 +107,11 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             "simple ear should have been deployed at this point", "Sample page for testing",
                 earPingURL, getLogger());
 
-        deployer.undeploy(ear, deployableMonitor);
         // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
         if (getLocalContainer().getName().startsWith("Payara 7"))
         {
+            deployer.undeploy(ear);
             HttpUtils httpUtils = new HttpUtils();
             httpUtils.setLogger(getLogger());
             HttpUtils.HttpResult result = new HttpUtils.HttpResult();
@@ -121,6 +121,7 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         }
         else
         {
+            deployer.undeploy(ear, deployableMonitor);
             PingUtils.assertPingFalse(
                 "simple ear not correctly undeployed", earPingURL, getLogger());
         }
