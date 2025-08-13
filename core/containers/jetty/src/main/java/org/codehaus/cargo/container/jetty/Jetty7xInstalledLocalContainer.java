@@ -20,6 +20,8 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -92,24 +94,29 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
     @Override
     protected String[] getStartArguments(String classpath)
     {
-        return new String[]
+        String etc = getFileHandler().append(getConfiguration().getHome(), "etc");
+
+        List<String> arguments = new ArrayList<String>();
+        arguments.add(getOptions());
+        arguments.add("--ini");
+        arguments.add(getFileHandler().append(etc, "jetty-logging.xml"));
+        arguments.add(getFileHandler().append(etc, "jetty.xml"));
+        // Jetty 7.2.x seperated jetty-deploy, jetty-contexts and jetty-webapps,
+        // before there was only jetty-deploy
+        arguments.add(getFileHandler().append(etc, "jetty-deploy.xml"));
+        if (getFileHandler().exists(getFileHandler().append(etc, "jetty-webapps.xml")))
         {
-            getOptions(),
-            "--ini",
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-logging.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-deploy.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-webapps.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-contexts.xml"),
-            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
-                "etc/jetty-testrealm.xml"),
-            "path=" + classpath
-        };
+            arguments.add(getFileHandler().append(etc, "jetty-webapps.xml"));
+        }
+        if (getFileHandler().exists(getFileHandler().append(etc, "jetty-contexts.xml")))
+        {
+            arguments.add(getFileHandler().append(etc, "jetty-contexts.xml"));
+        }
+        arguments.add("--pre=" + getFileHandler().append(etc, "jetty-testrealm.xml"));
+        arguments.add("path=" + classpath);
+
+        String[] result = new String[arguments.size()];
+        return arguments.toArray(result);
     }
 
     /**
