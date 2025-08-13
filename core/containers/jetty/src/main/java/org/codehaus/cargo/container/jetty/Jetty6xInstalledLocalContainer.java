@@ -239,12 +239,10 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
      */
     protected String[] getStartArguments(String classpath)
     {
-        String etc = getFileHandler().append(getConfiguration().getHome(), "etc");
-
         return new String[]
         {
-            getFileHandler().append(etc, "jetty-logging.xml"),
-            getFileHandler().append(etc, "jetty.xml")
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty-logging.xml"),
+            getFileHandler().append(getConfiguration().getHome(), "etc/jetty.xml")
         };
     }
 

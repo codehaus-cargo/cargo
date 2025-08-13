@@ -92,18 +92,22 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
     @Override
     protected String[] getStartArguments(String classpath)
     {
-        String etc = getFileHandler().append(getConfiguration().getHome(), "etc");
-
         return new String[]
         {
             getOptions(),
             "--ini",
-            "--pre=" + getFileHandler().append(etc, "jetty-logging.xml"),
-            "--pre=" + getFileHandler().append(etc, "jetty.xml"),
-            "--pre=" + getFileHandler().append(etc, "jetty-deploy.xml"),
-            "--pre=" + getFileHandler().append(etc, "jetty-webapps.xml"),
-            "--pre=" + getFileHandler().append(etc, "jetty-contexts.xml"),
-            "--pre=" + getFileHandler().append(etc, "jetty-testrealm.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-logging.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-deploy.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-webapps.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-contexts.xml"),
+            "--pre=" + getFileHandler().append(getConfiguration().getHome(),
+                "etc/jetty-testrealm.xml"),
             "path=" + classpath
         };
     }
