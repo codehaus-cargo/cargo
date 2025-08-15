@@ -98,12 +98,19 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
 
         List<String> arguments = new ArrayList<String>();
         arguments.add(getOptions());
-        arguments.add("--ini");
+        if (!getName().startsWith("Jetty 7.0."))
+        {
+            arguments.add("--ini");
+        }
         arguments.add(getFileHandler().append(etc, "jetty-logging.xml"));
+        // Jetty 7.0.x has deployment configurations in jetty.xml
         arguments.add(getFileHandler().append(etc, "jetty.xml"));
-        // Jetty 7.2.x seperated jetty-deploy, jetty-contexts and jetty-webapps,
-        // before there was only jetty-deploy
-        arguments.add(getFileHandler().append(etc, "jetty-deploy.xml"));
+        // Jetty 7.1.x introduced jetty-deploy.xml
+        if (getFileHandler().exists(getFileHandler().append(etc, "jetty-deploy.xml")))
+        {
+            arguments.add(getFileHandler().append(etc, "jetty-deploy.xml"));
+        }
+        // Jetty 7.2.x introduced jetty-contexts.xml and jetty-webapps.xml
         if (getFileHandler().exists(getFileHandler().append(etc, "jetty-webapps.xml")))
         {
             arguments.add(getFileHandler().append(etc, "jetty-webapps.xml"));
@@ -112,7 +119,10 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
         {
             arguments.add(getFileHandler().append(etc, "jetty-contexts.xml"));
         }
-        arguments.add("--pre=" + getFileHandler().append(etc, "jetty-testrealm.xml"));
+        if (getFileHandler().exists(getFileHandler().append(etc, "jetty-testrealm.xml")))
+        {
+            arguments.add("--pre=" + getFileHandler().append(etc, "jetty-testrealm.xml"));
+        }
         arguments.add("path=" + classpath);
 
         String[] result = new String[arguments.size()];

@@ -1483,6 +1483,9 @@
         <cargo.containers>jetty7x</cargo.containers>
       </properties>
     </profile>
+    <!--
+      Jetty 7.0.x cannot be part of our profiles as it lacks out of the box JSP capabilities.
+      -->
     <profile>
       <id>jetty7x-7.1</id>
       <properties>
@@ -1663,6 +1666,30 @@
       <properties>
         <cargo.containers>jetty9x</cargo.containers>
       </properties>
+    </profile>
+    <profile>
+      <id>jetty9x-9.0</id>
+      <properties>
+        <cargo.containers>jetty9x</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.jetty9x.url>
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-distribution/9.0.7.v20131107/jetty-distribution-9.0.7.v20131107.tar.gz
+                  </cargo.jetty9x.url>
+                  <cargo.jetty9x.java.home>${cargo.java.home.1_7}</cargo.jetty9x.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
     </profile>
     <profile>
       <id>jetty9x-9.1</id>

@@ -848,6 +848,23 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+  - name: Jetty 9.x - Branch 9.0.x
+    dependencies:
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: Jetty 9.x - Branch 9.0.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
   - name: Jetty 9.x - Branch 9.1.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -1758,6 +1775,7 @@ blocks:
       - Jetty 8.x - Branch 8.0.x
       - Jetty 8.x - Branch 8.1.x
       - Jetty 9.x
+      - Jetty 9.x - Branch 9.0.x
       - Jetty 9.x - Branch 9.1.x
       - Jetty 9.x - Branch 9.2.x
       - Jetty 9.x - Branch 9.3.x

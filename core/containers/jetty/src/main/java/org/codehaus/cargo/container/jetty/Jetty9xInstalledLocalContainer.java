@@ -104,8 +104,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 getFileHandler().append(etc, "jetty-http.xml"),
                 getFileHandler().append(etc, "jetty-plus.xml"),
                 getFileHandler().append(etc, "jetty-deploy.xml"),
-                getFileHandler().append(etc, "test-realm.xml"),
-                classpath == null ? "" : "path=" + classpath
+                "path=" + classpath
             };
         }
         else if (getVersion().startsWith("9.4."))
