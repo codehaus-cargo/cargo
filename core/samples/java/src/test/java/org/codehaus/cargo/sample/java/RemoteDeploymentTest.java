@@ -340,8 +340,9 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             "simple war not correctly redeployed", "Sample page for testing",
                 warPingURL, getLogger());
 
-        // Jetty 7.2.x (and only that sub branch) has trouble redeploying modified WARs
-        if (this.localContainer.getName().startsWith("Jetty 7.2."))
+        // Jetty 7.1.x and 7.2.x have trouble redeploying modified WARs
+        if (this.localContainer.getName().startsWith("Jetty 7.1.")
+            || this.localContainer.getName().startsWith("Jetty 7.2."))
         {
             return;
         }

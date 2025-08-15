@@ -144,7 +144,14 @@ public class Jetty7xStandaloneLocalConfiguration extends
         sb.append("      <Item>org.eclipse.jetty.webapp.MetaInfConfiguration</Item>\n");
         sb.append("      <Item>org.eclipse.jetty.webapp.FragmentConfiguration</Item>\n");
         sb.append("      <Item>org.eclipse.jetty.plus.webapp.EnvConfiguration</Item>\n");
-        sb.append("      <Item>org.eclipse.jetty.plus.webapp.PlusConfiguration</Item>\n");
+        if (container.getName().startsWith("Jetty 7.1."))
+        {
+            sb.append("      <Item>org.eclipse.jetty.plus.webapp.Configuration</Item>\n");
+        }
+        else
+        {
+            sb.append("      <Item>org.eclipse.jetty.plus.webapp.PlusConfiguration</Item>\n");
+        }
         sb.append("      <Item>org.eclipse.jetty.webapp.JettyWebXmlConfiguration</Item>\n");
         sb.append("      <Item>org.eclipse.jetty.webapp.TagLibConfiguration</Item>\n");
         sb.append("    </Array>\n");
