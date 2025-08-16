@@ -135,8 +135,8 @@
                   <containerId>jetty9x</containerId>
                   <artifactInstaller>
                     <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-home</artifactId>
-                    <version>9.4.57.v20241219</version>
+                    <artifactId>jetty-distribution</artifactId>
+                    <version>9.4.58.v20250814</version>
                   </artifactInstaller>
                 </container>
               </configuration>
