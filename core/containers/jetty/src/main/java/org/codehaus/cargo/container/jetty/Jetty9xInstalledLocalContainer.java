@@ -107,28 +107,11 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "path=" + classpath
             };
         }
-        else if (getVersion().startsWith("9.4."))
-        {
-            return new String[]
-            {
-                "--module=server",
-                "--module=client",
-                "--module=deploy",
-                "--module=websocket",
-                "--module=jsp",
-                "--module=ext",
-                "--module=resources",
-                "--module=http",
-                "--module=plus",
-                "--module=annotations",
-                classpath == null ? "" : "path=" + classpath
-            };
-        }
         else
         {
             return new String[]
             {
-                "--module=logging",
+                "--module=" + (getVersion().startsWith("9.4.") ? "console-capture" : "logging"),
                 "--module=server",
                 "--module=deploy",
                 "--module=websocket",
@@ -138,7 +121,7 @@ public class Jetty9xInstalledLocalContainer extends Jetty8xInstalledLocalContain
                 "--module=http",
                 "--module=plus",
                 "--module=annotations",
-                classpath == null ? "" : "path=" + classpath
+                "path=" + classpath
             };
         }
     }

@@ -98,7 +98,7 @@ public class Jetty7xInstalledLocalContainer extends Jetty6xInstalledLocalContain
 
         List<String> arguments = new ArrayList<String>();
         arguments.add(getOptions());
-        if (!getName().startsWith("Jetty 7.0."))
+        if (!getVersion().startsWith("7.0."))
         {
             arguments.add("--ini");
         }
