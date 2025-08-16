@@ -502,7 +502,7 @@
               <cargo.jetty9x.java.home>${cargo.java.home.1_8}</cargo.jetty9x.java.home>
 
               <cargo.jetty10x.url>
-                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.25/jetty-home-10.0.25.tar.gz
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/10.0.26/jetty-home-10.0.26.tar.gz
               </cargo.jetty10x.url>
               <cargo.jetty10x.java.home>${cargo.java.home.1_11}</cargo.jetty10x.java.home>
 
