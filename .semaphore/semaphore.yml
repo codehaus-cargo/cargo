@@ -899,6 +899,23 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+  - name: Payara - Branch 4.x
+    dependencies:
+      - Prepare for containers running on Java 7
+    task:
+      jobs:
+        - name: Payara - Branch 5.x
+          commands:
+            - cd ~/.m2/semaphore-ci-binaries
+            - cache restore "codehaus-cargo-cache-java-8"
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cache restore "codehaus-cargo-cache-java-7"
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ppayara-4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
   - name: TomEE 7.x - Branch 7.0.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -1786,6 +1803,7 @@ blocks:
       - JOnAS 4.x
       - JOnAS 5.x
       - Payara
+      - Payara - Branch 4.x
       - Payara - Branch 5.x
       - Payara - Branch 7.x (Alpha)
       - Resin 3.1.x

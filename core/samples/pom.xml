@@ -1835,6 +1835,30 @@
       </properties>
     </profile>
     <profile>
+      <id>payara-4</id>
+      <properties>
+        <cargo.containers>payara</cargo.containers>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                <systemPropertyVariables>
+                  <cargo.payara.url>
+                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/4.1.2.181/payara-4.1.2.181.zip
+                  </cargo.payara.url>
+                  <cargo.payara.java.home>${cargo.java.home.1_8}</cargo.payara.java.home>
+                </systemPropertyVariables>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>payara-5</id>
       <properties>
         <cargo.containers>payara</cargo.containers>
