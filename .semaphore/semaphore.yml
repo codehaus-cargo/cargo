@@ -904,7 +904,7 @@ blocks:
       - Prepare for containers running on Java 7
     task:
       jobs:
-        - name: Payara - Branch 5.x
+        - name: Payara - Branch 4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-8"
