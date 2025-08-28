@@ -397,8 +397,8 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         // Most container configurations assume that the container would be started from the same
         // working directory as the configuration; so set this here.
-        java.setWorkingDirectory(new File(getFileHandler().getAbsolutePath(
-            getConfiguration().getHome())));
+        java.setWorkingDirectory(
+            new File(getFileHandler().getAbsolutePath(getConfiguration().getHome())));
 
         if (getOutput() == null)
         {
@@ -438,6 +438,9 @@ public abstract class AbstractInstalledLocalContainer extends AbstractLocalConta
 
         // Add spawn options if defined
         addSpawn(java);
+
+        // Make the Java command timeout match the container timeout
+        java.setTimeout(getTimeout());
 
         return java;
     }
