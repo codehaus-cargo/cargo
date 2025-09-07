@@ -601,7 +601,7 @@
               <cargo.oc4j10x.java.home>${cargo.java.home.1_5}</cargo.oc4j10x.java.home>
 
               <cargo.payara.url>
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2025.8/payara-6.2025.8.zip
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2025.9/payara-6.2025.9.zip
               </cargo.payara.url>
               <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
 
