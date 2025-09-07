@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven3</artifactId>
-    <version>1.10.22</version>
+    <version>1.10.23-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-maven3-uberwar-test</artifactId>
   <name>Cargo Samples - Maven 3 - Uberwar test</name>
