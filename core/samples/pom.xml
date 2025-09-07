@@ -655,7 +655,7 @@
               <cargo.tomcat8x.java.home>${cargo.java.home.1_7}</cargo.tomcat8x.java.home>
 
               <cargo.tomcat9x.url>
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.108/tomcat-9.0.108.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/9.0.109/tomcat-9.0.109.zip
               </cargo.tomcat9x.url>
               <cargo.tomcat9x.java.home>${cargo.java.home.1_8}</cargo.tomcat9x.java.home>
 
