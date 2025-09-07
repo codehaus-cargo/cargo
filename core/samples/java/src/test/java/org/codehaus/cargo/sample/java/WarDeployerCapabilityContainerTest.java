@@ -89,7 +89,7 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
                 "jo1x",
                 "liberty",
                 "resin3x", "resin4x", "resin31x")
-            && !getLocalContainer().getName().startsWith("Payara 7.2025.1.Alpha")
+            && !getLocalContainer().getName().startsWith("Payara 7.2025.1.Beta")
             && !getContainer().getType().equals(ContainerType.EMBEDDED)
                 && this.isNotContained(containerId,
                     "tomcat8x", "tomcat9x", "tomcat10x", "tomcat11x"))
