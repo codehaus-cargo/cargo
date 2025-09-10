@@ -1727,12 +1727,12 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
-  - name: Payara - Branch 7.x (Alpha)
+  - name: Payara - Branch 7.x (Beta)
     dependencies:
       - Build on Java 21
     task:
       jobs:
-        - name: Payara - Branch 7.x (Alpha)
+        - name: Payara - Branch 7.x (Beta)
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-21"
@@ -1805,7 +1805,7 @@ blocks:
       - Payara
       - Payara - Branch 4.x
       - Payara - Branch 5.x
-      - Payara - Branch 7.x (Alpha)
+      - Payara - Branch 7.x (Beta)
       - Resin 3.1.x
       - Resin 3.x
       - Resin 4.x
