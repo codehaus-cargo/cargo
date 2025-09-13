@@ -663,7 +663,7 @@
               <cargo.tomcat9x.java.home>${cargo.java.home.1_8}</cargo.tomcat9x.java.home>
 
               <cargo.tomcat10x.url>
-                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.43/tomcat-10.1.43.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/10.1.46/tomcat-10.1.46.zip
               </cargo.tomcat10x.url>
               <cargo.tomcat10x.java.home>${cargo.java.home.1_11}</cargo.tomcat10x.java.home>
 
