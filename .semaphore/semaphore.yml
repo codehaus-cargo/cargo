@@ -60,8 +60,8 @@ global_job_config:
         - test -d /tmp/cargo/jdk1.6.0_45/ && export BRANCH_JAVA_HOME=/tmp/cargo/jdk1.6.0_45 || export BRANCH_JAVA_HOME=$JAVA_HOME
         - export BRANCH_TEST_ID=`$BRANCH_JAVA_HOME/bin/java -version 2>&1 | head -1 | cut -d'"' -f2 | sed '/^1\./s///' | cut -d'"' -f1`
         - if [[ "$SEMAPHORE_JOB_NAME" =~ ^.*(Branch.*) ]] ; then export SUBBRANCH_ID=${BASH_REMATCH[1]} ; export BRANCH_TEST_ID="$BRANCH_TEST_ID) ($SUBBRANCH_ID" ; fi ; RM=0
-        - find . -iname "TEST-*.xml" -type f | xargs perl -i -pe "s/\QTest\" time=/Test (Java $BRANCH_TEST_ID)\" time=/g"
-        - find . -iname "TEST-*.xml" -type f | xargs test-results publish
+        - find . -iname "TEST-*.xml" -type f | xargs --no-run-if-empty perl -i -pe "s/\QTest\" time=/Test (Java $BRANCH_TEST_ID)\" time=/g"
+        - find . -iname "TEST-*.xml" -type f | xargs --no-run-if-empty test-results publish
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
