@@ -690,7 +690,7 @@
               <cargo.tomee9x.java.home>${cargo.java.home.1_11}</cargo.tomee9x.java.home>
 
               <cargo.tomee10x.url>
-                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/10.1.1/apache-tomee-10.1.1-plus.zip
+                https://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/10.1.2/apache-tomee-10.1.2-plus.zip
               </cargo.tomee10x.url>
               <cargo.tomee10x.java.home>${cargo.java.home.1_17}</cargo.tomee10x.java.home>
 
