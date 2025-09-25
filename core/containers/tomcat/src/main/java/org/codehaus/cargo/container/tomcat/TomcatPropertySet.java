@@ -120,6 +120,11 @@ public interface TomcatPropertySet
     String CONNECTOR_MAX_HTTP_HEADER_SIZE = "cargo.tomcat.connector.maxHttpHeaderSize";
 
     /**
+     * The maximum Part count.
+     */
+    String CONNECTOR_MAX_PART_COUNT = "cargo.tomcat.connector.maxPartCount";
+
+    /**
      * Custom valves defined as properties separated by <code>|</code><br>
      * Maven example:<br>
      * <code>
