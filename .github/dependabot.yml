@@ -47,6 +47,8 @@ updates:
       - dependency-name: "org.eclipse.jetty:jetty-deploy"
       - dependency-name: "org.jboss.as:jboss-as-controller-client"
       - dependency-name: "org.jboss.integration:jboss-profileservice-spi"
+      - dependency-name: "org.junit.jupiter:junit-jupiter-engine"
+        versions: ["[6.0.0,)"]
       - dependency-name: "org.mockito-mockito-core"
         versions: ["[5.0.0,)"]
       - dependency-name: "org.mortbay.jetty:jetty"
