@@ -333,7 +333,7 @@
     <maven.compiler-plugin.version>3.14.1</maven.compiler-plugin.version>
     <maven.compiler-java.version>1.8</maven.compiler-java.version>
     <maven.compiler-java.release>8</maven.compiler-java.release>
-    <maven.dependency-plugin.version>3.8.1</maven.dependency-plugin.version>
+    <maven.dependency-plugin.version>3.9.0</maven.dependency-plugin.version>
     <maven.failsafe-plugin.version>3.5.4</maven.failsafe-plugin.version>
     <maven.surefire-plugin.version>3.5.4</maven.surefire-plugin.version>
     <maven.war-plugin.version>3.3.2</maven.war-plugin.version>
