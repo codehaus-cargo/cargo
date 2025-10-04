@@ -23,10 +23,10 @@
     <artifactId>cargo-samples-maven3</artifactId>
     <version>1.10.23-SNAPSHOT</version>
   </parent>
-  <artifactId>cargo-sample-maven3-jetty12x-ee10-embedded-test</artifactId>
-  <name>Cargo Samples - Maven 3 - Jetty 12.x embedded container with EE10 profile test</name>
+  <artifactId>cargo-sample-maven3-jetty12x-ee11-embedded-test</artifactId>
+  <name>Cargo Samples - Maven 3 - Jetty 12.x embedded container with EE11 profile test</name>
   <packaging>jar</packaging>
-  <description>Sample application that exercises the Cargo Maven 3 plugin with an embedded Jetty 12.x container with EE10 profile</description>
+  <description>Sample application that exercises the Cargo Maven 3 plugin with an embedded Jetty 12.x container with EE11 profile</description>
 
   <dependencies>
     <dependency>
@@ -63,7 +63,7 @@
                 <properties>
                   <cargo.servlet.port>${cargo.samples.servlet.port}</cargo.servlet.port>
                   <cargo.rmi.port>${cargo.samples.rmi.port}</cargo.rmi.port>
-                  <cargo.jetty.deployer.ee.version>ee10</cargo.jetty.deployer.ee.version>
+                  <cargo.jetty.deployer.ee.version>ee11</cargo.jetty.deployer.ee.version>
                 </properties>
               </configuration>
               <deployables>

@@ -17,7 +17,7 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.sample.maven3.jetty12x_ee10_embedded;
+package org.codehaus.cargo.sample.maven3.jetty12x_ee11_embedded;
 
 import java.net.URL;
 
@@ -28,9 +28,9 @@ import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Test EE8 on a Jetty 12.x container.
+ * Test EE11 on a Jetty 12.x container.
  */
-public class Jetty12EE10Test
+public class Jetty12EE11Test
 {
 
     /**

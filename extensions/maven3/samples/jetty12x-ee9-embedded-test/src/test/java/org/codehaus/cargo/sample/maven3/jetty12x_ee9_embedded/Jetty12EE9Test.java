@@ -28,7 +28,7 @@ import org.codehaus.cargo.util.log.Logger;
 import org.codehaus.cargo.util.log.SimpleLogger;
 
 /**
- * Test EE8 on a Jetty 12.x container.
+ * Test EE9 on a Jetty 12.x container.
  */
 public class Jetty12EE9Test
 {
