@@ -124,8 +124,17 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
         {
             super.createServerObject();
 
-            Class webAppClassLoadingClass =
-                getClassLoader().loadClass("org.eclipse.jetty.ee.WebAppClassLoading");
+            Class webAppClassLoadingClass;
+            try
+            {
+                webAppClassLoadingClass =
+                    getClassLoader().loadClass("org.eclipse.jetty.ee.WebAppClassLoading");
+            }
+            catch (ClassNotFoundException e)
+            {
+                webAppClassLoadingClass =
+                    getClassLoader().loadClass("org.eclipse.jetty.ee.webapp.WebAppClassLoading");
+            }
 
             if (webAppClassLoadingClass.getPackage().getImplementationVersion() != null
                 && webAppClassLoadingClass.getPackage().getImplementationVersion().startsWith(
@@ -133,7 +142,7 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
             {
                 // Override of the Jetty 12.x server classes list, to work around the nasty
                 // java.lang.ClassNotFoundException:
-                // org.eclipse.jetty.[ee8|ee9|ee10].servlet.listener.IntrospectorCleaner.
+                // org.eclipse.jetty.[ee8|ee9|ee10|ee11].servlet.listener.IntrospectorCleaner.
                 Object defaultHiddenClasses =
                     webAppClassLoadingClass.getDeclaredField("DEFAULT_HIDDEN_CLASSES").get(null);
                 Method remove = defaultHiddenClasses.getClass().getMethod("remove", Object.class);
