@@ -326,7 +326,7 @@ public class EmbeddedContainerArtifactResolver
         jetty12xDependencies.add(new Dependency("org.slf4j", "slf4j-api", "2.0.17"));
         jetty12xDependencies.add(
             new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "12.1.1"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-ee", "12.1.1"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-ee-webapp", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "12.1.1"));
