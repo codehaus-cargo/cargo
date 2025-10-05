@@ -53,7 +53,7 @@ public class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileT
         List<String> result = new ArrayList<String>();
         for (String dependency : dependencies)
         {
-            if ("lib/jakarta.servlet-api-6.*.jar".equals(dependency))
+            if ("lib/jakarta.servlet-api-6.1.*.jar".equals(dependency))
             {
                 result.add("lib/jetty-servlet-api-4.*.jar");
                 result.add("lib/jetty-ee8-nested-*.jar");

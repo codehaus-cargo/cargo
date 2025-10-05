@@ -19,7 +19,6 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -48,19 +47,7 @@ public class JettyEmbeddedEE10ProfileTest extends AbstractJettyEmbeddedEEProfile
     @Override
     public List<String> filterDependencies(List<String> dependencies)
     {
-        List<String> result = new ArrayList<String>(dependencies.size());
-        for (String dependency : dependencies)
-        {
-            if ("lib/jakarta.servlet-api-6.1.*.jar".equals(dependency))
-            {
-                result.add("lib/jakarta.servlet-api-6.0.*.jar");
-            }
-            else
-            {
-                result.add(dependency);
-            }
-        }
-        return result;
+        return dependencies;
     }
 
     /**
