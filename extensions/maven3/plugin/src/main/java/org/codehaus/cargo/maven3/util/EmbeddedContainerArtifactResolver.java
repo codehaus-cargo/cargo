@@ -326,7 +326,6 @@ public class EmbeddedContainerArtifactResolver
         jetty12xDependencies.add(new Dependency("org.slf4j", "slf4j-api", "2.0.17"));
         jetty12xDependencies.add(
             new Dependency("org.eclipse.jetty", "jetty-slf4j-impl", "12.1.1"));
-        jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-ee-webapp", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-http", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-io", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-jndi", "12.1.1"));
@@ -336,6 +335,8 @@ public class EmbeddedContainerArtifactResolver
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-server", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-session", "12.1.1"));
         jetty12xDependencies.add(new Dependency("org.eclipse.jetty", "jetty-xml", "12.1.1"));
+        jetty12xDependencies.add(
+            new Dependency("org.eclipse.jetty.ee", "jetty-ee-webapp", "12.1.1"));
         // jsp
         jetty12xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.42.0"));
         this.containerDependencies.put("jetty12x", jetty12xDependencies);
