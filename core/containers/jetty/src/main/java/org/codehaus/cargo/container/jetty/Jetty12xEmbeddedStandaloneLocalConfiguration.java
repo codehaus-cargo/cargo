@@ -59,6 +59,21 @@ public class Jetty12xEmbeddedStandaloneLocalConfiguration extends
      * {@inheritDoc}
      */
     @Override
+    public void doConfigure(LocalContainer container) throws Exception
+    {
+        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))
+        {
+            removeXmlReplacement(
+               "etc/webdefault.xml",
+                "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
+                    + "/parent::init-param/param-value");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected String getWebdefaultXmlPath()
     {
         return "org/eclipse/jetty/" + getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)
