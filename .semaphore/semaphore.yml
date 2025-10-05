@@ -85,7 +85,7 @@ blocks:
             - sem-version java 11
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
-            - mvn clean install -T 1C || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e --fail-at-end
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
             - cd ~/
@@ -109,7 +109,7 @@ blocks:
             - cd $ORIGINAL_PWD
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
-            - mvn clean install -T 1C || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e --fail-at-end
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
@@ -157,7 +157,7 @@ blocks:
             - cd $ORIGINAL_PWD
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
-            - mvn clean install -T 1C || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e --fail-at-end
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"
@@ -180,7 +180,7 @@ blocks:
             - cd $ORIGINAL_PWD
             - mvn -version
             - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
-            - mvn clean install -T 1C || mvn clean install -e
+            - mvn clean install -T 1C || mvn clean install -e --fail-at-end
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - cd ~/
             - cache delete "codehaus-cargo-cache-initial-build"

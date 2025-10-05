@@ -39,11 +39,11 @@ public class Jetty12EE10Test
     private Logger logger = new SimpleLogger();
 
     /**
-     * Test EE8 on a Jetty 12.x embedded container.
+     * Test EE10 on a Jetty 12.x embedded container.
      * @throws Exception If anything fails.
      */
     @Test
-    public void testEe8() throws Exception
+    public void testEe10() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/simple-war/version.jsp");

@@ -39,15 +39,15 @@ public class Jetty12EE11Test
     private Logger logger = new SimpleLogger();
 
     /**
-     * Test EE8 on a Jetty 12.x embedded container.
+     * Test EE11 on a Jetty 12.x embedded container.
      * @throws Exception If anything fails.
      */
     @Test
-    public void testEe8() throws Exception
+    public void testEe11() throws Exception
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/simple-war/version.jsp");
-        final String expected = "Servlet version: 6.0";
+        final String expected = "Servlet version: 6.1";
 
         PingUtils.assertPingTrue(url.getPath() + " shows wrong EE version", expected, url, logger);
     }
