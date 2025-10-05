@@ -26,9 +26,9 @@ import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
 
 /**
- * Jetty Embedded EE 10 profile test.
+ * Jetty Embedded EE 11 profile test.
  */
-public class JettyEmbeddedEE10ProfileTest extends AbstractJettyEmbeddedEEProfileTest
+public class JettyEmbeddedEE11ProfileTest extends AbstractJettyEmbeddedEEProfileTest
 {
     /**
      * Add the required validators and initializes the Jetty Embedded specific embedded container
@@ -36,9 +36,9 @@ public class JettyEmbeddedEE10ProfileTest extends AbstractJettyEmbeddedEEProfile
      * @see AbstractJettyEmbeddedEEProfileTest#AbstractJettyEmbeddedEEProfileTest(String)
      * @see #addValidator(org.codehaus.cargo.sample.java.validator.Validator)
      */
-    public JettyEmbeddedEE10ProfileTest()
+    public JettyEmbeddedEE11ProfileTest()
     {
-        super("ee10");
+        super("ee11");
     }
 
     /**
@@ -51,14 +51,14 @@ public class JettyEmbeddedEE10ProfileTest extends AbstractJettyEmbeddedEEProfile
     }
 
     /**
-     * Test Jetty Embedded with EE 10 profile.
+     * Test Jetty Embedded with EE 11 profile.
      * @throws Exception If anything goes wrong.
      */
     @CargoTestCase
-    public void testEE10Profile() throws Exception
+    public void testEE11Profile() throws Exception
     {
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
-        configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee10");
+        configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee11");
         testWar("simple", "Sample page for testing");
     }
 }

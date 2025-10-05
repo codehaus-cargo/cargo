@@ -72,10 +72,10 @@ public abstract class AbstractJettyEmbeddedEEProfileTest extends AbstractWarTest
             String[] dependenciesCopy = dependencies.toArray(new String[dependencies.size()]);
             for (int i = 0; i < dependenciesCopy.length; i++)
             {
-                if (dependenciesCopy[i].contains("ee10-"))
+                if (dependenciesCopy[i].contains("ee11-"))
                 {
                     dependencies.set(
-                        i, dependenciesCopy[i].replace("ee10-", this.jettyEeVersion + "-"));
+                        i, dependenciesCopy[i].replace("ee11-", this.jettyEeVersion + "-"));
                 }
             }
             return this.test.filterDependencies(dependencies);
