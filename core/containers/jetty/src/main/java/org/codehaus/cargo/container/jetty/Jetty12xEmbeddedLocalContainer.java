@@ -80,13 +80,13 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
     /**
      * Nest handler, necessary for supporting EE8 and EE9.
      * @param handler Handler created for Web context.
-     * @return <code>handler</code> itself on EE10, nested version on other EE versions.
+     * @return <code>handler</code> itself on EE10 or EE11, nested version on other EE versions.
      * @throws Exception If anything goes wrong.
      */
     private Object nestHandler(Object handler) throws Exception
     {
         String eeVersion = getEeVersion();
-        if (!"ee10".equals(eeVersion))
+        if (!"ee10".equals(eeVersion) && !"ee11".equals(eeVersion))
         {
             Class handlerClass =
                 getClassLoader().loadClass(
