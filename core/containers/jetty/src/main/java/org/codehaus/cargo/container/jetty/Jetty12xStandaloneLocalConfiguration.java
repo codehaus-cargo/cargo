@@ -64,6 +64,43 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
      * {@inheritDoc}
      */
     @Override
+    public void doConfigure(LocalContainer container) throws Exception
+    {
+        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))
+        {
+            removeXmlReplacement(
+                "etc/webdefault.xml",
+                "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
+                    + "/parent::init-param/param-value");
+
+            String mappedFileSize;
+            if (Boolean.parseBoolean(getPropertyValue(JettyPropertySet.USE_FILE_MAPPED_BUFFER)))
+            {
+                mappedFileSize = "-1";
+            }
+            else
+            {
+                mappedFileSize = "0";
+            }
+
+            addXmlReplacement(
+                "etc/webdefault.xml",
+                "//servlet/init-param/param-name[text()='minMappedFileSize']"
+                    + "/parent::init-param/param-value",
+                null, mappedFileSize);
+            addXmlReplacement(
+                "etc/webdefault.xml",
+                "//servlet/init-param/param-name[text()='maxMappedFileSize']"
+                    + "/parent::init-param/param-value",
+                null, mappedFileSize);
+        }
+        super.doConfigure(container);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected AbstractCopyingInstalledLocalDeployer createDeployer(
         InstalledLocalContainer container)
     {
