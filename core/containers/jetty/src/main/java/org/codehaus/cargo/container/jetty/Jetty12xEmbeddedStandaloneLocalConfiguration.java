@@ -61,7 +61,7 @@ public class Jetty12xEmbeddedStandaloneLocalConfiguration extends
     @Override
     public void doConfigure(LocalContainer container) throws Exception
     {
-        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))j
+        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))
         {
             removeXmlReplacement(
                 "etc/webdefault.xml",
