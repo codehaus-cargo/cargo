@@ -61,10 +61,10 @@ public class Jetty12xEmbeddedStandaloneLocalConfiguration extends
     @Override
     public void doConfigure(LocalContainer container) throws Exception
     {
-        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))
+        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))j
         {
             removeXmlReplacement(
-               "etc/webdefault.xml",
+                "etc/webdefault.xml",
                 "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
                     + "/parent::init-param/param-value");
         }
