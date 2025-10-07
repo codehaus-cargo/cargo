@@ -20,12 +20,13 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Jetty 12.x standalone
@@ -33,12 +34,6 @@ import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDe
  */
 public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLocalConfiguration
 {
-    /**
-     * All <code>webdefault-*.xml</code> files from Jetty 12.x.
-     */
-    private static final List<String> WEBDEFAULT_XML_FILES =
-        Arrays.asList("webdefault-ee8.xml", "webdefault-ee9.xml", "webdefault-ee10.xml");
-
     /**
      * {@inheritDoc}
      * @see Jetty9xStandaloneLocalConfiguration#Jetty9xStandaloneLocalConfiguration(String)
@@ -55,24 +50,37 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
      * {@inheritDoc}
      */
     @Override
-    protected List<String> getWebdefaultFiles()
+    protected String[] getWebdefaultFiles(InstalledLocalContainer container)
     {
-        return Jetty12xStandaloneLocalConfiguration.WEBDEFAULT_XML_FILES;
+        String etc = getFileHandler().append(container.getHome(), "etc");
+        if (!getFileHandler().isDirectory(etc))
+        {
+            throw new CargoException("Jetty home doesn't contain etc folder: " + etc);
+        }
+        List<String> webdefaultXmls = new ArrayList<String>();
+        for (String child : getFileHandler().getChildren(etc))
+        {
+            if (child.startsWith("webdefault-") && child.endsWith(".xml"))
+            {
+                webdefaultXmls.add(child);
+            }
+        }
+        if (webdefaultXmls.isEmpty())
+        {
+            throw new CargoException("Jetty etc doesn't contain any webdefault XMLs: " + etc);
+        }
+        String[] result = new String[webdefaultXmls.size()];
+        return webdefaultXmls.toArray(result);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void doConfigure(LocalContainer container) throws Exception
+    protected void addUseFileMappedBufferXmlReplacement(String webDefaultXmlFile)
     {
-        if ("ee11".equals(getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION)))
+        if ("webdefault-ee11.xml".equals(webDefaultXmlFile))
         {
-            removeXmlReplacement(
-                "etc/webdefault.xml",
-                "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
-                    + "/parent::init-param/param-value");
-
             String mappedFileSize;
             if (Boolean.parseBoolean(getPropertyValue(JettyPropertySet.USE_FILE_MAPPED_BUFFER)))
             {
@@ -94,7 +102,10 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
                     + "/parent::init-param/param-value",
                 null, mappedFileSize);
         }
-        super.doConfigure(container);
+        else
+        {
+            super.addUseFileMappedBufferXmlReplacement(webDefaultXmlFile);
+        }
     }
 
     /**

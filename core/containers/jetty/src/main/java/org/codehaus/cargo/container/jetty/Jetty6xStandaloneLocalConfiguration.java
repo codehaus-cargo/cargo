@@ -20,9 +20,7 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -42,7 +40,7 @@ public class Jetty6xStandaloneLocalConfiguration extends
     /**
      * Jetty's one and only <code>webdefault.xml</code> file.
      */
-    private static final List<String> WEBDEFAULT_XML_FILE = Arrays.asList("webdefault.xml");
+    private static final String[] WEBDEFAULT_XML_FILE = new String[] {"webdefault.xml"};
 
     /**
      * Capability of the Jetty 6.x standalone local configuration.
@@ -74,14 +72,12 @@ public class Jetty6xStandaloneLocalConfiguration extends
     @Override
     public void doConfigure(LocalContainer container) throws Exception
     {
+        InstalledLocalContainer installedLocalContainer = (InstalledLocalContainer) container;
+
         // Only add the XML replacement now to allow customized getWebdefaultFiles()
-        for (String webDefaultXmlFile : getWebdefaultFiles())
+        for (String webDefaultXmlFile : getWebdefaultFiles(installedLocalContainer))
         {
-            addXmlReplacement(
-                "etc/" + webDefaultXmlFile,
-                "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
-                    + "/parent::init-param/param-value",
-                null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
+            addUseFileMappedBufferXmlReplacement(webDefaultXmlFile);
         }
 
         super.doConfigure(container);
@@ -97,7 +93,7 @@ public class Jetty6xStandaloneLocalConfiguration extends
                     + "  </context-param>\n";
             Map<String, String> replacements = new HashMap<String, String>(1);
             replacements.put("</web-app>", sessionContextParam + "</web-app>");
-            for (String webDefaultXmlFile : getWebdefaultFiles())
+            for (String webDefaultXmlFile : getWebdefaultFiles(installedLocalContainer))
             {
                 String webdefault = getFileHandler().append(getHome(), "etc/" + webDefaultXmlFile);
                 getFileHandler().replaceInFile(
@@ -118,11 +114,27 @@ public class Jetty6xStandaloneLocalConfiguration extends
     }
 
     /**
+     * Get the Jetty <code>webdefault.xml</code> file name(s) for the given local container.
+     * @param container Local container.
      * @return Jetty <code>webdefault.xml</code> file name.
      */
-    protected List<String> getWebdefaultFiles()
+    protected String[] getWebdefaultFiles(InstalledLocalContainer container)
     {
         return Jetty6xStandaloneLocalConfiguration.WEBDEFAULT_XML_FILE;
+    }
+
+    /**
+     * Add the {@link JettyPropertySet.USE_FILE_MAPPED_BUFFER} property XML replacement for the
+     * given <code>webdefault.xml</code> file name.
+     * @param webDefaultXmlFile <code>webdefault.xml</code> file to add the XML replacement to.
+     */
+    protected void addUseFileMappedBufferXmlReplacement(String webDefaultXmlFile)
+    {
+        addXmlReplacement(
+            "etc/" + webDefaultXmlFile,
+            "//servlet/init-param/param-name[text()='useFileMappedBuffer']"
+                + "/parent::init-param/param-value",
+            null, JettyPropertySet.USE_FILE_MAPPED_BUFFER);
     }
 
     /**

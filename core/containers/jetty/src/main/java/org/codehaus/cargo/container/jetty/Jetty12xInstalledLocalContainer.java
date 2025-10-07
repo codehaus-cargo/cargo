@@ -35,7 +35,7 @@ public class Jetty12xInstalledLocalContainer extends Jetty11xInstalledLocalConta
      * Default EE version for the Jetty deployer.
      * @see JettyPropertySet#MODULES
      */
-    public static final String DEFAULT_DEPLOYER_EE_VERSION = "ee11";
+    public static final String DEFAULT_DEPLOYER_EE_VERSION = "ee10";
 
     /**
      * Default list of Jetty modules to activate.
