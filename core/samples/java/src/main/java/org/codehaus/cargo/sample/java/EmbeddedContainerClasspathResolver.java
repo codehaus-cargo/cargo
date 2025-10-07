@@ -93,9 +93,9 @@ public class EmbeddedContainerClasspathResolver
         jetty12xDependencies.add("lib/jetty-io-*.jar");
         // sessions
         jetty12xDependencies.add("lib/jetty-session-*.jar");
-        // ee11-servlet
-        jetty12xDependencies.add("lib/jakarta.servlet-api-6.1.*.jar");
-        jetty12xDependencies.add("lib/jetty-ee11-servlet-*.jar");
+        // ee10-servlet
+        jetty12xDependencies.add("lib/jakarta.servlet-api-6.0.*.jar");
+        jetty12xDependencies.add("lib/jetty-ee10-servlet-*.jar");
         // jndi
         jetty12xDependencies.add("lib/jetty-jndi-*.jar");
         // plus
@@ -103,22 +103,22 @@ public class EmbeddedContainerClasspathResolver
         // security
         jetty12xDependencies.add("lib/jetty-security-*.jar");
         // ee-webapp
-        jetty12xDependencies.add("lib/jetty-ee-webapp-*.jar");
-        // ee11-webapp
-        jetty12xDependencies.add("lib/jetty-ee11-webapp-*.jar");
-        // ee11-plus
-        jetty12xDependencies.add("lib/jetty-ee11-plus-*.jar");
+        jetty12xDependencies.add("lib/jetty-ee-*.jar");
+        // ee10-webapp
+        jetty12xDependencies.add("lib/jetty-ee10-webapp-*.jar");
+        // ee10-plus
+        jetty12xDependencies.add("lib/jetty-ee10-plus-*.jar");
         jetty12xDependencies.add("lib/jakarta.transaction-api-2.*.jar");
         jetty12xDependencies.add("lib/jakarta.interceptor-api-2.*.jar");
         jetty12xDependencies.add("lib/jakarta.enterprise.cdi-api-4.*.jar");
         jetty12xDependencies.add("lib/jakarta.inject-api-2.*.jar");
         jetty12xDependencies.add("lib/jakarta.enterprise.lang-model-4.*.jar");
-        // ee11-annotations
-        jetty12xDependencies.add("lib/jetty-ee11-annotations-*.jar");
-        jetty12xDependencies.add("lib/ee11-annotations/*.jar");
-        // ee11-apache-jsp
-        jetty12xDependencies.add("lib/jetty-ee11-apache-jsp-*.jar");
-        jetty12xDependencies.add("lib/ee11-apache-jsp/*.jar");
+        // ee10-annotations
+        jetty12xDependencies.add("lib/jetty-ee10-annotations-*.jar");
+        jetty12xDependencies.add("lib/ee10-annotations/*.jar");
+        // ee10-apache-jsp
+        jetty12xDependencies.add("lib/jetty-ee10-apache-jsp-*.jar");
+        jetty12xDependencies.add("lib/ee10-apache-jsp/*.jar");
 
         List<String> tomcat5xDependencies = new ArrayList<String>();
         tomcat5xDependencies.add("bin/*.jar");

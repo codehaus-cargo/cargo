@@ -86,7 +86,7 @@ public class Jetty12xEmbeddedLocalContainer extends Jetty11xEmbeddedLocalContain
     private Object nestHandler(Object handler) throws Exception
     {
         String eeVersion = getEeVersion();
-        if (!"ee10".equals(eeVersion) && !"ee11".equals(eeVersion))
+        if ("ee8".equals(eeVersion) || "ee9".equals(eeVersion))
         {
             Class handlerClass =
                 getClassLoader().loadClass(

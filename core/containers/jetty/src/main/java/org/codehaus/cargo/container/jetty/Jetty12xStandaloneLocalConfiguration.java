@@ -58,11 +58,12 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
             throw new CargoException("Jetty home doesn't contain etc folder: " + etc);
         }
         List<String> webdefaultXmls = new ArrayList<String>();
-        for (String child : getFileHandler().getChildren(etc))
+        for (String child : getFileHandler().getChildren(etc, "*.xml"))
         {
-            if (child.startsWith("webdefault-") && child.endsWith(".xml"))
+            String file = getFileHandler().getName(child);
+            if (file.startsWith("webdefault-"))
             {
-                webdefaultXmls.add(child);
+                webdefaultXmls.add(file);
             }
         }
         if (webdefaultXmls.isEmpty())
