@@ -20,8 +20,6 @@
 package org.codehaus.cargo.container.jo;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -48,11 +46,6 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     private static final String NAME = "jo! 1.x";
 
     /**
-     * Inclusion filter for all JAR files.
-     */
-    private static final List<String> ALL_JARS = Arrays.asList("*.jar");
-
-    /**
      * Capabilities.
      */
     private ContainerCapability capability = new ServletContainerCapability();
@@ -76,13 +69,12 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     @Override
     public void doStart(JvmLauncher java) throws Exception
     {
-        for (String path : getFileHandler().getChildren(
-            getHome(), Jo1xInstalledLocalContainer.ALL_JARS))
+        for (String path : getFileHandler().getChildren(getHome(), "*.jar"))
         {
             java.addClasspathEntries(new File(path));
         }
         for (String path : getFileHandler().getChildren(
-            getFileHandler().append(getHome(), "system"), Jo1xInstalledLocalContainer.ALL_JARS))
+            getFileHandler().append(getHome(), "system"), "*.jar"))
         {
             java.addClasspathEntries(new File(path));
         }
@@ -110,7 +102,7 @@ public class Jo1xInstalledLocalContainer extends AbstractInstalledLocalContainer
     public void doStop(JvmLauncher java) throws Exception
     {
         for (String path : getFileHandler().getChildren(
-            getFileHandler().append(getHome(), "lib"), Jo1xInstalledLocalContainer.ALL_JARS))
+            getFileHandler().append(getHome(), "lib"), "*.jar"))
         {
             java.addClasspathEntries(new File(path));
         }

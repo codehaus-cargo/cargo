@@ -27,8 +27,6 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.List;
 
 import org.codehaus.cargo.container.ContainerCapability;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -41,11 +39,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
  */
 public abstract class AbstractResinInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
-    /**
-     * Inclusion filter for all JAR files.
-     */
-    private static final List<String> ALL_JARS = Arrays.asList("*.jar");
-
     /**
      * Parsed version of the container.
      */
@@ -128,8 +121,7 @@ public abstract class AbstractResinInstalledLocalContainer extends AbstractInsta
             "/" + ResinRun.class.getName().replace('.', '/') + ".class"));
 
         for (String path : getFileHandler().getChildren(
-            getFileHandler().append(getHome(), "lib"),
-                AbstractResinInstalledLocalContainer.ALL_JARS))
+            getFileHandler().append(getHome(), "lib"), "*.jar"))
         {
             java.addClasspathEntries(new File(path));
         }

@@ -22,9 +22,6 @@
  */
 package org.codehaus.cargo.container.orion;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.orion.internal.AbstractOrionInstalledLocalContainer;
 
@@ -37,11 +34,6 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
      * Unique container id.
      */
     public static final String ID = "oc4j9x";
-
-    /**
-     * Inclusion filter for all JAR files.
-     */
-    private static final List<String> ALL_JARS = Arrays.asList("*.jar");
 
     /**
      * {@inheritDoc}
@@ -95,7 +87,6 @@ public class Oc4j9xInstalledLocalContainer extends AbstractOrionInstalledLocalCo
     protected String[] getContainerClasspathIncludes()
     {
         return getFileHandler().getChildren(
-            getFileHandler().append(getHome(), "j2ee/home"),
-                Oc4j9xInstalledLocalContainer.ALL_JARS);
+            getFileHandler().append(getHome(), "j2ee/home"), "*.jar");
     }
 }

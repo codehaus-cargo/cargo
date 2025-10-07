@@ -936,16 +936,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
      * {@inheritDoc}
      */
     @Override
-    public String[] getChildren(String directory)
-    {
-        return getChildren(directory, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String[] getChildren(String directory, List<String> filters)
+    public String[] getChildren(String directory, String... filters)
     {
         List<String> results = new ArrayList<String>();
 
@@ -954,7 +945,7 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
         File[] files = new File(directory).listFiles();
         for (int i = 0; i < files.length; i++)
         {
-            if (filters != null)
+            if (filters != null && filters.length > 0)
             {
                 for (String filter : filters)
                 {

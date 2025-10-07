@@ -24,8 +24,6 @@ package org.codehaus.cargo.container.jrun.internal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -42,12 +40,6 @@ import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
  */
 public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstalledLocalContainer
 {
-    /**
-     * Inclusion filter for all JRun JARs.
-     */
-    private static final List<String> JRUN_JARS =
-        Arrays.asList("webservices.jar", "macromedia_drivers.jar");
-
     /**
      * Parsed version of the container.
      */
@@ -123,7 +115,7 @@ public abstract class AbstractJRunInstalledLocalContainer extends AbstractInstal
 
         for (String path : getFileHandler().getChildren(
             getFileHandler().append(getHome(), "lib"),
-                AbstractJRunInstalledLocalContainer.JRUN_JARS))
+                "webservices.jar", "macromedia_drivers.jar"))
         {
             java.addClasspathEntries(new File(path));
         }
