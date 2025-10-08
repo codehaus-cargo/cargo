@@ -22,10 +22,12 @@ package org.codehaus.cargo.sample.java.jetty;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.extension.ExtensionContext;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.sample.java.CargoTestCase;
-import org.junit.jupiter.api.Assumptions;
 
 /**
  * Jetty Embedded EE 11 profile test.
@@ -41,6 +43,23 @@ public class JettyEmbeddedEE11ProfileTest extends AbstractJettyEmbeddedEEProfile
     public JettyEmbeddedEE11ProfileTest()
     {
         super("ee11");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUp(
+        CargoTestCase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
+        throws Exception
+    {
+        String containerUrl =
+            System.getProperty("cargo." + cargoContext.getContainerId() + ".url");
+        if (containerUrl != null)
+        {
+            Assumptions.assumeFalse(containerUrl.contains("jetty-home-12.0."));
+        }
+        super.setUp(cargoContext, testContext);
     }
 
     /**
@@ -71,8 +90,6 @@ public class JettyEmbeddedEE11ProfileTest extends AbstractJettyEmbeddedEEProfile
     @CargoTestCase
     public void testEE11Profile() throws Exception
     {
-        Assumptions.assumeFalse(getLocalContainer().getName().startsWith("Jetty 12.0."));
-
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, "ee11");
         testWar("simple", "Sample page for testing");
