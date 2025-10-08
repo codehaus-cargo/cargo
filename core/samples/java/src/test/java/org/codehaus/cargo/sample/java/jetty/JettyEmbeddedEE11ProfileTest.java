@@ -55,9 +55,9 @@ public class JettyEmbeddedEE11ProfileTest extends AbstractJettyEmbeddedEEProfile
     {
         String containerUrl =
             System.getProperty("cargo." + cargoContext.getContainerId() + ".url");
-        if (containerUrl != null)
+        if (containerUrl != null && containerUrl.contains("jetty-home-12.0."))
         {
-            Assumptions.assumeFalse(containerUrl.contains("jetty-home-12.0."));
+            Assumptions.abort("Jetty 12.0 doesn't support EE11");
         }
         super.setUp(cargoContext, testContext);
     }

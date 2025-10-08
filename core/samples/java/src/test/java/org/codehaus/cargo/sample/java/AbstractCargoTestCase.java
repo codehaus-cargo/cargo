@@ -263,7 +263,7 @@ public abstract class AbstractCargoTestCase
     protected void tearDown()
     {
         // Reset context classloader. See the comment in setUp().
-        if (getTestData().containerType == ContainerType.EMBEDDED)
+        if (getTestData() != null && getTestData().containerType == ContainerType.EMBEDDED)
         {
             Thread.currentThread().setContextClassLoader(null);
         }
