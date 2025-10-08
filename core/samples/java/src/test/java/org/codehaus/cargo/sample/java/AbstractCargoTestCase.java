@@ -287,7 +287,11 @@ public abstract class AbstractCargoTestCase
                 }
             }
         }
-        getLogger().info("Ended test [" + this.toString() + "]", this.getClass().getName());
+
+        if (getLogger() != null)
+        {
+            getLogger().info("Ended test [" + this.toString() + "]", this.getClass().getName());
+        }
     }
 
     /**
