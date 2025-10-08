@@ -93,12 +93,12 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
             }
 
             addXmlReplacement(
-                "etc/webdefault.xml",
+                "etc/" + webDefaultXmlFile,
                 "//servlet/init-param/param-name[text()='minMappedFileSize']"
                     + "/parent::init-param/param-value",
                 null, mappedFileSize);
             addXmlReplacement(
-                "etc/webdefault.xml",
+                "etc/" + webDefaultXmlFile,
                 "//servlet/init-param/param-name[text()='maxMappedFileSize']"
                     + "/parent::init-param/param-value",
                 null, mappedFileSize);
