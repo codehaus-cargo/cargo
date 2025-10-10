@@ -1027,7 +1027,7 @@
         <exclusions>
           <exclusion>
             <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-xml</groupId>
+            <artifactId>plexus-xml</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
