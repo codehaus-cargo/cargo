@@ -1724,6 +1724,7 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly37x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 38.x
     dependencies:
       - Build on Java 17
     task:
