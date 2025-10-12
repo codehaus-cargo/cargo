@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven3</artifactId>
-    <version>1.10.23-SNAPSHOT</version>
+    <version>1.10.23</version>
   </parent>
   <artifactId>cargo-sample-maven3-jetty12x-ee11-embedded-test</artifactId>
   <name>Cargo Samples - Maven 3 - Jetty 12.x embedded container with EE11 profile test</name>

@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-maven3</artifactId>
-    <version>1.10.23-SNAPSHOT</version>
+    <version>1.10.23</version>
   </parent>
   <artifactId>wildfly-swarm-test</artifactId>
   <name>Cargo Samples - Maven 3 - WildFly Swarm test</name>
