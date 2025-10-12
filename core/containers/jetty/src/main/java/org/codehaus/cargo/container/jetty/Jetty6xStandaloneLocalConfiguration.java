@@ -124,7 +124,7 @@ public class Jetty6xStandaloneLocalConfiguration extends
     }
 
     /**
-     * Add the {@link JettyPropertySet.USE_FILE_MAPPED_BUFFER} property XML replacement for the
+     * Add the {@link JettyPropertySet#USE_FILE_MAPPED_BUFFER} property XML replacement for the
      * given <code>webdefault.xml</code> file name.
      * @param webDefaultXmlFile <code>webdefault.xml</code> file to add the XML replacement to.
      */
