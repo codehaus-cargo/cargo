@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-testdata</artifactId>
-    <version>1.10.23</version>
+    <version>1.10.24-SNAPSHOT</version>
   </parent>
   <artifactId>systemproperty-war</artifactId>
   <name>Cargo test data for samples - System Property test WAR data for samples</name>

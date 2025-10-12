@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-samples-ant</artifactId>
-    <version>1.10.23</version>
+    <version>1.10.24-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-sample-ant-configurationFiles-xmlReplacements-test</artifactId>
   <name>Cargo Samples - Ant - Configuration files and XML replacements test</name>
