@@ -68,6 +68,7 @@ public class JettyWarContextXmlTestCase extends AbstractWarTestCase
         {
             if (getContainer().getName().startsWith("Jetty 12.0"))
             {
+                setContainer(null);
                 Assumptions.abort("Jetty 12.0 doesn't support EE11");
             }
         }
