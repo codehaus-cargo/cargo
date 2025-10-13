@@ -20,15 +20,12 @@
 package org.codehaus.cargo.container.jetty;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
 import org.codehaus.cargo.container.deployable.WAR;
-import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
 
 /**
@@ -37,16 +34,9 @@ import org.codehaus.cargo.util.FileHandler;
 public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalDeployer
 {
     /**
-     * Supported EE versions and associated Jetty configuration XML map.
+     * Pattern for matching EE version numbers, for matching Jetty configuration XMLs.
      */
-    private static final Map<String, String> EE_VERSION_CONFIGURATION_XML_MAP =
-        new HashMap<String, String>(4)
-            {{
-                put("ee8", "");
-                put("ee9", "_9_0");
-                put("ee10", "_10_0");
-                put("ee11", "_11_0");
-            }};
+    private static final Pattern EE_VERSION_PATTERN = Pattern.compile("ee(\\d+)");
 
     /**
      * Pattern for matching version numbers, excluding non digits (alpha, dash, etc.).
@@ -67,12 +57,21 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
     {
         String eeVersion = getContainer().getConfiguration().getPropertyValue(
             JettyPropertySet.DEPLOYER_EE_VERSION);
-        String eeConfigure =
-            Jetty12xInstalledLocalDeployer.EE_VERSION_CONFIGURATION_XML_MAP.get(eeVersion);
-        if (eeConfigure == null)
+        Matcher matcher = EE_VERSION_PATTERN.matcher(eeVersion);
+        if (!matcher.matches())
         {
-            throw new CargoException("Specified EE version is invalid. Possible values: "
-                + Jetty12xInstalledLocalDeployer.EE_VERSION_CONFIGURATION_XML_MAP.values());
+            throw new IllegalArgumentException(
+                "EE version [" + eeVersion + "] doesn't match " + EE_VERSION_PATTERN);
+        }
+        int eeConfigureVersion = Integer.parseInt(matcher.group(1));
+        String eeConfigure;
+        if (eeConfigureVersion == 8)
+        {
+            eeConfigure = "";
+        }
+        else
+        {
+            eeConfigure = "_" + eeConfigureVersion + "_0";
         }
 
         // As per a .properties file is also required for Jetty 12.x
@@ -134,7 +133,7 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
 
         StringBuilder resourceClassName = new StringBuilder("org.eclipse.jetty.");
         if (versionParts.length > 2 && Integer.parseInt(versionParts[0]) == 12
-            && Integer.parseInt(versionParts[1]) == 0 &&  Integer.parseInt(versionParts[2]) < 5)
+            && Integer.parseInt(versionParts[1]) == 0 && Integer.parseInt(versionParts[2]) < 5)
         {
             resourceClassName.append(eeVersion + ".");
         }
