@@ -25,6 +25,8 @@ import java.util.List;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty12xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 import org.codehaus.cargo.util.CargoException;
 
@@ -34,6 +36,12 @@ import org.codehaus.cargo.util.CargoException;
  */
 public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLocalConfiguration
 {
+    /**
+     * Capability of the Jetty Standalone local configuration.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new Jetty12xStandaloneLocalConfigurationCapability();
+
     /**
      * {@inheritDoc}
      * @see Jetty9xStandaloneLocalConfiguration#Jetty9xStandaloneLocalConfiguration(String)
@@ -159,6 +167,15 @@ public class Jetty12xStandaloneLocalConfiguration extends Jetty11xStandaloneLoca
     {
         StringBuilder sb = new StringBuilder();
         createDatasourceDefinitions(sb, container);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

@@ -26,7 +26,7 @@ import java.util.Map;
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.AbstractJettyEmbeddedStandaloneLocalConfiguration;
-import org.codehaus.cargo.container.jetty.internal.Jetty6xEmbeddedStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty6x7x8x9x10x11xEmbeddedStandaloneLocalConfigurationCapability;
 
 /**
  * A mostly canned configuration for an embedded Jetty 6.x instance.
@@ -38,7 +38,7 @@ public class Jetty6xEmbeddedStandaloneLocalConfiguration extends
      * capabilities supported by this config.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new Jetty6xEmbeddedStandaloneLocalConfigurationCapability();
+        new Jetty6x7x8x9x10x11xEmbeddedStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

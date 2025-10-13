@@ -21,6 +21,8 @@ package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty12xExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
 
 /**
@@ -28,6 +30,11 @@ import org.codehaus.cargo.container.spi.deployer.AbstractInstalledLocalDeployer;
  */
 public class Jetty12xExistingLocalConfiguration extends Jetty11xExistingLocalConfiguration
 {
+    /**
+     * Capability of the Jetty Existing local configuration.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new Jetty12xExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}
@@ -50,6 +57,15 @@ public class Jetty12xExistingLocalConfiguration extends Jetty11xExistingLocalCon
         Jetty12xInstalledLocalDeployer deployer =
             new Jetty12xInstalledLocalDeployer((InstalledLocalContainer) container);
         return deployer;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
 }

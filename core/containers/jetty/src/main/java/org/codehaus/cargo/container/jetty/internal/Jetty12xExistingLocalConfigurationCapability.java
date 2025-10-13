@@ -25,7 +25,7 @@ import org.codehaus.cargo.container.jetty.JettyPropertySet;
  * Capabilities of Jetty 12.x's {@link AbstractJettyExistingLocalConfiguration} configuration.
  */
 public class Jetty12xExistingLocalConfigurationCapability extends
-    Jetty10xExistingLocalConfigurationCapability
+    Jetty10x11xExistingLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.

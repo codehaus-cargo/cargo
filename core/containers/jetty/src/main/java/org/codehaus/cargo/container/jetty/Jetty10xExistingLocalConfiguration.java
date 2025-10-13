@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.jetty;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.jetty.internal.Jetty10xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty10x11xExistingLocalConfigurationCapability;
 
 /**
  * Configuration for existing local Jetty 10.x
@@ -31,7 +31,7 @@ public class Jetty10xExistingLocalConfiguration extends Jetty9xExistingLocalConf
      * Capability of the Jetty Existing local configuration.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new Jetty10xExistingLocalConfigurationCapability();
+        new Jetty10x11xExistingLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

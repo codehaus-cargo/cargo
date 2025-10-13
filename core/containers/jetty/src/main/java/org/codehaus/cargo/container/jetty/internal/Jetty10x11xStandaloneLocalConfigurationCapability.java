@@ -23,15 +23,17 @@ import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
- * Capabilities of Jetty 10.x's {@link AbstractJettyExistingLocalConfiguration} configuration.
+ * Capabilities of the Jetty 10.x and 11.x's
+ * {@link org.codehaus.cargo.container.jetty.internal.AbstractJettyStandaloneLocalConfiguration}
+ * configuration for installed containers.
  */
-public class Jetty10xExistingLocalConfigurationCapability extends
-    JettyExistingLocalConfigurationCapability
+public class Jetty10x11xStandaloneLocalConfigurationCapability extends
+    Jetty7x8x9xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Jetty10xExistingLocalConfigurationCapability()
+    public Jetty10x11xStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(JettyPropertySet.MODULES, Boolean.TRUE);
 

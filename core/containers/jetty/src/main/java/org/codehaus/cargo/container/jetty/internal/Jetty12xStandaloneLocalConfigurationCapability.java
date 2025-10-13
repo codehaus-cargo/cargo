@@ -27,7 +27,7 @@ import org.codehaus.cargo.container.jetty.JettyPropertySet;
  * configuration for installed containers.
  */
 public class Jetty12xStandaloneLocalConfigurationCapability extends
-    Jetty10xStandaloneLocalConfigurationCapability
+    Jetty10x11xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.

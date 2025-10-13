@@ -23,15 +23,15 @@ import org.codehaus.cargo.container.jetty.JettyPropertySet;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 
 /**
- * Configuration capability for a Jetty 6.x Embedded container.
+ * Configuration capability for a Jetty 6.x to 11.x Embedded container.
  */
-public class Jetty6xEmbeddedStandaloneLocalConfigurationCapability extends
+public class Jetty6x7x8x9x10x11xEmbeddedStandaloneLocalConfigurationCapability extends
     Jetty5xEmbeddedStandaloneLocalConfigurationCapability
 {
     /**
      * Constructor.
      */
-    public Jetty6xEmbeddedStandaloneLocalConfigurationCapability()
+    public Jetty6x7x8x9x10x11xEmbeddedStandaloneLocalConfigurationCapability()
     {
         this.propertySupportMap.put(GeneralPropertySet.LOGGING, Boolean.FALSE);
 
