@@ -40,11 +40,12 @@ public class Jetty12xInstalledLocalDeployer extends Jetty9x10x11xInstalledLocalD
      * Supported EE versions and associated Jetty configuration XML map.
      */
     private static final Map<String, String> EE_VERSION_CONFIGURATION_XML_MAP =
-        new HashMap<String, String>(3)
+        new HashMap<String, String>(4)
             {{
                 put("ee8", "");
                 put("ee9", "_9_0");
                 put("ee10", "_10_0");
+                put("ee11", "_11_0");
             }};
 
     /**
