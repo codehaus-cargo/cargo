@@ -22,6 +22,8 @@ package org.codehaus.cargo.sample.java.jetty;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.Assumptions;
+
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.jetty.JettyPropertySet;
@@ -30,7 +32,6 @@ import org.codehaus.cargo.sample.java.CargoTestCase;
 import org.codehaus.cargo.sample.java.validator.IsInstalledLocalContainerValidator;
 import org.codehaus.cargo.sample.java.validator.StartsWithContainerValidator;
 import org.codehaus.cargo.sample.java.validator.SupportsPropertyValidator;
-import org.junit.jupiter.api.Assumptions;
 
 /**
  * Test for Jetty Installed Local container deploying WARs using the <code>context.xml</code> file.
@@ -57,10 +58,19 @@ public class JettyWarContextXmlTestCase extends AbstractWarTestCase
      */
     protected void testWarContextXml(String jettyEeVersion) throws Exception
     {
-        Assumptions.assumeTrue(
-            getLocalContainer().getConfiguration().getCapability().supportsProperty(
-                JettyPropertySet.DEPLOYER_EE_VERSION));
-
+        if (!getLocalContainer().getConfiguration().getCapability().supportsProperty(
+            JettyPropertySet.DEPLOYER_EE_VERSION))
+        {
+            setContainer(null);
+            Assumptions.abort("Provided Jetty container doesn't support multiple EE versions");
+        }
+        if ("ee11".equals(jettyEeVersion))
+        {
+            if (getContainer().getName().startsWith("Jetty 12.0"))
+            {
+                Assumptions.abort("Jetty 12.0 doesn't support EE11");
+            }
+        }
         if ("ee8".equals(jettyEeVersion) || "ee9".equals(jettyEeVersion))
         {
             for (Map.Entry<String, String> testData
