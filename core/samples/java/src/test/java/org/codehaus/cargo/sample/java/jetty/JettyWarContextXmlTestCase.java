@@ -19,9 +19,11 @@
  */
 package org.codehaus.cargo.sample.java.jetty;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 
 import org.codehaus.cargo.container.configuration.ConfigurationType;
@@ -81,10 +83,16 @@ public class JettyWarContextXmlTestCase extends AbstractWarTestCase
                     testData.getValue().replace("/deployables-jakarta-ee/", "/deployables/"));
             }
         }
+
+        File contextXml = new File(getLocalContainer().getConfiguration().getHome());
+        contextXml = new File(contextXml, "webapps/simple-war.xml");
+
+        Assertions.assertFalse(contextXml.exists(), "Context XML already exists");
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, jettyEeVersion);
         configuration.setProperty(JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML, "true");
         testWar("simple", "Sample page for testing");
+        Assertions.assertTrue(contextXml.exists(), "Context XML not created");
     }
 
     /**
@@ -95,9 +103,14 @@ public class JettyWarContextXmlTestCase extends AbstractWarTestCase
     @CargoTestCase
     public void testWarContextXml() throws Exception
     {
+        File contextXml = new File(getLocalContainer().getConfiguration().getHome());
+        contextXml = new File(contextXml, "webapps/simple-war.xml");
+
+        Assertions.assertFalse(contextXml.exists(), "Context XML already exists");
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
         configuration.setProperty(JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML, "true");
         testWar("simple", "Sample page for testing");
+        Assertions.assertTrue(contextXml.exists(), "Context XML not created");
     }
 
     /**
