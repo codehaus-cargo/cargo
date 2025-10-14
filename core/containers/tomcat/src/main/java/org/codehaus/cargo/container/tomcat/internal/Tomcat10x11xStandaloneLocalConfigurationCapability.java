@@ -34,5 +34,6 @@ public class Tomcat10x11xStandaloneLocalConfigurationCapability
     {
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_MAX_PART_COUNT, Boolean.TRUE);
     }
 }

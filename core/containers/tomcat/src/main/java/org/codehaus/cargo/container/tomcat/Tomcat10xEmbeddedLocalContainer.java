@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.tomcat;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
@@ -70,10 +69,11 @@ public class Tomcat10xEmbeddedLocalContainer extends Tomcat9xEmbeddedLocalContai
 
     private void addExtraMaxPartCount()
     {
-        Map<String, String> props = this.getConfiguration().getProperties();
-        if (props.containsKey(TomcatPropertySet.CONNECTOR_MAX_PART_COUNT))
+        LocalConfiguration conf = this.getConfiguration();
+        String maxPartCountkey =  TomcatPropertySet.CONNECTOR_MAX_PART_COUNT;
+        String maxPartCountStr = conf.getPropertyValue(maxPartCountkey);
+        if (conf.getPropertyValue(maxPartCountkey) != null)
         {
-            String maxPartCountStr = props.get(TomcatPropertySet.CONNECTOR_MAX_PART_COUNT);
             int maxPartCount = Integer.parseInt(maxPartCountStr);
             try
             {
