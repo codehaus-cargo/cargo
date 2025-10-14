@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.tomcat.internal.TomcatEmbedded;
+import org.codehaus.cargo.util.CargoException;
 
 /**
  * Embedded Tomcat 10.x container.
@@ -59,6 +60,9 @@ public class Tomcat10xEmbeddedLocalContainer extends Tomcat9xEmbeddedLocalContai
         return "Tomcat 10.x Embedded";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void prepareController(TomcatEmbedded wrapper, File home, int port)
     {
@@ -67,12 +71,14 @@ public class Tomcat10xEmbeddedLocalContainer extends Tomcat9xEmbeddedLocalContai
         addExtraMaxPartCount();
     }
 
+    /**
+     * Add the <code>maxPartCount</code> parameter to the Connector.
+     */
     private void addExtraMaxPartCount()
     {
-        LocalConfiguration conf = this.getConfiguration();
-        String maxPartCountkey =  TomcatPropertySet.CONNECTOR_MAX_PART_COUNT;
-        String maxPartCountStr = conf.getPropertyValue(maxPartCountkey);
-        if (conf.getPropertyValue(maxPartCountkey) != null)
+        String maxPartCountStr =
+            getConfiguration().getPropertyValue(TomcatPropertySet.CONNECTOR_MAX_PART_COUNT);
+        if (maxPartCountStr != null)
         {
             int maxPartCount = Integer.parseInt(maxPartCountStr);
             try
@@ -82,7 +88,7 @@ public class Tomcat10xEmbeddedLocalContainer extends Tomcat9xEmbeddedLocalContai
             }
             catch (NoSuchMethodException | SecurityException e)
             {
-                e.printStackTrace();
+                throw new CargoException("Cannot set maxPartCount", e);
             }
         }
     }
