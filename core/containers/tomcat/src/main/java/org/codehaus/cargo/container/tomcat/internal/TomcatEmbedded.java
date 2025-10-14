@@ -370,7 +370,7 @@ public final class TomcatEmbedded
         /**
          * Wrapped object to be accessed via reflection.
          */
-        protected final Object core;
+        public final Object core;
 
         /**
          * @param core the wrapped object to be accessed via reflection.
@@ -402,7 +402,7 @@ public final class TomcatEmbedded
          * @param arg1 the 1st argument for invocations.
          * @return the value from the invocation.
          */
-        protected Object invoke(Method method, Object arg1)
+        public Object invoke(Method method, Object arg1)
         {
             return invoke(method, new Object[] {arg1});
         }
