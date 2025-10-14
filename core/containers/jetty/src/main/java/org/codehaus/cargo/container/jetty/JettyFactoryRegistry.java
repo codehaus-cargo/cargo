@@ -276,7 +276,7 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         deployerFactory.registerDeployer("jetty6x", DeployerType.EMBEDDED,
             Jetty6xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty6x", DeployerType.INSTALLED,
-            Jetty6xInstalledLocalDeployer.class);
+            Jetty6x7x8xInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("jetty6x", DeployerType.REMOTE,
             JettyRemoteDeployer.class);
 

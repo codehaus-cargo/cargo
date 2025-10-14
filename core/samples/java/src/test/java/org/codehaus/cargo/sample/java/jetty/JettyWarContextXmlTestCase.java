@@ -89,6 +89,10 @@ public class JettyWarContextXmlTestCase extends AbstractWarTestCase
 
         Assertions.assertFalse(contextXml.exists(), "Context XML already exists");
         LocalConfiguration configuration = getLocalContainer().getConfiguration();
+        configuration.setProperty(JettyPropertySet.MODULES,
+            configuration.getPropertyValue(JettyPropertySet.MODULES).replace(
+                configuration.getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION) + "-",
+                    jettyEeVersion + "-"));
         configuration.setProperty(JettyPropertySet.DEPLOYER_EE_VERSION, jettyEeVersion);
         configuration.setProperty(JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML, "true");
         testWar("simple", "Sample page for testing");
@@ -104,7 +108,17 @@ public class JettyWarContextXmlTestCase extends AbstractWarTestCase
     public void testWarContextXml() throws Exception
     {
         File contextXml = new File(getLocalContainer().getConfiguration().getHome());
-        contextXml = new File(contextXml, "webapps/simple-war.xml");
+        if ("jetty6x".equals(getContainer().getId())
+            || "jetty7x".equals(getContainer().getId())
+            || "jetty8x".equals(getContainer().getId()))
+        {
+            contextXml = new File(contextXml, "contexts");
+        }
+        else
+        {
+            contextXml = new File(contextXml, "webapps");
+        }
+        contextXml = new File(contextXml, "simple-war.xml");
 
         Assertions.assertFalse(contextXml.exists(), "Context XML already exists");
         LocalConfiguration configuration = getLocalContainer().getConfiguration();

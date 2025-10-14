@@ -35,6 +35,10 @@ public class Jetty9x10x11xInstalledLocalDeployer extends Jetty7x8xInstalledLocal
         super(container);
     }
 
+    /**
+     * {@inheritDoc}. We override the base implementation because for For Jetty 9.x onwards
+     * this is the <code>webapps</code> directory.
+     */
     @Override
     public String getContextsDir()
     {

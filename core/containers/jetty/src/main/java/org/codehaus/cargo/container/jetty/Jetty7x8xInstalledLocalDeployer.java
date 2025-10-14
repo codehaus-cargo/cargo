@@ -25,11 +25,11 @@ import org.codehaus.cargo.container.deployable.WAR;
 /**
  * A deployer for webapps that deploys to a Jetty 7.x or 8.x installed instance.
  */
-public class Jetty7x8xInstalledLocalDeployer extends Jetty6xInstalledLocalDeployer
+public class Jetty7x8xInstalledLocalDeployer extends Jetty6x7x8xInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
-     * @see Jetty6xInstalledLocalDeployer#Jetty6xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
+     * @see Jetty6x7x8xInstalledLocalDeployer#Jetty6x7x8xInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
     public Jetty7x8xInstalledLocalDeployer(LocalContainer container)
     {

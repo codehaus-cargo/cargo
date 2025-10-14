@@ -30,9 +30,9 @@ import org.codehaus.cargo.container.jetty.internal.JettyUtils;
 import org.codehaus.cargo.container.spi.deployer.AbstractCopyingInstalledLocalDeployer;
 
 /**
- * A deployer for webapps that deploys to a Jetty 6.x installed instance.
+ * A deployer for webapps that deploys to a Jetty 6.x, 7.x or 8.x installed instance.
  */
-public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
+public class Jetty6x7x8xInstalledLocalDeployer extends AbstractCopyingInstalledLocalDeployer
 {
     /**
      * Deprecated property, which was renamed as
@@ -44,7 +44,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public Jetty6xInstalledLocalDeployer(LocalContainer container)
+    public Jetty6x7x8xInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }
@@ -61,7 +61,7 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     /**
      * Specifies the directory for which the <code>context.xml</code> for the
      * {@link org.codehaus.cargo.container.deployable.Deployable}s should be copied to. For Jetty
-     * this is the <code>webapps</code> directory.
+     * this is the <code>contexts</code> directory.
      * 
      * @return Deployable the directory to deploy the <code>context.xml</code> file to
      */
@@ -80,12 +80,12 @@ public class Jetty6xInstalledLocalDeployer extends AbstractCopyingInstalledLocal
     {
         String createContextXml =
             getContainer().getConfiguration().getPropertyValue(
-                Jetty6xInstalledLocalDeployer.DEPRECATED_CREATE_CONTEXT_XML);
+                Jetty6x7x8xInstalledLocalDeployer.DEPRECATED_CREATE_CONTEXT_XML);
         if (createContextXml != null)
         {
             getLogger().warn(
                 "You are using the deprecated property ["
-                    + Jetty6xInstalledLocalDeployer.DEPRECATED_CREATE_CONTEXT_XML
+                    + Jetty6x7x8xInstalledLocalDeployer.DEPRECATED_CREATE_CONTEXT_XML
                         + "]. Please replace it with ["
                             + JettyPropertySet.DEPLOYER_CREATE_CONTEXT_XML
                                 + "], which was introduced with Codehaus Cargo 1.10.9.",

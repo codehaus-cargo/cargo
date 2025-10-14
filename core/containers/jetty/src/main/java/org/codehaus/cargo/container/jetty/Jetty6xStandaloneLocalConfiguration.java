@@ -109,7 +109,8 @@ public class Jetty6xStandaloneLocalConfiguration extends
     protected AbstractCopyingInstalledLocalDeployer createDeployer(
         InstalledLocalContainer container)
     {
-        Jetty6xInstalledLocalDeployer deployer = new Jetty6xInstalledLocalDeployer(container);
+        Jetty6x7x8xInstalledLocalDeployer deployer =
+            new Jetty6x7x8xInstalledLocalDeployer(container);
         return deployer;
     }
 
