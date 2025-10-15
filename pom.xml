@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.cargo</groupId>
   <artifactId>codehaus-cargo</artifactId>
-  <version>1.10.24</version>
+  <version>1.10.25-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Codehaus Cargo</name>
