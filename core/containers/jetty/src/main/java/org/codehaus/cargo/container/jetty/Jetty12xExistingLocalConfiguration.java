@@ -43,7 +43,7 @@ public class Jetty12xExistingLocalConfiguration extends Jetty11xExistingLocalCon
     public Jetty12xExistingLocalConfiguration(String dir)
     {
         super(dir);
-        setProperty(JettyPropertySet.MODULES, Jetty12xInstalledLocalContainer.DEFAULT_MODULES);
+        setProperty(JettyPropertySet.MODULES, null);
         setProperty(JettyPropertySet.DEPLOYER_EE_VERSION,
             Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION);
     }
@@ -66,6 +66,22 @@ public class Jetty12xExistingLocalConfiguration extends Jetty11xExistingLocalCon
     public ConfigurationCapability getCapability()
     {
         return CAPABILITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPropertyValue(String name)
+    {
+        String propertyValue = super.getPropertyValue(name);
+        if (propertyValue == null && JettyPropertySet.MODULES.equals(name))
+        {
+            propertyValue = Jetty12xInstalledLocalContainer.DEFAULT_MODULES.replace(
+                Jetty12xInstalledLocalContainer.DEFAULT_DEPLOYER_EE_VERSION + "-",
+                    getPropertyValue(JettyPropertySet.DEPLOYER_EE_VERSION) + "-");
+        }
+        return propertyValue;
     }
 
 }

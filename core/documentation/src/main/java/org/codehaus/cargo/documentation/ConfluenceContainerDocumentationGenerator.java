@@ -1778,6 +1778,22 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
         }
 
+        if ("jetty12x".equals(containerId))
+        {
+            output.append("{info:title=Jetty modules and EE version}");
+            output.append(FileHandler.NEW_LINE);
+            output.append("Starting from Codehaus Cargo 1.10.25, except when configured ");
+            output.append("explicitly, the EE version for {{[JettyPropertySet.MODULES|");
+            output.append("https://codehaus-cargo.github.io/apidocs/org/codehaus/cargo/container/");
+            output.append("jetty/JettyPropertySet.html#MODULES]}} will be automatically adjusted ");
+            output.append("based on {{[JettyPropertySet.DEPLOYER_EE_VERSION|");
+            output.append("https://codehaus-cargo.github.io/apidocs/org/codehaus/cargo/container/");
+            output.append("jetty/JettyPropertySet.html#DEPLOYER_EE_VERSION]}}.");
+            output.append(FileHandler.NEW_LINE);
+            output.append("{info}");
+            output.append(FileHandler.NEW_LINE);
+        }
+
         if (supportsDatasourceOrResource)
         {
             output.append("{info:title=Datasource and Resource configuration}");
