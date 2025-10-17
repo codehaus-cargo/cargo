@@ -22,10 +22,8 @@ package org.codehaus.cargo.container.spi.configuration;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
@@ -237,12 +235,15 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         return this.home;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getPropertyValue(String name)
     {
         if (isOffsetApplied(name))
         {
-            return super.getProperties().get(name);
+            return super.getPropertyValueIgnoreSystemProperties(name);
         }
         else
         {
@@ -278,17 +279,18 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     }
 
     /**
-     * Returns (while, if necessary, creating) the default filter chain that should be applied
-     * while copying container configuration files to the working directory from which the
-     * container is started.
-     * 
-     * @return The default filter chain
+     * {@inheritDoc}
      */
-    protected Map<String, String> getReplacements()
+    @Override
+    public synchronized Map<String, String> getReplacements()
     {
         if (this.replacements == null)
         {
-            this.replacements = new HashMap<String, String>(getProperties());
+            this.replacements = new HashMap<String, String>(getProperties().size());
+            for (String property : getProperties())
+            {
+                this.replacements.put(property, getPropertyValue(property));
+            }
         }
         return this.replacements;
     }
@@ -538,12 +540,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     {
         getLogger().debug("Searching properties for Resource definitions",
             this.getClass().getName());
-        for (Map.Entry<String, String> property : getProperties().entrySet())
+        for (String property : getProperties())
         {
-            String propertyName = property.getKey();
-            if (propertyName.startsWith(ResourcePropertySet.RESOURCE))
+            if (property.startsWith(ResourcePropertySet.RESOURCE))
             {
-                String resourceProperty = property.getValue();
+                String resourceProperty = getPropertyValue(property);
                 getLogger().debug("Found Resource definition: value [" + resourceProperty + "]",
                     this.getClass().getName());
                 Resource resource = new ResourceConverter().fromPropertyString(resourceProperty);
@@ -560,12 +561,11 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     {
         getLogger().debug("Searching properties for DataSource definitions",
             this.getClass().getName());
-        for (Map.Entry<String, String> property : getProperties().entrySet())
+        for (String property : getProperties())
         {
-            String propertyName = property.getKey();
-            if (propertyName.startsWith(DatasourcePropertySet.DATASOURCE))
+            if (property.startsWith(DatasourcePropertySet.DATASOURCE))
             {
-                String dataSourceProperty = property.getValue();
+                String dataSourceProperty = getPropertyValue(property);
                 getLogger().debug(
                     "Found DataSource definition: value [" + dataSourceProperty + "]",
                     this.getClass().getName());
@@ -671,15 +671,14 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
             && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0"))
         {
-            // Since the properties hashmap is impacted by the revert we must
-            // use a copy of the keys
-            Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
-            for (String key : keysCopy)
+            // getProperties() always returns a copy of the keySet,
+            // it is hence safe to change the underlying map in a for loop
+            for (String property : getProperties())
             {
                 // CARGO-1438: Only update numbers for properties prefixed with "cargo."
-                if (key.startsWith("cargo.") && key.endsWith(".port"))
+                if (property.startsWith("cargo.") && property.endsWith(".port"))
                 {
-                    this.applyPortOffset(key);
+                    this.applyPortOffset(property);
                 }
             }
         }
@@ -696,17 +695,14 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
             && !this.getPropertyValue(GeneralPropertySet.PORT_OFFSET).equals("0"))
         {
-            // We need to shift the ports
-
-            // Since the properties hashmap is impacted by the revert we must
-            // use a copy of the keys
-            Set<String> keysCopy = new HashSet<String>(this.getProperties().keySet());
-            for (String key : keysCopy)
+            // getProperties() always returns a copy of the keySet,
+            // it is hence safe to change the underlying map in a for loop
+            for (String property : getProperties())
             {
                 // CARGO-1438: Only update numbers for properties prefixed with "cargo."
-                if (key.startsWith("cargo.") && key.endsWith(".port"))
+                if (property.startsWith("cargo.") && property.endsWith(".port"))
                 {
-                    this.revertPortOffset(key);
+                    this.revertPortOffset(property);
                 }
             }
         }
@@ -719,8 +715,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     protected void applyPortOffset(String name)
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
-            && this.getPropertyValue(name) != null
-            && !isOffsetApplied(name))
+            && this.getPropertyValue(name) != null && !isOffsetApplied(name))
         {
             try
             {
@@ -730,7 +725,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 this.setProperty(name, Integer.toString(value + portOffset));
                 flagOffsetApplied(name, true);
             }
-            catch (NumberFormatException e)
+            catch (NumberFormatException ignored)
             {
                 // We do nothing
             }
@@ -745,8 +740,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
     protected void revertPortOffset(String name)
     {
         if (this.getPropertyValue(GeneralPropertySet.PORT_OFFSET) != null
-                && this.getPropertyValue(name) != null
-                && isOffsetApplied(name))
+            && this.getPropertyValue(name) != null && isOffsetApplied(name))
         {
             try
             {
@@ -756,7 +750,7 @@ public abstract class AbstractLocalConfiguration extends AbstractConfiguration i
                 this.setProperty(name, Integer.toString(value - portOffset));
                 flagOffsetApplied(name, false);
             }
-            catch (NumberFormatException e)
+            catch (NumberFormatException ignored)
             {
                 // We do nothing
             }

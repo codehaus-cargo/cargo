@@ -20,7 +20,9 @@
 package org.codehaus.cargo.container.stub;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.FileConfig;
@@ -41,6 +43,12 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
      * Container home.
      */
     private String home;
+
+    /**
+     * The replacements for the configuration files. This contains the tokens and what values they
+     * should be replaced with.
+     */
+    private Map<String, String> replacements;
 
     /**
      * Deployables to deploy.
@@ -97,6 +105,23 @@ public abstract class AbstractLocalConfigurationStub extends AbstractConfigurati
     public void setHome(String home)
     {
         this.home = home;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public synchronized Map<String, String> getReplacements()
+    {
+        if (this.replacements == null)
+        {
+            this.replacements = new HashMap<String, String>(getProperties().size());
+            for (String property : getProperties())
+            {
+                this.replacements.put(property, getPropertyValue(property));
+            }
+        }
+        return this.replacements;
     }
 
     /**

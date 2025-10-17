@@ -20,7 +20,7 @@
 package org.codehaus.cargo.generic;
 
 import java.util.Collections;
-import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 
@@ -42,11 +42,11 @@ public class SuperConfigurationCapability implements ConfigurationCapability
 
     /**
      * {@inheritDoc}
-     * @return {@link Collections#emptyMap()}
+     * @return {@link Collections#emptySet()}
      */
     @Override
-    public Map<String, Boolean> getProperties()
+    public Set<String> getProperties()
     {
-        return Collections.emptyMap();
+        return Collections.emptySet();
     }
 }

@@ -40,7 +40,7 @@ public class WildFly8xRuntimeConfiguration extends JBoss7xRuntimeConfiguration
      */
     public WildFly8xRuntimeConfiguration()
     {
-        getProperties().remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, null);
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, "9990");
     }
 

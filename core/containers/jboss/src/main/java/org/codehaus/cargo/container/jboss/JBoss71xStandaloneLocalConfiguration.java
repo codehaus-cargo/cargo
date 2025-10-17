@@ -52,9 +52,9 @@ public class JBoss71xStandaloneLocalConfiguration extends JBoss7xStandaloneLocal
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_RECOVERY_MANAGER_PORT, "4712");
         setProperty(JBossPropertySet.JBOSS_TRANSACTION_STATUS_MANAGER_PORT, "4713");
 
-        getProperties().remove(GeneralPropertySet.RMI_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_JRMP_PORT);
-        getProperties().remove(JBossPropertySet.JBOSS_JMX_PORT);
+        setProperty(GeneralPropertySet.RMI_PORT, null);
+        setProperty(JBossPropertySet.JBOSS_JRMP_PORT, null);
+        setProperty(JBossPropertySet.JBOSS_JMX_PORT, null);
 
         // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
         setProperty(GeneralPropertySet.PORT_OFFSET, "0");

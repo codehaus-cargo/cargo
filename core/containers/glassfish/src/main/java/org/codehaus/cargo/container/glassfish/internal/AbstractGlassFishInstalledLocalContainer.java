@@ -118,7 +118,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 this.getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
             try
             {
-                this.getConfiguration().getProperties().remove(GeneralPropertySet.JVMARGS);
+                this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, null);
                 super.startInternal();
             }
             finally
@@ -144,7 +144,7 @@ public abstract class AbstractGlassFishInstalledLocalContainer
                 this.getConfiguration().getPropertyValue(GeneralPropertySet.JVMARGS);
             try
             {
-                this.getConfiguration().getProperties().remove(GeneralPropertySet.JVMARGS);
+                this.getConfiguration().setProperty(GeneralPropertySet.JVMARGS, null);
                 super.stopInternal();
             }
             finally

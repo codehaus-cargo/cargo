@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.UnknownHostException;
-import java.util.Map;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.LocalContainer;
@@ -202,29 +201,38 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
             getConfiguration().configure(this);
 
             // CARGO-365: Check if ports are in use
-            for (Map.Entry<String, String> property
-                : getConfiguration().getProperties().entrySet())
+            for (String property : getConfiguration().getProperties())
             {
                 // CARGO-1438: Only check ports for property names supported by the container
-                if (property.getKey().startsWith("cargo.") && property.getKey().endsWith(".port")
-                    && getConfiguration().getCapability().supportsProperty(property.getKey())
-                    && property.getValue() != null)
+                if (!property.startsWith("cargo.") || !property.endsWith(".port")
+                    || !getConfiguration().getCapability().supportsProperty(property))
                 {
-                    try
-                    {
-                        int port = Integer.parseInt(property.getValue());
-                        if (!isPortShutdown(port))
-                        {
-                            throw new ContainerException("Port number " + property.getValue()
-                                + " (defined with the property " + property.getKey() + ") is "
-                                    + "in use. Please free it on the system or set it to a "
-                                        + "different port in the container configuration.");
-                        }
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        // We do nothing
-                    }
+                    continue;
+                }
+                String value = configuration.getPropertyValue(property);
+                if (value == null)
+                {
+                    continue;
+                }
+                int port;
+                try
+                {
+                    port = Integer.parseInt(value);
+                }
+                catch (NumberFormatException ignored)
+                {
+                    continue;
+                }
+                if (port < 1 || port > 65535)
+                {
+                    continue;
+                }
+
+                if (!isPortShutdown(port))
+                {
+                    throw new ContainerException("Port number " + port + " (defined with the "
+                        + "property " + property + ") is in use. Please free it on the system or "
+                            + "set it to a different port in the container configuration.");
                 }
             }
 
@@ -386,7 +394,7 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
                 {
                     String message = "Monitor [" + monitor.getClass().getName()
                         + "] failed to detect running container"
-                        + " within the timeout period [" + getTimeout() + "].";
+                            + " within the timeout period [" + getTimeout() + "].";
                     getLogger().info(message, this.getClass().getName());
                     throw new ContainerException(message);
                 }
@@ -427,21 +435,25 @@ public abstract class AbstractLocalContainer extends AbstractContainer implement
         {
             long deadline = System.currentTimeMillis() + getTimeout();
 
-            for (Map.Entry<String, String> property : getConfiguration().getProperties().entrySet())
+            for (String property : getConfiguration().getProperties())
             {
                 // CARGO-1438: Only check ports for property names supported by the container
-                if (!property.getKey().startsWith("cargo.") || !property.getKey().endsWith(".port")
-                    || !getConfiguration().getCapability().supportsProperty(property.getKey())
-                    || property.getValue() == null)
+                if (!property.startsWith("cargo.") || !property.endsWith(".port")
+                    || !getConfiguration().getCapability().supportsProperty(property))
+                {
+                    continue;
+                }
+                String value = configuration.getPropertyValue(property);
+                if (value == null)
                 {
                     continue;
                 }
                 int port;
                 try
                 {
-                    port = Integer.parseInt(property.getValue());
+                    port = Integer.parseInt(value);
                 }
-                catch (NumberFormatException e)
+                catch (NumberFormatException ignored)
                 {
                     continue;
                 }

@@ -58,6 +58,7 @@ import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
@@ -299,7 +300,7 @@ public class ConfluenceContainerDocumentationGenerator
             new TreeMap<String, InstalledLocalContainer>();
         for (String containerId : containerIds.keySet())
         {
-            Map<String, Boolean> properties;
+            Set<String> properties;
             try
             {
                 properties = this.configurationCapabilityFactory.
@@ -312,7 +313,7 @@ public class ConfluenceContainerDocumentationGenerator
                 continue;
             }
 
-            for (String property : properties.keySet())
+            for (String property : properties)
             {
                 if (property.startsWith(DATASOURCE_PREFIX)
                     || ResourcePropertySet.RESOURCE.equals(property))
@@ -362,7 +363,6 @@ public class ConfluenceContainerDocumentationGenerator
         {
             Configuration configuration = container.getConfiguration();
             Class configurationClass = configuration.getClass();
-            Map<String, Boolean> properties = configuration.getCapability().getProperties();
 
             output.append("| [");
             output.append(container.getName());
@@ -375,7 +375,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append("] | {{");
             output.append(computedFQCN(configurationClass.getName()));
             output.append("}} | (");
-            if (properties.keySet().contains(ResourcePropertySet.RESOURCE))
+            if (configuration.getCapability().supportsProperty(ResourcePropertySet.RESOURCE))
             {
                 output.append("/)");
                 File dummy = new File(System.getProperty("java.io.tmpdir"), "cargo-dummy");
@@ -409,7 +409,7 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append("x)");
             }
             output.append(" | (");
-            if (properties.keySet().contains(DatasourcePropertySet.DATASOURCE))
+            if (configuration.getCapability().supportsProperty(DatasourcePropertySet.DATASOURCE))
             {
                 output.append('/');
             }
@@ -418,7 +418,8 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append('x');
             }
             output.append(") | (");
-            if (properties.keySet().contains(DatasourcePropertySet.TRANSACTION_SUPPORT))
+            if (configuration.getCapability().supportsProperty(
+                DatasourcePropertySet.TRANSACTION_SUPPORT))
             {
                 output.append('/');
             }
@@ -427,7 +428,8 @@ public class ConfluenceContainerDocumentationGenerator
                 output.append('x');
             }
             output.append(") | (");
-            if (properties.keySet().contains(DatasourcePropertySet.CONNECTION_TYPE))
+            if (configuration.getCapability().supportsProperty(
+                DatasourcePropertySet.CONNECTION_TYPE))
             {
                 output.append('/');
             }
@@ -1595,14 +1597,13 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         boolean supportsDatasourceOrResource = false;
-        Map<String, Boolean> properties = this.configurationCapabilityFactory.
-            createConfigurationCapability(containerId, containerType, type).getProperties();
+        ConfigurationCapability capability = this.configurationCapabilityFactory.
+            createConfigurationCapability(containerId, containerType, type);
+        Set<String> sortedPropertyNames = new TreeSet<String>(capability.getProperties());
         if (containerId.startsWith("tomcat") && containerType.equals(ContainerType.EMBEDDED))
         {
-            properties = new HashMap<>(properties);
-            properties.put(TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING, Boolean.TRUE);
+            sortedPropertyNames.add(TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING);
         }
-        Set<String> sortedPropertyNames = new TreeSet<String>(properties.keySet());
         for (String property : sortedPropertyNames)
         {
             if (property.equals(GeneralPropertySet.SPAWN_PROCESS)
@@ -1630,7 +1631,7 @@ public class ConfluenceContainerDocumentationGenerator
                     + propertySetField.getName() + "|Configuration properties]");
             }
             output.append(" | ");
-            boolean supported = properties.get(property);
+            boolean supported = capability.supportsProperty(property);
             output.append(supported ? "(/)" : "(x)");
             switch (property)
             {

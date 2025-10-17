@@ -43,7 +43,7 @@ public class JBoss72xStandaloneLocalConfiguration extends JBoss71xStandaloneLoca
     {
         super(dir);
 
-        getProperties().remove(JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
+        setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, null);
     }
 
     /**

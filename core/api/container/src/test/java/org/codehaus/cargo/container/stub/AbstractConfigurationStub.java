@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.stub;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
@@ -79,9 +82,7 @@ public abstract class AbstractConfigurationStub implements Configuration
     }
 
     /**
-     * Saves the property. {@inheritDoc}
-     * @param name Property name.
-     * @param value Property value.
+     * {@inheritDoc}
      */
     @Override
     public void setProperty(String name, String value)
@@ -91,18 +92,15 @@ public abstract class AbstractConfigurationStub implements Configuration
 
     /**
      * {@inheritDoc}
-     * @return All properties.
      */
     @Override
-    public Map<String, String> getProperties()
+    public Set<String> getProperties()
     {
-        return this.properties;
+        return Collections.unmodifiableSortedSet(new TreeSet<String>(this.properties.keySet()));
     }
 
     /**
      * {@inheritDoc}
-     * @param name Name of the property to get.
-     * @return The value for <code>name</code>, <code>null</code> if not set.
      */
     @Override
     public String getPropertyValue(String name)

@@ -81,9 +81,9 @@ public class Tomcat7xStandaloneLocalConfigurationTest extends
     public void testExtraContextAttributes()
     {
         Assertions.assertTrue(Boolean.parseBoolean(
-            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART)));
+            configuration.getPropertyValue(TomcatPropertySet.CONTEXT_ALLOW_MULTIPART)));
         Assertions.assertTrue(Boolean.parseBoolean(
-            configuration.getProperties().get(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS)));
+            configuration.getPropertyValue(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS)));
     }
 
     /**

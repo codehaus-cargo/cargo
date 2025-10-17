@@ -591,7 +591,12 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 fileManager.deleteWorkspaceDirectory(handleId);
             }
 
-            configuration.getProperties().putAll(configurationProperties);
+            for (Map.Entry<String, String> configurationProperty
+                : configurationProperties.entrySet())
+            {
+                configuration.setProperty(
+                    configurationProperty.getKey(), configurationProperty.getValue());
+            }
 
             if (configuration instanceof StandaloneLocalConfiguration)
             {

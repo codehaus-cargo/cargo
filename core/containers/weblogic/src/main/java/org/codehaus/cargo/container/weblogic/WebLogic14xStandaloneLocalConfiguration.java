@@ -39,8 +39,8 @@ public class WebLogic14xStandaloneLocalConfiguration extends
     {
         super(dir);
 
-        getProperties().remove(WebLogicPropertySet.PASSWORD_LENGTH_MIN);
-        getProperties().remove(WebLogicPropertySet.PASSWORD_SPNUM_MIN);
+        setProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN, null);
+        setProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN, null);
     }
 
     /**

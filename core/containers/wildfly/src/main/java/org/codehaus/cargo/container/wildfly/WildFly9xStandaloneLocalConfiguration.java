@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.wildfly;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.codehaus.cargo.container.LocalContainer;
@@ -133,12 +132,11 @@ public class WildFly9xStandaloneLocalConfiguration
         }
 
         // add custom embedded scripts
-        for (Map.Entry<String, String> property : getProperties().entrySet())
+        for (String property : getProperties())
         {
-            String propertyName = property.getKey();
-            if (propertyName.startsWith(WildFlyPropertySet.CLI_EMBEDDED_SCRIPT))
+            if (property.startsWith(WildFlyPropertySet.CLI_EMBEDDED_SCRIPT))
             {
-                String scriptPath = property.getValue();
+                String scriptPath = getPropertyValue(property);
                 configurationScript.add(factory.customScript(scriptPath));
             }
         }
@@ -146,12 +144,11 @@ public class WildFly9xStandaloneLocalConfiguration
         container.executeScript(configurationScript);
 
         // execute CLI scripts
-        for (Map.Entry<String, String> property : getProperties().entrySet())
+        for (String property : getProperties())
         {
-            String propertyName = property.getKey();
-            if (propertyName.startsWith(WildFlyPropertySet.CLI_OFFLINE_SCRIPT))
+            if (property.startsWith(WildFlyPropertySet.CLI_OFFLINE_SCRIPT))
             {
-                String scriptPath = property.getValue();
+                String scriptPath = getPropertyValue(property);
                 container.executeScriptFiles(Arrays.asList(scriptPath));
             }
         }

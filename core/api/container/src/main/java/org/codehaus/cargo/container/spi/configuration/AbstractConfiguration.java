@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.codehaus.cargo.container.ContainerException;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -63,10 +66,9 @@ public abstract class AbstractConfiguration extends LoggedObject
     {
         if (value != null)
         {
-            if (getCapability() != null && getCapability().getProperties() != null)
+            if (getCapability() != null)
             {
-                Boolean supports = getCapability().getProperties().get(name);
-                if (Boolean.FALSE.equals(supports))
+                if (!getCapability().supportsProperty(name))
                 {
                     getLogger().warn(
                         "Property [" + name + "] is not supported by " + this.toString(),
@@ -88,9 +90,9 @@ public abstract class AbstractConfiguration extends LoggedObject
      * {@inheritDoc}
      */
     @Override
-    public Map<String, String> getProperties()
+    public Set<String> getProperties()
     {
-        return this.properties;
+        return Collections.unmodifiableSortedSet(new TreeSet<String>(this.properties.keySet()));
     }
 
     /**
@@ -104,6 +106,16 @@ public abstract class AbstractConfiguration extends LoggedObject
         {
             return systemProperty;
         }
+        return this.properties.get(name);
+    }
+
+    /**
+     * @param name the property name for which to return the value
+     * @return the property's value, ignoring any system properties
+     * @see #setProperty(String, String)
+     */
+    protected String getPropertyValueIgnoreSystemProperties(String name)
+    {
         return this.properties.get(name);
     }
 

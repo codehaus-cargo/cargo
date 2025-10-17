@@ -26,7 +26,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.codehaus.cargo.container.configuration.Configuration;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.FileHandler;
@@ -53,7 +53,7 @@ public class FileScriptCommand extends AbstractScriptCommand
      * @param configuration Container configuration.
      * @param filePath Path to configuration script file.
      */
-    public FileScriptCommand(Configuration configuration, String filePath)
+    public FileScriptCommand(LocalConfiguration configuration, String filePath)
     {
         super(configuration);
 
@@ -91,14 +91,11 @@ public class FileScriptCommand extends AbstractScriptCommand
                     }
                 }
                 String output = out.toString();
-                Map<String, String> replacements = getConfiguration().getProperties();
-                if (replacements != null)
+                for (Map.Entry<String, String> replacement
+                    : ((LocalConfiguration) getConfiguration()).getReplacements().entrySet())
                 {
-                    for (Map.Entry<String, String> replacement : replacements.entrySet())
-                    {
-                        String replacementKey = "@" + replacement.getKey() + "@";
-                        output = output.replace(replacementKey, replacement.getValue());
-                    }
+                    String replacementKey = "@" + replacement.getKey() + "@";
+                    output = output.replace(replacementKey, replacement.getValue());
                 }
                 return output;
             }

@@ -611,11 +611,11 @@ public class DaemonClient extends LoggedObject
     private String setupConfigurationProperties(LocalConfiguration configuration)
     {
         StringBuilder propertiesJSON = new StringBuilder();
-        Map<String, String> properties = configuration.getProperties();
+        Set<String> properties = configuration.getProperties();
 
         propertiesJSON.append("{");
         boolean first = true;
-        for (Map.Entry<String, String> entry : properties.entrySet())
+        for (String property : properties)
         {
             if (first)
             {
@@ -626,8 +626,8 @@ public class DaemonClient extends LoggedObject
                 propertiesJSON.append(",");
             }
 
-            propertiesJSON.append("\"" + escapeJson(entry.getKey()) + "\":\""
-                + escapeJson(entry.getValue()) + "\"");
+            propertiesJSON.append("\"" + escapeJson(property) + "\":\""
+                + escapeJson(configuration.getPropertyValue(property)) + "\"");
         }
         propertiesJSON.append("}");
 

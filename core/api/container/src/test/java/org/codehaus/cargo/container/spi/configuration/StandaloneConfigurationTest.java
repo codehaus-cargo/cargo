@@ -19,11 +19,11 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.Set;
 
 import org.apache.commons.vfs2.AllFileSelector;
 import org.apache.commons.vfs2.FileObject;
@@ -88,12 +88,12 @@ public class StandaloneConfigurationTest
 
                 /**
                  * {@inheritDoc}
-                 * @return {@link Collections#emptyMap()}
+                 * @return {@link Collections#emptySet()}
                  */
                 @Override
-                public Map<String, Boolean> getProperties()
+                public Set<String> getProperties()
                 {
-                    return Collections.emptyMap();
+                    return Collections.emptySet();
                 }
             };
         }

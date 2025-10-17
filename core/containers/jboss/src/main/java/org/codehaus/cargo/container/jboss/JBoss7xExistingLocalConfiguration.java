@@ -59,7 +59,7 @@ public class JBoss7xExistingLocalConfiguration extends AbstractExistingLocalConf
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
 
         // JBoss 7.x has issues with port offset, this was fixed with JBoss 7.1.x
-        getProperties().remove(GeneralPropertySet.PORT_OFFSET);
+        setProperty(GeneralPropertySet.PORT_OFFSET, null);
     }
 
     /**

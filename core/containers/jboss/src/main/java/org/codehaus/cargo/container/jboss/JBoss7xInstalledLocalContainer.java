@@ -255,16 +255,12 @@ public class JBoss7xInstalledLocalContainer extends AbstractInstalledLocalContai
     @Override
     protected void executePostStartTasks() throws Exception
     {
-        Map<String, String> properties = getConfiguration().getProperties();
-
         // Execute online CLI scripts
-        for (Map.Entry<String, String> property : properties.entrySet())
+        for (String property : getConfiguration().getProperties())
         {
-            String propertyName = property.getKey();
-            if (propertyName.startsWith(JBossPropertySet.CLI_ONLINE_SCRIPT))
+            if (property.startsWith(JBossPropertySet.CLI_ONLINE_SCRIPT))
             {
-                String scriptPath = property.getValue();
-                executeScriptFiles(Arrays.asList(scriptPath));
+                executeScriptFiles(Arrays.asList(getConfiguration().getPropertyValue(property)));
             }
         }
     }

@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.configuration;
 
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents the capability of a configuration. More specifically it describes the properties that
@@ -36,5 +36,5 @@ public interface ConfigurationCapability
     /**
      * @return the list of supported or not supported configuration properties
      */
-    Map<String, Boolean> getProperties();
+    Set<String> getProperties();
 }

@@ -19,7 +19,7 @@
  */
 package org.codehaus.cargo.container.configuration;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.cargo.util.log.Loggable;
 
@@ -44,7 +44,8 @@ public interface Configuration extends Loggable
      * executing threads, etc).
      * 
      * @param name the property name
-     * @param value the property value
+     * @param value the property value, setting to <code>null</code> will remove the associated
+     * property from the internal map.
      */
     void setProperty(String name, String value);
 
@@ -52,7 +53,7 @@ public interface Configuration extends Loggable
      * @return the list of properties set
      * @see #setProperty(String, String)
      */
-    Map<String, String> getProperties();
+    Set<String> getProperties();
 
     /**
      * @param name the property name for which to return the value

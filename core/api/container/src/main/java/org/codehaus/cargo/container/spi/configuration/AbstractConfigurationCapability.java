@@ -19,8 +19,11 @@
  */
 package org.codehaus.cargo.container.spi.configuration;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 
@@ -64,8 +67,9 @@ public abstract class AbstractConfigurationCapability implements ConfigurationCa
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Boolean> getProperties()
+    public Set<String> getProperties()
     {
-        return new HashMap<String, Boolean>(this.propertySupportMap);
+        return Collections.unmodifiableSortedSet(
+            new TreeSet<String>(this.propertySupportMap.keySet()));
     }
 }

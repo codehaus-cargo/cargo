@@ -208,7 +208,8 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             List<ScriptCommand> fileScript = new ArrayList<ScriptCommand>(scriptPathList.size());
             for (String scriptPath : scriptPathList)
             {
-                fileScript.add(new FileScriptCommand(configuration, scriptPath));
+                fileScript.add(
+                    new FileScriptCommand((LocalConfiguration) configuration, scriptPath));
             }
             executeScript(fileScript);
         }

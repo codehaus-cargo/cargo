@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -97,12 +97,12 @@ public class ConfigurationFilesTest
 
                 /**
                  * {@inheritDoc}
-                 * @return {@link Collections#emptyMap()}
+                 * @return {@link Collections#emptySet()}
                  */
                 @Override
-                public Map<String, Boolean> getProperties()
+                public Set<String> getProperties()
                 {
-                    return Collections.emptyMap();
+                    return Collections.emptySet();
                 }
             };
         }

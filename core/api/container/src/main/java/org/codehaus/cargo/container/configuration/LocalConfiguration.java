@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.configuration;
 
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -70,6 +71,15 @@ public interface LocalConfiguration extends Configuration
      * @return The configuration file properies
      */
     List<FileConfig> getFileProperties();
+
+    /**
+     * Returns (while, if necessary, creating) the default filter chain that should be applied
+     * while copying container configuration files to the working directory from which the
+     * container is started.
+     * 
+     * @return The default filter chain
+     */
+    Map<String, String> getReplacements();
 
     /**
      * Deploy a {@link Deployable} in the container. It installs the {@link Deployable} in the

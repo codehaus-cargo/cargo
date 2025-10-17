@@ -44,7 +44,7 @@ public class JBoss7xRuntimeConfiguration extends AbstractRuntimeConfiguration
         setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, "9999");
         setProperty(JBossPropertySet.DEPLOYER_KEEP_ORIGINAL_WAR_FILENAME, "false");
 
-        getProperties().remove(GeneralPropertySet.RMI_PORT);
+        setProperty(GeneralPropertySet.RMI_PORT, null);
     }
 
     /**

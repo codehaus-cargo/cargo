@@ -20,8 +20,10 @@
 package org.codehaus.cargo.container.spi.configuration;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -92,16 +94,6 @@ public class LocalConfigurationTest
             {
                 /**
                  * {@inheritDoc}
-                 * @return <code>null</code>.
-                 */
-                @Override
-                public Map<String, Boolean> getProperties()
-                {
-                    return null;
-                }
-
-                /**
-                 * {@inheritDoc}
                  * @param propertyName Property name to check for.
                  * @return <code>true</code> if the <code>supportedProperties</code> given in the
                  * constructor contains <code>propertyName</code>, <code>false</code> otherwise.
@@ -109,11 +101,21 @@ public class LocalConfigurationTest
                 @Override
                 public boolean supportsProperty(String propertyName)
                 {
-                    if (supportedProperties.contains(propertyName))
+                    if (supportedProperties != null && supportedProperties.contains(propertyName))
                     {
                         return true;
                     }
                     return false;
+                }
+
+                /**
+                 * {@inheritDoc}
+                 */
+                @Override
+                public Set<String> getProperties()
+                {
+                    return Collections.unmodifiableSortedSet(
+                        new TreeSet<String>(supportedProperties));
                 }
             };
         }
@@ -325,11 +327,12 @@ public class LocalConfigurationTest
         Assertions.assertTrue(configuration.isOffsetApplied());
         Assertions.assertEquals(
             "1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        Assertions.assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
-        Assertions.assertEquals("15025",
-            configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-        Assertions.assertEquals("17125",
-            configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
+        Assertions.assertEquals(
+            "8180", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals(
+            "15025", configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
+        Assertions.assertEquals(
+            "17125", configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
         // re-apply port offset, which should have no impact
         configuration.applyPortOffset();
@@ -337,11 +340,12 @@ public class LocalConfigurationTest
         Assertions.assertTrue(configuration.isOffsetApplied());
         Assertions.assertEquals(
             "1199", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        Assertions.assertEquals("8180", configuration.getPropertyValue(ServletPropertySet.PORT));
-        Assertions.assertEquals("15025",
-            configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-        Assertions.assertEquals("17125",
-            configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
+        Assertions.assertEquals(
+            "8180", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals(
+            "15025", configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
+        Assertions.assertEquals(
+            "17125", configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
     }
 
     /**
@@ -369,7 +373,8 @@ public class LocalConfigurationTest
         Assertions.assertFalse(configuration.isOffsetApplied());
         Assertions.assertEquals(
             "1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        Assertions.assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals(
+            "8080", configuration.getPropertyValue(ServletPropertySet.PORT));
 
         // re-revert port offset, which should have no impact
         configuration.revertPortOffset();
@@ -377,7 +382,8 @@ public class LocalConfigurationTest
         Assertions.assertFalse(configuration.isOffsetApplied());
         Assertions.assertEquals(
             "1099", configuration.getPropertyValue(GeneralPropertySet.RMI_PORT));
-        Assertions.assertEquals("8080", configuration.getPropertyValue(ServletPropertySet.PORT));
+        Assertions.assertEquals(
+            "8080", configuration.getPropertyValue(ServletPropertySet.PORT));
     }
 
     /**
@@ -401,36 +407,36 @@ public class LocalConfigurationTest
                 "8091", configuration.getPropertyValue(ServletPropertySet.PORT));
 
             configuration.setProperty(LocalConfigurationTest.NON_CARGO_PORT, "15025");
-            Assertions.assertEquals("15025",
-                configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
+            Assertions.assertEquals(
+                "15025", configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
 
             configuration.setProperty(LocalConfigurationTest.CUSTOM_CARGO_PORT, "17025");
-            Assertions.assertEquals("17025",
-                configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
+            Assertions.assertEquals(
+                "17025", configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
             configuration.setProperty(GeneralPropertySet.PORT_OFFSET, "20");
             Assertions.assertEquals(
                 "8091", configuration.getPropertyValue(ServletPropertySet.PORT));
-            Assertions.assertEquals("15025",
-                configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-            Assertions.assertEquals("17025",
-                configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
+            Assertions.assertEquals(
+                "15025", configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
+            Assertions.assertEquals(
+                "17025", configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
             configuration.applyPortOffset();
             Assertions.assertEquals(
                 "8111", configuration.getPropertyValue(ServletPropertySet.PORT));
-            Assertions.assertEquals("15025",
-                configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-            Assertions.assertEquals("17045",
-                configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
+            Assertions.assertEquals(
+                "15025", configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
+            Assertions.assertEquals(
+                "17045", configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
 
             configuration.revertPortOffset();
             Assertions.assertEquals(
                 "8091", configuration.getPropertyValue(ServletPropertySet.PORT));
-            Assertions.assertEquals("15025",
-                configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
-            Assertions.assertEquals("17025",
-                configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
+            Assertions.assertEquals(
+                "15025", configuration.getPropertyValue(LocalConfigurationTest.NON_CARGO_PORT));
+            Assertions.assertEquals(
+                "17025", configuration.getPropertyValue(LocalConfigurationTest.CUSTOM_CARGO_PORT));
         }
         finally
         {

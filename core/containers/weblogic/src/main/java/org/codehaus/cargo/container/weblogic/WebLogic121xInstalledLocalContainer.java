@@ -185,7 +185,8 @@ public class WebLogic121xInstalledLocalContainer extends
             List<ScriptCommand> fileScript = new ArrayList<ScriptCommand>(scriptPathList.size());
             for (String scriptPath : scriptPathList)
             {
-                fileScript.add(new FileScriptCommand(configuration, scriptPath));
+                fileScript.add(
+                    new FileScriptCommand((LocalConfiguration) configuration, scriptPath));
             }
             executeScript(fileScript);
         }

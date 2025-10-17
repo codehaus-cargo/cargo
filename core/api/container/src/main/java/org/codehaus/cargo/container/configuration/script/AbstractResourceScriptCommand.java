@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.cargo.container.configuration.Configuration;
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
@@ -67,8 +68,12 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
     @Override
     public String readScript()
     {
-        Map<String, String> replacements =
-            new HashMap<String, String>(getConfiguration().getProperties());
+        Set<String> properties = getConfiguration().getProperties();
+        Map<String, String> replacements = new HashMap<String, String>(properties.size());
+        for (String property : properties)
+        {
+            replacements.put(property, getConfiguration().getPropertyValue(property));
+        }
         addConfigurationScriptProperties(replacements);
 
         String resourceName = resourcePath + getScriptRelativePath();

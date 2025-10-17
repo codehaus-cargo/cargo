@@ -42,7 +42,7 @@ public class JBoss72xExistingLocalConfiguration extends JBoss71xExistingLocalCon
     {
         super(dir);
 
-        getProperties().remove(JBossPropertySet.JBOSS_OSGI_HTTP_PORT);
+        setProperty(JBossPropertySet.JBOSS_OSGI_HTTP_PORT, null);
     }
 
     /**

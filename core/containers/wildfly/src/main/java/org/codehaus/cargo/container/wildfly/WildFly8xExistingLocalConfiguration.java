@@ -56,8 +56,8 @@ public class WildFly8xExistingLocalConfiguration extends JBoss71xExistingLocalCo
     {
         super(dir);
 
-        getProperties().remove(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT);
-        getProperties().put(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, "9990");
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_NATIVE_PORT, null);
+        setProperty(JBossPropertySet.JBOSS_MANAGEMENT_HTTP_PORT, "9990");
     }
 
     /**

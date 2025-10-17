@@ -66,7 +66,7 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
         setProperty(TomcatPropertySet.CONTEXT_ALLOW_WEB_JARS, "true");
 
         // CARGO-1271: Starting Tomcat 7 with Cargo logs warning on emptySessionPath
-        getProperties().remove(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH);
+        setProperty(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, null);
     }
 
     /**
@@ -107,13 +107,12 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
             replacements, StandardCharsets.UTF_8);
 
         // Add custom Valves
-        for (Map.Entry<String, String> property : getProperties().entrySet())
+        for (String property : getProperties())
         {
-            String propertyName = property.getKey();
-            if (propertyName.startsWith(TomcatPropertySet.CUSTOM_VALVE))
+            if (property.startsWith(TomcatPropertySet.CUSTOM_VALVE))
             {
                 StringBuilder replacement = new StringBuilder("  <Valve ");
-                String customValve = property.getValue();
+                String customValve = getPropertyValue(property);
                 Properties valveProps = PropertyUtils.splitPropertiesOnPipe(customValve);
 
                 for (Entry<Object, Object> valveEntry : valveProps.entrySet())

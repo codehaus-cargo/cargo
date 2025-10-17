@@ -27,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -166,12 +165,11 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
                 }
             }
 
-            for (Map.Entry<String, String> property : getProperties().entrySet())
+            for (String property : getProperties())
             {
-                if (property.getKey() != null
-                    && property.getKey().startsWith(JonasPropertySet.CONFIGURATOR_PREFIX))
+                if (property.startsWith(JonasPropertySet.CONFIGURATOR_PREFIX))
                 {
-                    String setterName = getConfiguratorSetterName(property.getKey());
+                    String setterName = getConfiguratorSetterName(property);
 
                     for (Method method : configurator.getClass().getMethods())
                     {
@@ -182,35 +180,39 @@ public class AbstractJonasStandaloneLocalConfiguration extends AbstractStandalon
 
                             if (parameterType.equals(String.class))
                             {
-                                method.invoke(configurator, property.getValue());
+                                method.invoke(configurator, getPropertyValue(property));
                                 break;
                             }
                             else if (parameterType.equals(Boolean.class)
                                 || parameterType.equals(boolean.class))
                             {
-                                boolean parsedProperty = Boolean.parseBoolean(property.getValue());
+                                boolean parsedProperty =
+                                    Boolean.parseBoolean(getPropertyValue(property));
                                 method.invoke(configurator, parsedProperty);
                                 break;
                             }
                             else if (parameterType.equals(Integer.class)
                                 || parameterType.equals(int.class))
                             {
-                                int parsedProperty = Integer.parseInt(property.getValue());
+                                int parsedProperty =
+                                    Integer.parseInt(getPropertyValue(property));
                                 method.invoke(configurator, parsedProperty);
                                 break;
                             }
                             else if (parameterType.equals(Long.class)
                                 || parameterType.equals(long.class))
                             {
-                                long parsedProperty = Long.parseLong(property.getValue());
+                                long parsedProperty =
+                                    Long.parseLong(getPropertyValue(property));
                                 method.invoke(configurator, parsedProperty);
                                 break;
                             }
                             else
                             {
-                                getLogger().warn("Property " + property.getKey()
-                                    + " ignored since no appropriate setter could be found on "
-                                    + "the JOnAS configurator", this.getClass().getName());
+                                getLogger().warn(
+                                    "Property " + property + " ignored since no appropriate "
+                                        + "setter could be found on the JOnAS configurator",
+                                            this.getClass().getName());
                             }
                         }
                     }
