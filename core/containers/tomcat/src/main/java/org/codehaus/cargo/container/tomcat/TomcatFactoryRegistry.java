@@ -29,7 +29,8 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat4xStandaloneLocalConfi
 import org.codehaus.cargo.container.tomcat.internal.Tomcat5xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat6xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat7xStandaloneLocalConfigurationCapability;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat9xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat10x11xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat4x5x6xRuntimeConfigurationCapability;
@@ -141,10 +142,10 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat8x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-                Tomcat8x9xStandaloneLocalConfigurationCapability.class);
+                Tomcat8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat8x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-                Tomcat8x9xStandaloneLocalConfigurationCapability.class);
+                Tomcat8xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat8x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);
@@ -157,10 +158,10 @@ public class TomcatFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("tomcat9x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            Tomcat8x9xStandaloneLocalConfigurationCapability.class);
+            Tomcat9xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat9x",
             ContainerType.EMBEDDED, ConfigurationType.STANDALONE,
-            Tomcat8x9xStandaloneLocalConfigurationCapability.class);
+            Tomcat9xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("tomcat9x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             TomcatExistingLocalConfigurationCapability.class);

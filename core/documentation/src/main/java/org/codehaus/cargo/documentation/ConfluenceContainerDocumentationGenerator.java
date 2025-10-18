@@ -1632,6 +1632,12 @@ public class ConfluenceContainerDocumentationGenerator
             }
             output.append(" | ");
             boolean supported = capability.supportsProperty(property);
+            if (TomcatPropertySet.EMBEDDED_OVERRIDE_JAVA_LOGGING.equals(property)
+                && "tomcat".startsWith(containerId)
+                && ContainerType.EMBEDDED.equals(containerType))
+            {
+                supported = true;
+            }
             output.append(supported ? "(/)" : "(x)");
             switch (property)
             {

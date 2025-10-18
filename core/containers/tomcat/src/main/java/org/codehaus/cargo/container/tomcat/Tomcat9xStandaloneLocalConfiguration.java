@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.tomcat;
 
+import org.codehaus.cargo.container.LocalContainer;
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat9xStandaloneLocalConfigurationCapability;
+
 /**
  * Catalina standalone {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration}
  * implementation.
@@ -26,12 +30,41 @@ package org.codehaus.cargo.container.tomcat;
 public class Tomcat9xStandaloneLocalConfiguration extends Tomcat8xStandaloneLocalConfiguration
 {
     /**
+     * Tomcat configuration capability.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new Tomcat9xStandaloneLocalConfigurationCapability();
+
+    /**
      * {@inheritDoc}
      * @see Tomcat8xStandaloneLocalConfiguration#Tomcat8xStandaloneLocalConfiguration(String)
      */
     public Tomcat9xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void performXmlReplacements(LocalContainer container)
+    {
+        if (getPropertyValue(TomcatPropertySet.CONNECTOR_MAX_PART_COUNT) != null)
+        {
+            addXmlReplacement("conf/server.xml", connectorXpath(), "maxPartCount",
+                TomcatPropertySet.CONNECTOR_MAX_PART_COUNT);
+        }
+        super.performXmlReplacements(container);
     }
 
     /**

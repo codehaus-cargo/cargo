@@ -24,15 +24,15 @@ import org.codehaus.cargo.container.tomcat.TomcatPropertySet;
 /**
  * Capabilities of Tomcat's {@link AbstractCatalinaStandaloneLocalConfiguration} configuration.
  */
-public class Tomcat10x11xStandaloneLocalConfigurationCapability
-    extends Tomcat9xStandaloneLocalConfigurationCapability
+public class Tomcat9xStandaloneLocalConfigurationCapability
+    extends Tomcat8xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.
      */
-    public Tomcat10x11xStandaloneLocalConfigurationCapability()
+    public Tomcat9xStandaloneLocalConfigurationCapability()
     {
-        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_KEY_STORE_TYPE, Boolean.TRUE);
-        this.propertySupportMap.put(TomcatPropertySet.WEBAPPS_LEGACY_DIRECTORY, Boolean.TRUE);
+        this.propertySupportMap.put(
+            TomcatPropertySet.CONNECTOR_MAX_PART_COUNT, Boolean.TRUE);
     }
 }

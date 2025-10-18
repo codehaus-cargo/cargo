@@ -24,7 +24,7 @@ import org.codehaus.cargo.container.LocalContainer;
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationBuilder;
-import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomcat.internal.TomcatUtils;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.w3c.dom.Element;
@@ -61,10 +61,10 @@ public class Tomcat8xStandaloneLocalConfiguration extends Tomcat7xStandaloneLoca
         "org.apache.catalina.webresources.FileResourceSet";
 
     /**
-     * {@inheritDoc}
+     * Tomcat configuration capability.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new Tomcat8x9xStandaloneLocalConfigurationCapability();
+        new Tomcat8xStandaloneLocalConfigurationCapability();
 
     /**
      * {@inheritDoc}

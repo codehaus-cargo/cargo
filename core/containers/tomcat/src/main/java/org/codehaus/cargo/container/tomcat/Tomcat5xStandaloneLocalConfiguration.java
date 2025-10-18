@@ -51,7 +51,7 @@ public class Tomcat5xStandaloneLocalConfiguration extends
 {
 
     /**
-     * {@inheritDoc}
+     * Tomcat configuration capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new Tomcat5xStandaloneLocalConfigurationCapability();

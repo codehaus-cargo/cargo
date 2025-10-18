@@ -39,7 +39,7 @@ public class Tomcat4xStandaloneLocalConfiguration extends
     AbstractCatalinaStandaloneLocalConfiguration
 {
     /**
-     * {@inheritDoc}
+     * Tomcat configuration capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new Tomcat4xStandaloneLocalConfigurationCapability();

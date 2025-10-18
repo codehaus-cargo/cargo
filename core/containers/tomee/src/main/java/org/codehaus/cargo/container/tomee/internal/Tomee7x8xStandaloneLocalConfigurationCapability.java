@@ -19,14 +19,14 @@
  */
 package org.codehaus.cargo.container.tomee.internal;
 
-import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.tomcat.internal.Tomcat8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.tomee.TomeePropertySet;
 
 /**
  * Capabilities of TomEE 7.x and 8.x's standalone local configurations.
  */
 public class Tomee7x8xStandaloneLocalConfigurationCapability extends
-    Tomcat8x9xStandaloneLocalConfigurationCapability
+    Tomcat8xStandaloneLocalConfigurationCapability
 {
     /**
      * Initialize the configuration-specific supports Map.

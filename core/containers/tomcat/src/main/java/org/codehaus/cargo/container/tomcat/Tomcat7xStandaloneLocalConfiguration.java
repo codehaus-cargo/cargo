@@ -42,13 +42,14 @@ public class Tomcat7xStandaloneLocalConfiguration extends Tomcat6xStandaloneLoca
      * Context tag attribute for allowing multi part.
      */
     private static final String CONTEXT_ALLOWMULTIPART_ATTR_NAME = "allowCasualMultipartParsing";
+
     /**
      * Context tag attribute for allowing webjars.
      */
     private static final String CONTEXT_ALLOWWEBJARS_ATTR_NAME = "addWebinfClassesResources";
 
     /**
-     * {@inheritDoc}
+     * Tomcat configuration capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new Tomcat7xStandaloneLocalConfigurationCapability();

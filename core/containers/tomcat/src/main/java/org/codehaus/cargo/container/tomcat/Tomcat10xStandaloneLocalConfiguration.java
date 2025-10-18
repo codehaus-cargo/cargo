@@ -33,7 +33,7 @@ import org.codehaus.cargo.util.XmlReplacement.ReplacementBehavior;
 public class Tomcat10xStandaloneLocalConfiguration extends Tomcat9xStandaloneLocalConfiguration
 {
     /**
-     * {@inheritDoc}
+     * Tomcat configuration capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new Tomcat10x11xStandaloneLocalConfigurationCapability();

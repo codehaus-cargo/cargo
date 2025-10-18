@@ -41,7 +41,7 @@ import org.w3c.dom.NodeList;
 public class Tomcat6xStandaloneLocalConfiguration extends Tomcat5xStandaloneLocalConfiguration
 {
     /**
-     * {@inheritDoc}
+     * Tomcat configuration capability.
      */
     private static final ConfigurationCapability CAPABILITY =
         new Tomcat6xStandaloneLocalConfigurationCapability();
