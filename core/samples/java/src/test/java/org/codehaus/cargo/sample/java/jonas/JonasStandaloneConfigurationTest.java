@@ -55,13 +55,13 @@ public class JonasStandaloneConfigurationTest extends AbstractStandaloneLocalCon
     public void testConfiguratorProperties() throws Exception
     {
         System.setProperty(JonasPropertySet.CONFIGURATOR_PREFIX + "ajpPort", "123456");
-        System.setProperty(JonasPropertySet.CONFIGURATOR_PREFIX + "ajpConnectorActivation",
-            "true");
+        System.setProperty(
+            JonasPropertySet.CONFIGURATOR_PREFIX + "ajpConnectorActivation", "true");
         checkForValue("123456", true);
 
-        System.setProperty(JonasPropertySet.CONFIGURATOR_PREFIX + "ajpPort", null);
-        System.setProperty(
-            JonasPropertySet.CONFIGURATOR_PREFIX + "ajpConnectorActivation", null);
+        System.getProperties().remove(JonasPropertySet.CONFIGURATOR_PREFIX + "ajpPort");
+        System.getProperties().remove(
+            JonasPropertySet.CONFIGURATOR_PREFIX + "ajpConnectorActivation");
         checkForValue("123456", false);
     }
 
