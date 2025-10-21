@@ -328,7 +328,7 @@
       The Build Helper Maven plugin's version 3.5.0 requires Maven 3.6.3.
       -->
     <maven.minimum.version>3.6.3</maven.minimum.version>
-    <maven.antrun-plugin.version>3.1.0</maven.antrun-plugin.version>
+    <maven.antrun-plugin.version>3.2.0</maven.antrun-plugin.version>
     <maven.archetype-packaging.version>3.4.1</maven.archetype-packaging.version>
     <maven.compiler-plugin.version>3.14.1</maven.compiler-plugin.version>
     <maven.compiler-java.version>1.8</maven.compiler-java.version>
