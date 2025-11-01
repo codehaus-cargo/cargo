@@ -2056,60 +2056,68 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
 
-            output.append("This container is automatically tested by the "
-                + "[Continous Integration (CI) system|https://codehaus-cargo.semaphoreci.com/"
-                + "projects/cargo] every time there is a code change.");
-            output.append(FileHandler.NEW_LINE);
-            if (containerId.startsWith("wildfly-swarm"))
+            if (url.startsWith("https://caucho.com/download/"))
             {
-                output.append("The WildFly Swarm version used during tests is: {{");
-                output.append(url);
-                output.append("}}");
+                output.append("Due to ongoing instabilities with Caucho's infrastructure, "
+                    + "regular testing of the Resin containers is suspended.");
             }
             else
             {
-                output.append("The server used for tests is downloaded from: ");
-                output.append(url);
-
-                File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
-                Document samples = XML_UTILS.loadXmlFromFile(pom.getAbsolutePath());
-                NodeList urls = samples.getElementsByTagName("cargo." + containerId + ".url");
-                if (urls.getLength() > 1)
+                output.append("This container is automatically tested by the "
+                    + "[Continous Integration (CI) system|https://codehaus-cargo.semaphoreci.com/"
+                    + "projects/cargo] every time there is a code change.");
+                output.append(FileHandler.NEW_LINE);
+                if (containerId.startsWith("wildfly-swarm"))
                 {
-                    output.append(FileHandler.NEW_LINE);
-                    output.append(FileHandler.NEW_LINE);
+                    output.append("The WildFly Swarm version used during tests is: {{");
+                    output.append(url);
+                    output.append("}}");
+                }
+                else
+                {
+                    output.append("The server used for tests is downloaded from: ");
+                    output.append(url);
 
-                    List<String> sortedUrls = new ArrayList<String>(urls.getLength() - 1);
-                    for (int i = 0; i < urls.getLength(); i++)
-                    {
-                        String otherUrl = urls.item(i).getTextContent().trim();
-                        if (!url.equals(otherUrl))
-                        {
-                            sortedUrls.add(otherUrl);
-                        }
-                    }
-                    Collections.sort(sortedUrls);
-
-                    output.append("Moreover, the below other branch");
-                    if (urls.getLength() > 2)
-                    {
-                        output.append("es are");
-                    }
-                    else
-                    {
-                        output.append(" is");
-                    }
-                    output.append(" also tested by the CI system:");
-                    for (String otherUrl : sortedUrls)
+                    File pom = new File(SAMPLES_DIRECTORY, POM).getAbsoluteFile();
+                    Document samples = XML_UTILS.loadXmlFromFile(pom.getAbsolutePath());
+                    NodeList urls = samples.getElementsByTagName("cargo." + containerId + ".url");
+                    if (urls.getLength() > 1)
                     {
                         output.append(FileHandler.NEW_LINE);
-                        output.append("* ");
-                        output.append(otherUrl);
+                        output.append(FileHandler.NEW_LINE);
+
+                        List<String> sortedUrls = new ArrayList<String>(urls.getLength() - 1);
+                        for (int i = 0; i < urls.getLength(); i++)
+                        {
+                            String otherUrl = urls.item(i).getTextContent().trim();
+                            if (!url.equals(otherUrl))
+                            {
+                                sortedUrls.add(otherUrl);
+                            }
+                        }
+                        Collections.sort(sortedUrls);
+
+                        output.append("Moreover, the below other branch");
+                        if (urls.getLength() > 2)
+                        {
+                            output.append("es are");
+                        }
+                        else
+                        {
+                            output.append(" is");
+                        }
+                        output.append(" also tested by the CI system:");
+                        for (String otherUrl : sortedUrls)
+                        {
+                            output.append(FileHandler.NEW_LINE);
+                            output.append("* ");
+                            output.append(otherUrl);
+                        }
+                        output.append(FileHandler.NEW_LINE);
+                        output.append(FileHandler.NEW_LINE);
+                        output.append(
+                            "Branches not tested by the CI might not be consistently supported.");
                     }
-                    output.append(FileHandler.NEW_LINE);
-                    output.append(FileHandler.NEW_LINE);
-                    output.append(
-                        "Branches not tested by the CI might not be consistently supported.");
                 }
             }
             output.append(FileHandler.NEW_LINE);
