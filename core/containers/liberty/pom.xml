@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-core-containers</artifactId>
-    <version>1.10.25-SNAPSHOT</version>
+    <version>1.10.25</version>
   </parent>
   <artifactId>cargo-core-container-liberty</artifactId>
   <name>Cargo Core WebSphere Liberty Container</name>
