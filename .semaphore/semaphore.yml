@@ -1471,17 +1471,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish6x-6.1 -Dsurefire.rerunFailingTestsCount=2
-  - name: GlassFish 7.x
+  - name: GlassFish 7.x - Branch 7.0.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
-        - name: GlassFish 7.x
+        - name: GlassFish 7.x - Branch 7.0.x
           commands:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Pglassfish7x-7.0 -Dsurefire.rerunFailingTestsCount=2
   - name: Jetty 10.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1647,6 +1647,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly34x -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 7.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: GlassFish 7.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish7x -Dsurefire.rerunFailingTestsCount=2
   - name: Jetty 12.x
     dependencies:
       - Build on Java 17
@@ -1792,6 +1803,7 @@ blocks:
       - GlassFish 6.x - Branch 6.0.x
       - GlassFish 6.x - Branch 6.1.x
       - GlassFish 7.x
+      - GlassFish 7.x - Branch 7.0.x
       - GlassFish 8.x
       - JBoss 3.x
       - JBoss 4.2.x
