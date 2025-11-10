@@ -74,6 +74,11 @@ global_job_config:
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
         - if ! find .m2/cargo-installs -maxdepth 0 -empty | read v ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME ; fi ; RM=0
         - cache list
+        - cd /tmp/cargo
+        - cache restore "codehaus-cargo-cache-java-6" ; RM=0
+        - cache restore "codehaus-cargo-cache-java-7" ; RM=0
+        - cache restore "codehaus-cargo-cache-java-8" ; RM=0
+        - cache restore "codehaus-cargo-cache-java-21" ; RM=0
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
     dependencies: []
