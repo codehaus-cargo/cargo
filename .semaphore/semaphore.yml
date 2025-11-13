@@ -1516,17 +1516,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty11x -Dsurefire.rerunFailingTestsCount=2
-  - name: Payara
+  - name: Payara - Branch 6.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
     task:
       jobs:
-        - name: Payara
+        - name: Payara - Branch 6.x
           commands:
             - sem-version java 11
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ppayara-6 -Dsurefire.rerunFailingTestsCount=2
   - name: Tomcat 10.x
     dependencies:
       - Perform initial build and aggregate Javadoc on Java 11
@@ -1772,12 +1772,12 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
-  - name: Payara - Branch 7.x (Beta)
+  - name: Payara
     dependencies:
       - Build on Java 21
     task:
       jobs:
-        - name: Payara - Branch 7.x (Beta)
+        - name: Payara
           commands:
             - cd ~/.m2/semaphore-ci-binaries
             - cache restore "codehaus-cargo-cache-java-21"
@@ -1785,7 +1785,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ppayara-7 -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
   - name: Tomcat 11.x
     dependencies:
       - Build on Java 21
@@ -1852,7 +1852,7 @@ blocks:
       - Payara
       - Payara - Branch 4.x
       - Payara - Branch 5.x
-      - Payara - Branch 7.x (Beta)
+      - Payara - Branch 6.x
       - Resin 3.1.x
       - Resin 3.x
       - Resin 4.x

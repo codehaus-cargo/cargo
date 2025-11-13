@@ -601,9 +601,9 @@
               <cargo.oc4j10x.java.home>${cargo.java.home.1_5}</cargo.oc4j10x.java.home>
 
               <cargo.payara.url>
-                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2025.10/payara-6.2025.10.zip
+                https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2025.1/payara-7.2025.1.zip
               </cargo.payara.url>
-              <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
+              <cargo.payara.java.home>${cargo.java.home.1_21}</cargo.payara.java.home>
 
               <cargo.resin3x.url>
                 https://caucho.com/download/resin-3.0.27.zip
@@ -1935,7 +1935,7 @@
       </build>
     </profile>
     <profile>
-      <id>payara-7</id>
+      <id>payara-6</id>
       <properties>
         <cargo.containers>payara</cargo.containers>
       </properties>
@@ -1948,9 +1948,9 @@
               <configuration>
                 <systemPropertyVariables>
                   <cargo.payara.url>
-                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/7.2025.1/payara-7.2025.1.zip
+                    https://repo.maven.apache.org/maven2/fish/payara/distributions/payara/6.2025.11/payara-6.2025.11.zip
                   </cargo.payara.url>
-                  <cargo.payara.java.home>${cargo.java.home.1_21}</cargo.payara.java.home>
+                  <cargo.payara.java.home>${cargo.java.home.1_11}</cargo.payara.java.home>
                 </systemPropertyVariables>
               </configuration>
             </plugin>
