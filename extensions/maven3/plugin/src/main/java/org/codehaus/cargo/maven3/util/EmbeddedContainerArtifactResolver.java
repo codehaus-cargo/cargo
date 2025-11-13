@@ -338,7 +338,7 @@ public class EmbeddedContainerArtifactResolver
         jetty12xDependencies.add(
             new Dependency("org.eclipse.jetty.ee", "jetty-ee-webapp", "12.1.3"));
         // jsp
-        jetty12xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.42.0"));
+        jetty12xDependencies.add(new Dependency("org.eclipse.jdt", "ecj", "3.43.0"));
         this.containerDependencies.put("jetty12x", jetty12xDependencies);
 
         List<Dependency> jetty12xee8Dependencies = new ArrayList<Dependency>();
@@ -362,9 +362,9 @@ public class EmbeddedContainerArtifactResolver
         jetty12xee8Dependencies.add(
             new Dependency("org.eclipse.jetty.ee8", "jetty-ee8-apache-jsp", "12.1.3"));
         jetty12xee8Dependencies.add(
-            new Dependency("org.mortbay.jasper", "mortbay-apache-el", "9.0.108.1"));
+            new Dependency("org.mortbay.jasper", "mortbay-apache-el", "9.0.111"));
         jetty12xee8Dependencies.add(
-            new Dependency("org.mortbay.jasper", "mortbay-apache-jsp", "9.0.108.1"));
+            new Dependency("org.mortbay.jasper", "mortbay-apache-jsp", "9.0.111"));
         this.containerDependencies.put("jetty12x_ee8", jetty12xee8Dependencies);
 
         List<Dependency> jetty12xee9Dependencies = new ArrayList<Dependency>();
@@ -413,9 +413,9 @@ public class EmbeddedContainerArtifactResolver
         jetty12xee10Dependencies.add(
             new Dependency("org.eclipse.jetty.ee10", "jetty-ee10-apache-jsp", "12.1.3"));
         jetty12xee10Dependencies.add(
-            new Dependency("org.mortbay.jasper", "mortbay-apache-el", "10.1.44.1"));
+            new Dependency("org.mortbay.jasper", "mortbay-apache-el", "10.1.48"));
         jetty12xee10Dependencies.add(
-            new Dependency("org.mortbay.jasper", "mortbay-apache-jsp", "10.1.44.1"));
+            new Dependency("org.mortbay.jasper", "mortbay-apache-jsp", "10.1.48"));
         this.containerDependencies.put("jetty12x_ee10", jetty12xee10Dependencies);
 
         List<Dependency> jetty12xee11Dependencies = new ArrayList<Dependency>();

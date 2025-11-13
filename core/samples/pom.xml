@@ -512,7 +512,7 @@
               <cargo.jetty11x.java.home>${cargo.java.home.1_11}</cargo.jetty11x.java.home>
 
               <cargo.jetty12x.url>
-                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/12.1.3/jetty-home-12.1.3.tar.gz
+                https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/12.1.4/jetty-home-12.1.4.tar.gz
               </cargo.jetty12x.url>
               <cargo.jetty12x.java.home>${cargo.java.home.1_17}</cargo.jetty12x.java.home>
 
