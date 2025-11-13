@@ -35,12 +35,14 @@ global_job_config:
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-      - cd /tmp/cargo
+      - mkdir -p /tmp/cargo-java-cache
+      - cd /tmp/cargo-java-cache
       - cache restore "codehaus-cargo-cache-java-6" ; RM=0
       - cache restore "codehaus-cargo-cache-java-7" ; RM=0
       - cache restore "codehaus-cargo-cache-java-8" ; RM=0
       - cache restore "codehaus-cargo-cache-java-21" ; RM=0
       - cd $ORIGINAL_PWD
+      - rm -rf /tmp/cargo-java-cache
       - mkdir -p /tmp/cargo
       - mkdir -p ~/.m2
       - mkdir -p ~/.m2/cargo-installs
