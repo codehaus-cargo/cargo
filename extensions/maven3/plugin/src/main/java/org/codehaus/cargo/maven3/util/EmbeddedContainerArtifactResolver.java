@@ -362,9 +362,9 @@ public class EmbeddedContainerArtifactResolver
         jetty12xee8Dependencies.add(
             new Dependency("org.eclipse.jetty.ee8", "jetty-ee8-apache-jsp", "12.1.3"));
         jetty12xee8Dependencies.add(
-            new Dependency("org.mortbay.jasper", "mortbay-apache-el", "9.0.112"));
+            new Dependency("org.mortbay.jasper", "mortbay-apache-el", "9.0.111"));
         jetty12xee8Dependencies.add(
-            new Dependency("org.mortbay.jasper", "mortbay-apache-jsp", "9.0.112"));
+            new Dependency("org.mortbay.jasper", "mortbay-apache-jsp", "9.0.111"));
         this.containerDependencies.put("jetty12x_ee8", jetty12xee8Dependencies);
 
         List<Dependency> jetty12xee9Dependencies = new ArrayList<Dependency>();
