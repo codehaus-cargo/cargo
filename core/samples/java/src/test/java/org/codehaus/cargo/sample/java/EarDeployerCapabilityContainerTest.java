@@ -82,7 +82,7 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             new URL("http://localhost:" + getTestData().port + "/simpleweb/index.jsp");
 
         getLocalContainer().start();
-        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // Payara 7 (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
         if (getLocalContainer().getName().startsWith("Payara 7"))
         {
@@ -107,7 +107,7 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             "simple ear should have been deployed at this point", "Sample page for testing",
                 earPingURL, getLogger());
 
-        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // Payara 7 (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
         if (getLocalContainer().getName().startsWith("Payara 7"))
         {

@@ -317,7 +317,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // Payara 7 (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
         if (this.localContainer.getName().startsWith("Payara 7"))
         {
@@ -387,7 +387,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        // Payara 7.2025.1.Alpha (and only that sub branch) returns empty HTTP 200
+        // Payara 7 (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
         if (this.localContainer.getName().startsWith("Payara 7"))
         {

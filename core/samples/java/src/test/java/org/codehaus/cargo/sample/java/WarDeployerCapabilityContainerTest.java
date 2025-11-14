@@ -66,9 +66,9 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             + "/index.jsp");
 
         getLocalContainer().start();
-        // Payara 7.2025.1.Beta (and only that sub branch) returns empty HTTP 200
+        // Payara 7 (and only that sub branch) returns empty HTTP 200
         // even when the deployable is not present
-        if (!getLocalContainer().getName().startsWith("Payara 7.2025.1.Beta"))
+        if (!getLocalContainer().getName().startsWith("Payara 7"))
         {
             PingUtils.assertPingFalse(
                 "simple war should not be present at this point", warPingURL, getLogger());
