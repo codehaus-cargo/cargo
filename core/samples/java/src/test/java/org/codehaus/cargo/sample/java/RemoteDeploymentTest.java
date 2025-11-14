@@ -39,7 +39,6 @@ import org.codehaus.cargo.container.deployable.DeployableType;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.deployer.Deployer;
 import org.codehaus.cargo.container.deployer.DeployerType;
-import org.codehaus.cargo.container.internal.util.HttpUtils;
 import org.codehaus.cargo.container.property.RemotePropertySet;
 import org.codehaus.cargo.container.property.User;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
@@ -317,22 +316,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        // Payara 7 (and only that sub branch) returns empty HTTP 200
-        // even when the deployable is not present
-        if (this.localContainer.getName().startsWith("Payara 7"))
-        {
-            HttpUtils httpUtils = new HttpUtils();
-            httpUtils.setLogger(getLogger());
-            HttpUtils.HttpResult result = new HttpUtils.HttpResult();
-            httpUtils.ping(warPingURL, null, result, PingUtils.TIMEOUT);
-            Assertions.assertEquals(
-                "", result.responseBody, "simple war not correctly undeployed");
-        }
-        else
-        {
-            PingUtils.assertPingFalse(
-                "simple war not correctly undeployed", warPingURL, getLogger());
-        }
+        PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
 
         // Redeploy a second time to ensure that the undeploy worked.
         deployer.deploy(this.war);
@@ -387,22 +371,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 warPingURL, getLogger());
 
         deployer.undeploy(this.war);
-        // Payara 7 (and only that sub branch) returns empty HTTP 200
-        // even when the deployable is not present
-        if (this.localContainer.getName().startsWith("Payara 7"))
-        {
-            HttpUtils httpUtils = new HttpUtils();
-            httpUtils.setLogger(getLogger());
-            HttpUtils.HttpResult result = new HttpUtils.HttpResult();
-            httpUtils.ping(warPingURL, null, result, PingUtils.TIMEOUT);
-            Assertions.assertEquals(
-                "", result.responseBody, "simple war not correctly undeployed");
-        }
-        else
-        {
-            PingUtils.assertPingFalse(
-                "simple war not correctly undeployed", warPingURL, getLogger());
-        }
+        PingUtils.assertPingFalse("simple war not correctly undeployed", warPingURL, getLogger());
     }
 
     /**

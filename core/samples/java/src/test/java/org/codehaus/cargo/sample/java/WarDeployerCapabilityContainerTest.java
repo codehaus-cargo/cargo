@@ -66,13 +66,8 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             + "/index.jsp");
 
         getLocalContainer().start();
-        // Payara 7 (and only that sub branch) returns empty HTTP 200
-        // even when the deployable is not present
-        if (!getLocalContainer().getName().startsWith("Payara 7"))
-        {
-            PingUtils.assertPingFalse(
-                "simple war should not be present at this point", warPingURL, getLogger());
-        }
+        PingUtils.assertPingFalse(
+            "simple war should not be present at this point", warPingURL, getLogger());
 
         Deployer deployer = createDeployer(getContainer());
         DeployableMonitor deployableMonitor = new URLDeployableMonitor(warPingURL);
@@ -89,7 +84,6 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
                 "jo1x",
                 "liberty",
                 "resin3x", "resin4x", "resin31x")
-            && !getLocalContainer().getName().startsWith("Payara 7.2025.1.Beta")
             && !getContainer().getType().equals(ContainerType.EMBEDDED)
                 && this.isNotContained(containerId,
                     "tomcat8x", "tomcat9x", "tomcat10x", "tomcat11x"))
