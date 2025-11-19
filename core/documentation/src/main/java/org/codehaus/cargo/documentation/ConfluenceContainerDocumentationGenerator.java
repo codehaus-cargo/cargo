@@ -2119,10 +2119,10 @@ public class ConfluenceContainerDocumentationGenerator
                             "Branches not tested by the CI might not be consistently supported.");
                     }
                 }
-                output.append(FileHandler.NEW_LINE);
-                output.append(FileHandler.NEW_LINE);
-                return output.toString();
             }
+            output.append(FileHandler.NEW_LINE);
+            output.append(FileHandler.NEW_LINE);
+            return output.toString();
         }
         else
         {
