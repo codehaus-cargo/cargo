@@ -26,7 +26,7 @@ execution_time_limit:
 global_job_config:
   prologue:
     commands:
-      - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
+      - echo 'echo "127.0.0.1 codehaus-cargo-ci repository.ow2.org" >> /etc/hosts' | sudo bash
       - sudo hostname codehaus-cargo-ci
       - 'CARGO_BRANCH_ID="$(echo "$SEMAPHORE_JOB_NAME" | tr ''[:upper:]'' ''[:lower:]'' | tr '' .'' ''--'')"'
       - checkout
