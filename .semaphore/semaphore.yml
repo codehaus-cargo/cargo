@@ -26,7 +26,7 @@ execution_time_limit:
 global_job_config:
   prologue:
     commands:
-      - echo 'echo "127.0.0.1 codehaus-cargo-ci repository.ow2.org" >> /etc/hosts' | sudo bash
+      - echo 'echo "127.0.0.1 codehaus-cargo-ci" >> /etc/hosts' | sudo bash
       - sudo hostname codehaus-cargo-ci
       - 'CARGO_BRANCH_ID="$(echo "$SEMAPHORE_JOB_NAME" | tr ''[:upper:]'' ''[:lower:]'' | tr '' .'' ''--'')"'
       - checkout
@@ -45,6 +45,7 @@ global_job_config:
       - rm -rf /tmp/cargo-java-cache
       - mkdir -p /tmp/cargo
       - mkdir -p ~/.m2
+      - cp $ORIGINAL_PWD/.semaphore/settings.xml ~/.m2
       - mkdir -p ~/.m2/cargo-installs
       - mkdir -p ~/.m2/semaphore-ci-binaries
       - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
