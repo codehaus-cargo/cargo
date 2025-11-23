@@ -727,8 +727,8 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
-            - wget https://certs.godaddy.com/repository/gdroot-g2.crt
-            - $JAVA_HOME/bin/keytool -noprompt -import -alias root -file ./gdroot-g2.crt -storepass changeit -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts
+            - wget https://certs.godaddy.com/repository/gd_bundle-g2-g1.crt
+            - $JAVA_HOME/bin/keytool -noprompt -import -alias root -file ./gd_bundle-g2-g1.crt -storepass changeit -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
@@ -748,8 +748,8 @@ blocks:
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
-            - wget https://certs.godaddy.com/repository/gdroot-g2.crt
-            - $JAVA_HOME/bin/keytool -noprompt -import -alias root -file ./gdroot-g2.crt -storepass changeit -trustcacerts -keystore $JAVA_HOME/jre/lib/security/ca
+            - wget https://certs.godaddy.com/repository/gd_bundle-g2-g1.crt
+            - $JAVA_HOME/bin/keytool -noprompt -import -alias root -file ./gd_bundle-g2-g1.crt -storepass changeit -trustcacerts -keystore $JAVA_HOME/jre/lib/security/ca
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
@@ -1074,8 +1074,8 @@ blocks:
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - cd /tmp/cargo
-            - wget https://certs.godaddy.com/repository/gdroot-g2.crt
-            - $JAVA_HOME/bin/keytool -noprompt -import -alias root -file ./gdroot-g2.crt -storepass changeit -trustcacerts -keystore $JAVA_HOME/jre/lib/security/ca
+            - wget https://certs.godaddy.com/repository/gd_bundle-g2-g1.crt
+            - $JAVA_HOME/bin/keytool -noprompt -import -alias root -file ./gd_bundle-g2-g1.crt -storepass changeit -trustcacerts -keystore $JAVA_HOME/jre/lib/security/ca
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
