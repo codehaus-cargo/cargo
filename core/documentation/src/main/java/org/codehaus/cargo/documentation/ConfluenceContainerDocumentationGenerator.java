@@ -2058,7 +2058,7 @@ public class ConfluenceContainerDocumentationGenerator
 
             if (url.startsWith("https://caucho.com/download/"))
             {
-                output.append("Due to an icompatibility between Caucho Web site's SSL provider "
+                output.append("Due incompatibilities between the Caucho Web site's SSL provider "
                     + "and the Java stack, regular testing of the Resin containers is suspended.");
             }
             else

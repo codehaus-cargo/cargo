@@ -35,13 +35,6 @@ global_job_config:
       - cache list
       - cache restore "codehaus-cargo-cache-initial-build"
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-      - mkdir -p /tmp/cargo-java-cache
-      - cd /tmp/cargo-java-cache
-      - cache restore "codehaus-cargo-cache-java-6" ; RM=0
-      - cache restore "codehaus-cargo-cache-java-7" ; RM=0
-      - cache restore "codehaus-cargo-cache-java-8" ; RM=0
-      - cache restore "codehaus-cargo-cache-java-21" ; RM=0
-      - cache list
       - cd $ORIGINAL_PWD
       - rm -rf /tmp/cargo-java-cache
       - mkdir -p /tmp/cargo
@@ -61,7 +54,6 @@ global_job_config:
       - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
-      - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-core-uberjar/ && sem-version java 11 && mvn -version && ( mvn clean install -pl :cargo-sample-java -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
   epilogue:
     always:
       commands:
@@ -74,12 +66,14 @@ global_job_config:
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
-        - cache list
         - cd /tmp/cargo
-        - cache restore "codehaus-cargo-cache-java-6" ; RM=0
-        - cache restore "codehaus-cargo-cache-java-7" ; RM=0
-        - cache restore "codehaus-cargo-cache-java-8" ; RM=0
-        - cache restore "codehaus-cargo-cache-java-21" ; RM=0
+        - cache list
+        - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME && RM=0
+        - cache restore "codehaus-cargo-cache-initial-build" && cache delete "codehaus-cargo-cache-initial-build" && cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME ; RM=0
+        - cache list
         - cd ~/
         - du -sh ~/.m2/*
         - ls -al ~/.m2/cargo-installs
@@ -88,7 +82,6 @@ global_job_config:
         - ls -al ~/.m2/semaphore-ci-binaries
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
         - if ! find .m2/cargo-installs -maxdepth 0 -empty | read v ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME ; fi ; RM=0
-        - cache list
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
     dependencies: []
