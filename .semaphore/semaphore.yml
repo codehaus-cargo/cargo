@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -------------------------------------------------------------------
-
 version: v1.0
 name: Codehaus Cargo Java build on Ubuntu
 agent:
@@ -23,6 +22,9 @@ agent:
 execution_time_limit:
   # Allow up to 5 to 6 Dependabot-triggered parallel branches
   hours: 18
+fail_fast:
+  cancel:
+    when: 'true'
 global_job_config:
   prologue:
     commands:
