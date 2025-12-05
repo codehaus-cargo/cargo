@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -------------------------------------------------------------------
-
 version: v1.0
 name: Codehaus Cargo Java build on Ubuntu
 agent:
@@ -23,6 +22,9 @@ agent:
 execution_time_limit:
   # Allow up to 5 to 6 Dependabot-triggered parallel branches
   hours: 18
+fail_fast:
+  cancel:
+    when: 'true'
 global_job_config:
   prologue:
     commands:
@@ -34,16 +36,22 @@ global_job_config:
       - cd ~/
       - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
       - cache list
-      - cache restore "codehaus-cargo-cache-initial-build"
-      - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-      - cd $ORIGINAL_PWD
-      - rm -rf /tmp/cargo-java-cache
-      - mkdir -p /tmp/cargo
       - mkdir -p ~/.m2
-      - cp $ORIGINAL_PWD/.semaphore/settings.xml ~/.m2
+      - cache restore "codehaus-cargo-cache-initial-build"
       - mkdir -p ~/.m2/cargo-installs
+      - cd ~/.m2/cargo-installs
+      - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - mkdir -p ~/.m2/semaphore-ci-binaries
-      - 'find ~/.m2/semaphore-ci-binaries -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
+      - cd ~/.m2/semaphore-ci-binaries
+      - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache delete "codehaus-cargo-cache-in-progress"
+      - cd $ORIGINAL_PWD
+      - mkdir -p /tmp/cargo
+      - cp $ORIGINAL_PWD/.semaphore/settings.xml ~/.m2
+      - 'find . -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
       - du -sh ~/.m2/*
       - ls -al ~/.m2/cargo-installs
       - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
@@ -67,16 +75,6 @@ global_job_config:
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
-        - cd /tmp/cargo
-        - cache list
-        - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
-        - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-        - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-initial-build" && test -d .m2/ && cache delete "codehaus-cargo-cache-initial-build" && cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
-        - cache delete "codehaus-cargo-cache-in-progress"
         - cache list
         - cd ~/
         - du -sh ~/.m2/*
@@ -114,8 +112,7 @@ blocks:
         - name: Build on Java 8
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-8u202-linux-x64.tar.gz -size -150M -print -exec rm {} +'
+            - 'find . -type f -name jdk-8u202-linux-x64.tar.gz -size -150M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz ; RM=0'
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
@@ -136,10 +133,9 @@ blocks:
         - name: Prepare for containers running on Java 6
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-6"
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
+            - 'find . -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -157,8 +153,7 @@ blocks:
         - name: Prepare for containers running on Java 7
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-7"
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
+            - 'find . -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz ; RM=0'
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
@@ -186,8 +181,7 @@ blocks:
         - name: Build on Java 21
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-21"
-            - 'find ~/.m2/semaphore-ci-binaries -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
+            - 'find . -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
             - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
@@ -208,11 +202,9 @@ blocks:
         - name: Geronimo 1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -227,11 +219,9 @@ blocks:
         - name: Geronimo 2.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -246,11 +236,9 @@ blocks:
         - name: Geronimo 3.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -265,11 +253,9 @@ blocks:
         - name: GlassFish 3.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -284,11 +270,9 @@ blocks:
         - name: GlassFish 3.x - Branch 3.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -303,11 +287,9 @@ blocks:
         - name: JBoss 3.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -322,11 +304,9 @@ blocks:
         - name: JBoss 4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -341,11 +321,9 @@ blocks:
         - name: JBoss 4.2.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -360,11 +338,9 @@ blocks:
         - name: JBoss 5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -379,11 +355,9 @@ blocks:
         - name: JBoss 5.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -398,11 +372,9 @@ blocks:
         - name: JBoss 6.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -417,11 +389,9 @@ blocks:
         - name: JBoss 6.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -436,11 +406,9 @@ blocks:
         - name: JBoss 7.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -455,11 +423,9 @@ blocks:
         - name: JBoss 7.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -474,11 +440,9 @@ blocks:
         - name: Jetty 5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -493,11 +457,9 @@ blocks:
         - name: Jetty 6.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -512,11 +474,9 @@ blocks:
         - name: Jetty 7.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -531,11 +491,9 @@ blocks:
         - name: Jetty 7.x - Branch 7.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -550,11 +508,9 @@ blocks:
         - name: Jetty 7.x - Branch 7.2.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -569,11 +525,9 @@ blocks:
         - name: Jetty 7.x - Branch 7.3.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -588,11 +542,9 @@ blocks:
         - name: Jetty 7.x - Branch 7.4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -607,11 +559,9 @@ blocks:
         - name: Jetty 7.x - Branch 7.5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -626,11 +576,9 @@ blocks:
         - name: Jetty 8.x - Branch 8.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -645,11 +593,9 @@ blocks:
         - name: Jetty 8.x - Branch 8.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -664,11 +610,9 @@ blocks:
         - name: Jo 1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -683,11 +627,9 @@ blocks:
         - name: JOnAS 4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -702,11 +644,9 @@ blocks:
         - name: JOnAS 5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -721,11 +661,9 @@ blocks:
         - name: Tomcat 4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -740,11 +678,9 @@ blocks:
         - name: Tomcat 5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -759,11 +695,9 @@ blocks:
         - name: Tomcat 6.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -778,11 +712,9 @@ blocks:
         - name: Tomcat 7.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -797,11 +729,9 @@ blocks:
         - name: TomEE 1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-6"
-            - cp ~/.m2/semaphore-ci-binaries/jdk-6u45-linux-x64.bin /tmp/cargo
+            - cp jdk-6u45-linux-x64.bin /tmp/cargo
             - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
@@ -816,10 +746,8 @@ blocks:
         - name: Jetty 8.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-7"
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -833,10 +761,8 @@ blocks:
         - name: Jetty 9.x - Branch 9.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-7"
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -850,10 +776,8 @@ blocks:
         - name: Jetty 9.x - Branch 9.1.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-7"
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -867,10 +791,8 @@ blocks:
         - name: Jetty 9.x - Branch 9.2.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-7"
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -884,10 +806,8 @@ blocks:
         - name: Payara - Branch 4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-7"
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -901,10 +821,8 @@ blocks:
         - name: TomEE 7.x - Branch 7.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cache restore "codehaus-cargo-cache-java-7"
             - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -918,7 +836,6 @@ blocks:
         - name: GlassFish 4.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -932,7 +849,6 @@ blocks:
         - name: GlassFish 4.x - Branch 4.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -946,7 +862,6 @@ blocks:
         - name: GlassFish 5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -960,7 +875,6 @@ blocks:
         - name: GlassFish 5.x - Branch 5.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -974,7 +888,6 @@ blocks:
         - name: GlassFish 6.x - Branch 6.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -988,7 +901,6 @@ blocks:
         - name: Jetty 9.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1002,7 +914,6 @@ blocks:
         - name: Jetty 9.x - Branch 9.3.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1016,7 +927,6 @@ blocks:
         - name: Payara - Branch 5.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1030,7 +940,6 @@ blocks:
         - name: Tomcat 8.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1044,7 +953,6 @@ blocks:
         - name: Tomcat 8.x - Branch 8.0.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1058,7 +966,6 @@ blocks:
         - name: Tomcat 9.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1072,7 +979,6 @@ blocks:
         - name: TomEE 7.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1086,7 +992,6 @@ blocks:
         - name: TomEE 8.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1100,7 +1005,6 @@ blocks:
         - name: WebSphere Liberty
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1114,7 +1018,6 @@ blocks:
         - name: WildFly 8.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1128,7 +1031,6 @@ blocks:
         - name: WildFly 8.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1142,7 +1044,6 @@ blocks:
         - name: WildFly 9.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1156,7 +1057,6 @@ blocks:
         - name: WildFly 10.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1170,7 +1070,6 @@ blocks:
         - name: WildFly 11.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1184,7 +1083,6 @@ blocks:
         - name: WildFly 12.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1198,7 +1096,6 @@ blocks:
         - name: WildFly 13.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1212,7 +1109,6 @@ blocks:
         - name: WildFly 14.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1226,7 +1122,6 @@ blocks:
         - name: WildFly 15.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1240,7 +1135,6 @@ blocks:
         - name: WildFly 16.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1254,7 +1148,6 @@ blocks:
         - name: WildFly 17.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1268,7 +1161,6 @@ blocks:
         - name: WildFly 18.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1282,7 +1174,6 @@ blocks:
         - name: WildFly 19.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1296,7 +1187,6 @@ blocks:
         - name: WildFly 20.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1310,7 +1200,6 @@ blocks:
         - name: WildFly 21.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1324,7 +1213,6 @@ blocks:
         - name: WildFly 22.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1338,7 +1226,6 @@ blocks:
         - name: WildFly 23.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1352,7 +1239,6 @@ blocks:
         - name: WildFly 24.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1366,7 +1252,6 @@ blocks:
         - name: WildFly 25.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1380,7 +1265,6 @@ blocks:
         - name: WildFly 26.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1394,7 +1278,6 @@ blocks:
         - name: WildFly Swarm
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-8"
             - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
             - mvn -version
@@ -1723,7 +1606,6 @@ blocks:
         - name: GlassFish 8.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-21"
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
@@ -1737,7 +1619,6 @@ blocks:
         - name: Payara
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-21"
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
@@ -1751,7 +1632,6 @@ blocks:
         - name: Tomcat 11.x
           commands:
             - cd ~/.m2/semaphore-ci-binaries
-            - cache restore "codehaus-cargo-cache-java-21"
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
             - export JAVA_HOME=/tmp/cargo/jdk-21
             - mvn -version
