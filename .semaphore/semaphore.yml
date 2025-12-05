@@ -34,42 +34,36 @@ global_job_config:
       - checkout
       - export ORIGINAL_PWD=$PWD
       - cd ~/
+      - cache list
       - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
       - cache list
       - mkdir -p ~/.m2/repository
       - cd ~/.m2
       - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
-      - mkdir -p ~/.m2/cargo-installs
-      - cd ~/.m2/cargo-installs
-      - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-      - mkdir -p ~/.m2/semaphore-ci-binaries
-      - cd ~/.m2/semaphore-ci-binaries
+      - mkdir -p /tmp/cargo-build-binaries
+      - cd /tmp/cargo-build-binaries
       - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
       - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache restore "codehaus-cargo-cache-maven" && cache delete "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache delete "codehaus-cargo-cache-in-progress"
-      - cd $ORIGINAL_PWD
-      - mkdir -p /tmp/cargo
-      - cp $ORIGINAL_PWD/.semaphore/settings.xml ~/.m2
+      - cache list
       - 'find . -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
-      - du -sh ~/.m2/*
-      - ls -al ~/.m2/cargo-installs
-      - ln -s ~/.m2/cargo-installs $ORIGINAL_PWD/core/samples/java/installs
-      - ls -al ~/.m2/semaphore-ci-binaries
-      - cd ~/.m2/semaphore-ci-binaries
       - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz ; RM=0'
-      - tar -xvzf apache-maven-3.6.3-bin.tar.gz -C /tmp/cargo
+      - tar -xvzf apache-maven-3.6.3-bin.tar.gz
+      - mkdir -p $ORIGINAL_PWD/core/samples/java/installs
+      - cd $ORIGINAL_PWD/core/samples/java
+      - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
       - cd $ORIGINAL_PWD
-      - export MAVEN_HOME=/tmp/cargo/apache-maven-3.6.3
+      - export MAVEN_HOME=/tmp/cargo-build-binaries/apache-maven-3.6.3
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
   epilogue:
     always:
       commands:
         - cd $ORIGINAL_PWD
-        - test -d /tmp/cargo/jdk1.6.0_45/ && export BRANCH_JAVA_HOME=/tmp/cargo/jdk1.6.0_45 || export BRANCH_JAVA_HOME=$JAVA_HOME
+        - test -d /tmp/cargo-build-binaries/jdk1.6.0_45/ && export BRANCH_JAVA_HOME=/tmp/cargo-build-binaries/jdk1.6.0_45 || export BRANCH_JAVA_HOME=$JAVA_HOME
         - export BRANCH_TEST_ID=`$BRANCH_JAVA_HOME/bin/java -version 2>&1 | head -1 | cut -d'"' -f2 | sed '/^1\./s///' | cut -d'"' -f1`
         - 'if [[ "$SEMAPHORE_JOB_NAME" =~ ^.*(Branch.*) ]] ; then export SUBBRANCH_ID=${BASH_REMATCH[1]} ; export BRANCH_TEST_ID="$BRANCH_TEST_ID) ($SUBBRANCH_ID" ; fi ; RM=0'
         - find . -iname "TEST-*.xml" -type f | xargs --no-run-if-empty perl -i -pe "s/\QTest\" time=/Test (Java $BRANCH_TEST_ID)\" time=/g"
@@ -78,25 +72,21 @@ global_job_config:
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
         - cache list
-        - cd ~/
-        - du -sh ~/.m2/*
-        - ls -al ~/.m2/cargo-installs
-        - rm -f ~/.m2/cargo-installs/tomcat-9.*.zip
-        - ls -al ~/.m2/cargo-installs
-        - ls -al ~/.m2/semaphore-ci-binaries
+        - cd $ORIGINAL_PWD/core/samples/java
+        - rm -f installs/tomcat-9.*.zip
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-        - if ! find .m2/cargo-installs -maxdepth 0 -empty | read v ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME ; fi ; RM=0
+        - if ! find .m2/cargo-installs -maxdepth 0 -empty | read v ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs --cleanup-by ACCESS_TIME ; fi ; RM=0
         - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
-        - cache list
         - cd ~/.m2
         - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
-        - cd ~/.m2/semaphore-ci-binaries
+        - cd /tmp/cargo-build-binaries
         - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
         - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
         - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
         - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
         - cache restore "codehaus-cargo-cache-maven" && cache delete "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
         - cache delete "codehaus-cargo-cache-in-progress"
+        - cache list
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
     dependencies: []
@@ -107,9 +97,8 @@ blocks:
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
-            - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
             - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
@@ -124,19 +113,19 @@ blocks:
       jobs:
         - name: Build on Java 8
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
+            - cd /tmp/cargo-build-binaries
             - 'find . -type f -name jdk-8u202-linux-x64.tar.gz -size -150M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz ; RM=0'
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-java-8"
             - cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
   - name: Prepare for containers running on Java 6
     dependencies:
@@ -145,14 +134,11 @@ blocks:
       jobs:
         - name: Prepare for containers running on Java 6
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
+            - cd /tmp/cargo-build-binaries
             - 'find . -type f -name jdk-6u45-linux-x64.bin -size -50M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
-            - cd ~/.m2/semaphore-ci-binaries
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-java-6"
@@ -165,10 +151,10 @@ blocks:
       jobs:
         - name: Prepare for containers running on Java 7
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
+            - cd /tmp/cargo-build-binaries
             - 'find . -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz ; RM=0'
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-java-7"
@@ -184,7 +170,7 @@ blocks:
             - sem-version java 17
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
   - name: Build on Java 21
     dependencies:
@@ -193,19 +179,19 @@ blocks:
       jobs:
         - name: Build on Java 21
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
+            - cd /tmp/cargo-build-binaries
             - 'find . -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
             - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
-            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-java-21"
             - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
-            - export JAVA_HOME=/tmp/cargo/jdk-21
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip $ORIGINAL_PWD/core/samples/java/installs ; RM=0
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
   - name: Geronimo 1.x
     dependencies:
@@ -214,16 +200,14 @@ blocks:
       jobs:
         - name: Geronimo 1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Geronimo 2.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -231,16 +215,14 @@ blocks:
       jobs:
         - name: Geronimo 2.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pgeronimo2x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo2x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Geronimo 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -248,16 +230,14 @@ blocks:
       jobs:
         - name: Geronimo 3.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pgeronimo3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: GlassFish 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -265,16 +245,14 @@ blocks:
       jobs:
         - name: GlassFish 3.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pglassfish3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: GlassFish 3.x - Branch 3.0.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -282,16 +260,14 @@ blocks:
       jobs:
         - name: GlassFish 3.x - Branch 3.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pglassfish3x-3.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pglassfish3x-3.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -299,16 +275,14 @@ blocks:
       jobs:
         - name: JBoss 3.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -316,16 +290,14 @@ blocks:
       jobs:
         - name: JBoss 4.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 4.2.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -333,16 +305,14 @@ blocks:
       jobs:
         - name: JBoss 4.2.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss42x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -350,16 +320,14 @@ blocks:
       jobs:
         - name: JBoss 5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 5.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -367,16 +335,14 @@ blocks:
       jobs:
         - name: JBoss 5.1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss51x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -384,16 +350,14 @@ blocks:
       jobs:
         - name: JBoss 6.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 6.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -401,16 +365,14 @@ blocks:
       jobs:
         - name: JBoss 6.1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss61x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -418,16 +380,14 @@ blocks:
       jobs:
         - name: JBoss 7.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JBoss 7.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -435,16 +395,14 @@ blocks:
       jobs:
         - name: JBoss 7.1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjboss71x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -452,16 +410,14 @@ blocks:
       jobs:
         - name: Jetty 5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -469,16 +425,14 @@ blocks:
       jobs:
         - name: Jetty 6.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -486,16 +440,14 @@ blocks:
       jobs:
         - name: Jetty 7.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -503,16 +455,14 @@ blocks:
       jobs:
         - name: Jetty 7.x - Branch 7.1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty7x-7.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.2.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -520,16 +470,14 @@ blocks:
       jobs:
         - name: Jetty 7.x - Branch 7.2.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty7x-7.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.3.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -537,16 +485,14 @@ blocks:
       jobs:
         - name: Jetty 7.x - Branch 7.3.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty7x-7.3 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.3 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -554,16 +500,14 @@ blocks:
       jobs:
         - name: Jetty 7.x - Branch 7.4.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty7x-7.4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 7.x - Branch 7.5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -571,16 +515,14 @@ blocks:
       jobs:
         - name: Jetty 7.x - Branch 7.5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty7x-7.5 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty7x-7.5 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 8.x - Branch 8.0.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -588,16 +530,14 @@ blocks:
       jobs:
         - name: Jetty 8.x - Branch 8.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty8x-8.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty8x-8.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 8.x - Branch 8.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -605,16 +545,14 @@ blocks:
       jobs:
         - name: Jetty 8.x - Branch 8.1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty8x-8.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjetty8x-8.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jo 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -622,16 +560,14 @@ blocks:
       jobs:
         - name: Jo 1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjo1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JOnAS 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -639,16 +575,14 @@ blocks:
       jobs:
         - name: JOnAS 4.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjonas4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: JOnAS 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -656,16 +590,14 @@ blocks:
       jobs:
         - name: JOnAS 5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Tomcat 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -673,16 +605,14 @@ blocks:
       jobs:
         - name: Tomcat 4.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat4x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Tomcat 5.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -690,16 +620,14 @@ blocks:
       jobs:
         - name: Tomcat 5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_4=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Tomcat 6.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -707,16 +635,14 @@ blocks:
       jobs:
         - name: Tomcat 6.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat6x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Tomcat 7.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -724,16 +650,14 @@ blocks:
       jobs:
         - name: Tomcat 7.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomcat7x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: TomEE 1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -741,16 +665,14 @@ blocks:
       jobs:
         - name: TomEE 1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - cp jdk-6u45-linux-x64.bin /tmp/cargo
-            - cd /tmp/cargo
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo/jdk1.6.0_45
+            - mvn clean install -e -Ptomee1x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
   - name: Jetty 8.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -758,14 +680,14 @@ blocks:
       jobs:
         - name: Jetty 8.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+            - mvn clean install -e -Pjetty8x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: Jetty 9.x - Branch 9.0.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -773,14 +695,14 @@ blocks:
       jobs:
         - name: Jetty 9.x - Branch 9.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: Jetty 9.x - Branch 9.1.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -788,14 +710,14 @@ blocks:
       jobs:
         - name: Jetty 9.x - Branch 9.1.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: Jetty 9.x - Branch 9.2.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -803,14 +725,14 @@ blocks:
       jobs:
         - name: Jetty 9.x - Branch 9.2.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+            - mvn clean install -e -Pjetty9x-9.2 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: Payara - Branch 4.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -818,14 +740,14 @@ blocks:
       jobs:
         - name: Payara - Branch 4.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ppayara-4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+            - mvn clean install -e -Ppayara-4 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: TomEE 7.x - Branch 7.0.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -833,14 +755,14 @@ blocks:
       jobs:
         - name: TomEE 7.x - Branch 7.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
-            - tar -xvzf jdk-7u80-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomee7x-7.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo/jdk1.7.0_80
+            - mvn clean install -e -Ptomee7x-7.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: GlassFish 4.x
     dependencies:
       - Build on Java 8
@@ -848,9 +770,9 @@ blocks:
       jobs:
         - name: GlassFish 4.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish4x -Dsurefire.rerunFailingTestsCount=2
@@ -861,9 +783,9 @@ blocks:
       jobs:
         - name: GlassFish 4.x - Branch 4.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish4x-4.0 -Dsurefire.rerunFailingTestsCount=2
@@ -874,9 +796,9 @@ blocks:
       jobs:
         - name: GlassFish 5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish5x -Dsurefire.rerunFailingTestsCount=2
@@ -887,9 +809,9 @@ blocks:
       jobs:
         - name: GlassFish 5.x - Branch 5.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish5x-5.0 -Dsurefire.rerunFailingTestsCount=2
@@ -900,9 +822,9 @@ blocks:
       jobs:
         - name: GlassFish 6.x - Branch 6.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish6x-6.0 -Dsurefire.rerunFailingTestsCount=2
@@ -913,9 +835,9 @@ blocks:
       jobs:
         - name: Jetty 9.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x -Dsurefire.rerunFailingTestsCount=2
@@ -926,9 +848,9 @@ blocks:
       jobs:
         - name: Jetty 9.x - Branch 9.3.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjetty9x-9.3 -Dsurefire.rerunFailingTestsCount=2
@@ -939,9 +861,9 @@ blocks:
       jobs:
         - name: Payara - Branch 5.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ppayara-5 -Dsurefire.rerunFailingTestsCount=2
@@ -952,9 +874,9 @@ blocks:
       jobs:
         - name: Tomcat 8.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat8x -Dsurefire.rerunFailingTestsCount=2
@@ -965,9 +887,9 @@ blocks:
       jobs:
         - name: Tomcat 8.x - Branch 8.0.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat8x-8.0 -Dsurefire.rerunFailingTestsCount=2
@@ -978,9 +900,9 @@ blocks:
       jobs:
         - name: Tomcat 9.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat9x -Dsurefire.rerunFailingTestsCount=2
@@ -991,9 +913,9 @@ blocks:
       jobs:
         - name: TomEE 7.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee7x -Dsurefire.rerunFailingTestsCount=2
@@ -1004,9 +926,9 @@ blocks:
       jobs:
         - name: TomEE 8.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee8x -Dsurefire.rerunFailingTestsCount=2
@@ -1017,9 +939,9 @@ blocks:
       jobs:
         - name: WebSphere Liberty
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pliberty -Dsurefire.rerunFailingTestsCount=2
@@ -1030,9 +952,9 @@ blocks:
       jobs:
         - name: WildFly 8.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly8x -Dsurefire.rerunFailingTestsCount=2
@@ -1043,9 +965,9 @@ blocks:
       jobs:
         - name: WildFly 8.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly8x-8.1 -Dsurefire.rerunFailingTestsCount=2
@@ -1056,9 +978,9 @@ blocks:
       jobs:
         - name: WildFly 9.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly9x -Dsurefire.rerunFailingTestsCount=2
@@ -1069,9 +991,9 @@ blocks:
       jobs:
         - name: WildFly 10.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly10x -Dsurefire.rerunFailingTestsCount=2
@@ -1082,9 +1004,9 @@ blocks:
       jobs:
         - name: WildFly 11.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly11x -Dsurefire.rerunFailingTestsCount=2
@@ -1095,9 +1017,9 @@ blocks:
       jobs:
         - name: WildFly 12.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly12x -Dsurefire.rerunFailingTestsCount=2
@@ -1108,9 +1030,9 @@ blocks:
       jobs:
         - name: WildFly 13.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly13x -Dsurefire.rerunFailingTestsCount=2
@@ -1121,9 +1043,9 @@ blocks:
       jobs:
         - name: WildFly 14.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly14x -Dsurefire.rerunFailingTestsCount=2
@@ -1134,9 +1056,9 @@ blocks:
       jobs:
         - name: WildFly 15.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly15x -Dsurefire.rerunFailingTestsCount=2
@@ -1147,9 +1069,9 @@ blocks:
       jobs:
         - name: WildFly 16.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly16x -Dsurefire.rerunFailingTestsCount=2
@@ -1160,9 +1082,9 @@ blocks:
       jobs:
         - name: WildFly 17.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly17x -Dsurefire.rerunFailingTestsCount=2
@@ -1173,9 +1095,9 @@ blocks:
       jobs:
         - name: WildFly 18.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly18x -Dsurefire.rerunFailingTestsCount=2
@@ -1186,9 +1108,9 @@ blocks:
       jobs:
         - name: WildFly 19.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly19x -Dsurefire.rerunFailingTestsCount=2
@@ -1199,9 +1121,9 @@ blocks:
       jobs:
         - name: WildFly 20.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly20x -Dsurefire.rerunFailingTestsCount=2
@@ -1212,9 +1134,9 @@ blocks:
       jobs:
         - name: WildFly 21.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly21x -Dsurefire.rerunFailingTestsCount=2
@@ -1225,9 +1147,9 @@ blocks:
       jobs:
         - name: WildFly 22.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly22x -Dsurefire.rerunFailingTestsCount=2
@@ -1238,9 +1160,9 @@ blocks:
       jobs:
         - name: WildFly 23.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly23x -Dsurefire.rerunFailingTestsCount=2
@@ -1251,9 +1173,9 @@ blocks:
       jobs:
         - name: WildFly 24.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly24x -Dsurefire.rerunFailingTestsCount=2
@@ -1264,9 +1186,9 @@ blocks:
       jobs:
         - name: WildFly 25.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly25x -Dsurefire.rerunFailingTestsCount=2
@@ -1277,9 +1199,9 @@ blocks:
       jobs:
         - name: WildFly 26.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly26x -Dsurefire.rerunFailingTestsCount=2
@@ -1290,9 +1212,9 @@ blocks:
       jobs:
         - name: WildFly Swarm
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf jdk-8u202-linux-x64.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk1.8.0_202
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
@@ -1311,7 +1233,6 @@ blocks:
           commands:
             - sem-version java 11
             - mvn -version
-            - 'test ! -d ~/.m2/repository/org/codehaus/cargo/cargo-maven3-plugin/ && ( mvn clean install -pl :cargo-maven3-plugin -am -T 1C || mvn clean install -e ) ; mvn clean -T 1C'
             - cd $ORIGINAL_PWD/extensions/maven3/samples/glassfish6x-remoteDeploy-test
             - mvn clean install -Pglassfish6x || mvn clean install -e -Pglassfish6x
             - cd $ORIGINAL_PWD/core/samples
@@ -1617,9 +1538,9 @@ blocks:
       jobs:
         - name: GlassFish 8.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk-21
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
@@ -1630,9 +1551,9 @@ blocks:
       jobs:
         - name: Payara
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk-21
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ppayara -Dsurefire.rerunFailingTestsCount=2
@@ -1643,9 +1564,9 @@ blocks:
       jobs:
         - name: Tomcat 11.x
           commands:
-            - cd ~/.m2/semaphore-ci-binaries
-            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz -C /tmp/cargo
-            - export JAVA_HOME=/tmp/cargo/jdk-21
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
@@ -1764,6 +1685,7 @@ blocks:
             - ./maven-repository-cleaner.sh
             - cache delete "codehaus-cargo-cache-repository"
             - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
+            - cache list
 after_pipeline:
   task:
     jobs:
