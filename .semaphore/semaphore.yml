@@ -36,8 +36,9 @@ global_job_config:
       - cd ~/
       - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
       - cache list
-      - mkdir -p ~/.m2
-      - cache restore "codehaus-cargo-cache-initial-build"
+      - mkdir -p ~/.m2/repository
+      - cd ~/.m2
+      - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
       - mkdir -p ~/.m2/cargo-installs
       - cd ~/.m2/cargo-installs
       - cache restore "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
@@ -47,6 +48,7 @@ global_job_config:
       - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-maven" && cache delete "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache delete "codehaus-cargo-cache-in-progress"
       - cd $ORIGINAL_PWD
       - mkdir -p /tmp/cargo
@@ -84,6 +86,17 @@ global_job_config:
         - ls -al ~/.m2/semaphore-ci-binaries
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
         - if ! find .m2/cargo-installs -maxdepth 0 -empty | read v ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" .m2/cargo-installs --cleanup-by ACCESS_TIME ; fi ; RM=0
+        - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
+        - cache list
+        - cd ~/.m2
+        - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
+        - cd ~/.m2/semaphore-ci-binaries
+        - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-maven" && cache delete "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache delete "codehaus-cargo-cache-in-progress"
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
     dependencies: []
@@ -98,11 +111,11 @@ blocks:
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
             - rm -f $ORIGINAL_PWD/core/samples/java/installs/tomcat-9.*.zip
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
-            - cd ~/
+            - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+            - cache delete "codehaus-cargo-cache-repository"
+            - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: Build on Java 8
     dependencies:
@@ -1283,11 +1296,11 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly-swarm2017x -Dsurefire.rerunFailingTestsCount=2
-            - cd ~/
+            - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+            - cache delete "codehaus-cargo-cache-repository"
+            - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: GlassFish 6.x
     dependencies:
@@ -1305,12 +1318,11 @@ blocks:
             - cp ~/.m2/repository/org/glassfish/main/distributions/glassfish/6.*/glassfish-*.zip java/installs
             - mvn clean install -e -Pglassfish6x -Dsurefire.rerunFailingTestsCount=3
             - rm $ORIGINAL_PWD/core/samples/java/installs/glassfish-6.*.zip
-            - cd $ORIGINAL_PWD
-            - cd ~/
+            - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+            - cache delete "codehaus-cargo-cache-repository"
+            - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: GlassFish 6.x - Branch 6.1.x
     dependencies:
@@ -1746,12 +1758,12 @@ blocks:
       jobs:
         - name: Clean repository
           commands:
-            - cd ~/
+            - cd ~/.m2
             - 'wget https://raw.githubusercontent.com/alitokmen/maven-repository-cleaner/main/maven-repository-cleaner.sh'
             - chmod +x maven-repository-cleaner.sh
             - ./maven-repository-cleaner.sh
-            - cache delete "codehaus-cargo-cache-initial-build"
-            - cache store "codehaus-cargo-cache-initial-build" .m2 --cleanup-by ACCESS_TIME
+            - cache delete "codehaus-cargo-cache-repository"
+            - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
 after_pipeline:
   task:
     jobs:
