@@ -36,7 +36,7 @@ global_job_config:
       - cd ~/
       - cache list
       - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
-      - cache list
+      - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
       - mkdir -p ~/.m2/repository
       - cd ~/.m2
       - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
@@ -77,6 +77,7 @@ global_job_config:
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
         - if ! find .m2/cargo-installs -maxdepth 0 -empty | read v ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs --cleanup-by ACCESS_TIME ; fi ; RM=0
         - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
+        - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
         - cd ~/.m2
         - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
         - cd /tmp/cargo-build-binaries
