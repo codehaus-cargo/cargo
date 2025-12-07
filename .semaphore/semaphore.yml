@@ -39,7 +39,7 @@ global_job_config:
       - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
       - mkdir -p ~/.m2/repository
       - cd ~/.m2
-      - for j in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-repository" ; repository_size="`du -shb repository | cut -f1`" ; [ $repository_size -lt 1 ] ; break ; [ $repository_size -gt 400000000 ] && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME && break ; sleep 5 ; done
+      - for i in $(seq 1 50); do cache restore "codehaus-cargo-cache-repository" ; repository_size="`du -shb repository | cut -f1`" ; [ $repository_size -lt 1 ] ; break ; [ $repository_size -gt 400000000 ] && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME && break ; sleep 5 ; done
       - mkdir -p /tmp/cargo-build-binaries
       - cd /tmp/cargo-build-binaries
       - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
