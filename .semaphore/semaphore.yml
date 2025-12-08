@@ -39,14 +39,14 @@ global_job_config:
       - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
       - mkdir -p ~/.m2/repository
       - cd ~/.m2
-      - for i in $(seq 1 50); do cache restore "codehaus-cargo-cache-repository" ; repository_size="`du -shb repository | cut -f1`" ; [ $repository_size -lt 1 ] ; break ; [ $repository_size -gt 400000000 ] && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME && break ; sleep 5 ; done
+      - for i in $(seq 1 50); do cache restore "codehaus-cargo-cache-repository" ; repository_size="`du -shb repository | cut -f1`" ; [ $repository_size -lt 1 ] ; break ; [ $repository_size -gt 400000000 ] && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME && break ; sleep 5 ; done
       - mkdir -p /tmp/cargo-build-binaries
       - cd /tmp/cargo-build-binaries
-      - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
-      - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-      - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-      - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-      - cache restore "codehaus-cargo-cache-maven" && cache delete "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-java-21" && && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+      - cache restore "codehaus-cargo-cache-maven" && && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
       - cache delete "codehaus-cargo-cache-in-progress"
       - cache list
       - 'find . -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
@@ -79,13 +79,13 @@ global_job_config:
         - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
         - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
         - cd ~/.m2
-        - cache restore "codehaus-cargo-cache-repository" && cache delete "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-repository" && cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME ; RM=0
         - cd /tmp/cargo-build-binaries
-        - cache restore "codehaus-cargo-cache-java-6" && cache delete "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-java-7" && cache delete "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-java-8" && cache delete "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-java-21" && cache delete "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
-        - cache restore "codehaus-cargo-cache-maven" && cache delete "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-6" && cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-7" && cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-8" && cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-java-21" && cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
+        - cache restore "codehaus-cargo-cache-maven" && cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz --cleanup-by ACCESS_TIME ; RM=0
         - cache delete "codehaus-cargo-cache-in-progress"
         - cache list
 blocks:
@@ -104,7 +104,6 @@ blocks:
             - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-repository"
             - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: Build on Java 8
@@ -120,7 +119,6 @@ blocks:
             - tar -xvzf jdk-8u202-linux-x64.tar.gz
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-java-8"
             - cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
@@ -142,7 +140,6 @@ blocks:
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-java-6"
             - cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: Prepare for containers running on Java 7
@@ -158,7 +155,6 @@ blocks:
             - tar -xvzf jdk-7u80-linux-x64.tar.gz
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-java-7"
             - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: Build on Java 17
@@ -186,7 +182,6 @@ blocks:
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-java-21"
             - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
@@ -1222,7 +1217,6 @@ blocks:
             - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-repository"
             - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: GlassFish 6.x
@@ -1243,7 +1237,6 @@ blocks:
             - cd ~/.m2
             - for i in $(seq 1 50); do rm -f cache-in-progress.txt ; cache restore "codehaus-cargo-cache-in-progress" ; test ! -e cache-in-progress.txt && break ; sleep 5 ; done
             - echo "Cache in progress..." > cache-in-progress.txt && cache store "codehaus-cargo-cache-in-progress" cache-in-progress.txt --cleanup-by ACCESS_TIME
-            - cache delete "codehaus-cargo-cache-repository"
             - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
             - cache delete "codehaus-cargo-cache-in-progress"
   - name: GlassFish 6.x - Branch 6.1.x
