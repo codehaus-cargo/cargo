@@ -583,7 +583,7 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/installs
             - 'find . -type f -name resin-3.0.27.zip -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://caucho.com/download/resin-3.0.27.zip ; RM=0'
+            - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-3.0.27.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
             - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
@@ -602,7 +602,7 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/installs
             - 'find . -type f -name resin-3.1.16.zip -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://caucho.com/download/resin-3.1.16.zip ; RM=0'
+            - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-3.1.16.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
             - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
@@ -888,7 +888,7 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples/installs
             - 'find . -type f -name resin-resin-4.0.67.zip -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://caucho.com/download/resin-4.0.67.zip ; RM=0'
+            - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-4.0.67.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
             - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
