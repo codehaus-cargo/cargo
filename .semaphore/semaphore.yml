@@ -63,12 +63,12 @@ global_job_config:
         - zip -r "$SEMAPHORE_JOB_NAME logs.zip" . -i "*.log"
         - artifact push job "$SEMAPHORE_JOB_NAME logs.zip"
         - mvn clean -T 1C
-        - cache list
         - cd $ORIGINAL_PWD/core/samples/java
         - rm -f installs/tomcat-9.*.zip
-        - cache list
-        - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
+        - ls -al installs
         # SemaphoreCI has limited cache size, do not store container specifics
+        # - cache list
+        # - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
         # - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
         - cache list
 blocks:
@@ -568,6 +568,44 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pjonas5x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_6=/tmp/cargo-build-binaries/jdk1.6.0_45
+  - name: Resin 3.x
+    dependencies:
+      - Prepare for containers running on Java 6
+    task:
+      jobs:
+        - name: Resin 3.x
+          commands:
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/installs
+            - 'find . -type f -name resin-3.0.27.zip -size -5M -print -exec rm {} +'
+            - 'wget -N --continue https://caucho.com/download/resin-3.0.27.zip ; RM=0'
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
+            - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
+  - name: Resin 3.1.x
+    dependencies:
+      - Prepare for containers running on Java 6
+    task:
+      jobs:
+        - name: Resin 3.1.x
+          commands:
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - chmod +x jdk-6u45-linux-x64.bin
+            - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/installs
+            - 'find . -type f -name resin-3.1.16.zip -size -5M -print -exec rm {} +'
+            - 'wget -N --continue https://caucho.com/download/resin-3.1.16.zip ; RM=0'
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
+            - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Tomcat 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -837,6 +875,23 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ppayara-5 -Dsurefire.rerunFailingTestsCount=2
+  - name: Resin 4.x
+    dependencies:
+      - Build on Java 8
+    task:
+      jobs:
+        - name: Resin 4.x
+          commands:
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples/installs
+            - 'find . -type f -name resin-resin-4.0.67.zip -size -5M -print -exec rm {} +'
+            - 'wget -N --continue https://caucho.com/download/resin-4.0.67.zip ; RM=0'
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
+            - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Tomcat 8.x
     dependencies:
       - Build on Java 8
@@ -1581,6 +1636,9 @@ blocks:
       - Payara - Branch 4.x
       - Payara - Branch 5.x
       - Payara - Branch 6.x
+      - Resin 3.1.x
+      - Resin 3.x
+      - Resin 4.x
       - Tomcat 4.x
       - Tomcat 5.x
       - Tomcat 6.x
