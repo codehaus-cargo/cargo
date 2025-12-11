@@ -23,6 +23,7 @@ execution_time_limit:
   # Allow up to 5 to 6 Dependabot-triggered parallel branches
   hours: 18
 fail_fast:
+  # Stop the workflow as soon as a job fails
   cancel:
     when: 'true'
 global_job_config:
