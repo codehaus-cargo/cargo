@@ -23,6 +23,7 @@ execution_time_limit:
   # Allow up to 5 to 6 Dependabot-triggered parallel branches
   hours: 18
 fail_fast:
+  # Stop the workflow as soon as a job fails
   cancel:
     when: 'true'
 global_job_config:
@@ -107,7 +108,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
   - name: Prepare for containers running on Java 6
     dependencies:
@@ -144,7 +145,7 @@ blocks:
             - sem-version java 17
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
   - name: Build on Java 21
     dependencies:
@@ -161,7 +162,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
             - cd $ORIGINAL_PWD
             - mvn -version
-            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs
+            - cp ~/.m2/repository/org/apache/tomcat/tomcat/9.*/tomcat-*.zip core/samples/java/installs ; RM=0
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
   - name: Geronimo 1.x
     dependencies:
@@ -581,11 +582,12 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/installs
+            - cd $ORIGINAL_PWD/core/samples/java/installs
             - 'find . -type f -name resin-3.0.27.zip -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://caucho.com/download/resin-3.0.27.zip ; RM=0'
+            - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-3.0.27.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
+            - cd $ORIGINAL_PWD/core/samples/java
             - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Resin 3.1.x
     dependencies:
@@ -600,11 +602,12 @@ blocks:
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/installs
+            - cd $ORIGINAL_PWD/core/samples/java/installs
             - 'find . -type f -name resin-3.1.16.zip -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://caucho.com/download/resin-3.1.16.zip ; RM=0'
+            - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-3.1.16.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
+            - cd $ORIGINAL_PWD/core/samples/java
             - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Tomcat 4.x
     dependencies:
@@ -886,11 +889,12 @@ blocks:
             - tar -xvzf jdk-8u202-linux-x64.tar.gz
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
-            - cd $ORIGINAL_PWD/core/samples/installs
+            - cd $ORIGINAL_PWD/core/samples/java/installs
             - 'find . -type f -name resin-resin-4.0.67.zip -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://caucho.com/download/resin-4.0.67.zip ; RM=0'
+            - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-4.0.67.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
+            - cd $ORIGINAL_PWD/core/samples/java
             - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Tomcat 8.x
     dependencies:
