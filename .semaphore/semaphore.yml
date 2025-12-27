@@ -67,10 +67,10 @@ global_job_config:
         - cd $ORIGINAL_PWD/core/samples/java
         - rm -f installs/tomcat-9.*.zip
         - ls -al installs
-        # SemaphoreCI has limited cache size, do not store container specifics
-        # - cache list
-        # - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
-        # - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
+        - cache list
+        - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
+        # SemaphoreCI has limited cache size, store all but WildFly containers
+        - if [[ "$CARGO_BRANCH_ID" != "wildfly"* ]] ; then installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs ; fi
         - cache list
 blocks:
   - name: Perform initial build and aggregate Javadoc on Java 11
@@ -587,8 +587,6 @@ blocks:
             - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-3.0.27.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin3x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
-            - cd $ORIGINAL_PWD/core/samples/java
-            - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Resin 3.1.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -607,8 +605,6 @@ blocks:
             - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-3.1.16.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin31x -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_5=/tmp/cargo-build-binaries/jdk1.6.0_45
-            - cd $ORIGINAL_PWD/core/samples/java
-            - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Tomcat 4.x
     dependencies:
       - Prepare for containers running on Java 6
@@ -894,8 +890,6 @@ blocks:
             - 'wget -N --continue --no-check-certificate https://caucho.com/download/resin-4.0.67.zip ; RM=0'
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Presin4x -Dsurefire.rerunFailingTestsCount=2
-            - cd $ORIGINAL_PWD/core/samples/java
-            - installs_size="`du -shb installs | cut -f1`" ; [ $installs_size -gt 5000000 ] && cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs
   - name: Tomcat 8.x
     dependencies:
       - Build on Java 8
