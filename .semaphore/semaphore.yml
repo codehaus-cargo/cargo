@@ -1,3 +1,18 @@
+# -------------------------------------------------------------------
+# Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2025 Ali Tokmen.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# -------------------------------------------------------------------
 version: v1.0
 name: Codehaus Cargo Java build on Ubuntu
 agent:
@@ -5,8 +20,10 @@ agent:
     type: f1-standard-2
     os_image: ubuntu2404
 execution_time_limit:
+  # Allow up to 5 to 6 Dependabot-triggered parallel branches
   hours: 18
 fail_fast:
+  # Stop the workflow as soon as a job fails
   cancel:
     when: 'true'
 global_job_config:
@@ -52,6 +69,7 @@ global_job_config:
         - ls -al installs
         - cache list
         - cache delete "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID"
+        # SemaphoreCI has limited cache size, store all but WildFly containers
         - 'if [[ "$CARGO_BRANCH_ID" != "wildfly"* ]] ; then installs_size="`du -shb installs | cut -f1`" ; if (( $installs_size > 5000000 )) ; then cache store "codehaus-cargo-cache-containers-$CARGO_BRANCH_ID" installs ; fi ; fi'
         - cache list
 blocks:
