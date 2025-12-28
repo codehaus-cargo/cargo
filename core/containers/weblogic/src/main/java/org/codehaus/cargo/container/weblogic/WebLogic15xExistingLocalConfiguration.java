@@ -19,37 +19,22 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic14x15xStandaloneLocalConfigurationCapability;
-
 /**
- * WebLogic 14.x standalone
+ * WebLogic 15.x existing
  * {@link org.codehaus.cargo.container.spi.configuration.ContainerConfiguration} implementation.
- * WebLogic 14.x uses WLST for container configuration.
+ * WebLogic 15.x uses WLST for container configuration.
  */
-public class WebLogic14xStandaloneLocalConfiguration extends
-    WebLogic122xStandaloneLocalConfiguration
+public class WebLogic15xExistingLocalConfiguration extends
+    WebLogic14xExistingLocalConfiguration
 {
 
     /**
      * {@inheritDoc}
-     * @see WebLogic122xStandaloneLocalConfiguration#WebLogic122xStandaloneLocalConfiguration(String)
+     * @see WebLogic14xExistingLocalConfiguration#WebLogic14xExistingLocalConfiguration(String)
      */
-    public WebLogic14xStandaloneLocalConfiguration(String dir)
+    public WebLogic15xExistingLocalConfiguration(String dir)
     {
         super(dir);
-
-        setProperty(WebLogicPropertySet.PASSWORD_LENGTH_MIN, null);
-        setProperty(WebLogicPropertySet.PASSWORD_SPNUM_MIN, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ConfigurationCapability getCapability()
-    {
-        return new WebLogic14x15xStandaloneLocalConfigurationCapability();
     }
 
     /**
@@ -58,6 +43,6 @@ public class WebLogic14xStandaloneLocalConfiguration extends
     @Override
     public String toString()
     {
-        return "WebLogic 14.x Standalone Configuration";
+        return "WebLogic 15.x Existing Configuration";
     }
 }

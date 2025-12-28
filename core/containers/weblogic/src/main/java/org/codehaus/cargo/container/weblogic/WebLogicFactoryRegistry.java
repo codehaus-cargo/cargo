@@ -23,7 +23,7 @@ import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.configuration.ConfigurationType;
 import org.codehaus.cargo.container.deployer.DeployerType;
 import org.codehaus.cargo.container.internal.J2EEContainerCapability;
-import org.codehaus.cargo.container.weblogic.internal.WebLogic14xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.weblogic.internal.WebLogic14x15xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogic9x10x103x12xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicExistingLocalConfigurationCapability;
@@ -123,11 +123,21 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("weblogic14x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WebLogic14xStandaloneLocalConfigurationCapability.class);
+            WebLogic14x15xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic14x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             WebLogicWlstExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("weblogic14x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            WebLogicWlstRuntimeConfigurationCapability.class);
+
+        configurationCapabilityFactory.registerConfigurationCapability("weblogic15x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            WebLogic14x15xStandaloneLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("weblogic15x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            WebLogicWlstExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("weblogic15x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WebLogicWlstRuntimeConfigurationCapability.class);
     }
@@ -152,21 +162,21 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic9xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic9x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x12x14xExistingLocalConfiguration.class);
+            WebLogic9x10x12x14x15xExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("weblogic10x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             WebLogic10xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic10x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x12x14xExistingLocalConfiguration.class);
+            WebLogic9x10x12x14x15xExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("weblogic103x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
             WebLogic103xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic103x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x12x14xExistingLocalConfiguration.class);
+            WebLogic9x10x12x14x15xExistingLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic103x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WebLogic103xRuntimeConfiguration.class);
@@ -176,7 +186,7 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic12xStandaloneLocalConfiguration.class);
         configurationFactory.registerConfiguration("weblogic12x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WebLogic9x10x12x14xExistingLocalConfiguration.class);
+            WebLogic9x10x12x14x15xExistingLocalConfiguration.class);
 
         configurationFactory.registerConfiguration("weblogic121x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
@@ -207,6 +217,16 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("weblogic14x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WebLogic122xRuntimeConfiguration.class);
+
+        configurationFactory.registerConfiguration("weblogic15x",
+            ContainerType.INSTALLED, ConfigurationType.STANDALONE,
+            WebLogic15xStandaloneLocalConfiguration.class);
+        configurationFactory.registerConfiguration("weblogic15x",
+            ContainerType.INSTALLED, ConfigurationType.EXISTING,
+            WebLogic15xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("weblogic15x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            WebLogic122xRuntimeConfiguration.class);
     }
 
     /**
@@ -221,32 +241,37 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic8xSwitchableLocalDeployer.class);
 
         deployerFactory.registerDeployer("weblogic9x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("weblogic10x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("weblogic103x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("weblogic103x", DeployerType.REMOTE,
             WebLogicWlstRemoteDeployer.class);
 
         deployerFactory.registerDeployer("weblogic12x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
 
         deployerFactory.registerDeployer("weblogic121x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("weblogic121x", DeployerType.REMOTE,
             WebLogicWlstRemoteDeployer.class);
 
         deployerFactory.registerDeployer("weblogic122x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("weblogic122x", DeployerType.REMOTE,
             WebLogicWlstRemoteDeployer.class);
 
         deployerFactory.registerDeployer("weblogic14x", DeployerType.INSTALLED,
-            WebLogic9x10x12x14xCopyingInstalledLocalDeployer.class);
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
         deployerFactory.registerDeployer("weblogic14x", DeployerType.REMOTE,
+            WebLogicWlstRemoteDeployer.class);
+
+        deployerFactory.registerDeployer("weblogic15x", DeployerType.INSTALLED,
+            WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("weblogic15x", DeployerType.REMOTE,
             WebLogicWlstRemoteDeployer.class);
     }
 
@@ -299,6 +324,11 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             WebLogic14xInstalledLocalContainer.class);
         containerFactory.registerContainer("weblogic14x", ContainerType.REMOTE,
             WebLogic14xRemoteContainer.class);
+
+        containerFactory.registerContainer("weblogic15x", ContainerType.INSTALLED,
+            WebLogic15xInstalledLocalContainer.class);
+        containerFactory.registerContainer("weblogic15x", ContainerType.REMOTE,
+            WebLogic15xRemoteContainer.class);
     }
 
     /**
@@ -331,6 +361,9 @@ public class WebLogicFactoryRegistry extends AbstractFactoryRegistry
             J2EEContainerCapability.class);
 
         containerCapabilityFactory.registerContainerCapability("weblogic14x",
+            J2EEContainerCapability.class);
+
+        containerCapabilityFactory.registerContainerCapability("weblogic15x",
             J2EEContainerCapability.class);
     }
 }

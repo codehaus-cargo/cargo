@@ -24,13 +24,13 @@ import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 /**
  * Capabilities of WebLogic 14.x.
  */
-public class WebLogic14xStandaloneLocalConfigurationCapability extends
+public class WebLogic14x15xStandaloneLocalConfigurationCapability extends
     WebLogicWlstStandaloneLocalConfigurationCapability
 {
     /**
      * WLST implementation allows easy support of resources.
      */
-    public WebLogic14xStandaloneLocalConfigurationCapability()
+    public WebLogic14x15xStandaloneLocalConfigurationCapability()
     {
         // password configuration not available on WebLogic 14.x anymore
         this.propertySupportMap.remove(WebLogicPropertySet.PASSWORD_LENGTH_MIN);

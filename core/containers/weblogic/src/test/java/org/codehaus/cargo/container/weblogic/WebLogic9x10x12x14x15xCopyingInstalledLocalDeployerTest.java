@@ -30,7 +30,7 @@ import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
 
 /**
- * Unit tests for {@link WebLogic9x10x12x14xCopyingInstalledLocalDeployer}.
+ * Unit tests for {@link WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer}.
  * 
  * <p>
  * Note: These tests are using <a href="http://jakarta.apache.org/commons/vfs/">VFS</a> with a <a
@@ -39,7 +39,7 @@ import org.codehaus.cargo.util.VFSFileHandler;
  * to resort to creating files in the file system and deleting them afterwards.
  * </p>
  */
-public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest
+public class WebLogic9x10x12x14x15xCopyingInstalledLocalDeployerTest
 {
     /**
      * BEA_HOME
@@ -64,7 +64,7 @@ public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest
     /**
      * Deployer.
      */
-    private WebLogic9x10x12x14xCopyingInstalledLocalDeployer deployer;
+    private WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer deployer;
 
     /**
      * File system manager.
@@ -94,7 +94,7 @@ public class WebLogic9x10x12x14xCopyingInstalledLocalDeployerTest
         this.container = new WebLogic9xInstalledLocalContainer(configuration);
         this.container.setHome(WL_HOME);
         this.container.setFileHandler(this.fileHandler);
-        this.deployer = new WebLogic9x10x12x14xCopyingInstalledLocalDeployer(container);
+        this.deployer = new WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer(container);
     }
 
     /**

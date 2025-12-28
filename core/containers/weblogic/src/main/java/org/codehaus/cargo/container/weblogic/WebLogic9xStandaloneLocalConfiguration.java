@@ -132,8 +132,8 @@ public class WebLogic9xStandaloneLocalConfiguration extends
             getFileHandler().append(configDir, "config.xml"), getFileHandler(), replacements,
                 StandardCharsets.UTF_8);
 
-        WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer deployer =
-            new WebLogic9x10x12x14xConfigXmlInstalledLocalDeployer(
+        WebLogic9x10x12x14x15xConfigXmlInstalledLocalDeployer deployer =
+            new WebLogic9x10x12x14x15xConfigXmlInstalledLocalDeployer(
                 (InstalledLocalContainer) container);
         deployer.deploy(getDeployables());
 

@@ -54,6 +54,7 @@ public class EnvironmentTestData
         "tomcat11x",
         "tomee9x",
         "tomee10x",
+        "weblogic15x",
         "wildfly27x",
         "wildfly28x",
         "wildfly29x",

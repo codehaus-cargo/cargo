@@ -19,54 +19,46 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.spi.deployer.AbstractSwitchableLocalDeployer;
+import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
+import org.codehaus.cargo.container.weblogic.internal.AbstractWebLogicRemoteContainer;
 
 /**
- * Changes config.xml if the server is down. Otherwise, adds applications to the config directory.
+ * Special container support for the Bea WebLogic 15.x application server. Contains WLST support.
  */
-public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDeployer
+public class WebLogic15xRemoteContainer extends AbstractWebLogicRemoteContainer
 {
 
     /**
-     * deployer used when server is up.
+     * Unique container id.
      */
-    private Deployer hotDeployer;
-
-    /**
-     * deployer used when server is down.
-     */
-    private Deployer coldDeployer;
+    public static final String ID = "weblogic15x";
 
     /**
      * {@inheritDoc}
-     * 
-     * @param container container to configure
+     * @see AbstractWebLogicRemoteContainer#AbstractWebLogicRemoteContainer(org.codehaus.cargo.container.configuration.RuntimeConfiguration)
      */
-    public WebLogic8xSwitchableLocalDeployer(InstalledLocalContainer container)
+    public WebLogic15xRemoteContainer(RuntimeConfiguration configuration)
     {
-        super(container);
-        hotDeployer = new WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer(container);
-        coldDeployer = new WebLogic8xConfigXmlInstalledLocalDeployer(container);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getName()
      */
     @Override
-    protected Deployer getColdDeployer()
+    public String getName()
     {
-        return coldDeployer;
+        return "WebLogic 15.x";
     }
 
     /**
      * {@inheritDoc}
+     * @see org.codehaus.cargo.container.Container#getId()
      */
     @Override
-    protected Deployer getHotDeployer()
+    public String getId()
     {
-        return hotDeployer;
+        return ID;
     }
-
 }

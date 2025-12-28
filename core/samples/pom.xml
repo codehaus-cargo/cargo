@@ -865,6 +865,27 @@
               <cargo.weblogic14x.java.home>${cargo.java.home.1_8}</cargo.weblogic14x.java.home>
 
               <!--
+                WebLogic 15.x
+
+                Notes:
+
+                WebLogic 15 runs on JDK 17
+
+                There is no non-interactive download link for WL 15.x.  Here is is a link that requires license agreement:
+                   * https://www.oracle.com/middleware/technologies/weblogic-server-installers-downloads.html
+
+                Once you install this, set the cargo.weblogic15x.home property accordingly.
+
+                For example:
+
+                  <cargo.weblogic15x.home>
+                    C:/Oracle/wls_15.1.1.0.0/wlserver
+                  </cargo.weblogic15x.home>
+                -->
+              <cargo.weblogic15x.home>${cargo.weblogic15x.home}</cargo.weblogic15x.home>
+              <cargo.weblogic15x.java.home>${cargo.java.home.1_17}</cargo.weblogic15x.java.home>
+
+              <!--
                 WebSphere 8.5.x
 
                 Notes:

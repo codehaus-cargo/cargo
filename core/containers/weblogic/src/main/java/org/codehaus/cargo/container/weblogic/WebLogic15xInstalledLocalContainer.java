@@ -19,54 +19,43 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.deployer.Deployer;
-import org.codehaus.cargo.container.spi.deployer.AbstractSwitchableLocalDeployer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
- * Changes config.xml if the server is down. Otherwise, adds applications to the config directory.
+ * Special container support for the Oracle WebLogic 15 application server. Contains WLST support.
  */
-public class WebLogic8xSwitchableLocalDeployer extends AbstractSwitchableLocalDeployer
+public class WebLogic15xInstalledLocalContainer extends WebLogic14xInstalledLocalContainer
 {
 
     /**
-     * deployer used when server is up.
+     * Unique container id.
      */
-    private Deployer hotDeployer;
-
-    /**
-     * deployer used when server is down.
-     */
-    private Deployer coldDeployer;
+    public static final String ID = "weblogic15x";
 
     /**
      * {@inheritDoc}
-     * 
-     * @param container container to configure
+     * @see WebLogic14xInstalledLocalContainer#WebLogic14xInstalledLocalContainer(org.codehaus.cargo.container.configuration.LocalConfiguration)
      */
-    public WebLogic8xSwitchableLocalDeployer(InstalledLocalContainer container)
+    public WebLogic15xInstalledLocalContainer(LocalConfiguration configuration)
     {
-        super(container);
-        hotDeployer = new WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer(container);
-        coldDeployer = new WebLogic8xConfigXmlInstalledLocalDeployer(container);
+        super(configuration);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Deployer getColdDeployer()
+    public String getName()
     {
-        return coldDeployer;
+        return "WebLogic " + getVersion("15.x");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected Deployer getHotDeployer()
+    public String getId()
     {
-        return hotDeployer;
+        return ID;
     }
-
 }

@@ -32,14 +32,14 @@ import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
  * Static deployer that deploys WARs to the WebLogic auto-deploy directory. EARs and RARs are not
  * supported, yet.
  */
-public class WebLogic9x10x12x14xCopyingInstalledLocalDeployer extends
+public class WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer extends
     AbstractCopyingInstalledLocalDeployer
 {
     /**
      * {@inheritDoc}
      * @see AbstractCopyingInstalledLocalDeployer#AbstractCopyingInstalledLocalDeployer(org.codehaus.cargo.container.LocalContainer)
      */
-    public WebLogic9x10x12x14xCopyingInstalledLocalDeployer(LocalContainer container)
+    public WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer(LocalContainer container)
     {
         super(container);
     }

@@ -27,17 +27,17 @@ import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalContainer;
 
 /**
- * WebLogic existing configuration implementation for WebLogic 9.x, 10.x, 10.3.x and 12.x style
- * domains. The configuration home must point to a valid WebLogic domain directory.
+ * WebLogic existing configuration implementation for WebLogic 9.x, 10.x, 10.3.x, 12.x, 14.x and
+ * 15.x style domains. The configuration home must point to a valid WebLogic domain directory.
  */
-public class WebLogic9x10x12x14xExistingLocalConfiguration
+public class WebLogic9x10x12x14x15xExistingLocalConfiguration
     extends WebLogic8xExistingLocalConfiguration
 {
     /**
      * {@inheritDoc}
      * @see WebLogic8xExistingLocalConfiguration#WebLogic8xExistingLocalConfiguration(String)
      */
-    public WebLogic9x10x12x14xExistingLocalConfiguration(String dir)
+    public WebLogic9x10x12x14x15xExistingLocalConfiguration(String dir)
     {
         super(dir);
     }
@@ -62,8 +62,8 @@ public class WebLogic9x10x12x14xExistingLocalConfiguration
         }
 
         // use a copying deployer until we have an XML-based one
-        WebLogic9x10x12x14xCopyingInstalledLocalDeployer deployer =
-            new WebLogic9x10x12x14xCopyingInstalledLocalDeployer(
+        WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer deployer =
+            new WebLogic9x10x12x14x15xCopyingInstalledLocalDeployer(
                 (InstalledLocalContainer) container);
         deployer.redeploy(getDeployables());
 

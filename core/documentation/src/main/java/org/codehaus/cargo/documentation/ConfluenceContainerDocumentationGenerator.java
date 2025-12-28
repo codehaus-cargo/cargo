@@ -148,6 +148,7 @@ public class ConfluenceContainerDocumentationGenerator
         JAKARTAEE_CONTAINER_NAMES.put("payara", "Payara 6");
         JAKARTAEE_CONTAINER_NAMES.put("tomcat", "Tomcat 10");
         JAKARTAEE_CONTAINER_NAMES.put("tomee", "TomEE 9");
+        JAKARTAEE_CONTAINER_NAMES.put("weblogic", "WebLogic 15");
         JAKARTAEE_CONTAINER_NAMES.put("wildfly", "WildFly 27");
     }
 
