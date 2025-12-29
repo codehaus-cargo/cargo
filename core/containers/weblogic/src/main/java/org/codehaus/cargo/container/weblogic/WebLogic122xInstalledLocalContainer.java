@@ -19,7 +19,10 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Oracle WebLogic 12.2 application server. Contains WLST support.
@@ -39,6 +42,33 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
     public WebLogic122xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
+    }
+
+    /**
+     * {@inheritDoc}. The override includes the fix for <a
+     * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1452"
+     * target="_blank">CARGO-1452</a>.
+     */
+    @Override
+    protected void addWlstArguments(JvmLauncher java)
+    {
+        super.addWlstArguments(java);
+
+        // CARGO-1452: WebLogic 12.2.1.3.0's weblogic.jar file somehow has the below file missing
+        // in its classpath, making the readTemplate command return a WLSTException with
+        // com.oracle.cie.domain.xml.configxb.AuthenticatorType
+        File[] oracleCommon = new File(new File(this.getHome()).getParentFile(),
+            "oracle_common/modules").listFiles();
+        if (oracleCommon != null)
+        {
+            for (File oracleCommonFile : oracleCommon)
+            {
+                if (oracleCommonFile.getName().startsWith("com.oracle.cie.config"))
+                {
+                    java.addClasspathEntries(oracleCommonFile);
+                }
+            }
+        }
     }
 
     /**

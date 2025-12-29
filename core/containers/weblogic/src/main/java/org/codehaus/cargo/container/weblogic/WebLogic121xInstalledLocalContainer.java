@@ -135,10 +135,10 @@ public class WebLogic121xInstalledLocalContainer extends
             // WebLogic cannot create user with same name as existing role
             if (!roles.contains(user.getName()))
             {
-                configurationScript.add(configuration.getConfigurationFactory().
-                        createUserScript(user));
-                configurationScript.addAll(configuration.getConfigurationFactory().
-                        addUserToGroupsScript(user));
+                configurationScript.add(
+                    configuration.getConfigurationFactory().createUserScript(user));
+                configurationScript.addAll(
+                    configuration.getConfigurationFactory().addUserToGroupsScript(user));
             }
         }
 
@@ -175,8 +175,8 @@ public class WebLogic121xInstalledLocalContainer extends
         }
 
         // Execute online jython scripts
-        String scriptPaths = getConfiguration().getPropertyValue(
-                WebLogicPropertySet.JYTHON_SCRIPT_ONLINE);
+        String scriptPaths =
+            getConfiguration().getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_ONLINE);
         List<String> scriptPathList = ComplexPropertyUtils.parseProperty(scriptPaths, "|");
         boolean replaceJythonProperties = Boolean.parseBoolean(
             configuration.getPropertyValue(WebLogicPropertySet.JYTHON_SCRIPT_REPLACE_PROPERTIES));
@@ -306,8 +306,9 @@ public class WebLogic121xInstalledLocalContainer extends
             }
             else
             {
-                getLogger().warn(String.format("Script file %s doesn't exists.", scriptFilePath),
-                            this.getClass().getName());
+                getLogger().warn(
+                    String.format("Script file %s doesn't exist.", scriptFilePath),
+                        this.getClass().getName());
             }
         }
     }
@@ -317,26 +318,9 @@ public class WebLogic121xInstalledLocalContainer extends
      * 
      * @param java Launcher.
      */
-    private void addWlstArguments(JvmLauncher java)
+    protected void addWlstArguments(JvmLauncher java)
     {
-        File serverDir = new File(this.getHome(), "server");
-        java.addClasspathEntries(new File(serverDir, "lib/weblogic.jar"));
-        // CARGO-1452: WebLogic 12.2.1.3.0's weblogic.jar file somehow has the below file missing
-        // in its classpath, making the readTemplate command return a WLSTException with
-        // com.oracle.cie.domain.xml.configxb.AuthenticatorType
-        File[] oracleCommon = new File(new File(this.getHome()).getParentFile(),
-            "oracle_common/modules").listFiles();
-        if (oracleCommon != null)
-        {
-            for (File oracleCommonFile : oracleCommon)
-            {
-                if (oracleCommonFile.getName().startsWith("com.oracle.cie.config-wls-schema"))
-                {
-                    java.addClasspathEntries(oracleCommonFile);
-                    break;
-                }
-            }
-        }
+        java.addClasspathEntries(new File(this.getHome(), "server/lib/weblogic.jar"));
         java.setMainClass("weblogic.WLST");
     }
 
