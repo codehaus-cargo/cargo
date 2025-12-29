@@ -63,9 +63,10 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
         {
             for (File oracleCommonFile : oracleCommon)
             {
-                if (oracleCommonFile.getName().startsWith("com.oracle.cie.config"))
+                if (oracleCommonFile.getName().startsWith("com.oracle.cie.config-wls-schema"))
                 {
                     java.addClasspathEntries(oracleCommonFile);
+                    break;
                 }
             }
         }
