@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
-import java.io.File;
-
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
@@ -46,29 +44,13 @@ public class WebLogic15xInstalledLocalContainer extends WebLogic14xInstalledLoca
 
     /**
      * {@inheritDoc}. The override includes the fix for <a
-     * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1452"
-     * target="_blank">CARGO-1452</a>.
+     * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1653"
+     * target="_blank">CARGO-1653</a>.
      */
     @Override
     protected void addWlstArguments(JvmLauncher java)
     {
         super.addWlstArguments(java);
-
-        // CARGO-1653: WebLogic 15's weblogic.jar file somehow has the below file missing
-        // in its classpath, making the readTemplate command fail
-        File[] oracleCommon = new File(new File(this.getHome()).getParentFile(),
-            "oracle_common/modules").listFiles();
-        if (oracleCommon != null)
-        {
-            for (File oracleCommonFile : oracleCommon)
-            {
-                if (oracleCommonFile.getName().equals("com.oracle.cie.config.jar"))
-                {
-                    java.addClasspathEntries(oracleCommonFile);
-                    break;
-                }
-            }
-        }
     }
 
     /**
