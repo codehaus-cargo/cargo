@@ -2243,6 +2243,12 @@
         <cargo.containers>weblogic14x</cargo.containers>
       </properties>
     </profile>
+    <profile>
+      <id>weblogic15x</id>
+      <properties>
+        <cargo.containers>weblogic15x</cargo.containers>
+      </properties>
+    </profile>
 
     <profile>
       <id>websphere85x</id>
