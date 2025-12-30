@@ -272,7 +272,7 @@ public class WebLogic121xInstalledLocalContainer extends
                     java.setOutputFile(scriptOutput);
                     java.setAppendOutput(false);
 
-                    java.addClasspathEntries(new File(this.getHome(), getWsltClasspath()));
+                    java.addClasspathEntries(getWsltClasspath());
                     java.setMainClass("weblogic.WLST");
 
                     java.addAppArgument(scriptFile);
@@ -315,11 +315,25 @@ public class WebLogic121xInstalledLocalContainer extends
     }
 
     /**
-     * @return WLST classpath JAR file.
+     * @return WLST classpath JAR file(s).
      */
-    protected String getWsltClasspath()
+    protected File[] getWsltClasspath()
     {
-        return "server/lib/weblogic.jar";
+        List<File> classpath = new ArrayList<File>();
+        classpath.add(new File(this.getHome(), "server/lib/weblogic.jar"));
+        classpath.add(new File(this.getHome(), "server/lib/weblogic_sp.jar"));
+        File features = new File(this.getHome(), "modules/features");
+        if (features.isDirectory())
+        {
+            for (File feature : features.listFiles())
+            {
+                if (feature.getName().startsWith("oracle.wls.common.nodemanager"))
+                {
+                    classpath.add(feature);
+                }
+            }
+        }
+        return classpath.toArray(new File[classpath.size()]);
     }
 
     /**

@@ -19,6 +19,8 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.io.File;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 
 /**
@@ -47,9 +49,11 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
      * for details.
      */
     @Override
-    protected String getWsltClasspath()
+    protected File[] getWsltClasspath()
     {
-        return "modules/features/wlst.wls.classpath.jar";
+        File[] classpath = new File[1];
+        classpath[0] = new File(this.getHome(), "modules/features/wlst.wls.classpath.jar");
+        return classpath;
     }
 
     /**
