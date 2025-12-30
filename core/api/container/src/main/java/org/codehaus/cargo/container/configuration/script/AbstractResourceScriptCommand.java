@@ -114,7 +114,24 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
             if (type.equals(resource.getType()))
             {
                 foundResource = resource;
+                break;
             }
+        }
+        if (foundResource == null && type.startsWith("jakarta."))
+        {
+            String resourceType = "javax." + type.substring(8);
+            for (Resource resource : ((LocalConfiguration) getConfiguration()).getResources())
+            {
+                if (resourceType.equals(resource.getType()))
+                {
+                    foundResource = resource;
+                    break;
+                }
+            }
+        }
+        if (foundResource == null)
+        {
+            throw new CargoException("Cannot find resource of type: " + type);
         }
         return foundResource;
     }
