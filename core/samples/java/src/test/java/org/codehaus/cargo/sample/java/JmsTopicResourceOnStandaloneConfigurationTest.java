@@ -77,11 +77,11 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // JBoss 7.5.x, WebLogic 12.1.x, 12.2.x and 14.x as well as WildFly 10.x
+        // JBoss 7.5.x, WebLogic 12.1.x, 12.2.x, 14.x and 15.x as well as WildFly 10.x
         // cannot deploy JMS queue resources
         return this.isNotContained(containerId,
             "jboss75x",
-            "weblogic121x", "weblogic122x", "weblogic14x",
+            "weblogic121x", "weblogic122x", "weblogic14x", "weblogic15x",
             "wildfly10x");
     }
 

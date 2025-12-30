@@ -63,7 +63,7 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         return this.isNotContained(containerId,
             "liberty",
             "tomee1x", "tomee7x", "tomee8x", "tomee9x", "tomee10x",
-            "weblogic122x", "weblogic14x");
+            "weblogic122x", "weblogic14x", "weblogic15x");
     }
 
     /**

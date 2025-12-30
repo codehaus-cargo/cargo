@@ -63,7 +63,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
                 "glassfish8x",
             "jboss75x",
             "payara",
-            "weblogic121x", "weblogic122x", "weblogic14x",
+            "weblogic121x", "weblogic122x", "weblogic14x", "weblogic15x",
             "wildfly8x", "wildfly9x", "wildfly10x", "wildfly11x", "wildfly12x", "wildfly13x",
                 "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x", "wildfly19x",
                 "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x", "wildfly25x",
