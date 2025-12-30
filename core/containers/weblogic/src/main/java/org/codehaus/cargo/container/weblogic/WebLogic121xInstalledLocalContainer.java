@@ -272,8 +272,7 @@ public class WebLogic121xInstalledLocalContainer extends
                     java.setOutputFile(scriptOutput);
                     java.setAppendOutput(false);
 
-                    java.addClasspathEntries(
-                        new File(this.getHome(), "modules/features/wlst.wls.classpath.jar"));
+                    java.addClasspathEntries(new File(this.getHome(), getWsltClasspath()));
                     java.setMainClass("weblogic.WLST");
 
                     java.addAppArgument(scriptFile);
@@ -313,6 +312,14 @@ public class WebLogic121xInstalledLocalContainer extends
                         this.getClass().getName());
             }
         }
+    }
+
+    /**
+     * @return WLST classpath JAR file.
+     */
+    protected String getWsltClasspath()
+    {
+        return "server/lib/weblogic.jar";
     }
 
     /**

@@ -42,6 +42,17 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
     }
 
     /**
+     * {@inheritDoc}. The WLST JAR has changed between WebLogic 12.1 and WebLogic 12.2, see <a
+     * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1452" target="_blank">CARGO-1452</a>
+     * for details.
+     */
+    @Override
+    protected String getWsltClasspath()
+    {
+        return "modules/features/wlst.wls.classpath.jar";
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
