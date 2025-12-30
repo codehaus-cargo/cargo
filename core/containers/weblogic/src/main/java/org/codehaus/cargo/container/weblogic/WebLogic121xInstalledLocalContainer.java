@@ -327,7 +327,8 @@ public class WebLogic121xInstalledLocalContainer extends
         {
             for (File feature : features.listFiles())
             {
-                if (feature.getName().startsWith("oracle.wls.common.nodemanager"))
+                if (feature.getName().startsWith("oracle.wls.common.nodemanager")
+                    && feature.getName().endsWith(".jar"))
                 {
                     classpath.add(feature);
                 }
