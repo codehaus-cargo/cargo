@@ -272,7 +272,9 @@ public class WebLogic121xInstalledLocalContainer extends
                     java.setOutputFile(scriptOutput);
                     java.setAppendOutput(false);
 
-                    addWlstArguments(java);
+                    java.addClasspathEntries(
+                        new File(this.getHome(), "modules/features/wlst.wls.classpath.jar"));
+                    java.setMainClass("weblogic.WLST");
 
                     java.addAppArgument(scriptFile);
                     int result = java.execute();
@@ -311,17 +313,6 @@ public class WebLogic121xInstalledLocalContainer extends
                         this.getClass().getName());
             }
         }
-    }
-
-    /**
-     * Adding WLST dependencies and setting main class.
-     * 
-     * @param java Launcher.
-     */
-    protected void addWlstArguments(JvmLauncher java)
-    {
-        java.addClasspathEntries(new File(this.getHome(), "server/lib/weblogic.jar"));
-        java.setMainClass("weblogic.WLST");
     }
 
     /**

@@ -20,7 +20,6 @@
 package org.codehaus.cargo.container.weblogic;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Oracle WebLogic 15 application server. Contains WLST support.
@@ -40,17 +39,6 @@ public class WebLogic15xInstalledLocalContainer extends WebLogic14xInstalledLoca
     public WebLogic15xInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
-    }
-
-    /**
-     * {@inheritDoc}. The override includes the fix for <a
-     * href="https://codehaus-cargo.atlassian.net/browse/CARGO-1653"
-     * target="_blank">CARGO-1653</a>.
-     */
-    @Override
-    protected void addWlstArguments(JvmLauncher java)
-    {
-        super.addWlstArguments(java);
     }
 
     /**

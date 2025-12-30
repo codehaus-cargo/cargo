@@ -66,8 +66,7 @@ public abstract class AbstractWebLogicInstalledLocalContainer extends
      * {@inheritDoc}
      * @see AbstractInstalledLocalContainer#AbstractInstalledLocalContainer(LocalConfiguration)
      */
-    public AbstractWebLogicInstalledLocalContainer(
-            final LocalConfiguration configuration)
+    public AbstractWebLogicInstalledLocalContainer(LocalConfiguration configuration)
     {
         super(configuration);
     }
