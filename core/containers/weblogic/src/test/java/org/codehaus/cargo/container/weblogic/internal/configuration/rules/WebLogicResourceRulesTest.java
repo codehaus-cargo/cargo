@@ -30,6 +30,13 @@ import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.weblogic.WebLogic121xInstalledLocalContainer;
 import org.codehaus.cargo.container.weblogic.WebLogic121xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
+import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicWlstConfigurationFactory;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsConnectionFactoryScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsModuleScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsQueueScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsServerScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.JmsSubdeploymentScriptCommand;
+import org.codehaus.cargo.container.weblogic.internal.configuration.commands.resource.MailSessionScriptCommand;
 
 /**
  * Unit tests for {@link WebLogicResourceRules}.
@@ -209,5 +216,47 @@ public class WebLogicResourceRulesTest
         Assertions.assertNotNull(jmsModule);
         Assertions.assertNotNull(jmsSubdeployment);
         Assertions.assertNotNull(jmsQueue);
+    }
+
+    /**
+     * Test the {@link WebLogicWlstConfigurationFactory#getResourceClass(String)} method with
+     * <code>javax.</code> prefixes.
+     */
+    @Test
+    public void testGetResourceClassJavax()
+    {
+        Assertions.assertEquals(JmsServerScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("javax.jms.Server"));
+        Assertions.assertEquals(JmsModuleScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("javax.jms.Module"));
+        Assertions.assertEquals(JmsSubdeploymentScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("javax.jms.Subdeployment"));
+        Assertions.assertEquals(JmsConnectionFactoryScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("javax.jms.ConnectionFactory"));
+        Assertions.assertEquals(JmsQueueScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("javax.jms.Queue"));
+        Assertions.assertEquals(MailSessionScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("javax.mail.Session"));
+    }
+
+    /**
+     * Test the {@link WebLogicWlstConfigurationFactory#getResourceClass(String)} method with
+     * <code>jakarta.</code> prefixes.
+     */
+    @Test
+    public void testGetResourceClassJakarta()
+    {
+        Assertions.assertEquals(JmsServerScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("jakarta.jms.Server"));
+        Assertions.assertEquals(JmsModuleScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("jakarta.jms.Module"));
+        Assertions.assertEquals(JmsSubdeploymentScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("jakarta.jms.Subdeployment"));
+        Assertions.assertEquals(JmsConnectionFactoryScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("jakarta.jms.ConnectionFactory"));
+        Assertions.assertEquals(JmsQueueScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("jakarta.jms.Queue"));
+        Assertions.assertEquals(MailSessionScriptCommand.class,
+            WebLogicWlstConfigurationFactory.getResourceClass("jakarta.mail.Session"));
     }
 }

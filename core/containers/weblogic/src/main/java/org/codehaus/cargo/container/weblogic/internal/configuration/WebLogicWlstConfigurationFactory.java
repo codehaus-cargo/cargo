@@ -255,12 +255,32 @@ public class WebLogicWlstConfigurationFactory
     }
 
     /**
+     * Get the resource class for a given resource name, including the <code>javax.</code> vs.
+     * <code>jakarta.</code> differentiation.
+     * @param resourceType Resource type
+     * @return Resource class
+     */
+    public static Class<? extends ScriptCommand> getResourceClass(String resourceType)
+    {
+        String resourceTypeName;
+        if (resourceType.startsWith("jakarta."))
+        {
+            resourceTypeName = "javax." + resourceType.substring(8);
+        }
+        else
+        {
+            resourceTypeName = resourceType;
+        }
+        return resourceMap.get(resourceTypeName);
+    }
+
+    /**
      * @param resource Resource.
      * @return Create datasource WLST script.
      */
     public ScriptCommand resourceScript(Resource resource)
     {
-        Class<? extends ScriptCommand> resourceClass = resourceMap.get(resource.getType());
+        Class<? extends ScriptCommand> resourceClass = getResourceClass(resource.getType());
         if (resourceClass == null)
         {
             throw new CargoException("Resources of type " + resource.getType()
