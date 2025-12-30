@@ -58,13 +58,6 @@ public class JmsQueueResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // Jakarta EE versions of WebLogic cannot deploy JMS queue resources
-        if (containerId.startsWith("weblogic")
-            && EnvironmentTestData.jakartaEeContainers.contains(containerId))
-        {
-            return false;
-        }
-
         // Jakarta EE versions of WildFly cannot deploy JMS queue resources
         if (containerId.startsWith("wildfly")
             && EnvironmentTestData.jakartaEeContainers.contains(containerId))
