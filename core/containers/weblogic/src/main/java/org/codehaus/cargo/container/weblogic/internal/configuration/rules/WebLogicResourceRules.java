@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.configuration.entry.Resource;
+import org.codehaus.cargo.container.weblogic.WebLogic15xExistingLocalConfiguration;
+import org.codehaus.cargo.container.weblogic.WebLogic15xStandaloneLocalConfiguration;
 import org.codehaus.cargo.container.weblogic.WebLogicPropertySet;
 import org.codehaus.cargo.container.weblogic.internal.configuration.WebLogicConfigurationEntryType;
 
@@ -48,6 +50,35 @@ public final class WebLogicResourceRules
      */
     public static void addMissingJmsResources(LocalConfiguration configuration)
     {
+        String jmsServerPropertyName;
+        String jmsSubdeploymentPropertyName;
+        String jmsModulePropertyName;
+        String jmsConnectionFactoryPropertyName;
+        String jmsQueuePropertyName;
+        if (configuration instanceof WebLogic15xExistingLocalConfiguration
+            || configuration instanceof WebLogic15xStandaloneLocalConfiguration)
+        {
+            jmsServerPropertyName =
+                "jakarta." + WebLogicConfigurationEntryType.JMS_SERVER.substring(6);
+            jmsSubdeploymentPropertyName =
+                "jakarta." + WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT.substring(6);
+            jmsModulePropertyName =
+                "jakarta." + WebLogicConfigurationEntryType.JMS_MODULE.substring(6);
+            jmsConnectionFactoryPropertyName =
+                "jakarta." + WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY.substring(6);
+            jmsQueuePropertyName =
+                "jakarta." + WebLogicConfigurationEntryType.JMS_QUEUE.substring(6);
+        }
+        else
+        {
+            jmsServerPropertyName = WebLogicConfigurationEntryType.JMS_SERVER;
+            jmsSubdeploymentPropertyName = WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT;
+            jmsModulePropertyName = WebLogicConfigurationEntryType.JMS_MODULE;
+            jmsConnectionFactoryPropertyName =
+                WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY;
+            jmsQueuePropertyName = WebLogicConfigurationEntryType.JMS_QUEUE;
+        }
+
         // check what all JMS resources we want to create
         boolean containsJmsServer = false;
         boolean containsJmsSubdeployment = false;
@@ -58,28 +89,25 @@ public final class WebLogicResourceRules
         List<Resource> weblogicResources = configuration.getResources();
         for (Resource resource : weblogicResources)
         {
-            if (null != resource.getType())
+            if (jmsServerPropertyName.equals(resource.getType()))
             {
-                switch (resource.getType())
-                {
-                    case WebLogicConfigurationEntryType.JMS_SERVER:
-                        containsJmsServer = true;
-                        break;
-                    case WebLogicConfigurationEntryType.JMS_MODULE:
-                        containsJmsModule = true;
-                        break;
-                    case WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT:
-                        containsJmsSubdeployment = true;
-                        break;
-                    case WebLogicConfigurationEntryType.JMS_CONNECTION_FACTORY:
-                        containsJmsConnectionFactory = true;
-                        break;
-                    case WebLogicConfigurationEntryType.JMS_QUEUE:
-                        containsJmsQueue = true;
-                        break;
-                    default:
-                        break;
-                }
+                containsJmsServer = true;
+            }
+            else if (jmsModulePropertyName.equals(resource.getType()))
+            {
+                containsJmsModule = true;
+            }
+            else if (jmsSubdeploymentPropertyName.equals(resource.getType()))
+            {
+                containsJmsSubdeployment = true;
+            }
+            else if (jmsConnectionFactoryPropertyName.equals(resource.getType()))
+            {
+                containsJmsConnectionFactory = true;
+            }
+            else if (jmsQueuePropertyName.equals(resource.getType()))
+            {
+                containsJmsQueue = true;
             }
         }
 
@@ -89,8 +117,7 @@ public final class WebLogicResourceRules
         if ((containsJmsConnectionFactory || containsJmsQueue) && !containsJmsServer)
         {
             String jmsServerName = configuration.getPropertyValue(WebLogicPropertySet.JMS_SERVER);
-            Resource jmsServer =
-                new Resource(jmsServerName, WebLogicConfigurationEntryType.JMS_SERVER);
+            Resource jmsServer = new Resource(jmsServerName, jmsServerPropertyName);
             jmsServer.setId(jmsServerName);
             weblogicResources.add(jmsServer);
         }
@@ -98,8 +125,7 @@ public final class WebLogicResourceRules
         if ((containsJmsConnectionFactory || containsJmsQueue) && !containsJmsModule)
         {
             String jmsModuleName = configuration.getPropertyValue(WebLogicPropertySet.JMS_MODULE);
-            Resource jmsModule =
-                new Resource(jmsModuleName, WebLogicConfigurationEntryType.JMS_MODULE);
+            Resource jmsModule = new Resource(jmsModuleName, jmsModulePropertyName);
             jmsModule.setId(jmsModuleName);
             weblogicResources.add(jmsModule);
         }
@@ -110,8 +136,7 @@ public final class WebLogicResourceRules
             String jmsSubdeploymentName =
                 configuration.getPropertyValue(WebLogicPropertySet.JMS_SUBDEPLOYMENT);
             Resource jmsSubdeployment =
-                new Resource(jmsSubdeploymentName,
-                    WebLogicConfigurationEntryType.JMS_SUBDEPLOYMENT);
+                new Resource(jmsSubdeploymentName, jmsSubdeploymentPropertyName);
             jmsSubdeployment.setId(jmsSubdeploymentName);
             weblogicResources.add(jmsSubdeployment);
         }
