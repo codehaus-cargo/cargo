@@ -234,7 +234,7 @@ public class Jetty6xInstalledLocalContainer extends AbstractInstalledLocalContai
 
     /**
      * Returns the arguments to pass to the Jetty <code>start</code> command.
-     * @param classpath Jetty classpath (exludes <code>tools.jar</code>).
+     * @param classpath Jetty classpath (excludes <code>tools.jar</code>).
      * @return Arguments to add to the Jetty <code>start.jar</code> command.
      */
     protected String[] getStartArguments(String classpath)

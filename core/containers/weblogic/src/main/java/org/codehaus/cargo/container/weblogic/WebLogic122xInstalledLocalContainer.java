@@ -20,8 +20,10 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.spi.jvm.JvmLauncher;
 
 /**
  * Special container support for the Oracle WebLogic 12.2 application server. Contains WLST support.
@@ -49,11 +51,10 @@ public class WebLogic122xInstalledLocalContainer extends WebLogic121xInstalledLo
      * for details.
      */
     @Override
-    protected File[] getWsltClasspath()
+    protected void addWlstClasspath(JvmLauncher java) throws FileNotFoundException
     {
-        File[] classpath = new File[1];
-        classpath[0] = new File(this.getHome(), "modules/features/wlst.wls.classpath.jar");
-        return classpath;
+        java.addClasspathEntries(
+            new File(this.getHome(), "modules/features/wlst.wls.classpath.jar"));
     }
 
     /**

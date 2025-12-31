@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -272,7 +273,7 @@ public class WebLogic121xInstalledLocalContainer extends
                     java.setOutputFile(scriptOutput);
                     java.setAppendOutput(false);
 
-                    java.addClasspathEntries(getWsltClasspath());
+                    addWlstClasspath(java);
                     java.setMainClass("weblogic.WLST");
 
                     java.addAppArgument(scriptFile);
@@ -282,6 +283,10 @@ public class WebLogic121xInstalledLocalContainer extends
                         throw new ContainerException(
                             "Failure when invoking WLST script: java returned " + result);
                     }
+                }
+                catch (FileNotFoundException e)
+                {
+                    throw new ContainerException("Cannot create WLST classpath", e);
                 }
                 catch (RuntimeException e)
                 {
@@ -315,13 +320,15 @@ public class WebLogic121xInstalledLocalContainer extends
     }
 
     /**
-     * @return WLST classpath JAR file(s).
+     * Add WLST classpath to the JVM launcher.
+     * @param java JVM launcher for the WLST commands.
+     * @throws FileNotFoundException If any of the JARs are not found.
      */
-    protected File[] getWsltClasspath()
+    protected void addWlstClasspath(JvmLauncher java) throws FileNotFoundException
     {
-        List<File> classpath = new ArrayList<File>();
-        classpath.add(new File(this.getHome(), "server/lib/weblogic.jar"));
-        classpath.add(new File(this.getHome(), "server/lib/weblogic_sp.jar"));
+        addToolsJarToClasspath(java);
+        java.addClasspathEntries(new File(this.getHome(), "server/lib/weblogic.jar"));
+        java.addClasspathEntries(new File(this.getHome(), "server/lib/weblogic_sp.jar"));
         File features = new File(this.getHome(), "modules/features");
         if (features.isDirectory())
         {
@@ -330,11 +337,10 @@ public class WebLogic121xInstalledLocalContainer extends
                 if (feature.getName().startsWith("oracle.wls.common.nodemanager")
                     && feature.getName().endsWith(".jar"))
                 {
-                    classpath.add(feature);
+                    java.addClasspathEntries(feature);
                 }
             }
         }
-        return classpath.toArray(new File[classpath.size()]);
     }
 
     /**
