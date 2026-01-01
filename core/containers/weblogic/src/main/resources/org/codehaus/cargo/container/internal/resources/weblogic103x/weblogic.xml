@@ -16,7 +16,7 @@
   limitations under the License.
   -->
 
-<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90">
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app">
   <security-role-assignment>
     <role-name>test</role-name>
     <principal-name>testuser</principal-name>
