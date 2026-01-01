@@ -1459,15 +1459,17 @@ public class ConfluenceContainerDocumentationGenerator
                 }
                 output.append(" remote deployer, please read: [JSR88]{info}");
             }
-            if (containerId.startsWith("weblogic"))
+            if (containerId.startsWith("weblogic") && !"weblogic8x".equals(containerId)
+                && !"weblogic9x".equals(containerId) && !containerId.startsWith("weblogic10")
+                && !"weblogic12x".equals(containerId))
             {
                 output.append(FileHandler.NEW_LINE);
                 output.append(FileHandler.NEW_LINE);
-                output.append("{info}The WebLogic remote deployer uses tye WebLogic Scripting ");
-                output.append("Tool (WLST), as a result the {{WebLogicPropertySet.");
+                output.append("{info}The WebLogic remote deployer uses the WebLogic Scripting ");
+                output.append("Tool (WLST), as a result the {{[WebLogicPropertySet.");
                 output.append("LOCAL_WEBLOGIC_HOME|https://codehaus-cargo.github.io/apidocs/org/");
                 output.append("codehaus/cargo/container/weblogic/WebLogicPropertySet.html#");
-                output.append("LOCAL_WEBLOGIC_HOME}} property must be set to a local WebLogic ");
+                output.append("LOCAL_WEBLOGIC_HOME]}} property must be set to a local WebLogic ");
                 output.append("installation, matching the remote WebLogic server version.{info}");
             }
             if (containerId.startsWith("wildfly") && !containerId.startsWith("wildfly-swarm"))
