@@ -17,10 +17,8 @@
   -->
 
 <weblogic-web-app>
-  <reference-descriptor>
-    <resource-description>
-      <res-ref-name>jdbc/CargoDS</res-ref-name>
-      <jndi-name>jdbc/CargoDS</jndi-name>
-    </resource-description>
-  </reference-descriptor>
+  <resource-description>
+    <res-ref-name>jdbc/CargoDS</res-ref-name>
+    <jndi-name>jdbc/CargoDS</jndi-name>
+  </resource-description>
 </weblogic-web-app>

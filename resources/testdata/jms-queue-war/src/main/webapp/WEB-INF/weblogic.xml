@@ -17,10 +17,8 @@
   -->
 
 <weblogic-web-app>
-  <reference-descriptor>
-    <resource-description>
-      <res-ref-name>mail/Session</res-ref-name>
-      <jndi-name>mail/Session</jndi-name>
-    </resource-description>
-  </reference-descriptor>
+  <resource-description>
+    <res-ref-name>mail/Session</res-ref-name>
+    <jndi-name>mail/Session</jndi-name>
+  </resource-description>
 </weblogic-web-app>
