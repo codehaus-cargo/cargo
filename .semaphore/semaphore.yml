@@ -83,6 +83,7 @@ blocks:
             - 'find . -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
             - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz ; RM=0'
             - tar -xvzf apache-maven-3.6.3-bin.tar.gz
+            - cache delete "codehaus-cargo-cache-maven"
             - cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
@@ -92,6 +93,7 @@ blocks:
             - mvn clean install -T 1C || mvn clean install -e --fail-at-end
             - 'mvn javadoc:aggregate -DdetectLinks=true -T 1C || mvn javadoc:aggregate -DdetectLinks=true -e'
             - cd ~/.m2
+            - cache delete "codehaus-cargo-cache-repository"
             - cache store "codehaus-cargo-cache-repository" repository
   - name: Build on Java 8
     dependencies:
@@ -104,6 +106,7 @@ blocks:
             - 'find . -type f -name jdk-8u202-linux-x64.tar.gz -size -150M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz ; RM=0'
             - tar -xvzf jdk-8u202-linux-x64.tar.gz
+            - cache delete "codehaus-cargo-cache-java-8"
             - cache store "codehaus-cargo-cache-java-8" jdk-8u202-linux-x64.tar.gz
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - cd $ORIGINAL_PWD
@@ -122,6 +125,7 @@ blocks:
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin ; RM=0'
             - chmod +x jdk-6u45-linux-x64.bin
             - ./jdk-6u45-linux-x64.bin < <(echo y)
+            - cache delete "codehaus-cargo-cache-java-6"
             - cache store "codehaus-cargo-cache-java-6" jdk-6u45-linux-x64.bin
   - name: Prepare for containers running on Java 7
     dependencies:
@@ -134,6 +138,7 @@ blocks:
             - 'find . -type f -name jdk-7u80-linux-x64.tar.gz -size -50M -print -exec rm {} +'
             - 'wget -N --continue https://repo.huaweicloud.com/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz ; RM=0'
             - tar -xvzf jdk-7u80-linux-x64.tar.gz
+            - cache delete "codehaus-cargo-cache-java-7"
             - cache store "codehaus-cargo-cache-java-7" jdk-7u80-linux-x64.tar.gz
   - name: Build on Java 17
     dependencies:
@@ -158,6 +163,7 @@ blocks:
             - 'find . -type f -name openjdk-21_linux-x64_bin.tar.gz -size -150M -print -exec rm {} +'
             - 'wget -N --continue https://download.java.net/java/GA/jdk21/fd2272bbf8e04c3dbaee13770090416c/35/GPL/openjdk-21_linux-x64_bin.tar.gz ; RM=0'
             - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
+            - cache delete "codehaus-cargo-cache-java-21"
             - cache store "codehaus-cargo-cache-java-21" openjdk-21_linux-x64_bin.tar.gz
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
             - cd $ORIGINAL_PWD
@@ -1698,7 +1704,7 @@ blocks:
             - chmod +x maven-repository-cleaner.sh
             - ./maven-repository-cleaner.sh
             - cache delete "codehaus-cargo-cache-repository"
-            - cache store "codehaus-cargo-cache-repository" repository --cleanup-by ACCESS_TIME
+            - cache store "codehaus-cargo-cache-repository" repository
             - cache list
 after_pipeline:
   task:
