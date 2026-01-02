@@ -1291,12 +1291,24 @@ public class ConfluenceContainerDocumentationGenerator
             if (containerId.startsWith("websphere"))
             {
                 output.append("{note}");
-                output.append("Thought the WebSphere container supports [standalone local ");
+                output.append("Though the WebSphere container supports [standalone local ");
                 output.append("configurations|Standalone Local Configuration], it is ");
                 output.append("recommended for you to prefer using WebSphere with an ");
                 output.append("[existing local configuration|Existing Local Configuration]; ");
                 output.append("i.e. a WebSphere profile you would create beforehand using ");
                 output.append("WebSphere's setup commands and then use that with Codehaus Cargo.");
+                output.append("{note}");
+                output.append(FileHandler.NEW_LINE);
+                output.append(FileHandler.NEW_LINE);
+            }
+            else if ("weblogic121x".equals(containerId))
+            {
+                output.append("{note}");
+                output.append("WLST on WebLogic 12.1.x might return an error ");
+                output.append("{{com.oracle.cie.domain.TemplateLoaderException: Error loading ");
+                output.append("stringsubs.xml from template jar wls.jar}} on Java 9 and above. ");
+                output.append("The only known workarounds are to downgrade to Java 7 or 8, or to ");
+                output.append("upgrade to WebLogic 12.2.x or above.");
                 output.append("{note}");
                 output.append(FileHandler.NEW_LINE);
                 output.append(FileHandler.NEW_LINE);

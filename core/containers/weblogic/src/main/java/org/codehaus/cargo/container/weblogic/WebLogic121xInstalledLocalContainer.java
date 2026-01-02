@@ -273,7 +273,13 @@ public class WebLogic121xInstalledLocalContainer extends
                     java.setOutputFile(scriptOutput);
                     java.setAppendOutput(false);
 
-                    addWlstClasspath(java);
+                    File wlstJar = new File(this.getHome(), getWlstJarFilename());
+                    if (!wlstJar.isFile())
+                    {
+                        throw new FileNotFoundException(
+                            "Cannot find file: " + wlstJar.getAbsolutePath());
+                    }
+                    java.addClasspathEntries(wlstJar);
                     java.setMainClass("weblogic.WLST");
 
                     java.addAppArgument(scriptFile);
@@ -320,27 +326,11 @@ public class WebLogic121xInstalledLocalContainer extends
     }
 
     /**
-     * Add WLST classpath to the JVM launcher.
-     * @param java JVM launcher for the WLST commands.
-     * @throws FileNotFoundException If any of the JARs are not found.
+     * @return The WLST JAR file name under the WebLogic home directory.
      */
-    protected void addWlstClasspath(JvmLauncher java) throws FileNotFoundException
+    protected String getWlstJarFilename()
     {
-        addToolsJarToClasspath(java);
-        java.addClasspathEntries(new File(this.getHome(), "server/lib/weblogic.jar"));
-        java.addClasspathEntries(new File(this.getHome(), "server/lib/weblogic_sp.jar"));
-        File features = new File(this.getHome(), "modules/features");
-        if (features.isDirectory())
-        {
-            for (File feature : features.listFiles())
-            {
-                if (feature.getName().startsWith("oracle.wls.common.nodemanager")
-                    && feature.getName().endsWith(".jar"))
-                {
-                    java.addClasspathEntries(feature);
-                }
-            }
-        }
+        return "server/lib/weblogic.jar";
     }
 
     /**
