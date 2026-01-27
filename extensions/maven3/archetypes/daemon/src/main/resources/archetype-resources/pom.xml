@@ -175,7 +175,7 @@
                   <artifactInstaller>
                     <groupId>org.apache.tomcat</groupId>
                     <artifactId>tomcat</artifactId>
-                    <version>9.0.113</version>
+                    <version>9.0.115</version>
                   </artifactInstaller>
                 </container>
               </configuration>
