@@ -69,7 +69,7 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
                 "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x", "wildfly25x",
                 "wildfly26x", "wildfly27x", "wildfly28x", "wildfly29x", "wildfly30x", "wildfly31x",
                 "wildfly32x", "wildfly33x", "wildfly34x", "wildfly35x", "wildfly36x",
-                "wildfly37x", "wildfly38x");
+                "wildfly37x", "wildfly38x", "wildfly39x");
     }
 
     /**
