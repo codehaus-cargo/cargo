@@ -120,6 +120,11 @@ public interface TomcatPropertySet
     String CONNECTOR_MAX_HTTP_HEADER_SIZE = "cargo.tomcat.connector.maxHttpHeaderSize";
 
     /**
+     * The maximum request parameter count.
+     */
+    String CONNECTOR_MAX_PARAMETER_COUNT = "cargo.tomcat.connector.maxParameterCount";
+
+    /**
      * The maximum Part count. This property is only supported by Tomcat starting from version
      * 9.0.106, 10.1.43 and 11.0.8. Older 9.x, 10.x and 11.x versions might act weird when this
      * property is set.

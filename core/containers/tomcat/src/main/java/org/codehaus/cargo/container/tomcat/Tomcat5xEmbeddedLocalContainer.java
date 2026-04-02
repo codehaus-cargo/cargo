@@ -92,5 +92,7 @@ public class Tomcat5xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
         // create HTTP connector
         connector = controller.createConnector(null, port, false);
         controller.addConnector(connector);
+
+        configureMaxParameterCount();
     }
 }

@@ -352,5 +352,12 @@ public class Tomcat5xStandaloneLocalConfiguration extends
             addXmlReplacement("conf/server.xml", connectorXpath(), "maxHttpHeaderSize",
                 TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE);
         }
+
+        if (container.getConfiguration().getPropertyValue(
+            TomcatPropertySet.CONNECTOR_MAX_PARAMETER_COUNT) != null)
+        {
+            addXmlReplacement("conf/server.xml", connectorXpath(), "maxParameterCount",
+                TomcatPropertySet.CONNECTOR_MAX_PARAMETER_COUNT);
+        }
     }
 }
