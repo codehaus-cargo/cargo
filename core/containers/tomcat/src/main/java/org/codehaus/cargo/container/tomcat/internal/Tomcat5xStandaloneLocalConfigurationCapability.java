@@ -35,6 +35,7 @@ public class Tomcat5xStandaloneLocalConfigurationCapability extends
         this.propertySupportMap.put(TomcatPropertySet.USE_HTTP_ONLY, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_EMPTY_SESSION_PATH, Boolean.TRUE);
         this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_MAX_HTTP_HEADER_SIZE, Boolean.TRUE);
+        this.propertySupportMap.put(TomcatPropertySet.CONNECTOR_MAX_PARAMETER_COUNT, Boolean.TRUE);
     }
 
 }

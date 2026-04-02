@@ -21,6 +21,7 @@ package org.codehaus.cargo.container.tomcat.internal;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -301,6 +302,26 @@ public abstract class AbstractCatalinaEmbeddedLocalContainer extends AbstractEmb
      * @param port HTTP port.
      */
     protected abstract void prepareController(TomcatEmbedded wrapper, File home, int port);
+
+    protected void configureMaxParameterCount()
+    {
+        final String maxParameterCountStr =
+            getConfiguration().getPropertyValue(TomcatPropertySet.CONNECTOR_MAX_PARAMETER_COUNT);
+        if (maxParameterCountStr != null)
+        {
+            final int maxParameterCount = Integer.parseInt(maxParameterCountStr);
+            try
+            {
+                final Method method =
+                    connector.core.getClass().getMethod("setMaxParameterCount", int.class);
+                connector.invoke(method, maxParameterCount);
+            }
+            catch (final NoSuchMethodException | SecurityException e)
+            {
+                throw new CargoException("Cannot set maxParameterCount", e);
+            }
+        }
+    }
 
     /**
      * Restore the <code>catalina.base</code> as well as the Java logging.

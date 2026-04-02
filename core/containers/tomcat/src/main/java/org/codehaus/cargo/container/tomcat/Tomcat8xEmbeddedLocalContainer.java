@@ -84,6 +84,8 @@ public class Tomcat8xEmbeddedLocalContainer extends AbstractCatalinaEmbeddedLoca
 
         host = controller.getHost();
         host.setAutoDeploy(false);
+
+        configureMaxParameterCount();
     }
 
     /**
