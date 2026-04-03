@@ -62,11 +62,11 @@ public class TransactionEmulationDataSourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // We exclude Geronimo 2.x and GlassFish 7.x and 8.x as these don't support
+        // We exclude Geronimo 2.x and GlassFish 7.x, 8.x and 9.x as these don't support
         // transaction emulation the way Codehaus Cargo tests it (using an old version of Spring)
         return this.isNotContained(containerId,
             "geronimo2x",
-            "glassfish7x", "glassfish8x");
+            "glassfish7x", "glassfish8x", "glassfish9x");
     }
 
     /**

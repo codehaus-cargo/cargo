@@ -28,7 +28,7 @@ public abstract class AbstractDeployablewithSettableName extends AbstractDeploya
 {
     /**
      * The name of this deployable (it can be anything, there's no special rule). If not specified
-     * by user, it is computed from the EAR's file name (removing the filename extension).
+     * by user, it is computed from the deployable's file name (removing the filename extension).
      */
     private String name;
 

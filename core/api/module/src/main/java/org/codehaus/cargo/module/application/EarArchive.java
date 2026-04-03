@@ -41,8 +41,7 @@ public interface EarArchive extends JarArchive
      * @throws IOException If there was a problem reading the deployment descriptor in the EAR
      * @throws JDOMException If there is an exception reading the application xml
      */
-    ApplicationXml getApplicationXml()
-        throws IOException, JDOMException;
+    ApplicationXml getApplicationXml() throws IOException, JDOMException;
 
     /**
      * Returns the web-app archive stored in the EAR with the specified URI.

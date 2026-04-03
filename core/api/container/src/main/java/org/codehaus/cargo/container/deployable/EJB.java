@@ -19,12 +19,12 @@
  */
 package org.codehaus.cargo.container.deployable;
 
-import org.codehaus.cargo.container.spi.deployable.AbstractDeployable;
+import org.codehaus.cargo.container.spi.deployable.AbstractDeployablewithSettableName;
 
 /**
  * Wraps an EJB JAR file that will be deployed in the container.
  */
-public class EJB extends AbstractDeployable
+public class EJB extends AbstractDeployablewithSettableName
 {
     /**
      * @param ejb the location of the EJB being wrapped. This must point to an EJB JAR file.
