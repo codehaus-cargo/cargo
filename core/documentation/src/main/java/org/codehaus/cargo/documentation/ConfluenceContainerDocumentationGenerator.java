@@ -1222,7 +1222,7 @@ public class ConfluenceContainerDocumentationGenerator
         }
 
         if (containerId.equals("glassfish6x") || containerId.equals("glassfish7x")
-            || containerId.equals("glassfish8x"))
+            || containerId.equals("glassfish8x") || containerId.equals("glassfish9x"))
         {
             output.append(FileHandler.NEW_LINE);
             output.append("{info}The GlassFish 6.x onwards containers do have any remote ");

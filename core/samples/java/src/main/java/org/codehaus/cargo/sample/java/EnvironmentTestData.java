@@ -50,6 +50,7 @@ public class EnvironmentTestData
         "glassfish6x",
         "glassfish7x",
         "glassfish8x",
+        "glassfish9x",
         "tomcat10x",
         "tomcat11x",
         "tomee9x",

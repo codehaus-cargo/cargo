@@ -20,7 +20,7 @@
 package org.codehaus.cargo.container.glassfish;
 
 import org.codehaus.cargo.container.configuration.ConfigurationCapability;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish4x5x6x7x8xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish4x5x6x7x8x9xStandaloneLocalConfigurationCapability;
 
 /**
  * GlassFish 4.x standalone local configuration.
@@ -33,7 +33,7 @@ public class GlassFish4xStandaloneLocalConfiguration
      * Container capability instance.
      */
     private static final ConfigurationCapability CAPABILITY =
-        new GlassFish4x5x6x7x8xStandaloneLocalConfigurationCapability();
+        new GlassFish4x5x6x7x8x9xStandaloneLocalConfigurationCapability();
 
     /**
      * Creates the local configuration object.

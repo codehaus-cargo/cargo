@@ -17,14 +17,22 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.payara.internal;
+package org.codehaus.cargo.container.glassfish.internal;
 
-import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7x8x9xContainerCapability;
+import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
- * Payara container capability.
+ * GlassFish 3.x, 4.x, 5.x, 6.x, 7.x, 8.x and 9.x container capability.
  */
-public class PayaraContainerCapability extends GlassFish3x4x5x6x7x8x9xContainerCapability
+public class GlassFish3x4x5x6x7x8x9xContainerCapability extends GlassFish2xContainerCapability
 {
-    // Nothing compared to GlassFish 3.x onwards container capabilities
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean supportsDeployableType(DeployableType type)
+    {
+        return super.supportsDeployableType(type) || DeployableType.BUNDLE.equals(type);
+    }
+
 }

@@ -19,43 +19,32 @@
  */
 package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.ContainerCapability;
-import org.codehaus.cargo.container.configuration.RuntimeConfiguration;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7x8x9xContainerCapability;
-import org.codehaus.cargo.container.spi.AbstractRemoteContainer;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
+import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 
 /**
- * GlassFish 3.x remote container.
+ * GlassFish 9.x installed local container.
  */
-public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
+public class GlassFish9xInstalledLocalContainer extends GlassFish8xInstalledLocalContainer
 {
-    /**
-     * Unique container id.
-     */
-    public static final String ID = "glassfish3x";
 
     /**
-     * the Capability of the GlassFish container.
-     */
-    private ContainerCapability capability = new GlassFish3x4x5x6x7x8x9xContainerCapability();
-
-    /**
-     * Constructor.
+     * Calls parent constructor, which saves the configuration.
      * 
-     * @param configuration the configuration to associate to this container.
+     * @param localConfiguration Configuration.
      */
-    public GlassFish3xRemoteContainer(RuntimeConfiguration configuration)
+    public GlassFish9xInstalledLocalContainer(LocalConfiguration localConfiguration)
     {
-        super(configuration);
+        super(localConfiguration);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ContainerCapability getCapability()
+    protected AbstractGlassFishInstalledLocalDeployer getLocalDeployer()
     {
-        return capability;
+        return new GlassFish9xInstalledLocalDeployer(this);
     }
 
     /**
@@ -64,7 +53,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
     @Override
     public String getId()
     {
-        return ID;
+        return "glassfish9x";
     }
 
     /**
@@ -73,7 +62,7 @@ public class GlassFish3xRemoteContainer extends AbstractRemoteContainer
     @Override
     public String getName()
     {
-        return "GlassFish 3.x Remote";
+        return "GlassFish " + getVersion("9.x");
     }
 
 }

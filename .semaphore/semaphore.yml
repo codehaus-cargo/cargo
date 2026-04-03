@@ -1572,6 +1572,19 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pglassfish8x -Dsurefire.rerunFailingTestsCount=2
+  - name: GlassFish 9.x
+    dependencies:
+      - Build on Java 21
+    task:
+      jobs:
+        - name: GlassFish 9.x
+          commands:
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pglassfish9x -Dsurefire.rerunFailingTestsCount=2
   - name: Payara
     dependencies:
       - Build on Java 21
@@ -1615,6 +1628,7 @@ blocks:
       - GlassFish 7.x
       - GlassFish 7.x - Branch 7.0.x
       - GlassFish 8.x
+      - GlassFish 9.x
       - JBoss 3.x
       - JBoss 4.2.x
       - JBoss 4.x

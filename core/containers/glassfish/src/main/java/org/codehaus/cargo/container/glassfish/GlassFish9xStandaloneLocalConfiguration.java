@@ -17,14 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.payara.internal;
-
-import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7x8x9xContainerCapability;
+package org.codehaus.cargo.container.glassfish;
 
 /**
- * Payara container capability.
+ * GlassFish 9.x standalone local configuration.
  */
-public class PayaraContainerCapability extends GlassFish3x4x5x6x7x8x9xContainerCapability
+public class GlassFish9xStandaloneLocalConfiguration
+    extends GlassFish8xStandaloneLocalConfiguration
 {
-    // Nothing compared to GlassFish 3.x onwards container capabilities
+
+    /**
+     * Creates the local configuration object.
+     * 
+     * @param home The work directory where files needed to run GlassFish will be created.
+     */
+    public GlassFish9xStandaloneLocalConfiguration(String home)
+    {
+        super(home);
+    }
+
 }

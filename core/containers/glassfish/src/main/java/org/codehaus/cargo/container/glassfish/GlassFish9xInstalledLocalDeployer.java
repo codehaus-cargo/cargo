@@ -17,21 +17,23 @@
  *
  * ========================================================================
  */
-package org.codehaus.cargo.container.glassfish.internal;
+package org.codehaus.cargo.container.glassfish;
 
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.InstalledLocalContainer;
 
 /**
- * GlassFish 4.x, 5.x, 6.x, 7.x and 8.x standalone local configuration capability.
+ * GlassFish 9.x installed local deployer, which uses the GlassFish asadmin to deploy and undeploy
+ * applications.
  */
-public class GlassFish4x5x6x7x8xStandaloneLocalConfigurationCapability extends
-    GlassFish3xStandaloneLocalConfigurationCapability
+public class GlassFish9xInstalledLocalDeployer extends GlassFish8xInstalledLocalDeployer
 {
     /**
-     * CARGO-1246: GlassFish 4.x onwards supports {@link ServletPropertySet#USERS}.
+     * Calls parent constructor, which saves the container.
+     * 
+     * @param localContainer Container.
      */
-    public GlassFish4x5x6x7x8xStandaloneLocalConfigurationCapability()
+    public GlassFish9xInstalledLocalDeployer(InstalledLocalContainer localContainer)
     {
-        this.propertySupportMap.put(ServletPropertySet.USERS, Boolean.TRUE);
+        super(localContainer);
     }
 }

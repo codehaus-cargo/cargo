@@ -28,7 +28,7 @@ import org.codehaus.cargo.container.glassfish.internal.AbstractAsAdmin;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalContainer;
 import org.codehaus.cargo.container.glassfish.internal.AbstractGlassFishInstalledLocalDeployer;
 import org.codehaus.cargo.container.glassfish.internal.GlassFish3xAsAdmin;
-import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7xContainerCapability;
+import org.codehaus.cargo.container.glassfish.internal.GlassFish3x4x5x6x7x8x9xContainerCapability;
 
 /**
  * GlassFish 3.x installed local container.
@@ -40,7 +40,7 @@ public class GlassFish3xInstalledLocalContainer extends AbstractGlassFishInstall
      * Container capability instance.
      */
     private static final ContainerCapability CAPABILITY =
-        new GlassFish3x4x5x6x7xContainerCapability();
+        new GlassFish3x4x5x6x7x8x9xContainerCapability();
 
     /**
      * GlassFish version.
