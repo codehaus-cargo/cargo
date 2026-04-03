@@ -1860,7 +1860,7 @@
               <configuration>
                 <systemPropertyVariables>
                   <cargo.jetty12x.url>
-                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/12.0.33/jetty-home-12.0.33.tar.gz
+                    https://repo.maven.apache.org/maven2/org/eclipse/jetty/jetty-home/12.0.34/jetty-home-12.0.34.tar.gz
                   </cargo.jetty12x.url>
                 </systemPropertyVariables>
               </configuration>
