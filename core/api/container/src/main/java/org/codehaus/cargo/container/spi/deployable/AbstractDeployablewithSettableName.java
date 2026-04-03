@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.spi.deployable;
 
 import org.codehaus.cargo.util.DefaultFileHandler;
+import org.codehaus.cargo.container.deployable.DeployableType;
 
 /**
  * Common class for easy Deployable implementations with settable names.
