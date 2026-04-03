@@ -73,7 +73,15 @@ public abstract class AbstractDeployablewithSettableName extends AbstractDeploya
     @Override
     public String getFilename()
     {
-        return DefaultFileHandler.sanitizeFilename(
-            getName() + "." + getType().getType(), getLogger());
+        String extension;
+        if (DeployableType.EJB.equals(getType()))
+        {
+            extension = "jar";
+        }
+        else
+        {
+            extension = getType().getType();
+        }
+        return DefaultFileHandler.sanitizeFilename(getName() + "." + extension, getLogger());
     }
 }
