@@ -245,7 +245,7 @@ public class WebLogic9x10x12x14x15xConfigXmlInstalledLocalDeployerTest
     {
         EJB ejb = createEJB();
         String name = deployer.createIdForDeployable(ejb);
-        Assertions.assertEquals("cargo.war", name);
+        Assertions.assertEquals("cargo.jar", name);
     }
 
     /**
