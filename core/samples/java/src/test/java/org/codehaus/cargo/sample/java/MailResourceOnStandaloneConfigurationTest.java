@@ -66,11 +66,11 @@ public class MailResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // GlassFish 3.x, 4.x, 5.x, 6.x, 7.x and 8.x as well as Payara
+        // GlassFish 3.x, 4.x, 5.x, 6.x, 7.x, 8.x and 9.x as well as Payara
         // cannot deploy mail sessions as a resource
         return this.isNotContained(containerId,
             "glassfish3x", "glassfish4x", "glassfish5x", "glassfish6x", "glassfish7x",
-                "glassfish8x",
+                "glassfish8x", "glassfish9x",
             "payara");
     }
 
