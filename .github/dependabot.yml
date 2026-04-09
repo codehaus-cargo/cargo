@@ -27,7 +27,7 @@ updates:
         versions: ["[0.3.0,)"]
       - dependency-name: "com.puppycrawl.tools:checkstyle"
         versions: ["[10.0,)"]
-      - dependency-name: "jakarta:servlet-api"
+      - dependency-name: "jakarta.servlet:jakarta.servlet-api"
       - dependency-name: "javax.mail:mail"
       - dependency-name: "javax.servlet:servlet-api"
       - dependency-name: "org.apache.ant:ant"
