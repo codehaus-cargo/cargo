@@ -36,6 +36,7 @@ global_job_config:
       - export ORIGINAL_PWD=$PWD
       - mkdir -p ~/.m2/repository
       - cd ~/.m2
+      - cp ~/.semaphore/settings.xml .
       - cache list
       - cache restore "codehaus-cargo-cache-repository"
       - mkdir -p /tmp/cargo-build-binaries
