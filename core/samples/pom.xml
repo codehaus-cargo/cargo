@@ -368,7 +368,7 @@
               <cargo.glassfish8x.java.home>${cargo.java.home.1_21}</cargo.glassfish8x.java.home>
 
               <cargo.glassfish9x.url>
-                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/9.0.0-M1/glassfish-9.0.0-M1.zip
+                https://repo.maven.apache.org/maven2/org/glassfish/main/distributions/glassfish/9.0.0-M2/glassfish-9.0.0-M2.zip
               </cargo.glassfish9x.url>
               <cargo.glassfish9x.java.home>${cargo.java.home.1_21}</cargo.glassfish9x.java.home>
 
