@@ -555,7 +555,7 @@
               <cargo.jrun4x.java.home>${cargo.java.home.1_5}</cargo.jrun4x.java.home>
 
               <cargo.liberty.url>
-                https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/26.0.0.5/wlp-javaee8-26.0.0.5.zip
+                https://repo.maven.apache.org/maven2/com/ibm/websphere/appserver/runtime/wlp-javaee8/26.0.0.6/wlp-javaee8-26.0.0.6.zip
               </cargo.liberty.url>
               <cargo.liberty.java.home>${cargo.java.home.1_8}</cargo.liberty.java.home>
 
@@ -1161,6 +1161,11 @@
                 https://github.com/wildfly/wildfly/releases/download/39.0.1.Final/wildfly-39.0.1.Final.zip
               </cargo.wildfly39x.url>
               <cargo.wildfly39x.java.home>${cargo.java.home.1_17}</cargo.wildfly39x.java.home>
+
+              <cargo.wildfly40x.url>
+                https://github.com/wildfly/wildfly/releases/download/40.0.0.Final/wildfly-40.0.0.Final.zip
+              </cargo.wildfly40x.url>
+              <cargo.wildfly40x.java.home>${cargo.java.home.1_17}</cargo.wildfly40x.java.home>
 
               <cargo.wildfly-swarm2017x.home>
                 ${project.build.directory}/wildfly-swarm/wildfly-hollowswarm-${wildfly-swarm.version}.jar
@@ -2493,6 +2498,12 @@
       <id>wildfly39x</id>
       <properties>
         <cargo.containers>wildfly39x</cargo.containers>
+      </properties>
+    </profile>
+    <profile>
+      <id>wildfly40x</id>
+      <properties>
+        <cargo.containers>wildfly40x</cargo.containers>
       </properties>
     </profile>
     <profile>
