@@ -410,34 +410,24 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
      */
     private void runWebSphereCommand(String wsCommand, String... arguments)
     {
-        StringBuilder command = new StringBuilder();
+        String home = getHome();
+        if (home == null || home.isEmpty())
+        {
+            throw new CargoException("Container home must be set before executing WebSphere "
+                + "commands.");
+        }
 
-        // Append the command's .bat or .sh file, in quotes (in case its path has spaces)
-        command.append("\"");
-        command.append(getHome());
-        command.append(File.separator);
-        command.append("bin");
-        command.append(File.separator);
-        command.append(wsCommand);
-        if (JdkUtils.isWindows())
-        {
-            command.append(WINDOWS_SUFFIX);
-        }
-        else
-        {
-            command.append(LINUX_SUFFIX);
-        }
-        command.append("\"");
+        String executable = home + File.separator + "bin" + File.separator + wsCommand
+            + (JdkUtils.isWindows() ? WINDOWS_SUFFIX : LINUX_SUFFIX);
 
-        if (arguments.length > 0)
-        {
-            command.append(" ").append(String.join(" ", arguments));
-        }
+        List<String> command = new ArrayList<String>();
+        command.add(executable);
+        command.addAll(Arrays.asList(arguments));
 
         getLogger().debug("Executing command: " + command.toString(),
                 this.getClass().getName());
 
-        getProcessExecutor().executeAndWait(command.toString());
+        getProcessExecutor().executeAndWait(command);
     }
 
     /**
