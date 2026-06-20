@@ -227,8 +227,14 @@ public class HttpRequest extends LoggedObject
             connection.setUseCaches(false);
             if (timeout != 0)
             {
-                connection.setReadTimeout((int) timeout);
-                connection.setConnectTimeout((int) timeout);
+                if (timeout < 0 || timeout > Integer.MAX_VALUE)
+                {
+                    throw new IllegalArgumentException("Invalid timeout value [" + timeout
+                        + "], must be between 0 and " + Integer.MAX_VALUE + " milliseconds");
+                }
+                int connectionTimeout = (int) timeout;
+                connection.setReadTimeout(connectionTimeout);
+                connection.setConnectTimeout(connectionTimeout);
             }
             // Do not forcibly close the connection, rather have it kept alive for efficient HTTP
             // resource pooling in case of multiple requests to the same server
