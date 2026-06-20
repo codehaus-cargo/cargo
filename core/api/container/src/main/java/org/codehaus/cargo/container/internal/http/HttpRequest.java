@@ -64,6 +64,11 @@ public class HttpRequest extends LoggedObject
     protected static final int BUFFER_CHUNK_SIZE = 256 * 1024;
 
     /**
+     * Maximum timeout (milliseconds).
+     */
+    protected static final int MAX_TIMEOUT = 60 * 60 * 1000;
+
+    /**
      * cache of nonce values seen
      */
     private static final NonceCounter NONCE_COUNTER = new NonceCounter();
@@ -227,10 +232,10 @@ public class HttpRequest extends LoggedObject
             connection.setUseCaches(false);
             if (timeout != 0)
             {
-                if (timeout < 0 || timeout > Integer.MAX_VALUE)
+                if (timeout < 0 || timeout > HttpRequest.MAX_TIMEOUT)
                 {
                     throw new IllegalArgumentException("Invalid timeout value [" + timeout
-                        + "], must be between 0 and " + Integer.MAX_VALUE + " milliseconds");
+                        + "], must be between 0 and " + HttpRequest.MAX_TIMEOUT + " milliseconds");
                 }
                 int connectionTimeout = (int) timeout;
                 connection.setReadTimeout(connectionTimeout);
