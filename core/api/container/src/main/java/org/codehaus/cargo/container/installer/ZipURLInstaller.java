@@ -585,6 +585,13 @@ public class ZipURLInstaller extends LoggedObject implements Installer
             name = this.remoteLocation.getPath().substring(slashPos + 1);
         }
 
+        if (name == null || name.isEmpty() || ".".equals(name) || "..".equals(name)
+            || name.contains("/") || name.contains("\\") || name.contains(".."))
+        {
+            throw new ContainerException("Invalid source file name extracted from URL ["
+                + this.remoteLocation + "]");
+        }
+
         return name;
     }
 
