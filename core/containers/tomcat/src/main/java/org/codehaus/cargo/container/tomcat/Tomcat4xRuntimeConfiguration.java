@@ -33,7 +33,7 @@ public class Tomcat4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     /**
      * Default timeout for Tomcat (in milliseconds).
      */
-    private static final long TWO_HOURS = 2 * 60 * 60 * 1000;
+    private static final long TEN_MINUTES = 10 * 60 * 1000;
 
     /**
      * Capability of the Tomcat runtime configuration.
@@ -48,7 +48,7 @@ public class Tomcat4xRuntimeConfiguration extends AbstractRuntimeConfiguration
     public Tomcat4xRuntimeConfiguration()
     {
         setProperty(TomcatPropertySet.DEPLOY_UPDATE, "false");
-        setProperty(RemotePropertySet.TIMEOUT, Long.toString(TWO_HOURS));
+        setProperty(RemotePropertySet.TIMEOUT, Long.toString(TEN_MINUTES));
     }
 
     /**
