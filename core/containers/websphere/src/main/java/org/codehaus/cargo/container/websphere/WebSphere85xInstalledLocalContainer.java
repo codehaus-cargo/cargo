@@ -416,12 +416,32 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             throw new CargoException("Container home must be set before executing WebSphere "
                 + "commands.");
         }
+        if (home.contains("\"") || home.contains("'") || home.contains("\r")
+            || home.contains("\n") || home.indexOf('\0') >= 0)
+        {
+            throw new CargoException("Container home contains illegal characters.");
+        }
 
-        String executable = home + File.separator + "bin" + File.separator + wsCommand
-            + (JdkUtils.isWindows() ? WINDOWS_SUFFIX : LINUX_SUFFIX);
+        final String canonicalHome;
+        try
+        {
+            canonicalHome = new File(home).getCanonicalPath();
+        }
+        catch (Exception e)
+        {
+            throw new CargoException("Cannot resolve container home path.", e);
+        }
+
+        File executableFile = new File(new File(canonicalHome, "bin"),
+            wsCommand + (JdkUtils.isWindows() ? WINDOWS_SUFFIX : LINUX_SUFFIX));
+        if (!executableFile.exists() || !executableFile.isFile())
+        {
+            throw new CargoException("WebSphere command executable not found: "
+                + executableFile.getPath());
+        }
 
         List<String> command = new ArrayList<String>();
-        command.add(executable);
+        command.add(executableFile.getPath());
         command.addAll(Arrays.asList(arguments));
 
         getLogger().debug("Executing command: " + command.toString(),
