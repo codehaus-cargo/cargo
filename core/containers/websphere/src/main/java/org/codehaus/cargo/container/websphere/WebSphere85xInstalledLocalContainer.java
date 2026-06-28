@@ -410,34 +410,44 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
      */
     private void runWebSphereCommand(String wsCommand, String... arguments)
     {
-        StringBuilder command = new StringBuilder();
+        String home = getHome();
+        if (home == null || home.isEmpty())
+        {
+            throw new CargoException("Container home must be set before executing WebSphere "
+                + "commands.");
+        }
+        if (home.contains("\"") || home.contains("'") || home.contains("\r")
+            || home.contains("\n") || home.indexOf('\0') >= 0)
+        {
+            throw new CargoException("Container home contains illegal characters.");
+        }
 
-        // Append the command's .bat or .sh file, in quotes (in case its path has spaces)
-        command.append("\"");
-        command.append(getHome());
-        command.append(File.separator);
-        command.append("bin");
-        command.append(File.separator);
-        command.append(wsCommand);
-        if (JdkUtils.isWindows())
+        final String canonicalHome;
+        try
         {
-            command.append(WINDOWS_SUFFIX);
+            canonicalHome = new File(home).getCanonicalPath();
         }
-        else
+        catch (Exception e)
         {
-            command.append(LINUX_SUFFIX);
+            throw new CargoException("Cannot resolve container home path.", e);
         }
-        command.append("\"");
 
-        if (arguments.length > 0)
+        File executableFile = new File(new File(canonicalHome, "bin"),
+            wsCommand + (JdkUtils.isWindows() ? WINDOWS_SUFFIX : LINUX_SUFFIX));
+        if (!executableFile.exists() || !executableFile.isFile())
         {
-            command.append(" ").append(String.join(" ", arguments));
+            throw new CargoException("WebSphere command executable not found: "
+                + executableFile.getPath());
         }
+
+        List<String> command = new ArrayList<String>();
+        command.add(executableFile.getPath());
+        command.addAll(Arrays.asList(arguments));
 
         getLogger().debug("Executing command: " + command.toString(),
                 this.getClass().getName());
 
-        getProcessExecutor().executeAndWait(command.toString());
+        getProcessExecutor().executeAndWait(command);
     }
 
     /**

@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -51,15 +52,15 @@ public class ProcessExecutor
     /**
      * Execute command and wait for process to end.
      * 
-     * @param cmd Command to be executed.
+     * @param command Command and arguments to be executed.
      */
-    public void executeAndWait(String cmd)
+    public void executeAndWait(List<String> command)
     {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         Process process = null;
         try
         {
-            process = Runtime.getRuntime().exec(cmd);
+            process = new ProcessBuilder(command).start();
 
             Future<?> osFuture = executorService.submit(
                 new ProcessOutputReader(process.getInputStream()));
