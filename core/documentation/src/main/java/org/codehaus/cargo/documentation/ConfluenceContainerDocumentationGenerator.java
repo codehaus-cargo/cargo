@@ -1762,7 +1762,7 @@ public class ConfluenceContainerDocumentationGenerator
                     }
                     else if (containerId.startsWith("websphere"))
                     {
-                        extra = "By default, Codehaus Cargo will use the JVM from the "
+                        extra = "Please always set to the correct IBM JDK path from the "
                             + "WebSphere installation directory";
                     }
                     if (!extra.isEmpty())

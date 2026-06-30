@@ -35,8 +35,8 @@
   <properties>
     <cargo.samples.servlet.port>9080</cargo.samples.servlet.port>
     <cargo.websphere.profile>AppSrv01</cargo.websphere.profile>
-    <cargo.websphere.node>virtualbox-xpNode01</cargo.websphere.node>
-    <cargo.websphere.cell>virtualbox-xpNode01Cell</cargo.websphere.cell>
+    <cargo.websphere.node>AppSrv01Node</cargo.websphere.node>
+    <cargo.websphere.cell>AppSrv01Cell</cargo.websphere.cell>
     <cargo.websphere.server>server1</cargo.websphere.server>
   </properties>
 
@@ -108,7 +108,7 @@
               </container>
               <configuration>
                 <properties>
-                  <cargo.java.home>${cargo.websphere85x.home}/java/jre</cargo.java.home>
+                  <cargo.java.home>${cargo.websphere85x.home}/java_1.8_64</cargo.java.home>
                 </properties>
               </configuration>
             </configuration>
@@ -154,7 +154,7 @@
               </container>
               <configuration>
                 <properties>
-                  <cargo.java.home>${cargo.websphere9x.home}/java/jre</cargo.java.home>
+                  <cargo.java.home>${cargo.websphere9x.home}/java/8.0</cargo.java.home>
                 </properties>
               </configuration>
             </configuration>
