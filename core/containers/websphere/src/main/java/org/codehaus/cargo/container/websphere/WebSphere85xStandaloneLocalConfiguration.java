@@ -122,7 +122,14 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         this.wsContainer = (WebSphere85xInstalledLocalContainer) container;
 
         // delete old profile and create new profile
-        deleteOldProfile();
+        try
+        {
+            deleteOldProfile();
+        }
+        catch (CargoException ignored)
+        {
+            // Ignored
+        }
         createNewProfile();
 
         getLogger().info("Configuring profile.", this.getClass().getName());
