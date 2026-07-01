@@ -261,7 +261,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         {
             String profileName = getPropertyValue(WebSpherePropertySet.PROFILE);
 
-            getLogger().info("Creating new profile [" + profileName + "].", this.getClass().getName());
+            getLogger().info(
+                "Creating new profile [" + profileName + "].", this.getClass().getName());
             wsContainer.runManageProfileCommand(
                 "-create",
                 "-profileName",
