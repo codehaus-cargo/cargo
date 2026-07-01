@@ -58,6 +58,7 @@ public class ProcessExecutor
     {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         Process process = null;
+        int result = 0;
         try
         {
             process = new ProcessBuilder(command).start();
@@ -67,7 +68,7 @@ public class ProcessExecutor
             Future<?> esFuture = executorService.submit(
                 new ProcessOutputReader(process.getErrorStream()));
 
-            process.waitFor();
+            result = process.waitFor();
 
             osFuture.get();
             esFuture.get();
@@ -79,6 +80,10 @@ public class ProcessExecutor
         finally
         {
             executorService.shutdown();
+            if (result != 0)
+            {
+                throw new CargoException("Execution of command returned " + result);
+            }
         }
     }
 

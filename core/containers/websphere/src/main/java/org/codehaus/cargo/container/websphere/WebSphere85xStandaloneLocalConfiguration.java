@@ -223,13 +223,13 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
      */
     private void deleteOldProfile() throws Exception
     {
-        getLogger().info("Deleting old profile.", this.getClass().getName());
+        String profileName = getPropertyValue(WebSpherePropertySet.PROFILE);
+
+        getLogger().info("Deleting old profile [" + profileName + "].", this.getClass().getName());
 
         // Delete profile in WebSphere
         wsContainer.runManageProfileCommand(
-            "-delete",
-            "-profileName",
-            getPropertyValue(WebSpherePropertySet.PROFILE));
+            "-delete", "-profileName", profileName);
 
         // Profile directory has to be deleted too.
         getLogger().debug("Deleting profile folder " + getHome(), this.getClass().getName());
@@ -259,13 +259,15 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
 
         try
         {
-            getLogger().info("Creating new profile.", this.getClass().getName());
+            String profileName = getPropertyValue(WebSpherePropertySet.PROFILE);
+
+            getLogger().info("Creating new profile [" + profileName + "].", this.getClass().getName());
             wsContainer.runManageProfileCommand(
                 "-create",
                 "-profileName",
-                getPropertyValue(WebSpherePropertySet.PROFILE),
+                profileName,
                 "-profilePath",
-                "\"" + getHome() + "\"",
+                getHome(),
                 "-nodeName",
                 getPropertyValue(WebSpherePropertySet.NODE),
                 "-cellName",
