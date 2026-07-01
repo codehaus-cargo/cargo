@@ -28,18 +28,6 @@
   <packaging>jar</packaging>
   <description>Sample application that will be used to test the WebSphere container</description>
 
-  <!--
-   The WebSphere container works best as an existing configuration, so reuse port number as
-   they're configured in WebSphere itself.
-   -->
-  <properties>
-    <cargo.samples.servlet.port>9080</cargo.samples.servlet.port>
-    <cargo.websphere.profile>AppSrv01</cargo.websphere.profile>
-    <cargo.websphere.node>AppSrv01Node</cargo.websphere.node>
-    <cargo.websphere.cell>AppSrv01Cell</cargo.websphere.cell>
-    <cargo.websphere.server>server1</cargo.websphere.server>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -238,7 +226,6 @@
                 cargo.resource.type=javax.jms.Queue|
                 cargo.resource.id=MyQueue
               </cargo.resource.resource.jms.queue>
-              <cargo.websphere.server>${cargo.websphere.server}</cargo.websphere.server>
               <cargo.websphere.classloader.mode>PARENT_LAST</cargo.websphere.classloader.mode>
               <cargo.websphere.war.classloader.policy>SINGLE</cargo.websphere.war.classloader.policy>
             </properties>

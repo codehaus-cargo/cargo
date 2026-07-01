@@ -1288,20 +1288,7 @@ public class ConfluenceContainerDocumentationGenerator
             output.append(FileHandler.NEW_LINE);
             output.append(FileHandler.NEW_LINE);
 
-            if (containerId.startsWith("websphere"))
-            {
-                output.append("{note}");
-                output.append("Though the WebSphere container supports [standalone local ");
-                output.append("configurations|Standalone Local Configuration], it is ");
-                output.append("recommended for you to prefer using WebSphere with an ");
-                output.append("[existing local configuration|Existing Local Configuration]; ");
-                output.append("i.e. a WebSphere profile you would create beforehand using ");
-                output.append("WebSphere's setup commands and then use that with Codehaus Cargo.");
-                output.append("{note}");
-                output.append(FileHandler.NEW_LINE);
-                output.append(FileHandler.NEW_LINE);
-            }
-            else if ("weblogic121x".equals(containerId))
+            if ("weblogic121x".equals(containerId))
             {
                 output.append("{note}");
                 output.append("WLST on WebLogic 12.1.x might return an error ");
