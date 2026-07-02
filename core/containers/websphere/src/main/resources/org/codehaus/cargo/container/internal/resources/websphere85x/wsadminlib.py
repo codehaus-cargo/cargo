@@ -430,13 +430,15 @@ def setInitialStateOfAllListenerPortsInCluster(clusterName, state):
     """Set the initial state of all Listener Ports that are defined in each server in a cluster."""
     # state is STOP or START
     m = "setInitialStateOfAllListenerPortsInCluster:"
-    sop(m,"clusterName = %s, state = %s" % (clusterName, state) )
-    clusterMembers = listServersInCluster(clusterName)
-    for clusterMember in clusterMembers:
-        nodeName = AdminConfig.showAttribute( clusterMember, "nodeName" )
-        serverName = AdminConfig.showAttribute( clusterMember, "memberName" )
+    sop(m, "clusterName = %s, state = %s" % (clusterName, state) )
+    serverIDList = getServerIDsForClusters([clusterName])
+    if not serverIDList:
+        raise m + " Error: Could not find any servers in the cluster. clusterName=%s" % (clusterName,)
+    for (serverID, nodeName, serverName) in serverIDList:
         sop(m, "Setting Initial State of ListenerPorts on Server %s on Node %s to %s" % (serverName, nodeName, state))
-        lPorts = listListenerPortsOnServer( nodeName, serverName )
+        lPorts = getObjectsOfType('ListenerPort', serverID)
+        if not lPorts:
+            raise m + " Error: Could not find any ListenerPorts in the server. nodeName=%s serverName=%s" % (nodeName, serverName)
         for lPort in lPorts:
             sop(m, "Setting ListenerPort %s initial state to %s" % (lPort, state))
             stateManagement = AdminConfig.showAttribute( lPort, "stateManagement" )
@@ -610,7 +612,7 @@ def getServerIDsForClusters (clusterList):
     # Verify that clusterList is indeed a list
     if type(clusterList) != type([]):
         sop(m, 'clusterList is not a list; raising exception')
-        raise 'getServerIDsForClusters only accepts a list as input'
+        raise TypeError('getServerIDsForClusters only accepts a list as input')
 
     sop(m, 'Calling AdminConfig.list to get the list of clusters')
     clusters = _splitlines(AdminConfig.list ('ServerCluster'))
@@ -728,13 +730,15 @@ def getServerIDsForAllAppServers ():
     return serverIDList
 #enddef
 
-
 def deleteServerByNodeAndName( nodename, servername ):
     """Delete the named server - raises exception on error"""
+    m = "deleteServerByNodeAndName:"
+    sop(m,"Entry. nodename=%s servername=%s" % ( nodename, servername ))
     sid = getServerByNodeAndName( nodename, servername )
-    if not sid:
-        raise "Could not find server %s to delete" % servername
+    if sid is None:
+        raise m + " Error: Could not find server. nodename=%s servername=%s" % (nodename,servername)
     AdminTask.deleteServer( '[-serverName %s -nodeName %s ]' % ( servername, nodename ) )
+    sop(m, "Exit.")
 
 def deleteServersOfType( typeToDelete ):
     """Delete all servers of the given type.
@@ -1226,9 +1230,21 @@ def stopAllBusinessProcessTemplatesForApplication(nodeName, serverName, applicat
 # proxy-related methods
 
 def getProxyServerByNodeAndName( nodename, servername ):
-    """return the config object ID for the named proxy server"""
-    # node_id = getNodeId(nodename)
-    return getObjectByNodeAndName( nodename, 'ProxyServer', servername )
+    """return the config ID for the proxy server component of named proxy server"""
+    m = "getProxyServerByNodeAndName:"
+    sop(m,"Entry. nodename=%s servername=%s" % ( nodename, servername ))
+    serverid = getServerByNodeAndName( nodename, servername )
+    sop(m,"serverid=%s" % (serverid))
+    result = None
+    # Verify that serverid valid and is indeed a proxy server. The subtype 'ProxyServer'
+    # is only found within proxy servers.
+    if serverid is not None and getObjectAttribute(serverid, 'serverType') == 'PROXY_SERVER':
+        # Retrieve the proxy server component, subtype 'ProxyServer'. There will be only one.
+        result = getObjectsOfType('ProxyServer', scope = serverid)[0]
+        sop(m,"Exit. Found proxy server component. result=%s" % (result))
+    else:
+        sop(m,"Exit. Proxy server component not found. result is None.")
+    return result
 
 def sopAdminTaskCreate(arg1, arg2, arg3):
     """For debug only"""
@@ -1289,13 +1305,9 @@ def setSIPProxyEnableAccessLog(nodename, servername, trueOrFalse):
     sid = getSIPProxySettings(nodename,servername)
     AdminConfig.modify(sid, [['enableAccessLog',trueOrFalse]])
 
-def deleteProxyServerByNodeAndName( nodename, name ):
+def deleteProxyServerByNodeAndName( nodename, servername ):
     """Delete the named proxy server"""
-    node_id = getNodeId(nodename)
-    sid = getProxyServerByNodeAndName( node_id, name )
-    if not sid:
-        raise "Could not find proxy server %s in node %s to delete" % ( name, nodename )
-    AdminConfig.remove( sid )
+    deleteServerByNodeAndName( nodename, servername )
 
 def getSIPProxySettings( nodename, servername ):
     """Given a proxy server ID, return the ID of the SIPProxySettings object, or None if there is none"""
@@ -2532,6 +2544,23 @@ def setPluginLogLevel(servername, nodename, level):
     #sop(m,"plgProps=%s " % plgProps)
     AdminConfig.modify(plgProps, [['LogLevel', level ]])
     #sop(m,"Exit. ")
+
+def setWebServerPluginProp(nodename, servername, pName, pValue):
+    '''sets a web server plugin custom property'''
+    m = "setWebServerPluginProp:"
+    sop(m,"Entry.")
+    webserver = getServerByNodeAndName(nodename, servername)
+    sop(m,"webserver=%s" % (webserver))
+    # If we found a valid Server config id and the server is indeed a web server...
+    if webserver is not None and getObjectAttribute(webserver, 'serverType') == 'WEB_SERVER':
+       plgProps = getObjectsOfType('PluginProperties', scope = webserver)[0] #There will be only one
+       sop(m,"plgProps=%s" % (plgProps))
+       setCustomPropertyOnObject(plgProps, pName, pValue)
+       sop(m,"Exit.")
+    else:
+       raise m + " ERROR: server is not valid. nodename=%s servername=%s" % (nodename, servername)
+
+
 ############################################################
 # CEA related methods
 
@@ -3581,7 +3610,7 @@ def isApplicationReady(appname):
     """Returns True when app deployment is complete and ready to start.
        Returns False when the app is not ready or is not recognized.
        This method indicates when background processing is complete
-       following an install, save, and sync.
+       following an install, save, and sync.   
        This method is useful when installing really large EARs."""
     m = "isApplicationReady:"
     rc = False
@@ -4321,11 +4350,9 @@ def getWasProfileRoot(nodename):
     return getWebSphereVariable("USER_INSTALL_ROOT", nodename)
 
 def getServerId(nodename,servername):
-    """Return the config id for a server or proxy.  Could be an app server or proxy server, etc"""
-    id = getObjectByNodeAndName(nodename, "Server", servername) # app server
-    if id == None:
-        id = getObjectByNodeAndName(nodename, "ProxyServer", servername)
-    return id
+    """Return the config id for a Server."""
+    #TODO: This mirrors the functionality of getServerByNodeAndName(). However, getServerId() is used elsewhere in the library.
+    return getServerByNodeAndName(nodename, servername)
 
 def getObjectByNodeServerAndName( nodename, servername, typename, objectname ):
     """Get the config object ID of an object based on its node, server, type, and name"""
@@ -4340,10 +4367,10 @@ def getObjectByNodeServerAndName( nodename, servername, typename, objectname ):
         name = AdminConfig.showAttribute( obj, 'name' )
         if name == objectname:
             #sop(m,"Found sought name=%s objectname=%s" % ( repr(name), repr(objectname), ))
-            if -1 != repr( obj ).find( 'servers/' + servername ):
+            if -1 != repr( obj ).find( 'servers/' + servername + '|' ):
                 #sop(m,"Found sought servername=%s" % ( repr(servername), ))
                 if result != None:
-                    raise "FOUND more than one %s with name %s" % ( typename, objectname )
+                    raise AssertionError("FOUND more than one %s with name %s" % ( typename, objectname ))
                 result = obj
     #sop(m,"Exit. result=%s" % ( repr(result), ))
     return result
@@ -4893,7 +4920,7 @@ def hostAliasExists( virtualhostname, aliashostname, port ):
 
 def getHostAliasID( virtualhostname, aliashostname, port ):
     """Returns the ID string for the specified host alias, if it exists.
-    Returns None if it does not exist.
+    Returns None if it does not exist.      
     Parms:  virtualhostname: "default_host", or "proxy_host", or etc.
             aliashostname:  "*", "fred", "fred.raleigh.ibm.com", etc
             port:  either a string or int: 5060, "5061", etc. """
@@ -5023,22 +5050,26 @@ def deleteAllHostAliases( virtualhostname ):
 def createChain(nodename,servername,chainname,portname,hostname,portnumber,templatename):
     """Create a new transport chain.  You can figure out most of the needed arguments
     by doing this in the admin console once.  Write down the template name so you can use it here."""
-
+    m = "createChain:"
+    sop(m,"Entry. nodename=%s servername=%s chainname=%s templatename=%s" % ( nodename, servername, chainname, templatename ))
     # We'll need the transport channel service for that server
     server = getServerByNodeAndName(nodename,servername)
-    if not server:
-        server = getProxyServerByNodeAndName(nodename, servername)  # Could be a proxy too
-    if not server:
-        raise "ERROR: createChain: Cannot find server or proxy on %s named %s" % (nodename,servername)
-    transportchannelservice = _splitlines(AdminConfig.list('TransportChannelService', server))[0]
-
+    if server is None:
+        raise m + " Error: Could not find server. nodename=%s servername=%s" % (nodename,servername)
+    sop(m,"Found config id for server. server=%s" % ( server, ))
+    transportchannelservice = getObjectsOfType('TransportChannelService', scope = server)[0] # There should be only one
+    sop(m,"Found config id for transport channel service. transportchannelservice=%s" % ( transportchannelservice, ))
     # Does the end point exist already?
     endpoint = getEndPoint(nodename,servername,portname)
-    if endpoint == None:
+    if endpoint is None:
         endpoint = AdminTask.createTCPEndPoint(transportchannelservice,
                                                '[-name %s -host %s -port %d]' % (portname,hostname,portnumber))
-    AdminTask.createChain(transportchannelservice,
+    sop(m,"Attempting to create transport chain at endpoint. endpoint=%s" % ( endpoint, ))
+    result = AdminTask.createChain(transportchannelservice,
                           '[-template %s -name %s -endPoint %s]' % (templatename,chainname,endpoint))
+    sop(m,"Resulting config id for transport chain. result=%s" % ( result, ))
+    sop(m,"Exit.")
+    return result
 
 
     # Example from command assistance:
@@ -6307,7 +6338,7 @@ def getOrbCustomProperty( nodename, servername, propname ):
     return propvalue
 
 def setOrbCustomProperty( nodename, servername, propname, propvalue ):
-    """Sets the specified custom property
+    """Sets the specified custom property 
     in the orb of the specified server or proxy."""
     m = "setOrbCustomProperty:"
     sop(m,"Entry. nodename=%s servername=%s propname=%s propvalue=%s" % ( nodename, servername, propname, propvalue ))
@@ -6321,7 +6352,7 @@ def setOrbCustomProperty( nodename, servername, propname, propvalue ):
     sop(m,"Exit. Successfully set %s=%s" % ( propname, propvalue ))
 
 def deleteOrbCustomProperty( nodename, servername, propname ):
-    """Deletes the specified custom property from
+    """Deletes the specified custom property from 
     the orb of the specified server or proxy."""
     m = "deleteOrbCustomProperty:"
     sop(m,"Entry. nodename=%s servername=%s propname=%s" % ( nodename, servername, propname ))
@@ -8769,6 +8800,32 @@ def createStandaloneApplicationServerMapping(customadvisorname,nodename,serverna
     return AdminConfig.create("StandAloneApplicationServerMapping",customadvisorname, [["nodeName",nodename],["serverName", servername],["cellName", cellname],["applicationName", applicationname]])
 
 ###############################################################################
+# Namespace bindings
+
+def createStringNameSpaceBinding(scope, bindingName, nameInNameSpace, stringToBind):
+    """Configuring String namespace binding
+
+    scope           - objectId is the configuration ID of a cell, a node, or a server object(because we are using AdminConfig.list)
+    bindingName     - Specifies a name that uniquely identifies this configured binding.
+    nameInNameSpace - Specifies a name for this binding in the name space. It is a simple or compound name relative to the portion of the name space where this binding is configured.
+    stringToBind    - Specifies the string to be bound into the name space.
+    """
+
+    for ns in AdminConfig.list('StringNameSpaceBinding', scope).splitlines() :
+        if nameInNameSpace == AdminConfig.showAttribute( ns, 'nameInNameSpace' ) and bindingName != AdminConfig.showAttribute( ns, 'name' ) :
+            raise "ERROR: A binding with nameInNamespace %s is already configured in this scope for bindingName %s." % (AdminConfig.showAttribute( ns, 'nameInNameSpace' ), AdminConfig.showAttribute( ns, 'name' ))
+
+    for ns in AdminConfig.list('StringNameSpaceBinding', scope).splitlines() :
+        if bindingName == AdminConfig.showAttribute( ns, 'name' ):
+            print "The namespace binding %s already exist with nameInNameSpace %s and stringToBind %s." % (AdminConfig.showAttribute( ns, 'name' ), AdminConfig.showAttribute( ns, 'nameInNameSpace' ), AdminConfig.showAttribute( ns, 'stringToBind' ))
+            print "Overwriting with new values: nameInNameSpace %s, stringToBind %s." % (nameInNameSpace, stringToBind)
+            AdminConfig.modify(ns, [['nameInNameSpace', nameInNameSpace], ['stringToBind', stringToBind]])
+            return
+
+    print "Creating new namespace binding."
+    return AdminConfig.create("StringNameSpaceBinding", scope, [["name", bindingName], ["nameInNameSpace", nameInNameSpace], ["stringToBind", stringToBind]])
+
+###############################################################################
 # Wrapper definitions for AdminConfig (logs activity automatically)
 
 def modify( object, attrs ):
@@ -9240,7 +9297,7 @@ def createMailProvider ( scope, nodeName, serverName, clusterName, providerName,
         sop (m, "Caught Exception creating Mail Provider "+provider)
         return 99
 
-    sop (m, "Created "+providerName+" successfully.")
+    sop (m, "Created "+providerName+" successfully.") 
     return provider
 
 #endDef
@@ -9279,22 +9336,22 @@ def createProtocolProvider( scope, nodeName, serverName, clusterName, provName, 
     return pProvider
 
 def createMailSession( scope, nodeName, serverName, clusterName, provName, name, jndiName, desc, category, mailTransHost, mailTransProto, mailTransUserId, mailTransPasswd, enableParse, mailFrom, mailStoreHost, mailStoreProto, mailStoreUserId, mailStorePasswd, enableDebug ):
-    """
-
-    This function creates a JavaMail MailSession under the specified Provider Name.
+    """ 
+    
+    This function creates a JavaMail MailSession under the specified Provider Name. 
 
         Input parameters:
 
         scope               - The scope of the MailProvider. Valid values are (in order of preecendence): 'cell', 'node', 'cluster' and 'server'.
-                              Note: The scope of 'cell' is not valid for the createMailSession function.
+                              Note: The scope of 'cell' is not valid for the createMailSession function. 
         nodeName            - The name of the node of the MailProvider. Required if scope = 'node' or 'server'.
         serverName          - The name of the server of the MailProvider. Required if scope = 'server'.
         clusterName         - The name of the cluster of the MailProvider. Required if scope = 'cluster'.
         provName            - The name of the MailProvider. Typical value: "Built-in Mail Provider".
         name                - The required display name of the MailSession to be created.
-        jndiName            - The required JNDI of the MailSession to be created.
+        jndiName            - The required JNDI of the MailSession to be created. 
         desc                - An optional description of this MailSession.
-        category            - An optional category string to use when classifying or grouping the MailSession to be created.
+        category            - An optional category string to use when classifying or grouping the MailSession to be created. 
         mailTransHost       - Specifies the server to connect to when sending mail.
         mailTransProto      - Specifies the transport protocol to use when sending mail. Actual protocol values are defined in the protocol
                               providers that you configured for the current mail provider.
@@ -9302,7 +9359,7 @@ def createMailSession( scope, nodeName, serverName, clusterName, provName, name,
         mailTransUserId     - Specifies the user id to use when the mail transport host requires authentication.
         mailTransPasswd     - Specifies the password to use when the mail transport host requires authentication.
         enableParse         - Enable strict internet address parsing. Set to "true" to enforce the RFC 822 syntax rules for parsing Internet addresses when sending mail.
-                              Valid values: "true" or "false".
+                              Valid values: "true" or "false". 
         mailFrom            - Specifies the Internet e-mail address that is displayed in messages as the mail originator. Typical value: "".
         mailStoreHost       - Specifies the mail account host, or domain name. Typical value: "".
         mailStoreProto      - Specifies the protocol to use when receiving mail. Actual protocol values are defined in the protocol providers
@@ -9311,8 +9368,8 @@ def createMailSession( scope, nodeName, serverName, clusterName, provName, name,
         mailStoreUserId     - Specifies the user ID of the mail account. Typical value: "".
         mailStorePasswd     - Specifies the password of the mail account. Typical value: "".
         enableDebug         - Enable debug information which shows interaction between the mail application and the mail servers,
-                              as well as the properties of this mail session. to be sent to the SystemOut.log file.
-                              Valid values: "true" or "false".
+                              as well as the properties of this mail session. to be sent to the SystemOut.log file. 
+                              Valid values: "true" or "false". 
 
         Return Value:
             The newly created MailSession.  If an error occurs, an exception will be thrown.
@@ -9368,7 +9425,7 @@ def createMailSession( scope, nodeName, serverName, clusterName, provName, name,
     attrs.append(["mailStorePassword", mailStorePasswd])
     attrs.append(["debug", enableDebug])
 
-    sop (m, "Creating mail session: " + repr(name) + " as a child of: " + repr(mailProvider) + " using attributes: " + repr(attrs))
+    sop (m, "Creating mail session: " + repr(name) + " as a child of: " + repr(mailProvider) + " using attributes: " + repr(attrs)) 
     mSession = AdminConfig.create("MailSession", mailProvider, attrs)
 
     sop (m, "Creation of mail session " + name + " was successful! session = " + repr(mSession) )
@@ -9423,7 +9480,7 @@ def removeWebSphereVariable ( name, nodeName=None, serverName=None, clusterName=
     findAndRemove('VariableSubstitutionEntry', [['symbolicName', name]], map)
 
 def expandWebSphereVariables ( variableString, nodeName=None, serverName=None, clusterName=None ):
-    """ This function expands all WAS variable references
+    """ This function expands all WAS variable references 
         such as ${WAS_INSTALL_ROOT} in variableString with their
         values at the specified scope."""
     while variableString.find("${") != -1:
