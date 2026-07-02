@@ -291,7 +291,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
     private void addApplicationName(StringBuilder arguments)
     {
         arguments.append("'-appname','");
-        arguments.append(deployable.getName());
+        arguments.append(deployable.getName().replace('/', '_'));
         arguments.append("'");
     }
 
