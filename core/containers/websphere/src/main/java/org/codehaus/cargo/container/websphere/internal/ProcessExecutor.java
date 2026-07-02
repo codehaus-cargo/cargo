@@ -117,7 +117,7 @@ public class ProcessExecutor
                 String line = null;
                 while ((line = br.readLine()) != null)
                 {
-                    logger.debug(line, ProcessExecutor.class.getName());
+                    logger.info(line, ProcessExecutor.class.getName());
                 }
             }
             catch (IOException ioe)
