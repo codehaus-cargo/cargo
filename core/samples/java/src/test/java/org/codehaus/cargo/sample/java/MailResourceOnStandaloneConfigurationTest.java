@@ -59,6 +59,12 @@ public class MailResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
+        // WebSphere cannot deploy mail sessions as a resource
+        if (containerId.startsWith("websphere"))
+        {
+            return false;
+        }
+
         // Jakarta EE versions of WildFly cannot deploy mail sessions as a resource
         if (containerId.startsWith("wildfly")
             && EnvironmentTestData.jakartaEeContainers.contains(containerId))

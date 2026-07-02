@@ -108,22 +108,34 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                 for (Element resource : resources)
                 {
                     String resRefName = resource.getChildText(WebXmlType.RES_REF_NAME);
+                    if (resRefName == null)
+                    {
+                        throw new IllegalArgumentException(
+                            "Child [" + WebXmlType.RES_REF_NAME + "] of ["
+                                + WebXmlType.RESOURCE_REF + "] doesn't exist in web.xml");
+                    }
                     String resType = resource.getChildText(WebXmlType.RES_TYPE);
+                    if (resType == null)
+                    {
+                        throw new IllegalArgumentException(
+                            "Child [" + WebXmlType.RES_TYPE + "] of ["
+                                + WebXmlType.RESOURCE_REF + "] doesn't exist in web.xml");
+                    }
 
                     List<String> entryList = new ArrayList<String>();
                     entryList.add(fileHandler.getName(deployable.getFile().replace('\\', '/')));
-                    entryList.add(resRefName);
+                    entryList.add(".*");
                     entryList.add(fileHandler.getName(
                         deployable.getFile().replace('\\', '/')) + ",WEB-INF/web.xml");
                     entryList.add(resRefName);
                     entryList.add(resType);
-                    entryList.add(resRefName);
                     resRefList.add(convertListToString(entryList, " "));
                 }
             }
             catch (Exception e)
             {
-                throw new CargoException("Error when retrieving resource ref mapping!", e);
+                throw new CargoException(
+                    "Error when retrieving resource ref mapping for [" + deployable + "]!", e);
             }
         }
 

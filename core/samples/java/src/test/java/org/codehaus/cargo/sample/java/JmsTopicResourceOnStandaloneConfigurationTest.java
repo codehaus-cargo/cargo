@@ -58,13 +58,6 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // Jakarta EE versions of WildFly cannot deploy JMS topic resources
-        if (containerId.startsWith("wildfly")
-            && EnvironmentTestData.jakartaEeContainers.contains(containerId))
-        {
-            return false;
-        }
-
         // Resin cannot deploy JMS queue resources
         if (containerId.startsWith("resin"))
         {
@@ -73,6 +66,19 @@ public class JmsTopicResourceOnStandaloneConfigurationTest extends
 
         // Tomcat cannot deploy JMS queue resources (only TomEE can)
         if (containerId.startsWith("tomcat"))
+        {
+            return false;
+        }
+
+        // WebSphere cannot deploy JMS queue resources
+        if (containerId.startsWith("websphere"))
+        {
+            return false;
+        }
+
+        // Jakarta EE versions of WildFly cannot deploy JMS topic resources
+        if (containerId.startsWith("wildfly")
+            && EnvironmentTestData.jakartaEeContainers.contains(containerId))
         {
             return false;
         }

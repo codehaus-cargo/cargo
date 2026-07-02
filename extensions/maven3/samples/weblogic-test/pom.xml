@@ -155,6 +155,46 @@
           </plugin>
         </plugins>
       </build>
+
+    <!-- WebLogic 15.x -->
+    <profile>
+      <id>weblogic15x</id>
+      <activation>
+        <property>
+          <name>cargo.weblogic15x.home</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <configuration>
+              <skip>false</skip>
+              <container>
+                <containerId>weblogic15x</containerId>
+                <home>${cargo.weblogic15x.home}</home>
+              </container>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>surefire-it</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skip>false</skip>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
