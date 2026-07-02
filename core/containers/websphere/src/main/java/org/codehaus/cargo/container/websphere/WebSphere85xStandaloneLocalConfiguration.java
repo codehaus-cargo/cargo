@@ -261,7 +261,7 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
         // portdef.props is taken from websphere85x container resources
         // as it seems to be compatible with later releases
         // portdef.props doesn't have any tokens to replace
-        getResourceUtils().copyResource(RESOURCE_PATH + "websphere85x/portdef.props",
+        getResourceUtils().copyResource(RESOURCE_PATH + "websphere/portdef.props",
             portsFile, null, StandardCharsets.ISO_8859_1);
 
         try

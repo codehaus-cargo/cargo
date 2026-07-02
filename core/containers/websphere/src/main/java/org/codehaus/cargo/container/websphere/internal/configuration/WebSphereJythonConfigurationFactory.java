@@ -73,7 +73,7 @@ public class WebSphereJythonConfigurationFactory
      * Path to configuration script resources.
      */
     private static final String RESOURCE_PATH =
-            AbstractLocalConfiguration.RESOURCE_PATH + "websphere85x/commands/";
+            AbstractLocalConfiguration.RESOURCE_PATH + "websphere/commands/";
 
     /**
      * Container configuration.

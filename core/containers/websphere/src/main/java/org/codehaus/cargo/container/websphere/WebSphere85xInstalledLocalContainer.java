@@ -283,7 +283,7 @@ public class WebSphere85xInstalledLocalContainer extends AbstractInstalledLocalC
             // as it seems to be compatible with later releases
             // wsadminlib.py doesn't have any tokens to replace
             getResourceUtils().copyResource(
-                AbstractLocalConfiguration.RESOURCE_PATH + "websphere85x/wsadminlib.py",
+                AbstractLocalConfiguration.RESOURCE_PATH + "websphere/wsadminlib.py",
                     wsadminlibFile, null, StandardCharsets.ISO_8859_1);
             configurationScript.add(0, ((WebSphereConfiguration) getConfiguration()).
                     getFactory().importWsadminlibScript(wsadminlibFile.getAbsolutePath()));
