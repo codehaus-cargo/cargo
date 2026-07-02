@@ -258,11 +258,8 @@ public class WebSphere85xStandaloneLocalConfiguration extends AbstractStandalone
     private void createNewProfile() throws Exception
     {
         File portsFile = File.createTempFile("cargo-websphere-portdef-", ".properties");
-        // portdef.props is taken from websphere85x container resources
-        // as it seems to be compatible with later releases
-        // portdef.props doesn't have any tokens to replace
         getResourceUtils().copyResource(RESOURCE_PATH + "websphere/portdef.props",
-            portsFile, null, StandardCharsets.ISO_8859_1);
+            portsFile, getReplacements(), StandardCharsets.ISO_8859_1);
 
         try
         {
