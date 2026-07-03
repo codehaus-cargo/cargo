@@ -93,7 +93,7 @@ public class WebLogicTest
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/datasource-war/test");
-        final String expected = "Got connection!";
+        final String expected = "Got DataSource connection!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
@@ -107,7 +107,7 @@ public class WebLogicTest
     {
         final URL url = new URL("http://localhost:" + System.getProperty("http.port")
             + "/jms-queue-war/test");
-        final String expected = "Got queue!";
+        final String expected = "Got JMS queue!";
 
         PingUtils.assertPingTrue(url.getPath() + " not started", expected, url, logger);
     }
