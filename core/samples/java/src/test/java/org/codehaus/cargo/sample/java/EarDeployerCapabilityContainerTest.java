@@ -59,11 +59,14 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             return false;
         }
 
-        // We exclude containers that cannot hot deploy EARs
-        return this.isNotContained(containerId,
-            "liberty",
-            "tomee1x", "tomee7x", "tomee8x", "tomee9x", "tomee10x",
-            "weblogic122x", "weblogic14x", "weblogic15x");
+        // TomEE and WebLogic cannot hot deploy EARs
+        if (containerId.startsWith("tomee") || containerId.startsWith("weblogic"))
+        {
+            return false;
+        }
+
+        // WebSphere Liberty cannot hot deploy EARs
+        return this.isNotContained(containerId, "liberty");
     }
 
     /**
