@@ -151,6 +151,14 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
             }
         }
 
+        if (resRefList.size() > 0)
+        {
+            arguments.append(",'-MapResEnvRefToRes','");
+            arguments.append(convertListToString(resRefList, ""));
+            arguments.append("'");
+            resRefList.clear();
+        }
+
         String bindingString = getConfiguration().
                 getPropertyValue(WebSpherePropertySet.EJB_TO_RES_REF_BINDING);
         List<List<String>> parsedBinding = ComplexPropertyUtils.parseProperty(bindingString);
