@@ -57,13 +57,14 @@ public class XADatasourceResourceOnStandaloneConfigurationTest extends
         }
 
         // JBoss 7.5.x, GlassFish 3.x, 4.x, 5.x, 6.x, 7.x, 8.x and 9.x, Payara, the WebLogic WSLT
-        // deployer and WildFly cannot deploy XA datasources as resource
+        // deployer, WebSphere and WildFly cannot deploy XA datasources as resource
         return this.isNotContained(containerId,
             "glassfish3x", "glassfish4x", "glassfish5x", "glassfish6x", "glassfish7x",
                 "glassfish8x", "glassfish9x",
             "jboss75x",
             "payara",
             "weblogic121x", "weblogic122x", "weblogic14x", "weblogic15x",
+            "websphere85x", "websphere9x",
             "wildfly8x", "wildfly9x", "wildfly10x", "wildfly11x", "wildfly12x", "wildfly13x",
                 "wildfly14x", "wildfly15x", "wildfly16x", "wildfly17x", "wildfly18x", "wildfly19x",
                 "wildfly20x", "wildfly21x", "wildfly22x", "wildfly23x", "wildfly24x", "wildfly25x",
