@@ -107,14 +107,26 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                 List<Element> resources = webXml.getElements(WebXmlType.RESOURCE_REF);
                 for (Element resource : resources)
                 {
-                    String resRefName = resource.getChildText(WebXmlType.RES_REF_NAME);
+                    // Ugly loop instead of getChildText due to XML namespace weirdness
+                    String resRefName = null;
+                    String resType = null;
+                    for (Element child : resource.getChildren())
+                    {
+                        if (WebXmlType.RES_REF_NAME.equals(child.getName()))
+                        {
+                            resRefName = child.getTextTrim();
+                        }
+                        else if (WebXmlType.RES_TYPE.equals(child.getName()))
+                        {
+                            resType = child.getTextTrim();
+                        }
+                    }
                     if (resRefName == null)
                     {
                         throw new IllegalArgumentException(
                             "Child [" + WebXmlType.RES_REF_NAME + "] of ["
                                 + WebXmlType.RESOURCE_REF + "] doesn't exist in web.xml");
                     }
-                    String resType = resource.getChildText(WebXmlType.RES_TYPE);
                     if (resType == null)
                     {
                         throw new IllegalArgumentException(
