@@ -141,7 +141,6 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                         deployable.getFile().replace('\\', '/')) + ",WEB-INF/web.xml");
                     entryList.add(resRefName);
                     entryList.add(resType);
-                    entryList.add(resRefName);
                     resRefList.add(convertListToString(entryList, " "));
                 }
             }
@@ -157,8 +156,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
             arguments.append(",'-MapResEnvRefToRes','");
             arguments.append(convertListToString(resRefList, ""));
             arguments.append("'");
-
-            resRefList = new ArrayList<String>();
+            resRefList.clear();
         }
 
         String bindingString = getConfiguration().
@@ -313,7 +311,13 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
     private void addApplicationName(StringBuilder arguments)
     {
         arguments.append("'-appname','");
-        arguments.append(deployable.getName().replace('/', '_'));
+        String appname = deployable.getName().trim();
+        appname = appname.replaceAll("[^a-zA-Z0-9-_]", "_");
+        if (appname.length() < 1)
+        {
+            appname = "ROOT";
+        }
+        arguments.append(appname);
         arguments.append("'");
     }
 
