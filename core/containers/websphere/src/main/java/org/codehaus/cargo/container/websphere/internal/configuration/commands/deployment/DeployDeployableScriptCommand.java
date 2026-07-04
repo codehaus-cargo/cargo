@@ -141,6 +141,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                         deployable.getFile().replace('\\', '/')) + ",WEB-INF/web.xml");
                     entryList.add(resRefName);
                     entryList.add(resType);
+                    entryList.add(resRefName);
                     resRefList.add(convertListToString(entryList, " "));
                 }
             }
@@ -156,7 +157,8 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
             arguments.append(",'-MapResEnvRefToRes','");
             arguments.append(convertListToString(resRefList, ""));
             arguments.append("'");
-            resRefList.clear();
+
+            resRefList = new ArrayList<String>();
         }
 
         String bindingString = getConfiguration().
