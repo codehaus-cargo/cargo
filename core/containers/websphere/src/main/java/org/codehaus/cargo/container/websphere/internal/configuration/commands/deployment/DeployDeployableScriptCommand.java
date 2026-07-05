@@ -136,11 +136,15 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
 
                     List<String> entryList = new ArrayList<String>();
                     entryList.add(fileHandler.getName(deployable.getFile().replace('\\', '/')));
-                    entryList.add(".*");
+                    // null because this is NOT for EJB
+                    entryList.add(null);
                     entryList.add(fileHandler.getName(
                         deployable.getFile().replace('\\', '/')) + ",WEB-INF/web.xml");
+                    // referenceBinding, i.e. name in WAR
                     entryList.add(resRefName);
                     entryList.add(resType);
+                    // JNDI (hence the "repeat" of resRefName)
+                    entryList.add(resRefName);
                     resRefList.add(convertListToString(entryList, " "));
                 }
             }
