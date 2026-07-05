@@ -63,7 +63,7 @@ public class DeployDeployableOnlineScriptCommand extends AbstractResourceScriptC
     @Override
     protected void addConfigurationScriptProperties(Map<String, String> propertiesMap)
     {
-        propertiesMap.put("cargo.deployable.id", deployable.getName());
+        propertiesMap.put("cargo.deployable.id", escapeDeployableName(deployable.getName()));
 
         FileHandler fileHandler = ((AbstractDeployable) deployable).getFileHandler();
         String path = deployable.getFile();

@@ -58,4 +58,44 @@ public abstract class AbstractScriptCommand implements ScriptCommand
     {
         return configuration;
     }
+
+    /**
+     * Removes all special characters from a deployable name, to make a "safe" identifier.
+     * 
+     * @param name Deployable name.
+     * @return "Safe" version of the deployable name, where:
+     * <ul>
+     * <li>Empty or <code>null</code> names are rewritten as <code>ROOT</code></li>
+     * <li>Else, from yhe name, everything outside the base alphabet, numbers, <code>-</code> and
+     * <code>_</code> are changed into <code>_</code>.</li>
+     * </ul>
+     */
+    protected String escapeDeployableName(String name)
+    {
+        if (name == null)
+        {
+            return "ROOT";
+        }
+        else
+        {
+            String escapedName = name.replace('\\', '/');
+            while (escapedName.startsWith("/") || escapedName.startsWith(" "))
+            {
+                escapedName = escapedName.substring(1);
+            }
+            while (escapedName.endsWith("/") || escapedName.endsWith(" "))
+            {
+                escapedName = escapedName.substring(0, escapedName.length() - 1);
+            }
+            if (escapedName.length() < 1)
+            {
+                return "ROOT";
+            }
+            else
+            {
+                escapedName = escapedName.replaceAll("[^a-zA-Z0-9-_]", "_");
+                return escapedName;
+            }
+        }
+    }
 }

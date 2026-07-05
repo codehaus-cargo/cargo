@@ -79,7 +79,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
         // doesn't become a TAB character in the middle of the file name
         propertiesMap.put("cargo.deployable.path.absolute",
             deployable.getFile().replace('\\', '/'));
-        propertiesMap.put("cargo.deployable.id", deployable.getName());
+        propertiesMap.put("cargo.deployable.id", escapeDeployableName(deployable.getName()));
 
         StringBuilder additionalArguments = new StringBuilder();
         addApplicationName(additionalArguments);
@@ -172,7 +172,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                 String ejbResourceName = bindingItem.get(2);
                 String jndiName = bindingItem.get(3);
 
-                if (deployableName.equals(deployable.getName()))
+                if (deployableName.equals(escapeDeployableName(deployable.getName())))
                 {
                     // find resource with name passed as argument
                     for (Resource resource : ((LocalConfiguration) getConfiguration()).
@@ -227,7 +227,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                 String ejbName = bindingItem.get(1);
                 String queueJndiName = bindingItem.get(2);
 
-                if (deployableName.equals(deployable.getName()))
+                if (deployableName.equals(escapeDeployableName(deployable.getName())))
                 {
                     // find resource with name passed as argument
                     for (Resource resource : ((LocalConfiguration) getConfiguration()).
@@ -311,13 +311,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
     private void addApplicationName(StringBuilder arguments)
     {
         arguments.append("'-appname','");
-        String appname = deployable.getName().trim();
-        appname = appname.replaceAll("[^a-zA-Z0-9-_]", "_");
-        if (appname.length() < 1)
-        {
-            appname = "ROOT";
-        }
-        arguments.append(appname);
+        arguments.append(escapeDeployableName(deployable.getName()));
         arguments.append("'");
     }
 
