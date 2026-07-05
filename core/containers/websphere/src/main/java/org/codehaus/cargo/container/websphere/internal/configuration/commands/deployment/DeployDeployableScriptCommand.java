@@ -328,7 +328,12 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
         if (deployable instanceof WAR)
         {
             arguments.append(",'-contextroot','");
-            arguments.append(((WAR) deployable).getContext());
+            String context = ((WAR) deployable).getContext();
+            if (context == null || context.trim().length() < 1)
+            {
+                context = "/";
+            }
+            arguments.append(context);
             arguments.append("'");
         }
     }
