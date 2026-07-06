@@ -77,9 +77,6 @@ public abstract class AbstractResourceScriptCommand extends AbstractScriptComman
         addConfigurationScriptProperties(replacements);
 
         String resourceName = resourcePath + getScriptRelativePath();
-        getConfiguration().getLogger().debug(
-            "Executing script [" + resourceName + "] with replacements: " + replacements,
-                this.getClass().getName());
         try
         {
             return resourceUtils.readResource(
