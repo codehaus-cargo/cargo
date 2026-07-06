@@ -147,7 +147,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                     entryList.add(resRefName);
                     // Empty because login configuration and properties
                     entryList.add("''");
-                    entryList.add("''"); 
+                    entryList.add("''");
                     resRefList.add(convertListToString(entryList, " "));
                 }
             }
