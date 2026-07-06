@@ -136,11 +136,18 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
 
                     List<String> entryList = new ArrayList<String>();
                     entryList.add(fileHandler.getName(deployable.getFile().replace('\\', '/')));
-                    entryList.add(".*");
+                    // Empty because this is NOT for EJB
+                    entryList.add("''");
                     entryList.add(fileHandler.getName(
                         deployable.getFile().replace('\\', '/')) + ",WEB-INF/web.xml");
+                    // referenceBinding, i.e. name in WAR
                     entryList.add(resRefName);
                     entryList.add(resType);
+                    // JNDI (hence the "repeat" of resRefName)
+                    entryList.add(resRefName);
+                    // Empty because login configuration and properties
+                    entryList.add("''");
+                    entryList.add("''"); 
                     resRefList.add(convertListToString(entryList, " "));
                 }
             }
@@ -149,14 +156,6 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                 throw new CargoException(
                     "Error when retrieving resource ref mapping for [" + deployable + "]!", e);
             }
-        }
-
-        if (resRefList.size() > 0)
-        {
-            arguments.append(",'-MapResEnvRefToRes','");
-            arguments.append(convertListToString(resRefList, ""));
-            arguments.append("'");
-            resRefList.clear();
         }
 
         String bindingString = getConfiguration().
@@ -324,7 +323,12 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
         if (deployable instanceof WAR)
         {
             arguments.append(",'-contextroot','");
-            arguments.append(((WAR) deployable).getContext());
+            String context = ((WAR) deployable).getContext();
+            if (context == null || context.trim().length() < 1)
+            {
+                context = "/";
+            }
+            arguments.append(context);
             arguments.append("'");
         }
     }
