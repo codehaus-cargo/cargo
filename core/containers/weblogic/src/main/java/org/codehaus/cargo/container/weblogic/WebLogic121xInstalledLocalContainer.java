@@ -40,6 +40,7 @@ import org.codehaus.cargo.container.weblogic.internal.ConsoleUrlWebLogicMonitor;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Special container support for the Bea WebLogic 12.1.3 application server. Contains WLST support.
@@ -300,7 +301,7 @@ public class WebLogic121xInstalledLocalContainer extends
                     try
                     {
                         String detail = getFileHandler().readTextFile(
-                            scriptOutput.getPath(), StandardCharsets.UTF_8);
+                            scriptOutput.getAbsolutePath(), StandardCharsets.UTF_8);
                         message.append(", detailed message: ");
                         message.append(detail);
                     }
@@ -309,10 +310,28 @@ public class WebLogic121xInstalledLocalContainer extends
                         // If reading the detailed message failed, throw the initial exception
                         throw e;
                     }
-                    throw new ContainerException(message.toString());
+                    throw new ContainerException(message.toString(), e);
                 }
                 finally
                 {
+                    if (LogLevel.DEBUG.equals(getLogger().getLevel()))
+                    {
+                        try
+                        {
+                            String output =
+                                getFileHandler().readTextFile(scriptOutput.getAbsolutePath(),
+                                    StandardCharsets.UTF_8);
+                            getLogger().debug(
+                                "Output from [" + scriptOutput + "]:\n" + output,
+                                    this.getClass().getName());
+                        }
+                        catch (Exception e)
+                        {
+                            getLogger().warn(
+                                "Reading output from [" + scriptOutput + "] failed: " + e,
+                                   this.getClass().getName());
+                        }
+                    }
                     scriptOutput.delete();
                 }
             }
