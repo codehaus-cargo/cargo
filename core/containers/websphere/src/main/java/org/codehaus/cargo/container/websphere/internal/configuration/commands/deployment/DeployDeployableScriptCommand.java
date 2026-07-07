@@ -143,6 +143,7 @@ public class DeployDeployableScriptCommand extends AbstractResourceScriptCommand
                     entryList.add(resRefName);
                     entryList.add(resType);
                     entryList.add(resRefName);
+                    resRefList.add(convertListToString(entryList, " "));
                 }
             }
             catch (Exception e)
