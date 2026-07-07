@@ -62,12 +62,13 @@ public class XATransactionDataSourceOnStandaloneConfigurationTest extends
             return false;
         }
 
-        // We exclude GlassFish 7.x, 8.x and 9.x as well as WebLogic 12.x, 12.1.x, 12.2.x, 14.x
-        // and 15.x as these don't support XA transaction emulation the way Codehaus Cargo tests it
-        // (using an old version of Spring)
+        // We exclude GlassFish 7.x, 8.x and 9.x, WebLogic 12.x, 12.1.x, 12.2.x, 14.x and 15.x
+        // as well as WebSphere 8.5.x and 9.x as these don't support XA transaction emulation
+        // the way Codehaus Cargo tests it (using an old version of Spring)
         return this.isNotContained(containerId,
             "glassfish7x", "glassfish8x", "glassfish9x",
-            "weblogic12x", "weblogic121x", "weblogic122x", "weblogic14x", "weblogic15x");
+            "weblogic12x", "weblogic121x", "weblogic122x", "weblogic14x", "weblogic15x",
+            "websphere85x", "websphere9x");
     }
 
     /**

@@ -47,7 +47,6 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         this.addValidator(new HasLocalDeployerValidator());
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -59,8 +58,9 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
             return false;
         }
 
-        // TomEE and WebLogic cannot hot deploy EARs
-        if (containerId.startsWith("tomee") || containerId.startsWith("weblogic"))
+        // TomEE, WebLogic and WebSphere cannot hot deploy EARs
+        if (containerId.startsWith("tomee") || containerId.startsWith("weblogic") ||
+            containerId.startsWith("websphere"))
         {
             return false;
         }

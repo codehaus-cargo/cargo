@@ -19,6 +19,7 @@
  */
 package org.codehaus.cargo.sample.java;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 
 import org.codehaus.cargo.container.ContainerType;
@@ -44,6 +45,23 @@ public class WarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
     {
         this.addValidator(new HasWarSupportValidator());
         this.addValidator(new HasLocalDeployerValidator());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    {
+        // WebSphere cannot hot deploy WARs
+        if (containerId.startsWith("websphere"))
+        {
+            return false;
+        }
+        else
+        {
+            return super.isSupported(containerId, containerType, testMethod);
+        }
     }
 
     /**
