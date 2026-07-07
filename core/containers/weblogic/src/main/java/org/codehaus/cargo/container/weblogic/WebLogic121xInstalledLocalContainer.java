@@ -321,13 +321,13 @@ public class WebLogic121xInstalledLocalContainer extends
                             String output =
                                 getFileHandler().readTextFile(scriptOutput.getAbsoluteName(),
                                     StandardCharsets.UTF_8);
-                            Logger.debug(
+                            getLogger().debug(
                                 "Output from [" + scriptOutput + "]:\n" + output,
                                     this.getClass().getName());
                         }
                         catch (Exception e)
                         {
-                            Logger.warn(
+                            getLogger().warn(
                                 "Reading output from [" + scriptOutput + "] failed: " + e,
                                    this.getClass().getName());
                         }
