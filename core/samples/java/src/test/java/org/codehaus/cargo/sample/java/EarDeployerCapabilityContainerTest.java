@@ -59,8 +59,8 @@ public class EarDeployerCapabilityContainerTest extends AbstractStandaloneLocalC
         }
 
         // TomEE, WebLogic and WebSphere cannot hot deploy EARs
-        if (containerId.startsWith("tomee") || containerId.startsWith("weblogic") ||
-            containerId.startsWith("websphere"))
+        if (containerId.startsWith("tomee") || containerId.startsWith("weblogic")
+            || containerId.startsWith("websphere"))
         {
             return false;
         }
