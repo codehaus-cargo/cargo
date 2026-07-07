@@ -40,6 +40,7 @@ import org.codehaus.cargo.container.weblogic.internal.ConsoleUrlWebLogicMonitor;
 import org.codehaus.cargo.container.weblogic.internal.WebLogicLocalScriptingContainer;
 import org.codehaus.cargo.util.CargoException;
 import org.codehaus.cargo.util.FileHandler;
+import org.codehaus.cargo.util.log.LogLevel;
 
 /**
  * Special container support for the Bea WebLogic 12.1.3 application server. Contains WLST support.
@@ -313,6 +314,23 @@ public class WebLogic121xInstalledLocalContainer extends
                 }
                 finally
                 {
+                    if (LogLevel.DEBUG.equals(getLogger().getLevel())
+                    {
+                        try
+                        {
+                            String output =
+                                getFileHandler().readTextFile(scriptOutput.getAbsoluteName());
+                            Logger.debug(
+                                "Output from [" + scriptOutput + "]:\n" + output,
+                                    this.getClass().getName();
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.warn(
+                                "Reading output from [" + scriptOutput + "] failed: " + e,
+                                   this.getClass().getName();
+                        }
+                    }
                     scriptOutput.delete();
                 }
             }
