@@ -301,7 +301,7 @@ public class WebLogic121xInstalledLocalContainer extends
                     try
                     {
                         String detail = getFileHandler().readTextFile(
-                            scriptOutput.getPath(), StandardCharsets.UTF_8);
+                            scriptOutput.getAbsolutePath(), StandardCharsets.UTF_8);
                         message.append(", detailed message: ");
                         message.append(detail);
                     }
@@ -319,7 +319,7 @@ public class WebLogic121xInstalledLocalContainer extends
                         try
                         {
                             String output =
-                                getFileHandler().readTextFile(scriptOutput.getAbsoluteName(),
+                                getFileHandler().readTextFile(scriptOutput.getAbsolutePath(),
                                     StandardCharsets.UTF_8);
                             getLogger().debug(
                                 "Output from [" + scriptOutput + "]:\n" + output,
