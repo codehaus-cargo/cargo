@@ -314,7 +314,7 @@ public class WebLogic121xInstalledLocalContainer extends
                 }
                 finally
                 {
-                    if (LogLevel.DEBUG.equals(getLogger().getLevel())
+                    if (LogLevel.DEBUG.equals(getLogger().getLevel()))
                     {
                         try
                         {
