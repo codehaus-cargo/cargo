@@ -310,7 +310,7 @@ public class WebLogic121xInstalledLocalContainer extends
                         // If reading the detailed message failed, throw the initial exception
                         throw e;
                     }
-                    throw new ContainerException(message.toString());
+                    throw new ContainerException(message.toString(), e);
                 }
                 finally
                 {
@@ -319,16 +319,17 @@ public class WebLogic121xInstalledLocalContainer extends
                         try
                         {
                             String output =
-                                getFileHandler().readTextFile(scriptOutput.getAbsoluteName());
+                                getFileHandler().readTextFile(scriptOutput.getAbsoluteName(),
+                                    StandardCharsets.UTF_8);
                             Logger.debug(
                                 "Output from [" + scriptOutput + "]:\n" + output,
-                                    this.getClass().getName();
+                                    this.getClass().getName());
                         }
                         catch (Exception e)
                         {
                             Logger.warn(
                                 "Reading output from [" + scriptOutput + "] failed: " + e,
-                                   this.getClass().getName();
+                                   this.getClass().getName());
                         }
                     }
                     scriptOutput.delete();
