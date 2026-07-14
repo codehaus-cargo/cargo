@@ -26,6 +26,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import junit.framework.Assert;
+
 /**
  * Unit tests for {@link DefaultFileHandler}.
  */
@@ -205,4 +207,30 @@ public class DefaultFileHandlerTest
         Assertions.assertTrue(read.contains(test), "File " + file + " does not contain: " + test);
     }
 
+    /**
+     * Test the name validator.
+     */
+    @Test
+    public void testValidateName()
+    {
+        DefaultFileHandler.validateName("test", "aBc-1.9_XyZ", 12);
+        try
+        {
+            DefaultFileHandler.validateName("test", "aBc-1.9_XyZ", 5);
+            Assert.fail("Didn't catch length");
+        }
+        catch (IllegalArgumentException expected)
+        {
+            Assert.assertTrue(expected.getMessage().contains("length"));
+        }
+        try
+        {
+            DefaultFileHandler.validateName("test", "|", 10);
+            Assert.fail("Didn't catch |");
+        }
+        catch (IllegalArgumentException expected)
+        {
+            Assert.assertTrue(expected.getMessage().contains("Invalid character"));
+        }
+    }
 }

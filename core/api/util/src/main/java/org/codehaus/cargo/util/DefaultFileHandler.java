@@ -132,6 +132,52 @@ public class DefaultFileHandler extends LoggedObject implements FileHandler
     }
 
     /**
+     * Validates a file/folder name.
+     * Throws an exception on the very first illegal character or length violation.
+     * @param context Context (variable name) to mention in the message when the input is invalid.
+     * @param input The user-provided file or folder name. <code>null</code> is acceptable.
+     * @param maxLength The maximum allowed character length.
+     * @throws IllegalArgumentException If the input is invalid.
+     */
+    public static void validateName(String context, String input, int maxLength)
+    {
+        if (input != null)
+        {
+            int length = input.length();
+
+            if (length > maxLength)
+            {
+                throw new IllegalArgumentException(
+                    context + " length (" + length + ") exceeds the maximum allowed limit of "
+                        + maxLength + " characters.");
+            }
+
+            int i = 0;
+            while (i < length)
+            {
+                int codePoint = input.codePointAt(i);
+                boolean isAllowed = "._-() ".indexOf(codePoint) >= 0
+                    || codePoint >= 'a' && codePoint <= 'z'
+                    || codePoint >= 'A' && codePoint <= 'Z'
+                    || codePoint >= '0' && codePoint <= '9';
+
+                if (!isAllowed)
+                {
+                    String blockedChar = Character.isISOControl(codePoint)
+                        ? String.format("\\u%04X", codePoint)
+                        : new String(Character.toChars(codePoint));
+
+                    throw new IllegalArgumentException(
+                        "Invalid character in " + context + ": [" + blockedChar
+                            + "] found at index " + i + ". Only alphanumeric characters, "
+                                + "underscores, hyphens, dots, brackets and spaces are allowed.");
+                }
+                i += Character.charCount(codePoint);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

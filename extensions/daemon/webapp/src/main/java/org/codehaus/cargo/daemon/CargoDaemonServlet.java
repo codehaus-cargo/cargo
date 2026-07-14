@@ -69,6 +69,7 @@ import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 import org.codehaus.cargo.generic.deployable.DefaultDeployableFactory;
 import org.codehaus.cargo.generic.deployable.DeployableFactory;
 import org.codehaus.cargo.uberjar.Uberjar;
+import org.codehaus.cargo.util.DefaultFileHandler;
 import org.codehaus.cargo.util.XmlReplacement;
 import org.codehaus.cargo.util.log.FileLogger;
 import org.codehaus.cargo.util.log.LogLevel;
@@ -314,6 +315,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 try
                 {
                     String handleId = request.getParameter("handleId");
+                    DefaultFileHandler.validateName("Handle id", handleId, 32);
                     String containerId = request.getParameter("containerId");
                     if (handleId != null && containerId == null)
                     {
@@ -359,6 +361,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 {
                     boolean delete = Boolean.parseBoolean(request.getParameter("deleteContainer"));
                     String handleId = request.getParameter("handleId");
+                    DefaultFileHandler.validateName("Handle id", handleId, 32);
 
                     Handle handle = handles.get(handleId);
 
@@ -399,6 +402,7 @@ public class CargoDaemonServlet extends HttpServlet implements Runnable
                 try
                 {
                     String handleId = request.getParameter("handleId");
+                    DefaultFileHandler.validateName("Handle id", handleId, 32);
                     Long offset = getLong(request.getParameter("offset"));
                     Handle handle = handles.get(handleId);
                     String logFilePath = null;
