@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.codehaus.cargo.daemon.HandleDatabase;
@@ -321,7 +323,7 @@ public class FileManager
      */
     public String saveFile(String relativeFile, InputStream inputStream) throws IOException
     {
-        String file = fileHandler.append(getWorkspaceDirectory(), relativeFile);
+        String file = resolveSafePath(getWorkspaceDirectory(), relativeFile);
 
         try (OutputStream outputStream = fileHandler.getOutputStream(file))
         {
@@ -347,7 +349,7 @@ public class FileManager
     public String saveFile(String handleId, String relativeFile, InputStream inputStream)
         throws IOException
     {
-        String file = fileHandler.append(getWorkspaceDirectory(handleId), relativeFile);
+        String file = resolveSafePath(getWorkspaceDirectory(handleId), relativeFile);
 
         try (OutputStream outputStream = fileHandler.getOutputStream(file))
         {
@@ -359,6 +361,37 @@ public class FileManager
         }
 
         return file;
+    }
+
+    /**
+     * Resolves a user-provided relative path against a workspace directory and ensures that the
+     * resolved path stays within that workspace.
+     *
+     * @param workspaceDirectory The workspace directory.
+     * @param relativeFile The user-provided relative file path.
+     * @return The normalized safe file path.
+     */
+    private String resolveSafePath(String workspaceDirectory, String relativeFile)
+    {
+        if (relativeFile == null || relativeFile.trim().isEmpty())
+        {
+            throw new IllegalArgumentException("Invalid filename");
+        }
+
+        Path workspacePath = Paths.get(workspaceDirectory).toAbsolutePath().normalize();
+        Path relativePath = Paths.get(relativeFile);
+        if (relativePath.isAbsolute())
+        {
+            throw new IllegalArgumentException("Invalid filename");
+        }
+
+        Path resolvedPath = workspacePath.resolve(relativePath).normalize();
+        if (!resolvedPath.startsWith(workspacePath))
+        {
+            throw new IllegalArgumentException("Invalid filename");
+        }
+
+        return resolvedPath.toString();
     }
 
     /**
