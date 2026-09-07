@@ -19,9 +19,8 @@
  */
 package org.codehaus.cargo.container.configuration.script;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import junit.framework.Assert;
 
 /**
  * Tests {@link AbstractScriptCommand} implementation.
@@ -52,19 +51,19 @@ public class ScriptCommandTest extends AbstractScriptCommand
     @Test
     public void testEscapeDeployableName()
     {
-        Assert.assertEquals("ROOT", escapeDeployableName(null));
-        Assert.assertEquals("ROOT", escapeDeployableName(""));
-        Assert.assertEquals("ROOT", escapeDeployableName(" "));
-        Assert.assertEquals("ROOT", escapeDeployableName("/"));
-        Assert.assertEquals("ROOT", escapeDeployableName("\\"));
-        Assert.assertEquals("ROOT", escapeDeployableName(" / \\  "));
+       Assertions.assertEquals("ROOT", escapeDeployableName(null));
+       Assertions.assertEquals("ROOT", escapeDeployableName(""));
+       Assertions.assertEquals("ROOT", escapeDeployableName(" "));
+       Assertions.assertEquals("ROOT", escapeDeployableName("/"));
+       Assertions.assertEquals("ROOT", escapeDeployableName("\\"));
+       Assertions.assertEquals("ROOT", escapeDeployableName(" / \\  "));
 
-        Assert.assertEquals("test", escapeDeployableName("/test"));
-        Assert.assertEquals("test", escapeDeployableName("test/"));
-        Assert.assertEquals("test", escapeDeployableName("\\test"));
-        Assert.assertEquals("test", escapeDeployableName("test\\"));
+       Assertions.assertEquals("test", escapeDeployableName("/test"));
+       Assertions.assertEquals("test", escapeDeployableName("test/"));
+       Assertions.assertEquals("test", escapeDeployableName("\\test"));
+       Assertions.assertEquals("test", escapeDeployableName("test\\"));
 
-        Assert.assertEquals("test_test", escapeDeployableName("/test/test"));
-        Assert.assertEquals("test-test_test", escapeDeployableName("test-test/test"));
+       Assertions.assertEquals("test_test", escapeDeployableName("/test/test"));
+       Assertions.assertEquals("test-test_test", escapeDeployableName("test-test/test"));
     }
 }
