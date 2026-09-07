@@ -59,7 +59,7 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param xml XML String.
      * @return Source object.
      */
-    private Source toSource(String xml)
+    private static Source toSource(String xml)
     {
         return new StreamSource(new StringReader(xml));
     }
