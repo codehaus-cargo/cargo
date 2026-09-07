@@ -19,20 +19,50 @@
  */
 package org.codehaus.cargo.container.orion.internal;
 
+import java.io.StringReader;
 import java.util.Iterator;
 import java.util.Properties;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+import org.junit.jupiter.api.Assertions;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Contains XML logic used to validate the XML output of an Orion DataSource configuration.
  */
 public class OrionConfigurationChecker implements ConfigurationChecker
 {
+
+    /**
+     * XPath engine.
+     */
+    private XPathEngine xpathEngine;
+
+    /**
+     * Creates the various XML test elements.
+     */
+    public OrionConfigurationChecker()
+    {
+        this.xpathEngine = new JAXPXPathEngine();
+    }
+
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    private Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
+    }
 
     /**
      * Get the id of a datasource fixture.
@@ -52,24 +82,25 @@ public class OrionConfigurationChecker implements ConfigurationChecker
      * @param name Datasource name.
      * @throws Exception If anything goes wrong.
      */
-    private static void validateDataSource(String configuration,
+    private void validateDataSource(String configuration,
         DataSourceFixture dataSourceFixture, String name) throws Exception
     {
         if (dataSourceFixture.url == null)
         {
-            XMLAssert.assertXpathNotExists("//data-source[@name='" + name + "']/@url",
-                configuration);
+            Assertions.assertFalse(
+                xpathEngine.selectNodes("//data-source[@name='" + name + "']/@url",
+                    toSource(configuration)).iterator().hasNext());
         }
         else
         {
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url, "//data-source[@name='"
-                + name + "']/@url", configuration);
+            Assertions.assertEquals(dataSourceFixture.url, xpathEngine.evaluate(
+                "//data-source[@name='" + name + "']/@url", toSource(configuration)));
         }
 
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.username, "//data-source[@name='"
-            + name + "']/@username", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, "//data-source[@name='"
-            + name + "']/@password", configuration);
+        Assertions.assertEquals(dataSourceFixture.username, xpathEngine.evaluate(
+            "//data-source[@name='" + name + "']/@username", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.password, xpathEngine.evaluate(
+            "//data-source[@name='" + name + "']/@password", toSource(configuration)));
 
         Properties driverProperties =
             dataSourceFixture.buildDataSource().getConnectionProperties();
@@ -80,13 +111,15 @@ public class OrionConfigurationChecker implements ConfigurationChecker
             while (i.hasNext())
             {
                 String propertyName = i.next().toString();
-                XMLAssert.assertXpathEvaluatesTo(driverProperties.getProperty(propertyName),
-                    "//data-source[@name='" + name + "']/property[@name='" + propertyName
-                        + "']/@value", configuration);
+                Assertions.assertEquals(driverProperties.getProperty(propertyName),
+                    xpathEngine.evaluate(
+                        "//data-source[@name='" + name
+                            + "']/property[@name='" + propertyName + "']/@value",
+                                toSource(configuration)));
             }
         }
-        XMLAssert.assertXpathEvaluatesTo("30", "//data-source[@name='" + name
-            + "']/@inactivity-timeout", configuration);
+        Assertions.assertEquals("30", xpathEngine.evaluate(
+            "//data-source[@name='" + name + "']/@inactivity-timeout", toSource(configuration)));
     }
 
     /**
@@ -104,29 +137,32 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         String providedDataSourceId = id + "Provided";
         String providedDataSourceJndiName = dataSourceFixture.jndiLocation + "Provided";
 
-        XMLAssert.assertXpathEvaluatesTo(className, "//data-source[@name='"
-            + providedDataSourceId + "']/@class", configuration);
-        XMLAssert.assertXpathEvaluatesTo(className, "//data-source[@name='"
-            + providedDataSourceId + "']/@connection-driver", configuration);
-        XMLAssert.assertXpathEvaluatesTo(providedDataSourceJndiName, "//data-source[@name='"
-            + providedDataSourceId + "']/@location", configuration);
+        Assertions.assertEquals(className, xpathEngine.evaluate(
+            "//data-source[@name='" + providedDataSourceId + "']/@class",
+                toSource(configuration)));
+        Assertions.assertEquals(className, xpathEngine.evaluate(
+            "//data-source[@name='" + providedDataSourceId + "']/@connection-driver",
+                toSource(configuration)));
+        Assertions.assertEquals(providedDataSourceJndiName, xpathEngine.evaluate(
+            "//data-source[@name='" + providedDataSourceId + "']/@location",
+                toSource(configuration)));
         validateDataSource(configuration, dataSourceFixture, providedDataSourceId);
 
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, "//data-source[@name='"
-            + id + "']/@location", configuration);
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@location", toSource(configuration)));
         if (dataSourceFixture.connectionType.equals(ConfigurationEntryType.XA_DATASOURCE))
         {
-            XMLAssert.assertXpathEvaluatesTo(providedDataSourceJndiName, "//data-source[@name='"
-                + id + "']/@xa-source-location", configuration);
-            XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.OrionCMTDataSource",
-                "//data-source[@name='" + id + "']/@class", configuration);
+            Assertions.assertEquals(providedDataSourceJndiName, xpathEngine.evaluate(
+                "//data-source[@name='" + id + "']/@xa-source-location", toSource(configuration)));
+            Assertions.assertEquals("com.evermind.sql.OrionCMTDataSource", xpathEngine.evaluate(
+                "//data-source[@name='" + id + "']/@class", toSource(configuration)));
         }
         else
         {
-            XMLAssert.assertXpathEvaluatesTo(providedDataSourceJndiName, "//data-source[@name='"
-                + id + "']/@source-location", configuration);
-            XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.OrionPooledDataSource",
-                "//data-source[@name='" + id + "']/@class", configuration);
+            Assertions.assertEquals(providedDataSourceJndiName, xpathEngine.evaluate(
+                "//data-source[@name='" + id + "']/@source-location", toSource(configuration)));
+            Assertions.assertEquals("com.evermind.sql.OrionPooledDataSource", xpathEngine.evaluate(
+                "//data-source[@name='" + id + "']/@class", toSource(configuration)));
         }
 
     }
@@ -142,13 +178,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
-        XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
-            "//data-source[@name='" + id + "']/@class", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, "//data-source[@name='"
-            + id + "']/@connection-driver", configuration);
 
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, "//data-source[@name='"
-            + id + "']/@ejb-location", configuration);
+        Assertions.assertEquals("com.evermind.sql.DriverManagerDataSource", xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@class", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.driverClass, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@connection-driver", toSource(configuration)));
+
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@ejb-location", toSource(configuration)));
 
         validateDataSource(configuration, dataSourceFixture, id);
     }
@@ -164,13 +201,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         DataSourceFixture dataSourceFixture) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
-        XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
-            "//data-source[@name='" + id + "']/@class", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, "//data-source[@name='"
-            + id + "']/@connection-driver", configuration);
 
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, "//data-source[@name='"
-            + id + "']/@location", configuration);
+        Assertions.assertEquals("com.evermind.sql.DriverManagerDataSource", xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@class", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.driverClass, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@connection-driver", toSource(configuration)));
+
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@location", toSource(configuration)));
 
         validateDataSource(configuration, dataSourceFixture, id);
     }
@@ -186,13 +224,14 @@ public class OrionConfigurationChecker implements ConfigurationChecker
         String configuration, DataSourceFixture dataSourceFixture) throws Exception
     {
         String id = getDataSourceId(dataSourceFixture);
-        XMLAssert.assertXpathEvaluatesTo("com.evermind.sql.DriverManagerDataSource",
-            "//data-source[@name='" + id + "']/@class", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, "//data-source[@name='"
-            + id + "']/@connection-driver", configuration);
 
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, "//data-source[@name='"
-            + id + "']/@xa-location", configuration);
+        Assertions.assertEquals("com.evermind.sql.DriverManagerDataSource", xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@class", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.driverClass, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@connection-driver", toSource(configuration)));
+
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+            "//data-source[@name='" + id + "']/@xa-location", toSource(configuration)));
 
         validateDataSource(configuration, dataSourceFixture, id);
     }
