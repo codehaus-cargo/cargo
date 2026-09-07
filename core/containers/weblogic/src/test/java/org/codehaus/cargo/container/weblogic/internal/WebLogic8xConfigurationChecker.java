@@ -20,6 +20,7 @@
 package org.codehaus.cargo.container.weblogic.internal;
 
 import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -90,7 +91,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToConnectionPool
             + "/@DriverName", configuration);
 
-        Assert.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
+       Assertions.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
         XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, pathToConnectionPool
             + "/@Password", configuration);
         XMLAssert.assertXpathEvaluatesTo("server", pathToConnectionPool + "/@Targets",
