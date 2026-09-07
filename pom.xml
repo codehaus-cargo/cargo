@@ -1140,6 +1140,11 @@
       </dependency>
       <dependency>
         <groupId>org.xmlunit</groupId>
+        <artifactId>xmlunit-core</artifactId>
+        <version>2.13.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xmlunit</groupId>
         <artifactId>xmlunit-legacy</artifactId>
         <version>2.13.0</version>
         <exclusions>

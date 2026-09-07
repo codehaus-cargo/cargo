@@ -30,13 +30,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xmlunit</groupId>
-      <artifactId>xmlunit-legacy</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <artifactId>xmlunit-core</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
