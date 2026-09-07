@@ -21,8 +21,6 @@ package org.codehaus.cargo.container.configuration.script;
 
 import org.junit.jupiter.api.Test;
 
-import junit.framework.Assert;
-
 /**
  * Tests {@link AbstractScriptCommand} implementation.
  */
