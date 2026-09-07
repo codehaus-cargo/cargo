@@ -26,8 +26,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import junit.framework.Assert;
-
 /**
  * Unit tests for {@link DefaultFileHandler}.
  */
