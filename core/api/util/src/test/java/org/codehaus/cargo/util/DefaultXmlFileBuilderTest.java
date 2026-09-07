@@ -19,24 +19,25 @@
  */
 package org.codehaus.cargo.util;
 
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 /**
  * Unit tests for {@link XmlFileBuilder}.
@@ -79,6 +80,11 @@ public class DefaultXmlFileBuilderTest
     private Map<String, String> namespaces;
 
     /**
+     * XPath engine.
+     */
+    private XPathEngine xpathEngine;
+
+    /**
      * Creates the various XML test elements.
      * @throws Exception If anything goes wrong.
      */
@@ -92,8 +98,8 @@ public class DefaultXmlFileBuilderTest
         manager = new DefaultXmlFileBuilder(fileHandler);
         namespaces = new HashMap<String, String>();
         namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
-        NamespaceContext ctx = new SimpleNamespaceContext(namespaces);
-        XMLUnit.setXpathNamespaceContext(ctx);
+        this.xpathEngine = new JAXPXPathEngine();
+        xpathEngine.setNamespaceContext(namespaces);
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         builder = domFactory.newDocumentBuilder();
     }
@@ -127,9 +133,10 @@ public class DefaultXmlFileBuilderTest
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//Application");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8);
-
-        XMLAssert.assertXpathEvaluatesTo("hello", "//Application/subnode/@property", xml);
+        Source xml = new StreamSource(new StringReader(
+            fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8)));
+        Assertions.assertEquals(
+            "hello", xpathEngine.evaluate("//Application/subnode/@property", xml));
     }
 
     /**
@@ -154,9 +161,10 @@ public class DefaultXmlFileBuilderTest
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//Application/foo/bar");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8);
-
-        XMLAssert.assertXpathEvaluatesTo("hello", "//Application/foo/bar/subnode/@property", xml);
+        Source xml = new StreamSource(new StringReader(
+            fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8)));
+        Assertions.assertEquals(
+            "hello", xpathEngine.evaluate("//Application/foo/bar/subnode/@property", xml));
     }
 
     /**
@@ -181,10 +189,10 @@ public class DefaultXmlFileBuilderTest
         manager.insertElementsUnderXPath("<subnode property='hello' />", "//weblogic:domain");
         manager.writeFile();
 
-        String xml = fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8);
-
-        XMLAssert.assertXpathEvaluatesTo("hello", "//weblogic:domain/weblogic:subnode/@property",
-            xml);
+        Source xml = new StreamSource(new StringReader(
+            fileHandler.readTextFile(TEST_FILE, StandardCharsets.UTF_8)));
+        Assertions.assertEquals(
+            "hello", xpathEngine.evaluate("//weblogic:domain/weblogic:subnode/@property", xml));
     }
 
 }
