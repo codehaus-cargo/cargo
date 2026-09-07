@@ -215,20 +215,20 @@ public class DefaultFileHandlerTest
         try
         {
             DefaultFileHandler.validateName("test", "aBc-1.9_XyZ", 5);
-            Assert.fail("Didn't catch length");
+            Assertions.fail("Didn't catch length");
         }
         catch (IllegalArgumentException expected)
         {
-            Assert.assertTrue(expected.getMessage().contains("length"));
+            Assertions.assertTrue(expected.getMessage().contains("length"));
         }
         try
         {
             DefaultFileHandler.validateName("test", "|", 10);
-            Assert.fail("Didn't catch |");
+            Assertions.fail("Didn't catch |");
         }
         catch (IllegalArgumentException expected)
         {
-            Assert.assertTrue(expected.getMessage().contains("Invalid character"));
+            Assertions.assertTrue(expected.getMessage().contains("Invalid character"));
         }
     }
 }
