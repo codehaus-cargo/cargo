@@ -51,19 +51,19 @@ public class ScriptCommandTest extends AbstractScriptCommand
     @Test
     public void testEscapeDeployableName()
     {
-       Assertions.assertEquals("ROOT", escapeDeployableName(null));
-       Assertions.assertEquals("ROOT", escapeDeployableName(""));
-       Assertions.assertEquals("ROOT", escapeDeployableName(" "));
-       Assertions.assertEquals("ROOT", escapeDeployableName("/"));
-       Assertions.assertEquals("ROOT", escapeDeployableName("\\"));
-       Assertions.assertEquals("ROOT", escapeDeployableName(" / \\  "));
+        Assertions.assertEquals("ROOT", escapeDeployableName(null));
+        Assertions.assertEquals("ROOT", escapeDeployableName(""));
+        Assertions.assertEquals("ROOT", escapeDeployableName(" "));
+        Assertions.assertEquals("ROOT", escapeDeployableName("/"));
+        Assertions.assertEquals("ROOT", escapeDeployableName("\\"));
+        Assertions.assertEquals("ROOT", escapeDeployableName(" / \\  "));
 
-       Assertions.assertEquals("test", escapeDeployableName("/test"));
-       Assertions.assertEquals("test", escapeDeployableName("test/"));
-       Assertions.assertEquals("test", escapeDeployableName("\\test"));
-       Assertions.assertEquals("test", escapeDeployableName("test\\"));
+        Assertions.assertEquals("test", escapeDeployableName("/test"));
+        Assertions.assertEquals("test", escapeDeployableName("test/"));
+        Assertions.assertEquals("test", escapeDeployableName("\\test"));
+        Assertions.assertEquals("test", escapeDeployableName("test\\"));
 
-       Assertions.assertEquals("test_test", escapeDeployableName("/test/test"));
-       Assertions.assertEquals("test-test_test", escapeDeployableName("test-test/test"));
+        Assertions.assertEquals("test_test", escapeDeployableName("/test/test"));
+        Assertions.assertEquals("test-test_test", escapeDeployableName("test-test/test"));
     }
 }
