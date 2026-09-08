@@ -41,6 +41,11 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
 {
 
     /**
+     * XPath engine.
+     */
+    protected XPathEngine xpathEngine;
+
+    /**
      * Server name.
      */
     private String serverName;
@@ -61,11 +66,6 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     private String pathToDataSource;
 
     /**
-     * XPath engine.
-     */
-    private XPathEngine xpathEngine;
-
-    /**
      * Saves the server name.
      * @param serverName Server name.
      */
@@ -80,7 +80,7 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
      * @param xml XML String.
      * @return Source object.
      */
-    private static Source toSource(String xml)
+    protected static Source toSource(String xml)
     {
         return new StreamSource(new StringReader(xml));
     }
