@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.weblogic;
 
 import java.nio.charset.StandardCharsets;
 
-import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -111,8 +110,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
-            "//Server/@ListenPort", config);
+        Assertions.assertEquals(configuration.getPropertyValue(ServletPropertySet.PORT),
+            xpathEngine.evaluate("//Server/@ListenPort", toSource(config)));
     }
 
     /**
@@ -126,7 +125,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("123", "//Server/@ListenPort", config);
+        Assertions.assertEquals("123", xpathEngine.evaluate(
+            "//Server/@ListenPort", toSource(config)));
     }
 
     /**
@@ -140,7 +140,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("my.war", "//WebAppComponent/@URI", config);
+        Assertions.assertEquals("my.war", xpathEngine.evaluate(
+            "//WebAppComponent/@URI", toSource(config)));
     }
 
     /**
@@ -153,8 +154,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(GeneralPropertySet.HOSTNAME), "//Server/@ListenAddress", config);
+        Assertions.assertEquals(configuration.getPropertyValue(GeneralPropertySet.HOSTNAME),
+            xpathEngine.evaluate("//Server/@ListenAddress", toSource(config)));
     }
 
     /**
@@ -168,7 +169,8 @@ public class WebLogic8xStandaloneLocalConfigurationTest extends
         configuration.configure(container);
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("localhost", "//Server/@ListenAddress", config);
+        Assertions.assertEquals("localhost", xpathEngine.evaluate(
+            "//Server/@ListenAddress", toSource(config)));
     }
 
     /**
