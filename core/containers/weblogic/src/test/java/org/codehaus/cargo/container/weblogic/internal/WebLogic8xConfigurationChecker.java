@@ -19,9 +19,14 @@
  */
 package org.codehaus.cargo.container.weblogic.internal;
 
-import org.custommonkey.xmlunit.XMLAssert;
+import java.io.StringReader;
 
-import junit.framework.Assert;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+import org.junit.jupiter.api.Assertions;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -34,6 +39,11 @@ import org.codehaus.cargo.container.property.DataSourceConverter;
  */
 public class WebLogic8xConfigurationChecker implements ConfigurationChecker
 {
+
+    /**
+     * XPath engine.
+     */
+    protected XPathEngine xpathEngine;
 
     /**
      * Server name.
@@ -62,6 +72,17 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     public WebLogic8xConfigurationChecker(String serverName)
     {
         this.serverName = serverName;
+        this.xpathEngine = new JAXPXPathEngine();
+    }
+
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    protected static Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
     }
 
     /**
@@ -86,25 +107,25 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     {
         if (dataSourceFixture.url != null)
         {
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url, pathToConnectionPool
-                + "/@URL", configuration);
+            Assertions.assertEquals(dataSourceFixture.url, xpathEngine.evaluate(
+                pathToConnectionPool + "/@URL", toSource(configuration)));
         }
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToConnectionPool
-            + "/@DriverName", configuration);
+        Assertions.assertEquals(dataSourceFixture.driverClass, xpathEngine.evaluate(
+                pathToConnectionPool + "/@DriverName", toSource(configuration)));
 
-        Assert.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, pathToConnectionPool
-            + "/@Password", configuration);
-        XMLAssert.assertXpathEvaluatesTo("server", pathToConnectionPool + "/@Targets",
-            configuration);
+        Assertions.assertTrue(configuration.contains("user=" + dataSourceFixture.username));
+        Assertions.assertEquals(dataSourceFixture.password, xpathEngine.evaluate(
+                pathToConnectionPool + "/@Password", toSource(configuration)));
+        Assertions.assertEquals("server", xpathEngine.evaluate(
+            pathToConnectionPool + "/@Targets", toSource(configuration)));
 
-        XMLAssert.assertXpathEvaluatesTo(serverName, pathToConnectionPool + "/@Targets",
-            configuration);
+        Assertions.assertEquals(serverName, xpathEngine.evaluate(
+            pathToConnectionPool + "/@Targets", toSource(configuration)));
         DataSource ds = dataSourceFixture.buildDataSource();
         ds.getConnectionProperties().setProperty("user", ds.getUsername());
-        XMLAssert.assertXpathEvaluatesTo(new DataSourceConverter()
-            .getConnectionPropertiesAsASemicolonDelimitedString(ds), pathToConnectionPool
-            + "/@Properties", configuration);
+        Assertions.assertEquals(new DataSourceConverter()
+            .getConnectionPropertiesAsASemicolonDelimitedString(ds), xpathEngine.evaluate(
+                pathToConnectionPool + "/@Properties", toSource(configuration)));
     }
 
     /**
@@ -116,15 +137,16 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     protected void checkTxDataSource(String configuration, DataSourceFixture dataSourceFixture)
         throws Exception
     {
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToTxDataSource
-            + "/@JNDIName", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToTxDataSource
-            + "/@PoolName", configuration);
-        XMLAssert.assertXpathEvaluatesTo(serverName, pathToTxDataSource + "/@Targets",
-            configuration);
-        XMLAssert.assertXpathEvaluatesTo("server", pathToTxDataSource + "/@Targets",
-            configuration);
-        XMLAssert.assertXpathNotExists("//JDBCDataSource", configuration);
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+                pathToTxDataSource + "/@JNDIName", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+                pathToTxDataSource + "/@PoolName", toSource(configuration)));
+        Assertions.assertEquals(serverName, xpathEngine.evaluate(
+            pathToTxDataSource + "/@Targets", toSource(configuration)));
+        Assertions.assertEquals("server", xpathEngine.evaluate(
+            pathToTxDataSource + "/@Targets", toSource(configuration)));
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//JDBCDataSource", toSource(configuration)).iterator().hasNext());
     }
 
     /**
@@ -136,17 +158,18 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
     protected void checkDataSource(String configuration, DataSourceFixture dataSourceFixture)
         throws Exception
     {
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
-            + "/@Name", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
-            + "/@JNDIName", configuration);
-        XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.jndiLocation, pathToDataSource
-            + "/@PoolName", configuration);
-        XMLAssert.assertXpathEvaluatesTo(serverName, pathToDataSource + "/@Targets",
-            configuration);
-        XMLAssert.assertXpathEvaluatesTo("server", pathToDataSource + "/@Targets",
-            configuration);
-        XMLAssert.assertXpathNotExists(pathToTxDataSource, configuration);
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+                pathToDataSource + "/@Name", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+                pathToDataSource + "/@JNDIName", toSource(configuration)));
+        Assertions.assertEquals(dataSourceFixture.jndiLocation, xpathEngine.evaluate(
+                pathToDataSource + "/@PoolName", toSource(configuration)));
+        Assertions.assertEquals(serverName, xpathEngine.evaluate(
+            pathToDataSource + "/@Targets", toSource(configuration)));
+        Assertions.assertEquals("server", xpathEngine.evaluate(
+            pathToDataSource + "/@Targets", toSource(configuration)));
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            pathToTxDataSource, toSource(configuration)).iterator().hasNext());
     }
 
     /**
@@ -192,8 +215,8 @@ public class WebLogic8xConfigurationChecker implements ConfigurationChecker
         init(dataSourceFixture.jndiLocation);
         checkConnectionPool(configuration, dataSourceFixture);
         checkTxDataSource(configuration, dataSourceFixture);
-        XMLAssert.assertXpathEvaluatesTo("true", pathToTxDataSource + "/@EnableTwoPhaseCommit",
-            configuration);
+        Assertions.assertEquals("true", xpathEngine.evaluate(
+            pathToTxDataSource + "/@EnableTwoPhaseCommit", toSource(configuration)));
     }
 
     /**

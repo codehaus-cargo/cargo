@@ -21,10 +21,10 @@ package org.codehaus.cargo.container.property;
 
 import java.util.Properties;
 
-import junit.framework.ComparisonFailure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSource;
@@ -202,7 +202,7 @@ public class DataSourceConverterTest
             Assertions.assertEquals(propertyString, dataSourceConverter
                 .getConnectionPropertiesAsASemicolonDelimitedString(ds));
         }
-        catch (ComparisonFailure e)
+        catch (AssertionFailedError e)
         {
             Assertions.assertEquals("CreateDatabase=create;user=APP", dataSourceConverter
                 .getConnectionPropertiesAsASemicolonDelimitedString(ds));

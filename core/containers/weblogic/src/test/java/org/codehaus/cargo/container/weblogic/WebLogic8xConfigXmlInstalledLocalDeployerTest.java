@@ -20,10 +20,20 @@
 package org.codehaus.cargo.container.weblogic;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.StringReader;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
+import org.w3c.dom.Element;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
+
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.WAR;
 import org.codehaus.cargo.container.internal.util.ResourceUtils;
@@ -31,8 +41,6 @@ import org.codehaus.cargo.container.spi.configuration.AbstractLocalConfiguration
 import org.codehaus.cargo.util.XmlUtils;
 import org.codehaus.cargo.util.FileHandler;
 import org.codehaus.cargo.util.VFSFileHandler;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.w3c.dom.Element;
 
 /**
  * Unit tests for {@link WebLogic8xConfigXmlInstalledLocalDeployer}.
@@ -142,8 +150,10 @@ public class WebLogic8xConfigXmlInstalledLocalDeployerTest
             this.fileHandler.append(DOMAIN_HOME, "cargocpc.war"), this.fileHandler);
         WAR war = new WAR("cargo.war");
         this.deployer.addWarToDomain(war, this.domain);
-        String xml = this.xmlUtil.toString(this.domain);
-        XMLAssert.assertXpathEvaluatesTo("cargo.war", "//WebAppComponent/@URI", xml);
+        Source xml = new StreamSource(new StringReader(this.xmlUtil.toString(this.domain)));
+        XPathEngine xpathEngine = new JAXPXPathEngine();
+        Assertions.assertEquals(
+            "cargo.war", xpathEngine.evaluate("//WebAppComponent/@URI", xml));
     }
 
 }
