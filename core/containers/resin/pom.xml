@@ -27,6 +27,14 @@
   <name>Cargo Core Resin Container</name>
   <packaging>jar</packaging>
   <description>Core API implementation for Resin containers</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.xmlunit</groupId>
+      <artifactId>xmlunit-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
   <build>
     <pluginManagement>
       <plugins>
