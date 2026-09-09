@@ -19,21 +19,23 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.Deployable;
@@ -117,18 +119,32 @@ public class WebLogic9x10x12x14x15xConfigXmlInstalledLocalDeployerTest
     private Document document;
 
     /**
+     * XPath engine.
+     */
+    private XPathEngine xpathEngine;
+
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    protected static Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
+    }
+
+    /**
      * Creates the test file system manager and the container.
      * @throws Exception If anything goes wrong.
      */
     @BeforeEach
     protected void setUp() throws Exception
     {
-        // setup the namespace of the weblogic config.xml file
-        Map<String, String> m = new HashMap<String, String>();
-        m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
-        m.put("jdbc", "http://www.bea.com/ns/weblogic/90");
-        NamespaceContext ctx = new SimpleNamespaceContext(m);
-        XMLUnit.setXpathNamespaceContext(ctx);
+        this.xpathEngine = new JAXPXPathEngine();
+        Map<String, String> namespaces = new HashMap<String, String>();
+        namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
+        namespaces.put("jdbc", "http://www.bea.com/ns/weblogic/90");
+        this.xpathEngine.setNamespaceContext(namespaces);
 
         this.fsManager = new StandardFileSystemManager();
         this.fsManager.init();
@@ -181,17 +197,17 @@ public class WebLogic9x10x12x14x15xConfigXmlInstalledLocalDeployerTest
         String xml = this.xmlUtil.toString(domain);
         try
         {
-            XMLAssert.assertXpathEvaluatesTo("cargo.war",
-                "//weblogic:app-deployment/weblogic:name", xml);
-            XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
-                "//weblogic:app-deployment/weblogic:source-path", xml);
+            Assertions.assertEquals("cargo.war", xpathEngine.evaluate(
+                "//weblogic:app-deployment/weblogic:name", toSource(xml)));
+            Assertions.assertEquals(deployer.getAbsolutePath(war), xpathEngine.evaluate(
+                "//weblogic:app-deployment/weblogic:source-path", toSource(xml)));
         }
         catch (Throwable t)
         {
-            XMLAssert.assertXpathEvaluatesTo("cargo.war",
-                "//app-deployment/name", xml);
-            XMLAssert.assertXpathEvaluatesTo(deployer.getAbsolutePath(war),
-                "//app-deployment/source-path", xml);
+            Assertions.assertEquals("cargo.war", xpathEngine.evaluate(
+                "//app-deployment/name", toSource(xml)));
+            Assertions.assertEquals(deployer.getAbsolutePath(war), xpathEngine.evaluate(
+                "//app-deployment/source-path", toSource(xml)));
         }
     }
 
@@ -408,11 +424,12 @@ public class WebLogic9x10x12x14x15xConfigXmlInstalledLocalDeployerTest
         deployer.removeDeployableFromDomain(war, domain);
         String xml = this.xmlUtil.toString(domain);
         // contains is whitespace friendly
-        XMLAssert.assertXpathNotExists(
-            "//weblogic:app-deployment[contains(weblogic:name,'cargo')]", xml);
-        XMLAssert.assertXpathNotExists(
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//weblogic:app-deployment[contains(weblogic:name,'cargo')]",
+                toSource(xml)).iterator().hasNext());
+        Assertions.assertFalse(xpathEngine.selectNodes(
             "//weblogic:app-deployment[contains(weblogic:source-path,'"
-                + deployer.getAbsolutePath(war) + "')]", xml);
+                + deployer.getAbsolutePath(war) + "')]", toSource(xml)).iterator().hasNext());
     }
 
     /**

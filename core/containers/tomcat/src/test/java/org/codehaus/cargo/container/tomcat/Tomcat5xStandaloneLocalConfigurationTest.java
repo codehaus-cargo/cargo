@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.tomcat;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -178,6 +177,7 @@ public class Tomcat5xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//Host/@startStopThreads", toSource(config)).iterator().hasNext());
     }
 }

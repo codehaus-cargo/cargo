@@ -22,7 +22,7 @@ package org.codehaus.cargo.container.tomcat;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.custommonkey.xmlunit.XMLAssert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import org.codehaus.cargo.container.InstalledLocalContainer;
@@ -37,15 +37,6 @@ import org.codehaus.cargo.container.tomcat.internal.Tomcat8x9xConfigurationCheck
 public class Tomcat8xStandaloneLocalConfigurationTest extends
     Tomcat7xStandaloneLocalConfigurationTest
 {
-
-    /**
-     * Default xpath expression for identifying the HTTP "Connector" element in the server.xml
-     * file.
-     */
-    private static final String CONNECTOR_XPATH =
-        "//Server/Service/Connector[not(@protocol) or @protocol='HTTP/1.1' "
-            + "or @protocol='org.apache.coyote.http11.Http11Protocol' "
-            + "or @protocol='org.apache.coyote.http11.Http11NioProtocol']";
 
     /**
      * Creates a {@link Tomcat8xStandaloneLocalConfiguration}. {@inheritDoc}
@@ -105,8 +96,9 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathNotExists(
-            "//Server/Service/Connector[@port='8080']/@sslImplementationName", config);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//Server/Service/Connector[@port='8080']/@sslImplementationName",
+                toSource(config)).iterator().hasNext());
     }
 
     /**
@@ -121,9 +113,9 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathNotExists(
+        Assertions.assertFalse(xpathEngine.selectNodes(
             "//Server/Service/Connector[@port='8080']/UpgradeProtocol",
-                config);
+                toSource(config)).iterator().hasNext());
     }
 
     /**
@@ -140,10 +132,10 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathExists(
+        Assertions.assertTrue(xpathEngine.selectNodes(
             "//Server/Service/Connector[@port='8080']"
                 + "/UpgradeProtocol[@className='org.apache.coyote.http2.Http2Protocol']",
-                    config);
+                    toSource(config)).iterator().hasNext());
     }
 
     /**
@@ -163,11 +155,12 @@ public class Tomcat8xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11Nio2Protocol",
-            "//Server/Service/Connector[@port='8080']/@protocol", config);
-        XMLAssert.assertXpathExists(
+        Assertions.assertEquals("org.apache.coyote.http11.Http11Nio2Protocol",
+            xpathEngine.evaluate("//Server/Service/Connector[@port='8080']/@protocol",
+                toSource(config)));
+        Assertions.assertTrue(xpathEngine.selectNodes(
             "//Server/Service/Connector[@port='8080']"
                 + "/UpgradeProtocol[@className='org.apache.coyote.http2.Http2Protocol']",
-                    config);
+                    toSource(config)).iterator().hasNext());
     }
 }
