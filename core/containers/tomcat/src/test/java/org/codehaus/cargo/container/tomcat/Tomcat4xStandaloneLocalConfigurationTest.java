@@ -21,7 +21,6 @@ package org.codehaus.cargo.container.tomcat;
 
 import java.nio.charset.StandardCharsets;
 
-import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -163,9 +162,10 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(TomcatPropertySet.AJP_PORT),
-            "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
+        Assertions.assertEquals(
+            configuration.getPropertyValue(TomcatPropertySet.AJP_PORT), xpathEngine.evaluate(
+                "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port",
+                    toSource(config)));
     }
 
     /**
@@ -180,8 +180,9 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(AJP_PORT,
-            "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port", config);
+        Assertions.assertEquals(AJP_PORT, xpathEngine.evaluate(
+            "//Connector[@className='org.apache.ajp.tomcat4.Ajp13Connector']/@port",
+                toSource(config)));
     }
 
     /**
@@ -210,25 +211,29 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String xml = configuration.getFileHandler().readTextFile(
             getDataSourceConfigurationFile(null), StandardCharsets.UTF_8);
 
-        XMLAssert.assertXpathEvaluatesTo("javax.sql.DataSource",
-            "//Resource[@name='myDataSource']/@type", xml);
-        XMLAssert.assertXpathEvaluatesTo("Container", "//Resource[@name='myDataSource']/@auth",
-            xml);
+        Assertions.assertEquals("javax.sql.DataSource", xpathEngine.evaluate(
+            "//Resource[@name='myDataSource']/@type", toSource(xml)));
+        Assertions.assertEquals("Container", xpathEngine.evaluate(
+            "//Resource[@name='myDataSource']/@auth", toSource(xml)));
 
-        XMLAssert.assertXpathEvaluatesTo("foo",
-            "//ResourceParams[@name='myDataSource']/parameter[name='username']/value", xml);
-        XMLAssert.assertXpathEvaluatesTo("pass",
-            "//ResourceParams[@name='myDataSource']/parameter[name='password']/value", xml);
+        Assertions.assertEquals("foo", xpathEngine.evaluate(
+            "//ResourceParams[@name='myDataSource']/parameter[name='username']/value",
+                toSource(xml)));
+        Assertions.assertEquals("pass", xpathEngine.evaluate(
+            "//ResourceParams[@name='myDataSource']/parameter[name='password']/value",
+                toSource(xml)));
 
-        XMLAssert.assertXpathEvaluatesTo("javax.sql.DataSource",
-            "//Resource[@name='otherDataSource']/@type", xml);
-        XMLAssert.assertXpathEvaluatesTo("Container",
-            "//Resource[@name='otherDataSource']/@auth", xml);
+        Assertions.assertEquals("javax.sql.DataSource", xpathEngine.evaluate(
+            "//Resource[@name='otherDataSource']/@type", toSource(xml)));
+        Assertions.assertEquals("Container", xpathEngine.evaluate(
+            "//Resource[@name='otherDataSource']/@auth", toSource(xml)));
 
-        XMLAssert.assertXpathEvaluatesTo("gazonk",
-            "//ResourceParams[@name='otherDataSource']/parameter[name='username']/value", xml);
-        XMLAssert.assertXpathEvaluatesTo("bar",
-            "//ResourceParams[@name='otherDataSource']/parameter[name='password']/value", xml);
+        Assertions.assertEquals("gazonk", xpathEngine.evaluate(
+            "//ResourceParams[@name='otherDataSource']/parameter[name='username']/value",
+                toSource(xml)));
+        Assertions.assertEquals("bar", xpathEngine.evaluate(
+            "//ResourceParams[@name='otherDataSource']/parameter[name='password']/value",
+                toSource(xml)));
     }
 
     /**
@@ -242,7 +247,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("webapps", "//Host/@appBase", config);
+        Assertions.assertEquals("webapps", xpathEngine.evaluate(
+            "//Host/@appBase", toSource(config)));
     }
 
     /**
@@ -257,7 +263,8 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("some_directory", "//Host/@appBase", config);
+        Assertions.assertEquals("some_directory", xpathEngine.evaluate(
+            "//Host/@appBase", toSource(config)));
     }
 
     /**
@@ -272,6 +279,7 @@ public class Tomcat4xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathNotExists("//Host/@startStopThreads", config);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//Host/@startStopThreads", toSource(config)).iterator().hasNext());
     }
 }

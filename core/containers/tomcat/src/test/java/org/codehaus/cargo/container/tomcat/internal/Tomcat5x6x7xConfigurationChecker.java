@@ -19,9 +19,10 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import org.junit.jupiter.api.Assertions;
+
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.Resource;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Contains XML logic used to validate the XML output of a Tomcat 5.x, 6.x and 7.x DataSource
@@ -53,7 +54,8 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
         String pathToResource =
             "//Context/Resource[@name='" + dataSourceFixture.jndiLocation + "']";
 
-        XMLAssert.assertXpathNotExists(pathToResource, configuration);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            pathToResource, toSource(configuration)).iterator().hasNext());
     }
 
     /**
@@ -68,16 +70,17 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
     {
         String pathToResource = "//Context/Resource[@name='" + resource.getName() + "']";
 
-        XMLAssert.assertXpathEvaluatesTo("Container", pathToResource + "/@auth", configuration);
+        Assertions.assertEquals("Container", xpathEngine.evaluate(
+            pathToResource + "/@auth", toSource(configuration)));
         if (resource.getClassName() != null)
         {
-            XMLAssert.assertXpathEvaluatesTo(resource.getClassName(), pathToResource + "/@type",
-                configuration);
+            Assertions.assertEquals(resource.getClassName(), xpathEngine.evaluate(
+                pathToResource + "/@type", toSource(configuration)));
         }
         else
         {
-            XMLAssert.assertXpathEvaluatesTo(resource.getType(), pathToResource + "/@type",
-                configuration);
+            Assertions.assertEquals(resource.getType(), xpathEngine.evaluate(
+                pathToResource + "/@type", toSource(configuration)));
         }
 
         for (String propertyName : resource.getParameterNames())
@@ -89,8 +92,8 @@ public class Tomcat5x6x7xConfigurationChecker extends Tomcat4xConfigurationCheck
                 propertyNameInTomcatXML = "username";
             }
 
-            XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName), pathToResource
-                + "/@" + propertyNameInTomcatXML, configuration);
+            Assertions.assertEquals(resource.getParameter(propertyName), xpathEngine.evaluate(
+                pathToResource + "/@" + propertyNameInTomcatXML, toSource(configuration)));
         }
     }
 

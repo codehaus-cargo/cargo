@@ -19,13 +19,21 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import java.io.StringReader;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+import org.junit.jupiter.api.Assertions;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
+
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.builder.ConfigurationEntryType;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.Resource;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
 import org.codehaus.cargo.container.property.DataSourceConverter;
-import org.custommonkey.xmlunit.XMLAssert;
 
 /**
  * Contains XML logic used to validate the XML output of Tomcat DataSource configuration.
@@ -33,9 +41,32 @@ import org.custommonkey.xmlunit.XMLAssert;
 public class Tomcat4xConfigurationChecker implements ConfigurationChecker
 {
     /**
-     * Datasource converyer.
+     * XPath engine.
+     */
+    protected XPathEngine xpathEngine;
+
+    /**
+     * Datasource converter.
      */
     private DataSourceConverter converter = new DataSourceConverter();
+
+    /**
+     * Creates the XPathEngine.
+     */
+    public Tomcat4xConfigurationChecker()
+    {
+        this.xpathEngine = new JAXPXPathEngine();
+    }
+
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    protected static Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
+    }
 
     /**
      * Check that a configuration matches a given resource.
@@ -52,17 +83,18 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         String pathToResourceParams =
             "//Engine/DefaultContext/ResourceParams[@name='" + resource.getName() + "']";
 
-        XMLAssert.assertXpathEvaluatesTo("Container", pathToResource + "/@auth", configuration);
+        Assertions.assertEquals("Container", xpathEngine.evaluate(
+            pathToResource + "/@auth", toSource(configuration)));
 
         if (resource.getClassName() != null)
         {
-            XMLAssert.assertXpathEvaluatesTo(resource.getClassName(), pathToResource + "/@type",
-                configuration);
+            Assertions.assertEquals(resource.getClassName(), xpathEngine.evaluate(
+                pathToResource + "/@type", toSource(configuration)));
         }
         else
         {
-            XMLAssert.assertXpathEvaluatesTo(resource.getType(), pathToResource + "/@type",
-                configuration);
+            Assertions.assertEquals(resource.getType(), xpathEngine.evaluate(
+                pathToResource + "/@type", toSource(configuration)));
         }
 
         for (String propertyName : resource.getParameterNames())
@@ -74,9 +106,9 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
                 propertyNameInTomcatXML = "username";
             }
 
-            XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName),
+            Assertions.assertEquals(resource.getParameter(propertyName), xpathEngine.evaluate(
                 pathToResourceParams + "/parameter[name='" + propertyNameInTomcatXML + "']/value",
-                configuration);
+                    toSource(configuration)));
         }
     }
 
@@ -90,9 +122,8 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
     private void convertToResourceAndCheckConfigurationMatches(String configuration,
         DataSourceFixture dataSourceFixture, String resourceType) throws Exception
     {
-        Resource resource =
-            converter.convertToResource(dataSourceFixture.buildDataSource(), resourceType,
-                "driverClassName");
+        Resource resource = converter.convertToResource(
+            dataSourceFixture.buildDataSource(), resourceType, "driverClassName");
         resource.setParameter("factory", getDataSourceFactory());
         checkConfigurationMatchesResource(configuration, resource);
     }
@@ -131,12 +162,14 @@ public class Tomcat4xConfigurationChecker implements ConfigurationChecker
         String pathToResource =
             "//Engine/DefaultContext/Resource[@name='" + dataSourceFixture.jndiLocation + "']";
 
-        XMLAssert.assertXpathNotExists(pathToResource, configuration);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            pathToResource, toSource(configuration)).iterator().hasNext());
 
         String pathToResourceParams =
             "//Engine/DefaultContext/ResourceParams[@name='" + dataSourceFixture.jndiLocation
                 + "']";
-        XMLAssert.assertXpathNotExists(pathToResourceParams, configuration);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            pathToResourceParams, toSource(configuration)).iterator().hasNext());
     }
 
     /**
