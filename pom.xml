@@ -1401,6 +1401,7 @@
                 <bannedDependencies>
                   <excludes>
                     <exclude>junit:junit</exclude>
+                    <exclude>xerces:xercesImpl</exclude>
                   </excludes>
                 </bannedDependencies>
               </rules>
