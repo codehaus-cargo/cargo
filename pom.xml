@@ -1085,12 +1085,6 @@
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit</artifactId>
         <version>4.21.0</version>
-        <exclusions>
-          <exclusion>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.jboss.spec.javax.rmi</groupId>
@@ -1388,15 +1382,21 @@
         <version>3.6.3</version>
         <executions>
           <execution>
-            <id>enforce-maven-version</id>
+            <id>enforce-environment-and-dependencies</id>
             <goals>
               <goal>enforce</goal>
             </goals>
+            <phase>validate</phase>
             <configuration>
               <rules>
                 <requireMavenVersion>
                   <version>${maven.minimum.version}</version>
                 </requireMavenVersion>
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>junit:junit</exclude>
+                  </excludes>
+                </bannedDependencies>
               </rules>
             </configuration>
           </execution>
