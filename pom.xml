@@ -1070,6 +1070,12 @@
         <groupId>org.bsc.maven</groupId>
         <artifactId>confluence-reporting-maven-plugin</artifactId>
         <version>7.13</version>
+        <exclusions>
+          <exclusion>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.codehaus.plexus</groupId>
