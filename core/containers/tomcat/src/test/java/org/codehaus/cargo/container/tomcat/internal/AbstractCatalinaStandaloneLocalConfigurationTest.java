@@ -19,9 +19,16 @@
  */
 package org.codehaus.cargo.container.tomcat.internal;
 
+import java.io.StringReader;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
@@ -35,14 +42,31 @@ public abstract class AbstractCatalinaStandaloneLocalConfigurationTest extends
 {
 
     /**
-     * Creates the Tomcat manager.
+     * XPath engine.
+     */
+    protected XPathEngine xpathEngine;
+
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    protected static Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
+    }
+
+    /**
+     * Creates the Tomcat manager and the XPathEngine.
      * @throws Exception If anything goes wrong.
      */
     @BeforeEach
     protected void setUp() throws Exception
     {
         super.setUp();
+
         setUpManager();
+        this.xpathEngine = new JAXPXPathEngine();
     }
 
     /**

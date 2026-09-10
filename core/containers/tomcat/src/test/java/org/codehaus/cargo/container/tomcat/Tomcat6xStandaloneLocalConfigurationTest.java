@@ -22,7 +22,6 @@ package org.codehaus.cargo.container.tomcat;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -107,8 +106,9 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathNotExists(
-            "//Server/Service/Connector[@port='8080']/@protocol", config);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//Server/Service/Connector[@port='8080']/@protocol",
+                toSource(config)).iterator().hasNext());
     }
 
     /**
@@ -125,8 +125,8 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11NioProtocol",
-            "//Server/Service/Connector[@port='8080']/@protocol", config);
+        Assertions.assertEquals("org.apache.coyote.http11.Http11NioProtocol", xpathEngine.evaluate(
+            "//Server/Service/Connector[@port='8080']/@protocol", toSource(config)));
     }
 
     /**
@@ -144,8 +144,8 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11AprProtocol",
-            "//Server/Service/Connector[@port='8080']/@protocol", config);
+        Assertions.assertEquals("org.apache.coyote.http11.Http11AprProtocol", xpathEngine.evaluate(
+            "//Server/Service/Connector[@port='8080']/@protocol", toSource(config)));
     }
 
     /**
@@ -163,7 +163,7 @@ public class Tomcat6xStandaloneLocalConfigurationTest extends
 
         String config = configuration.getFileHandler().readTextFile(
             configuration.getHome() + "/conf/server.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("org.apache.coyote.http11.Http11AprProtocol",
-            "//Server/Service/Connector[@port='8080']/@protocol", config);
+        Assertions.assertEquals("org.apache.coyote.http11.Http11AprProtocol", xpathEngine.evaluate(
+            "//Server/Service/Connector[@port='8080']/@protocol", toSource(config)));
     }
 }

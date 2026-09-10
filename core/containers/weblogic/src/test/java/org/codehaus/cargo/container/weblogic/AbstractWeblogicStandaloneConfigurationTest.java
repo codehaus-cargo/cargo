@@ -19,8 +19,16 @@
  */
 package org.codehaus.cargo.container.weblogic;
 
+import java.io.StringReader;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
 import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
 import org.codehaus.cargo.container.configuration.entry.ResourceFixture;
@@ -32,6 +40,32 @@ import org.codehaus.cargo.container.spi.configuration.builder.AbstractLocalConfi
 public abstract class AbstractWeblogicStandaloneConfigurationTest extends
     AbstractLocalConfigurationWithConfigurationBuilderTest
 {
+
+    /**
+     * XPath engine.
+     */
+    protected XPathEngine xpathEngine;
+
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    protected static Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
+    }
+
+    /**
+     * Creates the XPathEngine.
+     * @throws Exception If anything goes wrong.
+     */
+    @BeforeEach
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        this.xpathEngine = new JAXPXPathEngine();
+    }
 
     /**
      * Setup datasource file and call parent. {@inheritDoc}

@@ -19,15 +19,18 @@
  */
 package org.codehaus.cargo.container.resin.internal;
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+import org.junit.jupiter.api.Assertions;
+import org.xmlunit.xpath.JAXPXPathEngine;
+import org.xmlunit.xpath.XPathEngine;
 
 import org.codehaus.cargo.container.configuration.builder.ConfigurationChecker;
 import org.codehaus.cargo.container.configuration.entry.DataSourceFixture;
@@ -50,16 +53,29 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
     private static final String NS_PREFIX = "resin:";
 
     /**
+     * XPath engine.
+     */
+    private XPathEngine xpathEngine;
+
+    /**
      * Adds the Resin namespaces to the XML namespace context.
      */
     public Resin3xConfigurationChecker()
     {
-        // setup the namespace of the resin configuration file
-        Map<String, String> m = new HashMap<String, String>();
-        m.put("resin", NS_URL);
+        this.xpathEngine = new JAXPXPathEngine();
+        Map<String, String> namespaces = new HashMap<String, String>();
+        namespaces.put("resin", NS_URL);
+        this.xpathEngine.setNamespaceContext(namespaces);
+    }
 
-        NamespaceContext ctx = new SimpleNamespaceContext(m);
-        XMLUnit.setXpathNamespaceContext(ctx);
+    /**
+     * Return given XML as Source. We need this as Source objects are single use.
+     * @param xml XML String.
+     * @return Source object.
+     */
+    private static Source toSource(String xml)
+    {
+        return new StreamSource(new StringReader(xml));
     }
 
     /**
@@ -76,24 +92,29 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
 
         try
         {
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.driverClass, pathToDatabase + "/"
-                + NS_PREFIX + "driver/" + NS_PREFIX + "type", configuration);
+            Assertions.assertEquals(dataSourceFixture.driverClass, xpathEngine.evaluate(
+                pathToDatabase + "/" + NS_PREFIX + "driver/" + NS_PREFIX + "type",
+                    toSource(configuration)));
 
             if (dataSourceFixture.url == null)
             {
-                XMLAssert.assertXpathNotExists(pathToDatabase + "/" + NS_PREFIX + "driver/"
-                    + NS_PREFIX + "url", configuration);
+                Assertions.assertFalse(xpathEngine.selectNodes(
+                    pathToDatabase + "/" + NS_PREFIX + "driver/" + NS_PREFIX + "url",
+                        toSource(configuration)).iterator().hasNext());
             }
             else
             {
-                XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.url, pathToDatabase + "/"
-                    + NS_PREFIX + "driver/" + NS_PREFIX + "url", configuration);
+                Assertions.assertEquals(dataSourceFixture.url, xpathEngine.evaluate(
+                    pathToDatabase + "/" + NS_PREFIX + "driver/" + NS_PREFIX + "url",
+                        toSource(configuration)));
             }
 
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.username, pathToDatabase + "/"
-                + NS_PREFIX + "driver/" + NS_PREFIX + "user", configuration);
-            XMLAssert.assertXpathEvaluatesTo(dataSourceFixture.password, pathToDatabase + "/"
-                + NS_PREFIX + "driver/" + NS_PREFIX + "password", configuration);
+            Assertions.assertEquals(dataSourceFixture.username, xpathEngine.evaluate(
+                pathToDatabase + "/" + NS_PREFIX + "driver/" + NS_PREFIX + "user",
+                    toSource(configuration)));
+            Assertions.assertEquals(dataSourceFixture.password, xpathEngine.evaluate(
+                pathToDatabase + "/" + NS_PREFIX + "driver/" + NS_PREFIX + "password",
+                    toSource(configuration)));
 
             Properties driverProperties =
                 dataSourceFixture.buildDataSource().getConnectionProperties();
@@ -102,9 +123,10 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
             while (i.hasNext())
             {
                 String propertyName = i.next().toString();
-                XMLAssert.assertXpathEvaluatesTo(driverProperties.getProperty(propertyName),
-                    pathToDatabase + "/" + NS_PREFIX + "driver/" + NS_PREFIX + "" + propertyName,
-                    configuration);
+                Assertions.assertEquals(
+                    driverProperties.getProperty(propertyName), xpathEngine.evaluate(
+                        pathToDatabase + "/" + NS_PREFIX + "driver/"
+                            + NS_PREFIX + "" + propertyName, toSource(configuration)));
             }
 
         }
@@ -121,25 +143,25 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
      */
     private void checkConfigurationMatchesResource(String configuration, Resource resource)
     {
-        String pathToResource =
-            "//" + NS_PREFIX + "resource[" + NS_PREFIX + "jndi-name='" + resource.getName()
-                + "']";
+        String pathToResource = "//" + NS_PREFIX + "resource["
+            + NS_PREFIX + "jndi-name='" + resource.getName() + "']";
         try
         {
             if (resource.getClassName() != null)
             {
-                XMLAssert.assertXpathEvaluatesTo(resource.getClassName(), pathToResource + "/"
-                    + NS_PREFIX + "type", configuration);
+                Assertions.assertEquals(resource.getClassName(), xpathEngine.evaluate(
+                    pathToResource + "/" + NS_PREFIX + "type", toSource(configuration)));
             }
             else
             {
-                XMLAssert.assertXpathEvaluatesTo(resource.getType(), pathToResource + "/"
-                    + NS_PREFIX + "type", configuration);
+                Assertions.assertEquals(resource.getType(), xpathEngine.evaluate(
+                    pathToResource + "/" + NS_PREFIX + "type", toSource(configuration)));
             }
             for (String propertyName : resource.getParameters().keySet())
             {
-                XMLAssert.assertXpathEvaluatesTo(resource.getParameter(propertyName),
-                    pathToResource + "/" + NS_PREFIX + "init/@" + propertyName, configuration);
+                Assertions.assertEquals(resource.getParameter(propertyName), xpathEngine.evaluate(
+                    pathToResource + "/" + NS_PREFIX + "init/@" + propertyName,
+                        toSource(configuration)));
             }
         }
         catch (Exception e)
@@ -158,8 +180,9 @@ public class Resin3xConfigurationChecker implements ConfigurationChecker
     private void notExists(String configuration, DataSourceFixture dataSourceFixture)
         throws Exception
     {
-        XMLAssert.assertXpathNotExists("//database[jndi-name='" + dataSourceFixture.jndiLocation
-            + "']", configuration);
+        Assertions.assertFalse(xpathEngine.selectNodes(
+            "//database[jndi-name='" + dataSourceFixture.jndiLocation + "']",
+                toSource(configuration)).iterator().hasNext());
     }
 
     /**

@@ -23,10 +23,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.custommonkey.xmlunit.NamespaceContext;
-import org.custommonkey.xmlunit.SimpleNamespaceContext;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -109,18 +105,18 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
     }
 
     /**
-     * Initialize all XML tools.
-     * @throws Exception If anything goes wrong.
+     * {@inheritDoc}
      */
     @BeforeEach
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
-        Map<String, String> m = new HashMap<String, String>();
-        m.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
-        m.put("jdbc", "http://www.bea.com/ns/weblogic/90");
-        NamespaceContext ctx = new SimpleNamespaceContext(m);
-        XMLUnit.setXpathNamespaceContext(ctx);
+
+        Map<String, String> namespaces = new HashMap<String, String>();
+        namespaces.put("weblogic", "http://www.bea.com/ns/weblogic/920/domain");
+        namespaces.put("jdbc", "http://www.bea.com/ns/weblogic/90");
+        this.xpathEngine.setNamespaceContext(namespaces);
 
         this.xmlUtil = new XmlUtils(getFileHandler());
         this.document = xmlUtil.createDocument();
@@ -177,10 +173,10 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String domainXml =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(fixture.buildDataSource().getId(),
-            "//weblogic:jdbc-system-resource/weblogic:name", domainXml);
-        XMLAssert.assertXpathEvaluatesTo("server",
-            "//weblogic:jdbc-system-resource/weblogic:target", domainXml);
+        Assertions.assertEquals(fixture.buildDataSource().getId(), xpathEngine.evaluate(
+            "//weblogic:jdbc-system-resource/weblogic:name", toSource(domainXml)));
+        Assertions.assertEquals("server", xpathEngine.evaluate(
+            "//weblogic:jdbc-system-resource/weblogic:target", toSource(domainXml)));
     }
 
     /**
@@ -250,9 +246,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION), "//weblogic:domain-version",
-            config);
+        Assertions.assertEquals(configuration.getPropertyValue(WebLogicPropertySet.DOMAIN_VERSION),
+            xpathEngine.evaluate("//weblogic:domain-version", toSource(config)));
     }
 
     /**
@@ -266,17 +261,26 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathExists("//weblogic:domain-version", config);
-        XMLAssert.assertXpathExists("//weblogic:configuration-version", config);
-        XMLAssert.assertXpathExists("//weblogic:server", config);
-        XMLAssert.assertXpathExists("//weblogic:server/weblogic:name", config);
-        XMLAssert.assertXpathExists("//weblogic:security-configuration", config);
-        XMLAssert.assertXpathExists(
-            "//weblogic:security-configuration/weblogic:credential-encrypted", config);
-        XMLAssert.assertXpathExists("//weblogic:embedded-ldap", config);
-        XMLAssert.assertXpathExists("//weblogic:embedded-ldap/weblogic:credential-encrypted",
-            config);
-        XMLAssert.assertXpathExists("//weblogic:admin-server-name", config);
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:domain-version", toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:configuration-version", toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:server", toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:server/weblogic:name", toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:security-configuration", toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:security-configuration/weblogic:credential-encrypted",
+                toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:embedded-ldap", toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:embedded-ldap/weblogic:credential-encrypted",
+                toSource(config)).iterator().hasNext());
+        Assertions.assertTrue(xpathEngine.selectNodes(
+            "//weblogic:admin-server-name", toSource(config)).iterator().hasNext());
     }
 
     /**
@@ -291,7 +295,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("1.2.2.1", "//weblogic:domain-version", config);
+        Assertions.assertEquals("1.2.2.1", xpathEngine.evaluate(
+            "//weblogic:domain-version", toSource(config)));
     }
 
     /**
@@ -305,9 +310,9 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration
+        Assertions.assertEquals(configuration
             .getPropertyValue(WebLogicPropertySet.CONFIGURATION_VERSION),
-            "//weblogic:configuration-version", config);
+            xpathEngine.evaluate("//weblogic:configuration-version", toSource(config)));
     }
 
     /**
@@ -322,7 +327,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("1.2.2.1", "//weblogic:configuration-version", config);
+        Assertions.assertEquals("1.2.2.1", xpathEngine.evaluate(
+            "//weblogic:configuration-version", toSource(config)));
     }
 
     /**
@@ -336,9 +342,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert
-            .assertXpathEvaluatesTo(configuration.getPropertyValue(WebLogicPropertySet.SERVER),
-                "//weblogic:admin-server-name", config);
+        Assertions.assertEquals(configuration.getPropertyValue(WebLogicPropertySet.SERVER),
+            xpathEngine.evaluate("//weblogic:admin-server-name", toSource(config)));
     }
 
     /**
@@ -353,7 +358,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("asda", "//weblogic:admin-server-name", config);
+        Assertions.assertEquals("asda", xpathEngine.evaluate(
+            "//weblogic:admin-server-name", toSource(config)));
     }
 
     /**
@@ -367,8 +373,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration.getPropertyValue(ServletPropertySet.PORT),
-            "//weblogic:listen-port", config);
+        Assertions.assertEquals(configuration.getPropertyValue(ServletPropertySet.PORT),
+            xpathEngine.evaluate("//weblogic:listen-port", toSource(config)));
     }
 
     /**
@@ -383,7 +389,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("1001", "//weblogic:listen-port", config);
+        Assertions.assertEquals("1001", xpathEngine.evaluate(
+            "//weblogic:listen-port", toSource(config)));
     }
 
     /**
@@ -397,7 +404,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
+        Assertions.assertEquals("Info", xpathEngine.evaluate(
+            "//weblogic:log-file-severity", toSource(config)));
     }
 
     /**
@@ -412,7 +420,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("Debug", "//weblogic:log-file-severity", config);
+        Assertions.assertEquals("Debug", xpathEngine.evaluate(
+            "//weblogic:log-file-severity", toSource(config)));
     }
 
     /**
@@ -427,7 +436,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("Info", "//weblogic:log-file-severity", config);
+        Assertions.assertEquals("Info", xpathEngine.evaluate(
+            "//weblogic:log-file-severity", toSource(config)));
     }
 
     /**
@@ -442,7 +452,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("Warning", "//weblogic:log-file-severity", config);
+        Assertions.assertEquals("Warning", xpathEngine.evaluate(
+            "//weblogic:log-file-severity", toSource(config)));
     }
 
     /**
@@ -456,8 +467,9 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo(configuration
-            .getPropertyValue(GeneralPropertySet.HOSTNAME), "//weblogic:listen-address", config);
+        Assertions.assertEquals(configuration
+            .getPropertyValue(GeneralPropertySet.HOSTNAME), xpathEngine.evaluate(
+                "//weblogic:listen-address", toSource(config)));
     }
 
     /**
@@ -472,7 +484,8 @@ public class WebLogic9xStandaloneLocalConfigurationTest extends
         String config =
             configuration.getFileHandler().readTextFile(
                 configuration.getHome() + "/config/config.xml", StandardCharsets.UTF_8);
-        XMLAssert.assertXpathEvaluatesTo("loc", "//weblogic:listen-address", config);
+        Assertions.assertEquals("loc", xpathEngine.evaluate(
+            "//weblogic:listen-address", toSource(config)));
     }
 
 }
