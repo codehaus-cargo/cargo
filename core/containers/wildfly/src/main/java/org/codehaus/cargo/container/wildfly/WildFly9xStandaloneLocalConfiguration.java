@@ -76,6 +76,15 @@ public class WildFly9xStandaloneLocalConfiguration
     }
 
     /**
+     * Cast {@link #getConfigurationFactory()} into {@link WildFly9xCliConfigurationFactory}.
+     * @return WildFly 9.x configuration factory.
+     */
+    private WildFly9xCliConfigurationFactory getConfigurationFactory9x()
+    {
+        return (WildFly9xCliConfigurationFactory) getConfigurationFactory();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -96,9 +105,9 @@ public class WildFly9xStandaloneLocalConfiguration
 
         List<ScriptCommand> configurationScript = new ArrayList<ScriptCommand>();
 
-        configurationScript.add(factory.startEmbedServerScript());
-        configurationScript.add(factory.configurePortsScript());
-        configurationScript.add(factory.loggingScript());
+        configurationScript.add(getConfigurationFactory9x().startEmbedServerScript());
+        configurationScript.add(getConfigurationFactory9x().configurePortsScript());
+        configurationScript.add(getConfigurationFactory9x().loggingScript());
 
         // add modules
         for (String classpathElement : container.getExtraClasspath())
@@ -114,21 +123,22 @@ public class WildFly9xStandaloneLocalConfiguration
         for (DataSource ds : getDataSources())
         {
             String driverModule = WildFlyModuleUtils.getDataSourceDriverModuleName(container, ds);
-            configurationScript.add(factory.dataSourceDriverScript(ds, driverModule));
-            configurationScript.add(factory.dataSourceScript(ds));
+            configurationScript.add(
+                getConfigurationFactory9x().dataSourceDriverScript(ds, driverModule));
+            configurationScript.add(getConfigurationFactory9x().dataSourceScript(ds));
         }
 
         // add Resources
         for (Resource resource : getResources())
         {
-            configurationScript.add(factory.resourceScript(resource));
+            configurationScript.add(getConfigurationFactory9x().resourceScript(resource));
         }
 
         // add system properties to configuration - to be persistent
         for (Entry<String, String> systemProperty : container.getSystemProperties().entrySet())
         {
-            configurationScript.add(factory.systemPropertyScript(
-                    systemProperty.getKey(), systemProperty.getValue()));
+            configurationScript.add(getConfigurationFactory9x().systemPropertyScript(
+                systemProperty.getKey(), systemProperty.getValue()));
         }
 
         // add custom embedded scripts
@@ -137,7 +147,7 @@ public class WildFly9xStandaloneLocalConfiguration
             if (property.startsWith(WildFlyPropertySet.CLI_EMBEDDED_SCRIPT))
             {
                 String scriptPath = getPropertyValue(property);
-                configurationScript.add(factory.customScript(scriptPath));
+                configurationScript.add(getConfigurationFactory9x().customScript(scriptPath));
             }
         }
 
