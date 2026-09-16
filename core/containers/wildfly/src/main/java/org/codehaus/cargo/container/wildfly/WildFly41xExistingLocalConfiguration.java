@@ -19,6 +19,10 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.wildfly.internal.WildFly41xExistingLocalConfigurationCapability;
+
 /**
  * WildFly 41.x existing {@link org.codehaus.cargo.container.configuration.Configuration}
  * implementation.
@@ -26,12 +30,29 @@ package org.codehaus.cargo.container.wildfly;
 public class WildFly41xExistingLocalConfiguration extends WildFly40xExistingLocalConfiguration
 {
     /**
+     * WildFly container capability.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new WildFly41xExistingLocalConfigurationCapability();
+
+    /**
      * {@inheritDoc}
      * @see WildFly40xExistingLocalConfiguration#WildFly40xExistingLocalConfiguration(String)
      */
     public WildFly41xExistingLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(JBossPropertySet.JBOSS_AJP_PORT, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
     }
 
     /**

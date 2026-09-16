@@ -45,7 +45,7 @@ import org.codehaus.cargo.container.wildfly.internal.configuration.commands.wild
 import org.codehaus.cargo.util.CargoException;
 
 /**
- * WildFly9x CLI configuration factory returning specific configuration scripts.
+ * WildFly 9.x CLI configuration factory returning specific configuration scripts.
  */
 public class WildFly9xCliConfigurationFactory extends WildFly8xCliConfigurationFactory
 {

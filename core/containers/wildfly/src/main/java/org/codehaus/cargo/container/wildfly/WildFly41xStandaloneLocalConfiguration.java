@@ -19,11 +19,29 @@
  */
 package org.codehaus.cargo.container.wildfly;
 
+import org.codehaus.cargo.container.configuration.ConfigurationCapability;
+import org.codehaus.cargo.container.jboss.JBossPropertySet;
+import org.codehaus.cargo.container.wildfly.internal.WildFly41xStandaloneLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFly41xCliConfigurationFactory;
+import org.codehaus.cargo.container.wildfly.internal.configuration.factory.WildFlyCliConfigurationFactory;
+
 /**
  * WildFly 41.x standalone local configuration.
  */
 public class WildFly41xStandaloneLocalConfiguration extends WildFly40xStandaloneLocalConfiguration
 {
+
+    /**
+     * WildFly container capability.
+     */
+    private static final ConfigurationCapability CAPABILITY =
+        new WildFly41xStandaloneLocalConfigurationCapability();
+
+    /**
+     * CLI configuration factory.
+     */
+    private WildFly41xCliConfigurationFactory factory;
+
     /**
      * {@inheritDoc}
      * @see WildFly40xStandaloneLocalConfiguration#WildFly40xStandaloneLocalConfiguration(String)
@@ -31,6 +49,27 @@ public class WildFly41xStandaloneLocalConfiguration extends WildFly40xStandalone
     public WildFly41xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+
+        setProperty(JBossPropertySet.JBOSS_AJP_PORT, null);
+        this.factory = new WildFly41xCliConfigurationFactory(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ConfigurationCapability getCapability()
+    {
+        return CAPABILITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public WildFlyCliConfigurationFactory getConfigurationFactory()
+    {
+        return factory;
     }
 
     /**

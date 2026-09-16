@@ -54,8 +54,7 @@ public class WildFly9xStandaloneLocalConfiguration
     /**
      * CLI configuration factory.
      */
-    private WildFly9xCliConfigurationFactory factory =
-            new WildFly9xCliConfigurationFactory(this);
+    private WildFly9xCliConfigurationFactory factory;
 
     /**
      * {@inheritDoc}
@@ -64,6 +63,7 @@ public class WildFly9xStandaloneLocalConfiguration
     public WildFly9xStandaloneLocalConfiguration(String dir)
     {
         super(dir);
+        this.factory = new WildFly9xCliConfigurationFactory(this);
     }
 
     /**

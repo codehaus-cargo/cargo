@@ -27,6 +27,8 @@ import org.codehaus.cargo.container.jboss.deployable.JBossWAR;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyContainerCapability;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyExistingLocalConfigurationCapability;
 import org.codehaus.cargo.container.wildfly.internal.WildFlyRuntimeConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFly41xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.wildfly.internal.WildFly41xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.wildfly.internal.WildFly8xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.wildfly.internal.WildFly9xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.generic.AbstractFactoryRegistry;
@@ -430,10 +432,10 @@ public class WildFlyFactoryRegistry extends AbstractFactoryRegistry
 
         configurationCapabilityFactory.registerConfigurationCapability("wildfly41x",
             ContainerType.INSTALLED, ConfigurationType.STANDALONE,
-            WildFly9xStandaloneLocalConfigurationCapability.class);
+            WildFly41xStandaloneLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("wildfly41x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
-            WildFlyExistingLocalConfigurationCapability.class);
+            WildFly41xExistingLocalConfigurationCapability.class);
         configurationCapabilityFactory.registerConfigurationCapability("wildfly41x",
             ContainerType.REMOTE, ConfigurationType.RUNTIME,
             WildFlyRuntimeConfigurationCapability.class);
