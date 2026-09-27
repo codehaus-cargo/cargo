@@ -31,7 +31,7 @@
   <name>Cargo Remote Deployer for Jetty (version 12.x)</name>
   <description>Webapp used by Cargo to remotely deploy applications on a Jetty 12.x server</description>
   <properties>
-    <jetty.version>12.1.0</jetty.version>
+    <jetty.version>12.1.10</jetty.version>
 
     <jetty.real.dir>
       ${project.build.directory}/jetty-real
