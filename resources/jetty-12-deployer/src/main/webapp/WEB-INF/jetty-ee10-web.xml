@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2026 Ali Tokmen.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN"
+  "https://jetty.org/configure_10_0.dtd">
+<Configure class="org.eclipse.jetty.ee10.webapp.WebAppContext">
+  <Set name="contextPath">/cargo-jetty-deployer-ee10</Set>
+  <Call name="setInitParameter">
+    <!-- Deployment timeout (in milliseconds) -->
+    <Arg>timeout</Arg>
+    <Arg>30000</Arg>
+  </Call>
+
+  <Call name="getHiddenClassMatcher">
+    <Call name="add">
+      <Arg>-org.eclipse.jetty.ee10.webapp.</Arg>
+    </Call>
+    <Call name="add">
+      <Arg>-org.eclipse.jetty.server.</Arg>
+    </Call>
+  </Call>
+  <Call name="addServlet">
+    <Arg>org.codehaus.cargo.deployer.jetty.DeployerServletJakartaEE10</Arg>
+    <Arg>/deploy</Arg>
+  </Call>
+  <Call name="addServlet">
+    <Arg>org.codehaus.cargo.deployer.jetty.DeployerServletJakartaEE10</Arg>
+    <Arg>/undeploy</Arg>
+  </Call>
+</Configure>

@@ -55,6 +55,7 @@
       <modules>
         <module>jetty-10-deployer</module>
         <module>jetty-11-deployer</module>
+        <module>jetty-12-deployer</module>
       </modules>
     </profile>
   </profiles>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Codehaus Cargo, copyright 2004-2011 Vincent Massol, 2012-2026 Ali Tokmen.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.cargo</groupId>
+    <artifactId>cargo-resources</artifactId>
+    <version>1.10.30-SNAPSHOT</version>
+  </parent>
+  <artifactId>cargo-jetty-12-deployer</artifactId>
+  <packaging>war</packaging>
+  <name>Cargo Remote Deployer for Jetty (version 12.x)</name>
+  <description>Webapp used by Cargo to remotely deploy applications on a Jetty 12.x server</description>
+  <properties>
+    <jetty.version>12.1.0</jetty.version>
+
+    <jetty.real.dir>
+      ${project.build.directory}/jetty-real
+    </jetty.real.dir>
+
+    <jetty.fake.dir>
+      ${project.build.directory}/jetty-fake
+    </jetty.fake.dir>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!--
+      Jetty is needed only for compilation.
+
+      The real Jetty artifacts are never packaged in the WAR.
+      Their complete dependency tree is copied to target/jetty-real
+      and rewritten to target/jetty-fake for Java 11 compilation.
+      -->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-deploy</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee8</groupId>
+      <artifactId>jetty-ee8-servlet</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee8</groupId>
+      <artifactId>jetty-ee8-webapp</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee9</groupId>
+      <artifactId>jetty-ee9-servlet</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee9</groupId>
+      <artifactId>jetty-ee9-webapp</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-servlet</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee10</groupId>
+      <artifactId>jetty-ee10-webapp</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee11</groupId>
+      <artifactId>jetty-ee11-servlet</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.ee11</groupId>
+      <artifactId>jetty-ee11-webapp</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--
+        Copy Jetty and all its transitive dependencies.
+
+        The dependencies are declared as provided above, so they are
+        available to Maven for resolution but are not included in the WAR.
+        -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-jetty-dependencies</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${jetty.real.dir}</outputDirectory>
+              <includeScope>provided</includeScope>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+        Make disposable compiler-only copies of Jetty.
+
+        Jetty 12.1 requires Java 17, while Cargo is compiled for Java 11.
+        The copied JARs therefore have their Java 17 class-file versions
+        rewritten to Java 11.
+
+        These JARs MUST NOT be used at runtime.
+        -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>rewrite-jetty-class-file-versions</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <mkdir dir="${project.build.directory}/build-tools/classes"/>
+                <javac
+                  srcdir="${basedir}/src/build-tools/java"
+                  destdir="${project.build.directory}/build-tools/classes"
+                  source="11"
+                  target="11"
+                  encoding="UTF-8"
+                  includeantruntime="false"/>
+
+                <mkdir dir="${jetty.fake.dir}"/>
+                <copy todir="${jetty.fake.dir}">
+                  <fileset dir="${jetty.real.dir}">
+                    <include name="*.jar"/>
+                  </fileset>
+                </copy>
+                <java
+                  classname="org.codehaus.cargo.build.RewriteClassVersions"
+                  fork="true"
+                  failonerror="true">
+                  <arg value="${jetty.fake.dir}"/>
+                  <classpath>
+                    <pathelement
+                      location="${project.build.directory}/build-tools/classes"/>
+                  </classpath>
+                </java>
+              </target>
+            </configuration>
+          </execution>
+
+          <!--
+            Compile the application using the fake Jetty JARs.
+
+            Maven's compiler plugin cannot be used here because its normal
+            dependency classpath contains the real Jetty JARs. Those JARs
+            are Java 17 bytecode and therefore cannot be read by javac 11.
+
+            The fake Jetty directory is placed first on the compiler
+            classpath, followed by Maven's normal project dependencies.
+            -->
+          <execution>
+            <id>compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <property
+                  name="compile_classpath"
+                  refid="maven.compile.classpath"/>
+                <mkdir dir="${project.build.outputDirectory}"/>
+                <javac
+                  srcdir="${basedir}/src/main/java"
+                  destdir="${project.build.outputDirectory}"
+                  source="11"
+                  target="11"
+                  encoding="UTF-8"
+                  debug="true"
+                  includeantruntime="false">
+                  <classpath>
+                    <fileset dir="${jetty.fake.dir}">
+                      <include name="*.jar"/>
+                    </fileset>
+                    <pathelement path="${compile_classpath}"/>
+                  </classpath>
+                </javac>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+        Maven Compiler Plugin is disabled because compilation is performed
+        by the Antrun javac task above with the fake Jetty classpath.
+        -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <skipMain>true</skipMain>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
