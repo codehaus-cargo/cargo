@@ -517,8 +517,8 @@ public class DeployerServlet extends HttpServlet
 
             if (!webAppFile.exists())
             {
-                sendError(response, "Can't find a valid file for the context " +
-                    contextPath + ": " + webAppLocation);
+                sendError(response, "Can't find a valid file for the context"
+                    + contextPath + ": " + webAppLocation);
             }
             else if (!webAppFile.getPath().startsWith(webAppDirectory.getPath()))
             {
