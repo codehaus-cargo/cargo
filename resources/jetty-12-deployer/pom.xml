@@ -234,14 +234,23 @@
           </plugin>
 
           <!--
-            Maven Compiler Plugin is disabled because compilation is performed
-            by the Antrun javac task above with the fake Jetty classpath.
+            Maven Compiler and Javadoc plugins is disabled because compilation is performed
+            by the Antrun javac task above with the fake Jetty classpath and fake JDK 11 JARs.
             -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <skipMain>true</skipMain>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <skippedModules>
+                org.codehaus.cargo:cargo-jetty-12-deployer
+              </skippedModules>
             </configuration>
           </plugin>
         </plugins>
