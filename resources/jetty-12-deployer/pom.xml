@@ -144,76 +144,26 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <executions>
               <execution>
-                <id>copy-jetty-dependencies</id>
+                <id>download-jetty-home</id>
                 <phase>generate-sources</phase>
                 <goals>
                   <goal>copy</goal>
                 </goals>
                 <configuration>
-                  <outputDirectory>${jetty.real.dir}</outputDirectory>
                   <artifactItems>
                     <artifactItem>
                       <groupId>org.eclipse.jetty</groupId>
-                      <artifactId>jetty-server</artifactId>
+                      <artifactId>jetty-home</artifactId>
                       <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty</groupId>
-                      <artifactId>jetty-deploy</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee8</groupId>
-                      <artifactId>jetty-ee8-servlet</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee8</groupId>
-                      <artifactId>jetty-ee8-webapp</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee9</groupId>
-                      <artifactId>jetty-ee9-servlet</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee9</groupId>
-                      <artifactId>jetty-ee9-webapp</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee10</groupId>
-                      <artifactId>jetty-ee10-servlet</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee10</groupId>
-                      <artifactId>jetty-ee10-webapp</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee11</groupId>
-                      <artifactId>jetty-ee11-servlet</artifactId>
-                      <version>${jetty.version}</version>
-                    </artifactItem>
-                    <artifactItem>
-                      <groupId>org.eclipse.jetty.ee11</groupId>
-                      <artifactId>jetty-ee11-webapp</artifactId>
-                      <version>${jetty.version}</version>
+                      <type>tar.gz</type>
+                      <outputDirectory>
+                        ${project.build.directory}
+                      </outputDirectory>
+                      <destFileName>
+                        jetty-home.tar.gz
+                      </destFileName>
                     </artifactItem>
                   </artifactItems>
-                </configuration>
-              </execution>
-              <execution>
-                <id>copy-project-dependencies</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>copy-dependencies</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${jetty.real.dir}</outputDirectory>
-                  <includeScope>provided</includeScope>
                 </configuration>
               </execution>
             </executions>
@@ -239,6 +189,16 @@
                       encoding="UTF-8"
                       includeantruntime="false"/>
 
+                    <untar
+                      src="${project.build.directory}/jetty-home.tar.gz"
+                      dest="${jetty.real.dir}"
+                      compression="gzip"/>
+                    <copy todir="${jetty.real.dir}/lib">
+                      <fileset dir="${jetty.real.dir}">
+                        <include name="jetty-home-*/lib/**/*.jar"/>
+                      </fileset>
+                      <flattenmapper/>
+                    </copy>
                     <mkdir dir="${jetty.fake.dir}"/>
                     <copy todir="${jetty.fake.dir}">
                       <fileset dir="${jetty.real.dir}">
