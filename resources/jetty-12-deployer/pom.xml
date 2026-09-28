@@ -30,9 +30,6 @@
   <packaging>war</packaging>
   <name>Cargo Remote Deployer for Jetty (version 12.x)</name>
   <description>Webapp used by Cargo to remotely deploy applications on a Jetty 12.x server</description>
-  <properties>
-    <jetty.version>12.1.0</jetty.version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -44,70 +41,80 @@
       <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-deploy</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee8</groupId>
-      <artifactId>jetty-ee8-servlet</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee8</groupId>
-      <artifactId>jetty-ee8-webapp</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee9</groupId>
-      <artifactId>jetty-ee9-servlet</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee9</groupId>
-      <artifactId>jetty-ee9-webapp</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee10</groupId>
-      <artifactId>jetty-ee10-servlet</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee10</groupId>
-      <artifactId>jetty-ee10-webapp</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee11</groupId>
-      <artifactId>jetty-ee11-servlet</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty.ee11</groupId>
-      <artifactId>jetty-ee11-webapp</artifactId>
-      <version>${jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
-
   <profiles>
+    <profile>
+      <!-- JDK >= 17 -->
+      <id>java17+</id>
+      <activation>
+        <jdk>[17,)</jdk>
+      </activation>
+      <properties>
+        <jetty.version>12.1.0</jetty.version>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-server</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-deploy</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee8</groupId>
+          <artifactId>jetty-ee8-servlet</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee8</groupId>
+          <artifactId>jetty-ee8-webapp</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee9</groupId>
+          <artifactId>jetty-ee9-servlet</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee9</groupId>
+          <artifactId>jetty-ee9-webapp</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee10</groupId>
+          <artifactId>jetty-ee10-servlet</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee10</groupId>
+          <artifactId>jetty-ee10-webapp</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee11</groupId>
+          <artifactId>jetty-ee11-servlet</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.eclipse.jetty.ee11</groupId>
+          <artifactId>jetty-ee11-webapp</artifactId>
+          <version>${jetty.version}</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
     <profile>
       <!--
         When JDK < 17, make disposable compiler-only copies of Jetty.
@@ -234,23 +241,14 @@
           </plugin>
 
           <!--
-            Maven Compiler and Javadoc plugins is disabled because compilation is performed
-            by the Antrun javac task above with the fake Jetty classpath and fake JDK 11 JARs.
+            We disable the Maven Compiler Plugin because compilation is performed by the
+            Antrun javac task above with the fake Jetty classpath and fake JDK 11 JARs.
             -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <skipMain>true</skipMain>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <skippedModules>
-                org.codehaus.cargo:cargo-jetty-12-deployer
-              </skippedModules>
             </configuration>
           </plugin>
         </plugins>
