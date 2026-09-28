@@ -295,19 +295,6 @@
               <skipMain>true</skipMain>
             </configuration>
           </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <additionalDependencies>
-                <additionalDependency>
-                  <groupId>org.codehaus.cargo</groupId>
-                  <artifactId>cargo-jetty-12-fake-jdk11-javadoc</artifactId>
-                  <version>${project.version}</version>
-                </additionalDependency>
-              </additionalDependencies>
-            </configuration>
-          </plugin>
         </plugins>
       </build>
     </profile>
