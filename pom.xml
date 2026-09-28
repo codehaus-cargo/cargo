@@ -1516,5 +1516,35 @@
         <maven.compiler.release>${maven.compiler-java.release}</maven.compiler.release>
       </properties>
     </profile>
+
+    <!--
+      javadoc:aggregate is normally invoked from the root project, and we use JDK 11 for release.
+      Unfortunately, on JDK 11, Jetty 12.x cannot be used directly because its classes require
+      Java 17. The Jetty deployer therefore creates a rewritten JDK 11-compatible JAR for Javadoc,
+      and the aggregate Javadoc build needs to see that JAR from the root project.
+      -->
+    <profile>
+      <id>java11-jetty12x-deployer-faked-jetty-jars</id>
+      <activation>
+        <jdk>[11,17)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalDependencies>
+                <additionalDependency>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-12-fake-jdk11-javadoc</artifactId>
+                  <version>${project.version}</version>
+                </additionalDependency>
+              </additionalDependencies>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 </project>
