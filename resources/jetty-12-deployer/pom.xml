@@ -30,6 +30,9 @@
   <packaging>war</packaging>
   <name>Cargo Remote Deployer for Jetty (version 12.x)</name>
   <description>Webapp used by Cargo to remotely deploy applications on a Jetty 12.x server</description>
+  <properties>
+    <jetty.version>12.1.0</jetty.version>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -49,9 +52,6 @@
       <activation>
         <jdk>[17,)</jdk>
       </activation>
-      <properties>
-        <jetty.version>12.1.0</jetty.version>
-      </properties>
       <dependencies>
         <dependency>
           <groupId>org.eclipse.jetty</groupId>
@@ -145,6 +145,68 @@
             <executions>
               <execution>
                 <id>copy-jetty-dependencies</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${jetty.real.dir}</outputDirectory>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty</groupId>
+                      <artifactId>jetty-server</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty</groupId>
+                      <artifactId>jetty-deploy</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee8</groupId>
+                      <artifactId>jetty-ee8-servlet</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee8</groupId>
+                      <artifactId>jetty-ee8-webapp</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee9</groupId>
+                      <artifactId>jetty-ee9-servlet</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee9</groupId>
+                      <artifactId>jetty-ee9-webapp</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee10</groupId>
+                      <artifactId>jetty-ee10-servlet</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee10</groupId>
+                      <artifactId>jetty-ee10-webapp</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee11</groupId>
+                      <artifactId>jetty-ee11-servlet</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.eclipse.jetty.ee11</groupId>
+                      <artifactId>jetty-ee11-webapp</artifactId>
+                      <version>${jetty.version}</version>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-project-dependencies</id>
                 <phase>generate-sources</phase>
                 <goals>
                   <goal>copy-dependencies</goal>
