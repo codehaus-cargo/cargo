@@ -207,6 +207,13 @@
                           location="${project.build.directory}/build-tools/classes"/>
                       </classpath>
                     </java>
+                    <jar
+                      destfile="${project.build.directory}/jetty-fake-jdk11-javadoc.jar"
+                      duplicate="preserve">
+                    <zipgroupfileset
+                      dir="${jetty.fake.dir}"
+                      includes="*.jar"/>
+                    </jar>
                   </target>
                 </configuration>
               </execution>
@@ -253,6 +260,29 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>install-fake-jetty-for-javadoc</id>
+                <phase>process-sources</phase>
+                <goals>
+                  <goal>install-file</goal>
+                </goals>
+                <configuration>
+                  <file>
+                    ${project.build.directory}/jetty-fake-jdk11-javadoc.jar
+                  </file>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-12-fake-jdk11-javadoc</artifactId>
+                  <version>${project.version}</version>
+                  <packaging>jar</packaging>
+                  <generatePom>true</generatePom>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
 
           <!--
             We disable the Maven Compiler Plugin because compilation is performed by the
@@ -263,6 +293,19 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
               <skipMain>true</skipMain>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <additionalDependencies>
+                <additionalDependency>
+                  <groupId>org.codehaus.cargo</groupId>
+                  <artifactId>cargo-jetty-12-fake-jdk11-javadoc</artifactId>
+                  <version>${project.version}</version>
+                </additionalDependency>
+              </additionalDependencies>
             </configuration>
           </plugin>
         </plugins>
