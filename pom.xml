@@ -1518,10 +1518,13 @@
     </profile>
 
     <!--
-      This need to be here for javadoc:aggregate started on root passes on JDK 11 for Jetty 12.x.
+      javadoc:aggregate is normally invoked from the root project, and we use JDK 11 for release.
+      Unfortunately, on JDK 11, Jetty 12.x cannot be used directly because its classes require
+      Java 17. The Jetty deployer therefore creates a rewritten JDK 11-compatible JAR for Javadoc,
+      and the aggregate Javadoc build needs to see that JAR from the root project.
       -->
     <profile>
-      <id>java11</id>
+      <id>java11-jetty12x-deployer-faked-jetty-jars</id>
       <activation>
         <jdk>[11,17)</jdk>
       </activation>

@@ -120,14 +120,15 @@
         When JDK < 17, make disposable compiler-only copies of Jetty.
 
         Jetty 12.1 requires Java 17, while Cargo is compiled for Java 11.
-        The copied JARs therefore have their Java 17 class-file versions
-        rewritten to Java 11.
+        We hence copy the Jetty JARs and rewrite their Java 17 class-file versions as Java 11.
+        We then compile the Jetty 12.x deployer WAR application using the fake Jetty JARs.
 
-        These JARs MUST NOT be used at runtime.
+        These faked JARs MUST NOT be used at runtime, but we do save them in the local m2
+        repository for javadoc:aggregate to work.
         -->
-      <id>java17-</id>
+      <id>java11-jetty12x-deployer-faked-jetty-jars</id>
       <activation>
-        <jdk>(,17)</jdk>
+        <jdk>[11,17)</jdk>
       </activation>
       <properties>
         <jetty.fake.dir>
@@ -142,7 +143,7 @@
             <executions>
               <execution>
                 <id>download-jetty-home</id>
-                <phase>generate-sources</phase>
+                <phase>compile</phase>
                 <goals>
                   <goal>copy</goal>
                 </goals>
@@ -170,8 +171,8 @@
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
               <execution>
-                <id>rewrite-jetty-class-file-versions</id>
-                <phase>process-sources</phase>
+                <id>rewrite-jetty-class-file-versions-and-compile</id>
+                <phase>compile</phase>
                 <goals>
                   <goal>run</goal>
                 </goals>
@@ -214,28 +215,7 @@
                       dir="${jetty.fake.dir}"
                       includes="*.jar"/>
                     </jar>
-                  </target>
-                </configuration>
-              </execution>
 
-              <!--
-                Compile the application using the fake Jetty JARs.
-
-                Maven's compiler plugin cannot be used here because its normal
-                dependency classpath contains the real Jetty JARs. Those JARs
-                are Java 17 bytecode and therefore cannot be read by javac 11.
-
-                The fake Jetty directory is placed first on the compiler
-                classpath, followed by Maven's normal project dependencies.
-                -->
-              <execution>
-                <id>compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-                <configuration>
-                  <target>
                     <property
                       name="compile_classpath"
                       refid="maven.compile.classpath"/>
@@ -266,7 +246,7 @@
             <executions>
               <execution>
                 <id>install-fake-jetty-for-javadoc</id>
-                <phase>process-sources</phase>
+                <phase>compile</phase>
                 <goals>
                   <goal>install-file</goal>
                 </goals>
