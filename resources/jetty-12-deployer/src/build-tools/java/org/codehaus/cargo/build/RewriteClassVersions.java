@@ -49,6 +49,11 @@ public class RewriteClassVersions
     private static final int JAVA_17_CLASS_FILE_VERSION = 61;
 
     /**
+     * Java 22 class file major version.
+     */
+    private static final int JAVA_22_CLASS_FILE_VERSION = 66;
+
+    /**
      * Main entry point for rewriting class file versions.
      *
      * @param args command line arguments containing the directory to process
@@ -201,12 +206,13 @@ public class RewriteClassVersions
         int majorVersion =
             ((bytes[6] & 0xff) << 8) | (bytes[7] & 0xff);
 
-        if (majorVersion == JAVA_17_CLASS_FILE_VERSION)
+        if (majorVersion == JAVA_17_CLASS_FILE_VERSION
+            || majorVersion == JAVA_22_CLASS_FILE_VERSION)
         {
             bytes[6] = (byte) (JAVA_11_CLASS_FILE_VERSION >>> 8);
             bytes[7] = (byte) JAVA_11_CLASS_FILE_VERSION;
         }
-        else if (majorVersion > JAVA_17_CLASS_FILE_VERSION)
+        else if (majorVersion > JAVA_22_CLASS_FILE_VERSION)
         {
             throw new IllegalStateException(
                 "Unexpected class file version " + majorVersion

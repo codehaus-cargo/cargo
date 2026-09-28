@@ -130,9 +130,6 @@
         <jdk>(,17)</jdk>
       </activation>
       <properties>
-        <jetty.real.dir>
-          ${project.build.directory}/jetty-real
-        </jetty.real.dir>
         <jetty.fake.dir>
           ${project.build.directory}/jetty-fake
         </jetty.fake.dir>
@@ -191,19 +188,14 @@
 
                     <untar
                       src="${project.build.directory}/jetty-home.tar.gz"
-                      dest="${jetty.real.dir}"
+                      dest="${project.build.directory}/jetty-home"
                       compression="gzip"/>
-                    <copy todir="${jetty.real.dir}/lib">
-                      <fileset dir="${jetty.real.dir}">
+                    <mkdir dir="${jetty.fake.dir}"/>
+                    <copy todir="${jetty.fake.dir}">
+                      <fileset dir="${project.build.directory}/jetty-home">
                         <include name="jetty-home-*/lib/**/*.jar"/>
                       </fileset>
                       <flattenmapper/>
-                    </copy>
-                    <mkdir dir="${jetty.fake.dir}"/>
-                    <copy todir="${jetty.fake.dir}">
-                      <fileset dir="${jetty.real.dir}">
-                        <include name="*.jar"/>
-                      </fileset>
                     </copy>
                     <java
                       classname="org.codehaus.cargo.build.RewriteClassVersions"
