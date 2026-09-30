@@ -15,16 +15,15 @@
  */
 package org.codehaus.cargo.deployer.jetty;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Contains the common deployment logic used by the Jetty Cargo deployer
@@ -230,8 +229,8 @@ public class JettyDeployer
         }
 
         File webappSource = new File(uri);
-
-        copyFile(webappSource, webappDestination);
+        Files.copy(webappSource.toPath(), webappDestination.toPath(),
+               StandardCopyOption.REPLACE_EXISTING);
 
         try
         {
@@ -285,10 +284,8 @@ public class JettyDeployer
             getWebAppFilename(contextPath) + ".war");
 
         try (
-            InputStream input = new BufferedInputStream(
-                request.getInputStream());
-            OutputStream output = new BufferedOutputStream(
-                new FileOutputStream(webappFile), 8096))
+            InputStream input = request.getInputStream();
+            OutputStream output = new FileOutputStream(webappFile))
         {
             byte[] buffer = new byte[8192];
             int count;
@@ -447,32 +444,6 @@ public class JettyDeployer
     private boolean contextExists(String contextPath)
     {
         return context.getContextHandler(contextPath) != null;
-    }
-
-    /**
-     * Copies a file from one location to another.
-     *
-     * @param source source file
-     * @param destination destination file
-     * @throws IOException if the file cannot be copied
-     */
-    private void copyFile(File source, File destination)
-        throws IOException
-    {
-        try (
-            InputStream input = new BufferedInputStream(
-                new FileInputStream(source));
-            OutputStream output = new BufferedOutputStream(
-                new FileOutputStream(destination), 8096))
-        {
-            byte[] buffer = new byte[8192];
-            int count;
-
-            while ((count = input.read(buffer)) != -1)
-            {
-                output.write(buffer, 0, count);
-            }
-        }
     }
 
     /**

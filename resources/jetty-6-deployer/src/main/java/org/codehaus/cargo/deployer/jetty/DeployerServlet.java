@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.deployer.jetty;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -200,22 +198,38 @@ public class DeployerServlet extends HttpServlet
             File webappFile = new File(
                 this.webAppDirectory, getWebAppFilename(contextPath) + ".war");
 
-            InputStream inputStream = new BufferedInputStream(request.getInputStream());
-            OutputStream outputStream =
-                new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
-
-            // transfer the data across
-            int i = inputStream.read();
-            while (i != -1)
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try
             {
-                outputStream.write(i);
-                i = inputStream.read();
-            }
+                inputStream = request.getInputStream();
+                outputStream = new FileOutputStream(webappFile);
 
-            // close and flush readers
-            inputStream.close();
-            outputStream.flush();
-            outputStream.close();
+                byte[] buffer = new byte[8192];
+                int count;
+
+                while ((count = inputStream.read(buffer)) != -1)
+                {
+                    outputStream.write(buffer, 0, count);
+                }
+            }
+            finally
+            {
+                try
+                {
+                    if (inputStream != null)
+                    {
+                        inputStream.close();
+                    }
+                }
+                finally
+                {
+                    if (outputStream != null)
+                    {
+                        outputStream.close();
+                    }
+                }
+            }
 
             // deploy webapp
             WebAppContext webappcontext = new WebAppContext();

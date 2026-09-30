@@ -19,8 +19,6 @@
  */
 package org.codehaus.cargo.deployer.jetty;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -274,22 +272,18 @@ public class DeployerServlet extends HttpServlet
             File webappFile = new File(
                 this.webAppDirectory, getWebAppFilename(contextPath) + ".war");
 
-            InputStream inputStream = new BufferedInputStream(request.getInputStream());
-            OutputStream outputStream =
-                new BufferedOutputStream(new FileOutputStream(webappFile), 8096);
-
-            // transfer the data across
-            int i = inputStream.read();
-            while (i != -1)
+            try (
+                InputStream input = request.getInputStream();
+                OutputStream output = new FileOutputStream(webappFile))
             {
-                outputStream.write(i);
-                i = inputStream.read();
-            }
+                byte[] buffer = new byte[8192];
+                int count;
 
-            // close and flush readers
-            inputStream.close();
-            outputStream.flush();
-            outputStream.close();
+                while ((count = input.read(buffer)) != -1)
+                {
+                    output.write(buffer, 0, count);
+                }
+            }
 
             // CARGO-1122: Just wait for Jetty to deploy the application by itself
             long timeout = System.currentTimeMillis() + this.timeout;
