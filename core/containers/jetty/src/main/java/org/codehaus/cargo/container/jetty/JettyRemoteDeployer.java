@@ -42,12 +42,14 @@ import org.codehaus.cargo.container.spi.deployer.AbstractRemoteDeployer;
 
 /**
  * A remote deployer for the Jetty container.<br><br>
- * <b>NOTE</b>: undeploy <u>DELETES</u> the webapp from the Jetty webapp directory.<br><br>
+ * <b>NOTE</b>: {@link #undeploy(Deployable)} <u>DELETES</u> the webapp from the Jetty
+ * <code>webapp</code> directory.<br><br>
  * Limitations:
  * <ul>
- * <li>Will not undeploy files from anywhere other than the servers webapp directory</li>
- * <li>Cannot be used to undeploy webapps that were deployed using a xml context file in
- * <code>/contexts</code></li>
+ * <li>Will not undeploy files from anywhere other than the server's <code>webapp</code>
+ * directory</li>
+ * <li>Cannot be used to undeploy webapps that were deployed using a xml context file in the
+ * <code>contexts</code> directory</li>
  * <li>Should not be used with multiple webapps sharing a common war</li>
  * </ul>
  */
@@ -89,35 +91,29 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
 
         Configuration configuration = container.getConfiguration();
 
-        username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
-        password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
-        deployerUrl = configuration.getPropertyValue(JettyPropertySet.DEPLOYER_URL);
+        this.username = configuration.getPropertyValue(RemotePropertySet.USERNAME);
+        this.password = configuration.getPropertyValue(RemotePropertySet.PASSWORD);
+        this.deployerUrl = configuration.getPropertyValue(JettyPropertySet.DEPLOYER_URL);
         String timeoutStr = configuration.getPropertyValue(RemotePropertySet.TIMEOUT);
         if (timeoutStr != null && !timeoutStr.isEmpty())
         {
-            timeout = Integer.parseInt(timeoutStr);
-        }
-
-        if (deployerUrl == null)
-        {
-            this.deployerUrl = createDefaultDeployerUrl(configuration);
+            this.timeout = Integer.parseInt(timeoutStr);
         }
     }
 
     /**
      * Returns a deployerURL based on default values.
-     * @param configuration The server configuration object
      * @return The url for the deployer
      */
-    protected String createDefaultDeployerUrl(Configuration configuration)
+    protected String createDefaultDeployerUrl()
     {
+        Configuration configuration = this.getContainer().getConfiguration();
+
         String protocol = configuration.getPropertyValue(GeneralPropertySet.PROTOCOL);
         String host = configuration.getPropertyValue(GeneralPropertySet.HOSTNAME);
         String port = configuration.getPropertyValue(ServletPropertySet.PORT);
 
-        String deployerUrl = protocol + "://" + host + ":" + port + "/" + DEFAULT_DEPLOYER_CONTEXT;
-
-        return deployerUrl;
+        return protocol + "://" + host + ":" + port + "/" + DEFAULT_DEPLOYER_CONTEXT;
     }
 
     /**
@@ -182,8 +178,14 @@ public class JettyRemoteDeployer extends AbstractRemoteDeployer
         getLogger().debug("Invoking Jetty remote deployer using path [" + path + "]",
             getClass().getName());
 
+        String deployerUrl = this.deployerUrl;
+        if (deployerUrl == null)
+        {
+            deployerUrl = createDefaultDeployerUrl();
+        }
+
         HttpResult response;
-        URL invokeURL = new URL(this.deployerUrl + path);
+        URL invokeURL = new URL(deployerUrl + path);
         if (fileData == null)
         {
             getLogger().debug("Performing GET request", getClass().getName());
