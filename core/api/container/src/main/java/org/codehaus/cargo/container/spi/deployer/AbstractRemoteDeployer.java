@@ -39,6 +39,7 @@ public abstract class AbstractRemoteDeployer extends AbstractDeployer
     public AbstractRemoteDeployer(RemoteContainer container)
     {
         super(container);
+        this.container = container;
     }
 
     /**
