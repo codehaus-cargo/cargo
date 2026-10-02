@@ -27,6 +27,7 @@ import org.codehaus.cargo.container.jetty.internal.Jetty10x11xExistingLocalConfi
 import org.codehaus.cargo.container.jetty.internal.Jetty10x11xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty12xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty12xExistingLocalConfigurationCapability;
+import org.codehaus.cargo.container.jetty.internal.Jetty12xRuntimeConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty12xStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty5xEmbeddedStandaloneLocalConfigurationCapability;
 import org.codehaus.cargo.container.jetty.internal.Jetty6x7x8x9x10x11xEmbeddedStandaloneLocalConfigurationCapability;
@@ -159,6 +160,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             Jetty12xExistingLocalConfigurationCapability.class);
+        configurationCapabilityFactory.registerConfigurationCapability("jetty12x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            Jetty12xRuntimeConfigurationCapability.class);
     }
 
     /**
@@ -260,6 +264,9 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
         configurationFactory.registerConfiguration("jetty12x",
             ContainerType.INSTALLED, ConfigurationType.EXISTING,
             Jetty12xExistingLocalConfiguration.class);
+        configurationFactory.registerConfiguration("jetty12x",
+            ContainerType.REMOTE, ConfigurationType.RUNTIME,
+            Jetty12xRuntimeConfiguration.class);
     }
 
     /**
@@ -319,6 +326,8 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             Jetty12xEmbeddedLocalDeployer.class);
         deployerFactory.registerDeployer("jetty12x", DeployerType.INSTALLED,
             Jetty12xInstalledLocalDeployer.class);
+        deployerFactory.registerDeployer("jetty12x", DeployerType.REMOTE,
+            Jetty12xRemoteDeployer.class);
     }
 
     /**
@@ -402,6 +411,8 @@ public class JettyFactoryRegistry extends AbstractFactoryRegistry
             Jetty12xEmbeddedLocalContainer.class);
         containerFactory.registerContainer("jetty12x", ContainerType.INSTALLED,
             Jetty12xInstalledLocalContainer.class);
+        containerFactory.registerContainer("jetty12x", ContainerType.REMOTE,
+            Jetty12xRemoteContainer.class);
     }
 
     /**
