@@ -719,6 +719,12 @@
         <version>${project.version}</version>
         <type>war</type>
       </dependency>
+      <dependency>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-jetty-12-deployer</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
 
       <dependency>
         <groupId>org.codehaus.cargo</groupId>

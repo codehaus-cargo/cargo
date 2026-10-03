@@ -246,6 +246,11 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
                 jettyDeployerApplication = (WAR) this.createDeployableFromTestdataFile(
                     "cargo-jetty-11-deployer", DeployableType.WAR);
             }
+            else if (jettyVersion == 12)
+            {
+                jettyDeployerApplication = (WAR) this.createDeployableFromTestdataFile(
+                    "cargo-jetty-12-deployer", DeployableType.WAR);
+            }
             else
             {
                 throw new IllegalArgumentException("Jetty " + jettyVersion + " not supported");
