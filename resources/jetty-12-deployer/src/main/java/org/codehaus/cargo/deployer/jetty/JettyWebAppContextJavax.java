@@ -68,8 +68,7 @@ public class JettyWebAppContextJavax implements JettyDeployer.Context
      * {@inheritDoc}
      */
     @Override
-    public void deploy(String contextPath, File warFile)
-        throws Exception
+    public void deploy(String contextPath, File warFile) throws Exception
     {
         ContextHandlerCollection contexts =
             findContextHandlerCollection(context.getServer());
@@ -86,8 +85,7 @@ public class JettyWebAppContextJavax implements JettyDeployer.Context
      * {@inheritDoc}
      */
     @Override
-    public String undeploy(Object contextHandler)
-        throws Exception
+    public String undeploy(Object contextHandler) throws Exception
     {
         WebAppContext webAppContext =
             (WebAppContext) contextHandler;
@@ -110,8 +108,7 @@ public class JettyWebAppContextJavax implements JettyDeployer.Context
      * @param server Jetty server
      * @return context handler collection
      */
-    private static ContextHandlerCollection findContextHandlerCollection(
-        Server server)
+    private static ContextHandlerCollection findContextHandlerCollection(Server server)
     {
         for (Handler handler : server.getHandlers())
         {
@@ -121,7 +118,6 @@ public class JettyWebAppContextJavax implements JettyDeployer.Context
             }
         }
 
-        throw new IllegalStateException(
-            "Cannot find a ContextHandlerCollection");
+        throw new IllegalStateException("Cannot find a ContextHandlerCollection");
     }
 }

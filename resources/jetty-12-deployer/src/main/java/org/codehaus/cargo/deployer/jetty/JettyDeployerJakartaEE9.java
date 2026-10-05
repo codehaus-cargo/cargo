@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.codehaus.cargo.deployer.jetty;
-
-import java.io.File;
 
 import org.eclipse.jetty.ee9.webapp.WebAppContext;
 import org.eclipse.jetty.server.Handler;
@@ -52,6 +49,15 @@ public class JettyDeployerJakartaEE9 extends JettyDeployerJetty
      * {@inheritDoc}
      */
     @Override
+    protected String getEnvironmentName()
+    {
+        return "ee9";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected String getContextPath(Object contextHandler)
     {
         return ((WebAppContext) contextHandler).getContextPath();
@@ -64,41 +70,5 @@ public class JettyDeployerJakartaEE9 extends JettyDeployerJetty
     protected boolean isWebAppContext(Handler handler)
     {
         return handler instanceof WebAppContext;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void deployWebApp(
-        String contextPath, File warFile)
-        throws Exception
-    {
-        WebAppContext webAppContext = new WebAppContext();
-
-        webAppContext.setContextPath(contextPath);
-        webAppContext.setWar(warFile.getAbsolutePath());
-
-        getContextHandlerCollection().addHandler(webAppContext);
-        webAppContext.start();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String undeployWebApp(Object contextHandler)
-        throws Exception
-    {
-        WebAppContext webAppContext =
-            (WebAppContext) contextHandler;
-
-        String webAppLocation = webAppContext.getWar();
-
-        webAppContext.stop();
-        getContextHandlerCollection().removeHandler(
-            (Handler) webAppContext);
-
-        return webAppLocation;
     }
 }

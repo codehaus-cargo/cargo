@@ -37,8 +37,7 @@ public class DeployerServletJakartaEE9 extends DeployerServletJakarta
 
         if (context == null)
         {
-            throw new IllegalStateException(
-                "Cannot find the current Jetty WebAppContext");
+            throw new IllegalStateException("Cannot find the current Jetty WebAppContext");
         }
 
         return new JettyDeployerJakartaEE9(context);

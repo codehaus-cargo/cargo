@@ -34,8 +34,7 @@ public abstract class JettyDeployerServlet
     /**
      * System property overriding the deployment timeout.
      */
-    private static final String TIMEOUT_PROPERTY =
-        "cargo.jetty.deployer.timeout";
+    private static final String TIMEOUT_PROPERTY = "cargo.jetty.deployer.timeout";
 
     /**
      * Common deployment logic.
@@ -49,20 +48,17 @@ public abstract class JettyDeployerServlet
      * @param contextTimeout servlet context initialization parameter
      * @throws Exception if initialization fails
      */
-    protected void initialize(
-        String servletTimeout, String contextTimeout)
+    protected void initialize(String servletTimeout, String contextTimeout)
         throws Exception
     {
         String configHome = getConfigHome();
 
         if (configHome == null)
         {
-            throw new IllegalStateException(
-                "Cannot find the Jetty configuration home");
+            throw new IllegalStateException("Cannot find the Jetty configuration home");
         }
 
-        String timeoutValue =
-            System.getProperty(TIMEOUT_PROPERTY);
+        String timeoutValue = System.getProperty(TIMEOUT_PROPERTY);
 
         if (timeoutValue == null)
         {
@@ -77,8 +73,7 @@ public abstract class JettyDeployerServlet
         if (timeoutValue == null)
         {
             throw new IllegalStateException(
-                "Cannot find the [" + TIMEOUT_PARAMETER
-                    + "] servlet parameter");
+                "Cannot find the [" + TIMEOUT_PARAMETER + "] servlet parameter");
         }
 
         long timeout;
@@ -96,8 +91,7 @@ public abstract class JettyDeployerServlet
 
         if (timeout < 1)
         {
-            throw new IllegalStateException(
-                "Timeout is smaller than 1: " + timeout);
+            throw new IllegalStateException("Timeout is smaller than 1: " + timeout);
         }
 
         this.deployer = new JettyDeployer(

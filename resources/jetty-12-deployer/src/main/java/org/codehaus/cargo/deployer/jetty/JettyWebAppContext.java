@@ -26,8 +26,7 @@ import org.eclipse.jetty.server.handler.ContextHandlerCollection;
  *
  * @param <T> Jetty WebAppContext type
  */
-public abstract class JettyWebAppContext<T>
-    implements JettyDeployer.Context
+public abstract class JettyWebAppContext<T> implements JettyDeployer.Context
 {
     /**
      * The Jetty WebAppContext containing the deployer servlet.
@@ -85,8 +84,7 @@ public abstract class JettyWebAppContext<T>
      * @param contextCollection context handler collection
      * @throws Exception if deployment fails
      */
-    protected abstract void deployWebApp(
-        String contextPath, File warFile,
+    protected abstract void deployWebApp(String contextPath, File warFile,
         ContextHandlerCollection contextCollection) throws Exception;
 
     /**
@@ -97,8 +95,7 @@ public abstract class JettyWebAppContext<T>
      * @return WAR location
      * @throws Exception if undeployment fails
      */
-    protected abstract String undeployWebApp(
-        Object contextHandler,
+    protected abstract String undeployWebApp(Object contextHandler,
         ContextHandlerCollection contextCollection) throws Exception;
 
     /**
@@ -152,8 +149,7 @@ public abstract class JettyWebAppContext<T>
      * @param server Jetty server
      * @return context handler collection
      */
-    private static ContextHandlerCollection findContextHandlerCollection(
-        Server server)
+    private static ContextHandlerCollection findContextHandlerCollection(Server server)
     {
         for (Handler handler : server.getHandlers())
         {
@@ -163,7 +159,6 @@ public abstract class JettyWebAppContext<T>
             }
         }
 
-        throw new IllegalStateException(
-            "Cannot find a ContextHandlerCollection");
+        throw new IllegalStateException("Cannot find a ContextHandlerCollection");
     }
 }

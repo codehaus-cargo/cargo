@@ -53,8 +53,7 @@ public class DeployerServletJavax extends HttpServlet
 
         if (context == null)
         {
-            throw new ServletException(
-                "Cannot find the current Jetty WebAppContext");
+            throw new ServletException("Cannot find the current Jetty WebAppContext");
         }
 
         this.deployer = new JettyDeployerJavax(context);
@@ -67,8 +66,7 @@ public class DeployerServletJavax extends HttpServlet
         }
         catch (Exception e)
         {
-            throw new ServletException(
-                "Cannot initialize the Jetty deployer", e);
+            throw new ServletException("Cannot initialize the Jetty deployer", e);
         }
     }
 
@@ -76,35 +74,28 @@ public class DeployerServletJavax extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doGet(
-        HttpServletRequest request,
-        HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
         this.deployer.getDeployer().doGet(
-            new ServletRequest(request),
-            new ServletResponse(response));
+            new ServletRequest(request), new ServletResponse(response));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void doPut(
-        HttpServletRequest request,
-        HttpServletResponse response)
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
         this.deployer.getDeployer().doPut(
-            new ServletRequest(request),
-            new ServletResponse(response));
+            new ServletRequest(request), new ServletResponse(response));
     }
 
     /**
      * Adapts a Javax servlet request.
      */
-    private static class ServletRequest
-        implements JettyDeployer.Request
+    private static class ServletRequest implements JettyDeployer.Request
     {
         /**
          * Underlying servlet request.
@@ -134,8 +125,7 @@ public class DeployerServletJavax extends HttpServlet
          * {@inheritDoc}
          */
         @Override
-        public InputStream getInputStream()
-            throws IOException
+        public InputStream getInputStream() throws IOException
         {
             return this.request.getInputStream();
         }
@@ -153,8 +143,7 @@ public class DeployerServletJavax extends HttpServlet
     /**
      * Adapts a Javax servlet response.
      */
-    private static class ServletResponse
-        implements JettyDeployer.Response
+    private static class ServletResponse implements JettyDeployer.Response
     {
         /**
          * Underlying servlet response.
@@ -175,8 +164,7 @@ public class DeployerServletJavax extends HttpServlet
          * {@inheritDoc}
          */
         @Override
-        public void sendMessage(String message)
-            throws IOException
+        public void sendMessage(String message) throws IOException
         {
             this.response.getWriter().println("OK - " + message);
         }
@@ -185,8 +173,7 @@ public class DeployerServletJavax extends HttpServlet
          * {@inheritDoc}
          */
         @Override
-        public void sendError(String message)
-            throws IOException
+        public void sendError(String message) throws IOException
         {
             this.response.getWriter().println("Error - " + message);
         }

@@ -16,20 +16,25 @@
 package org.codehaus.cargo.deployer.jetty;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.util.Collections;
 
+import org.eclipse.jetty.deploy.StandardContextHandlerFactory;
+import org.eclipse.jetty.deploy.StandardDeployer;
+import org.eclipse.jetty.server.Deployable;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.util.Attributes;
+import org.eclipse.jetty.util.component.Environment;
 
 /**
- * Provides common Jetty server operations for the Cargo deployer.<br>
- * <br>
- * The EE-specific subclasses provide the actual web application context
- * implementation.
+ * Provides common Jetty server operations for the Cargo deployer.
  *
- * @see org.eclipse.jetty.server.Server
- * @see org.eclipse.jetty.server.Handler
- * @see org.eclipse.jetty.server.handler.ContextHandlerCollection
+ * <p>The EE-specific subclasses provide the actual web application context
+ * implementation and identify the Jetty environment in which the application
+ * must be deployed.</p>
  */
 public abstract class JettyDeployerJetty extends JettyDeployerServlet
 {
@@ -56,6 +61,13 @@ public abstract class JettyDeployerJetty extends JettyDeployerServlet
     protected abstract Server getServer();
 
     /**
+     * Returns the Jetty environment name used by this deployer.
+     *
+     * @return environment name
+     */
+    protected abstract String getEnvironmentName();
+
+    /**
      * Returns the context path of a web application.
      *
      * @param contextHandler web application context
@@ -72,34 +84,115 @@ public abstract class JettyDeployerJetty extends JettyDeployerServlet
     protected abstract boolean isWebAppContext(Handler handler);
 
     /**
-     * Deploys a WAR.
+     * Returns the Jetty StandardDeployer.
      *
-     * @param contextPath context path
-     * @param warFile WAR file
-     * @throws Exception if deployment fails
+     * <p>The deployer is normally installed in the server's component tree.
+     * The contained-bean lookup is also used because a
+     * {@code DeploymentScanner} may own the deployer.</p>
+     *
+     * @return StandardDeployer
      */
-    protected abstract void deployWebApp(
-        String contextPath, File warFile)
-        throws Exception;
+    protected StandardDeployer getStandardDeployer()
+    {
+        StandardDeployer deployer =
+            getServer().getBean(StandardDeployer.class);
+
+        if (deployer == null)
+        {
+            for (StandardDeployer candidate :
+                getServer().getContainedBeans(StandardDeployer.class))
+            {
+                deployer = candidate;
+                break;
+            }
+        }
+
+        if (deployer == null)
+        {
+            throw new IllegalStateException("Cannot find Jetty StandardDeployer");
+        }
+
+        return deployer;
+    }
 
     /**
-     * Stops a web application and returns its WAR location.
-     *
-     * @param contextHandler web application context
-     * @return WAR location
-     * @throws Exception if undeployment fails
-     */
-    protected abstract String undeployWebApp(Object contextHandler)
-        throws Exception;
-
-    /**
-     * Returns the Jetty context handler collection.
+     * Returns the Jetty context handler collection used by the deployer.
      *
      * @return context handler collection
      */
     protected ContextHandlerCollection getContextHandlerCollection()
     {
-        return findContextHandlerCollection(getServer());
+        return getStandardDeployer().getContexts();
+    }
+
+    /**
+     * Deploys a WAR.
+     *
+     * <p>The context is deliberately created through
+     * {@link StandardContextHandlerFactory}. This is important in Jetty 12.1
+     * because the factory creates and configures the web application using
+     * the appropriate Jetty environment and environment classloader.</p>
+     *
+     * @param contextPath context path
+     * @param warFile WAR file
+     * @throws Exception if deployment fails
+     */
+    protected void deployWebApp(String contextPath, File warFile) throws Exception
+    {
+        Environment environment = Environment.get(getEnvironmentName());
+
+        if (environment == null)
+        {
+            throw new IllegalStateException(
+                "Cannot find Jetty environment [" + getEnvironmentName() + "]");
+        }
+
+        Attributes deployAttributes = new Attributes.Mapped();
+        deployAttributes.setAttribute(
+            Deployable.CONTEXT_PATH, contextPath);
+
+        Path warPath = warFile.toPath();
+
+        StandardContextHandlerFactory factory =
+            new StandardContextHandlerFactory();
+
+        ContextHandler contextHandler =
+            factory.newContextHandler(
+                getServer(),
+                environment,
+                warPath,
+                Collections.emptySet(),
+                deployAttributes);
+
+        getStandardDeployer().deploy(contextHandler);
+    }
+
+    /**
+     * Undeploys a web application.
+     *
+     * @param contextHandler web application context
+     * @return WAR location
+     * @throws Exception if undeployment fails
+     */
+    protected String undeployWebApp(Object contextHandler)
+        throws Exception
+    {
+        ContextHandler handler = (ContextHandler) contextHandler;
+
+        Object war = handler.getAttribute(Deployable.WAR);
+
+        String webAppLocation = war == null ? null : war.toString();
+
+        getStandardDeployer().undeploy(handler);
+
+        /*
+         * StandardDeployer stops and removes the context from the
+         * ContextHandlerCollection. Destroy it as well, matching the
+         * lifecycle used by Jetty's DeploymentScanner.
+         */
+        handler.destroy();
+
+        return webAppLocation;
     }
 
     /**
@@ -108,8 +201,7 @@ public abstract class JettyDeployerJetty extends JettyDeployerServlet
     @Override
     protected JettyDeployer.Context createContextAdapter()
     {
-        final ContextHandlerCollection contextCollection =
-            getContextHandlerCollection();
+        final ContextHandlerCollection contextCollection = getContextHandlerCollection();
 
         return new JettyDeployer.Context()
         {
@@ -119,8 +211,7 @@ public abstract class JettyDeployerJetty extends JettyDeployerServlet
                 for (Handler handler : contextCollection.getHandlers())
                 {
                     if (isWebAppContext(handler)
-                        && contextPath.equals(
-                            getContextPath(handler)))
+                        && contextPath.equals(getContextPath(handler)))
                     {
                         return handler;
                     }
@@ -130,41 +221,17 @@ public abstract class JettyDeployerJetty extends JettyDeployerServlet
             }
 
             @Override
-            public void deploy(
-                String contextPath, File warFile)
-                throws Exception
+            public void deploy(String contextPath, File warFile) throws Exception
             {
                 deployWebApp(contextPath, warFile);
             }
 
             @Override
-            public String undeploy(Object contextHandler)
-                throws Exception
+            public String undeploy(Object contextHandler) throws Exception
             {
                 return undeployWebApp(contextHandler);
             }
         };
-    }
-
-    /**
-     * Finds the context handler collection from the Jetty server.
-     *
-     * @param server Jetty server
-     * @return context handler collection
-     */
-    protected static ContextHandlerCollection
-        findContextHandlerCollection(Server server)
-    {
-        for (Handler handler : server.getHandlers())
-        {
-            if (handler instanceof ContextHandlerCollection)
-            {
-                return (ContextHandlerCollection) handler;
-            }
-        }
-
-        throw new IllegalStateException(
-            "Cannot find a ContextHandlerCollection");
     }
 
     /**
