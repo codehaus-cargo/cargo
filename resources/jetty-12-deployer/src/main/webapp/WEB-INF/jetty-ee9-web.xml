@@ -33,6 +33,9 @@
     <Call name="add">
       <Arg>-org.eclipse.jetty.server.</Arg>
     </Call>
+    <Call name="add">
+      <Arg>-org.eclipse.jetty.util.</Arg>
+    </Call>
   </Call>
   <Call name="addServlet">
     <Arg>org.codehaus.cargo.deployer.jetty.DeployerServletJakartaEE9</Arg>
