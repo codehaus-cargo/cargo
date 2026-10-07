@@ -31,6 +31,9 @@
       <Arg>-org.eclipse.jetty.ee10.webapp.</Arg>
     </Call>
     <Call name="add">
+      <Arg>-org.eclipse.jetty.deploy.</Arg>
+    </Call>
+    <Call name="add">
       <Arg>-org.eclipse.jetty.server.</Arg>
     </Call>
     <Call name="add">
