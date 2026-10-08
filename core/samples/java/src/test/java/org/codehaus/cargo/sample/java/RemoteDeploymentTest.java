@@ -91,6 +91,25 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
      * {@inheritDoc}
      */
     @Override
+    public boolean isSupported(String containerId, ContainerType containerType, Method testMethod)
+    {
+        // The Jetty 12.x remote deployer only supports Jetty 12.1 onwards
+        if ("jetty12x".equals(containerId))
+        {
+            String jetty12Url = System.getProperty("cargo.jetty12x.url");
+            if (jetty12Url != null && jetty12Url.contains("/jetty-home-12.0."))
+            {
+                return false;
+            }
+        }
+
+        return super.isSupported(containerId, containerType, testMethod);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setUp(
         CargoTestCase.CargoTestcaseInvocationContext cargoContext, ExtensionContext testContext)
         throws Exception
@@ -177,10 +196,10 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
             && !getTestData().containerId.startsWith("weblogic"))
         {
             // Set up deployment credentials
-            getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.USERNAME,
-                "cargo");
-            getRemoteContainer().getConfiguration().setProperty(RemotePropertySet.PASSWORD,
-                "password");
+            getRemoteContainer().getConfiguration().setProperty(
+                RemotePropertySet.USERNAME, "cargo");
+            getRemoteContainer().getConfiguration().setProperty(
+                RemotePropertySet.PASSWORD, "password");
         }
         else if (getTestData().containerId.startsWith("weblogic"))
         {
@@ -203,7 +222,7 @@ public class RemoteDeploymentTest extends AbstractCargoTestCase
         EnvironmentTestData testData = getTestData();
 
         final String message = "You have implemented the Remote container. Please also implement a "
-            + "standalone local container for the CARGO samples to pass.";
+            + "standalone local container for the Codehaus Cargo samples to pass.";
         Assertions.assertTrue(new HasInstalledLocalContainerValidator().validate(
             getTestData().containerId, ContainerType.INSTALLED), message);
         Assertions.assertTrue(new HasStandaloneConfigurationValidator().validate(
