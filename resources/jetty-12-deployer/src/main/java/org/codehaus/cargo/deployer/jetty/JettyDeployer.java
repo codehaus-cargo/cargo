@@ -109,8 +109,7 @@ public class JettyDeployer
      * @param webAppDirectory directory containing deployed WAR files
      * @param timeout deployment timeout in milliseconds
      */
-    public JettyDeployer(
-        Context context, File webAppDirectory, long timeout)
+    public JettyDeployer(Context context, File webAppDirectory, long timeout)
     {
         this.context = context;
         this.webAppDirectory = webAppDirectory;
@@ -124,8 +123,7 @@ public class JettyDeployer
      * @param response response adapter
      * @throws IOException if the response cannot be written
      */
-    public void doGet(Request request, Response response)
-        throws IOException
+    public void doGet(Request request, Response response) throws IOException
     {
         String contextPath = request.getParameter("path");
         String warURL = request.getParameter("war");
@@ -164,8 +162,7 @@ public class JettyDeployer
         }
         else
         {
-            response.sendError(
-                "Command " + command + " is not recognized with PUT");
+            response.sendError("Command " + command + " is not recognized with PUT");
         }
     }
 
@@ -177,9 +174,7 @@ public class JettyDeployer
      * @param warURL WAR URL
      * @throws IOException if the WAR cannot be copied
      */
-    protected void deploy(
-        Response response, String contextPath, String warURL)
-        throws IOException
+    protected void deploy(Response response, String contextPath, String warURL) throws IOException
     {
         String deploymentContext = contextPath;
 
@@ -190,8 +185,7 @@ public class JettyDeployer
 
             if (fileName.endsWith(".war"))
             {
-                fileName = fileName.substring(
-                    0, fileName.lastIndexOf(".war"));
+                fileName = fileName.substring(0, fileName.lastIndexOf(".war"));
             }
 
             deploymentContext = "/" + fileName;
@@ -199,22 +193,19 @@ public class JettyDeployer
 
         if (!deploymentContext.startsWith("/"))
         {
-            response.sendError(
-                "The path does not start with a forward slash");
+            response.sendError("The path does not start with a forward slash");
             return;
         }
 
         if (contextExists(deploymentContext))
         {
             response.sendError(
-                "An application is already deployed at this context: "
-                    + deploymentContext);
+                "An application is already deployed at this context: " + deploymentContext);
             return;
         }
 
-        File webappDestination = new File(
-            webAppDirectory,
-            getWebAppFilename(deploymentContext) + ".war");
+        File webappDestination =
+            new File(webAppDirectory, getWebAppFilename(deploymentContext) + ".war");
 
         URI uri;
 
@@ -230,7 +221,7 @@ public class JettyDeployer
 
         File webappSource = new File(uri);
         Files.copy(webappSource.toPath(), webappDestination.toPath(),
-               StandardCopyOption.REPLACE_EXISTING);
+            StandardCopyOption.REPLACE_EXISTING);
 
         try
         {
@@ -239,13 +230,12 @@ public class JettyDeployer
         catch (Exception e)
         {
             response.sendError(
-                "Unexpected error when trying to start the webapp with "
-                    + "context " + deploymentContext);
+                "Unexpected error when trying to start the webapp with context "
+                    + deploymentContext);
             return;
         }
 
-        response.sendMessage(
-            "Webapp deployed at context " + deploymentContext);
+        response.sendMessage("Webapp deployed at context " + deploymentContext);
     }
 
     /**
@@ -256,8 +246,7 @@ public class JettyDeployer
      * @param contextPath context path
      * @throws IOException if the WAR cannot be written
      */
-    protected void deployArchive(
-        Request request, Response response, String contextPath)
+    protected void deployArchive(Request request, Response response, String contextPath)
         throws IOException
     {
         if (contextPath == null)
@@ -274,14 +263,11 @@ public class JettyDeployer
 
         if (contextExists(contextPath))
         {
-            response.sendError(
-                "The webapp context path is already in use");
+            response.sendError("The webapp context path is already in use");
             return;
         }
 
-        File webappFile = new File(
-            webAppDirectory,
-            getWebAppFilename(contextPath) + ".war");
+        File webappFile = new File(webAppDirectory, getWebAppFilename(contextPath) + ".war");
 
         try (
             InputStream input = request.getInputStream();
@@ -303,8 +289,7 @@ public class JettyDeployer
         catch (Exception e)
         {
             response.sendError(
-                "Unexpected error when trying to start the webapp with "
-                    + "context " + contextPath);
+                "Unexpected error when trying to start the webapp with context " + contextPath);
             return;
         }
 
@@ -312,13 +297,11 @@ public class JettyDeployer
 
         while (System.currentTimeMillis() < deadline)
         {
-            Object contextHandler =
-                context.getContextHandler(contextPath);
+            Object contextHandler = context.getContextHandler(contextPath);
 
             if (contextHandler != null)
             {
-                response.sendMessage(
-                    "Webapp deployed at context " + contextPath);
+                response.sendMessage("Webapp deployed at context " + contextPath);
                 return;
             }
 
@@ -329,14 +312,12 @@ public class JettyDeployer
             catch (InterruptedException e)
             {
                 Thread.currentThread().interrupt();
-                response.sendError(
-                    "Got interrupted when trying to start the webapp");
+                response.sendError("Got interrupted when trying to start the webapp");
                 return;
             }
         }
 
-        response.sendError(
-            "Unexpected error when trying to start the webapp");
+        response.sendError("Unexpected error when trying to start the webapp");
     }
 
     /**
@@ -346,14 +327,11 @@ public class JettyDeployer
      * @param contextPath context path
      * @throws IOException if the response cannot be written
      */
-    protected void undeploy(
-        Response response, String contextPath)
-        throws IOException
+    protected void undeploy(Response response, String contextPath) throws IOException
     {
         if (contextPath == null || !contextPath.startsWith("/"))
         {
-            response.sendError(
-                "Path must start with a forward slash");
+            response.sendError("Path must start with a forward slash");
             return;
         }
 
@@ -361,9 +339,7 @@ public class JettyDeployer
 
         if (handler == null)
         {
-            response.sendError(
-                "Could not find handler for the context "
-                    + contextPath);
+            response.sendError("Could not find handler for the context " + contextPath);
             return;
         }
 
@@ -375,8 +351,7 @@ public class JettyDeployer
         }
         catch (Exception e)
         {
-            response.sendError(
-                "Could not stop context handler " + contextPath);
+            response.sendError("Could not stop context handler " + contextPath);
             return;
         }
 
@@ -394,15 +369,12 @@ public class JettyDeployer
         if (!webAppFile.exists())
         {
             response.sendError(
-                "Can't find a valid file for the context "
-                    + contextPath + ": " + webAppLocation);
+                "Can't find a valid file for the context " + contextPath + ": " + webAppLocation);
         }
         else if (!isInside(webAppFile, webAppDirectory))
         {
-            response.sendMessage(
-                "Webapp with context " + contextPath
-                    + " has been undeployed but not removed from "
-                    + "the filesystem");
+            response.sendMessage("Webapp with context " + contextPath
+                + " has been undeployed but not removed from the filesystem");
         }
         else
         {
@@ -420,17 +392,13 @@ public class JettyDeployer
 
             if (deleted)
             {
-                response.sendMessage(
-                    "Webapp with context " + contextPath
-                        + " has been undeployed and removed from "
-                        + "the filesystem");
+                response.sendMessage("Webapp with context " + contextPath
+                    + " has been undeployed and removed from the filesystem");
             }
             else
             {
-                response.sendError(
-                    "Webapp with context " + contextPath
-                        + " has been undeployed but it couldn't be "
-                        + "removed from the filesystem");
+                response.sendError("Webapp with context " + contextPath
+                    + " has been undeployed but it couldn't be removed from the filesystem");
             }
         }
     }
@@ -540,8 +508,7 @@ public class JettyDeployer
          * @param warFile WAR file
          * @throws Exception if deployment fails
          */
-        void deploy(String contextPath, File warFile)
-            throws Exception;
+        void deploy(String contextPath, File warFile) throws Exception;
 
         /**
          * Stops and removes a deployed context.
@@ -550,7 +517,6 @@ public class JettyDeployer
          * @return location of the deployed WAR
          * @throws Exception if undeployment fails
          */
-        String undeploy(Object contextHandler)
-            throws Exception;
+        String undeploy(Object contextHandler) throws Exception;
     }
 }

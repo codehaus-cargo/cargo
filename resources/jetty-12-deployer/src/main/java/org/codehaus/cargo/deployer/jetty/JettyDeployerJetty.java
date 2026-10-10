@@ -148,21 +148,15 @@ public abstract class JettyDeployerJetty extends JettyDeployerServlet
         }
 
         Attributes deployAttributes = new Attributes.Mapped();
-        deployAttributes.setAttribute(
-            Deployable.CONTEXT_PATH, contextPath);
+        deployAttributes.setAttribute(Deployable.CONTEXT_PATH, contextPath);
 
         Path warPath = warFile.toPath();
 
         StandardContextHandlerFactory factory =
             new StandardContextHandlerFactory();
 
-        ContextHandler contextHandler =
-            factory.newContextHandler(
-                getServer(),
-                environment,
-                warPath,
-                Collections.emptySet(),
-                deployAttributes);
+        ContextHandler contextHandler = factory.newContextHandler(
+            getServer(), environment, warPath, Collections.emptySet(), deployAttributes);
 
         getStandardDeployer().deploy(contextHandler);
     }
