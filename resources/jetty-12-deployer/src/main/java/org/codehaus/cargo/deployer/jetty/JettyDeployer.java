@@ -361,7 +361,7 @@ public class JettyDeployer
         {
             webAppFile = new File(new URI(webAppLocation));
         }
-        catch (URISyntaxException e)
+        catch (IllegalArgumentException | URISyntaxException e)
         {
             webAppFile = new File(webAppLocation);
         }
