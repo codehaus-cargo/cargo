@@ -94,10 +94,18 @@ public abstract class JettyDeployerServlet
             throw new IllegalStateException("Timeout is smaller than 1: " + timeout);
         }
 
-        this.deployer = new JettyDeployer(
-            createContextAdapter(),
-            new File(configHome, "webapps"),
-            timeout);
+        try
+        {
+            this.deployer = new JettyDeployer(
+                createContextAdapter(), new File(configHome, "webapps"), timeout);
+        }
+        catch (NoClassDefFoundError e)
+        {
+            throw new IllegalStateException(
+                "The Codehaus Cargo Jetty 12.x deployer is only compatible with Jetty 12.1.x "
+                    + "onwards. In other words, due to changes in Jetty's internal deployer logic "
+                        + "changes, Jetty 12.0.x is not supported.", e);
+        }
     }
 
     /**
