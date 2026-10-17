@@ -1711,7 +1711,6 @@ blocks:
       - Tomcat 9.x
       - Tomcat 10.x
       - Tomcat 10.x - Branch 10.0.x
-      - Tomcat 10.x - Branch 10.1.x
       - Tomcat 11.x
       - TomEE 1.x
       - TomEE 7.x
@@ -1721,6 +1720,7 @@ blocks:
       - TomEE 9.x - Branch 9.0.x
       - TomEE 10.x
       - TomEE 10.x - Branch 10.0.x
+      - TomEE 10.x - Branch 10.1.x
       - WebSphere Liberty
       - WildFly 8.x
       - WildFly 8.x - Branch 8.1
