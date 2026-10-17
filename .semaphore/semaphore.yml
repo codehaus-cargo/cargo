@@ -716,7 +716,7 @@ blocks:
             - export JAVA_HOME=/tmp/cargo-build-binaries/jdk1.8.0_202
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Pjetty9x-9.1 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
+            - mvn clean install -e -Pjetty9x-9.0 -Dsurefire.rerunFailingTestsCount=2 -Dcargo.java.home.1_7=/tmp/cargo-build-binaries/jdk1.7.0_80
   - name: Jetty 9.x - Branch 9.1.x
     dependencies:
       - Prepare for containers running on Java 7
@@ -1504,7 +1504,18 @@ blocks:
             - sem-version java 17
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
-            - mvn clean install -e -Ptomee10x-10.x -Dsurefire.rerunFailingTestsCount=2
+            - mvn clean install -e -Ptomee10x-10.0 -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 10.x - Branch 10.1.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: TomEE 10.x - Branch 10.1.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee10x-10.1 -Dsurefire.rerunFailingTestsCount=2
   - name: WildFly 35.x
     dependencies:
       - Build on Java 17
@@ -1700,6 +1711,7 @@ blocks:
       - Tomcat 9.x
       - Tomcat 10.x
       - Tomcat 10.x - Branch 10.0.x
+      - Tomcat 10.x - Branch 10.1.x
       - Tomcat 11.x
       - TomEE 1.x
       - TomEE 7.x
