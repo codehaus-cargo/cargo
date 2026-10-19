@@ -1645,6 +1645,19 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomcat11x -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 11.x
+    dependencies:
+      - Build on Java 21
+    task:
+      jobs:
+        - name: TomEE 11.x
+          commands:
+            - cd /tmp/cargo-build-binaries
+            - tar -xvzf openjdk-21_linux-x64_bin.tar.gz
+            - export JAVA_HOME=/tmp/cargo-build-binaries/jdk-21
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee11x -Dsurefire.rerunFailingTestsCount=2
   - name: Clean repository
     dependencies:
       - Geronimo 1.x
@@ -1721,6 +1734,7 @@ blocks:
       - TomEE 10.x
       - TomEE 10.x - Branch 10.0.x
       - TomEE 10.x - Branch 10.1.x
+      - TomEE 11.x
       - WebSphere Liberty
       - WildFly 8.x
       - WildFly 8.x - Branch 8.1
