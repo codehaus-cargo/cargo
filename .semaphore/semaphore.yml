@@ -1593,6 +1593,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Pwildfly41x -Dsurefire.rerunFailingTestsCount=2
+  - name: WildFly 42.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: WildFly 42.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Pwildfly42x -Dsurefire.rerunFailingTestsCount=2
   - name: GlassFish 8.x
     dependencies:
       - Build on Java 21
@@ -1771,6 +1782,7 @@ blocks:
       - WildFly 39.x
       - WildFly 40.x
       - WildFly 41.x
+      - WildFly 42.x
       - WildFly Swarm
     task:
       jobs:

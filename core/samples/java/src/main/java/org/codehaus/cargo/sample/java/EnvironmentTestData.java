@@ -71,7 +71,8 @@ public class EnvironmentTestData
         "wildfly38x",
         "wildfly39x",
         "wildfly40x",
-        "wildfly41x"
+        "wildfly41x",
+        "wildfly42x"
     });
 
     /**
