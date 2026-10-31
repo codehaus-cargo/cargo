@@ -16,15 +16,12 @@
   limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-    http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.10.30-SNAPSHOT</version>
+    <version>1.10.30</version>
   </parent>
   <artifactId>cargo-jetty-12-deployer</artifactId>
   <packaging>war</packaging>
@@ -117,9 +114,7 @@
     </profile>
     <profile>
       <!--
-        When JDK < 17, make disposable compiler-only copies of Jetty.
-
-        Jetty 12.1 requires Java 17, while Cargo is compiled for Java 11.
+        When JDK < 17, make disposable compiler-only copies of Jetty. Jetty 12.1 requires Java 17, while Cargo is compiled for Java 11.
         We hence copy the Jetty JARs and rewrite their Java 17 class-file versions as Java 11.
         We then compile the Jetty 12.x deployer WAR application using the fake Jetty JARs.
 
@@ -178,61 +173,35 @@
                 </goals>
                 <configuration>
                   <target>
-                    <mkdir dir="${project.build.directory}/build-tools/classes"/>
-                    <javac
-                      srcdir="${basedir}/src/build-tools/java"
-                      destdir="${project.build.directory}/build-tools/classes"
-                      source="11"
-                      target="11"
-                      encoding="UTF-8"
-                      includeantruntime="false"/>
+                    <mkdir dir="${project.build.directory}/build-tools/classes" />
+                    <javac srcdir="${basedir}/src/build-tools/java" destdir="${project.build.directory}/build-tools/classes" source="11" target="11" encoding="UTF-8" includeantruntime="false" />
 
-                    <untar
-                      src="${project.build.directory}/jetty-home.tar.gz"
-                      dest="${project.build.directory}/jetty-home"
-                      compression="gzip"/>
-                    <mkdir dir="${jetty.fake.dir}"/>
+                    <untar src="${project.build.directory}/jetty-home.tar.gz" dest="${project.build.directory}/jetty-home" compression="gzip" />
+                    <mkdir dir="${jetty.fake.dir}" />
                     <copy todir="${jetty.fake.dir}">
                       <fileset dir="${project.build.directory}/jetty-home">
-                        <include name="jetty-home-*/lib/**/*.jar"/>
+                        <include name="jetty-home-*/lib/**/*.jar" />
                       </fileset>
-                      <flattenmapper/>
+                      <flattenmapper />
                     </copy>
-                    <java
-                      classname="org.codehaus.cargo.build.RewriteClassVersions"
-                      fork="true"
-                      failonerror="true">
-                      <arg value="${jetty.fake.dir}"/>
+                    <java classname="org.codehaus.cargo.build.RewriteClassVersions" fork="true" failonerror="true">
+                      <arg value="${jetty.fake.dir}" />
                       <classpath>
-                        <pathelement
-                          location="${project.build.directory}/build-tools/classes"/>
+                        <pathelement location="${project.build.directory}/build-tools/classes" />
                       </classpath>
                     </java>
-                    <jar
-                      destfile="${project.build.directory}/jetty-fake-jdk11-javadoc.jar"
-                      duplicate="preserve">
-                    <zipgroupfileset
-                      dir="${jetty.fake.dir}"
-                      includes="*.jar"/>
+                    <jar destfile="${project.build.directory}/jetty-fake-jdk11-javadoc.jar" duplicate="preserve">
+                    <zipgroupfileset dir="${jetty.fake.dir}" includes="*.jar" />
                     </jar>
 
-                    <property
-                      name="compile_classpath"
-                      refid="maven.compile.classpath"/>
-                    <mkdir dir="${project.build.outputDirectory}"/>
-                    <javac
-                      srcdir="${basedir}/src/main/java"
-                      destdir="${project.build.outputDirectory}"
-                      source="11"
-                      target="11"
-                      encoding="UTF-8"
-                      debug="true"
-                      includeantruntime="false">
+                    <property name="compile_classpath" refid="maven.compile.classpath" />
+                    <mkdir dir="${project.build.outputDirectory}" />
+                    <javac srcdir="${basedir}/src/main/java" destdir="${project.build.outputDirectory}" source="11" target="11" encoding="UTF-8" debug="true" includeantruntime="false">
                       <classpath>
                         <fileset dir="${jetty.fake.dir}">
-                          <include name="*.jar"/>
+                          <include name="*.jar" />
                         </fileset>
-                        <pathelement path="${compile_classpath}"/>
+                        <pathelement path="${compile_classpath}" />
                       </classpath>
                     </javac>
                   </target>
