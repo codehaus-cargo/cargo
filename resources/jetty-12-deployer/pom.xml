@@ -16,12 +16,12 @@
   limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0     http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.cargo</groupId>
     <artifactId>cargo-resources</artifactId>
-    <version>1.10.30</version>
+    <version>1.10.31-SNAPSHOT</version>
   </parent>
   <artifactId>cargo-jetty-12-deployer</artifactId>
   <packaging>war</packaging>
@@ -114,8 +114,7 @@
     </profile>
     <profile>
       <!--
-        When JDK < 17, make disposable compiler-only copies of Jetty. Jetty 12.1 requires Java 17, while Cargo is compiled for Java 11.
-        We hence copy the Jetty JARs and rewrite their Java 17 class-file versions as Java 11.
+        When JDK < 17, make disposable compiler-only copies of Jetty. Jetty 12.1 requires Java 17, while Cargo is compiled for Java 11. We hence copy the Jetty JARs and rewrite their Java 17 class-file versions as Java 11.
         We then compile the Jetty 12.x deployer WAR application using the fake Jetty JARs.
 
         These faked JARs MUST NOT be used at runtime, but we do save them in the local m2
