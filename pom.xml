@@ -325,7 +325,7 @@
 
       The Maven compiler plugin's version 3.9.0 onwards requires Maven 3.2.5.
       The Modello Maven plugin's version 2.1.2 requires Maven 3.5.4.
-      The Build Helper Maven plugin's version 3.5.0 requires Maven 3.9.0.
+      The Build Helper Maven plugin's version 3.9.0 requires Maven 3.9.0.
       -->
     <maven.minimum.version>3.9.0</maven.minimum.version>
     <maven.antrun-plugin.version>3.2.0</maven.antrun-plugin.version>
@@ -1395,7 +1395,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId> 
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.9.0</version>
+        <version>3.7.0</version>
         <executions>
           <execution>
             <id>enforce-environment-and-dependencies</id>
