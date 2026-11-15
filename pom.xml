@@ -325,9 +325,9 @@
 
       The Maven compiler plugin's version 3.9.0 onwards requires Maven 3.2.5.
       The Modello Maven plugin's version 2.1.2 requires Maven 3.5.4.
-      The Build Helper Maven plugin's version 3.5.0 requires Maven 3.6.3.
+      The Build Helper Maven plugin's version 3.7.0 requires Maven 3.9.0.
       -->
-    <maven.minimum.version>3.6.3</maven.minimum.version>
+    <maven.minimum.version>3.9.0</maven.minimum.version>
     <maven.antrun-plugin.version>3.2.0</maven.antrun-plugin.version>
     <maven.archetype-packaging.version>3.4.1</maven.archetype-packaging.version>
     <maven.compiler-plugin.version>3.16.0</maven.compiler-plugin.version>
@@ -871,7 +871,7 @@
       <dependency>
         <groupId>com.fasterxml.jackson.dataformat</groupId>
         <artifactId>jackson-dataformat-yaml</artifactId>
-        <version>2.22.4</version>
+        <version>2.23.0</version>
       </dependency>
       <dependency>
         <groupId>com.googlecode.json-simple</groupId>
@@ -912,7 +912,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.21.0</version>
+        <version>3.22.0</version>
       </dependency>
       <dependency>
         <groupId>commons-logging</groupId>
@@ -1374,7 +1374,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.6.2</version>
+          <version>3.8.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>

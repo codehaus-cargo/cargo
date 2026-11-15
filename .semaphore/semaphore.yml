@@ -46,8 +46,8 @@ global_job_config:
       - cache restore "codehaus-cargo-cache-java-8"
       - cache restore "codehaus-cargo-cache-java-21"
       - cache restore "codehaus-cargo-cache-maven"
-      - tar -xvzf apache-maven-3.6.3-bin.tar.gz ; RM=0
-      - export MAVEN_HOME=/tmp/cargo-build-binaries/apache-maven-3.6.3
+      - tar -xvzf apache-maven-3.9.0-bin.tar.gz ; RM=0
+      - export MAVEN_HOME=/tmp/cargo-build-binaries/apache-maven-3.9.0
       - export MAVEN_OPTS="-Xmx768m"
       - 'export PATH=$MAVEN_HOME/bin:$PATH'
       - mkdir -p $ORIGINAL_PWD/core/samples/java/installs
@@ -81,11 +81,11 @@ blocks:
         - name: Perform initial build and aggregate Javadoc on Java 11
           commands:
             - cd /tmp/cargo-build-binaries
-            - 'find . -type f -name apache-maven-3.6.3-bin.tar.gz -size -5M -print -exec rm {} +'
-            - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz ; RM=0'
-            - tar -xvzf apache-maven-3.6.3-bin.tar.gz
+            - 'find . -type f -name apache-maven-3.9.0-bin.tar.gz -size -5M -print -exec rm {} +'
+            - 'wget -N --continue https://archive.apache.org/dist/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.tar.gz ; RM=0'
+            - tar -xvzf apache-maven-3.9.0-bin.tar.gz
             - cache delete "codehaus-cargo-cache-maven"
-            - cache store "codehaus-cargo-cache-maven" apache-maven-3.6.3-bin.tar.gz
+            - cache store "codehaus-cargo-cache-maven" apache-maven-3.9.0-bin.tar.gz
             - rm -rf ~/.m2/repository/org/codehaus/cargo
             - sem-version java 11
             - mvn -version
