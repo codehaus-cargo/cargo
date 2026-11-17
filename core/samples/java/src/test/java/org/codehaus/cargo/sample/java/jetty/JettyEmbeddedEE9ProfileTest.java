@@ -51,23 +51,27 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
         List<String> result = new ArrayList<String>();
         for (String dependency : dependencies)
         {
-            if ("lib/jakarta.servlet-api-6.0.*.jar".equals(dependency))
+            if (dependency.startsWith("lib/jakarta.servlet-api-6.0.*.jar"))
             {
-                result.add("lib/jetty-jakarta-servlet-api-5.*.jar");
-                result.add("lib/jetty-ee9-nested-*.jar");
+                result.add(
+                    "lib/jetty-jakarta-servlet-api-5.*.jar|"
+                        + "lib/ee9/lib/jetty-jakarta-servlet-api-5.*.jar");
+                result.add("lib/jetty-ee9-nested-*.jar|lib/ee9/jetty-ee9-nested-*.jar");
             }
-            else if ("lib/jakarta.enterprise.cdi-api-4.*.jar".equals(dependency))
+            else if (dependency.startsWith("lib/jakarta.enterprise.cdi-api-4.*.jar"))
             {
-                result.add("lib/jakarta.enterprise.cdi-api-3.*.jar");
+                result.add(
+                    "lib/jakarta.enterprise.cdi-api-3.*.jar|"
+                        + "lib/ee9/support/jakarta.enterprise.jakarta.enterprise.cdi-api-3.*.jar");
             }
             else if ("lib/jetty-security-*.jar".equals(dependency))
             {
                 result.add("lib/jetty-security-*.jar");
-                result.add("lib/jetty-ee9-security-*.jar");
+                result.add("lib/jetty-ee9-security-*.jar|lib/ee9/jetty-ee9-security-*.jar");
             }
             else
             {
-                result.add(dependency);
+                result.add(dependency.replace("ee10", "ee9"));
             }
         }
         return result;

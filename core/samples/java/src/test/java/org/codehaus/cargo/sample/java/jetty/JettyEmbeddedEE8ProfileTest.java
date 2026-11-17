@@ -53,23 +53,25 @@ public class JettyEmbeddedEE8ProfileTest extends AbstractJettyEmbeddedEEProfileT
         List<String> result = new ArrayList<String>();
         for (String dependency : dependencies)
         {
-            if ("lib/jakarta.servlet-api-6.0.*.jar".equals(dependency))
+            if (dependency.startsWith("lib/jakarta.servlet-api-6.0.*.jar"))
             {
-                result.add("lib/jetty-servlet-api-4.*.jar");
-                result.add("lib/jetty-ee8-nested-*.jar");
+                result.add("lib/jetty-servlet-api-4.*.jar|lib/ee8/jetty-servlet-api-4.*.jar");
+                result.add("lib/jetty-ee8-nested-*.jar|lib/ee8/jetty-ee8-nested-*.jar");
             }
-            else if ("lib/jakarta.transaction-api-2.*.jar".equals(dependency))
+            else if (dependency.startsWith("lib/jakarta.transaction-api-2.*.jar"))
             {
-                result.add("lib/jakarta.transaction-api-1.*.jar");
+                result.add(
+                    "lib/jakarta.transaction-api-1.*.jar|"
+                        + "lib/ee8/support/jakarta.transaction.jakarta.transaction-api-1.*.jar");
             }
             else if ("lib/jetty-security-*.jar".equals(dependency))
             {
                 result.add("lib/jetty-security-*.jar");
-                result.add("lib/jetty-ee8-security-*.jar");
+                result.add("lib/jetty-ee8-security-*.jar|lib/ee8/jetty-ee8-security-*.jar");
             }
             else if (!dependency.startsWith("lib/jakarta."))
             {
-                result.add(dependency);
+                result.add(dependency.replace("ee10", "ee8"));
             }
         }
         return result;

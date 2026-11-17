@@ -71,13 +71,33 @@ public class JettyEmbeddedEE11ProfileTest extends AbstractJettyEmbeddedEEProfile
         List<String> result = new ArrayList<String>(dependencies.size());
         for (String dependency : dependencies)
         {
-            if ("lib/jakarta.servlet-api-6.0.*.jar".equals(dependency))
+            if (dependency.startsWith("lib/jakarta.servlet-api-6.0.*.jar"))
             {
-                result.add("lib/jakarta.servlet-api-6.1.*.jar");
+                result.add(
+                    "lib/jakarta.servlet-api-6.1.*.jar|"
+                        + "lib/ee11/support/jakarta.servlet.jakarta.servlet-api-6.1.*.jar");
+            }
+            else if (dependency.startsWith("lib/jakarta.interceptor-api-2.1.*.jar"))
+            {
+                result.add(
+                    "lib/jakarta.interceptor-api-2.2.*.jar|"
+                        + "lib/ee11/support/jakarta.interceptor-api-2.2.*.jar");
+            }
+            else if (dependency.startsWith("lib/jakarta.enterprise.cdi-api-4.0.*.jar"))
+            {
+                result.add(
+                    "lib/jakarta.enterprise.cdi-api-4.1.*.jar|"
+                        + "lib/ee11/support/jakarta.enterprise.cdi-api-4.1.*.jar");
+            }
+            else if (dependency.startsWith("lib/jakarta.enterprise.lang-model-4.0.*.jar"))
+            {
+                result.add(
+                    "lib/jakarta.enterprise.lang-model-4.1.*.jar|"
+                        + "lib/ee11/support/jakarta.enterprise.lang-model-4.1.*.jar");
             }
             else
             {
-                result.add(dependency);
+                result.add(dependency.replace("ee10", "ee11"));
             }
         }
         return result;
