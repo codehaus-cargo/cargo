@@ -80,20 +80,20 @@ public class JettyEmbeddedEE11ProfileTest extends AbstractJettyEmbeddedEEProfile
             else if (dependency.startsWith("lib/jakarta.interceptor-api-2.1.*.jar"))
             {
                 result.add(
-                    "lib/jakarta.interceptor-api-2.2.*.jar|"
-                        + "lib/ee11/support/jakarta.interceptor-api-2.2.*.jar");
+                    "lib/jakarta.interceptor-api-2.2.*.jar|lib/ee11/support/"
+                        + "jakarta.interceptor.jakarta.interceptor-api-2.2.*.jar");
             }
             else if (dependency.startsWith("lib/jakarta.enterprise.cdi-api-4.0.*.jar"))
             {
                 result.add(
-                    "lib/jakarta.enterprise.cdi-api-4.1.*.jar|"
-                        + "lib/ee11/support/jakarta.enterprise.cdi-api-4.1.*.jar");
+                    "lib/jakarta.enterprise.cdi-api-4.1.*.jar|lib/ee11/support/"
+                        + "jakarta.enterprise.jakarta.enterprise.cdi-api-4.1.*.jar");
             }
             else if (dependency.startsWith("lib/jakarta.enterprise.lang-model-4.0.*.jar"))
             {
                 result.add(
-                    "lib/jakarta.enterprise.lang-model-4.1.*.jar|"
-                        + "lib/ee11/support/jakarta.enterprise.lang-model-4.1.*.jar");
+                    "lib/jakarta.enterprise.lang-model-4.1.*.jar|lib/ee11/support/"
+                        + "jakarta.enterprise.jakarta.enterprise.lang-model-4.1.*.jar");
             }
             else
             {
