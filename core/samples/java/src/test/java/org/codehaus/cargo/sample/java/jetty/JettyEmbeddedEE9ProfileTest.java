@@ -64,6 +64,12 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
                     "lib/jakarta.enterprise.cdi-api-3.*.jar|"
                         + "lib/ee9/support/jakarta.enterprise.jakarta.enterprise.cdi-api-3.*.jar");
             }
+            else if (dependency.startsWith("lib/jakarta.interceptor-api-2.1.*.jar"))
+            {
+                result.add(
+                    "lib/jakarta.interceptor-api-2.0.*.jar|lib/ee9/support/"
+                        + "jakarta.interceptor.jakarta.interceptor-api-2.0.*.jar");
+            }
             else if ("lib/jetty-security-*.jar".equals(dependency))
             {
                 result.add("lib/jetty-security-*.jar");
