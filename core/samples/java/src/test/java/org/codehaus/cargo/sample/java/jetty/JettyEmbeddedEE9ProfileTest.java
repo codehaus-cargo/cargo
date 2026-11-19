@@ -75,7 +75,7 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
                 result.add("lib/jetty-security-*.jar");
                 result.add("lib/jetty-ee9-security-*.jar|lib/ee9/jetty-ee9-security-*.jar");
             }
-            else
+            else if (!dependency.startsWith("lib/jakarta.enterprise.lang-model-4.0.*.jar"))
             {
                 result.add(dependency.replace("ee10", "ee9"));
             }
