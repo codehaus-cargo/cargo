@@ -58,7 +58,7 @@ public class JettyEmbeddedEE9ProfileTest extends AbstractJettyEmbeddedEEProfileT
                         + "lib/ee9/jetty-jakarta-servlet-api-5.*.jar");
                 result.add("lib/jetty-ee9-nested-*.jar|lib/ee9/jetty-ee9-nested-*.jar");
             }
-            else if (dependency.startsWith("lib/jakarta.enterprise.cdi-api-4.*.jar"))
+            else if (dependency.startsWith("lib/jakarta.enterprise.cdi-api-4.0.*.jar"))
             {
                 result.add(
                     "lib/jakarta.enterprise.cdi-api-3.*.jar|"
