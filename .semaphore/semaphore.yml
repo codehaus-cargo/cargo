@@ -1516,6 +1516,17 @@ blocks:
             - mvn -version
             - cd $ORIGINAL_PWD/core/samples
             - mvn clean install -e -Ptomee10x-10.1 -Dsurefire.rerunFailingTestsCount=2
+  - name: TomEE 10.x - Branch 10.2.x
+    dependencies:
+      - Build on Java 17
+    task:
+      jobs:
+        - name: TomEE 10.x - Branch 10.2.x
+          commands:
+            - sem-version java 17
+            - mvn -version
+            - cd $ORIGINAL_PWD/core/samples
+            - mvn clean install -e -Ptomee10x-10.2 -Dsurefire.rerunFailingTestsCount=2
   - name: WildFly 35.x
     dependencies:
       - Build on Java 17
@@ -1745,6 +1756,7 @@ blocks:
       - TomEE 10.x
       - TomEE 10.x - Branch 10.0.x
       - TomEE 10.x - Branch 10.1.x
+      - TomEE 10.x - Branch 10.2.x
       - TomEE 11.x
       - WebSphere Liberty
       - WildFly 8.x
